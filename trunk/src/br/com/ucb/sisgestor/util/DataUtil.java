@@ -205,6 +205,21 @@ public final class DataUtil {
 	}
 
 	/**
+	 * Zera a hora, minuto, segundo, milisegundo do {@link Calendar} informado
+	 * 
+	 * @param calendar {@link Calendar} a zerar
+	 * @return objeto {@link Date} com a hora zerada
+	 */
+	public static Date getDataSemHHMMSS(Calendar calendar) {
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+
+		return new Date(calendar.getTime().getTime());
+	}
+
+	/**
 	 * Retorna a data com as horas, minutos e segundos zerados.
 	 * 
 	 * @param data data inicial
@@ -409,20 +424,5 @@ public final class DataUtil {
 			return dataSubstituta;
 		}
 		return dataOriginal;
-	}
-
-	/**
-	 * Zera a hora, minuto, segundo, milisegundo do {@link Calendar} informado
-	 * 
-	 * @param calendar {@link Calendar} a zerar
-	 * @return objeto {@link Date} com a hora zerada
-	 */
-	private static Date getDataSemHHMMSS(Calendar calendar) {
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MILLISECOND, 0);
-
-		return new Date(calendar.getTime().getTime());
 	}
 }
