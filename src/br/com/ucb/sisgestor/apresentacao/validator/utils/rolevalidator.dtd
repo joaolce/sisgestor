@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DTD para o validator -->
+
+<!--
+Elemento raiz
+-->
+<!ELEMENT validator-mapping (
+    (validacao)+)>
+
+<!--
+Define validadores de roles para os métodos das actions
+-->
+<!ELEMENT validacao EMPTY>
+<!--
+@attr actionMethod Action com o método relacionado.
+@attr roles roles autorizadas para o método indicado, separadas por vírgulas
+-->
+<!ATTLIST validacao
+    actionMethod CDATA #REQUIRED
+    roles CDATA #REQUIRED
+>

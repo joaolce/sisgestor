@@ -1,0 +1,350 @@
+.loginBody {
+	background: gray;
+	background-color: gray;
+}
+
+BODY {
+	margin: 0;
+	font-size: 80%;
+}
+
+SELECT,TEXTAREA {
+	margin-top: 2px;
+	font-family: verdana;
+	font-size: 85%;
+	color: #003366;
+}
+
+FORM {
+	margin: 0;
+}
+
+img {
+	border: 0px;
+}
+
+FIELDSET {
+	margin: 0;
+	padding: 2px 0 1px 2px;
+	overflow: hidden;
+	font-size: 8pt;
+	border: activeborder solid 1px;
+	position: relative;
+}
+
+LEGEND {
+	margin: 0;
+	padding: 0 3px 0 0;
+	font-size: 8pt;
+	color: gray;
+}
+
+LABEL { /*border: 1px solid rgb(248,248,248);*/
+	font-size: 8pt;
+	/* cor da fonte anterior
+	color: #0036D7; */
+	color: #002752;
+}
+
+TH {
+	font-size: 8pt;
+	white-space: nowrap;
+}
+
+.corpoTabela TD {
+	border: 1px solid rgb(243, 243, 243);
+	border-spacing: 0px;
+	cursor: default;
+	white-space: nowrap;
+}
+
+.corpoTabelaClicavel TD {
+	border: 1px solid rgb(243, 243, 243);
+	border-spacing: 0px;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+#linhaSelecionada TD {
+	border-bottom: #0065ff solid 1px;
+	border-top: #0065ff solid 1px;
+	color: #0065ff;
+	font-weight: bold;
+	background-color: #efefef;
+}
+
+#principal {
+	background-color: #E5E9ED;
+	width: 90%;
+	height: 495px;
+	position: relative;
+	display: block;
+	margin: 0 auto !important;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 5px;
+}
+
+#BordaExterna {
+	height: 495px;
+	padding-top: 5px;
+}
+
+.bordas {
+	border: solid 1px rgb(220, 220, 220);
+}
+
+.cab {
+	background-color: #003366;
+	color: white;
+	background-repeat: no-repeat;
+	position: relative;
+	width: 100%;
+	padding-bottom: 5px;
+}
+
+input[type="checkbox"],.checkboxInput {
+	height: 15px;
+	vertical-align: middle;
+	margin: 0px;
+}
+
+input[type="radio"],.radioInput {
+	height: 16px;
+	vertical-align: middle;
+}
+
+input[type="text"],input[type="button"],input[type="submit"],.textInput
+	{
+	margin-top: 2px;
+	color: #003366;
+	font-family: verdana;
+	color: #003366;
+	font-size: 85%;
+}
+
+input[type="text"].data {
+	width: 70px;
+	font-size: 85%;
+	color: #003366;
+}
+
+.data {
+	width: 70px;
+	font-size: 85%;
+	color: #003366;
+}
+
+.campo {
+	margin-bottom: 10px;
+	margin-right: 3px;
+	margin-left: 3px;
+}
+
+.divInternoAba,.divWhiteSpace {
+	clear: left;
+	padding-top: 7px;
+	margin: 0 auto 0 auto;
+	width: 98%;
+}
+
+.divWhiteSpace LABEL {
+	white-space: nowrap;
+}
+
+.primeiroDivInternoAba {
+	margin: 3px auto 0 auto;
+	width: 98%;
+}
+
+.tabelaCentralizada tbody tr td {
+	text-align: center;
+	font-size: 8pt;
+}
+
+#divMenuOpcoes {
+	margin-bottom: 1px;
+	margin-right: 21px;
+	white-space: nowrap;
+	float: right;
+}
+
+.tabelasListagemDados {
+	background: white;
+	border: 1pt solid #9D9DA1;
+}
+
+.tabelasListagemDados td {
+	text-align: center;
+}
+
+.divExibicaoFieldSet {
+	background-color: white;
+	overflow: auto;
+	border: 1px solid #9D9DA1;
+	padding: 5px;
+	margin: 6px 6px 10px 10px;
+	width: 510px;
+	white-space: pre;
+}
+
+.divAba {
+	padding-top: 7px;
+}
+
+.tabelaBordas {
+	border-left: 1pt solid #9D9DA1;
+	border-right: 1pt solid #9D9DA1;
+	border-top: 1pt solid #9D9DA1;
+}
+
+.tabelaBordas tr td {
+	border-bottom: 1pt solid #9D9DA1;
+}
+
+.imagemLadoLabel {
+	margin: 0 2px -4px 0;
+}
+
+.imagemDestaque {
+	border: solid 1px #003366;
+	margin: 0 2px -4px 0;
+}
+
+.destaqueVermelho {
+	border: solid 1px red;
+}
+
+#overCap {
+	border: 1px solid threedlightshadow;
+	color: rgb(0, 0, 0);
+	background-color: rgb(229, 233, 237);
+}
+
+.espacamentoDiv {
+	margin-bottom: 7px;
+}
+
+.botaoOkCancelar {
+	width: 100px;
+}
+
+.mensagemEmVermelho {
+	font-weight: bold;
+	color: red;
+	float: left;
+}
+
+.estiloTabela div:FIRST-CHILD {
+	float: left;
+	width: 360px;
+}
+
+.mtabi {
+	font-weight: bold;
+}
+
+.overflowHist {
+	overflow-y: auto;
+	overflow-x: hidden;
+	height: 80px;
+}
+
+.labelComboTransferencia {
+	line-height: 19px;
+}
+
+.selecionarTodosCheck {
+	font-style: italic;
+	font-weight: bolder;
+}
+
+.ultimoMovimentoHistorico {
+	text-align: right;
+	font-style: italic;
+	font-weight: bolder;
+	color: red;
+}
+
+.btDesativado img {
+	filter: alpha(opacity = 30);
+	opacity: 0.3;
+}
+
+.mtaba:link,.mtaba:visited,.mtaba:hover,.mtaba:active {
+	background-color: #c0c0c0;
+	text-align: center;
+	padding-left: 2px;
+	padding-right: 2px;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #ffffff;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #ffffff;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #cccccc;
+}
+
+.mtaba:link {
+	color: #003366;
+}
+
+.mtaba:visited {
+	color: #003366;
+}
+
+.mtaba:hover {
+	color: #0066ff;
+}
+
+.mtaba:active {
+	color: #003366;
+}
+
+.mtabi:link,.mtabi:visited,.mtabi:hover,.mtaba:active {
+	background-color: #eeeeee;
+	text-align: center;
+	padding-left: 2px;
+	padding-right: 2px;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: black;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: black;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: black;
+}
+
+.mtabi:link {
+	color: #003366;
+}
+
+.mtabi:visited {
+	color: #003366;
+}
+
+.mtabi:hover {
+	color: #0066ff;
+}
+
+.mtaba:active {
+	color: #003366;
+}
+
+.clBar {
+	position: static;
+	background-color: #EFEFEF;
+	width: 90%;
+	color: #003366;
+	border-bottom: 1px solid;
+	visibility: hidden;
+}
+
+.botaoMarcar {
+	font-weight: bold;
+	font-size: 8px;
+}
