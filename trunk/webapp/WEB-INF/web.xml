@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" 
+	xmlns="http://java.sun.com/xml/ns/j2ee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	
+	<display-name>SisGestor - Sistema Gerenciador de Workflow</display-name>
+	
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<listener>
+		<listener-class>br.com.ucb.sisgestor.util.hibernate.HibernateListener</listener-class>
+	</listener>
+	
+	<filter>
+		<filter-name>hibernateFilter</filter-name>
+		<filter-class>br.com.ucb.sisgestor.util.hibernate.HibernateFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>hibernateFilter</filter-name>
+		<servlet-name>dwr-invoker</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>hibernateFilter</filter-name>
+		<servlet-name>action</servlet-name>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>dwr-invoker</servlet-name>
+		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+		<init-param>
+			<param-name>org.directwebremoting.extend.AccessControl</param-name>
+			<param-value>br.com.ucb.sisgestor.apresentacao.ajaxUtils.ControleAcessoDWR</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>br.com.ucb.sisgestor.apresentacao.login.LoginServlet</servlet-class>
+		<load-on-startup>3</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/dologin</url-pattern>
+	</servlet-mapping>
+	
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<realm-name>jbossmq</realm-name>
+		<form-login-config>
+			<form-login-page>/dologin</form-login-page>
+			<form-error-page>/dologin?loginerror</form-error-page>
+		</form-login-config>
+	</login-config>
+	
+	<security-constraint>
+		<display-name>Proteção de recursos internos></display-name>
+		<web-resource-collection>
+			<web-resource-name>recursos_visuais</web-resource-name>
+			<description>proteger páginas jsp e os relatórios de acesso direto</description>
+			<url-pattern>/paginas/*</url-pattern>
+			<url-pattern>/relatorios/*</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+	
+	<security-constraint>
+		<display-name>Autenticação SisGestor</display-name>
+		<web-resource-collection>
+			<web-resource-name>autenticacao</web-resource-name>
+			<description>Autenticação SisGestor</description>
+			<url-pattern>*.do</url-pattern>
+			<url-pattern>/dwr/*</url-pattern>
+			<url-pattern>/index.jsp</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>1</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<security-role>
+		<description>Permissão mínima para acessar ao SisGestor</description>
+		<role-name>1</role-name>
+	</security-role>
+	
+	<resource-ref>
+		<description>SisGestorDB</description>
+		<res-ref-name>jdbc/SisGestorDB</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+		<res-sharing-scope>Shareable</res-sharing-scope>
+	</resource-ref>
+</web-app>
