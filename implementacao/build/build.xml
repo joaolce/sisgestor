@@ -42,6 +42,7 @@
 		<pathelement location="${env.JBOSS_HOME}/server/default/lib/ejb3-persistence.jar" />
 		<pathelement location="${env.JBOSS_HOME}/server/default/lib/hibernate-annotations.jar" />
 		<pathelement location="${env.JBOSS_HOME}/server/default/lib/hibernate3.jar" />
+		<pathelement location="${env.JBOSS_HOME}/server/default/deploy/jboss-web.deployer/jbossweb-service.jar" />
 	</path>
 	
 	<!-- Partternset para exclusão de arquivos da pasta de saída -->
