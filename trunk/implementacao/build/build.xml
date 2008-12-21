@@ -101,18 +101,12 @@
 			<webinf dir="${dir.webinf}">
 				<exclude name="web.xml" />
 				<include name="**.xml" />
-				<include name="**.xmi" />
-				<include name="**.dtd" />
-				<include name="**.xsd" />
-				<include name="**.xsl" />
 			</webinf>
 			<zipfileset dir="${dir.src}" prefix="WEB-INF/classes">
 				<include name="**.properties" />
-				<include name="**.xml" />
-				<include name="**.xmi" />
-				<include name="**.dtd" />
-				<include name="**.xsd" />
-				<include name="**.xsl" />
+				<include name="br/com/ucb/sisgestor/apresentacao/login/resources/**.html" />
+				<include name="br/com/ucb/sisgestor/apresentacao/validator/utils/**.xml" />
+				<include name="br/com/ucb/sisgestor/apresentacao/validator/utils/**.dtd" />
 			</zipfileset>
 			<classes dir="${dir.classesAnt}">
 				<include name="br/com/ucb/sisgestor/apresentacao/**" />
@@ -132,11 +126,6 @@
 			<zipfileset dir="${dir.src}">
 				<exclude name="br/com/ucb/sisgestor/apresentacao/**" />
 				<include name="**.properties" />
-				<include name="**.xml" />
-				<include name="**.xmi" />
-				<include name="**.dtd" />
-				<include name="**.xsd" />
-				<include name="**.xsl" />
 			</zipfileset>
 			
 			<zipfileset dir="${dir.classesAnt}">
