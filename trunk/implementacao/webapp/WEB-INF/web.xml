@@ -78,7 +78,7 @@
 		<realm-name>jbossmq</realm-name>
 		<form-login-config>
 			<form-login-page>/dologin</form-login-page>
-			<form-error-page>/dologin?loginerror</form-error-page>
+			<form-error-page>/dologin?loginerror=1</form-error-page>
 		</form-login-config>
 	</login-config>
 	
