@@ -1,8 +1,3 @@
-.loginBody {
-	background: gray;
-	background-color: gray;
-}
-
 BODY {
 	margin: 0;
 	font-size: 80%;
@@ -39,10 +34,8 @@ LEGEND {
 	color: gray;
 }
 
-LABEL { /*border: 1px solid rgb(248,248,248);*/
+LABEL {
 	font-size: 8pt;
-	/* cor da fonte anterior
-	color: #0036D7; */
 	color: #002752;
 }
 
@@ -114,7 +107,7 @@ input[type="radio"],.radioInput {
 	vertical-align: middle;
 }
 
-input[type="text"],input[type="button"],input[type="submit"],.textInput
+input[type="text"],input[type="password"],input[type="button"],input[type="submit"],.textInput
 	{
 	margin-top: 2px;
 	color: #003366;
@@ -229,6 +222,11 @@ input[type="text"].data {
 	width: 100px;
 }
 
+.mensagemJavascript {
+	font-weight: bold;
+	color: red;
+}
+
 .mensagemEmVermelho {
 	font-weight: bold;
 	color: red;
@@ -267,7 +265,7 @@ input[type="text"].data {
 }
 
 .btDesativado img {
-	filter: alpha(opacity = 30);
+	filter: alpha(opacity =   30);
 	opacity: 0.3;
 }
 

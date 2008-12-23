@@ -36,7 +36,7 @@
 <body>
 	<tiles:insert attribute="topo"/>
 	<tiles:insert attribute="menu"/>
-	<noscript style="font-weight: bold; color: red;">
+	<noscript class="mensagemJavascript">
 		<bean:message key="mensagem.javascript"/>
 	</noscript>
 	<div id="principal" >
