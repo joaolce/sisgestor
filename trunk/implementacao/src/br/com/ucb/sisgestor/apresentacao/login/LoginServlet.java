@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.apresentacao.login;
 
+import br.com.ucb.sisgestor.util.ParametrosURL;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -54,7 +55,7 @@ public final class LoginServlet extends HttpServlet {
 		String pagina = null;
 		if (null != request.getParameter(LOGIN_ERROR)) {
 			logger.debug("Página de acesso negado.");
-			pagina = this.loginBundle.getErrorPage();
+			pagina = this.loginBundle.getLoginErrorPage();
 		} else if (null != request.getParameter(LOGOUT)) {
 			logger.debug("Efetuando logout.");
 			this.loginHelper.doLogout(request, response);
@@ -75,21 +76,26 @@ public final class LoginServlet extends HttpServlet {
 			IOException {
 		if (null != request.getParameter(LOGIN_ERROR)) {
 			logger.debug("Página de acesso negado.");
-			this.escrevePagina(response, this.loginBundle.getErrorPage());
+			ParametrosURL param = new ParametrosURL();
+			param.setURL("dologin");
+			param.addParametro(LOGIN_ERROR, 1);
+			response.sendRedirect(param.toString());
 		} else {
-			String nextURL = "";
-			String operation = request.getParameter("opr");
-			logger.debug("Operação: " + operation);
-			if ("paginaAvisarSenha".equals(operation)) {
-				// código
-			} else if ("lembrarSenha".equals(operation)) {
-				// código
+			String operacao = request.getParameter("opr");
+			logger.debug("Operação: " + operacao);
+			if ("paginaAvisarSenha".equals(operacao)) {
+				logger.debug("Página de lembrete de senha.");
+				this.escrevePagina(response, this.loginBundle.getSenhaPage());
+			} else if ("lembrarSenha".equals(operacao)) {
+				logger.debug("Página de lembrete de senha.");
+				String login = this.getEncodedParamValue(request, "login", 10);
+				//fazer operação de envio de senha
+				logger.info("login: " + login);
+				this.escrevePagina(response, this.loginBundle.getSenhaSucessoPage());
 			} else {
 				logger.debug("Operação não identificada. Redirecionando para a raiz da aplicação.");
-				nextURL = ".";
+				response.sendRedirect(".");
 			}
-			logger.debug("Efetuando redirecionamento.");
-			response.sendRedirect(nextURL);
 		}
 	}
 
@@ -107,6 +113,14 @@ public final class LoginServlet extends HttpServlet {
 		writer.flush();
 	}
 
+	/**
+	 * Recupera um parâmetro enviado no request feito.
+	 * 
+	 * @param request request atual
+	 * @param paramName nome do parâmetro
+	 * @param maxLength tamanho máximo do valor
+	 * @return valor do parâmetro
+	 */
 	private String getEncodedParamValue(HttpServletRequest request, String paramName, int maxLength) {
 		String valorParametro = request.getParameter(paramName);
 		if (valorParametro == null) {

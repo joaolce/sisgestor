@@ -8,7 +8,7 @@
 </head>
 
 <body id="principal">
-<form action="j_security_check" method="post">
+<form action="dologin" method="post">
 	<table align="center" >
 		<thead>
 		<tr>
@@ -23,22 +23,15 @@
 				<label>Login</label>
 			</td>
 			<td width="60%">
-				<input type="text" name="j_username" id="j_username" size="11" maxlength="10" />
-			</td>
-		</tr>
-		<tr>
-			<td width="40%">
-				<label>Senha</label>
-			</td>
-			<td width="60%">
-				<input type="password" name="j_password" id="j_password" size="11" maxlength="10" />
+				<input type="text" name="login" id="login" size="11" maxlength="10" />
 			</td>
 		</tr>
 		</tbody>
 		<tfoot>
 		<tr>
 			<td colspan="2" align="center">
-				<input type="submit" value="Entrar" />
+				<input type="hidden" name="opr" id="opr" value="lembrarSenha" />
+				<input type="submit" value="Enviar" />
 			</td>
 		</tr>
 		</tfoot>
@@ -46,8 +39,7 @@
 </form>
 <form action="dologin" method="post">
 	<div align="center" >
-		<input type="hidden" name="opr" id="opr" value="paginaAvisarSenha" />
-		<input type="submit" value="Lembrar senha" />
+		<input type="submit" value="Voltar" />
 	</div>
 </form>
 </body>
