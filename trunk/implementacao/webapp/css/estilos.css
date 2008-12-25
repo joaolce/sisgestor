@@ -1,6 +1,7 @@
 BODY {
 	margin: 0;
 	font-size: 80%;
+	font-family: Verdana;
 }
 
 SELECT,TEXTAREA {
@@ -68,14 +69,15 @@ TH {
 
 #principal {
 	background-color: #E5E9ED;
-	width: 90%;
-	height: 495px;
+	width: 980px;
 	position: relative;
 	display: block;
 	margin: 0 auto !important;
 	padding-left: 5px;
 	padding-right: 5px;
 	padding-top: 5px;
+	height: 526px;
+	top: 21px;
 }
 
 #BordaExterna {
@@ -208,6 +210,11 @@ input[type="text"].data {
 	border: solid 1px red;
 }
 
+.mensagemErro {
+	font-weight: bold;
+	color: red;
+}
+
 #overCap {
 	border: 1px solid threedlightshadow;
 	color: rgb(0, 0, 0);
@@ -220,11 +227,6 @@ input[type="text"].data {
 
 .botaoOkCancelar {
 	width: 100px;
-}
-
-.mensagemJavascript {
-	font-weight: bold;
-	color: red;
 }
 
 .mensagemEmVermelho {
@@ -265,7 +267,7 @@ input[type="text"].data {
 }
 
 .btDesativado img {
-	filter: alpha(opacity =   30);
+	filter: alpha(opacity = 30);
 	opacity: 0.3;
 }
 

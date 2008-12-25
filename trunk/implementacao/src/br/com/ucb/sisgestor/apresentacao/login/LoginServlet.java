@@ -52,20 +52,17 @@ public final class LoginServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
-		String pagina = null;
 		if (null != request.getParameter(LOGIN_ERROR)) {
 			logger.debug("Página de acesso negado.");
-			pagina = this.loginBundle.getLoginErrorPage();
+			this.escrevePagina(response, this.loginBundle.getLoginErrorPage());
 		} else if (null != request.getParameter(LOGOUT)) {
 			logger.debug("Efetuando logout.");
 			this.loginHelper.doLogout(request, response);
-			logger.debug("Redirecionando para tela de login.");
-			pagina = this.loginBundle.getLoginPage();
+			response.sendRedirect(".");
 		} else {
 			logger.debug("Página de login.");
-			pagina = this.loginBundle.getLoginPage();
+			this.escrevePagina(response, this.loginBundle.getLoginPage());
 		}
-		this.escrevePagina(response, pagina);
 	}
 
 	/**
@@ -88,7 +85,7 @@ public final class LoginServlet extends HttpServlet {
 				this.escrevePagina(response, this.loginBundle.getSenhaPage());
 			} else if ("lembrarSenha".equals(operacao)) {
 				logger.debug("Página de lembrete de senha.");
-				String login = this.getEncodedParamValue(request, "login", 10);
+				String login = this.getEncodedParamValue(request, "login", 15);
 				//fazer operação de envio de senha
 				logger.info("login: " + login);
 				this.escrevePagina(response, this.loginBundle.getSenhaSucessoPage());

@@ -9,7 +9,8 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
-
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Classe que representa uma permissão no sistema
@@ -28,38 +29,39 @@ public class Permissao extends ObjetoPersistente {
 	private List<Usuario>	usuarios;
 
 	/**
-	 * Recupera o valor de descricao
+	 * Recupera a descrição da permissão
 	 * 
-	 * @return descricao
+	 * @return descrição da permissão
 	 */
 	@Column(name = "PRM_DS", nullable = false, length = 30)
 	public String getDescricao() {
-		return descricao;
+		return this.descricao;
 	}
 
 	/**
-	 * Recupera o valor de usuarios
+	 * Recupera os usuários pertencentes da permissão
 	 * 
-	 * @return usuarios
+	 * @return usuários pertencentes da permissão
 	 */
 	@ManyToMany(targetEntity = Usuario.class, mappedBy = "permissoes")
+	@Cascade( {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	public List<Usuario> getUsuarios() {
-		return usuarios;
+		return this.usuarios;
 	}
 
 	/**
-	 * Atribui descricao
+	 * Atribui a descrição da permissão
 	 * 
-	 * @param descricao o valor a ajustar em descricao
+	 * @param descricao descrição da permissão
 	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
 
 	/**
-	 * Atribui usuarios
+	 * Atribui usuários pertencentes da permissão
 	 * 
-	 * @param usuarios o valor a ajustar em usuarios
+	 * @param usuarios usuários pertencentes da permissão
 	 */
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
