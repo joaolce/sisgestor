@@ -54,14 +54,14 @@ public final class LoginServlet extends HttpServlet {
 			IOException {
 		if (null != request.getParameter(LOGIN_ERROR)) {
 			logger.debug("Página de acesso negado.");
-			this.escrevePagina(response, this.loginBundle.getLoginErrorPage());
+			this.escrevePagina(response, this.loginBundle.getLoginPage("Login e/ou senha inválida."));
 		} else if (null != request.getParameter(LOGOUT)) {
 			logger.debug("Efetuando logout.");
 			this.loginHelper.doLogout(request, response);
 			response.sendRedirect(".");
 		} else {
 			logger.debug("Página de login.");
-			this.escrevePagina(response, this.loginBundle.getLoginPage());
+			this.escrevePagina(response, this.loginBundle.getLoginPage(""));
 		}
 	}
 
@@ -82,13 +82,13 @@ public final class LoginServlet extends HttpServlet {
 			logger.debug("Operação: " + operacao);
 			if ("paginaAvisarSenha".equals(operacao)) {
 				logger.debug("Página de lembrete de senha.");
-				this.escrevePagina(response, this.loginBundle.getSenhaPage());
+				this.escrevePagina(response, this.loginBundle.getSenhaPage(""));
 			} else if ("lembrarSenha".equals(operacao)) {
 				logger.debug("Página de lembrete de senha.");
 				String login = this.getEncodedParamValue(request, "login", 15);
 				//fazer operação de envio de senha
 				logger.info("login: " + login);
-				this.escrevePagina(response, this.loginBundle.getSenhaSucessoPage());
+				this.escrevePagina(response, this.loginBundle.getSenhaPage("Senha enviada."));
 			} else {
 				logger.debug("Operação não identificada. Redirecionando para a raiz da aplicação.");
 				response.sendRedirect(".");
