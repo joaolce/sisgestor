@@ -36,10 +36,10 @@
 <body>
 	<tiles:insert attribute="topo"/>
 	<tiles:insert attribute="menu"/>
-	<noscript class="mensagemJavascript">
+	<noscript class="mensagemErro">
 		<bean:message key="mensagem.javascript"/>
 	</noscript>
-	<div id="principal" >
+	<div id="principal" style="display: none;">
 		<tiles:insert attribute="corpo"/>
 		<tiles:insert attribute="rodape"/>
 		

@@ -1,0 +1,94 @@
+/* CoolMenus 4 - default styles - do not edit */
+.clCMEvent {
+	position: absolute;
+	width: 99%;
+	height: 99%;
+	clip: rect(0, 100%, 100%, 0);
+	left: 0;
+	top: 0;
+}
+
+.clCMAbs {
+	position: absolute;
+	visibility: hidden;
+	left: 0;
+	top: 0;
+}
+
+/* CoolMenus 4 - default styles - end */
+.clBar {
+	position: absolute;
+	height: 40px;
+	background-color: #F0F0FF;
+	color: black;
+	margin-right: auto;
+	margin-left: auto;
+	visibility: hidden;
+	border-bottom: 1px solid gray;
+}
+
+.cmMenuBorder img {
+	vertical-align: middle;
+}
+
+.cmMenu,.cmItem {
+	position: absolute;
+	font-family: Arial, Helvetica, San-serif;
+	color: #333366;
+	padding: 2px;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.cmMenu,.cmMenuOver {
+	text-align: center;
+	font-size: 12px;
+	vertical-align: middle;
+}
+
+.cmMenuOver,.cmItemOver {
+	font-family: Arial, Helvetica, San-serif;
+	position: absolute;
+	border: 1px outset #BEE6F0;
+	background: transparent;
+	color: #333366;
+	font-weight: bold;
+	padding: 3px;
+	cursor: pointer;
+	cursor: hand; /* IE 5.5 non-compliant workaround */
+}
+
+.cmMenuBorder,.cmItemBorder {
+	position: absolute;
+	visibility: hidden;
+	background: #9CC2C9 url(../imagens/menu/fundo_botao_menu.png);
+}
+
+.cmMenuBorder {
+	border: 1px outset #A0A0A0;
+}
+
+.cmItem,.cmItemOver {
+	color: #4B4B4B;
+	background: #E6E6E6 url("../imagens/menu/fundo_botao_itens.png");
+	text-align: left;
+}
+
+.cmItemOver {
+	border: 1px inset white;
+}
+
+.cmItem,.cmItemOver {
+	font-size: 11px;
+	font-weight: normal;
+}
+
+.cmItemBorder {
+	background: #DDDDFF;
+}
+
+.menuArrows {
+	vertical-align: middle;
+	margin-left: 0px;
+}

@@ -6,17 +6,17 @@ package br.com.ucb.sisgestor.entidade;
 
 import java.util.List;
 import javax.persistence.AttributeOverride;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.PrimaryKeyJoinColumns;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.UniqueConstraint;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
-
 
 /**
  * Classe que representa um usuário no sistema
@@ -31,11 +31,11 @@ import org.hibernate.annotations.ForeignKey;
 @AttributeOverride(name = "id", column = @Column(name = "UUR_ID", nullable = false))
 public class Usuario extends ObjetoPersistente {
 
-	private Departamento		departamento;
-	private String				login;
 	private String				nome;
-	private List<Permissao>	permissoes;
+	private String				login;
 	private String				senha;
+	private Departamento		departamento;
+	private List<Permissao>	permissoes;
 
 	/**
 	 * Recupera o departamento do usuário
@@ -46,7 +46,7 @@ public class Usuario extends ObjetoPersistente {
 	@JoinColumn(name = "DPR_ID", nullable = false)
 	@ForeignKey(name = "IRDPRUUR")
 	public Departamento getDepartamento() {
-		return departamento;
+		return this.departamento;
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class Usuario extends ObjetoPersistente {
 	 */
 	@Column(name = "UUR_DS_LOGIN", nullable = false, columnDefinition = "CHAR(15)", length = 15)
 	public String getLogin() {
-		return login;
+		return this.login;
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class Usuario extends ObjetoPersistente {
 	 */
 	@Column(name = "UUR_NM", nullable = false, length = 150)
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 
 	/**
@@ -74,11 +74,13 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return permissoes permissões do usuário no sistema
 	 */
-	@ManyToMany(targetEntity = Permissao.class, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-	@JoinTable(name = "UPM_USUARIO_PERMISSAO", joinColumns = @JoinColumn(name = "UUR_ID", nullable = false, unique = true), inverseJoinColumns = @JoinColumn(name = "PRM_ID", nullable = false, unique = true), uniqueConstraints = @UniqueConstraint(columnNames = {
-			"UUR_ID", "PRM_ID"}))
+	@ManyToMany(targetEntity = Permissao.class)
+	@Cascade( {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	@JoinTable(name = "UPM_USUARIO_PERMISSAO", joinColumns = @JoinColumn(name = "UUR_ID", nullable = false), inverseJoinColumns = @JoinColumn(name = "PRM_ID", nullable = false))
+	@PrimaryKeyJoinColumns( {@PrimaryKeyJoinColumn(name = "UUR_ID", referencedColumnName = "UUR_ID"),
+			@PrimaryKeyJoinColumn(name = "PRM_ID", referencedColumnName = "PRM_ID")})
 	public List<Permissao> getPermissoes() {
-		return permissoes;
+		return this.permissoes;
 	}
 
 	/**
@@ -88,7 +90,7 @@ public class Usuario extends ObjetoPersistente {
 	 */
 	@Column(name = "UUR_DS_SENHA", nullable = false)
 	public String getSenha() {
-		return senha;
+		return this.senha;
 	}
 
 	/**
