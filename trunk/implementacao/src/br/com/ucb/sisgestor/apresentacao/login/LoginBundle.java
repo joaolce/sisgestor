@@ -21,12 +21,8 @@ public final class LoginBundle {
 	private static final String	LOCAL_RESOURCE	= "resources/";
 	private static final String	LOGIN_RESOURCE	= "login_page.html";
 	private static final String	SENHA_RESOURCE	= "senha_page.html";
-
-	private StringBuilder			loginPage;
-	private StringBuilder			loginErrorPage;
-	private StringBuilder			senhaPage;
-	private StringBuilder			senhaSucessoPage;
-	private StringBuilder			senhaErroPage;
+	private static StringBuilder	loginPage;
+	private static StringBuilder	senhaPage;
 
 	static {
 		logger = LogFactory.getLog(LoginBundle.class);
@@ -37,71 +33,34 @@ public final class LoginBundle {
 	 */
 	public LoginBundle() {
 		this.loadLoginPage();
-		this.loadLoginErrorPage();
 		this.loadSenhaPage();
-		this.loadSenhaErroPage();
-		this.loadSenhaSucessoPage();
-	}
-
-	/**
-	 * Recupera a página de login com erro.
-	 * 
-	 * @return html da página de login com erro
-	 */
-	public String getLoginErrorPage() {
-		return this.loginErrorPage.toString();
 	}
 
 	/**
 	 * Recupera a página de login.
 	 * 
+	 * @param mensagem mensagem a ser colocada no html
 	 * @return html da página de login
 	 */
-	public String getLoginPage() {
-		return this.loginPage.toString();
-	}
-
-	/**
-	 * Recupera a página de recuperação da senha com erro.
-	 * 
-	 * @return html da página de recuperação da senha com erro
-	 */
-	public String getSenhaErroPage() {
-		return this.senhaErroPage.toString();
+	public String getLoginPage(String mensagem) {
+		return this.replaceText(loginPage, mensagem).toString();
 	}
 
 	/**
 	 * Recupera a página de recuperação da senha.
 	 * 
+	 * @param mensagem mensagem a ser colocada no html
 	 * @return html da página de recuperação da senha
 	 */
-	public String getSenhaPage() {
-		return this.senhaPage.toString();
-	}
-
-	/**
-	 * Recupera a página de recuperação da senha com sucesso.
-	 * 
-	 * @return html da página de recuperação da senha com sucesso
-	 */
-	public String getSenhaSucessoPage() {
-		return this.senhaSucessoPage.toString();
-	}
-
-	/**
-	 * Carrega a página de login com erro.
-	 */
-	private void loadLoginErrorPage() {
-		this.loginErrorPage = this.loadResourceFile(LOCAL_RESOURCE + LOGIN_RESOURCE);
-		this.replaceText(this.loginErrorPage, "Login e/ou senha inválida.");
+	public String getSenhaPage(String mensagem) {
+		return this.replaceText(senhaPage, mensagem).toString();
 	}
 
 	/**
 	 * Carrega a página de login.
 	 */
 	private void loadLoginPage() {
-		this.loginPage = this.loadResourceFile(LOCAL_RESOURCE + LOGIN_RESOURCE);
-		this.replaceText(this.loginPage, "");
+		loginPage = this.loadResourceFile(LOCAL_RESOURCE + LOGIN_RESOURCE);
 	}
 
 	private synchronized StringBuilder loadResourceFile(String filename) {
@@ -109,7 +68,7 @@ public final class LoginBundle {
 		InputStream is = (LoginBundle.class).getResourceAsStream(filename);
 		byte buffer[] = new byte[256];
 		int cnt = 0;
-		StringBuilder lp = new StringBuilder();
+		StringBuilder html = new StringBuilder();
 		do {
 			try {
 				cnt = is.read(buffer);
@@ -120,46 +79,38 @@ public final class LoginBundle {
 			if (cnt > 0) {
 				for (int i = 0; i < cnt; i++) {
 					char c = (char) buffer[i];
-					lp.append(c);
+					html.append(c);
 				}
 			}
 		} while (cnt > 0);
-		return lp;
-	}
-
-	/**
-	 * Carrega a página de recuperação da senha sem sucesso.
-	 */
-	private void loadSenhaErroPage() {
-		this.senhaErroPage = this.loadResourceFile(LOCAL_RESOURCE + SENHA_RESOURCE);
-		this.replaceText(this.senhaErroPage, "Erro no envio da senha.");
+		return html;
 	}
 
 	/**
 	 * Carrega a página de recuperação da senha.
 	 */
 	private void loadSenhaPage() {
-		this.senhaPage = this.loadResourceFile(LOCAL_RESOURCE + SENHA_RESOURCE);
-		this.replaceText(this.senhaPage, "");
+		senhaPage = this.loadResourceFile(LOCAL_RESOURCE + SENHA_RESOURCE);
 	}
 
 	/**
-	 * Carrega a página de recuperação da senha com sucesso.
+	 * Substituí do html a mensagem informada
+	 * 
+	 * @param html html a substituir a mensagem
+	 * @param texto texto a ser colocado
+	 * @return html modificado
 	 */
-	private void loadSenhaSucessoPage() {
-		this.senhaSucessoPage = this.loadResourceFile(LOCAL_RESOURCE + SENHA_RESOURCE);
-		this.replaceText(this.senhaSucessoPage, "Senha enviada com sucesso.");
-	}
-
-	private void replaceText(StringBuilder html, String texto) {
+	private StringBuilder replaceText(StringBuilder html, String texto) {
+		StringBuilder sb = new StringBuilder(html.toString());
 		String subs = "#MENSAGEM#";
 		int tam = subs.length();
 		int pos = 0;
 		do {
-			pos = html.indexOf(subs, pos);
+			pos = sb.indexOf(subs, pos);
 			if (pos > 0) {
-				html.replace(pos, pos + tam, texto);
+				sb.replace(pos, pos + tam, texto);
 			}
 		} while (pos > 0);
+		return sb;
 	}
 }
