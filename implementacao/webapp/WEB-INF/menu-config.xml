@@ -11,6 +11,6 @@
 			<Item title="Alterar" name="MenuRegistros_alterar" width="130" page="/baseDemanda.do?method=pesquisarDemanda" />
 		</Menu>
 		
-		<Menu name="MenuSair" title="Sair" description="Sair" witdh="180" page="/dologin?logout=true" />
+		<Menu name="MenuSair" title="menu.sair" description="dica.sair" page="/dologin?logout=true" width="100" image="imagens/sair.png"/>
 	</Menus>
 </MenuConfig>

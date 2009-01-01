@@ -36,12 +36,19 @@ public final class DataUtil {
 	public static final int				MES			= 5;
 	/** Unidade que representa o ano */
 	public static final int				ANO			= 6;
-	/** Data no formato Sábado, 1 de Novembro de 2008 */
+	/** Data no formato Quinta, 1 de Janeiro de 2009 */
 	public static final DateFormat	DATE_FULL	= DateFormat.getDateInstance(DateFormat.FULL, LOCALE_BR);
 	/** Data no formato dd/MM/yyyy */
 	public static final DateFormat	DATE_MEDIUM	= DateFormat.getDateInstance(DateFormat.MEDIUM, LOCALE_BR);
 	/** Hora no formato HH:mm:ss */
 	public static final DateFormat	HORA_MEDIUM	= DateFormat.getTimeInstance(DateFormat.MEDIUM, LOCALE_BR);
+
+
+	/**
+	 * Construtor privado (classe utilitária).
+	 */
+	private DataUtil() {
+	}
 
 	/**
 	 * Adiciona barras a uma String de data original <br>
@@ -186,7 +193,7 @@ public final class DataUtil {
 	}
 
 	/**
-	 * Retorna a String da data atual no formato completo
+	 * Retorna a String da data atual no formato: Quinta, 1 de Janeiro de 2009
 	 * 
 	 * @return a {@link String} formatada da data atual completa
 	 */

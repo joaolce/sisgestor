@@ -7,7 +7,7 @@ package br.com.ucb.sisgestor.entidade;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.SequenceGenerator;
-
+import org.hibernate.annotations.NaturalId;
 
 /**
  * Classe que representa um departamento no sistema
@@ -32,7 +32,7 @@ public class Departamento extends ObjetoPersistente {
 	 */
 	@Column(name = "DPR_DS_EMAIL", nullable = true, length = 30)
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	/**
@@ -41,8 +41,9 @@ public class Departamento extends ObjetoPersistente {
 	 * @return sigla do departamento
 	 */
 	@Column(name = "DPR_SL", nullable = false, columnDefinition = "CHAR(10)")
+	@NaturalId
 	public String getSigla() {
-		return sigla;
+		return this.sigla;
 	}
 
 	/**

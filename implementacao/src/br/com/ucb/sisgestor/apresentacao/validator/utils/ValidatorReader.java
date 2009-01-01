@@ -4,11 +4,13 @@
  */
 package br.com.ucb.sisgestor.apresentacao.validator.utils;
 
+import br.com.ucb.sisgestor.apresentacao.validator.BaseValidator;
 import br.com.ucb.sisgestor.util.GenericsUtil;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.validator.GenericValidator;
 import org.dom4j.Document;
@@ -17,21 +19,23 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 /**
- * TODO DOCUMENT ME!
+ * Classe que mapeia as actions com as suas respectivas classes de validação.
  * 
  * @author João Lúcio
  * @since 24/10/2008
  */
-public class ValidateReader {
+public class ValidatorReader {
 
-	private static final Map<String, String>	validateMap	= new HashMap<String, String>();
+	private static Log								logger;
+	private static final Map<String, String>	validatorMap	= new TreeMap<String, String>();
 
 	static {
+		logger = LogFactory.getLog(ValidatorReader.class);
 		try {
 			//pega o arquivo como stream
 			InputStream input =
-					ValidateReader.class
-							.getResourceAsStream("/br/com/ucb/sisgestor/apresentacao/validator/utils/validate.xml");
+					ValidatorReader.class
+							.getResourceAsStream("/br/com/ucb/sisgestor/apresentacao/validator/utils/validator.xml");
 
 			SAXReader reader = new SAXReader();
 			Document xml = reader.read(input);
@@ -40,39 +44,40 @@ public class ValidateReader {
 			List<Element> children = GenericsUtil.checkedList(root.elements(), Element.class);
 
 			String action;
-			String validate;
-			//le todos os mapeamentos e joga na raiz
+			String validator;
+
 			for (Element child : children) {
 				action = child.attributeValue("action");
-				validate = child.attributeValue("validate");
-				validateMap.put(action, validate);
+				validator = child.attributeValue("validator");
+
+				validatorMap.put(action, validator);
 			}
 		} catch (DocumentException e) {
-			LogFactory.getLog(ValidateReader.class).error(e);
+			logger.error(e);
 		}
 	}
 
 	/**
-	 * Retorna um objeto do tipo {@link BaseValidate} de acordo com a action informada
+	 * Retorna um objeto do tipo {@link BaseValidator} de acordo com a action informada
 	 * 
 	 * @param action action a ser executada
 	 * 
-	 * @return classe de validação da action
+	 * @return classe de validação da action, ou <code>null</code> caso não houver
 	 * @throws ClassNotFoundException
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 */
-	public static BaseValidate getValidate(String action) throws ClassNotFoundException,
+	public static BaseValidator getValidator(String action) throws ClassNotFoundException,
 			InstantiationException, IllegalAccessException {
-		BaseValidate validate = null;
+		BaseValidator validator = null;
 
-		String nome = validateMap.get(action);
+		String nome = validatorMap.get(action);
 		if (GenericValidator.isBlankOrNull(nome)) {
 			return null;
 		}
 		Class<?> classe = Class.forName(nome);
-		validate = (BaseValidate) classe.newInstance();
+		validator = (BaseValidator) classe.newInstance();
 
-		return validate;
+		return validator;
 	}
 }

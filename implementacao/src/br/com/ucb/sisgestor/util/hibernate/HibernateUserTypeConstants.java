@@ -4,7 +4,6 @@
  */
 package br.com.ucb.sisgestor.util.hibernate;
 
-
 /**
  * Constantes com os nomes de classes que representam tipos para o Hibernate.
  * 

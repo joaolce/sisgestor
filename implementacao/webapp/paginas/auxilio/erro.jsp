@@ -24,23 +24,34 @@
 				<bean:write name="org.apache.struts.action.EXCEPTION" />
 			</logic:notPresent>
 			<logic:present name="errorContainer">
-				<div><bean:message key="label.statusCode"/><bean:write name="javax.servlet.error.status_code"/></div>
+				<div>
+					<bean:message key="label.statusCode"/>:
+					<bean:write name="javax.servlet.error.status_code" ignore="true" />
+				</div>
 				<div>
 					<logic:present name="javax.servlet.error.exception" property="rootCause">
-						<c:set var="rootCause" value="${requestScope['javax.servlet.error.exception'].rootCause}"/>
+						<c:set var="rootCause">
+							<bean:write name="javax.servlet.error.exception" property="rootCause" />
+						</c:set>
 					</logic:present>
-					<bean:message key="label.mensagem"/>
-					<bean:write name="javax.servlet.error.message" />
-					<c:out value="${requestScope['javax.servlet.error.exception'].message}" default=" "/>
-					<c:out value="${rootCause}" default=" "/>
+					<logic:present name="javax.servlet.error.message">
+						<bean:message key="label.mensagem"/>:
+						<bean:write name="javax.servlet.error.message" />
+					</logic:present>
+					<bean:write name="javax.servlet.error.exception" property="message" ignore="true" />
+					<bean:write name="rootCause" ignore="true" />
 				</div>
 				<logic:present name="javax.servlet.error.exception">
-					<c:if test="${not empty rootCause}">
-						<c:set var="org.apache.struts.action.EXCEPTION" value="${rootCause}"/>
-					</c:if>
-					<c:if test="${empty rootCause}">
-						<c:set var="org.apache.struts.action.EXCEPTION" value="${requestScope['javax.servlet.error.exception']}"/>
-					</c:if>
+					<logic:notEmpty name="rootCause">
+						<c:set var="org.apache.struts.action.EXCEPTION">
+							<bean:write name="rootCause" />
+						</c:set>
+					</logic:notEmpty>
+					<logic:empty name="rootCause">
+						<c:set var="org.apache.struts.action.EXCEPTION">
+							<bean:write name="javax.servlet.error.exception" />
+						</c:set>
+					</logic:empty>
 				</logic:present>
 			</logic:present>
 		</div>
@@ -50,7 +61,7 @@
 		<html:link titleKey="dica.abrir" href="#" onclick="$('divErros123').visible() ? Effect.Fade('divErros123') : Effect.Appear('divErros123');">
 			...
 		</html:link>
-		<div class="bordas" style="display: none; overflow: auto; width: 730px; height: 300px;" id="divErros123">
+		<div class="bordas" style="display: none; overflow: auto; width: 800px; height: 350px;" id="divErros123">
 			<logic:present name="org.apache.struts.action.EXCEPTION" property="stackTrace">
 				<logic:iterate id="stack" name="org.apache.struts.action.EXCEPTION" property="stackTrace">
 					<bean:write name="stack" />

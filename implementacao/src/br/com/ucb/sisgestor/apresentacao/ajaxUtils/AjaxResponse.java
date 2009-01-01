@@ -29,10 +29,10 @@ public class AjaxResponse {
 	 * Cria uma nova instância do tipo AjaxResponse
 	 */
 	public AjaxResponse() {
-		document = DocumentFactory.getInstance().createDocument();
-		document.setXMLEncoding("UTF-8");
-		ajaxResponse = new DOMElement("ajaxResponse");
-		document.add(ajaxResponse);
+		this.document = DocumentFactory.getInstance().createDocument();
+		this.document.setXMLEncoding("UTF-8");
+		this.ajaxResponse = new DOMElement("ajaxResponse");
+		this.document.add(this.ajaxResponse);
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class AjaxResponse {
 	public void addMessage(String message) {
 		DOMElement element = new DOMElement("message");
 		element.setText(message);
-		ajaxResponse.add(element);
+		this.ajaxResponse.add(element);
 	}
 
 	/**
@@ -53,10 +53,10 @@ public class AjaxResponse {
 	 * @param valor valor do elemento
 	 */
 	public void putValorRetorno(String chave, Object valor) {
-		if (valoresDevolvidos == null) {
-			valoresDevolvidos = new HashMap<String, Object>();
+		if (this.valoresDevolvidos == null) {
+			this.valoresDevolvidos = new HashMap<String, Object>();
 		}
-		valoresDevolvidos.put(chave, valor);
+		this.valoresDevolvidos.put(chave, valor);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class AjaxResponse {
 	 * @param focusControl nome do campo
 	 */
 	public void setFocusControl(String focusControl) {
-		setNode("focusControl", focusControl);
+		this.setNode("focusControl", focusControl);
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class AjaxResponse {
 	 */
 	public void setGeneratedID(Object id) {
 		if (id != null) {
-			setNode("generatedId", id.toString());
+			this.setNode("generatedId", id.toString());
 		}
 	}
 
@@ -85,10 +85,10 @@ public class AjaxResponse {
 	 * foi inserido com sucesso ou se não foi devido alguma validação faltando ou qualquer erro que tenha
 	 * ocorrido)
 	 * 
-	 * @param estado status da requisição
+	 * @param estado status da requisição: <code>true</code> - verde, <code>false</code> - vermelho
 	 */
 	public void setStatus(boolean estado) {
-		setNode("status", new Boolean(estado).toString());
+		this.setNode("status", new Boolean(estado).toString());
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class AjaxResponse {
 	 * @param url url de redirecionamento
 	 */
 	public void setUrlForward(String url) {
-		setNode("urlForward", url);
+		this.setNode("urlForward", url);
 	}
 
 	/**
@@ -107,11 +107,11 @@ public class AjaxResponse {
 	 */
 	@Override
 	public String toString() {
-		DOMElement jsonObject = getValoresRetorno();
+		DOMElement jsonObject = this.getValoresRetorno();
 		if (jsonObject != null) {
-			ajaxResponse.add(jsonObject);
+			this.ajaxResponse.add(jsonObject);
 		}
-		return document.asXML();
+		return this.document.asXML();
 	}
 
 	/**
@@ -120,12 +120,12 @@ public class AjaxResponse {
 	 * @return o {@link DOMElement} com os valores de retorno
 	 */
 	private DOMElement getValoresRetorno() {
-		if (valoresDevolvidos == null) {
+		if (this.valoresDevolvidos == null) {
 			return null;
 		}
 		DOMElement parentNodeJson = new DOMElement("valoresDevolvidos");
-		for (String chave : valoresDevolvidos.keySet()) {
-			String valor = valoresDevolvidos.get(chave).toString();
+		for (String chave : this.valoresDevolvidos.keySet()) {
+			String valor = this.valoresDevolvidos.get(chave).toString();
 
 			DOMElement atributo = new DOMElement(chave);
 			atributo.addCDATA(valor);
@@ -141,13 +141,13 @@ public class AjaxResponse {
 	 * @param value valor do nó
 	 */
 	private void setNode(String node, String value) {
-		List<Node> selectNodes = GenericsUtil.checkedList(ajaxResponse.elements(node), Node.class);
+		List<Node> selectNodes = GenericsUtil.checkedList(this.ajaxResponse.elements(node), Node.class);
 		DOMElement element = new DOMElement(node);
 		element.setText(value);
 		if (selectNodes.size() == 0) {
-			ajaxResponse.add(element);
+			this.ajaxResponse.add(element);
 		} else {
-			ajaxResponse.replaceChild(element, selectNodes.get(0));
+			this.ajaxResponse.replaceChild(element, selectNodes.get(0));
 		}
 	}
 }

@@ -13,7 +13,7 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 /**
- * Classe para a manipulação dos dados para montar um relatório jasper
+ * Classe para a manipulação dos dados para montar relatórios jasper.
  * 
  * @author João Lúcio
  * @since 24/10/2008
@@ -30,8 +30,8 @@ public class JasperDataSource implements JRDataSource {
 	 * 
 	 */
 	public JasperDataSource(List<? extends Object> lista) {
-		dado = lista;
-		index = -1;
+		this.dado = lista;
+		this.index = -1;
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class JasperDataSource implements JRDataSource {
 		Object valor = null;
 
 		try {
-			Object obj = dado.get(index);
+			Object obj = this.dado.get(this.index);
 
 			String name = jrField.getName();
 			String nomeMetodo = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
@@ -75,6 +75,6 @@ public class JasperDataSource implements JRDataSource {
 	 * @throws JRException
 	 */
 	public boolean next() throws JRException {
-		return (++index < dado.size());
+		return (++this.index < this.dado.size());
 	}
 }

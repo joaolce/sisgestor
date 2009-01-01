@@ -4,7 +4,6 @@
  */
 package br.com.ucb.sisgestor.util;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -31,8 +30,7 @@ import java.util.StringTokenizer;
 public final class Conversor {
 
 	/**
-	 * Cria uma nova instância do tipo Conversor
-	 * 
+	 * Construtor privado (classe utilitária).
 	 */
 	private Conversor() {
 	}

@@ -7,13 +7,14 @@ package br.com.ucb.sisgestor.persistencia.impl;
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.persistencia.BaseDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
+import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Criteria;
-import org.hibernate.Session;
+import org.hibernate.classic.Session;
 
 /**
- * Implementação da interface que representa um DAO (Data Access Object)
+ * Implementação da interface que representa um DAO (Data Access Object).
  * 
  * @param <T> objeto persistente utilizado no DAO
  * @param <PK> chave primária do objeto persistente utilizado
@@ -24,10 +25,9 @@ import org.hibernate.Session;
 public class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serializable> implements BaseDAO<T, PK> {
 
 	private Class<T>	classePersistente;
-	private Session	session;
 
 	/**
-	 * Cria uma nova instância do tipo BaseDAOImpl
+	 * Cria uma nova instância do tipo {@link BaseDAOImpl}.
 	 * 
 	 * @param classePersistente classe utilizada
 	 */
@@ -36,60 +36,48 @@ public class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serializable> i
 	}
 
 	/**
-	 * Atualiza um objeto na base de dados
-	 * 
-	 * @param obj objeto persistente a atualizar
+	 * {@inheritDoc}
 	 */
 	public void atualizar(T obj) {
-		getSession().update(obj);
+		this.getSession().update(obj);
 	}
 
 	/**
-	 * Apaga um objeto na base de dados
-	 * 
-	 * @param obj objeto persistente a apagar
+	 * {@inheritDoc}
 	 */
 	public void excluir(T obj) {
-		getSession().delete(obj);
+		this.getSession().delete(obj);
 	}
 
 	/**
-	 * Recupera o valor de session
-	 * 
-	 * @return session
-	 */
-	public Session getSession() {
-		return session;
-	}
-
-	/**
-	 * Recupera um objeto a partir da sua chave primária
-	 * 
-	 * @param pk chave primária do objeto persistente
-	 * 
-	 * @return objeto recuperado
+	 * {@inheritDoc}
 	 */
 	public T obter(PK pk) {
-		return classePersistente.cast(getSession().get(classePersistente, pk));
+		return this.classePersistente.cast(this.getSession().get(this.classePersistente, pk));
 	}
 
 	/**
-	 * Recupera todos os objetos
-	 * 
-	 * @return um {@link List} de objeto
+	 * {@inheritDoc}
 	 */
 	public List<T> obterTodos() {
-		Criteria criteria = getSession().createCriteria(classePersistente);
+		Criteria criteria = this.getSession().createCriteria(this.classePersistente);
 
-		return GenericsUtil.checkedList(criteria.list(), classePersistente);
+		return GenericsUtil.checkedList(criteria.list(), this.classePersistente);
 	}
 
 	/**
-	 * Salva um objeto na base de dados
-	 * 
-	 * @param obj objeto persistente a salvar
+	 * {@inheritDoc}
 	 */
 	public void salvar(T obj) {
-		getSession().save(obj);
+		this.getSession().save(obj);
+	}
+
+	/**
+	 * Recupera sessão atual do hibernate.
+	 * 
+	 * @return session sessão atual
+	 */
+	protected Session getSession() {
+		return HibernateUtil.getSession();
 	}
 }

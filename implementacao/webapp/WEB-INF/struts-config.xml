@@ -8,9 +8,16 @@
 	</form-beans>
 
 	<global-exceptions>
+		<exception key="label.exceptionDefault" 
+			   type="java.lang.Exception" 
+			   handler="org.apache.struts.action.ExceptionHandler" 
+			   path="erro" />
 	</global-exceptions>
 
 	<global-forwards>
+		<forward name="erro" path="erro" />
+		<forward name="acessoNegado" path="/principal.do?method=erro" />
+		<forward name="erroValidacao" path="erroValidacao"/>
 	</global-forwards>
 
 	<action-mappings>

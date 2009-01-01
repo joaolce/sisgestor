@@ -31,46 +31,28 @@ public class IntegerUserType<E extends Enum<E>> implements UserType, Parameteriz
 	private CodigoDescricao		codigoDescricao;
 
 	/**
-	 * Assemble.
-	 * 
-	 * @param cached cached
-	 * @param owner owner
-	 * @return object
-	 * @throws HibernateException exception
+	 * {@inheritDoc}
 	 */
 	public Object assemble(Serializable cached, Object owner) throws HibernateException {
 		return cached;
 	}
 
 	/**
-	 * DeepCopy.
-	 * 
-	 * @param value value
-	 * @return object
-	 * @throws HibernateException exception
+	 * {@inheritDoc}
 	 */
 	public Object deepCopy(Object value) throws HibernateException {
 		return value;
 	}
 
 	/**
-	 * Disassemble.
-	 * 
-	 * @param value value
-	 * @return object serializable
-	 * @throws HibernateException exception
+	 * {@inheritDoc}
 	 */
 	public Serializable disassemble(Object value) throws HibernateException {
 		return (Serializable) value;
 	}
 
 	/**
-	 * Equals.
-	 * 
-	 * @param x x
-	 * @param y y
-	 * @return boolean
-	 * @throws HibernateException exception
+	 * {@inheritDoc}
 	 */
 	public boolean equals(Object x, Object y) throws HibernateException {
 		if (x == y) {
@@ -83,88 +65,59 @@ public class IntegerUserType<E extends Enum<E>> implements UserType, Parameteriz
 	}
 
 	/**
-	 * HashCode.
-	 * 
-	 * @param x x
-	 * @return int
-	 * @throws HibernateException exception
+	 * {@inheritDoc}
 	 */
 	public int hashCode(Object x) throws HibernateException {
 		return x.hashCode();
 	}
 
 	/**
-	 * IsMutable.
-	 * 
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public boolean isMutable() {
 		return false;
 	}
 
 	/**
-	 * NullSafeGet.
-	 * 
-	 * @param rs rs
-	 * @param names []names
-	 * @param owner owner
-	 * @return object
-	 * @throws HibernateException - exception
-	 * @throws SQLException - exception
+	 * {@inheritDoc}
 	 */
 	public Object nullSafeGet(ResultSet rs, String[] names, Object owner) throws HibernateException,
 			SQLException {
 		Integer codigo = rs.getInt(names[0]);
 		CodigoDescricao object = null;
-		object = getObjeto(codigo);
+		object = this.getObjeto(codigo);
 		return object;
 	}
 
 	/**
-	 * NullSafeSet.
-	 * 
-	 * @param st st
-	 * @param value valur
-	 * @param index index
-	 * @throws HibernateException - exception
-	 * @throws SQLException - exception
+	 * {@inheritDoc}
 	 */
 	public void nullSafeSet(PreparedStatement st, Object value, int index) throws HibernateException,
 			SQLException {
 		if (null == value) {
 			st.setNull(index, Types.INTEGER);
 		} else {
-			codigoDescricao = (CodigoDescricao) value;
-			st.setInt(index, codigoDescricao.getCodigo());
+			this.codigoDescricao = (CodigoDescricao) value;
+			st.setInt(index, this.codigoDescricao.getCodigo());
 		}
 	}
 
 	/**
-	 * Replace.
-	 * 
-	 * @param original original
-	 * @param target target
-	 * @param owner owner
-	 * @return object
-	 * @throws HibernateException - exception
+	 * {@inheritDoc}
 	 */
 	public Object replace(Object original, Object target, Object owner) throws HibernateException {
 		return original;
 	}
 
 	/**
-	 * RetunedClass.
-	 * 
-	 * @return clazz
+	 * {@inheritDoc}
 	 */
 	public Class<E> returnedClass() {
-		return clazz;
+		return this.clazz;
 	}
 
 	/**
-	 * Configura a classe.
-	 * 
-	 * @param params parâmetros
+	 * {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
 	public void setParameterValues(Properties params) {
@@ -180,9 +133,7 @@ public class IntegerUserType<E extends Enum<E>> implements UserType, Parameteriz
 	}
 
 	/**
-	 * SqlTypes.
-	 * 
-	 * @return int[]
+	 * {@inheritDoc}
 	 */
 	public int[] sqlTypes() {
 		return SQL_TYPES.clone();
@@ -195,7 +146,7 @@ public class IntegerUserType<E extends Enum<E>> implements UserType, Parameteriz
 	 * @return enum
 	 */
 	private CodigoDescricao getObjeto(Integer codigo) {
-		Class<? extends Enum<E>> enumClass = returnedClass();
+		Class<? extends Enum<E>> enumClass = this.returnedClass();
 		Enum<E>[] enums = enumClass.getEnumConstants();
 		for (Enum<E> enum1 : enums) {
 			if (((CodigoDescricao) enum1).getCodigo() == codigo) {

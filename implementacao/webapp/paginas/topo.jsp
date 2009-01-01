@@ -22,6 +22,10 @@
 				<bean:write name="usuarioSessao" property="nome"/>
 			</div>
 			(<bean:write name="usuarioSessao" property="login" />)
+			<div class="textoPequeno" style="white-space: nowrap;">
+				<bean:write name="dataLogin" /> 
+				<bean:write name="horaLogin" format="HH:mm"/>
+			</div>
 		</logic:present>
 		<logic:notPresent name="usuarioSessao">
 			<i><bean:message key="mensagem.naologado"/></i>

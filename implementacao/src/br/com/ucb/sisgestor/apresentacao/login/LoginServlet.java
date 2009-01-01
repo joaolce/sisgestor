@@ -74,9 +74,8 @@ public final class LoginServlet extends HttpServlet {
 		if (null != request.getParameter(LOGIN_ERROR)) {
 			logger.debug("Página de acesso negado.");
 			ParametrosURL param = new ParametrosURL();
-			param.setURL("dologin");
 			param.addParametro(LOGIN_ERROR, 1);
-			response.sendRedirect(param.toString());
+			response.sendRedirect(param.aggregateParams("dologin"));
 		} else {
 			String operacao = request.getParameter("opr");
 			logger.debug("Operação: " + operacao);
@@ -86,7 +85,7 @@ public final class LoginServlet extends HttpServlet {
 			} else if ("lembrarSenha".equals(operacao)) {
 				logger.debug("Página de lembrete de senha.");
 				String login = this.getEncodedParamValue(request, "login", 15);
-				//fazer operação de envio de senha
+				//TODO: fazer operação de envio de senha
 				logger.info("login: " + login);
 				this.escrevePagina(response, this.loginBundle.getSenhaPage("Senha enviada."));
 			} else {
@@ -106,7 +105,7 @@ public final class LoginServlet extends HttpServlet {
 	private void escrevePagina(HttpServletResponse response, String pagina) throws IOException {
 		response.setContentType(HTML_MIME_TYPE);
 		PrintWriter writer = response.getWriter();
-		writer.println(pagina);
+		writer.print(pagina);
 		writer.flush();
 	}
 
