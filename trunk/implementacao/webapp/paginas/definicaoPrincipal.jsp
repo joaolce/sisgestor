@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>	
 <%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
@@ -40,10 +41,22 @@
 		<bean:message key="mensagem.javascript"/>
 	</noscript>
 	<div id="principal" style="display: none;">
-		<tiles:insert attribute="corpo"/>
-		<tiles:insert attribute="rodape"/>
+		<tiles:insert attribute="corpo" />
+		<tiles:insert attribute="rodape" />
 		
+		<%-- exibir mensagens de erro geradas --%>
+		<logic:empty name="messageStatus" >
+			<c:set var="messageStatus" value="true" />
+		</logic:empty>
 		<logic:messagesPresent>
+			<span style="display: none;" id="messageStatus">
+				<bean:write name="messageStatus" />
+			</span> 
+			<span id="errorMessagesStruts" style="display: none;">
+				<html:messages id="errorMessagesStruts">
+					<i><bean:write name="errorMessagesStruts" /></i>
+				</html:messages>
+			</span>
 			<%-- remover os actionerrors da sessão para exibi-lo somente uma vez --%>
 			<c:remove var="org.apache.struts.action.ERROR" scope="session"/>
 			<c:remove var="messageStatus" />

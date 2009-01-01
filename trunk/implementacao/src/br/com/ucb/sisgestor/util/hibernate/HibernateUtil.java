@@ -105,6 +105,15 @@ public final class HibernateUtil {
 	}
 
 	/**
+	 * Recupera a {@link SessionFactory} do hibernate.
+	 * 
+	 * @return factory atual
+	 */
+	public static SessionFactory getSessionFactory() {
+		return factory;
+	}
+
+	/**
 	 * Recupera o nome da tabela da classe informada
 	 * 
 	 * @param classe classe que deseja pegar o nome da tabela

@@ -17,6 +17,7 @@ import javax.persistence.SequenceGenerator;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.NaturalId;
 
 /**
  * Classe que representa um usuário no sistema
@@ -55,6 +56,7 @@ public class Usuario extends ObjetoPersistente {
 	 * @return login do usuário
 	 */
 	@Column(name = "UUR_DS_LOGIN", nullable = false, columnDefinition = "CHAR(15)", length = 15)
+	@NaturalId
 	public String getLogin() {
 		return this.login;
 	}

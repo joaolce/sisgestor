@@ -10,7 +10,8 @@ import java.util.Iterator;
  * Wrapper de Iterator, usado para converter um {@link java.util.Iterator} sem "generics" para um iterador com
  * "generics", isto é, com o tipo do elemento).
  * 
- * @param <T> o tipo do elemento utilizado na iteração. * @author João Lúcio
+ * @param <T> o tipo do elemento utilizado na iteração.
+ * @author João Lúcio
  * @since 02/12/2008
  */
 @SuppressWarnings("unchecked")

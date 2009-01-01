@@ -8,8 +8,8 @@
 				</html:link>
 			</div>
 			<div align="center" style="float: left; width: 32%">
-				<html:link titleKey="dica.home" href="principal.do?method=entrada">
-					<html:img altKey="dica.home" srcKey="imagem.home"/>
+				<html:link titleKey="dica.paginaInicial" href="principal.do?method=entrada">
+					<html:img altKey="dica.paginaInicial" srcKey="imagem.home"/>
 				</html:link>
 			</div>
 			<div align="right" style="float: right; width: 32%">

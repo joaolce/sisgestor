@@ -26,25 +26,29 @@ public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 	private final String							TRUE					= "true";
 
 	private ConfiguracaoHibernate() {
-		if (isMySQL) {
-			setConfiguracoesMySQL();
+		if (this.isMySQL) {
+			this.setConfiguracoesMySQL();
 		} else {
-			setConfiguracoesHsqlDB();
+			this.setConfiguracoesHsqlDB();
 		}
-		if (isMostrarSQL) {
-			setProperty("hibernate.show_sql", TRUE);
+		if (this.isMostrarSQL) {
+			this.setProperty("hibernate.show_sql", this.TRUE);
 		} else {
-			setProperty("hibernate.show_sql", FALSE);
+			this.setProperty("hibernate.show_sql", this.FALSE);
 		}
-		setProperty("hibernate.connection.datasource", "java:/SisGestorDB");
-		setProperty("hibernate.connection.pool_size", "10");
-		setProperty("hibernate.connection.isolation", "1");
-		setProperty("use_identifier_rollback", TRUE);
-		setProperty("order_updates", TRUE);
-		setProperty("hibernate.bytecode.use_reflection_optimizer", FALSE);
+		this.setProperty("hibernate.connection.datasource", "java:/SisGestorDB");
+		this.setProperty("hibernate.connection.pool_size", "10");
+		this.setProperty("hibernate.connection.isolation", "1");
+		this.setProperty("use_identifier_rollback", this.TRUE);
+		this.setProperty("order_updates", this.TRUE);
+		this.setProperty("hibernate.transaction.factory_class",
+				"org.hibernate.transaction.JTATransactionFactory");
+		this.setProperty("hibernate.transaction.manager_lookup_class",
+				"org.hibernate.transaction.JBossTransactionManagerLookup");
+		this.setProperty("hibernate.bytecode.use_reflection_optimizer", this.FALSE);
 
 		for (Class<?> classe : ClassesAnotadas.getClassesAnotadas()) {
-			addAnnotatedClass(classe);
+			this.addAnnotatedClass(classe);
 		}
 	}
 
@@ -64,13 +68,13 @@ public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 	 * Cria Banco de dados
 	 */
 	public void recriarBancoDeDados() {
-		if (criarBancoDeDados) {
+		if (this.criarBancoDeDados) {
 			SchemaExport schemaExport = new SchemaExport(this);
-			if (isGerarScript) {
+			if (this.isGerarScript) {
 				schemaExport.setOutputFile(".\\scriptDB.txt");
 			}
-			schemaExport.drop(isGerarScript, true);
-			schemaExport.create(isGerarScript, true);
+			schemaExport.drop(this.isGerarScript, true);
+			schemaExport.create(this.isGerarScript, true);
 		}
 	}
 
@@ -78,15 +82,15 @@ public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 	 * Faz as configurações do HsqlDB
 	 */
 	private void setConfiguracoesHsqlDB() {
-		setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-		setProperty("hibernate.connection.driver_class", "org.hsqldb.jdbcDriver");
+		this.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
+		this.setProperty("hibernate.connection.driver_class", "org.hsqldb.jdbcDriver");
 	}
 
 	/**
 	 * Faz as configurações para o MySQL
 	 */
 	private void setConfiguracoesMySQL() {
-		setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-		setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
+		this.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+		this.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
 	}
 }

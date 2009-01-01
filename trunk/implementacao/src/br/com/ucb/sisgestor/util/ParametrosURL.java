@@ -4,8 +4,7 @@
  */
 package br.com.ucb.sisgestor.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import org.apache.taglibs.standard.tag.common.core.ParamSupport;
 
 /**
  * Classe para adicionar parâmetros a uma url especificada, os parâmetros irão através da url.
@@ -15,19 +14,13 @@ import java.net.URLEncoder;
  */
 public final class ParametrosURL {
 
-	private static String	encoding;
-	private String				parametros;
-	private String				url;
-
-	static { //recuperando o encoding padrão do sistema
-		encoding = System.getProperty("file.encoding", "ISO-8859-1");
-	}
+	private ParamSupport.ParamManager	parametros;
 
 	/**
-	 * Cria uma nova instância do tipo ParametrosURL
+	 * Cria uma nova instância do tipo {@link ParametrosURL}
 	 */
 	public ParametrosURL() {
-		this.parametros = "";
+		this.parametros = new ParamSupport.ParamManager();
 	}
 
 	/**
@@ -36,38 +29,21 @@ public final class ParametrosURL {
 	 * @param nome nome do parâmetro
 	 * @param valor valor do parâmetro
 	 */
-	public synchronized void addParametro(String nome, Object valor) {
-		try {
-			if (valor == null) {
-				this.parametros += URLEncoder.encode(nome, encoding) + "=";
-			} else {
-				this.parametros +=
-						URLEncoder.encode(nome, encoding) + "=" + URLEncoder.encode(valor.toString(), encoding);
-			}
-		} catch (UnsupportedEncodingException e) {}
-	}
-
-	/**
-	 * Armazena a url que será usada
-	 * 
-	 * @param url o valor a ajustar em url
-	 */
-	public void setURL(String url) {
-		this.url = url;
-	}
-
-	/**
-	 * Sobrescrito método para escrever a {@link String} da url completa
-	 */
-	@Override
-	public String toString() {
-		int idx = this.url.indexOf('?');
-		if (idx == -1) {
-			return this.url + "?" + this.parametros;
+	public void addParametro(String nome, Object valor) {
+		if (valor == null) {
+			this.parametros.addParameter(nome, "");
 		} else {
-			StringBuffer sb = new StringBuffer(this.url);
-			sb.insert(idx + 1, this.parametros + "&");
-			return sb.toString();
+			this.parametros.addParameter(nome, valor.toString());
 		}
+	}
+
+	/**
+	 * Agrega os parâmetros adicionados a url passada, deverá ser chamado sempre por último
+	 * 
+	 * @param url url original
+	 * @return url formada com os parâmetros
+	 */
+	public String aggregateParams(String url) {
+		return this.parametros.aggregateParams(url);
 	}
 }

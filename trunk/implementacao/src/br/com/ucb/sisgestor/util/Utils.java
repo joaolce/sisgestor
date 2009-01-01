@@ -30,7 +30,17 @@ import org.directwebremoting.util.LocalUtil;
  */
 public final class Utils {
 
-	private static Log	log	= LogFactory.getLog(Utils.class);
+	private static Log	logger;
+
+	static {
+		logger = LogFactory.getLog(Utils.class);
+	}
+
+	/**
+	 * Construtor privado (classe utilitária).
+	 */
+	private Utils() {
+	}
 
 	/**
 	 * Completa com zeros a esquerda o número informado
@@ -50,24 +60,27 @@ public final class Utils {
 	}
 
 	/**
-	 * copia as propriedades de um objeto para outro, bastando que as propriedades tenham o mesmo nome e o
+	 * Copia as propriedades de um objeto para outro, bastando que as propriedades tenham o mesmo nome e o
 	 * mesmo tipo seguindo essas restrições:
-	 * 
+	 * <p>
 	 * - <b>(java.util.Date) origem.dataExemplo -> (java.lang.String) destino.dataExemplo</b> a data origem
 	 * será formatada para String no formato dd/MM/yyyy ou dd/MM/yyyy HH:mm e atribuída na propriedade destino
-	 * 
+	 * </p>
+	 * <p>
 	 * - <b>(java.lang.String) origem.dataExemplo -> (java.util.Date) destino.dataExemplo</b> haverá uma
 	 * tentativa de parse na data origem para java.util.Date, se suceder o valor será configurado na
 	 * propriedade destino, caso contrário será configurado null
-	 * 
+	 * </p>
+	 * <p>
 	 * - <b>(java.lang.Integer) origem.objetoPersistente -> (ObjetoPersistente) destino.objetoPersistente</b> o
 	 * valor da propriedade origem será configurado na propriedade <b>id</b> do objeto destino
-	 * 
+	 * </p>
+	 * <p>
 	 * - <b>(ObjetoPersistente) origem.objetoPersistente -> (java.lang.Integer) destino.objetoPersistente</b>
 	 * será extraído o valor da propriedade <b>id</b> do objeto origem e configurado no objeto destino
+	 * </p>
 	 * 
-	 * @see PropertyUtils
-	 * @see PropertyUtils.copyProperties
+	 * @see PropertyUtils#copyProperties
 	 * 
 	 * @param destino objeto de destino
 	 * @param origem objeto origem
@@ -204,7 +217,7 @@ public final class Utils {
 				}
 			}
 		} catch (Exception e) {
-			log.error("Provavelmente alguma propriedade do form lançando exceção... nada grave", e);
+			logger.error("Provavelmente alguma propriedade do form lançando exceção... nada grave", e);
 		}
 	}
 
@@ -246,7 +259,7 @@ public final class Utils {
 					try {
 						PropertyUtils.setProperty(objeto, descritore.getName(), null);
 					} catch (Exception e) {
-						log.warn("Anh?!", e);
+						logger.warn("Anh?!", e);
 					}
 				}
 			}
@@ -255,7 +268,7 @@ public final class Utils {
 					try {
 						PropertyUtils.setProperty(objeto, descritore.getName(), null);
 					} catch (Exception e) {
-						log.warn("Anh?!", e);
+						logger.warn("Anh?!", e);
 					}
 				}
 			}
@@ -264,7 +277,7 @@ public final class Utils {
 					try {
 						PropertyUtils.setProperty(objeto, descritore.getName(), null);
 					} catch (Exception e) {
-						log.warn("Anh?!", e);
+						logger.warn("Anh?!", e);
 					}
 				}
 			}
@@ -275,12 +288,12 @@ public final class Utils {
 	 * Pegar uma mensagem do properties pelo key
 	 * 
 	 * @param key chave no arquivo properties
-	 * @param valueReplacement valor a subtituir
+	 * @param args argumentos da mensagem a subtituir
 	 * @return String com a mensagem
 	 */
-	public static String getMessageFromProperties(String key, String... valueReplacement) {
+	public static String getMessageFromProperties(String key, String... args) {
 		MessageResources resources = MessageResources.getMessageResources("sisgestor");
-		return resources.getMessage(key, valueReplacement);
+		return resources.getMessage(key, args);
 	}
 
 	/**
@@ -544,7 +557,7 @@ public final class Utils {
 				}
 			}
 		} catch (Exception e) {
-			log.warn(e.getMessage(), e);
+			logger.warn(e.getMessage(), e);
 		}
 	}
 }

@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.apresentacao.login;
 
+import javax.security.auth.login.LoginException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +44,7 @@ public class LoginHelper {
 		auth.login(username, password);
 		logger.debug("request.getUserPrincipal() = " + request.getUserPrincipal());
 		if (request.getUserPrincipal() == null) {
-			throw new LoginException("Login inválido", 1);
+			throw new LoginException("Login inválido");
 		}
 	}
 

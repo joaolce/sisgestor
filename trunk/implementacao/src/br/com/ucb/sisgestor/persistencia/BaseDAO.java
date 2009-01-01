@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Interface que representa um DAO (Data Access Object)
+ * Interface que representa um DAO (Data Access Object).
  * 
  * @param <T> objeto persistente utilizado no DAO
  * @param <PK> chave primária do objeto persistente utilizado
@@ -20,21 +20,21 @@ import java.util.List;
 public interface BaseDAO<T extends ObjetoPersistente, PK extends Serializable> {
 
 	/**
-	 * Atualiza um objeto na base de dados
+	 * Atualiza um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a atualizar
 	 */
 	public void atualizar(T obj);
 
 	/**
-	 * Apaga um objeto na base de dados
+	 * Apaga um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a apagar
 	 */
 	public void excluir(T obj);
 
 	/**
-	 * Recupera um objeto a partir da sua chave primária
+	 * Recupera um objeto a partir da sua chave primária.
 	 * 
 	 * @param pk chave primária do objeto persistente
 	 * 
@@ -43,14 +43,14 @@ public interface BaseDAO<T extends ObjetoPersistente, PK extends Serializable> {
 	public T obter(PK pk);
 
 	/**
-	 * Recupera todos os objetos
+	 * Recupera todos os objetos.
 	 * 
 	 * @return um {@link List} de objeto
 	 */
 	public List<T> obterTodos();
 
 	/**
-	 * Salva um objeto na base de dados
+	 * Salva um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a salvar
 	 */

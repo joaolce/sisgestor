@@ -3,4 +3,6 @@
 	"-//SisGestor//DTD Validator//pt-Br" 
 	"validator.dtd">
 
-	
+<validate-mapping>
+		<validacao action="" validator="" />
+</validate-mapping>
