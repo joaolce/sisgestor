@@ -1,0 +1,19 @@
+libs do jboss que foram atualizadas para o projeto, ou libs que foram adicionadas ao jboss:
+
+hibernate3.jar (3.3.1.GA)
+hibernate-annotations.jar (3.4.0.GA)
+hibernate-commons-annotations-3.1.0.GA.jar
+jcl-over-slf4j-1.5.6.jar
+mysql.jar
+slf4j-api-1.5.6.jar
+slf4j-simple-1.5.6.jar
+
+arquivos do /conf:
+login-config.xml
+sisgestor.keystore
+
+arquivos de /deploy:
+sisgestor-ds.xml
+
+arquivos de /deploy/jboss-web.deployer:
+server.xml

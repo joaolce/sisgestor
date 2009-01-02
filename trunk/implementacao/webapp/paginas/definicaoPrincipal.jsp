@@ -13,6 +13,7 @@
 	<title><tiles:getAsString name="titulo"/></title>
 
 	<link href="css/estilos.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="imagens/blank.gif" rel="shortcut icon" />
 			
 	<script type="text/javascript" src="js/libs/prototype.js"></script>
 	<script type="text/javascript" src="js/libs/scriptaculous.js"></script>

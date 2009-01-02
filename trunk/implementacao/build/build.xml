@@ -60,7 +60,7 @@
 		<delete dir="${dir.classesAnt}" failonerror="false" />
 	</target>
 	
-	<target name="cleanFiles">
+	<target name="cleanFiles" description="Apaga os arquivos gerados pelo build">
 		<delete file="${file.war}" failonerror="false" />
 		<delete file="${file.jar}" failonerror="false" />
 		<delete file="${file.ear}" failonerror="false" />
@@ -105,8 +105,8 @@
 			<zipfileset dir="${dir.src}" prefix="WEB-INF/classes">
 				<include name="**.properties" />
 				<include name="br/com/ucb/sisgestor/apresentacao/login/resources/**.html" />
-				<include name="br/com/ucb/sisgestor/apresentacao/validator/utils/**.xml" />
 				<include name="br/com/ucb/sisgestor/apresentacao/validator/utils/**.dtd" />
+				<include name="br/com/ucb/sisgestor/apresentacao/validator/utils/**.xml" />
 			</zipfileset>
 			<classes dir="${dir.classesAnt}">
 				<include name="br/com/ucb/sisgestor/apresentacao/**" />
@@ -136,7 +136,7 @@
 	
 	<target name="geraEAR" depends="geraWAR,geraJAR" description="gera arquivo da aplicação (.ear)">
 		<echo message="gerando o .EAR" />
-		<ear destfile="${dir.export}/${app.name}.ear"
+		<ear destfile="${file.ear}"
 			appxml="${dir.export}/ear/META-INF/application.xml">
 			
 			<fileset file="${file.war}" />
