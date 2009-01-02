@@ -4,7 +4,6 @@
  */
 package br.com.ucb.sisgestor.apresentacao.login;
 
-import br.com.ucb.sisgestor.util.ParametrosURL;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -27,6 +26,7 @@ public final class LoginServlet extends HttpServlet {
 	private static Log				logger;
 	private static final String	CHARSET			= "ISO-8859-1";
 	private static final String	HTML_MIME_TYPE	= "text/html";
+	private static final String	ERROR				= "error";
 	private static final String	LOGIN_ERROR		= "loginerror";
 	private static final String	LOGOUT			= "logout";
 
@@ -52,13 +52,20 @@ public final class LoginServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
-		if (null != request.getParameter(LOGIN_ERROR)) {
-			logger.debug("Página de acesso negado.");
-			this.escrevePagina(response, this.loginBundle.getLoginPage("Login e/ou senha inválida."));
-		} else if (null != request.getParameter(LOGOUT)) {
+		String param;
+		if (null != request.getParameter(LOGOUT)) {
 			logger.debug("Efetuando logout.");
 			this.loginHelper.doLogout(request, response);
 			response.sendRedirect(".");
+		} else if (null != (param = request.getParameter(ERROR))) {
+			logger.debug("Página de acesso negado.");
+			int erro = param.equals("") ? 0 : Integer.parseInt(param);
+			if ((erro == HttpServletResponse.SC_METHOD_NOT_ALLOWED)
+					|| (erro == HttpServletResponse.SC_FORBIDDEN)) {
+				this.escrevePagina(response, this.loginBundle.getAcessoPage("Acesso não autorizado."));
+			} else {
+				this.escrevePagina(response, this.loginBundle.getAcessoPage("Erro não reconhecido."));
+			}
 		} else {
 			logger.debug("Página de login.");
 			this.escrevePagina(response, this.loginBundle.getLoginPage(""));
@@ -72,10 +79,8 @@ public final class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
 		if (null != request.getParameter(LOGIN_ERROR)) {
-			logger.debug("Página de acesso negado.");
-			ParametrosURL param = new ParametrosURL();
-			param.addParametro(LOGIN_ERROR, 1);
-			response.sendRedirect(param.aggregateParams("dologin"));
+			logger.debug("Página de login negado.");
+			this.escrevePagina(response, this.loginBundle.getLoginPage("Login e/ou senha inválida."));
 		} else {
 			String operacao = request.getParameter("opr");
 			logger.debug("Operação: " + operacao);
@@ -83,7 +88,7 @@ public final class LoginServlet extends HttpServlet {
 				logger.debug("Página de lembrete de senha.");
 				this.escrevePagina(response, this.loginBundle.getSenhaPage(""));
 			} else if ("lembrarSenha".equals(operacao)) {
-				logger.debug("Página de lembrete de senha.");
+				logger.debug("Página de lembrete de senha, enviando a senha.");
 				String login = this.getEncodedParamValue(request, "login", 15);
 				//TODO: fazer operação de envio de senha
 				logger.info("login: " + login);

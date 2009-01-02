@@ -16,7 +16,7 @@
 
 	<global-forwards>
 		<forward name="erro" path="erro" />
-		<forward name="acessoNegado" path="/principal.do?method=erro" />
+		<forward name="acessoNegado" path="/dologin?erro=403" />
 		<forward name="erroValidacao" path="erroValidacao"/>
 	</global-forwards>
 
