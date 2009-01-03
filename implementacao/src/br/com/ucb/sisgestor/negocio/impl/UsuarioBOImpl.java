@@ -43,7 +43,7 @@ public class UsuarioBOImpl extends BaseBOImpl implements UsuarioBO {
 	public Usuario recuperarPorLogin(String login) throws NegocioException {
 		Usuario usuario = this.dao.recuperarPorLogin(login);
 		if (usuario == null) {
-			throw new NegocioException();
+			throw new NegocioException("erro.usuarioNaoEncontrado");
 		} else {
 			return usuario;
 		}

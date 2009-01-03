@@ -762,7 +762,7 @@ public class BaseAction extends DispatchAction {
 	 * @return o validate em si.
 	 */
 	private BaseValidator chamaMetodoValidacao() throws Exception {
-		//se encontrar uma classe validate mapeada segue em frente, se não, retorna
+		//se encontrar uma classe validate mapeada segue em frente, se não, retorna null
 		BaseValidator validatorInstance = ValidatorReader.getValidator(this.getMapping().getType());
 
 		if (validatorInstance == null) {
