@@ -4,7 +4,7 @@
  */
 package br.com.ucb.sisgestor.apresentacao.actions;
 
-import br.com.ucb.sisgestor.util.constantes.ConstantesAplicacao;
+import br.com.ucb.sisgestor.util.constantes.DadosContexto;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -20,18 +20,6 @@ import org.apache.struts.action.ActionMapping;
 public class PrincipalAction extends BaseAction {
 
 	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ActionForward entrada(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		ConstantesAplicacao.setConstantes(request);
-		this.populaParametrosAction(mapping, form, request, response);
-		this.doUsuario(false);
-		return mapping.findForward(FWD_ENTRADA);
-	}
-
-	/**
 	 * Quando ocorrer qualquer erro inesperado na aplicação esse método será invocado para exibição de uma
 	 * página de erro amigável com alguns detalhes do erro pra facilitar a depuração
 	 * 
@@ -44,18 +32,29 @@ public class PrincipalAction extends BaseAction {
 	 */
 	public ActionForward erro(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		request.setAttribute("errorContainer", Boolean.TRUE);
+		request.setAttribute(DadosContexto.ERRO_CONTAINER, Boolean.TRUE);
 		return mapping.findForward("erro");
 	}
 
 	/**
-	 * Quando ocorrer algum erro deve cair aqui.
+	 * Sobrescrita do método execute. Apenas para verificar se o método chamado é o padrão de entrada, caso não
+	 * seja não será feito os procedimentos genéricos.
+	 * 
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return {@link ActionForward}
+	 * @throws Exception
 	 */
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String method = request.getParameter(mapping.getParameter());
-		ConstantesAplicacao.setConstantes(request);
-		return this.dispatchMethod(mapping, form, request, response, method);
+		if (method.equals(FWD_ENTRADA)) {
+			return super.execute(mapping, form, request, response);
+		} else {
+			return this.dispatchMethod(mapping, form, request, response, method);
+		}
 	}
 }

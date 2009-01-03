@@ -8,7 +8,7 @@
 	<span class="titulo3"><bean:message key="label.falhaAplicacao"/></span>
 	<br />
 	<logic:notPresent name="errorContainer">
-		<html:errors/>
+		<html:errors />
 	</logic:notPresent>
 	<logic:present name="errorContainer">
 		<bean:message key="label.exceptionDefault"/>
