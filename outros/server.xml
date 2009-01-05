@@ -22,7 +22,7 @@
     <Connector port="8080" address="${jboss.bind.address}"    
          maxThreads="250" maxHttpHeaderSize="8192"
          emptySessionPath="true" protocol="HTTP/1.1"
-         enableLookups="false" redirectPort="443" acceptCount="100"
+         enableLookups="false" redirectPort="8443" acceptCount="100"
          connectionTimeout="20000" disableUploadTimeout="true" />
 
     <!-- Define a SSL HTTP/1.1 Connector on port 8443
@@ -35,7 +35,7 @@
                clientAuth="false" sslProtocol="TLS" />
     -->
 
-	<Connector port="443" address="${jboss.bind.address}"
+	<Connector port="8443" address="${jboss.bind.address}"
 	maxThreads="250" strategy="ms" maxHttpHeaderSize="8192"
 	emptySessionPath="true" protocol="HTTP/1.1"
 	scheme="https" secure="true" clientAuth="false"
