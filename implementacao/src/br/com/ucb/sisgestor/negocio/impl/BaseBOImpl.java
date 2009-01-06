@@ -7,16 +7,21 @@ package br.com.ucb.sisgestor.negocio.impl;
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.negocio.BaseBO;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
+import java.io.Serializable;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 
 /**
  * Implementação da interface que representa um objeto de negócio (Business Object).
  * 
+ * @param <T> objeto persistente utilizado no DAO
+ * @param <PK> chave primária do objeto persistente utilizado
+ * 
  * @author João Lúcio
  * @since 16/10/2008
  */
-public class BaseBOImpl implements BaseBO {
+public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Serializable> implements
+		BaseBO<T, PK> {
 
 	/**
 	 * Inicia a transação da sessão para a thread em execução.

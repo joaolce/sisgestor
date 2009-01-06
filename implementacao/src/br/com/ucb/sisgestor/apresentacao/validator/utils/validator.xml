@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE validate-mapping PUBLIC 
-	"-//SisGestor//DTD Validator//pt-Br" 
-	"validator.dtd">
+<!DOCTYPE validate-mapping [
+<!ELEMENT validator-mapping (validacao+)>
+<!ELEMENT validacao EMPTY>
+<!ATTLIST validacao
+    action CDATA #REQUIRED
+    validator CDATA #REQUIRED
+>
+]>
 
 <validate-mapping>
 		<validacao action="" validator="" />

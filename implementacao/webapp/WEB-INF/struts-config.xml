@@ -5,6 +5,8 @@
 
 <struts-config>
 	<form-beans>
+		<form-bean name="manterDepartamentoForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterDepartamentoActionForm" />
+		<form-bean name="manterUsuarioForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterUsuarioActionForm" />
 	</form-beans>
 
 	<global-exceptions>
@@ -21,9 +23,29 @@
 	</global-forwards>
 
 	<action-mappings>
-		<!-- PRINCIPAL -->
+		<!-- Principal -->
 		<action path="/principal" 
 			type="br.com.ucb.sisgestor.apresentacao.actions.PrincipalAction"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoPrincipal" />
+		</action>
+		
+		<!-- Manter Departamento -->
+		<action path="/manterDepartamento" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction"
+			name="manterDepartamentoForm"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoPrincipal" />
+		</action>
+		
+		<!-- Manter Usuário -->
+		<action path="/manterUsuario" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction"
+			name="manterUsuarioForm"
 			validate="false" 
 			scope="request"
 			parameter="method">

@@ -62,9 +62,9 @@ public final class LoginServlet extends HttpServlet {
 			int erro = param.equals("") ? 0 : Integer.parseInt(param);
 			if ((erro == HttpServletResponse.SC_METHOD_NOT_ALLOWED)
 					|| (erro == HttpServletResponse.SC_FORBIDDEN)) {
-				this.escrevePagina(response, this.loginBundle.getAcessoPage("Acesso não autorizado."));
+				this.escrevePagina(response, this.loginBundle.getErroPage("Acesso não autorizado."));
 			} else {
-				this.escrevePagina(response, this.loginBundle.getAcessoPage("Erro não reconhecido."));
+				this.escrevePagina(response, this.loginBundle.getErroPage("Erro não reconhecido."));
 			}
 		} else {
 			logger.debug("Página de login.");

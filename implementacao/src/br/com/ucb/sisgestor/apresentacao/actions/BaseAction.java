@@ -70,13 +70,13 @@ public class BaseAction extends DispatchAction {
 	 * tela.
 	 * 
 	 * @param mapping
-	 * @param form
+	 * @param actionForm
 	 * @param request
 	 * @param response
 	 * @return {@link ActionForward}
 	 * @throws Exception
 	 */
-	public ActionForward entrada(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+	public ActionForward entrada(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		return this.findForward(FWD_ENTRADA);
 	}
@@ -86,18 +86,18 @@ public class BaseAction extends DispatchAction {
 	 * actions possam utilizar alguns métodos utilitários que existem aqui.
 	 * 
 	 * @param mapping
-	 * @param form
+	 * @param actionForm
 	 * @param request
 	 * @param response
 	 * @return {@link ActionForward}
 	 * @throws Exception
 	 */
 	@Override
-	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+	public ActionForward execute(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
 		//popula as variaveis de instância
-		this.populaParametrosAction(mapping, form, request, response);
+		this.populaParametrosAction(mapping, actionForm, request, response);
 		ConstantesAplicacao.setConstantes(request);
 		//verificar se a requisição post possui um referer, questões de segurança 
 		this.segurancaPost();
@@ -109,7 +109,7 @@ public class BaseAction extends DispatchAction {
 		if (this.isAJAXRequest()) {
 			logger.debug("requisição ajax em processo");
 			if ("get".equalsIgnoreCase(request.getMethod())) {
-				Utils.decodeAjaxForm(form);
+				Utils.decodeAjaxForm(actionForm);
 			}
 			Utils.doNoCachePagina(request, response);
 			/*
@@ -122,7 +122,7 @@ public class BaseAction extends DispatchAction {
 		String nomeMetodo = request.getParameter(mapping.getParameter());
 		if (nomeMetodo == null) {
 			//se o parâmetro estiver nulo, a dispatch action vai lancar o erro
-			return super.execute(mapping, form, request, response);
+			return super.execute(mapping, actionForm, request, response);
 		}
 		try {
 			this.doUsuario(false);
@@ -162,7 +162,7 @@ public class BaseAction extends DispatchAction {
 		//FIM VALIDAÇÃO
 
 		try {
-			return super.execute(mapping, form, request, response);
+			return super.execute(mapping, actionForm, request, response);
 		} catch (NegocioException e) {
 			if (e.getArgs() != null) {
 				this.addMessageKey(e.getMessage(), e.getArgs());
