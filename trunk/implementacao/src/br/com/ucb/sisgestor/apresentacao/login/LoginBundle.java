@@ -18,11 +18,11 @@ import org.apache.commons.logging.LogFactory;
 public final class LoginBundle {
 
 	private static Log				logger;
-	private static final String	LOCAL_RESOURCE		= "resources/";
-	private static final String	ACESSO_RESOURCE	= "acesso_page.html";
-	private static final String	LOGIN_RESOURCE		= "login_page.html";
-	private static final String	SENHA_RESOURCE		= "senha_page.html";
-	private static StringBuilder	acessoPage;
+	private static final String	LOCAL_RESOURCE	= "resources/";
+	private static final String	ERRO_RESOURCE	= "erro_page.html";
+	private static final String	LOGIN_RESOURCE	= "login_page.html";
+	private static final String	SENHA_RESOURCE	= "senha_page.html";
+	private static StringBuilder	erroPage;
 	private static StringBuilder	loginPage;
 	private static StringBuilder	senhaPage;
 
@@ -34,19 +34,19 @@ public final class LoginBundle {
 	 * Cria uma nova instância do tipo {@link LoginBundle}
 	 */
 	public LoginBundle() {
-		this.loadAcessoPage();
+		this.loadErroPage();
 		this.loadLoginPage();
 		this.loadSenhaPage();
 	}
 
 	/**
-	 * Recupera a página de acesso negado.
+	 * Recupera a página de erro.
 	 * 
 	 * @param mensagem mensagem a ser colocada no html
 	 * @return html da página de acesso negado
 	 */
-	public String getAcessoPage(String mensagem) {
-		return this.replaceText(acessoPage, mensagem).toString();
+	public String getErroPage(String mensagem) {
+		return this.replaceText(erroPage, mensagem).toString();
 	}
 
 	/**
@@ -70,10 +70,10 @@ public final class LoginBundle {
 	}
 
 	/**
-	 * Carrega a página de acesso negado.
+	 * Carrega a página de erro.
 	 */
-	private void loadAcessoPage() {
-		acessoPage = this.loadResourceFile(LOCAL_RESOURCE + ACESSO_RESOURCE);
+	private void loadErroPage() {
+		erroPage = this.loadResourceFile(LOCAL_RESOURCE + ERRO_RESOURCE);
 	}
 
 	/**

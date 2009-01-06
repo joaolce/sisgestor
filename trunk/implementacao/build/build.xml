@@ -105,7 +105,6 @@
 			<zipfileset dir="${dir.src}" prefix="WEB-INF/classes">
 				<include name="**.properties" />
 				<include name="br/com/ucb/sisgestor/apresentacao/login/resources/**.html" />
-				<include name="br/com/ucb/sisgestor/apresentacao/validator/utils/**.dtd" />
 				<include name="br/com/ucb/sisgestor/apresentacao/validator/utils/**.xml" />
 			</zipfileset>
 			<classes dir="${dir.classesAnt}">
@@ -126,6 +125,7 @@
 			<zipfileset dir="${dir.src}">
 				<exclude name="br/com/ucb/sisgestor/apresentacao/**" />
 				<include name="**.properties" />
+				<include name="br/com/ucb/sisgestor/mail/**.properties" />
 			</zipfileset>
 			
 			<zipfileset dir="${dir.classesAnt}">

@@ -9,6 +9,7 @@ import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsuarioDAO;
 import br.com.ucb.sisgestor.persistencia.impl.UsuarioDAOImpl;
+import java.util.List;
 
 /**
  * Objeto de negócio para {@link Usuario}.
@@ -16,7 +17,7 @@ import br.com.ucb.sisgestor.persistencia.impl.UsuarioDAOImpl;
  * @author João Lúcio
  * @since 28/12/2008
  */
-public class UsuarioBOImpl extends BaseBOImpl implements UsuarioBO {
+public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements UsuarioBO {
 
 	private static final UsuarioBO	instancia	= new UsuarioBOImpl();
 	private UsuarioDAO					dao;
@@ -40,6 +41,34 @@ public class UsuarioBOImpl extends BaseBOImpl implements UsuarioBO {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void atualizar(Usuario obj) {
+		// TODO: implementar regras de negócio
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void excluir(Usuario obj) {
+		// TODO: implementar regras de negócio
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Usuario obter(Integer pk) {
+		return this.dao.obter(pk);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<Usuario> obterTodos() {
+		return this.dao.obterTodos();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public Usuario recuperarPorLogin(String login) throws NegocioException {
 		Usuario usuario = this.dao.recuperarPorLogin(login);
 		if (usuario == null) {
@@ -47,5 +76,12 @@ public class UsuarioBOImpl extends BaseBOImpl implements UsuarioBO {
 		} else {
 			return usuario;
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void salvar(Usuario obj) {
+		// TODO: implementar regras de negócio
 	}
 }

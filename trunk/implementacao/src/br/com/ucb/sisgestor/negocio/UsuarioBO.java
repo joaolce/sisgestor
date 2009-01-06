@@ -13,7 +13,7 @@ import br.com.ucb.sisgestor.negocio.exception.NegocioException;
  * @author João Lúcio
  * @since 27/10/2008
  */
-public interface UsuarioBO extends BaseBO {
+public interface UsuarioBO extends BaseBO<Usuario, Integer> {
 
 	/**
 	 * Recupera um usuário a partir do seu login.

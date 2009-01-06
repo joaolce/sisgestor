@@ -5,7 +5,9 @@
 package br.com.ucb.sisgestor.apresentacao.forms;
 
 import br.com.ucb.sisgestor.util.Utils;
-import org.apache.struts.validator.ValidatorForm;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionMapping;
 
 /**
  * Base para os forms do struts.
@@ -13,7 +15,15 @@ import org.apache.struts.validator.ValidatorForm;
  * @author João Lúcio
  * @since 29/12/2008
  */
-public class BaseForm extends ValidatorForm {
+public class BaseForm extends ActionForm {
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void reset(ActionMapping actionmapping, HttpServletRequest httpservletrequest) {
+		Utils.resetProperties(this);
+	}
 
 	/**
 	 * Busca uma mensagem no arquivo de propriedades

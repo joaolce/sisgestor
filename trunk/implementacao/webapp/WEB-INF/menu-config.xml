@@ -1,23 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE menu-config [
+<!ELEMENT MenuConfig (Displayers, Menus+)>
+<!ELEMENT Displayers (Displayer+)>
+<!ELEMENT Menus (Menu+)>
+<!ELEMENT Displayer EMPTY>
+<!ATTLIST Displayer
+    name CDATA #REQUIRED
+    type CDATA #REQUIRED
+>
+<!ELEMENT Menu (Item*)>
+<!ATTLIST Menu
+    name CDATA #REQUIRED
+    title CDATA #REQUIRED
+    description CDATA #IMPLIED
+    page CDATA #REQUIRED
+    width CDATA #IMPLIED
+    image CDATA #IMPLIED
+>
+<!ELEMENT Item EMPTY>
+<!ATTLIST Item
+    name CDATA #REQUIRED
+    title CDATA #REQUIRED
+    description CDATA #IMPLIED
+    page CDATA #REQUIRED
+    width CDATA #IMPLIED
+    image CDATA #IMPLIED
+>
+]>
 <MenuConfig>
-	<!--Menu modelo Coolmenu usado como padrão -->
+	<!-- Menu modelo Coolmenu usado como padrão -->
 	<Displayers>
 		<Displayer name="MenuSistema" type="net.sf.navigator.displayer.CoolMenuDisplayer4" />
 	</Displayers>
 	
 	<Menus>
-		<Menu name="MenuUsuario"          title="menu.usuario"      witdh="160" page=""/>
-		<Menu name="MenuDepartamento"     title="menu.departamento" witdh="180" page=""/>
-		<Menu name="MenuWorkflow"         title="menu.workflow"     witdh="180" page="">
-			<Item name="MenuWorkflowNovo" title="menu.workflow.novo" width="110" page=""/>
-			<Item name="MenuWorkflowIniciar" title="menu.workflow.iniciar" width="110" page=""/>
-			<Item name="MenuWorkflowVisualizar" title="menu.workflow.visualizar" width="110" page=""/>
+		<Menu name="MenuDepartamento" title="menu.departamento" description="dica.departamento" page="/manterDepartamento.do?method=entrada" width="130" image="imagens/departamentos.png" />
+		<Menu name="MenuUsuario" title="menu.usuario" description="dica.usuario" page="/manterUsuario.do?method=entrada" image="imagens/usuarios.png" />
+		<Menu name="MenuSair" title="menu.sair" description="dica.sair" page="/dologin?logout=true" image="imagens/sair.png" />
+		<Menu name="MenuWorkflow" title="menu.workflow" page="#">
+			<Item name="MenuWorkflowNovo" title="menu.workflow.novo" width="110" page="#"/>
+			<Item name="MenuWorkflowIniciar" title="menu.workflow.iniciar" width="110" page="#"/>
+			<Item name="MenuWorkflowVisualizar" title="menu.workflow.visualizar" width="110" page="#"/>
 		</Menu>
-		<Menu name="MenuExtrairRelatorio" title="menu.relatorio"    witdh="200">
+		<Menu name="MenuExtrairRelatorio" title="menu.relatorio" page="#">
 			<Item name="MenuExtrairRelatorioConcluidos" title="menu.concluido" width="150" page="/relatorio.do?method=concluido" />
 			<Item name="MenuExtrairRelatorioAndamento"  title="menu.andamento" width="150" page="/relatorio.do?method=andamento" />
 			<Item name="MenuExtrairRelatorioTempoMedio" title="menu.tempo"     width="150" page="/relatorio.do?method=tempo" />
 		</Menu>
-		<Menu name="MenuSair" title="menu.sair" description="dica.sair" page="/dologin?logout=true" width="100" image="imagens/sair.png"/>
+		<Menu name="MenuSair" title="menu.sair" description="dica.sair" page="/dologin?logout=true" image="imagens/sair.png"/>
 	</Menus>
+	
 </MenuConfig>

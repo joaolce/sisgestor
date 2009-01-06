@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE validate-mapping PUBLIC 
-	"-//SisGestor//DTD Role Validator//pt-Br" 
-	"roleValidator.dtd">
+<!DOCTYPE validate-mapping [
+<!ELEMENT validator-mapping (validacao+)>
+<!ELEMENT validacao EMPTY>
+<!ATTLIST validacao
+    actionMethod CDATA #REQUIRED
+    roles CDATA #REQUIRED
+>
+]>
 <!--  
 	Todas as validações de transação que se aplicarem somente para um ou outro método de 
 	action deverão ser registradas aqui ao invés de estarem no web.xml .

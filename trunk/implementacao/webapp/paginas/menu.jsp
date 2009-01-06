@@ -10,8 +10,8 @@
 <div style="clear: left; width: 50%;">
 	<logic:present name="usuarioSessao">
 		<menu:useMenuDisplayer name="MenuSistema">
-			<menu:displayMenu name="MenuUsuario"/>
 			<menu:displayMenu name="MenuDepartamento"/>
+			<menu:displayMenu name="MenuUsuario"/>
 			<menu:displayMenu name="MenuWorkflow"/>
 			<menu:displayMenu name="MenuExtrairRelatorio"/>
 			<menu:displayMenu name="MenuSair" />
