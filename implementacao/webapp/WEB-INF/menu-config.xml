@@ -36,7 +36,6 @@
 	<Menus>
 		<Menu name="MenuDepartamento" title="menu.departamento" description="dica.departamento" page="/manterDepartamento.do?method=entrada" width="130" image="imagens/departamentos.png" />
 		<Menu name="MenuUsuario" title="menu.usuario" description="dica.usuario" page="/manterUsuario.do?method=entrada" image="imagens/usuarios.png" />
-		<Menu name="MenuSair" title="menu.sair" description="dica.sair" page="/dologin?logout=true" image="imagens/sair.png" />
 		<Menu name="MenuWorkflow" title="menu.workflow" page="#">
 			<Item name="MenuWorkflowNovo" title="menu.workflow.novo" width="110" page="#"/>
 			<Item name="MenuWorkflowIniciar" title="menu.workflow.iniciar" width="110" page="#"/>
