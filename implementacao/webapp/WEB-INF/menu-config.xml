@@ -6,11 +6,18 @@
 	</Displayers>
 	
 	<Menus>
-		<Menu name="MenuRegistros" title="Registros" witdh="180">
-			<Item title="Cadastrar" name="MenuRegistros_cadastrar" width="130" page="/cadastrarDemanda.do?method=entrada" />
-			<Item title="Alterar" name="MenuRegistros_alterar" width="130" page="/baseDemanda.do?method=pesquisarDemanda" />
+		<Menu name="MenuUsuario"          title="menu.usuario"      witdh="160" page=""/>
+		<Menu name="MenuDepartamento"     title="menu.departamento" witdh="180" page=""/>
+		<Menu name="MenuWorkflow"         title="menu.workflow"     witdh="180" page="">
+			<Item name="MenuWorkflowNovo" title="menu.workflow.novo" width="110" page=""/>
+			<Item name="MenuWorkflowIniciar" title="menu.workflow.iniciar" width="110" page=""/>
+			<Item name="MenuWorkflowVisualizar" title="menu.workflow.visualizar" width="110" page=""/>
 		</Menu>
-		
+		<Menu name="MenuExtrairRelatorio" title="menu.relatorio"    witdh="200">
+			<Item name="MenuExtrairRelatorioConcluidos" title="menu.concluido" width="150" page="/relatorio.do?method=concluido" />
+			<Item name="MenuExtrairRelatorioAndamento"  title="menu.andamento" width="150" page="/relatorio.do?method=andamento" />
+			<Item name="MenuExtrairRelatorioTempoMedio" title="menu.tempo"     width="150" page="/relatorio.do?method=tempo" />
+		</Menu>
 		<Menu name="MenuSair" title="menu.sair" description="dica.sair" page="/dologin?logout=true" width="100" image="imagens/sair.png"/>
 	</Menus>
 </MenuConfig>
