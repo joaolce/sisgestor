@@ -27,6 +27,7 @@ public class Departamento extends ObjetoPersistente {
 
 	private String					email;
 	private String					sigla;
+	private String 			   desricao;
 	private Departamento			departamentoSuperior;
 	private List<Departamento>	departamentosFilhos;
 
@@ -47,7 +48,7 @@ public class Departamento extends ObjetoPersistente {
 	 */
 	@ManyToOne
 	@JoinColumn(name = "DPR_ID_SUPERIOR")
-	@ForeignKey(name = "IRDPRDPR")
+	@ForeignKey(name = "IR_DPR_DPR")
 	public Departamento getDepartamentoSuperior() {
 		return this.departamentoSuperior;
 	}
@@ -57,7 +58,7 @@ public class Departamento extends ObjetoPersistente {
 	 * 
 	 * @return email do departamento
 	 */
-	@Column(name = "DPR_DS_EMAIL", nullable = true, length = 30)
+	@Column(name = "DPR_EMAIL", nullable = true, length = 30)
 	public String getEmail() {
 		return this.email;
 	}
@@ -67,13 +68,22 @@ public class Departamento extends ObjetoPersistente {
 	 * 
 	 * @return sigla do departamento
 	 */
-	@Column(name = "DPR_SL", nullable = false, columnDefinition = "CHAR(10)")
+	@Column(name = "DPR_SIGLA", nullable = false, columnDefinition = "CHAR(10)")
 	@NaturalId(mutable = true)
 	public String getSigla() {
 		return this.sigla;
 	}
 
-
+	/**
+	 * Recupera o valor de desricao
+	 *
+	 * @return desricao
+	 */
+	@Column(name = "DPR_DESCRICAO", nullable = false, length = 50)
+	public String getDesricao() {
+		return desricao;
+	}
+	
 	/**
 	 * Atribui os departamentos filhos diretos do departamento.
 	 * 
@@ -111,5 +121,14 @@ public class Departamento extends ObjetoPersistente {
 	 */
 	public void setSigla(String sigla) {
 		this.sigla = sigla;
+	}
+
+	/**
+	 * Atribui desricao
+	 *
+	 * @param desricao o valor a ajustar em desricao
+	 */
+	public void setDesricao(String desricao) {
+		this.desricao = desricao;
 	}
 }

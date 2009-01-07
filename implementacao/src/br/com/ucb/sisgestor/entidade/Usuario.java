@@ -43,7 +43,7 @@ public class Usuario extends ObjetoPersistente {
 	 */
 	@ManyToOne
 	@JoinColumn(name = "DPR_ID", nullable = false)
-	@ForeignKey(name = "IRDPRUUR")
+	@ForeignKey(name = "IR_DPR_UUR")
 	public Departamento getDepartamento() {
 		return this.departamento;
 	}
@@ -53,7 +53,7 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return login do usuário
 	 */
-	@Column(name = "UUR_DS_LOGIN", nullable = false, columnDefinition = "CHAR(15)", length = 15)
+	@Column(name = "UUR_LOGIN", nullable = false, columnDefinition = "CHAR(15)", length = 15)
 	@NaturalId(mutable = true)
 	public String getLogin() {
 		return this.login;
@@ -64,7 +64,7 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return nome do usuário
 	 */
-	@Column(name = "UUR_NM", nullable = false, length = 150)
+	@Column(name = "UUR_NOME", nullable = false, length = 150)
 	public String getNome() {
 		return this.nome;
 	}
@@ -88,7 +88,7 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return senha senha do usuário
 	 */
-	@Column(name = "UUR_DS_SENHA", nullable = false)
+	@Column(name = "UUR_SENHA", nullable = false)
 	public String getSenha() {
 		return this.senha;
 	}
