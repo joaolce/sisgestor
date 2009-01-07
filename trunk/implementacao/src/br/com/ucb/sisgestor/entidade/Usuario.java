@@ -13,7 +13,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.PrimaryKeyJoinColumns;
-import javax.persistence.SequenceGenerator;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
@@ -28,7 +27,6 @@ import org.hibernate.annotations.NaturalId;
 @javax.persistence.Entity
 @javax.persistence.Table(name = "UUR_USUARIO")
 @org.hibernate.annotations.Table(appliesTo = "UUR_USUARIO")
-@SequenceGenerator(name = "SEQ_UUR", sequenceName = "SEQ_UUR", allocationSize = 10)
 @AttributeOverride(name = "id", column = @Column(name = "UUR_ID", nullable = false))
 public class Usuario extends ObjetoPersistente {
 
@@ -56,7 +54,7 @@ public class Usuario extends ObjetoPersistente {
 	 * @return login do usuário
 	 */
 	@Column(name = "UUR_DS_LOGIN", nullable = false, columnDefinition = "CHAR(15)", length = 15)
-	@NaturalId
+	@NaturalId(mutable = true)
 	public String getLogin() {
 		return this.login;
 	}

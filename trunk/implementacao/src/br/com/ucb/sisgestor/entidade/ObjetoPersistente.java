@@ -29,9 +29,9 @@ public abstract class ObjetoPersistente implements Serializable {
 	 * @return id do objeto
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Integer getId() {
-		return id;
+		return this.id;
 	}
 
 	/**

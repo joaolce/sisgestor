@@ -13,17 +13,10 @@
 <datasources>
 	<local-tx-datasource>
 		<jndi-name>SisGestorDB</jndi-name>
-		<!-- Usar no HSQLDB -->
-		<connection-url>jdbc:hsqldb:http://localhost/sisgestor</connection-url>
-		<driver-class>org.hsqldb.jdbcDriver</driver-class>
-		<user-name>sa</user-name>
-		<password></password>
-		<!-- Usar no MySQL -->
-		<!--
-			<connection-url>jdbc:mysql://localhost/sisgestor</connection-url>
-			<driver-class>com.mysql.jdbc.Driver</driver-class>
-			<user-name>sisgestor</user-name> <password></password>
-		-->
+		<connection-url>jdbc:mysql://localhost/sisgestor</connection-url>
+		<driver-class>com.mysql.jdbc.Driver</driver-class>
+		<user-name>sisgestor</user-name> 
+		<password>sisgestor</password>
 		<min-pool-size>0</min-pool-size>
 		<transaction-isolation>1</transaction-isolation>
 	</local-tx-datasource>

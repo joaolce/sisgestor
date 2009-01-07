@@ -4,8 +4,13 @@
  */
 package br.com.ucb.sisgestor.util.hibernate;
 
+import com.mysql.jdbc.Driver;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Environment;
+import org.hibernate.dialect.MySQL5InnoDBDialect;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
+import org.hibernate.transaction.JBossTransactionManagerLookup;
+import org.hibernate.transaction.JTATransactionFactory;
 
 /**
  * Classe de configuração do Hibernate.
@@ -20,32 +25,28 @@ public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 	private static ConfiguracaoHibernate	configuracao;
 	private final boolean						criarBancoDeDados	= true;
 	private final String							FALSE					= "false";
-	private final boolean						isGerarScript		= false;
+	private final boolean						isGerarScript		= true;
 	private final boolean						isMostrarSQL		= true;
-	private final boolean						isMySQL				= false;
 	private final String							TRUE					= "true";
 
 	private ConfiguracaoHibernate() {
-		if (this.isMySQL) {
-			this.setConfiguracoesMySQL();
-		} else {
-			this.setConfiguracoesHsqlDB();
-		}
 		if (this.isMostrarSQL) {
-			this.setProperty("hibernate.show_sql", this.TRUE);
+			this.setProperty(Environment.SHOW_SQL, this.TRUE);
 		} else {
-			this.setProperty("hibernate.show_sql", this.FALSE);
+			this.setProperty(Environment.SHOW_SQL, this.FALSE);
 		}
-		this.setProperty("hibernate.connection.datasource", "java:/SisGestorDB");
-		this.setProperty("hibernate.connection.pool_size", "10");
-		this.setProperty("hibernate.connection.isolation", "1");
-		this.setProperty("use_identifier_rollback", this.TRUE);
-		this.setProperty("order_updates", this.TRUE);
-		this.setProperty("hibernate.transaction.factory_class",
-				"org.hibernate.transaction.JTATransactionFactory");
-		this.setProperty("hibernate.transaction.manager_lookup_class",
-				"org.hibernate.transaction.JBossTransactionManagerLookup");
-		this.setProperty("hibernate.bytecode.use_reflection_optimizer", this.FALSE);
+		this.setProperty(Environment.DIALECT, MySQL5InnoDBDialect.class.getName());
+		this.setProperty(Environment.DRIVER, Driver.class.getName());
+		this.setProperty(Environment.DEFAULT_SCHEMA, "sisgestor");
+		this.setProperty(Environment.DATASOURCE, "java:/SisGestorDB");
+		this.setProperty(Environment.POOL_SIZE, "10");
+		this.setProperty(Environment.ISOLATION, "1");
+		this.setProperty(Environment.USE_IDENTIFIER_ROLLBACK, this.TRUE);
+		this.setProperty(Environment.ORDER_UPDATES, this.TRUE);
+		this.setProperty(Environment.TRANSACTION_STRATEGY, JTATransactionFactory.class.getName());
+		this.setProperty(Environment.TRANSACTION_MANAGER_STRATEGY, JBossTransactionManagerLookup.class
+				.getName());
+		this.setProperty(Environment.USE_REFLECTION_OPTIMIZER, this.FALSE);
 
 		for (Class<?> classe : ClassesAnotadas.getClassesAnotadas()) {
 			this.addAnnotatedClass(classe);
@@ -71,26 +72,10 @@ public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 		if (this.criarBancoDeDados) {
 			SchemaExport schemaExport = new SchemaExport(this);
 			if (this.isGerarScript) {
-				schemaExport.setOutputFile(".\\scriptDB.txt");
+				schemaExport.setOutputFile(".\\scriptDB-sisgestor.txt");
 			}
 			schemaExport.drop(this.isGerarScript, true);
 			schemaExport.create(this.isGerarScript, true);
 		}
-	}
-
-	/**
-	 * Faz as configurações do HsqlDB
-	 */
-	private void setConfiguracoesHsqlDB() {
-		this.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-		this.setProperty("hibernate.connection.driver_class", "org.hsqldb.jdbcDriver");
-	}
-
-	/**
-	 * Faz as configurações para o MySQL
-	 */
-	private void setConfiguracoesMySQL() {
-		this.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-		this.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
 	}
 }
