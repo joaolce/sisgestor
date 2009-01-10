@@ -1,19 +1,23 @@
-libs do jboss que foram atualizadas para o projeto, ou libs que foram adicionadas ao jboss:
+======================================================================================================
+ Arquivo de informações para o SisGestor
+======================================================================================================
 
-hibernate3.jar (3.3.1.GA)
-hibernate-annotations.jar (3.4.0.GA)
-hibernate-commons-annotations-3.1.0.GA.jar
-jcl-over-slf4j-1.5.6.jar
-mysql.jar
-slf4j-api-1.5.6.jar
-slf4j-simple-1.5.6.jar
 
-arquivos do /conf:
-login-config.xml
-sisgestor.keystore
+------------------------------------------------------------------------------------------------------
+ ** Informação Geral:
+------------------------------------------------------------------------------------------------------
+Siga os passos abaixo para configurar o ambiente de desenvolvimento:
 
-arquivos de /deploy:
-sisgestor-ds.xml
-
-arquivos de /deploy/jboss-web.deployer:
-server.xml
+	1) Descompacte o servidor de aplicações JBoss no diretório de sua preferência
+	
+	2) Crie a variável de ambiente JBOSS_HOME com o valor do diretório onde o JBoss foi descompactado
+		Exemplo:
+			D:\JBoss 
+			
+			onde dentro desse diretório, existam as pastas bin, client, server ....
+	
+	3) Execute o arquivo configuracao.bat para configurar as propriedades do servidor
+	
+	4) Execute o script db_sisgestor.sql para configurar as propriedades inicias do banco de dados
+	
+	5) Use o usuário "admim" e senha "admin" para efetuar login
