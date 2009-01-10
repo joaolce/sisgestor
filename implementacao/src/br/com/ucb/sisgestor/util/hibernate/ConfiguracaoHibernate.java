@@ -25,7 +25,7 @@ public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 	private static ConfiguracaoHibernate	configuracao;
 	private final boolean						criarBancoDeDados	= true;
 	private final String							FALSE					= "false";
-	private final boolean						isGerarScript		= true;
+	private final boolean						isGerarScript		= false;
 	private final boolean						isMostrarSQL		= true;
 	private final String							TRUE					= "true";
 

@@ -42,6 +42,7 @@
 		<pathelement location="${env.JBOSS_HOME}/server/default/lib/ejb3-persistence.jar" />
 		<pathelement location="${env.JBOSS_HOME}/server/default/lib/hibernate-annotations.jar" />
 		<pathelement location="${env.JBOSS_HOME}/server/default/lib/hibernate3.jar" />
+		<pathelement location="${env.JBOSS_HOME}/server/default/lib/mysql.jar" />
 		<pathelement location="${env.JBOSS_HOME}/server/default/deploy/jboss-web.deployer/jbossweb-service.jar" />
 	</path>
 	
@@ -69,6 +70,7 @@
 	<target name="cleanJBoss" description="Limpa os aquivos do JBoss">
 		<delete dir="${env.JBOSS_HOME}/server/default/deploy/sisgestor.war" failonerror="false" />
 		<delete dir="${env.JBOSS_HOME}/server/default/tmp/deploy" failonerror="false" />
+		<delete dir="${env.JBOSS_HOME}/server/default/work" failonerror="false" />
 	</target>
 	
 	<target name="init" description="Cria diretórios temporários">
