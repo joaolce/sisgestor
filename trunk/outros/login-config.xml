@@ -47,8 +47,8 @@ $Revision: 64598 $
              flag = "required">
              <module-option name = "unauthenticatedIdentity">guest</module-option>
              <module-option name = "dsJndiName">java:/SisGestorDB</module-option>
-             <module-option name = "principalsQuery">SELECT UUR_DS_SENHA FROM UUR_USUARIO WHERE UUR_DS_LOGIN=?</module-option>
-             <module-option name = "rolesQuery">SELECT PRM_ID, 'Roles' FROM UPM_USUARIO_PERMISSAO PRM INNER JOIN UUR_USUARIO UUR ON PRM.UUR_ID = UUR.UUR_ID WHERE UUR.UUR_DS_LOGIN=?</module-option>
+             <module-option name = "principalsQuery">SELECT UUR_SENHA FROM UUR_USUARIO WHERE UUR_LOGIN=?</module-option>
+             <module-option name = "rolesQuery">SELECT PRM_ID, 'Roles' FROM UPM_USUARIO_PERMISSAO PRM INNER JOIN UUR_USUARIO UUR ON PRM.UUR_ID = UUR.UUR_ID WHERE UUR.UUR_LOGIN=?</module-option>
           </login-module>
        </authentication>
     </application-policy>
