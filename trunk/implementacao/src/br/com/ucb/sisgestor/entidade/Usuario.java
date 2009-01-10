@@ -11,8 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.PrimaryKeyJoinColumns;
+import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
@@ -76,9 +75,11 @@ public class Usuario extends ObjetoPersistente {
 	 */
 	@ManyToMany(targetEntity = Permissao.class)
 	@Cascade( {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-	@JoinTable(name = "UPM_USUARIO_PERMISSAO", joinColumns = @JoinColumn(name = "UUR_ID", nullable = false), inverseJoinColumns = @JoinColumn(name = "PRM_ID", nullable = false))
-	@PrimaryKeyJoinColumns( {@PrimaryKeyJoinColumn(name = "UUR_ID", referencedColumnName = "UUR_ID"),
-			@PrimaryKeyJoinColumn(name = "PRM_ID", referencedColumnName = "PRM_ID")})
+	@JoinTable(name = "UPM_USUARIO_PERMISSAO", //
+	joinColumns = @JoinColumn(name = "UUR_ID", referencedColumnName = "UUR_ID", nullable = false), //
+	inverseJoinColumns = @JoinColumn(name = "PRM_ID", referencedColumnName = "PRM_ID", nullable = false), //
+	uniqueConstraints = @UniqueConstraint(columnNames = {"PRM_ID", "UUR_ID"}))
+	@ForeignKey(name = "IR_UUR_UPM", inverseName = "IR_PRM_UPM")
 	public List<Permissao> getPermissoes() {
 		return this.permissoes;
 	}
