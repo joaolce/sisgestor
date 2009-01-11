@@ -8,7 +8,9 @@
 # Database structure for database 'sisgestor'
 #
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ "sisgestor" /*!40100 DEFAULT CHARACTER SET latin1 */;
+DROP DATABASE /*!32312 IF EXISTS*/ "sisgestor";
+
+CREATE DATABASE "sisgestor";
 
 USE "sisgestor";
 
@@ -19,7 +21,7 @@ USE "sisgestor";
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "dpr_departamento" (
   "DPR_ID" int(11) NOT NULL AUTO_INCREMENT,
-  "DPR_DESCRICAO" varchar(50) NOT NULL,
+  "DPR_NOME" varchar(50) NOT NULL,
   "DPR_EMAIL" varchar(30) DEFAULT NULL,
   "DPR_SIGLA" char(10) NOT NULL,
   "DPR_ID_SUPERIOR" int(11) DEFAULT NULL,
@@ -79,7 +81,7 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "uur_usuario" (
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;*/
 
 
-INSERT INTO `dpr_departamento` (`DPR_ID`,`DPR_DESCRICAO`,`DPR_EMAIL`,`DPR_SIGLA`,`DPR_ID_SUPERIOR`) 
+INSERT INTO `dpr_departamento` (`DPR_ID`,`DPR_NOME`,`DPR_EMAIL`,`DPR_SIGLA`,`DPR_ID_SUPERIOR`) 
 	VALUES (1,'Departamento','email@mail.com','DP',NULL);
 
 INSERT INTO `uur_usuario` (`UUR_ID`,`UUR_LOGIN`,`UUR_NOME`,`UUR_SENHA`,`DPR_ID`) 

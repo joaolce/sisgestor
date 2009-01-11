@@ -23,15 +23,17 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * Atualiza um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a atualizar
+	 * @throws Exception 
 	 */
-	public void atualizar(T obj);
+	public void atualizar(T obj) throws Exception;
 
 	/**
 	 * Apaga um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a apagar
+	 * @throws Exception 
 	 */
-	public void excluir(T obj);
+	public void excluir(T obj) throws Exception;
 
 	/**
 	 * Recupera um objeto a partir da sua chave primária.
@@ -53,6 +55,7 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * Salva um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a salvar
+	 * @throws Exception 
 	 */
-	public void salvar(T obj);
+	public void salvar(T obj) throws Exception;
 }

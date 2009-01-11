@@ -20,4 +20,6 @@ public interface DadosContexto {
 	public final String	ERRO_CONTAINER	= "errorContainer";
 	/** Usuário atual na sessão */
 	public final String	USUARIOSESSAO	= "usuarioSessao";
+	/** Total de registros da pesquisa */
+	public final String TOTAL_PESQUISA_SESSAO = "totalPesquisa";
 }

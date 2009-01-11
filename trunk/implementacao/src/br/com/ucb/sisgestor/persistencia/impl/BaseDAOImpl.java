@@ -80,4 +80,17 @@ public class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serializable> i
 	protected Session getSession() {
 		return HibernateUtil.getSession();
 	}
+	
+   /**
+    * 
+    * @param paginaAtual
+    * @param criteria
+    * @param maximoRegistros
+    */
+   protected void adicionarPaginacao(Criteria criteria, Integer paginaAtual, int maximoRegistros) {
+		if(paginaAtual != null){
+			criteria.setFirstResult(paginaAtual.intValue() * maximoRegistros);
+		}
+		criteria.setMaxResults(maximoRegistros);
+	}
 }
