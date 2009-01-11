@@ -31,6 +31,6 @@ public class ManterUsuarioAction extends BaseAction {
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) actionForm;
 		UsuarioBO bo = UsuarioBOImpl.getInstancia();
 		form.setUsuarios(bo.obterTodos());
-		return mapping.findForward(FWD_ENTRADA);
+		return super.entrada();
 	}
 }

@@ -27,7 +27,7 @@ public class Departamento extends ObjetoPersistente {
 
 	private String					email;
 	private String					sigla;
-	private String 			   desricao;
+	private String 			   nome;
 	private Departamento			departamentoSuperior;
 	private List<Departamento>	departamentosFilhos;
 
@@ -73,17 +73,17 @@ public class Departamento extends ObjetoPersistente {
 	public String getSigla() {
 		return this.sigla;
 	}
-
-	/**
-	 * Recupera o valor de desricao
-	 *
-	 * @return desricao
-	 */
-	@Column(name = "DPR_DESCRICAO", nullable = false, length = 50)
-	public String getDesricao() {
-		return desricao;
-	}
 	
+	/**
+	 * Recupera o valor de nome
+	 *
+	 * @return nome
+	 */
+	@Column(name = "DPR_NOME", nullable = false, length = 50)
+	public String getNome() {
+		return nome;
+	}
+
 	/**
 	 * Atribui os departamentos filhos diretos do departamento.
 	 * 
@@ -124,11 +124,11 @@ public class Departamento extends ObjetoPersistente {
 	}
 
 	/**
-	 * Atribui desricao
+	 * Atribui nome
 	 *
-	 * @param desricao o valor a ajustar em desricao
+	 * @param nome o valor a ajustar em nome
 	 */
-	public void setDesricao(String desricao) {
-		this.desricao = desricao;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 }

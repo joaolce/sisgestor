@@ -27,4 +27,13 @@
 		<put name="corpo">/paginas/auxilio/erroValidacao.jsp</put>
 	</definition>
 	
+	<!--  MANTER DEPARTAMENTO-->
+	<definition name="definicaoManterDepartamento" extends="definicaoPrincipalRodape">
+		<put name="corpo">/paginas/departamento/manterDepartamento.jsp</put>
+		<put name="titulo">Manter Departamento</put>
+	</definition>
+	<definition name="popupNovoDepartamento" path="/paginas/departamento/popupNovoDepartamento.jsp">
+	</definition>
+	
+	
 </tiles-definitions>

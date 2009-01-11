@@ -1,7 +1,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <div style="clear: both;">
 	<center>
-		<div style="width: 25%; ">
+		<div style="width: 25%; padding: 10px;">
 			<div align="left" style="float: left; width: 32%;">
 				<html:link titleKey="dica.topo" href="#"> 
 					<html:img altKey="dica.topo" srcKey="imagem.topo"/>

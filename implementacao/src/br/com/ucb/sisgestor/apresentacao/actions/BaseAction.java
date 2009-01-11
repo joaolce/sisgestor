@@ -78,6 +78,16 @@ public class BaseAction extends DispatchAction {
 	 */
 	public ActionForward entrada(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		return this.entrada();
+	}
+	
+	/**
+	 * Método padrão para exibir a tela de entrada caso seja necessário carregar algum dado para exibir na
+	 * tela.
+	 * @return
+	 * @throws Exception 
+	 */
+	public ActionForward entrada() throws Exception{
 		return this.findForward(FWD_ENTRADA);
 	}
 

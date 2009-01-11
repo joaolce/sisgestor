@@ -4,5 +4,18 @@
 	"http://www.getahead.ltd.uk/dwr/dwr20.dtd">
 
 <dwr>
+	<allow>
 	
+	<!-- Criando classes DWR -->
+	<create javascript="ManterDepartamentoDWR" creator="new">
+		<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterDepartamentoDWR" />
+	</create>
+	
+	
+	<!-- Convertendo Forms e DTO-->
+	<convert match="br.com.ucb.sisgestor.util.ListaResultadoDTO" converter="bean" />
+	
+	<!-- Convertendo VO -->
+	<convert match="br.com.ucb.sisgestor.entidade.Departamento" converter="hibernate3" />
+	</allow>
 </dwr>
