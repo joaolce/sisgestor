@@ -47,23 +47,25 @@ IF EXIST %JBOSS_HOME%\server\default\lib\slf4j-simple-1.5.6.jar (
 	del "%JBOSS_HOME%"\server\default\lib\slf4j-simple-1.5.6.jar
 )
 
+echo Copiando arquivos de configuracoes
+
 copy configuracao\login-config.xml "%JBOSS_HOME%"\server\default\conf
 copy configuracao\sisgestor.keystore "%JBOSS_HOME%"\server\default\conf
 copy configuracao\sisgestor-ds.xml "%JBOSS_HOME%"\server\default\deploy
 copy configuracao\server.xml "%JBOSS_HOME%"\server\default\deploy\jboss-web.deployer
 
-copy libs\hibernate-annotations.jar										"%JBOSS_HOME%"\server\default\lib
-copy libs\hibernate-commons-annotations-3.1.0.GA.jar	"%JBOSS_HOME%"\server\default\lib
-copy libs\hibernate3.jar															"%JBOSS_HOME%"\server\default\lib
-copy libs\jcl-over-slf4j-1.5.6.jar										"%JBOSS_HOME%"\server\default\lib
-copy libs\mysql.jar																		"%JBOSS_HOME%"\server\default\lib
-copy libs\slf4j-api-1.5.6.jar													"%JBOSS_HOME%"\server\default\lib
-copy libs\slf4j-simple-1.5.6.jar											"%JBOSS_HOME%"\server\default\lib
+echo Copiando libs necessarias
 
+copy libs\hibernate-annotations.jar "%JBOSS_HOME%"\server\default\lib
+copy libs\hibernate-commons-annotations-3.1.0.GA.jar "%JBOSS_HOME%"\server\default\lib
+copy libs\hibernate3.jar "%JBOSS_HOME%"\server\default\lib
+copy libs\jcl-over-slf4j-1.5.6.jar "%JBOSS_HOME%"\server\default\lib
+copy libs\mysql.jar "%JBOSS_HOME%"\server\default\lib
+copy libs\slf4j-api-1.5.6.jar "%JBOSS_HOME%"\server\default\lib
+copy libs\slf4j-simple-1.5.6.jar "%JBOSS_HOME%"\server\default\lib
 
 
 echo Atualizacoes realizadas com sucesso. 
 
-@ECHO ON
 pause
 
