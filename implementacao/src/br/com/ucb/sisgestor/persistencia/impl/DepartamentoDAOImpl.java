@@ -4,10 +4,9 @@
  */
 package br.com.ucb.sisgestor.persistencia.impl;
 
-import java.util.List;
-
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.persistencia.DepartamentoDAO;
+import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -19,10 +18,11 @@ import org.hibernate.criterion.Restrictions;
  * @author João Lúcio
  * @since 05/01/2009
  */
-public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento, Integer> implements DepartamentoDAO {
+public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento, Integer> implements
+		DepartamentoDAO {
 
-	private static final DepartamentoDAO	instancia	= new DepartamentoDAOImpl();
-	
+	private static final DepartamentoDAO instancia = new DepartamentoDAOImpl();
+
 	/**
 	 * Máximo de departamentos retornados.<br>
 	 * 
@@ -45,42 +45,45 @@ public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento, Integer> impl
 	public static DepartamentoDAO getInstancia() {
 		return instancia;
 	}
-	
+
 	/**
 	 * Encontra os departamentos pelo nome
+	 * 
 	 * @param nome
-	 * @param pagina 
-	 * @return
+	 * @param pagina
+	 * @return {@link List} de {@link Departamento}
 	 */
 	public List<Departamento> getByNome(String nome, Integer pagina) {
-		Criteria criteria = montarCriterios(nome);
+		Criteria criteria = this.montarCriterios(nome);
 		super.adicionarPaginacao(criteria, pagina, MAXIMO_DEPARTAMENTOS);
 		criteria.addOrder(Order.asc("this.nome"));
 		return criteria.list();
 	}
-	
+
 	/**
 	 * Recupera o total de registros retornados pela consulta.
-	 *
+	 * 
 	 * @param nome
-	 * @return
+	 * @return totalRegistros
 	 */
-	public Integer getTotalRegistros(String nome){
-			Criteria criteria = montarCriterios(nome);
-			criteria.setProjection(Projections.rowCount());
-			return (Integer) criteria.uniqueResult();
+	public Integer getTotalRegistros(String nome) {
+		Criteria criteria = this.montarCriterios(nome);
+		criteria.setProjection(Projections.rowCount());
+		return (Integer) criteria.uniqueResult();
 	}
-	
+
 	/**
 	 * Monta os critérios
+	 * 
 	 * @param nome
 	 * @return
 	 */
 	private Criteria montarCriterios(String nome) {
 		Criteria criteria = this.getSession().createCriteria(Departamento.class);
-		if(!nome.equals(""))
+		if (!nome.equals("")) {
 			criteria.add(Restrictions.ilike("this.nome", nome));
+		}
 		return criteria;
 	}
-	
+
 }

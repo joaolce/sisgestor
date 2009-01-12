@@ -4,9 +4,8 @@
  */
 package br.com.ucb.sisgestor.negocio;
 
-import java.util.List;
-
 import br.com.ucb.sisgestor.entidade.Departamento;
+import java.util.List;
 
 /**
  * Interface para um objeto de negócio de {@link Departamento}.
@@ -18,18 +17,18 @@ public interface DepartamentoBO extends BaseBO<Departamento, Integer> {
 
 	/**
 	 * Retorna um {@link List} de {@link Departamento} a partir do nome
-	 *
+	 * 
 	 * @param nome
 	 * @param paginaAtual
-	 * @return
+	 * @return {@link List} de {@link Departamento}
 	 */
 	List<Departamento> getByNome(String nome, Integer paginaAtual);
 
 	/**
 	 * Recupera o total de registros retornados pela consulta.
-	 *
+	 * 
 	 * @param nome
-	 * @return
+	 * @return totalRegistros
 	 */
 	Integer getTotalRegistros(String nome);
 }

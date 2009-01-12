@@ -48,26 +48,37 @@ import org.apache.struts.util.RequestUtils;
  */
 public class BaseAction extends DispatchAction {
 
-	private static Log								logger;
+	private static Log logger;
 	/** forward de entrada, todas as actions devem ter. */
-	public static final String						FWD_ENTRADA				= "entrada";
+	public static final String FWD_ENTRADA = "entrada";
 	/** forward de erro de validação. */
-	public static final String						FWD_ERRO_VALIDACAO	= "erroValidacao";
+	public static final String FWD_ERRO_VALIDACAO = "erroValidacao";
 
-	private ThreadLocal<ActionMapping>			mappingThread			= new ThreadLocal<ActionMapping>();
-	private ThreadLocal<ActionForm>				formThread				= new ThreadLocal<ActionForm>();
-	private ThreadLocal<HttpServletRequest>	requestThread			= new ThreadLocal<HttpServletRequest>();
-	private ThreadLocal<HttpServletResponse>	responseThread			= new ThreadLocal<HttpServletResponse>();
-	private ThreadLocal<HttpSession>				sessionThread			= new ThreadLocal<HttpSession>();
-	private ThreadLocal<ActionErrors>			actionErrorsThread	= new ThreadLocal<ActionErrors>();
+	private ThreadLocal<ActionMapping> mappingThread = new ThreadLocal<ActionMapping>();
+	private ThreadLocal<ActionForm> formThread = new ThreadLocal<ActionForm>();
+	private ThreadLocal<HttpServletRequest> requestThread = new ThreadLocal<HttpServletRequest>();
+	private ThreadLocal<HttpServletResponse> responseThread = new ThreadLocal<HttpServletResponse>();
+	private ThreadLocal<HttpSession> sessionThread = new ThreadLocal<HttpSession>();
+	private ThreadLocal<ActionErrors> actionErrorsThread = new ThreadLocal<ActionErrors>();
 
 	static {
 		logger = LogFactory.getLog(BaseAction.class);
 	}
 
 	/**
-	 * Método padrão para exibir a tela de entrada caso seja necessário carregar algum dado para exibir na
-	 * tela.
+	 * Método padrão para exibir a tela de entrada caso seja necessário carregar algum dado para
+	 * exibir na tela.
+	 * 
+	 * @return entrada
+	 * @throws Exception
+	 */
+	public ActionForward entrada() throws Exception {
+		return this.findForward(FWD_ENTRADA);
+	}
+
+	/**
+	 * Método padrão para exibir a tela de entrada caso seja necessário carregar algum dado para
+	 * exibir na tela.
 	 * 
 	 * @param mapping
 	 * @param actionForm
@@ -76,24 +87,14 @@ public class BaseAction extends DispatchAction {
 	 * @return {@link ActionForward}
 	 * @throws Exception
 	 */
-	public ActionForward entrada(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public ActionForward entrada(ActionMapping mapping, ActionForm actionForm,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return this.entrada();
-	}
-	
-	/**
-	 * Método padrão para exibir a tela de entrada caso seja necessário carregar algum dado para exibir na
-	 * tela.
-	 * @return
-	 * @throws Exception 
-	 */
-	public ActionForward entrada() throws Exception{
-		return this.findForward(FWD_ENTRADA);
 	}
 
 	/**
-	 * Sobrescrita do método execute. A idéia é fazer alguns procedimentos genéricos aqui, para que todas as
-	 * actions possam utilizar alguns métodos utilitários que existem aqui.
+	 * Sobrescrita do método execute. A idéia é fazer alguns procedimentos genéricos aqui, para que
+	 * todas as actions possam utilizar alguns métodos utilitários que existem aqui.
 	 * 
 	 * @param mapping
 	 * @param actionForm
@@ -103,8 +104,8 @@ public class BaseAction extends DispatchAction {
 	 * @throws Exception
 	 */
 	@Override
-	public ActionForward execute(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public ActionForward execute(ActionMapping mapping, ActionForm actionForm,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		//popula as variaveis de instância
 		this.populaParametrosAction(mapping, actionForm, request, response);
@@ -166,7 +167,8 @@ public class BaseAction extends DispatchAction {
 			String focusControl = validator.getFocusControl();
 			if ((errors != null) && (errors.size() != 0)) {
 				//verifica a origem da requisição - síncrona ou assíncrona
-				return this.processaErro(mapping, validator.getForwardErroValidacao(), errors, focusControl);
+				return this.processaErro(mapping, validator.getForwardErroValidacao(), errors,
+						focusControl);
 			}
 		}
 		//FIM VALIDAÇÃO
@@ -234,7 +236,8 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Adiciona os parâmetros criados ao path (que aponte para uma url e com redirect=true) de um ActionForward
+	 * Adiciona os parâmetros criados ao path (que aponte para uma url e com redirect=true) de um
+	 * ActionForward
 	 * 
 	 * @param parametros parametros adicionados
 	 * @param forward forward a alterar o path
@@ -271,7 +274,8 @@ public class BaseAction extends DispatchAction {
 		Usuario usuarioAtual = (Usuario) this.getSession().getAttribute(DadosContexto.USUARIOSESSAO);
 		String name = this.getRequest().getUserPrincipal().getName();
 
-		if ((usuarioAtual == null) || !name.equalsIgnoreCase(usuarioAtual.getLogin().trim()) || ignoraSessao) {
+		if ((usuarioAtual == null) || !name.equalsIgnoreCase(usuarioAtual.getLogin().trim())
+				|| ignoraSessao) {
 			logger.debug("completando o processo de login");
 
 			UsuarioBO bo = UsuarioBOImpl.getInstancia();
@@ -434,8 +438,8 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Invoca um método qualquer do form. Util quando não se sabe a instância do form que se está usando. Deve
-	 * ser usado com cautela.
+	 * Invoca um método qualquer do form. Util quando não se sabe a instância do form que se está
+	 * usando. Deve ser usado com cautela.
 	 * 
 	 * @param methodName nome do método a ser executado
 	 * @param paramTypes tipo dos parâmetros
@@ -475,8 +479,8 @@ public class BaseAction extends DispatchAction {
 	/**
 	 * Popula as variáveis de instância com os parametros recebidos pela Action.
 	 * 
-	 * Isso está separada para que possa ser usado caso algum método execute seja sobrescrito em uma classe
-	 * filha.
+	 * Isso está separada para que possa ser usado caso algum método execute seja sobrescrito em uma
+	 * classe filha.
 	 * 
 	 * @param mapping
 	 * @param form
@@ -546,8 +550,8 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Envia as mensagens ou erros para o Javascript, resultado de uma submissão assíncrona os erros ou
-	 * mensagens podem ser adicionados pelos métodos BaseAction.saveErrors
+	 * Envia as mensagens ou erros para o Javascript, resultado de uma submissão assíncrona os erros
+	 * ou mensagens podem ser adicionados pelos métodos BaseAction.saveErrors
 	 * 
 	 * @param errors
 	 * @return d
@@ -562,8 +566,9 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Envia uma url de redirecionamento para o Javascript equivalente ao nosso conhecido findForward só que ao
-	 * invés de passar o forward, deve-se passar a url para qual o usuário será redirecionado.
+	 * Envia uma url de redirecionamento para o Javascript equivalente ao nosso conhecido findForward
+	 * só que ao invés de passar o forward, deve-se passar a url para qual o usuário será
+	 * redirecionado.
 	 * 
 	 * @param forwardName nome do forward no struts-config
 	 * @return d
@@ -587,11 +592,11 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Envia uma resposta (mensagens ou erros), uma url de redirecionamento e seta o estado da requisição para
-	 * definir as cores da resposta (se é vermelho ou verde) o padrão da da cor é vermelho os erros ou
-	 * mensagens podem ser adicionados pelos métodos BaseAction.addMessage o forwardName passsado deverá ser o
-	 * nome de um ActionForward devidamente configurado no struts-config que contenha uma url onde o javascript
-	 * deverá redirecionar o cliente para ela
+	 * Envia uma resposta (mensagens ou erros), uma url de redirecionamento e seta o estado da
+	 * requisição para definir as cores da resposta (se é vermelho ou verde) o padrão da da cor é
+	 * vermelho os erros ou mensagens podem ser adicionados pelos métodos BaseAction.addMessage o
+	 * forwardName passsado deverá ser o nome de um ActionForward devidamente configurado no
+	 * struts-config que contenha uma url onde o javascript deverá redirecionar o cliente para ela
 	 * 
 	 * @param forward
 	 * @param estado
@@ -614,8 +619,8 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Enviar resposta AJAX: recuperar o path do actionForward passado que deverá conter uma url, agregar os
-	 * parâmetros passados a url e enviar a resposta para o JavaScript
+	 * Enviar resposta AJAX: recuperar o path do actionForward passado que deverá conter uma url,
+	 * agregar os parâmetros passados a url e enviar a resposta para o JavaScript
 	 * 
 	 * @param forward
 	 * @param estado
@@ -623,8 +628,8 @@ public class BaseAction extends DispatchAction {
 	 * @return d
 	 * @throws Exception
 	 */
-	protected ActionForward sendAJAXResponse(ActionForward forward, boolean estado, ParametrosURL parametros)
-			throws Exception {
+	protected ActionForward sendAJAXResponse(ActionForward forward, boolean estado,
+			ParametrosURL parametros) throws Exception {
 		forward = this.findForwardConfigurable(forward.getName());
 		forward.setPath(parametros.aggregateParams(forward.getPath()));
 		return this.sendAJAXResponse(forward, estado);
@@ -645,8 +650,8 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * envia mensagens ou erros para o javascript que poderão aparecer em vermelho ou verde de acordo com
-	 * parâmetro passado valor padrão: vermelho
+	 * envia mensagens ou erros para o javascript que poderão aparecer em vermelho ou verde de acordo
+	 * com parâmetro passado valor padrão: vermelho
 	 * 
 	 * @param estado true=verde, false=vermelho
 	 * @return d
@@ -662,8 +667,8 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Envia uma resposta (mensagens ou erros) e uma url de redirecionamento para o Javascript os erros ou
-	 * mensagens podem ser adicionados pelos métodos BaseAction.addError
+	 * Envia uma resposta (mensagens ou erros) e uma url de redirecionamento para o Javascript os
+	 * erros ou mensagens podem ser adicionados pelos métodos BaseAction.addError
 	 * 
 	 * @param forwardName
 	 * @return d
@@ -671,7 +676,7 @@ public class BaseAction extends DispatchAction {
 	 */
 	protected ActionForward sendAJAXResponse(String forwardName) throws Exception {
 		AjaxResponse response = new AjaxResponse();
-		ActionForward forward = this.findForward(forwardName);
+		this.findForward(forwardName);
 		//		if (!forward.getContextRelative()) {
 		//			String appName = this.getRequest().getContextPath();
 		//			response.setUrlForward(appName + forward.getPath());
@@ -683,8 +688,8 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Enviar uma resposta para o JavaScript o forward passado deverá conter uma URL para onde o JavaScript
-	 * deverá redirecionar o cliente
+	 * Enviar uma resposta para o JavaScript o forward passado deverá conter uma URL para onde o
+	 * JavaScript deverá redirecionar o cliente
 	 * 
 	 * @param forwardName
 	 * @param estado
@@ -704,8 +709,8 @@ public class BaseAction extends DispatchAction {
 	 * @return d
 	 * @throws Exception
 	 */
-	protected ActionForward sendAJAXResponse(String forwardName, boolean estado, ParametrosURL parametros)
-			throws Exception {
+	protected ActionForward sendAJAXResponse(String forwardName, boolean estado,
+			ParametrosURL parametros) throws Exception {
 		return this.sendAJAXResponse(this.findForward(forwardName), estado, parametros);
 	}
 
@@ -748,7 +753,8 @@ public class BaseAction extends DispatchAction {
 	private void addMessagesToResponse(ActionErrors errors, AjaxResponse ajaxResponseXML) {
 		MessageResources resources = this.getResources(this.getRequest());
 		String message;
-		Iterator<ActionMessage> iter = GenericsUtil.checkedIterator(errors.get(), ActionMessage.class);
+		Iterator<ActionMessage> iter =
+				GenericsUtil.checkedIterator(errors.get(), ActionMessage.class);
 		while (iter.hasNext()) {
 			ActionMessage actionMessage = iter.next();
 			if ((actionMessage.getValues() != null) && (actionMessage.getValues().length != 0)) {
@@ -765,8 +771,9 @@ public class BaseAction extends DispatchAction {
 	/**
 	 * Invoca o método de validação dentro de um validator.
 	 * <p>
-	 * A regra é a seguinte: Busca no validator.xml por uma classe de validação para a action corrente. E será
-	 * invocado um método com o mesmo nome do método passado no atributo parameter do Action Mapping.
+	 * A regra é a seguinte: Busca no validator.xml por uma classe de validação para a action
+	 * corrente. E será invocado um método com o mesmo nome do método passado no atributo parameter
+	 * do Action Mapping.
 	 * </p>
 	 * 
 	 * @return o validate em si.
@@ -781,7 +788,8 @@ public class BaseAction extends DispatchAction {
 
 		validatorInstance.setResources(this.getResources(this.getRequest()));
 		logger.debug("executando validator");
-		validatorInstance.execute(this.getMapping(), this.getForm(), this.getRequest(), this.getResponse());
+		validatorInstance.execute(this.getMapping(), this.getForm(), this.getRequest(), this
+				.getResponse());
 
 		return validatorInstance;
 	}
@@ -814,8 +822,8 @@ public class BaseAction extends DispatchAction {
 	 * @return
 	 * @throws Exception
 	 */
-	private ActionForward processaErro(ActionMapping mapping, String forwardValidacao, ActionErrors errors,
-			String focusControl) throws Exception {
+	private ActionForward processaErro(ActionMapping mapping, String forwardValidacao,
+			ActionErrors errors, String focusControl) throws Exception {
 
 		this.setActionErrors(errors);
 		if (this.isAJAXRequest()) {
@@ -843,8 +851,8 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Verifica se a requisição post possui um referer (página de origem da requisição) pra evitar requisições
-	 * diretas (o que caracteriza burlagem do sistema).
+	 * Verifica se a requisição post possui um referer (página de origem da requisição) pra evitar
+	 * requisições diretas (o que caracteriza burlagem do sistema).
 	 * 
 	 * @throws Exception
 	 */
