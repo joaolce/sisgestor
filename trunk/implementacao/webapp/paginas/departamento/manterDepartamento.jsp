@@ -67,15 +67,19 @@
 				</label> <br />
 				<label>
 					<b><bean:message key="label.departamentoSuperior"/>: </b>
+					<html:select property="departamentoSuperior" styleId="departamentoSuperior">
+						<html:option value="" />
+						<html:optionsCollection name="manterDepartamentoForm" property="listaDepartamentos" label="sigla" value="id" />
+					</html:select>
 				</label>
 			</div>
 			<div style="clear: both; padding: 5px;" align="center">
-				<html:button property="excluir" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="departamento.excluir();">
-					<bean:message key="label.excluir"/>
-				</html:button>
 				<html:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar">
 					<bean:message key="label.atualizar"/>
 				</html:submit>
+				<html:button property="excluir" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="departamento.excluir();">
+					<bean:message key="label.excluir"/>
+				</html:button>
 			</div>
 		</fieldset>
 	</html:form>
