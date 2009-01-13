@@ -7,7 +7,7 @@
 	<div class="cab" style="width: 69%; float: left;">
 		<div style="float: left;">
 			<html:link href="principal.do?method=entrada" titleKey="dica.paginaInicial">
-				<html:img srcKey="imagem.logo" align="left"/>
+				<html:img srcKey="imagem.logoPequeno" align="left" />
 			</html:link>
 		</div>
 		<div style="margin-top: 3px;">

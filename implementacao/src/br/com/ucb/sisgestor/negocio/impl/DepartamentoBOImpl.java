@@ -55,7 +55,8 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	public void excluir(Departamento departamento) throws Exception {
 		Transaction transaction = this.beginTransaction();
 		try {
-			if (departamento.getDepartamentosFilhos() != null) {
+			if ((departamento.getDepartamentosFilhos() != null)
+					&& !departamento.getDepartamentosFilhos().isEmpty()) {
 				throw new NegocioException("erro.departamento.filhos");
 			}
 			this.dao.excluir(departamento);
