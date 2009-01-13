@@ -11,7 +11,7 @@ import org.directwebremoting.impl.DefaultAccessControl;
 
 /**
  * Controle de acesso do DWR, aqui é feito o controle de sessão e usuário do DWR, se o usuário não estiver
- * logado será exibido uma mensagem informando que é necessário fazer um novo login
+ * logado será exibido uma mensagem informando que é necessário fazer um novo login.
  * 
  * @author João Lúcio
  * @since 25/10/2008
@@ -19,10 +19,9 @@ import org.directwebremoting.impl.DefaultAccessControl;
 public class ControleAcessoDWR extends DefaultAccessControl {
 
 	/**
-	 * Executado a cada requisição ajax
+	 * Executado a cada requisição ajax.
 	 * 
-	 * @see org.directwebremoting.impl.DefaultAccessControl#assertIsExecutable(java.lang.String,
-	 *      java.lang.String)
+	 * @see org.directwebremoting.impl.DefaultAccessControl#assertIsExecutable(String, String)
 	 */
 	@Override
 	protected void assertIsExecutable(String scriptName, String methodName) throws SecurityException {

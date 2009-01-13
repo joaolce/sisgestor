@@ -14,7 +14,7 @@ import org.dom4j.dom.DOMElement;
 import org.w3c.dom.Node;
 
 /**
- * Classe que gera o XML para o Javascript interpretar
+ * Classe que gera o XML para o Javascript interpretar.
  * 
  * @author João Lúcio
  * @since 24/10/2008

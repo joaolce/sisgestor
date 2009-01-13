@@ -6,8 +6,10 @@ package br.com.ucb.sisgestor.persistencia.impl;
 
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.persistencia.DepartamentoDAO;
+import br.com.ucb.sisgestor.util.GenericsUtil;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -18,17 +20,16 @@ import org.hibernate.criterion.Restrictions;
  * @author João Lúcio
  * @since 05/01/2009
  */
-public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento, Integer> implements
-		DepartamentoDAO {
+public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento, Integer> implements DepartamentoDAO {
 
-	private static final DepartamentoDAO instancia = new DepartamentoDAOImpl();
+	private static final DepartamentoDAO	instancia				= new DepartamentoDAOImpl();
 
 	/**
 	 * Máximo de departamentos retornados.<br>
 	 * 
 	 * @see {@link manterDepartamento.js}
 	 */
-	private static final int MAXIMO_DEPARTAMENTOS = 9;
+	private static final int					MAXIMO_DEPARTAMENTOS	= 9;
 
 	/**
 	 * Cria uma nova instância do tipo {@link DepartamentoDAOImpl}.
@@ -47,43 +48,35 @@ public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento, Integer> impl
 	}
 
 	/**
-	 * Encontra os departamentos pelo nome
-	 * 
-	 * @param nome
-	 * @param pagina
-	 * @return {@link List} de {@link Departamento}
+	 * {@inheritDoc}
 	 */
 	public List<Departamento> getByNome(String nome, Integer pagina) {
-		Criteria criteria = this.montarCriterios(nome);
-		super.adicionarPaginacao(criteria, pagina, MAXIMO_DEPARTAMENTOS);
+		Criteria criteria = this.montarCriteriosPaginacao(nome);
+		this.adicionarPaginacao(criteria, pagina, MAXIMO_DEPARTAMENTOS);
 		criteria.addOrder(Order.asc("this.nome"));
-		return criteria.list();
+		return GenericsUtil.checkedList(criteria.list(), Departamento.class);
 	}
 
 	/**
-	 * Recupera o total de registros retornados pela consulta.
-	 * 
-	 * @param nome
-	 * @return totalRegistros
+	 * {@inheritDoc}
 	 */
 	public Integer getTotalRegistros(String nome) {
-		Criteria criteria = this.montarCriterios(nome);
+		Criteria criteria = this.montarCriteriosPaginacao(nome.toLowerCase());
 		criteria.setProjection(Projections.rowCount());
 		return (Integer) criteria.uniqueResult();
 	}
 
 	/**
-	 * Monta os critérios
+	 * Monta os critérios para a paginação dos departamentos.
 	 * 
-	 * @param nome
+	 * @param nome nome do departamento
 	 * @return
 	 */
-	private Criteria montarCriterios(String nome) {
+	private Criteria montarCriteriosPaginacao(String nome) {
 		Criteria criteria = this.getSession().createCriteria(Departamento.class);
 		if (!nome.equals("")) {
-			criteria.add(Restrictions.ilike("this.nome", nome));
+			criteria.add(Restrictions.like("this.nome", nome, MatchMode.ANYWHERE).ignoreCase());
 		}
 		return criteria;
 	}
-
 }

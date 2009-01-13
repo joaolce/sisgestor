@@ -49,10 +49,10 @@ IF EXIST %JBOSS_HOME%\server\default\lib\slf4j-simple-1.5.6.jar (
 
 echo Copiando arquivos de configuracoes
 
-copy configuracao\login-config.xml "%JBOSS_HOME%"\server\default\conf
-copy configuracao\sisgestor.keystore "%JBOSS_HOME%"\server\default\conf
-copy configuracao\sisgestor-ds.xml "%JBOSS_HOME%"\server\default\deploy
-copy configuracao\server.xml "%JBOSS_HOME%"\server\default\deploy\jboss-web.deployer
+copy configuracao\jboss\login-config.xml "%JBOSS_HOME%"\server\default\conf
+copy configuracao\jboss\sisgestor.keystore "%JBOSS_HOME%"\server\default\conf
+copy configuracao\jboss\sisgestor-ds.xml "%JBOSS_HOME%"\server\default\deploy
+copy configuracao\jboss\server.xml "%JBOSS_HOME%"\server\default\deploy\jboss-web.deployer
 
 echo Copiando libs necessarias
 

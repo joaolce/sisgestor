@@ -6,16 +6,19 @@
 <dwr>
 	<allow>
 	
-	<!-- Criando classes DWR -->
-	<create javascript="ManterDepartamentoDWR" creator="new">
-		<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterDepartamentoDWR" />
-	</create>
+		<!-- Criando classes DWR -->
+		<create javascript="ManterDepartamentoDWR" creator="new">
+			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterDepartamentoDWR" />
+		</create>
 	
+		<!-- Convertendo Exceções -->
+		<convert match="org.directwebremoting.extend.AccessDeniedException" converter="exception" />
+		<convert match="br.com.ucb.sisgestor.apresentacao.ajaxUtils.SessionExpiredException" converter="exception" />
+		
+		<!-- Convertendo Forms e DTO -->
+		<convert match="br.com.ucb.sisgestor.util.dto.ListaResultadoDTO" converter="bean" />
 	
-	<!-- Convertendo Forms e DTO-->
-	<convert match="br.com.ucb.sisgestor.util.ListaResultadoDTO" converter="bean" />
-	
-	<!-- Convertendo VO -->
-	<convert match="br.com.ucb.sisgestor.entidade.Departamento" converter="hibernate3" />
+		<!-- Convertendo Entidades -->
+		<convert match="br.com.ucb.sisgestor.entidade.Departamento" converter="hibernate3" />
 	</allow>
 </dwr>

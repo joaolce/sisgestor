@@ -41,7 +41,6 @@
 			parameter="method">
 			<forward name="entrada" path="definicaoManterDepartamento" />
 			<forward name="popupNovoDepartamento" path="popupNovoDepartamento" />
-			
 		</action>
 		
 		<!-- Manter Usuário -->

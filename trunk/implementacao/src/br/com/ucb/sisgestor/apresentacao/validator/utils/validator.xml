@@ -9,5 +9,8 @@
 ]>
 
 <validate-mapping>
-		<validacao action="" validator="" />
+
+		<validacao action="br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction" 
+		validator="br.com.ucb.sisgestor.apresentacao.validator.ManterDepartamentoValidator" />
+		
 </validate-mapping>

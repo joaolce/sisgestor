@@ -31,7 +31,7 @@ public class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serializable> i
 	 * 
 	 * @param classePersistente classe utilizada
 	 */
-	public BaseDAOImpl(Class<T> classePersistente) {
+	protected BaseDAOImpl(Class<T> classePersistente) {
 		this.classePersistente = classePersistente;
 	}
 
@@ -73,24 +73,32 @@ public class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serializable> i
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	public void salvarOuAtualizar(T obj) {
+		this.getSession().saveOrUpdate(obj);
+	}
+
+	/**
+	 * Adiciona paginação a consulta.
+	 * 
+	 * @param criteria criteria da consulta
+	 * @param paginaAtual número da página atual
+	 * @param maximoRegistros máximo de registros da página
+	 */
+	protected void adicionarPaginacao(Criteria criteria, Integer paginaAtual, int maximoRegistros) {
+		if (paginaAtual != null) {
+			criteria.setFirstResult(paginaAtual.intValue() * maximoRegistros);
+		}
+		criteria.setMaxResults(maximoRegistros);
+	}
+
+	/**
 	 * Recupera sessão atual do hibernate.
 	 * 
 	 * @return session sessão atual
 	 */
 	protected Session getSession() {
 		return HibernateUtil.getSession();
-	}
-	
-   /**
-    * 
-    * @param paginaAtual
-    * @param criteria
-    * @param maximoRegistros
-    */
-   protected void adicionarPaginacao(Criteria criteria, Integer paginaAtual, int maximoRegistros) {
-		if(paginaAtual != null){
-			criteria.setFirstResult(paginaAtual.intValue() * maximoRegistros);
-		}
-		criteria.setMaxResults(maximoRegistros);
 	}
 }

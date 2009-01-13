@@ -22,6 +22,12 @@ import org.apache.struts.action.ActionMapping;
  */
 public class ManterUsuarioAction extends BaseAction {
 
+	private static UsuarioBO	usuarioBO;
+
+	static {
+		usuarioBO = UsuarioBOImpl.getInstancia();
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -29,8 +35,7 @@ public class ManterUsuarioAction extends BaseAction {
 	public ActionForward entrada(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) actionForm;
-		UsuarioBO bo = UsuarioBOImpl.getInstancia();
-		form.setUsuarios(bo.obterTodos());
-		return super.entrada();
+		form.setUsuarios(usuarioBO.obterTodos());
+		return this.findForward(FWD_ENTRADA);
 	}
 }

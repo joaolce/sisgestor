@@ -17,10 +17,10 @@ import org.apache.commons.logging.LogFactory;
  */
 public class EmailSender {
 
-	private static Log				logger;
-	private static EmailSender		sender;
 	private static Properties		configuracao;
+	private static Log				logger;
 	private static final String	properties	= "settings.properties";
+	private static EmailSender		sender;
 
 	private Session					session;
 

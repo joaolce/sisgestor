@@ -55,4 +55,11 @@ public interface BaseDAO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * @param obj objeto persistente a salvar
 	 */
 	public void salvar(T obj);
+
+	/**
+	 * Salva ou atualiza um objeto na base de dados.
+	 * 
+	 * @param obj objeto persistente a salvar ou atualizar
+	 */
+	public void salvarOuAtualizar(T obj);
 }

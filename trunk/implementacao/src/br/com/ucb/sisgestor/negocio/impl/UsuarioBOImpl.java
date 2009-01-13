@@ -30,7 +30,8 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	}
 
 	/**
-	 * Recupera a instância de {@link UsuarioBO}. pattern singleton.
+	 * Recupera a instância de {@link UsuarioBO}. <br />
+	 * pattern singleton.
 	 * 
 	 * @return {@link UsuarioBO}
 	 */

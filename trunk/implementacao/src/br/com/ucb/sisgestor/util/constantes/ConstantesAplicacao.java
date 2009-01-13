@@ -21,8 +21,8 @@ public class ConstantesAplicacao {
 
 	private static String	BIND_NAME_CONTEXT_PATH	= "java:contextPathAplicacao";
 	private static String	BIND_NAME_URL_APLICACAO	= "java:urlAplicacao";
-	private static Log		log							= LogFactory.getLog(ConstantesAplicacao.class);
 	private static boolean	constantesOk				= false;
+	private static Log		log							= LogFactory.getLog(ConstantesAplicacao.class);
 
 	/**
 	 * @see HttpServletRequest#getContextPath()

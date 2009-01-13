@@ -34,18 +34,18 @@ import org.apache.struts.validator.ValidatorForm;
  */
 public class BaseValidator {
 
-	private MessageResources		resources;
+	private static Log				logger;
 	//Campos que devem ser informados em caso de erro.
 	private ActionErrors				actionErrors;
-	private String						forwardErroValidacao;
 	private String						focusControl;
+	private String						forwardErroValidacao;
 
-	private ValidatorForm			validatorForm;
-	private HttpServletRequest		request;
 	private ActionMapping			mapping;
-	private HttpSession				session;
+	private HttpServletRequest		request;
+	private MessageResources		resources;
 	private HttpServletResponse	response;
-	private static Log				logger;
+	private HttpSession				session;
+	private ActionForm				validatorForm;
 
 	static {
 		logger = LogFactory.getLog(BaseValidator.class);
@@ -65,8 +65,8 @@ public class BaseValidator {
 			HttpServletResponse response) throws InvocationTargetException {
 		//faz o cast do form, para não ser feito em todos os métodos
 
-		if (form instanceof ValidatorForm) {
-			this.validatorForm = (ValidatorForm) form;
+		if (form instanceof ActionForm) {
+			this.validatorForm = form;
 		}
 
 		//seta o request para ser usado em outros métodos. não remover
@@ -174,6 +174,15 @@ public class BaseValidator {
 	}
 
 	/**
+	 * Recupera o {@link ActionForm} atual.
+	 * 
+	 * @return {@link ActionForm} atual
+	 */
+	protected ActionForm getForm() {
+		return this.validatorForm;
+	}
+
+	/**
 	 * Recupera o valor da propriedade no form atual.
 	 * 
 	 * @param formProperty nome da propriedade
@@ -182,7 +191,7 @@ public class BaseValidator {
 	protected Object getFormValue(String formProperty) {
 		Object value = null;
 		try {
-			value = PropertyUtils.getProperty(this.getValidatorForm(), formProperty);
+			value = PropertyUtils.getProperty(this.getForm(), formProperty);
 		} catch (Exception e) {
 			value = null;
 		}
@@ -244,15 +253,6 @@ public class BaseValidator {
 	 */
 	protected Usuario getUser() throws Exception {
 		return (Usuario) this.getSession().getAttribute(DadosContexto.USUARIOSESSAO);
-	}
-
-	/**
-	 * Recupera o {@link ValidatorForm} atual.
-	 * 
-	 * @return {@link ValidatorForm} atual
-	 */
-	protected ValidatorForm getValidatorForm() {
-		return this.validatorForm;
 	}
 
 	/**
@@ -492,7 +492,7 @@ public class BaseValidator {
 		if (value == null) {
 			Class<?> propertyType;
 			try {
-				propertyType = PropertyUtils.getPropertyType(this.getValidatorForm(), formProperty);
+				propertyType = PropertyUtils.getPropertyType(this.getForm(), formProperty);
 			} catch (Exception e) {
 				propertyType = null;
 			}

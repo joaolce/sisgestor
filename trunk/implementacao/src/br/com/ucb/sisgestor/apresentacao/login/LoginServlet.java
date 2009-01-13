@@ -25,13 +25,13 @@ public final class LoginServlet extends HttpServlet {
 
 	private static Log				logger;
 	private static final String	CHARSET			= "ISO-8859-1";
-	private static final String	HTML_MIME_TYPE	= "text/html";
 	private static final String	ERROR				= "error";
+	private static final String	HTML_MIME_TYPE	= "text/html";
 	private static final String	LOGIN_ERROR		= "loginerror";
 	private static final String	LOGOUT			= "logout";
 
-	private LoginHelper				loginHelper;
 	private LoginBundle				loginBundle;
+	private LoginHelper				loginHelper;
 
 	static {
 		logger = LogFactory.getLog(LoginServlet.class);
@@ -42,6 +42,7 @@ public final class LoginServlet extends HttpServlet {
 	 */
 	@Override
 	public void init() throws ServletException {
+		super.init();
 		this.loginBundle = new LoginBundle();
 		this.loginHelper = new LoginHelper();
 	}
