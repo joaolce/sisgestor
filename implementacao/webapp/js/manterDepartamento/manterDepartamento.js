@@ -59,11 +59,16 @@ ComportamentosTela.prototype = {
 		   dwr.util.setValue("sigla", departamento.sigla);
 		   dwr.util.setValue("nome", departamento.nome);
 		   dwr.util.setValue("email", departamento.email);
+		   if (departamento.departamentoSuperior != null) {
+			   dwr.util.setValue("departamentoSuperior", departamento.departamentoSuperior.id);
+		   } else {
+			   dwr.util.setValue("departamentoSuperior", "");
+		   }
 	   }).bind(this));
    },
 
    /**
-	 * Pesquisa os departamentos pelo nome
+	 * Pesquisa os departamentos por parte do nome
 	 */
    pesquisar : function() {
 	   Effect.Fade("formSalvar");
@@ -174,7 +179,7 @@ ComportamentosTela.prototype = {
    /**
 	 * Envia ao action a ação de salvar os dados do departamento
 	 * 
-	 * @param form
+	 * @param form formulário
 	 * @return
 	 */
    salvar : function(form) {

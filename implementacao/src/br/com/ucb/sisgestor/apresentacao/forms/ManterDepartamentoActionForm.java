@@ -20,18 +20,8 @@ public class ManterDepartamentoActionForm extends BaseForm {
 	private String					sigla;
 	private String					nome;
 	private String					email;
-	private Departamento			departamento;
 	private Integer				departamentoSuperior;
 	private List<Departamento>	listaDepartamentos;
-
-	/**
-	 * Recupera o valor de departamento
-	 * 
-	 * @return departamento
-	 */
-	public Departamento getDepartamento() {
-		return this.departamento;
-	}
 
 	/**
 	 * Recupera o valor de departamentoSuperior
@@ -85,15 +75,6 @@ public class ManterDepartamentoActionForm extends BaseForm {
 	 */
 	public String getSigla() {
 		return this.sigla;
-	}
-
-	/**
-	 * Atribui departamento
-	 * 
-	 * @param departamento o valor a ajustar em departamento
-	 */
-	public void setDepartamento(Departamento departamento) {
-		this.departamento = departamento;
 	}
 
 	/**
