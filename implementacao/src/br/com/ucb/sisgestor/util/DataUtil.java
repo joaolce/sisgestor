@@ -36,13 +36,12 @@ public final class DataUtil {
 	public static final int				MES			= 5;
 	/** Unidade que representa o ano */
 	public static final int				ANO			= 6;
-	/** Data no formato Quinta, 1 de Janeiro de 2009 */
-	public static final DateFormat	DATE_FULL	= DateFormat.getDateInstance(DateFormat.FULL, LOCALE_BR);
 	/** Data no formato dd/MM/yyyy */
 	public static final DateFormat	DATE_MEDIUM	= DateFormat.getDateInstance(DateFormat.MEDIUM, LOCALE_BR);
 	/** Hora no formato HH:mm:ss */
 	public static final DateFormat	HORA_MEDIUM	= DateFormat.getTimeInstance(DateFormat.MEDIUM, LOCALE_BR);
-
+	/** Data no formato Quinta, 1 de Janeiro de 2009 */
+	public static final DateFormat	DATE_FULL	= DateFormat.getDateInstance(DateFormat.FULL, LOCALE_BR);
 
 	/**
 	 * Construtor privado (classe utilitária).

@@ -23,6 +23,14 @@ import org.hibernate.classic.Session;
 public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Serializable> implements
 		BaseBO<T, PK> {
 
+
+	/**
+	 * Cria uma nova instância do tipo {@link BaseBOImpl}
+	 */
+	protected BaseBOImpl() {
+		//apenas para proteger no pacote
+	}
+
 	/**
 	 * Inicia a transação da sessão para a thread em execução.
 	 * 
@@ -64,36 +72,5 @@ public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Seriali
 	 */
 	private Session getSession() {
 		return HibernateUtil.getSession();
-	}
-	
-	/**
-	 * 
-	 * Remove um objeto da base de dados
-	 * @throws Exception 
-	 *
-	 * @see br.com.ucb.sisgestor.negocio.BaseBO#excluir(br.com.ucb.sisgestor.entidade.ObjetoPersistente)
-	 */
-	public void excluir(T objeto) throws Exception{
-		this.getSession().delete(objeto);
-	}
-	
-	/**
-	 * 
-	 * Remove um objeto da base de dados
-	 *
-	 * @see br.com.ucb.sisgestor.negocio.BaseBO#atualizar(br.com.ucb.sisgestor.entidade.ObjetoPersistente)
-	 */
-	public void atualizar(T objeto) throws Exception{
-		this.getSession().update(objeto);
-	}
-	
-	/**
-	 * 
-	 * Salva um {@link Departamento} na base de dados
-	 *
-	 * @see br.com.ucb.sisgestor.negocio.BaseBO#salvar(br.com.ucb.sisgestor.entidade.ObjetoPersistente)
-	 */
-	public void salvar(T objeto) throws Exception{
-		this.getSession().save(objeto);
 	}
 }

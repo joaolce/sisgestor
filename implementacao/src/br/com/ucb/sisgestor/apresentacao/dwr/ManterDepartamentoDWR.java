@@ -7,53 +7,54 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.negocio.DepartamentoBO;
 import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
-import br.com.ucb.sisgestor.util.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.constantes.DadosContexto;
+import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import java.util.List;
 
 /**
- * Objeto ManterDepartamentoDWR do projeto.
+ * Objeto DWR de manter departamento do projeto.
  * 
  * @author Thiago
  * @since 10/01/2009
  */
 public class ManterDepartamentoDWR extends BaseDWR {
 
-	/**
-	 * Pesquisa o {@link Departamento} pelo id
-	 * 
-	 * @param idDepartamento
-	 * @return Departamento
-	 */
-	public Departamento getById(Integer idDepartamento) {
-		DepartamentoBO departamentoBO = DepartamentoBOImpl.getInstancia();
-		return departamentoBO.obter(idDepartamento);
+	private static DepartamentoBO	departamentoBO;
+
+	static {
+		departamentoBO = DepartamentoBOImpl.getInstancia();
 	}
 
 	/**
+	 * Pesquisa o {@link Departamento} pelo id.
 	 * 
-	 * Obtem um {@link List} de todos {@link Departamento}
+	 * @param id identificador do departamento
+	 * @return Departamento
+	 */
+	public Departamento getById(Integer id) {
+		return departamentoBO.obter(id);
+	}
+
+	/**
+	 * Obtem uma lista de todos {@link Departamento}
 	 * 
 	 * @return {@link List} de {@link Departamento}
 	 */
 	public List<Departamento> obterTodos() {
-		DepartamentoBO departamentoBO = DepartamentoBOImpl.getInstancia();
 		return departamentoBO.obterTodos();
 	}
 
 	/**
-	 * Pesquisar os departamentos com os parâmetros preenchidos
+	 * Pesquisa os departamentos com os parâmetros preenchidos
 	 * 
-	 * @param nome
-	 * @param paginaAtual
-	 * @return List
+	 * @param nome parte do nome do departamento
+	 * @param paginaAtual página atual da pesquisa
+	 * @return {@link List} de {@link Departamento}
 	 */
-	public ListaResultadoDTO pesquisar(String nome, Integer paginaAtual) {
-		DepartamentoBO departamentoBO = DepartamentoBOImpl.getInstancia();
+	public ListaResultadoDTO<Departamento> pesquisar(String nome, Integer paginaAtual) {
+		List<Departamento> listaDepartamentos = departamentoBO.getByNome(nome, paginaAtual);
 
-		List listaDepartamentos = departamentoBO.getByNome(nome, paginaAtual);
-
-		ListaResultadoDTO dto = new ListaResultadoDTO();
+		ListaResultadoDTO<Departamento> dto = new ListaResultadoDTO<Departamento>();
 
 		dto.setColecaoParcial(listaDepartamentos);
 
@@ -63,11 +64,8 @@ public class ManterDepartamentoDWR extends BaseDWR {
 			this.setSessionAttribute(DadosContexto.TOTAL_PESQUISA_SESSAO, total);
 			dto.setTotalRegistros(total);
 		} else {
-			dto.setTotalRegistros((Integer) this
-					.getSessionAttribute(DadosContexto.TOTAL_PESQUISA_SESSAO));
+			dto.setTotalRegistros((Integer) this.getSessionAttribute(DadosContexto.TOTAL_PESQUISA_SESSAO));
 		}
-
 		return dto;
 	}
-
 }

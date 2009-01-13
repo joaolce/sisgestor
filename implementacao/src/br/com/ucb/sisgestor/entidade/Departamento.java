@@ -25,9 +25,9 @@ import org.hibernate.annotations.NaturalId;
 @AttributeOverride(name = "id", column = @Column(name = "DPR_ID", nullable = false))
 public class Departamento extends ObjetoPersistente {
 
-	private String					email;
 	private String					sigla;
-	private String 			   nome;
+	private String					nome;
+	private String					email;
 	private Departamento			departamentoSuperior;
 	private List<Departamento>	departamentosFilhos;
 
@@ -58,9 +58,19 @@ public class Departamento extends ObjetoPersistente {
 	 * 
 	 * @return email do departamento
 	 */
-	@Column(name = "DPR_EMAIL", nullable = true, length = 30)
+	@Column(name = "DPR_EMAIL", nullable = true, length = 40)
 	public String getEmail() {
 		return this.email;
+	}
+
+	/**
+	 * Recupera o nome do departamento
+	 * 
+	 * @return nome do departamento
+	 */
+	@Column(name = "DPR_NOME", nullable = false, length = 50)
+	public String getNome() {
+		return this.nome;
 	}
 
 	/**
@@ -73,16 +83,6 @@ public class Departamento extends ObjetoPersistente {
 	public String getSigla() {
 		return this.sigla;
 	}
-	
-	/**
-	 * Recupera o valor de nome
-	 *
-	 * @return nome
-	 */
-	@Column(name = "DPR_NOME", nullable = false, length = 50)
-	public String getNome() {
-		return nome;
-	}
 
 	/**
 	 * Atribui os departamentos filhos diretos do departamento.
@@ -93,7 +93,6 @@ public class Departamento extends ObjetoPersistente {
 		this.departamentosFilhos = departamentosFilhos;
 	}
 
-
 	/**
 	 * Atribui o departamento superior do departamento.
 	 * 
@@ -102,7 +101,6 @@ public class Departamento extends ObjetoPersistente {
 	public void setDepartamentoSuperior(Departamento departamentoSuperior) {
 		this.departamentoSuperior = departamentoSuperior;
 	}
-
 
 	/**
 	 * Atribui o email do departamento.
@@ -113,6 +111,14 @@ public class Departamento extends ObjetoPersistente {
 		this.email = email;
 	}
 
+	/**
+	 * Atribui o nome do departamento
+	 * 
+	 * @param nome nome do departamento
+	 */
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
 	/**
 	 * Atribui a sigla do departamento.
@@ -121,14 +127,5 @@ public class Departamento extends ObjetoPersistente {
 	 */
 	public void setSigla(String sigla) {
 		this.sigla = sigla;
-	}
-
-	/**
-	 * Atribui nome
-	 *
-	 * @param nome o valor a ajustar em nome
-	 */
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 }

@@ -18,17 +18,17 @@ public interface DepartamentoDAO extends BaseDAO<Departamento, Integer> {
 	/**
 	 * Retorna um {@link List} de {@link Departamento} a partir da descrição
 	 * 
-	 * @param nome
-	 * @param paginaAtual
+	 * @param nome parte do nome do departamento
+	 * @param paginaAtual página atual da pesquisa
 	 * @return {@link List} de {@link Departamento}
 	 */
-	List<Departamento> getByNome(String nome, Integer paginaAtual);
+	public List<Departamento> getByNome(String nome, Integer paginaAtual);
 
 	/**
 	 * Recupera o total de registros retornados pela consulta.
 	 * 
-	 * @param nome
-	 * @return totalRegistros
+	 * @param nome parte do nome do departamento
+	 * @return totalRegistros total de registros encontrados
 	 */
-	Integer getTotalRegistros(String nome);
+	public Integer getTotalRegistros(String nome);
 }

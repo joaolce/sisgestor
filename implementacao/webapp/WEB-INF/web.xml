@@ -47,7 +47,7 @@
 		</init-param>
 		<init-param>
 			<param-name>debug</param-name>
-			<param-value>true</param-value>
+			<param-value>false</param-value>
 		</init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>

@@ -23,69 +23,66 @@ import org.apache.struts.action.ActionMapping;
  */
 public class ManterDepartamentoAction extends BaseAction {
 
+	private static DepartamentoBO	departamentoBO;
+
+	static {
+		departamentoBO = DepartamentoBOImpl.getInstancia();
+	}
+
 	/**
+	 * Atualiza um departamento.
 	 * 
 	 * @param mapping
 	 * @param formulario
 	 * @param request
 	 * @param response
-	 * @return forward
+	 * @return forward da atualização
 	 * @throws Exception
 	 */
-	public ActionForward atualizar(ActionMapping mapping, ActionForm formulario,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+	public ActionForward atualizar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm form = (ManterDepartamentoActionForm) formulario;
-
 		Departamento departamento = new Departamento();
-
 		Utils.copyProperties(departamento, form);
-
-		DepartamentoBO departamentoBO = DepartamentoBOImpl.getInstancia();
 
 		departamentoBO.atualizar(departamento);
 
 		this.addMessageKey("mensagem.departamento.alterar");
-
 		return this.sendAJAXResponse(true);
 	}
 
 	/**
+	 * Excluí um departamento.
 	 * 
 	 * @param mapping
 	 * @param formulario
 	 * @param request
 	 * @param response
-	 * @return forward
+	 * @return forward da exclusão
 	 * @throws Exception
 	 */
-	public ActionForward excluir(ActionMapping mapping, ActionForm formulario,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+	public ActionForward excluir(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm form = (ManterDepartamentoActionForm) formulario;
-		DepartamentoBO departamentoBO = DepartamentoBOImpl.getInstancia();
 		Departamento departamento = departamentoBO.obter(form.getId());
 
 		departamentoBO.excluir(departamento);
 
 		this.addMessageKey("mensagem.departamento.excluir");
-
 		return this.sendAJAXResponse(true);
 	}
 
 	/**
-	 * Tela para incluir um novo departamento
+	 * Tela de popup para incluir um novo departamento.
 	 * 
 	 * @param mapping
 	 * @param form
 	 * @param request
 	 * @param response
-	 * @return forward
+	 * @return forward do popup
 	 */
 	public ActionForward popupNovoDepartamento(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		DepartamentoBO departamentoBO = DepartamentoBOImpl.getInstancia();
-
 		ManterDepartamentoActionForm frm = (ManterDepartamentoActionForm) form;
 
 		frm.setListaDepartamentos(departamentoBO.obterTodos());
@@ -94,29 +91,24 @@ public class ManterDepartamentoAction extends BaseAction {
 	}
 
 	/**
+	 * Salva um departamento.
 	 * 
 	 * @param mapping
 	 * @param formulario
 	 * @param request
 	 * @param response
-	 * @return forward
+	 * @return forward da inclusão
 	 * @throws Exception
 	 */
-	public ActionForward salvar(ActionMapping mapping, ActionForm formulario,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+	public ActionForward salvar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm form = (ManterDepartamentoActionForm) formulario;
-
 		Departamento departamento = new Departamento();
-
 		Utils.copyProperties(departamento, form);
 
-		DepartamentoBO bo = DepartamentoBOImpl.getInstancia();
-
-		bo.salvar(departamento);
+		departamentoBO.salvar(departamento);
 
 		this.addMessageKey("mensagem.departamento.salvar");
-
 		return this.sendAJAXResponse(true);
 	}
 }

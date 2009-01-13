@@ -4,10 +4,9 @@
  */
 package br.com.ucb.sisgestor.apresentacao.forms;
 
-import java.util.List;
-
 import br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction;
 import br.com.ucb.sisgestor.entidade.Departamento;
+import java.util.List;
 
 /**
  * Form para a action {@link ManterDepartamentoAction}.
@@ -17,129 +16,138 @@ import br.com.ucb.sisgestor.entidade.Departamento;
  */
 public class ManterDepartamentoActionForm extends BaseForm {
 
-	private Integer 				id;
-	private String					email;
+	private Integer				id;
 	private String					sigla;
-	private String 			   nome;
-	private List<Departamento> listaDepartamentos;
-	
-	private Departamento 		departamento;
-	
-	private Integer		 		departamentoSuperior;
-	
+	private String					nome;
+	private String					email;
+	private Departamento			departamento;
+	private Integer				departamentoSuperior;
+	private List<Departamento>	listaDepartamentos;
+
 	/**
-	 * Recupera o valor de id
-	 *
-	 * @return id
+	 * Recupera o valor de departamento
+	 * 
+	 * @return departamento
 	 */
-	public Integer getId() {
-		return id;
+	public Departamento getDepartamento() {
+		return this.departamento;
 	}
+
 	/**
-	 * Atribui id
-	 *
-	 * @param id o valor a ajustar em id
+	 * Recupera o valor de departamentoSuperior
+	 * 
+	 * @return departamentoSuperior
 	 */
-	public void setId(Integer id) {
-		this.id = id;
+	public Integer getDepartamentoSuperior() {
+		return this.departamentoSuperior;
 	}
+
 	/**
 	 * Recupera o valor de email
-	 *
+	 * 
 	 * @return email
 	 */
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
+
 	/**
-	 * Atribui email
-	 *
-	 * @param email o valor a ajustar em email
+	 * Recupera o valor de id
+	 * 
+	 * @return id
 	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	/**
-	 * Recupera o valor de sigla
-	 *
-	 * @return sigla
-	 */
-	public String getSigla() {
-		return sigla;
-	}
-	/**
-	 * Atribui sigla
-	 *
-	 * @param sigla o valor a ajustar em sigla
-	 */
-	public void setSigla(String sigla) {
-		this.sigla = sigla;
+	public Integer getId() {
+		return this.id;
 	}
 
 	/**
 	 * Recupera o valor de listaDepartamentos
-	 *
+	 * 
 	 * @return listaDepartamentos
 	 */
 	public List<Departamento> getListaDepartamentos() {
-		return listaDepartamentos;
+		return this.listaDepartamentos;
 	}
+
 	/**
-	 * Atribui listaDepartamentos
-	 *
-	 * @param listaDepartamentos o valor a ajustar em listaDepartamentos
+	 * Recupera o valor de nome
+	 * 
+	 * @return nome
 	 */
-	public void setListaDepartamentos(List<Departamento> listaDepartamentos) {
-		this.listaDepartamentos = listaDepartamentos;
+	public String getNome() {
+		return this.nome;
 	}
+
 	/**
-	 * Recupera o valor de departamento
-	 *
-	 * @return departamento
+	 * Recupera o valor de sigla
+	 * 
+	 * @return sigla
 	 */
-	public Departamento getDepartamento() {
-		return departamento;
+	public String getSigla() {
+		return this.sigla;
 	}
+
 	/**
 	 * Atribui departamento
-	 *
+	 * 
 	 * @param departamento o valor a ajustar em departamento
 	 */
 	public void setDepartamento(Departamento departamento) {
 		this.departamento = departamento;
 	}
-	/**
-	 * Recupera o valor de departamentoSuperior
-	 *
-	 * @return departamentoSuperior
-	 */
-	public Integer getDepartamentoSuperior() {
-		return departamentoSuperior;
-	}
+
 	/**
 	 * Atribui departamentoSuperior
-	 *
+	 * 
 	 * @param departamentoSuperior o valor a ajustar em departamentoSuperior
 	 */
 	public void setDepartamentoSuperior(Integer departamentoSuperior) {
 		this.departamentoSuperior = departamentoSuperior;
 	}
+
 	/**
-	 * Recupera o valor de nome
-	 *
-	 * @return nome
+	 * Atribui email
+	 * 
+	 * @param email o valor a ajustar em email
 	 */
-	public String getNome() {
-		return nome;
+	public void setEmail(String email) {
+		this.email = email;
 	}
+
+	/**
+	 * Atribui id
+	 * 
+	 * @param id o valor a ajustar em id
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/**
+	 * Atribui listaDepartamentos
+	 * 
+	 * @param listaDepartamentos o valor a ajustar em listaDepartamentos
+	 */
+	public void setListaDepartamentos(List<Departamento> listaDepartamentos) {
+		this.listaDepartamentos = listaDepartamentos;
+	}
+
 	/**
 	 * Atribui nome
-	 *
+	 * 
 	 * @param nome o valor a ajustar em nome
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
+	/**
+	 * Atribui sigla
+	 * 
+	 * @param sigla o valor a ajustar em sigla
+	 */
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
+	}
+
 }
-	

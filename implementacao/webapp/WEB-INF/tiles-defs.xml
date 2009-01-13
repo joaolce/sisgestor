@@ -32,8 +32,6 @@
 		<put name="corpo">/paginas/departamento/manterDepartamento.jsp</put>
 		<put name="titulo">Manter Departamento</put>
 	</definition>
-	<definition name="popupNovoDepartamento" path="/paginas/departamento/popupNovoDepartamento.jsp">
-	</definition>
-	
+	<definition name="popupNovoDepartamento" path="/paginas/departamento/popupNovoDepartamento.jsp" />
 	
 </tiles-definitions>

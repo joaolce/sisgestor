@@ -13,13 +13,13 @@ package br.com.ucb.sisgestor.util.constantes;
 public interface DadosContexto {
 
 	/** Data do último login */
-	public final String	DATA_LOGIN		= "dataLogin";
-	/** Hora do último login */
-	public final String	HORA_LOGIN		= "horaLogin";
+	public final String	DATA_LOGIN					= "dataLogin";
 	/** Indica se foi erro do container */
-	public final String	ERRO_CONTAINER	= "errorContainer";
-	/** Usuário atual na sessão */
-	public final String	USUARIOSESSAO	= "usuarioSessao";
+	public final String	ERRO_CONTAINER				= "errorContainer";
+	/** Hora do último login */
+	public final String	HORA_LOGIN					= "horaLogin";
 	/** Total de registros da pesquisa */
-	public final String TOTAL_PESQUISA_SESSAO = "totalPesquisa";
+	public final String	TOTAL_PESQUISA_SESSAO	= "totalPesquisa";
+	/** Usuário atual na sessão */
+	public final String	USUARIOSESSAO				= "usuarioSessao";
 }

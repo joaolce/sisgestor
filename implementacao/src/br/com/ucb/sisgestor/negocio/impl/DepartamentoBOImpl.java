@@ -6,10 +6,13 @@ package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.negocio.DepartamentoBO;
+import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.DepartamentoDAO;
 import br.com.ucb.sisgestor.persistencia.impl.DepartamentoDAOImpl;
+import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.util.List;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 
 /**
  * Objeto de negócio para {@link Departamento}.
@@ -19,9 +22,8 @@ import org.hibernate.Transaction;
  */
 public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implements DepartamentoBO {
 
-	private static final DepartamentoBO instancia = new DepartamentoBOImpl();
-	private DepartamentoDAO dao;
-
+	private static final DepartamentoBO	instancia	= new DepartamentoBOImpl();
+	private DepartamentoDAO					dao;
 
 	/**
 	 * Cria uma nova instância do tipo {@link DepartamentoBOImpl}.
@@ -31,7 +33,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	}
 
 	/**
-	 * Recupera a instância de {@link DepartamentoBO}.<br>
+	 * Recupera a instância de {@link DepartamentoBO}.<br />
 	 * pattern singleton.
 	 * 
 	 * @return {@link DepartamentoBO}
@@ -41,58 +43,38 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	}
 
 	/**
-	 * 
-	 * Atualiza os dados do {@link Departamento}
-	 * 
-	 * @see br.com.ucb.sisgestor.negocio.impl.BaseBOImpl#atualizar(br.com.ucb.sisgestor.entidade.ObjetoPersistente)
-	 * @throws @{@link Exception}
+	 * {@inheritDoc}
 	 */
-	@Override
 	public void atualizar(Departamento departamento) throws Exception {
-		Transaction transaction = this.beginTransaction();
-		try {
-			super.atualizar(departamento);
-			transaction.commit();
-		} catch (Exception e) {
-			transaction.rollback();
-			throw e;
-		}
+		this.salvar(departamento);
 	}
 
 	/**
-	 * 
-	 * Remove um {@link Departamento} da base de dados
-	 * 
-	 * @see br.com.ucb.sisgestor.negocio.impl.BaseBOImpl#excluir(br.com.ucb.sisgestor.entidade.ObjetoPersistente)
+	 * {@inheritDoc}
 	 */
-	@Override
 	public void excluir(Departamento departamento) throws Exception {
 		Transaction transaction = this.beginTransaction();
 		try {
-			super.excluir(departamento);
-			transaction.commit();
+			if (departamento.getDepartamentosFilhos() != null) {
+				throw new NegocioException("erro.departamento.filhos");
+			}
+			this.dao.excluir(departamento);
+			HibernateUtil.commit(transaction);
 		} catch (Exception e) {
-			transaction.rollback();
+			HibernateUtil.rollback(transaction);
 			throw e;
 		}
 	}
 
 	/**
-	 * 
-	 * Retorna um {@link List} de {@link Departamento} a partir do nome
-	 * 
-	 * @see br.com.ucb.sisgestor.negocio.DepartamentoBO#getByNome(java.lang.String,
-	 *      java.lang.Integer)
+	 * {@inheritDoc}
 	 */
 	public List<Departamento> getByNome(String nome, Integer paginaAtual) {
 		return this.dao.getByNome(nome, paginaAtual);
 	}
 
 	/**
-	 * 
-	 * Retorna o total de {@link Departamento}
-	 * 
-	 * @see br.com.ucb.sisgestor.negocio.DepartamentoBO#getTotalRegistros(java.lang.String)
+	 * {@inheritDoc}
 	 */
 	public Integer getTotalRegistros(String nome) {
 		return this.dao.getTotalRegistros(nome);
@@ -113,21 +95,18 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	}
 
 	/**
-	 * 
-	 * Salva um {@link Departamento} na base de dados
-	 * 
-	 * @throws Exception
-	 * 
-	 * @see br.com.ucb.sisgestor.negocio.BaseBO#salvar(br.com.ucb.sisgestor.entidade.ObjetoPersistente)
+	 * {@inheritDoc}
 	 */
-	@Override
 	public void salvar(Departamento departamento) throws Exception {
 		Transaction transaction = this.beginTransaction();
 		try {
-			super.salvar(departamento);
-			transaction.commit();
+			this.dao.salvarOuAtualizar(departamento);
+			HibernateUtil.commit(transaction);
+		} catch (ConstraintViolationException ce) {
+			HibernateUtil.rollback(transaction);
+			throw new NegocioException("erro.departamento.sigla");
 		} catch (Exception e) {
-			transaction.rollback();
+			HibernateUtil.rollback(transaction);
 			throw e;
 		}
 	}

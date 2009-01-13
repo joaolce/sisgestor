@@ -18,17 +18,17 @@ public interface DepartamentoBO extends BaseBO<Departamento, Integer> {
 	/**
 	 * Retorna um {@link List} de {@link Departamento} a partir do nome
 	 * 
-	 * @param nome
-	 * @param paginaAtual
+	 * @param nome parte do nome do departamento
+	 * @param paginaAtual página atual da pesquisa
 	 * @return {@link List} de {@link Departamento}
 	 */
-	List<Departamento> getByNome(String nome, Integer paginaAtual);
+	public List<Departamento> getByNome(String nome, Integer paginaAtual);
 
 	/**
 	 * Recupera o total de registros retornados pela consulta.
 	 * 
-	 * @param nome
-	 * @return totalRegistros
+	 * @param nome parte do nome do departamento
+	 * @return total de registros encontrados
 	 */
-	Integer getTotalRegistros(String nome);
+	public Integer getTotalRegistros(String nome);
 }
