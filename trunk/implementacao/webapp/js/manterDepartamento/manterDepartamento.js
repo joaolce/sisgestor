@@ -72,6 +72,7 @@ ComportamentosTela.prototype = {
 	 */
    pesquisar : function() {
 	   Effect.Fade("formSalvar");
+	   var sigla = dwr.util.getValue("siglaPesquisa");
 	   var nome = dwr.util.getValue("nomePesquisa");
 
 	   if (this.tabelaTelaPrincipal == null) {
@@ -79,7 +80,7 @@ ComportamentosTela.prototype = {
 	   }
 	   this.tabelaTelaPrincipal.reiniciarPaginacao();
 	   this.tabelaTelaPrincipal.abstractOnTrocarPagina = this.onTrocarPagina.bind(this);
-	   ManterDepartamentoDWR.pesquisar(nome, null, this.popularTabela.bind(this));
+	   ManterDepartamentoDWR.pesquisar(sigla, nome, null, this.popularTabela.bind(this));
    },
 
    /**
@@ -92,9 +93,10 @@ ComportamentosTela.prototype = {
 	   if (this.tabela != null) {
 		   this.tabela.toggleShowDivPaginacao(false);
 	   }
+	   var sigla = dwr.util.getValue("siglaPesquisa");
 	   var nome = dwr.util.getValue("nomePesquisa");
 
-	   ManterDepartamentoDWR.pesquisar(nome, novaPagina, this.popularTabela.bind(this));
+	   ManterDepartamentoDWR.pesquisar(sigla, nome, novaPagina, this.popularTabela.bind(this));
    },
 
    /**
@@ -196,7 +198,7 @@ ComportamentosTela.prototype = {
 	 */
    popupNovoDepartamento : function() {
 	   var url = "manterDepartamento.do?method=popupNovoDepartamento";
-	   createWindow(220, 500, 220, 70, "Novo Departamento", "divNovoDepartamento", url);
+	   createWindow(175, 430, 280, 70, "Novo Departamento", "divNovoDepartamento", url);
    }
 };
 

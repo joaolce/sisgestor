@@ -65,7 +65,7 @@ public final class GenericsUtil {
 	 * Retorna uma coleção do tipo {@link Collection} que usa "generics" a partir de uma coleção que não usa
 	 * "generics".
 	 * 
-	 * @see {@link Collections#checkedCollection(Collection, Class)}.
+	 * @see Collections#checkedCollection(Collection, Class)
 	 * 
 	 * @param <T> O tipo dos elementos que a coleção contem.
 	 * @param collection uma coleção com elementos do tipo T.
@@ -94,7 +94,7 @@ public final class GenericsUtil {
 	/**
 	 * Retorna uma lista do tipo {@link List} que usa "generics" a partir de uma lista que não usa "generics".
 	 * 
-	 * @see {@link Collections#checkedList(List, Class)}.
+	 * @see Collections#checkedList(List, Class)
 	 * 
 	 * @param <T> O tipo dos elementos que a lista contém.
 	 * @param list uma lista com elementos do tipo T
@@ -108,7 +108,7 @@ public final class GenericsUtil {
 	/**
 	 * Retorna um mapa do tipo {@link Map} que usa "generics" a partir de um mapa que não usa "generics."
 	 * 
-	 * @see {@link Collections#checkedMap(Map, Class, Class)}.
+	 * @see Collections#checkedMap(Map, Class, Class)
 	 * 
 	 * @param <K> O tipo das chaves do mapa.
 	 * @param <V> O tipo dos valores do mapa.

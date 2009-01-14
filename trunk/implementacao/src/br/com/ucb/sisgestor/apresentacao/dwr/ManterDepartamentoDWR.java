@@ -36,23 +36,15 @@ public class ManterDepartamentoDWR extends BaseDWR {
 	}
 
 	/**
-	 * Obtem uma lista de todos {@link Departamento}
+	 * Pesquisa os departamentos com os parâmetros preenchidos.
 	 * 
-	 * @return {@link List} de {@link Departamento}
-	 */
-	public List<Departamento> obterTodos() {
-		return departamentoBO.obterTodos();
-	}
-
-	/**
-	 * Pesquisa os departamentos com os parâmetros preenchidos
-	 * 
+	 * @param sigla parte da sigla do departamento
 	 * @param nome parte do nome do departamento
 	 * @param paginaAtual página atual da pesquisa
 	 * @return {@link List} de {@link Departamento}
 	 */
-	public ListaResultadoDTO<Departamento> pesquisar(String nome, Integer paginaAtual) {
-		List<Departamento> listaDepartamentos = departamentoBO.getByNome(nome, paginaAtual);
+	public ListaResultadoDTO<Departamento> pesquisar(String sigla, String nome, Integer paginaAtual) {
+		List<Departamento> listaDepartamentos = departamentoBO.getBySiglaNome(sigla, nome, paginaAtual);
 
 		ListaResultadoDTO<Departamento> dto = new ListaResultadoDTO<Departamento>();
 
@@ -60,7 +52,7 @@ public class ManterDepartamentoDWR extends BaseDWR {
 
 		//Busca o total de registros
 		if ((paginaAtual == null) && !listaDepartamentos.isEmpty()) {
-			Integer total = departamentoBO.getTotalRegistros(nome);
+			Integer total = departamentoBO.getTotalRegistros(sigla, nome);
 			this.setSessionAttribute(DadosContexto.TOTAL_PESQUISA_SESSAO, total);
 			dto.setTotalRegistros(total);
 		} else {

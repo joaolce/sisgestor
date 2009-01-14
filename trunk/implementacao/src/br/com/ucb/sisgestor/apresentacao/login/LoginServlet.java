@@ -4,6 +4,8 @@
  */
 package br.com.ucb.sisgestor.apresentacao.login;
 
+import br.com.ucb.sisgestor.negocio.exception.NegocioException;
+import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -90,14 +92,33 @@ public final class LoginServlet extends HttpServlet {
 				this.escrevePagina(response, this.loginBundle.getSenhaPage(""));
 			} else if ("lembrarSenha".equals(operacao)) {
 				logger.debug("Página de lembrete de senha, enviando a senha.");
-				String login = this.getEncodedParamValue(request, "login", 15);
-				//TODO: fazer operação de envio de senha
-				logger.info("login: " + login);
-				this.escrevePagina(response, this.loginBundle.getSenhaPage("Senha enviada."));
+				this.enviarLembreteDeSenha(request, response);
 			} else {
 				logger.debug("Operação não identificada. Redirecionando para a raiz da aplicação.");
 				response.sendRedirect(".");
 			}
+		}
+	}
+
+	/**
+	 * Envia a senha do usuário para o seu email.
+	 * 
+	 * @param request request atual
+	 * @param response response atual
+	 * @throws IOException
+	 */
+	private void enviarLembreteDeSenha(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		String login = this.getEncodedParamValue(request, "login", 15);
+		try {
+			boolean ok = UsuarioBOImpl.getInstancia().enviarLembreteDeSenha(login);
+			if (ok) {
+				this.escrevePagina(response, this.loginBundle.getSenhaPage("Senha enviada."));
+			} else {
+				this.escrevePagina(response, this.loginBundle.getSenhaPage("Senha não enviada."));
+			}
+		} catch (NegocioException ne) {
+			this.escrevePagina(response, this.loginBundle.getSenhaPage("Senha não enviada."));
 		}
 	}
 

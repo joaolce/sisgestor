@@ -44,7 +44,7 @@ public class Email {
 	 * 
 	 * @param recipients destinatários do email
 	 */
-	public void addRecipientesCC(String recipients) {
+	public void addDestinatariosCC(String recipients) {
 		if (StringUtils.isNotBlank(recipients)) {
 			try {
 				String[] enderecos = recipients.split(";");
@@ -62,7 +62,7 @@ public class Email {
 	 * 
 	 * @param recipients destinatários do email
 	 */
-	public void addRecipientesCCO(String recipients) {
+	public void addDestinatariosCCO(String recipients) {
 		if (StringUtils.isNotBlank(recipients)) {
 			try {
 				String[] enderecos = recipients.split(";");
@@ -80,7 +80,7 @@ public class Email {
 	 * 
 	 * @param recipients destinatários do email
 	 */
-	public void addRecipientesTO(String recipients) {
+	public void addDestinatariosTO(String recipients) {
 		if (StringUtils.isNotBlank(recipients)) {
 			try {
 				String[] enderecos = recipients.split(";");

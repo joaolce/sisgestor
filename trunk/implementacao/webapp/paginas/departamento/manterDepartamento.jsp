@@ -16,12 +16,21 @@
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE DEPARTAMENTOS -->
 	<html:form action="/manterDepartamento.do" onsubmit="departamento.pesquisar(); return false;" styleId="manterUsuarioForm">
-		<div style="float: left; margin-right: 10px;">
-			<label>
-				<bean:message key="label.nome" />
-				<br />
-				<input type="text" name="nomePesquisa" id="nomePesquisa"  size="51" maxlength="50" />
-			</label>
+		<div style="float: left; width: 350px;">
+			<div style="float: left;">
+				<label>
+					<bean:message key="label.sigla" />
+					<br />
+					<input type="text" name="siglaPesquisa" id="nomePesquisa" size="11" maxlength="10" />
+				</label>
+			</div>
+			<div style="float: right;">
+				<label>
+					<bean:message key="label.nome" />
+					<br />
+					<input type="text" name="nomePesquisa" id="nomePesquisa"  size="51" maxlength="50" />
+				</label>
+			</div>
 		</div>
 		<div style="padding-top: 14px; clear: both;">
 			<html:submit styleClass="botaoOkCancelar">
