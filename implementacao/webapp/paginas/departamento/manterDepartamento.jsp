@@ -25,7 +25,7 @@
 					<label>
 						<bean:message key="label.sigla" />
 						<br />
-						<input type="text" name="siglaPesquisa" id="nomePesquisa" size="11" maxlength="10" />
+						<input type="text" name="siglaPesquisa" id="siglaPesquisa" size="11" maxlength="10" />
 					</label>
 				</div>
 				<div style="float: right;">
