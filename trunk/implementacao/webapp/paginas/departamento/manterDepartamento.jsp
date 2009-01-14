@@ -7,7 +7,7 @@
 <script type="text/javascript" src="dwr/interface/ManterDepartamentoDWR.js"></script>
 <script type="text/javascript" src="js/manterDepartamento/manterDepartamento.js"></script>
 
-<div class="bordas" id="BordaExterna" style="padding: 10px;">
+<div class="bordas" id="BordaExterna">
 
 	<div id="divMenuOpcoes">
 		<html:link href="#" titleKey="dica.novoDepartamento" onclick="departamento.popupNovoDepartamento();">
@@ -15,31 +15,36 @@
 		</html:link>
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE DEPARTAMENTOS -->
-	<html:form action="/manterDepartamento.do" onsubmit="departamento.pesquisar(); return false;" styleId="manterUsuarioForm">
-		<div style="float: left; width: 350px;">
-			<div style="float: left;">
-				<label>
-					<bean:message key="label.sigla" />
-					<br />
-					<input type="text" name="siglaPesquisa" id="nomePesquisa" size="11" maxlength="10" />
-				</label>
+	<fieldset style="padding: 10px; width: 50%; margin: 5 auto;">
+		<legend>
+			<bean:message key="label.criterioPesquisa" />
+		</legend>
+		<html:form action="/manterDepartamento.do" onsubmit="departamento.pesquisar(); return false;" styleId="manterUsuarioForm">
+			<div style="float: left; width: 350px;">
+				<div style="float: left;">
+					<label>
+						<bean:message key="label.sigla" />
+						<br />
+						<input type="text" name="siglaPesquisa" id="nomePesquisa" size="11" maxlength="10" />
+					</label>
+				</div>
+				<div style="float: right;">
+					<label>
+						<bean:message key="label.nome" />
+						<br />
+						<input type="text" name="nomePesquisa" id="nomePesquisa"  size="51" maxlength="50" />
+					</label>
+				</div>
 			</div>
-			<div style="float: right;">
-				<label>
-					<bean:message key="label.nome" />
-					<br />
-					<input type="text" name="nomePesquisa" id="nomePesquisa"  size="51" maxlength="50" />
-				</label>
+			<div style="padding-top: 14px; clear: both;">
+				<html:submit styleClass="botaoOkCancelar">
+					<bean:message key="label.pesquisar" />
+				</html:submit>
 			</div>
-		</div>
-		<div style="padding-top: 14px; clear: both;">
-			<html:submit styleClass="botaoOkCancelar">
-				<bean:message key="label.pesquisar" />
-			</html:submit>
-		</div>
-	</html:form>
+		</html:form>
+	</fieldset>
 
-	<div id="divDepartamentos" style="clear: left; width: 956px; height: 240px; overflow: auto; border: 1px solid gray; margin-top: 20px;">
+	<div id="divDepartamentos" style="clear: left; width: 956px; height: 240px; overflow: auto; border: 1px solid gray; margin-top: 10px;">
 		<table style="width: 98%">
 			<thead>
 				<tr>
@@ -54,10 +59,10 @@
 		</table>
 	</div>
 	
-	<html:form action="/manterDepartamento.do?method=atualizar" onsubmit="departamento.atualizar(this); return false;" styleId="formSalvar" style="display: none; margin-top: 5px;">
+	<html:form action="/manterDepartamento.do?method=atualizar" onsubmit="departamento.atualizar(this); return false;" styleId="formSalvar" style="display: none; margin-top: 10px;">
 		<!-- FIELDSET PARA DADOS DO DEPARTAMENTO -->
 		<html:hidden property="id"/>
-		<fieldset style="padding: 15px; width: 50%;  margin: 5 auto; ">
+		<fieldset style="padding: 15px; width: 50%; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.departamento"/>
 			</legend>

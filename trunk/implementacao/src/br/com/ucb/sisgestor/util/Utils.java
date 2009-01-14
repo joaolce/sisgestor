@@ -140,7 +140,7 @@ public final class Utils {
 				} else if (eUmaString && Date.class.isInstance(valorOrigem)) {
 					Date valor = (Date) PropertyUtils.getProperty(origem, descriptorOrigem.getName());
 					PropertyUtils.setProperty(destino, descriptor.getName(), DataUtil
-							.converteDateToStringBR(valor));
+							.converteDateToString(valor));
 				}
 
 				// ================== ASSOCIAÇÕES ================== 
