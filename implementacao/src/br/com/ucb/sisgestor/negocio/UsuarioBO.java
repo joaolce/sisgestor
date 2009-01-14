@@ -16,6 +16,15 @@ import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 public interface UsuarioBO extends BaseBO<Usuario, Integer> {
 
 	/**
+	 * Envia um email para o {@link Usuario} para lembrar a sua senha.
+	 * 
+	 * @param login login do usuário
+	 * @return <code>true</code> caso foi enviada com sucesso, <code>false</code> em caso de insucesso
+	 * @throws NegocioException
+	 */
+	public boolean enviarLembreteDeSenha(String login) throws NegocioException;
+
+	/**
 	 * Recupera um usuário a partir do seu login.
 	 * 
 	 * @param login login do usuário

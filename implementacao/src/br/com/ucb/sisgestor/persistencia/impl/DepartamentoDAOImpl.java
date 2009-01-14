@@ -8,6 +8,7 @@ import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.persistencia.DepartamentoDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -50,18 +51,18 @@ public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento, Integer> impl
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Departamento> getByNome(String nome, Integer pagina) {
-		Criteria criteria = this.montarCriteriosPaginacao(nome);
+	public List<Departamento> getBySiglaNome(String sigla, String nome, Integer pagina) {
+		Criteria criteria = this.montarCriteriosPaginacao(sigla, nome);
 		this.adicionarPaginacao(criteria, pagina, MAXIMO_DEPARTAMENTOS);
-		criteria.addOrder(Order.asc("this.nome"));
+		criteria.addOrder(Order.asc("nome"));
 		return GenericsUtil.checkedList(criteria.list(), Departamento.class);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Integer getTotalRegistros(String nome) {
-		Criteria criteria = this.montarCriteriosPaginacao(nome.toLowerCase());
+	public Integer getTotalRegistros(String sigla, String nome) {
+		Criteria criteria = this.montarCriteriosPaginacao(sigla, nome);
 		criteria.setProjection(Projections.rowCount());
 		return (Integer) criteria.uniqueResult();
 	}
@@ -69,13 +70,17 @@ public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento, Integer> impl
 	/**
 	 * Monta os critérios para a paginação dos departamentos.
 	 * 
+	 * @param sigla sigla do departamento
 	 * @param nome nome do departamento
 	 * @return
 	 */
-	private Criteria montarCriteriosPaginacao(String nome) {
+	private Criteria montarCriteriosPaginacao(String sigla, String nome) {
 		Criteria criteria = this.getSession().createCriteria(Departamento.class);
-		if (!nome.equals("")) {
-			criteria.add(Restrictions.like("this.nome", nome, MatchMode.ANYWHERE).ignoreCase());
+		if (StringUtils.isNotBlank(sigla)) {
+			criteria.add(Restrictions.like("sigla", sigla, MatchMode.ANYWHERE).ignoreCase());
+		}
+		if (StringUtils.isNotBlank(nome)) {
+			criteria.add(Restrictions.like("nome", nome, MatchMode.ANYWHERE).ignoreCase());
 		}
 		return criteria;
 	}

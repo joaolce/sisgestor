@@ -70,15 +70,15 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Departamento> getByNome(String nome, Integer paginaAtual) {
-		return this.dao.getByNome(nome, paginaAtual);
+	public List<Departamento> getBySiglaNome(String sigla, String nome, Integer paginaAtual) {
+		return this.dao.getBySiglaNome(sigla, nome, paginaAtual);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Integer getTotalRegistros(String nome) {
-		return this.dao.getTotalRegistros(nome);
+	public Integer getTotalRegistros(String sigla, String nome) {
+		return this.dao.getTotalRegistros(sigla, nome);
 	}
 
 	/**

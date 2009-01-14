@@ -5,11 +5,14 @@
 package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Usuario;
+import br.com.ucb.sisgestor.mail.Email;
+import br.com.ucb.sisgestor.mail.EmailSender;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsuarioDAO;
 import br.com.ucb.sisgestor.persistencia.impl.UsuarioDAOImpl;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Objeto de negócio para {@link Usuario}.
@@ -44,6 +47,27 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	 */
 	public void atualizar(Usuario obj) {
 		// TODO: implementar regras de negócio
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean enviarLembreteDeSenha(String login) throws NegocioException {
+		Usuario usuario = this.dao.recuperarPorLogin(login);
+		if ((usuario != null) && StringUtils.isNotBlank(usuario.getEmail())) {
+			try {
+				Email email = new Email();
+				email.setAssunto("SisGestor - Lembrete de senha");
+				email.addDestinatariosTO(usuario.getEmail());
+				email.setRemetente("sisgestor");
+				email.setCorpo(usuario.getSenha());
+				EmailSender.getInstancia().send(email);
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
+		}
+		return false;
 	}
 
 	/**

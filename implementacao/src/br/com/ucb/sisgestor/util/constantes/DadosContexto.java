@@ -18,7 +18,7 @@ public interface DadosContexto {
 	public final String	ERRO_CONTAINER				= "errorContainer";
 	/** Hora do último login */
 	public final String	HORA_LOGIN					= "horaLogin";
-	/** Total de registros da pesquisa */
+	/** Total de registros da pesquisa de paginação */
 	public final String	TOTAL_PESQUISA_SESSAO	= "totalPesquisa";
 	/** Usuário atual na sessão */
 	public final String	USUARIOSESSAO				= "usuarioSessao";

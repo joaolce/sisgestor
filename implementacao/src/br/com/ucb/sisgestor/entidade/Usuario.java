@@ -32,6 +32,7 @@ public class Usuario extends ObjetoPersistente {
 	private String				nome;
 	private String				login;
 	private String				senha;
+	private String				email;
 	private Departamento		departamento;
 	private List<Permissao>	permissoes;
 
@@ -45,6 +46,16 @@ public class Usuario extends ObjetoPersistente {
 	@ForeignKey(name = "IR_DPR_UUR")
 	public Departamento getDepartamento() {
 		return this.departamento;
+	}
+
+	/**
+	 * Recupera o email do usuário.
+	 * 
+	 * @return email do usuário
+	 */
+	@Column(name = "UUR_EMAIL", nullable = true, length = 40)
+	public String getEmail() {
+		return this.email;
 	}
 
 	/**
@@ -101,6 +112,15 @@ public class Usuario extends ObjetoPersistente {
 	 */
 	public void setDepartamento(Departamento departamento) {
 		this.departamento = departamento;
+	}
+
+	/**
+	 * Atribui o email do usuário.
+	 * 
+	 * @param email email do usuário
+	 */
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	/**

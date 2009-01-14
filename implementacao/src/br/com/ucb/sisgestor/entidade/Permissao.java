@@ -12,7 +12,9 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 /**
- * Classe que representa uma permissão no sistema
+ * Classe que representa uma permissão no sistema. <br />
+ * 
+ * obs: para adicionar uma permissão no sistema, deverá ser colocado no web.xml e inserir no banco de dados.
  * 
  * @author João Lúcio
  * @since 24/10/2008

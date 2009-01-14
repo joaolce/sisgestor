@@ -7,6 +7,7 @@ package br.com.ucb.sisgestor.util.dto;
 import java.io.Serializable;
 
 /**
+ * Base para DTO´s.
  * 
  * @author Thiago
  * @since 10/01/2009

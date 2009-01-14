@@ -539,7 +539,6 @@ public class BaseAction extends DispatchAction {
 	 * Envia as mensagens ou erros para o Javascript, resultado de uma submissão assíncrona os erros ou
 	 * mensagens podem ser adicionados pelos métodos BaseAction.saveErrors
 	 * 
-	 * @param errors
 	 * @return d
 	 * @throws Exception
 	 */
