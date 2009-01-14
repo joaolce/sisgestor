@@ -66,6 +66,7 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "upm_usuario_permissao" (
 
 CREATE TABLE /*!32312 IF NOT EXISTS*/ "uur_usuario" (
   "UUR_ID" int(11) NOT NULL AUTO_INCREMENT,
+  "UUR_EMAIL" varchar(40) DEFAULT NULL, 	
   "UUR_LOGIN" char(15) NOT NULL,
   "UUR_NOME" varchar(150) NOT NULL,
   "UUR_SENHA" varchar(255) NOT NULL,
@@ -84,8 +85,8 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ "uur_usuario" (
 INSERT INTO `dpr_departamento` (`DPR_ID`,`DPR_NOME`,`DPR_EMAIL`,`DPR_SIGLA`,`DPR_ID_SUPERIOR`) 
 	VALUES (1,'Departamento','email@mail.com','DP',NULL);
 
-INSERT INTO `uur_usuario` (`UUR_ID`,`UUR_LOGIN`,`UUR_NOME`,`UUR_SENHA`,`DPR_ID`) 
-	VALUES (1,'admin','Administrador','admin',1);
+INSERT INTO `uur_usuario` (`UUR_ID`,`URR_EMAIL`,`UUR_LOGIN`,`UUR_NOME`,`UUR_SENHA`,`DPR_ID`) 
+	VALUES (1,'email@email.com','admin','Administrador','admin',1);
 
 INSERT INTO `prm_permissao` (`PRM_ID`,`PRM_DESCRICAO`) 
 	VALUES (1,'1');
