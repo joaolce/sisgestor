@@ -13,5 +13,15 @@
 	Colocar no web.xml somente as que se aplicarem a todos os métodos da action
 -->
 <validator-mapping>
-	<validacao actionMethod="" roles="" />
+
+	<!-- Manter Departamento  -->
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction#atualizar" 
+		roles="2" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction#excluir" 
+		roles="2" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction#popupNovoDepartamento" 
+		roles="2"  />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction#salvar" 
+		roles="2" />
+
 </validator-mapping>

@@ -39,6 +39,7 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.util.MessageResources;
 import org.apache.struts.util.RequestUtils;
+import org.hibernate.Hibernate;
 
 /**
  * Action base para o projeto.
@@ -267,6 +268,7 @@ public class BaseAction extends DispatchAction {
 			UsuarioBO bo = UsuarioBOImpl.getInstancia();
 
 			usuarioAtual = bo.recuperarPorLogin(name);
+			Hibernate.initialize(usuarioAtual.getPermissoes());
 
 			this.getSession().setAttribute(DadosContexto.DATA_LOGIN, DataUtil.getStringDataAtualCompleta());
 			this.getSession().setAttribute(DadosContexto.HORA_LOGIN, DataUtil.getDataAtual());

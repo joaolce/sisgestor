@@ -132,6 +132,11 @@
 		<role-name>1</role-name>
 	</security-role>
 	
+	<security-role>
+		<description>Manter Departamento</description>
+		<role-name>2</role-name>
+	</security-role>
+	
 	<resource-ref>
 		<description>SisGestorDB</description>
 		<res-ref-name>jdbc/SisGestorDB</res-ref-name>
