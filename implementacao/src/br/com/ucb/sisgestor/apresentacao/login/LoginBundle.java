@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.apresentacao.login;
 
+import br.com.ucb.sisgestor.util.constantes.Constantes;
 import java.io.IOException;
 import java.io.InputStream;
 import org.apache.commons.logging.Log;
@@ -22,6 +23,9 @@ public final class LoginBundle {
 	private static final String	ERRO_RESOURCE	= "erro_page.html";
 	private static final String	LOGIN_RESOURCE	= "login_page.html";
 	private static final String	SENHA_RESOURCE	= "senha_page.html";
+	private static final String	MENSAGEM			= "#MENSAGEM#";
+	private static final String	VERSAO			= "#VERSAO#";
+	private static final String	VERSAO_DATA		= "#VERSAO_DATA#";
 	private static StringBuilder	erroPage;
 	private static StringBuilder	loginPage;
 	private static StringBuilder	senhaPage;
@@ -46,7 +50,7 @@ public final class LoginBundle {
 	 * @return html da página de acesso negado
 	 */
 	public String getErroPage(String mensagem) {
-		return this.replaceText(erroPage, mensagem).toString();
+		return this.replaceText(erroPage, MENSAGEM, mensagem).toString();
 	}
 
 	/**
@@ -56,7 +60,7 @@ public final class LoginBundle {
 	 * @return html da página de login
 	 */
 	public String getLoginPage(String mensagem) {
-		return this.replaceText(loginPage, mensagem).toString();
+		return this.replaceText(loginPage, MENSAGEM, mensagem).toString();
 	}
 
 	/**
@@ -66,7 +70,7 @@ public final class LoginBundle {
 	 * @return html da página de recuperação da senha
 	 */
 	public String getSenhaPage(String mensagem) {
-		return this.replaceText(senhaPage, mensagem).toString();
+		return this.replaceText(senhaPage, MENSAGEM, mensagem).toString();
 	}
 
 	/**
@@ -74,6 +78,8 @@ public final class LoginBundle {
 	 */
 	private void loadErroPage() {
 		erroPage = this.loadResourceFile(LOCAL_RESOURCE + ERRO_RESOURCE);
+		erroPage = this.replaceText(erroPage, VERSAO, Constantes.VERSAO);
+		erroPage = this.replaceText(erroPage, VERSAO_DATA, Constantes.VERSAO_DATA);
 	}
 
 	/**
@@ -81,6 +87,8 @@ public final class LoginBundle {
 	 */
 	private void loadLoginPage() {
 		loginPage = this.loadResourceFile(LOCAL_RESOURCE + LOGIN_RESOURCE);
+		loginPage = this.replaceText(loginPage, VERSAO, Constantes.VERSAO);
+		loginPage = this.replaceText(loginPage, VERSAO_DATA, Constantes.VERSAO_DATA);
 	}
 
 	private synchronized StringBuilder loadResourceFile(String filename) {
@@ -111,18 +119,20 @@ public final class LoginBundle {
 	 */
 	private void loadSenhaPage() {
 		senhaPage = this.loadResourceFile(LOCAL_RESOURCE + SENHA_RESOURCE);
+		senhaPage = this.replaceText(senhaPage, VERSAO, Constantes.VERSAO);
+		senhaPage = this.replaceText(senhaPage, VERSAO_DATA, Constantes.VERSAO_DATA);
 	}
 
 	/**
 	 * Substituí do html a mensagem informada
 	 * 
 	 * @param html html a substituir a mensagem
+	 * @param subs string a substituir
 	 * @param texto texto a ser colocado
 	 * @return html modificado
 	 */
-	private StringBuilder replaceText(StringBuilder html, String texto) {
+	private StringBuilder replaceText(StringBuilder html, String subs, String texto) {
 		StringBuilder sb = new StringBuilder(html.toString());
-		String subs = "#MENSAGEM#";
 		int tam = subs.length();
 		int pos = 0;
 		do {

@@ -67,7 +67,8 @@ public final class DataUtil {
 	/**
 	 * Adiciona a data original o valor informado
 	 * 
-	 * @param tipo tipo a adicionar (SEGUNDO, MINUTO, HORA, DIA, MES ou ANO)
+	 * @param tipo tipo a adicionar: {@link DataUtil#SEGUNDO}, {@link DataUtil#MINUTO}, {@link DataUtil#HORA},
+	 *        {@link DataUtil#DIA}, {@link DataUtil#MES}, {@link DataUtil#ANO}
 	 * @param valor valor a adicionar
 	 * @param data data inicial
 	 * @return data com os valores adicionados
@@ -101,9 +102,8 @@ public final class DataUtil {
 	 */
 	public static Date concatenaHoraAtual(String txtData) throws Exception {
 		DateFormat dfDataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		DateFormat dfHora = new SimpleDateFormat("HH:mm:ss");
 
-		String txtHora = dfHora.format(new Date(System.currentTimeMillis()));
+		String txtHora = HORA_MEDIUM.format(new Date(System.currentTimeMillis()));
 
 		return dfDataHora.parse(txtData + " " + txtHora);
 	}
@@ -114,7 +114,7 @@ public final class DataUtil {
 	 * @param date {@link Date} a converter
 	 * @return data formatada em {@link String}
 	 */
-	public static String converteDateToStringBR(Date date) {
+	public static String converteDateToString(Date date) {
 		return DATE_MEDIUM.format(date);
 	}
 
@@ -192,15 +192,6 @@ public final class DataUtil {
 	}
 
 	/**
-	 * Retorna a String da data atual no formato: Quinta, 1 de Janeiro de 2009
-	 * 
-	 * @return a {@link String} formatada da data atual completa
-	 */
-	public static String getDataAtualCompleta() {
-		return DATE_FULL.format(new Timestamp(System.currentTimeMillis()));
-	}
-
-	/**
 	 * Retorna a data atual do sistema com as horas, minutos e segundos zerados
 	 * 
 	 * @return a data atual no primeiro segundo do dia
@@ -234,6 +225,23 @@ public final class DataUtil {
 	public static Date getDataSemHHMMSS(Date data) {
 		Calendar calendar = Calendar.getInstance(LOCALE_BR);
 		calendar.setTime(data);
+		return getDataSemHHMMSS(calendar);
+	}
+
+	/**
+	 * Recupera um {@link Date} a partir dos parâmentros.
+	 * 
+	 * @param dia dia da data
+	 * @param mes mês da data
+	 * @param ano ano da data
+	 * @return {@link Date} gerado
+	 */
+	public static Date getDate(int dia, int mes, int ano) {
+		Calendar calendar = Calendar.getInstance(LOCALE_BR);
+		calendar.set(Calendar.DAY_OF_MONTH, dia);
+		calendar.set(Calendar.MONTH, mes - 1);
+		calendar.set(Calendar.YEAR, ano);
+
 		return getDataSemHHMMSS(calendar);
 	}
 
@@ -278,7 +286,8 @@ public final class DataUtil {
 
 	/**
 	 * Retorna o número de entidades de diferenca entre duas datas <br />
-	 * As entidades de retorno são: SEGUNDO, MINUTO, HORA, DIA, MES, ANO
+	 * As entidades de retorno são: {@link DataUtil#SEGUNDO}, {@link DataUtil#MINUTO}, {@link DataUtil#HORA},
+	 * {@link DataUtil#DIA}, {@link DataUtil#MES}, {@link DataUtil#ANO}
 	 * 
 	 * @param entidadeRetorno unidade de retorno
 	 * @param data1 1ª data a comparar
@@ -334,6 +343,15 @@ public final class DataUtil {
 	 */
 	public static String getStringDataAtual() {
 		return DATE_MEDIUM.format(getDataAtualSemHHMMSS());
+	}
+
+	/**
+	 * Retorna a String da data atual no formato: Quinta, 1 de Janeiro de 2009
+	 * 
+	 * @return a {@link String} formatada da data atual completa
+	 */
+	public static String getStringDataAtualCompleta() {
+		return DATE_FULL.format(new Timestamp(System.currentTimeMillis()));
 	}
 
 	/**

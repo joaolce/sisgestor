@@ -268,7 +268,7 @@ public class BaseAction extends DispatchAction {
 
 			usuarioAtual = bo.recuperarPorLogin(name);
 
-			this.getSession().setAttribute(DadosContexto.DATA_LOGIN, DataUtil.getDataAtualCompleta());
+			this.getSession().setAttribute(DadosContexto.DATA_LOGIN, DataUtil.getStringDataAtualCompleta());
 			this.getSession().setAttribute(DadosContexto.HORA_LOGIN, DataUtil.getDataAtual());
 			this.getSession().setAttribute(DadosContexto.USUARIOSESSAO, usuarioAtual);
 		}

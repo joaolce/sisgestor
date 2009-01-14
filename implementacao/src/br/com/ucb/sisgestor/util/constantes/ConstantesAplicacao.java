@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.util.constantes;
 
 import java.net.URL;
+import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NameAlreadyBoundException;
 import javax.naming.NamingException;
@@ -25,34 +26,36 @@ public class ConstantesAplicacao {
 	private static Log		log							= LogFactory.getLog(ConstantesAplicacao.class);
 
 	/**
+	 * Recupera o contexto da aplicação.
+	 * 
 	 * @see HttpServletRequest#getContextPath()
 	 * 
-	 * @return d
+	 * @return {@link String} do contexto
 	 * @throws Exception
 	 */
 	public static String getContextPath() throws Exception {
-		InitialContext context = new InitialContext();
+		Context context = new InitialContext();
 		return (String) context.lookup(BIND_NAME_CONTEXT_PATH);
 	}
 
 	/**
-	 * Url da aplicação
+	 * Recupera a url da aplicação.
 	 * 
-	 * @return d
+	 * @return {@link String} da url
 	 * @throws Exception
 	 */
 	public static String getUrlAplicacao() throws Exception {
-		InitialContext context = new InitialContext();
+		Context context = new InitialContext();
 		return (String) context.lookup(BIND_NAME_URL_APLICACAO);
 	}
 
 	/**
-	 * Seta as constantes na primeira vez
+	 * Seta as constantes na primeira vez.
 	 * 
-	 * @param request
+	 * @param request request atual
 	 * @throws Exception
 	 */
-	public static void setConstantes(HttpServletRequest request) throws Exception {
+	public static synchronized void setConstantes(HttpServletRequest request) throws Exception {
 		if (!constantesOk) {
 			String contextPath = request.getContextPath();
 			setUrlAplicacao(RequestUtils.serverURL(request), contextPath);
@@ -61,12 +64,25 @@ public class ConstantesAplicacao {
 		}
 	}
 
+	/**
+	 * Armazena o contexto da aplicação.
+	 * 
+	 * @param contextPath contexto da aplicação
+	 * @throws Exception
+	 */
 	private static void setContextPath(String contextPath) throws Exception {
 		setJNDIAttribute(BIND_NAME_CONTEXT_PATH, contextPath);
 	}
 
+	/**
+	 * Armazena um atributo no contexto.
+	 * 
+	 * @param name nome do atributo
+	 * @param value valor do atributo
+	 * @throws NamingException
+	 */
 	private static void setJNDIAttribute(String name, String value) throws NamingException {
-		InitialContext context = new InitialContext();
+		Context context = new InitialContext();
 		try {
 			context.bind(name, value);
 		} catch (NameAlreadyBoundException e) {
@@ -74,13 +90,15 @@ public class ConstantesAplicacao {
 		}
 	}
 
-	private static void setUrlAplicacao(String url) throws Exception {
-		setJNDIAttribute(BIND_NAME_URL_APLICACAO, url);
-	}
-
+	/**
+	 * Armazena a url da aplicação.
+	 * 
+	 * @param serverURL {@link URL} da aplicação
+	 * @param contextPath contexto da aplicação
+	 * @throws Exception
+	 */
 	private static void setUrlAplicacao(URL serverURL, String contextPath) throws Exception {
-		String location = serverURL.toExternalForm() + contextPath;
-		log.info("URL APLICAÇÃO: " + location);
-		setUrlAplicacao(location);
+		String url = serverURL.toExternalForm() + contextPath;
+		setJNDIAttribute(BIND_NAME_URL_APLICACAO, url);
 	}
 }

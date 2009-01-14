@@ -88,7 +88,7 @@ public class BaseValidator {
 		} catch (SecurityException e) {
 			logger.error(e);
 		} catch (NoSuchMethodException e) {
-			logger.info("método de validação não encontrado");
+			logger.debug("método de validação não encontrado");
 		} catch (IllegalArgumentException e) {
 			logger.error(e);
 		} catch (IllegalAccessException e) {
@@ -420,7 +420,7 @@ public class BaseValidator {
 			Date dataInformadaDate = DataUtil.converteStringToDate(dataInformadaString);
 			Date dataAtual = DataUtil.getDataAtualSemHHMMSS();
 			if (dataInformadaDate.after(dataAtual)) {
-				String strDataAtual = DataUtil.converteDateToStringBR(dataAtual);
+				String strDataAtual = DataUtil.converteDateToString(dataAtual);
 				this.addError("erro.dataMaiorDataAtual", this.getMessageKey(labelProperty), strDataAtual);
 				this.setFocusControl(formProperty);
 			}
@@ -447,7 +447,7 @@ public class BaseValidator {
 			Date dataInformadaDate = DataUtil.converteStringToDate(dataInformadaString);
 			Date dataAtual = DataUtil.getDataAtualSemHHMMSS();
 			if (dataInformadaDate.before(dataAtual)) {
-				String strDataAtual = DataUtil.converteDateToStringBR(dataAtual);
+				String strDataAtual = DataUtil.converteDateToString(dataAtual);
 				this.addError("erro.dataMenorDataAtual", this.getMessageKey(labelProperty), strDataAtual);
 				this.setFocusControl(formProperty);
 			}
