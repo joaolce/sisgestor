@@ -100,7 +100,7 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return senha senha do usuário
 	 */
-	@Column(name = "UUR_SENHA", nullable = false)
+	@Column(name = "UUR_SENHA", nullable = false, length = 20, columnDefinition = "CHAR(20)")
 	public String getSenha() {
 		return this.senha;
 	}
