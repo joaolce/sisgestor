@@ -15,19 +15,19 @@ ComportamentosTela.prototype = {
    tabelaTelaPrincipal :null,
 
    /**
-	 * Retorna a tabela da tela inicial do caso de uso
-	 * 
-	 * @return{HTMLTableSectionElement}
-	 */
+    * Retorna a tabela da tela inicial do caso de uso
+    * 
+    * @return{HTMLTableSectionElement}
+    */
    getTBodyTelaPrincipal : function() {
 	   return $("corpoManterDepartamento");
    },
 
    /**
-	 * Recupera o form manterDepartamentoForm
-	 * 
-	 * @return
-	 */
+    * Recupera o form manterDepartamentoForm
+    * 
+    * @return
+    */
    getForm : function() {
 	   return $("manterDepartamentoForm");
    },
@@ -38,15 +38,15 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Recupera o id selecionado que é um hidden dentro da tabela.
-	 */
+    * Recupera o id selecionado que é um hidden dentro da tabela.
+    */
    getIdSelecionado : function() {
 	   return this.getTR().select("input[type=\"hidden\"]")[0].value;
    },
 
    /**
-	 * Preenche os campos do departamento selecionado.
-	 */
+    * Preenche os campos do departamento selecionado.
+    */
    visualizar : function() {
 	   Element.hide("formSalvar");
 	   var idDepartamento = this.getIdSelecionado();
@@ -68,8 +68,8 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Pesquisa os departamentos por parte do nome
-	 */
+    * Pesquisa os departamentos por parte do nome
+    */
    pesquisar : function() {
 	   Effect.Fade("formSalvar");
 	   var sigla = dwr.util.getValue("siglaPesquisa");
@@ -84,11 +84,11 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Evento ao trocar de página, toda vez que o usuário avançar ou retroceder a paginação essa
-	 * função será invocada
-	 * 
-	 * @param {Integer} novaPagina
-	 */
+    * Evento ao trocar de página, toda vez que o usuário avançar ou retroceder a paginação essa
+    * função será invocada
+    * 
+    * @param {Integer} novaPagina
+    */
    onTrocarPagina : function(novaPagina) {
 	   if (this.tabela != null) {
 		   this.tabela.toggleShowDivPaginacao(false);
@@ -100,17 +100,17 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Popula a tabela principal com a lista de departamentos
-	 * 
-	 * @param resultadoDTO
-	 * @return
-	 */
+    * Popula a tabela principal com a lista de departamentos
+    * 
+    * @param resultadoDTO
+    * @return
+    */
    popularTabela : function(resultadoDTO) {
 	   var listaDepartamento = resultadoDTO.colecaoParcial;
 	   dwr.util.removeAllRows(this.getTBodyTelaPrincipal());
 
 	   this.tabelaTelaPrincipal.toggleShowDivPaginacao(true);
-	   this.tabelaTelaPrincipal.setQtdRegistrosPagina(9);
+	   this.tabelaTelaPrincipal.setQtdRegistrosPagina(resultadoDTO.quantidadeRegistrosPagina);
 	   this.tabelaTelaPrincipal.setTotalRegistros(resultadoDTO.totalRegistros);
 
 	   if (listaDepartamento.length != 0) {
@@ -145,11 +145,11 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Envia ao action a ação de atualizar os dados do departamento selecionado
-	 * 
-	 * @param form
-	 * @return
-	 */
+    * Envia ao action a ação de atualizar os dados do departamento selecionado
+    * 
+    * @param form
+    * @return
+    */
    atualizar : function(form) {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o departamento selecionado?", ( function() {
 		   requestUtils.submitForm(form, ( function() {
@@ -161,11 +161,11 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Envia ao action a ação de excluir o departamento selecionado
-	 * 
-	 * @param form
-	 * @return
-	 */
+    * Envia ao action a ação de excluir o departamento selecionado
+    * 
+    * @param form
+    * @return
+    */
    excluir : function() {
 	   JanelasComuns.showConfirmDialog("Deseja excluir o departamento selecionado?", ( function() {
 		   var idDepartamento = dwr.util.getValue($("formSalvar").id);
@@ -179,11 +179,11 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Envia ao action a ação de salvar os dados do departamento
-	 * 
-	 * @param form formulário
-	 * @return
-	 */
+    * Envia ao action a ação de salvar os dados do departamento
+    * 
+    * @param form formulário
+    * @return
+    */
    salvar : function(form) {
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
@@ -194,8 +194,8 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Abre a janela para novo departamento
-	 */
+    * Abre a janela para novo departamento
+    */
    popupNovoDepartamento : function() {
 	   var url = "manterDepartamento.do?method=popupNovoDepartamento";
 	   createWindow(175, 430, 280, 70, "Novo Departamento", "divNovoDepartamento", url);

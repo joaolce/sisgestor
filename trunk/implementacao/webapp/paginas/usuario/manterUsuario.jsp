@@ -25,21 +25,20 @@
 					<label>
 						<bean:message key="label.login" />
 						<br />
-						<input type="text" name="loginPesquisa" id="loginPesquisa" size="11" maxlength="10" />
+						<input type="text" name="loginPesquisa" id="loginPesquisa" size="16" maxlength="15" />
 					</label>
 				</div>
 				<div style="float: right;">
 					<label>
 						<bean:message key="label.nome" />
 						<br />
-						<input type="text" name="nomePesquisa" id="nomePesquisa"  size="51" maxlength="50" />
+						<input type="text" name="nomePesquisa" id="nomePesquisa"  size="51" maxlength="150" />
 					</label>
 				</div>
 				<div style="float: right;">
 					<label>
 						<bean:message key="label.departamento" />
 						<br />
-						<input type="text" name="departamentoPesquisa" id="departamentoPesquisa"  size="51" maxlength="50" />
 					</label>
 				</div>
 			</div>

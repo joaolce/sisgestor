@@ -7,6 +7,7 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
+import br.com.ucb.sisgestor.persistencia.BaseDAO;
 import br.com.ucb.sisgestor.util.constantes.DadosContexto;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import java.util.List;
@@ -29,21 +30,20 @@ public class ManterUsuarioDWR extends BaseDWR {
 	 * Pesquisa o {@link Usuario} pelo id.
 	 * 
 	 * @param id identificador do usuário
-	 * @return Usuario
+	 * @return usuario encontrado
 	 */
 	public Usuario getById(Integer id) {
 		return usuarioBO.obter(id);
 	}
 
 	/**
-	 * 
 	 * Pesquisa os usuários com os parâmetros preenchidos.
 	 * 
-	 * @param login
-	 * @param nome
-	 * @param departamento
-	 * @param paginaAtual
-	 * @return Retorna uma lista de usuários
+	 * @param login parte do login do usuário
+	 * @param nome parte do nome do usuário
+	 * @param departamento departamento do usuário
+	 * @param paginaAtual página atual da pesquisa
+	 * @return {@link List} de {@link Usuario}
 	 */
 	public ListaResultadoDTO<Usuario> pesquisar(String login, String nome, Integer departamento,
 			Integer paginaAtual) {
@@ -57,10 +57,13 @@ public class ManterUsuarioDWR extends BaseDWR {
 		//Busca o total de registros
 		if ((paginaAtual == null) && !listaUsuarios.isEmpty()) {
 			Integer total = usuarioBO.getTotalRegistros(login, nome, departamento);
-			this.setSessionAttribute(DadosContexto.TOTAL_PESQUISA_SESSAO, total);
+			this.setSessionAttribute(DadosContexto.TOTAL_PESQUISA, total);
+			this.setSessionAttribute(DadosContexto.TAMANHO_PAGINA, BaseDAO.MAXIMO_RESULTADOS);
 			dto.setTotalRegistros(total);
+			dto.setQuantidadeRegistrosPagina(BaseDAO.MAXIMO_RESULTADOS);
 		} else {
-			dto.setTotalRegistros((Integer) this.getSessionAttribute(DadosContexto.TOTAL_PESQUISA_SESSAO));
+			dto.setTotalRegistros((Integer) this.getSessionAttribute(DadosContexto.TOTAL_PESQUISA));
+			dto.setQuantidadeRegistrosPagina((Integer) this.getSessionAttribute(DadosContexto.TAMANHO_PAGINA));
 		}
 		return dto;
 	}

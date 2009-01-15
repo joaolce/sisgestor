@@ -7,6 +7,7 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.negocio.DepartamentoBO;
 import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
+import br.com.ucb.sisgestor.persistencia.BaseDAO;
 import br.com.ucb.sisgestor.util.constantes.DadosContexto;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import java.util.List;
@@ -53,10 +54,13 @@ public class ManterDepartamentoDWR extends BaseDWR {
 		//Busca o total de registros
 		if ((paginaAtual == null) && !listaDepartamentos.isEmpty()) {
 			Integer total = departamentoBO.getTotalRegistros(sigla, nome);
-			this.setSessionAttribute(DadosContexto.TOTAL_PESQUISA_SESSAO, total);
+			this.setSessionAttribute(DadosContexto.TOTAL_PESQUISA, total);
+			this.setSessionAttribute(DadosContexto.TAMANHO_PAGINA, BaseDAO.MAXIMO_RESULTADOS);
 			dto.setTotalRegistros(total);
+			dto.setQuantidadeRegistrosPagina(BaseDAO.MAXIMO_RESULTADOS);
 		} else {
-			dto.setTotalRegistros((Integer) this.getSessionAttribute(DadosContexto.TOTAL_PESQUISA_SESSAO));
+			dto.setTotalRegistros((Integer) this.getSessionAttribute(DadosContexto.TOTAL_PESQUISA));
+			dto.setQuantidadeRegistrosPagina((Integer) this.getSessionAttribute(DadosContexto.TAMANHO_PAGINA));
 		}
 		return dto;
 	}

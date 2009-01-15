@@ -60,7 +60,7 @@ ComportamentosTela.prototype = {
 		   dwr.util.setValue("nome", usuario.nome);
 		   dwr.util.setValue("email", usuario.email);
 		   if (usuario.departamento != null) {
-			   dwr.util.setValue("departamento", usuario.departamento.sigla);
+			   dwr.util.setValue("departamento", usuario.departamento.id);
 		   } else {
 			   dwr.util.setValue("departamento", "");
 		   }
@@ -98,7 +98,8 @@ ComportamentosTela.prototype = {
 	   var nome = dwr.util.getValue("nomePesquisa");
 	   var departamento = dwr.util.getValue("departamentoPesquisa");
 
-	   ManterUsuarioDWR.pesquisar(login, nome, departamento, novaPagina, this.popularTabela.bind(this));
+	   ManterUsuarioDWR.pesquisar(login, nome, departamento, novaPagina, this.popularTabela
+	      .bind(this));
    },
 
    /**
@@ -112,7 +113,7 @@ ComportamentosTela.prototype = {
 	   dwr.util.removeAllRows(this.getTBodyTelaPrincipal());
 
 	   this.tabelaTelaPrincipal.toggleShowDivPaginacao(true);
-	   this.tabelaTelaPrincipal.setQtdRegistrosPagina(9);
+	   this.tabelaTelaPrincipal.setQtdRegistrosPagina(resultadoDTO.quantidadeRegistrosPagina);
 	   this.tabelaTelaPrincipal.setTotalRegistros(resultadoDTO.totalRegistros);
 
 	   if (listaUsuario.length != 0) {
@@ -171,8 +172,8 @@ ComportamentosTela.prototype = {
    excluir : function() {
 	   JanelasComuns.showConfirmDialog("Deseja excluir o usuário selecionado?", ( function() {
 		   var idUsuario = dwr.util.getValue($("formSalvar").id);
-		   requestUtils.simpleRequest("manterUsuario.do?method=excluir&id=" + idUsuario,
-		      null, ( function() {
+		   requestUtils.simpleRequest("manterUsuario.do?method=excluir&id=" + idUsuario, null,
+		      ( function() {
 			      if (requestUtils.status) {
 				      this.pesquisar();
 			      }

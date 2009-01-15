@@ -4,7 +4,6 @@
  */
 package br.com.ucb.sisgestor.persistencia.impl;
 
-import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.persistencia.UsuarioDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
@@ -73,16 +72,15 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario, Integer> implements Usu
 	}
 
 	/**
-	 * 
 	 * Monta os critérios para a paginação dos usuários.
 	 * 
-	 * @param login
-	 * @param nome
-	 * @param departamento
+	 * @param login parte do login do usuário
+	 * @param nome parte do nome do usuário
+	 * @param departamento identificador do departamento do usuário
 	 * @return {@link Criteria}
 	 */
 	private Criteria montarCriteriosPaginacao(String login, String nome, Integer departamento) {
-		Criteria criteria = this.getSession().createCriteria(Departamento.class);
+		Criteria criteria = this.getSession().createCriteria(Usuario.class);
 		Conjunction conjunction = Restrictions.conjunction();
 		if (StringUtils.isNotBlank(login)) {
 			conjunction.add(Restrictions.like("login", login, MatchMode.ANYWHERE).ignoreCase());
