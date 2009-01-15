@@ -30,6 +30,7 @@ public class Departamento extends ObjetoPersistente {
 	private String					email;
 	private Departamento			departamentoSuperior;
 	private List<Departamento>	departamentosFilhos;
+	private List<Usuario>		usuarios;
 
 	/**
 	 * Recupera os departamentos filhos diretos do departamento.
@@ -85,6 +86,16 @@ public class Departamento extends ObjetoPersistente {
 	}
 
 	/**
+	 * Recupera os usuários do departamento.
+	 * 
+	 * @return usuários do departamento
+	 */
+	@OneToMany(targetEntity = Usuario.class, mappedBy = "departamento")
+	public List<Usuario> getUsuarios() {
+		return this.usuarios;
+	}
+
+	/**
 	 * Atribui os departamentos filhos diretos do departamento.
 	 * 
 	 * @param departamentosFilhos departamentos filhos diretos do departamento
@@ -120,6 +131,7 @@ public class Departamento extends ObjetoPersistente {
 		this.nome = nome;
 	}
 
+
 	/**
 	 * Atribui a sigla do departamento.
 	 * 
@@ -127,5 +139,15 @@ public class Departamento extends ObjetoPersistente {
 	 */
 	public void setSigla(String sigla) {
 		this.sigla = sigla;
+	}
+
+
+	/**
+	 * Atribui os usuários do departamento.
+	 * 
+	 * @param usuarios usuários do departamento
+	 */
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
 	}
 }

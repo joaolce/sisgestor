@@ -16,12 +16,12 @@ import java.util.List;
 public interface UsuarioDAO extends BaseDAO<Usuario, Integer> {
 
 	/**
-	 * Retorna um {@link List} de {@link Usuario} a partir do login, nome e departamento
+	 * Retorna um {@link List} de {@link Usuario} a partir do login, nome e departamento.
 	 * 
-	 * @param login
-	 * @param nome
-	 * @param departamento
-	 * @param paginaAtual
+	 * @param login parte do login do usuário
+	 * @param nome parte do nome do usuário
+	 * @param departamento identificador do departamento do usuário
+	 * @param paginaAtual página atual da pesquisa
 	 * @return {@link List} de {@link Usuario}
 	 */
 	public List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
@@ -30,9 +30,9 @@ public interface UsuarioDAO extends BaseDAO<Usuario, Integer> {
 	/**
 	 * Recupera o total de registros retornados pela consulta.
 	 * 
-	 * @param login
-	 * @param nome
-	 * @param departamento
+	 * @param login parte do login do usuário
+	 * @param nome parte do nome do usuário
+	 * @param departamento identificador do departamento do usuário
 	 * @return total de registros
 	 */
 	public Integer getTotalRegistros(String login, String nome, Integer departamento);

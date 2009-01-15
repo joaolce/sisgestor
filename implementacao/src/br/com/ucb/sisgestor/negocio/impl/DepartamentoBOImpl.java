@@ -59,6 +59,9 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 					&& !departamento.getDepartamentosFilhos().isEmpty()) {
 				throw new NegocioException("erro.departamento.filhos");
 			}
+			if ((departamento.getUsuarios() != null) && !departamento.getUsuarios().isEmpty()) {
+				throw new NegocioException("erro.departamento.usuarios");
+			}
 			this.dao.excluir(departamento);
 			HibernateUtil.commit(transaction);
 		} catch (Exception e) {
