@@ -33,5 +33,12 @@
 		<put name="titulo">Manter Departamento</put>
 	</definition>
 	<definition name="popupNovoDepartamento" path="/paginas/departamento/popupNovoDepartamento.jsp" />
-	
+
+	<!--  MANTER USUARIO -->
+	<definition name="definicaoManterUsuario" extends="definicaoPrincipalRodape">
+		<put name="corpo">/paginas/usuario/manterUsuario.jsp</put>
+		<put name="titulo">Manter Usuário</put>
+	</definition>
+	<definition name="popupNovoUsuario" path="/paginas/usuario/popupNovoUsuario.jsp" />
+		
 </tiles-definitions>

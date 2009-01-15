@@ -50,7 +50,8 @@
 			validate="false" 
 			scope="request"
 			parameter="method">
-			<forward name="entrada" path="definicaoPrincipal" />
+			<forward name="entrada" path="definicaoManterUsuario" />
+			<forward name="popupNovoUsuario" path="popupNovoUsuario" />
 		</action>
 	</action-mappings>
 

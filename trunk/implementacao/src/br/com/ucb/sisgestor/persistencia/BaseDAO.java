@@ -19,6 +19,9 @@ import java.util.List;
  */
 public interface BaseDAO<T extends ObjetoPersistente, PK extends Serializable> {
 
+	/** Máximo de resultados paginados */
+	public final Integer	MAXIMO_RESULTADOS	= new Integer(9);
+
 	/**
 	 * Atualiza um objeto na base de dados.
 	 * 

@@ -36,6 +36,7 @@ public class ManterUsuarioAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) actionForm;
 		form.setUsuarios(usuarioBO.obterTodos());
+
 		return this.findForward(FWD_ENTRADA);
 	}
 }

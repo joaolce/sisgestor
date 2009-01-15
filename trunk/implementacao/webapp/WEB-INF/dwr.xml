@@ -10,6 +10,9 @@
 		<create javascript="ManterDepartamentoDWR" creator="new">
 			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterDepartamentoDWR" />
 		</create>
+		<create javascript="ManterUsuarioDWR" creator="new">
+			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterUsuarioDWR" />
+		</create>
 	
 		<!-- Convertendo Exceções -->
 		<convert match="org.directwebremoting.extend.AccessDeniedException" converter="exception" />
@@ -20,5 +23,6 @@
 	
 		<!-- Convertendo Entidades -->
 		<convert match="br.com.ucb.sisgestor.entidade.Departamento" converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Usuario" 		converter="hibernate3" />
 	</allow>
 </dwr>
