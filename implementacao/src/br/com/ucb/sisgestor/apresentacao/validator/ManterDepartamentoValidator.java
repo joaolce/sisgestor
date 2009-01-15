@@ -18,11 +18,7 @@ public class ManterDepartamentoValidator extends BaseValidator {
 	 * Faz as validações no método atualizar.
 	 */
 	public void atualizar() {
-		this.validaRequerido("label.sigla", "sigla");
-		this.validaRequerido("label.nome", "nome");
-		this.validaTamanhoMaximo("label.sigla", "sigla", 10);
-		this.validaTamanhoMaximo("label.nome", "nome", 50);
-		this.validaEmail("label.email", "email");
+		this.salvar();
 	}
 
 	/**

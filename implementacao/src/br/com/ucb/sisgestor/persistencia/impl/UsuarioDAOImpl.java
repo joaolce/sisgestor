@@ -90,7 +90,7 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario, Integer> implements Usu
 		}
 		if (departamento != null) {
 			criteria.createAlias("this.departamento", "departamento");
-			conjunction.add(Restrictions.eq("departamento", departamento));
+			conjunction.add(Restrictions.eq("departamento.id", departamento));
 		}
 		criteria.add(conjunction);
 		return criteria;

@@ -36,7 +36,7 @@ public class ManterUsuarioAction extends BaseAction {
 	public ActionForward entrada(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) actionForm;
-		form.setUsuarios(usuarioBO.obterTodos());
+
 		form.setListaDepartamentos(DepartamentoBOImpl.getInstancia().obterTodos());
 
 		return this.findForward(FWD_ENTRADA);
