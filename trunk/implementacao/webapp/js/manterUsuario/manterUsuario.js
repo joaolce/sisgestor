@@ -59,11 +59,7 @@ ComportamentosTela.prototype = {
 		   dwr.util.setValue("login", usuario.login);
 		   dwr.util.setValue("nome", usuario.nome);
 		   dwr.util.setValue("email", usuario.email);
-		   if (usuario.departamento != null) {
-			   dwr.util.setValue("departamento", usuario.departamento.id);
-		   } else {
-			   dwr.util.setValue("departamento", "");
-		   }
+		   dwr.util.setValue("departamento", usuario.departamento.id);
 	   }).bind(this));
    },
 
@@ -97,7 +93,7 @@ ComportamentosTela.prototype = {
 	   var login = dwr.util.getValue("loginPesquisa");
 	   var nome = dwr.util.getValue("nomePesquisa");
 	   var departamento = dwr.util.getValue("departamentoPesquisa");
-
+	   
 	   ManterUsuarioDWR.pesquisar(login, nome, departamento, novaPagina, this.popularTabela
 	      .bind(this));
    },
@@ -135,10 +131,7 @@ ComportamentosTela.prototype = {
 			   return usuario.email;
 		   });
 		   cellfuncs.push( function(usuario) {
-			   if (usuario.departamento != null) {
-				   return usuario.departamento.sigla;
-			   }
-			   return "";
+			   return usuario.departamento.sigla;
 		   });
 		   dwr.util.addRows(this.getTBodyTelaPrincipal(), listaUsuario, cellfuncs);
 		   this.tabelaTelaPrincipal.setOnClick(this.visualizar.bind(this));

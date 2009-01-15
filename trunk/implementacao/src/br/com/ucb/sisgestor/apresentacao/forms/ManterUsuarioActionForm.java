@@ -6,7 +6,6 @@ package br.com.ucb.sisgestor.apresentacao.forms;
 
 import br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction;
 import br.com.ucb.sisgestor.entidade.Departamento;
-import br.com.ucb.sisgestor.entidade.Usuario;
 import java.util.List;
 
 /**
@@ -22,7 +21,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 	private String					nome;
 	private String					email;
 	private Integer				departamento;
-	private List<Usuario>		usuarios;
 	private List<Departamento>	listaDepartamentos;
 
 	/**
@@ -43,7 +41,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 		return this.email;
 	}
 
-
 	/**
 	 * Recupera o valor de id
 	 * 
@@ -52,7 +49,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 	public Integer getId() {
 		return this.id;
 	}
-
 
 	/**
 	 * Recupera o valor de listaDepartamentos
@@ -63,7 +59,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 		return this.listaDepartamentos;
 	}
 
-
 	/**
 	 * Recupera o valor de login
 	 * 
@@ -72,7 +67,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 	public String getLogin() {
 		return this.login;
 	}
-
 
 	/**
 	 * Recupera o valor de nome
@@ -83,17 +77,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 		return this.nome;
 	}
 
-
-	/**
-	 * Recupera o valor de usuarios
-	 * 
-	 * @return usuarios
-	 */
-	public List<Usuario> getUsuarios() {
-		return this.usuarios;
-	}
-
-
 	/**
 	 * Atribui departamento
 	 * 
@@ -102,7 +85,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 	public void setDepartamento(Integer departamento) {
 		this.departamento = departamento;
 	}
-
 
 	/**
 	 * Atribui email
@@ -113,7 +95,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 		this.email = email;
 	}
 
-
 	/**
 	 * Atribui id
 	 * 
@@ -122,7 +103,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
 
 	/**
 	 * Atribui listaDepartamentos
@@ -133,7 +113,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 		this.listaDepartamentos = listaDepartamentos;
 	}
 
-
 	/**
 	 * Atribui login
 	 * 
@@ -143,7 +122,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 		this.login = login;
 	}
 
-
 	/**
 	 * Atribui nome
 	 * 
@@ -151,15 +129,5 @@ public class ManterUsuarioActionForm extends BaseForm {
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-
-	/**
-	 * Atribui usuarios
-	 * 
-	 * @param usuarios o valor a ajustar em usuarios
-	 */
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
 	}
 }
