@@ -24,14 +24,8 @@ import org.hibernate.criterion.Restrictions;
  */
 public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento, Integer> implements DepartamentoDAO {
 
-	private static final DepartamentoDAO	instancia				= new DepartamentoDAOImpl();
+	private static final DepartamentoDAO	instancia	= new DepartamentoDAOImpl();
 
-	/**
-	 * Máximo de departamentos retornados.<br>
-	 * 
-	 * @see {@link manterDepartamento.js}
-	 */
-	private static final int					MAXIMO_DEPARTAMENTOS	= 9;
 
 	/**
 	 * Cria uma nova instância do tipo {@link DepartamentoDAOImpl}.
@@ -54,7 +48,7 @@ public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento, Integer> impl
 	 */
 	public List<Departamento> getBySiglaNome(String sigla, String nome, Integer pagina) {
 		Criteria criteria = this.montarCriteriosPaginacao(sigla, nome);
-		this.adicionarPaginacao(criteria, pagina, MAXIMO_DEPARTAMENTOS);
+		this.adicionarPaginacao(criteria, pagina, MAXIMO_RESULTADOS);
 		criteria.addOrder(Order.asc("nome"));
 		return GenericsUtil.checkedList(criteria.list(), Departamento.class);
 	}

@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.negocio;
 
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
+import java.util.List;
 
 /**
  * Interface para um objeto de negócio de {@link Usuario}.
@@ -23,6 +24,29 @@ public interface UsuarioBO extends BaseBO<Usuario, Integer> {
 	 * @throws NegocioException
 	 */
 	public boolean enviarLembreteDeSenha(String login) throws NegocioException;
+
+	/**
+	 * Retorna um {@link List} de {@link Usuario} a partir da sigla e nome.
+	 * 
+	 * @param login
+	 * @param nome
+	 * @param departamento
+	 * @param paginaAtual
+	 * @return Retorna os usuários
+	 */
+	public List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
+			Integer paginaAtual);
+
+	/**
+	 * 
+	 * Recupera o total de registros retornados pela consulta.
+	 * 
+	 * @param login
+	 * @param nome
+	 * @param departamento
+	 * @return total de registros
+	 */
+	public Integer getTotalRegistros(String login, String nome, Integer departamento);
 
 	/**
 	 * Recupera um usuário a partir do seu login.

@@ -4,9 +4,17 @@
  */
 package br.com.ucb.sisgestor.persistencia.impl;
 
+import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.persistencia.UsuarioDAO;
+import br.com.ucb.sisgestor.util.GenericsUtil;
+import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Conjunction;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -38,9 +46,55 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario, Integer> implements Usu
 	/**
 	 * {@inheritDoc}
 	 */
+	public List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
+			Integer paginaAtual) {
+		Criteria criteria = this.montarCriteriosPaginacao(login, nome, departamento);
+		this.adicionarPaginacao(criteria, paginaAtual, MAXIMO_RESULTADOS);
+		criteria.addOrder(Order.asc("nome"));
+		return GenericsUtil.checkedList(criteria.list(), Usuario.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Integer getTotalRegistros(String login, String nome, Integer departamento) {
+		Criteria criteria = this.montarCriteriosPaginacao(login, nome, departamento);
+		criteria.setProjection(Projections.rowCount());
+		return (Integer) criteria.uniqueResult();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public Usuario recuperarPorLogin(String login) {
 		Criteria criteria = this.getSession().createCriteria(Usuario.class);
 		criteria.add(Restrictions.eq("login", login).ignoreCase());
 		return (Usuario) criteria.uniqueResult();
+	}
+
+	/**
+	 * 
+	 * Monta os critérios para a paginação dos usuários.
+	 * 
+	 * @param login
+	 * @param nome
+	 * @param departamento
+	 * @return {@link Criteria}
+	 */
+	private Criteria montarCriteriosPaginacao(String login, String nome, Integer departamento) {
+		Criteria criteria = this.getSession().createCriteria(Departamento.class);
+		Conjunction conjunction = Restrictions.conjunction();
+		if (StringUtils.isNotBlank(login)) {
+			conjunction.add(Restrictions.like("login", login, MatchMode.ANYWHERE).ignoreCase());
+		}
+		if (StringUtils.isNotBlank(nome)) {
+			conjunction.add(Restrictions.like("nome", nome, MatchMode.ANYWHERE).ignoreCase());
+		}
+		if (departamento != null) {
+			criteria.createAlias("this.departamento", "departamento");
+			conjunction.add(Restrictions.eq("departamento", departamento));
+		}
+		criteria.add(conjunction);
+		return criteria;
 	}
 }
