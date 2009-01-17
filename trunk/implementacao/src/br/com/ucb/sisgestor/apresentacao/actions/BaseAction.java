@@ -51,9 +51,11 @@ public class BaseAction extends DispatchAction {
 
 	private static Log								logger;
 	/** forward de entrada, todas as actions devem ter. */
-	public static final String						FWD_ENTRADA				= "entrada";
+	protected static final String					FWD_ENTRADA				= "entrada";
 	/** forward de erro de validação. */
-	public static final String						FWD_ERRO_VALIDACAO	= "erroValidacao";
+	protected static final String					FWD_ERRO_VALIDACAO	= "erroValidacao";
+	/** forward de acesso negado. */
+	protected static final String					FWD_NEGADO				= "acessoNegado";
 
 	private ThreadLocal<ActionErrors>			actionErrorsThread	= new ThreadLocal<ActionErrors>();
 	private ThreadLocal<ActionForm>				formThread				= new ThreadLocal<ActionForm>();
@@ -148,7 +150,7 @@ public class BaseAction extends DispatchAction {
 			} else {
 				this.getResponse().sendError(HttpServletResponse.SC_FORBIDDEN);
 			}
-			return this.findForward("acessoNegado");
+			return this.findForward(FWD_NEGADO);
 		}
 		//VALIDAÇÃO - executa a validação antes de executar o método de dispatch
 		BaseValidator validator = this.chamaMetodoValidacao();
@@ -196,15 +198,6 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Adiciona uma mensagem pela chave.
-	 * 
-	 * @param keyProperty chave da mensagem
-	 */
-	protected void addMessageKey(String keyProperty) {
-		this.getActionErrors().add(keyProperty, new ActionMessage(keyProperty));
-	}
-
-	/**
 	 * Adiciona uma mensagem com vários replacements
 	 * 
 	 * @param keyProperty chave da mensagem
@@ -212,16 +205,6 @@ public class BaseAction extends DispatchAction {
 	 */
 	protected void addMessageKey(String keyProperty, String... args) {
 		this.getActionErrors().add(keyProperty, new ActionMessage(keyProperty, args));
-	}
-
-	/**
-	 * Adiciona uma mensagem pela chave e pela chave do replacement.
-	 * 
-	 * @param keyProperty chave da mensagem
-	 * @param keyValue chave do replacement do arg0
-	 */
-	protected void addMessageKeyValue(String keyProperty, String keyValue) {
-		this.addMessageKey(keyProperty, this.getMessageKey(keyValue));
 	}
 
 	/**
@@ -785,7 +768,6 @@ public class BaseAction extends DispatchAction {
 	 */
 	private void printAndFlushResponse(AjaxResponse response) throws Exception {
 		Utils.doNoCachePagina(this.getRequest(), this.getResponse());
-		//isso daqui ta me dando problemas ... getResponse().reset();
 		this.getResponse().addHeader("ajaxResponse", "true");
 		this.getResponse().setHeader("Content-Type", "text/xml; charset=UTF-8");
 		this.getResponse().setHeader("Content-Language", "pt-BR");

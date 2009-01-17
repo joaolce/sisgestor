@@ -10,6 +10,7 @@ import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
 import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
 import br.com.ucb.sisgestor.util.Utils;
+import br.com.ucb.sisgestor.util.constantes.ConstantesRoles;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -46,6 +47,11 @@ public class ManterUsuarioAction extends BaseAction {
 		Usuario usuario = new Usuario();
 		Utils.copyProperties(usuario, form);
 
+		if (!this.getUser().getId().equals(usuario.getId())
+				&& !request.isUserInRole(ConstantesRoles.MANTER_USUARIO)) {
+			this.addMessageKey("erro.acessoNegado");
+			return this.sendAJAXResponse(false);
+		}
 		usuarioBO.atualizar(usuario);
 
 		this.addMessageKey("mensagem.usuario.alterar");
