@@ -136,6 +136,11 @@
 		<description>Manter Departamento</description>
 		<role-name>2</role-name>
 	</security-role>
+
+	<security-role>
+		<description>Manter Usuário</description>
+		<role-name>3</role-name>
+	</security-role>
 	
 	<resource-ref>
 		<description>SisGestorDB</description>

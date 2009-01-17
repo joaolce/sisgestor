@@ -23,5 +23,13 @@
 		roles="2"  />
 	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction#salvar" 
 		roles="2" />
+		
+	<!-- Manter Usuário -->
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction#excluir" 
+		roles="3" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction#popupNovoUsuario" 
+		roles="3"  />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction#salvar" 
+		roles="3" />
 
 </validator-mapping>
