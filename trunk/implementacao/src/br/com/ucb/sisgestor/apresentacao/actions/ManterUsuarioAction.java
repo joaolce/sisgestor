@@ -9,6 +9,7 @@ import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
 import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
+import br.com.ucb.sisgestor.util.Utils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -27,6 +28,28 @@ public class ManterUsuarioAction extends BaseAction {
 
 	static {
 		usuarioBO = UsuarioBOImpl.getInstancia();
+	}
+
+	/**
+	 * Atualiza um usuário.
+	 * 
+	 * @param mapping
+	 * @param actionForm
+	 * @param request
+	 * @param response
+	 * @return forward da atualização
+	 * @throws Exception
+	 */
+	public ActionForward atualizar(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ManterUsuarioActionForm form = (ManterUsuarioActionForm) actionForm;
+		Usuario usuario = new Usuario();
+		Utils.copyProperties(usuario, form);
+
+		usuarioBO.atualizar(usuario);
+
+		this.addMessageKey("mensagem.usuario.alterar");
+		return this.sendAJAXResponse(true);
 	}
 
 	/**

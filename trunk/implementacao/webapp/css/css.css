@@ -2,22 +2,26 @@
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 11px;
 }
+
 .titulo {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 16px;
 	font-weight: bold;
 	color: #6699CC;
 }
+
 .sub_titulo {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	font-weight: bold;
 }
+
 .creditos {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
 	color: #999999;
 }
+
 .barra_horizontal {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 12px;
@@ -35,11 +39,13 @@
 	border-bottom-color: #CCCCCC;
 	border-left-color: #FFFFFF;
 }
+
 .fundo {
 	background-color: #FFFFFF;
 	background-image: url(../imagens/fundo.jpg);
 	background-repeat: repeat-x;
 }
+
 .botao {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 11px;
@@ -59,6 +65,7 @@
 	border-bottom-color: #336699;
 	border-left-color: #336699;
 }
+
 .erro {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 11px;
@@ -67,4 +74,13 @@
 	background-color: #CC0000;
 }
 
+body, td,th {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
 
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}

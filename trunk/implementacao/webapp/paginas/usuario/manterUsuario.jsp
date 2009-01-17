@@ -10,7 +10,7 @@
 <div class="bordas" id="BordaExterna">
 
 	<div id="divMenuOpcoes">
-		<html:link href="#" titleKey="dica.novoUsuario" onclick="usuario.popupNovoUsuario();">
+		<html:link href="#" titleKey="dica.usuario.novo" onclick="usuario.popupNovoUsuario();">
 			<html:img srcKey="imagem.novo" width="20" height="19" />
 		</html:link>
 	</div>

@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.apresentacao.validator;
 
+import br.com.ucb.sisgestor.apresentacao.actions.BaseAction;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
@@ -24,7 +25,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.util.MessageResources;
-import org.apache.struts.validator.ValidatorForm;
 
 /**
  * Base para validações de apresentação.
@@ -45,7 +45,7 @@ public class BaseValidator {
 	private MessageResources		resources;
 	private HttpServletResponse	response;
 	private HttpSession				session;
-	private ActionForm				validatorForm;
+	private ActionForm				form;
 
 	static {
 		logger = LogFactory.getLog(BaseValidator.class);
@@ -53,7 +53,7 @@ public class BaseValidator {
 
 	/**
 	 * Método de execução padrão, deve ser executado para preencher variáveis locais e facilitar a vida do
-	 * programador. A principio, a DispatchActionGenérica chama esse método.
+	 * programador. A principio, a {@link BaseAction} chama esse método.
 	 * 
 	 * @param mapping
 	 * @param form
@@ -63,20 +63,11 @@ public class BaseValidator {
 	 */
 	public void execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws InvocationTargetException {
-		//faz o cast do form, para não ser feito em todos os métodos
 
-		if (form instanceof ActionForm) {
-			this.validatorForm = form;
-		}
-
-		//seta o request para ser usado em outros métodos. não remover
+		this.form = form;
 		this.request = request;
 		this.response = response;
-
-		//seta o mapping para ser usado em outros métodos. não remover
 		this.mapping = mapping;
-
-		//seta a sessão para ser usada em outros métodos
 		this.session = request.getSession();
 
 		//buscando método de validação
@@ -157,7 +148,7 @@ public class BaseValidator {
 	 * Adiciona uma mensagem de erro.
 	 * 
 	 * @param key chave da mensagem
-	 * @param args replacements da mensagem
+	 * @param args argumentos da mensagem
 	 */
 	protected void addError(String key, String... args) {
 		this.getActionErrors().add(key, new ActionMessage(key, args));
@@ -179,7 +170,7 @@ public class BaseValidator {
 	 * @return {@link ActionForm} atual
 	 */
 	protected ActionForm getForm() {
-		return this.validatorForm;
+		return this.form;
 	}
 
 	/**
@@ -293,6 +284,15 @@ public class BaseValidator {
 	}
 
 	/**
+	 * Armazena o {@link ActionForm} atual.
+	 * 
+	 * @param form {@link ActionForm} atual
+	 */
+	protected void setForm(ActionForm form) {
+		this.form = form;
+	}
+
+	/**
 	 * Atribuí o forward de erro de validação.
 	 * 
 	 * @param forwardErroValidcao forward de erro de validação
@@ -335,15 +335,6 @@ public class BaseValidator {
 	 */
 	protected void setSession(HttpSession session) {
 		this.session = session;
-	}
-
-	/**
-	 * Armazena o {@link ValidatorForm} atual.
-	 * 
-	 * @param validatorForm {@link ValidatorForm} atual
-	 */
-	protected void setValidatorForm(ValidatorForm validatorForm) {
-		this.validatorForm = validatorForm;
 	}
 
 	/**
@@ -504,7 +495,7 @@ public class BaseValidator {
 			this.setFocusControl(formProperty);
 		}
 		if (value instanceof String) {
-			if (GenericValidator.isBlankOrNull((String) value)) {
+			if (StringUtils.isBlank((String) value)) {
 				this.addErrorKey("erro.required", labelProperty);
 				this.setFocusControl(formProperty);
 			}
