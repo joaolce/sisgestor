@@ -195,6 +195,16 @@ ComportamentosTela.prototype = {
    popupNovoUsuario : function() {
 	   var url = "manterUsuario.do?method=popupNovoUsuario";
 	   createWindow(175, 430, 280, 70, "Novo Usuario", "divNovoUsuario", url);
+   },
+   
+   /**
+    * Abre janela para editar permissões do usuário
+    * @param id Identificador do usuário
+    * @return
+    */
+   editarPermissoes : function(id){
+	   var url = "manterUsuario.do?method=popupEditarPermissoes&id="+id;
+	   createWindow(175, 430, 280, 70, "Editar Permissões do Usuário", "divPermissao", url);
    }
 };
 

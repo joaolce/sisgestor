@@ -15,12 +15,12 @@
 		</html:link>
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE USUARIO -->
-	<fieldset style="padding: 10px; width: 50%; margin: 5 auto;">
+	<fieldset style="padding: 5px; width: 60%; margin: 5 auto;">
 		<legend>
 			<bean:message key="label.criterioPesquisa" />
 		</legend>
 		<html:form action="/manterUsuario.do" onsubmit="usuario.pesquisar(); return false;" styleId="manterUsuarioForm">
-			<div style="float: left; width: 50%;">
+			<div style="float: left; width: 70%;">
 				<div style="float: left; width: 100%;">
 					<label style="float: left;">
 						<bean:message key="label.login" />
@@ -28,19 +28,20 @@
 						<input type="text" name="loginPesquisa" id="loginPesquisa" size="16" maxlength="15" />
 					</label>
 					<label style="float: right;">
+						<bean:message key="label.nome" />
+						<br />
+						<input type="text" name="nomePesquisa" id="nomePesquisa"  size="51" maxlength="150" />
+					</label>
+				</div>
+				<div style="float: left;">
+					<label style="float: right;">
+						<br />
 						<bean:message key="label.departamento" />
 						<br />
 						<html:select property="departamento" styleId="departamentoPesquisa">
 							<html:option value="" />
 							<html:optionsCollection name="manterUsuarioForm" property="listaDepartamentos" label="sigla" value="id" />
 						</html:select>
-					</label>
-				</div>
-				<div style="float: left;">
-					<label>
-						<bean:message key="label.nome" />
-						<br />
-						<input type="text" name="nomePesquisa" id="nomePesquisa"  size="51" maxlength="150" />
 					</label>
 				</div>
 			</div>
@@ -73,29 +74,37 @@
 		<fieldset style="padding: 5px; width: 50%; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.usuario"/>
+				<html:link href="#" onclick="usuario.editarPermissoes(id);" titleKey="dica.permissao.editar">
+					<html:img srcKey="imagem.permissao" height="17" width="17"/>
+				</html:link>
 			</legend>
-			<div style="float: left;">
-				<label>
+			<div style="float: left; width: 70%">
+				<label style="float: left;">
 					<b><bean:message key="label.login"/>:</b>
 					<html:text property="login" size="11" maxlength="10" />
-				</label> <br />
-				<label>
-					<b><bean:message key="label.nome"/>:</b>
-					<html:text property="nome" size="51" maxlength="50" />
-				</label> <br />
-				<label>
-					<b><bean:message key="label.email"/>: </b>
-					<html:text property="email" size="41" maxlength="40" />
-				</label> <br />
-			</div>
-			<div style="float: right;">
-				<label>
+				</label> 
+				<label style="float: right;">
 					<b><bean:message key="label.departamento"/>: </b>
 					<html:select property="departamento" styleId="departamento">
 						<html:option value="" />
 						<html:optionsCollection name="manterUsuarioForm" property="listaDepartamentos" label="sigla" value="id" />
 					</html:select>
 				</label>
+			</div>
+			<div style="float: left;">
+				<label>
+					<b><bean:message key="label.nome"/>:</b>
+					<html:text property="nome" size="51" maxlength="50" />
+				</label> 
+				<br />
+				<label>
+					<b><bean:message key="label.email"/>: </b>
+					<html:text property="email" size="41" maxlength="40" />
+				</label> 
+				<br />
+			</div>
+			<div style="float: left;">
+				
 			</div>
 			<div style="clear: both; padding: 5px;" align="center">
 				<html:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar">
