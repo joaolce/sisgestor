@@ -24,5 +24,6 @@
 		<!-- Convertendo Entidades -->
 		<convert match="br.com.ucb.sisgestor.entidade.Departamento" converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Usuario" 		converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Permissao"	converter="hibernate3" />
 	</allow>
 </dwr>
