@@ -128,7 +128,7 @@
 	</security-constraint>
 	
 	<security-role>
-		<description>Permissão mínima para acessar ao SisGestor</description>
+		<description>Permissão mínima para acessar o SisGestor</description>
 		<role-name>1</role-name>
 	</security-role>
 	

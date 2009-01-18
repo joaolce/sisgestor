@@ -12,23 +12,33 @@
 	<fieldset style="margin: 5pt auto; padding: 10px; width: 95%;">
 		<div>
 			<label>
-				<b><bean:message key="label.sigla"/>:</b>
+				<b><bean:message key="label.sigla"/></b>
+				<br />
 				<html:text property="sigla" size="11" maxlength="10" />
-			</label> <br />
+			</label> 
+			<br />
+			<br />
 			<label>
-				<b><bean:message key="label.nome"/>:</b>
+				<b><bean:message key="label.nome"/></b>
+				<br />
 				<html:text property="nome" size="51" maxlength="50" />
-			</label> <br />
+			</label>
+			<br />
+			<br />
 			<label>
-				<b><bean:message key="label.email"/>: </b>
-				<html:text property="email" size="41" maxlength="40" />
-			</label> <br />
-			<label>
-				<b><bean:message key="label.departamentoSuperior"/>: </b>
+				<b><bean:message key="label.departamentoSuperior"/></b>
+				<br />
 				<html:select property="departamentoSuperior" styleId="departamentoSuperior" titleKey="dica.departamento.selecione">
 					<html:option value="" />
 					<html:optionsCollection name="manterDepartamentoForm" property="listaDepartamentos" label="sigla" value="id" />
 				</html:select>
+			</label>
+			<br />
+			<br />
+			<label>
+				<b><bean:message key="label.email"/></b>
+				<br />
+				<html:text property="email" size="41" maxlength="40" />
 			</label>
 		</div>
 	</fieldset>

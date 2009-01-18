@@ -70,15 +70,13 @@
 				<label>
 					<b><bean:message key="label.sigla"/>:</b>
 					<html:text property="sigla" size="11" maxlength="10" />
-				</label> <br />
+				</label> 
+				<br />
 				<label>
 					<b><bean:message key="label.nome"/>:</b>
 					<html:text property="nome" size="51" maxlength="50" />
-				</label> <br />
-				<label>
-					<b><bean:message key="label.email"/>: </b>
-					<html:text property="email" size="41" maxlength="40" />
-				</label> <br />
+				</label> 
+				<br />
 				<label>
 					<b><bean:message key="label.departamentoSuperior"/>: </b>
 					<html:select property="departamentoSuperior" styleId="departamentoSuperior">
@@ -86,6 +84,11 @@
 						<html:optionsCollection name="manterDepartamentoForm" property="listaDepartamentos" label="sigla" value="id" />
 					</html:select>
 				</label>
+				<br />
+				<label>
+					<b><bean:message key="label.email"/>: </b>
+					<html:text property="email" size="41" maxlength="40" />
+				</label> 
 			</div>
 			<div style="clear: both; padding: 5px;" align="center">
 				<html:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar">
