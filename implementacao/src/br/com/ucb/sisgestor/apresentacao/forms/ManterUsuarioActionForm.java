@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.apresentacao.forms;
 
 import br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction;
 import br.com.ucb.sisgestor.entidade.Departamento;
+import br.com.ucb.sisgestor.entidade.Permissao;
 import java.util.List;
 
 /**
@@ -22,6 +23,7 @@ public class ManterUsuarioActionForm extends BaseForm {
 	private String					email;
 	private Integer				departamento;
 	private List<Departamento>	listaDepartamentos;
+	private List<Permissao>		roles;
 
 	/**
 	 * Recupera o valor de departamento
@@ -78,6 +80,15 @@ public class ManterUsuarioActionForm extends BaseForm {
 	}
 
 	/**
+	 * Recupera o valor de roles
+	 * 
+	 * @return roles
+	 */
+	public List<Permissao> getRoles() {
+		return this.roles;
+	}
+
+	/**
 	 * Atribui departamento
 	 * 
 	 * @param departamento o valor a ajustar em departamento
@@ -122,6 +133,7 @@ public class ManterUsuarioActionForm extends BaseForm {
 		this.login = login;
 	}
 
+
 	/**
 	 * Atribui nome
 	 * 
@@ -129,5 +141,15 @@ public class ManterUsuarioActionForm extends BaseForm {
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+
+	/**
+	 * Atribui roles
+	 * 
+	 * @param roles o valor a ajustar em roles
+	 */
+	public void setRoles(List<Permissao> roles) {
+		this.roles = roles;
 	}
 }

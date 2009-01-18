@@ -52,6 +52,7 @@
 			parameter="method">
 			<forward name="entrada" path="definicaoManterUsuario" />
 			<forward name="popupNovoUsuario" path="popupNovoUsuario" />
+			<forward name="popupEditarPermissoes" path="popupEditarPermissoes" />
 		</action>
 	</action-mappings>
 

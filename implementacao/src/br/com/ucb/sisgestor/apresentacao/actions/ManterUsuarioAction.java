@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 
 import br.com.ucb.sisgestor.apresentacao.forms.ManterUsuarioActionForm;
 import br.com.ucb.sisgestor.entidade.Usuario;
+import br.com.ucb.sisgestor.negocio.DepartamentoBO;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
 import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
@@ -69,5 +70,70 @@ public class ManterUsuarioAction extends BaseAction {
 		form.setListaDepartamentos(DepartamentoBOImpl.getInstancia().obterTodos());
 
 		return this.findForward(FWD_ENTRADA);
+	}
+
+	/**
+	 * Exibe a lista de permissões que existem para o usuário
+	 * 
+	 * @param mapping
+	 * @param formulario
+	 * @param request
+	 * @param response
+	 * @return forward do popup
+	 * @throws Exception
+	 */
+	public ActionForward popupEditarPermissoes(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		ManterUsuarioActionForm form = (ManterUsuarioActionForm) formulario;
+		//		Integer id = Integer.parseInt(request.getParameter("id"));
+		Integer id = 1;
+		Usuario usuario = usuarioBO.obter(id);
+
+		form.setRoles(usuario.getPermissoes());
+
+		return this.findForward("popupEditarPermissoes");
+	}
+
+	/**
+	 * Tela de popup para incluir um novo usuário.
+	 * 
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return forward do popup
+	 */
+	public ActionForward popupNovoUsuario(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) {
+		ManterUsuarioActionForm frm = (ManterUsuarioActionForm) form;
+
+		DepartamentoBO departamentoBO = DepartamentoBOImpl.getInstancia();
+
+		frm.setListaDepartamentos(departamentoBO.obterTodos());
+
+		return this.findForward("popupNovoUsuario");
+	}
+
+	/**
+	 * Salva um usuário.
+	 * 
+	 * @param mapping
+	 * @param formulario
+	 * @param request
+	 * @param response
+	 * @return forward da inclusão
+	 * @throws Exception
+	 */
+	public ActionForward salvar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ManterUsuarioActionForm form = (ManterUsuarioActionForm) formulario;
+		Usuario usuario = new Usuario();
+		Utils.copyProperties(usuario, form);
+
+		usuarioBO.salvar(usuario);
+
+		this.addMessageKey("mensagem.usuario.salvar");
+		return this.sendAJAXResponse(true);
 	}
 }

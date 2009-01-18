@@ -29,16 +29,18 @@
 	
 	<!--  MANTER DEPARTAMENTO-->
 	<definition name="definicaoManterDepartamento" extends="definicaoPrincipalRodape">
-		<put name="corpo">/paginas/departamento/manterDepartamento.jsp</put>
+		<put name="corpo">/paginas/manterDepartamento/manterDepartamento.jsp</put>
 		<put name="titulo">Manter Departamento</put>
 	</definition>
-	<definition name="popupNovoDepartamento" path="/paginas/departamento/popupNovoDepartamento.jsp" />
+	<definition name="popupNovoDepartamento" path="/paginas/manterDepartamento/popupNovoDepartamento.jsp" />
 
 	<!--  MANTER USUARIO -->
 	<definition name="definicaoManterUsuario" extends="definicaoPrincipalRodape">
-		<put name="corpo">/paginas/usuario/manterUsuario.jsp</put>
+		<put name="corpo">/paginas/manterUsuario/manterUsuario.jsp</put>
 		<put name="titulo">Manter Usuário</put>
 	</definition>
-	<definition name="popupNovoUsuario" path="/paginas/usuario/popupNovoUsuario.jsp" />
+	<definition name="popupNovoUsuario" path="/paginas/manterUsuario/popupNovoUsuario.jsp" />
+	<definition name="popupEditarPermissoes" path="/paginas/manterUsuario/popupEditarPermissoes.jsp" />
+	
 		
 </tiles-definitions>
