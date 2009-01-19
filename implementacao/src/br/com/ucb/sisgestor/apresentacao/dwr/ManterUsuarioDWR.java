@@ -7,6 +7,7 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
+import br.com.ucb.sisgestor.negocio.impl.PermissaoBOImpl;
 import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
 import br.com.ucb.sisgestor.persistencia.BaseDAO;
 import br.com.ucb.sisgestor.util.constantes.DadosContexto;
@@ -43,7 +44,7 @@ public class ManterUsuarioDWR extends BaseDWR {
 	 * @return {@link List} de {@link Permissao}
 	 */
 	public List<Permissao> getTodasPermissoes() {
-		return usuarioBO.getTodasPermissoes();
+		return PermissaoBOImpl.getInstancia().obterTodos();
 	}
 
 
