@@ -10,8 +10,11 @@ Event.observe(window, "load", function() {
  */
 var ComportamentosTela = Class.create();
 ComportamentosTela.prototype = {
-   initialize : function() {},
-
+	/**
+	 * @constructor
+	 */
+	initialize : function() {},
+   
    tabelaTelaPrincipal :null,
 
    /**
@@ -175,6 +178,23 @@ ComportamentosTela.prototype = {
    },
 
    /**
+	 * Abre a janela para novo usuario
+	 */
+   popupNovoUsuario : function() {
+	   var url = "manterUsuario.do?method=popupNovoUsuario";
+	   createWindow(420, 550, 280, 40, "Novo Usuario", "divNovoUsuario", url);
+   },
+   
+   /**
+    * Abre janela para editar permissões do usuário
+    * @return
+    */
+   editarPermissoes : function(){
+	   var id = dwr.util.getValue("id");
+	   var url = "manterUsuario.do?method=popupEditarPermissoes&id="+id;
+	   createWindow(340, 550, 280, 70, "Editar Permissões do Usuário", "divPermissao", url);
+   },
+   /**
 	 * Envia ao action a ação de salvar os dados do usuario
 	 * 
 	 * @param form formulário
@@ -188,23 +208,14 @@ ComportamentosTela.prototype = {
 		   }
 	   }).bind(this));
    },
-
-   /**
-	 * Abre a janela para novo usuario
-	 */
-   popupNovoUsuario : function() {
-	   var url = "manterUsuario.do?method=popupNovoUsuario";
-	   createWindow(175, 430, 280, 70, "Novo Usuario", "divNovoUsuario", url);
-   },
    
    /**
-    * Abre janela para editar permissões do usuário
-    * @param id Identificador do usuário
+    * Atualiza as permissões selecionadas para o usuário
+    * @param form
     * @return
     */
-   editarPermissoes : function(id){
-	   var url = "manterUsuario.do?method=popupEditarPermissoes&id="+id;
-	   createWindow(175, 430, 280, 70, "Editar Permissões do Usuário", "divPermissao", url);
+   atualizarPermissoes: function(form){
+	   //Desenvolver
    }
 };
 

@@ -25,6 +25,9 @@ public class ManterUsuarioActionForm extends BaseForm {
 	private List<Departamento>	listaDepartamentos;
 	private List<Permissao>		roles;
 
+	private List<Permissao>		permissoesInformadas;
+	private List<Permissao>		permissoesSelecionadas;
+
 	/**
 	 * Recupera o valor de departamento
 	 * 
@@ -80,6 +83,24 @@ public class ManterUsuarioActionForm extends BaseForm {
 	}
 
 	/**
+	 * Recupera o valor de permissoesInformadas
+	 * 
+	 * @return permissoesInformadas
+	 */
+	public List<Permissao> getPermissoesInformadas() {
+		return this.permissoesInformadas;
+	}
+
+	/**
+	 * Recupera o valor de permissoesSelecionadas
+	 * 
+	 * @return permissoesSelecionadas
+	 */
+	public List<Permissao> getPermissoesSelecionadas() {
+		return this.permissoesSelecionadas;
+	}
+
+	/**
 	 * Recupera o valor de roles
 	 * 
 	 * @return roles
@@ -97,6 +118,7 @@ public class ManterUsuarioActionForm extends BaseForm {
 		this.departamento = departamento;
 	}
 
+
 	/**
 	 * Atribui email
 	 * 
@@ -106,6 +128,7 @@ public class ManterUsuarioActionForm extends BaseForm {
 		this.email = email;
 	}
 
+
 	/**
 	 * Atribui id
 	 * 
@@ -114,6 +137,7 @@ public class ManterUsuarioActionForm extends BaseForm {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 
 	/**
 	 * Atribui listaDepartamentos
@@ -141,6 +165,26 @@ public class ManterUsuarioActionForm extends BaseForm {
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+
+	/**
+	 * Atribui permissoesInformadas
+	 * 
+	 * @param permissoesInformadas o valor a ajustar em permissoesInformadas
+	 */
+	public void setPermissoesInformadas(List<Permissao> permissoesInformadas) {
+		this.permissoesInformadas = permissoesInformadas;
+	}
+
+
+	/**
+	 * Atribui permissoesSelecionadas
+	 * 
+	 * @param permissoesSelecionadas o valor a ajustar em permissoesSelecionadas
+	 */
+	public void setPermissoesSelecionadas(List<Permissao> permissoesSelecionadas) {
+		this.permissoesSelecionadas = permissoesSelecionadas;
 	}
 
 

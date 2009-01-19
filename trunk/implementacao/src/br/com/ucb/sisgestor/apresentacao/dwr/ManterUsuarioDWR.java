@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.apresentacao.dwr;
 
+import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
@@ -35,6 +36,16 @@ public class ManterUsuarioDWR extends BaseDWR {
 	public Usuario getById(Integer id) {
 		return usuarioBO.obter(id);
 	}
+
+	/**
+	 * Recupera todas permissões.
+	 * 
+	 * @return {@link List} de {@link Permissao}
+	 */
+	public List<Permissao> getTodasPermissoes() {
+		return usuarioBO.getTodasPermissoes();
+	}
+
 
 	/**
 	 * Pesquisa os usuários com os parâmetros preenchidos.

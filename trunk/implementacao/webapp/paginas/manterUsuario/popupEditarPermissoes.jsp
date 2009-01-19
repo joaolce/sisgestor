@@ -4,19 +4,21 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 
-<div style="overflow: auto; width: 100%; height: 320px; border: 1px solid gray;">
-	<table style="width: 100%;">
-		<thead>
-			<tr>
-			    <th><bean:message key="label.id"/></th>
-			    <th><bean:message key="label.descricao"/></th>		    
-			</tr>
-		</thead>
-		<tbody class="corpoTabela">
-				<tr>
-					<td><c:out value="3" /></td>
-					<td><c:out value="descricao afdadfa" /></td>
-				</tr>
-		</tbody>
-	</table>
-</div>
+<script type="text/javascript" src="dwr/interface/ManterUsuarioDWR.js"></script>
+<script type="text/javascript" src="js/manterUsuario/manterUsuario.js"></script>
+
+<html:form onsubmit="usuario.atualizarPermissoes(this); JanelaFactory.fecharJanelaAtiva(); return false;"  styleId="manterUsuarioForm">
+	<fieldset style="margin: 5pt auto; padding: 10px; width: 95%;">
+		<div id="tabPermissoes" style="margin: 6px;">
+			<tiles:insert definition="includeTabPermissoes"/>
+		</div>
+	</fieldset>
+	<div style="clear: both; padding: 5px;" align="center">	
+		<html:submit titleKey="dica.salvar" styleClass="botaoOkCancelar">
+			<bean:message key="label.salvar"/>
+		</html:submit>
+		<html:button property="cancelar" titleKey="dica.cancelar" onclick="JanelaFactory.fecharJanelaAtiva();" styleClass="botaoOkCancelar">
+			<bean:message key="botao.cancelar"/>
+		</html:button>
+	</div>
+</html:form>
