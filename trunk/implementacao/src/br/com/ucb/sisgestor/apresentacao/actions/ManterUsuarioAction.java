@@ -6,9 +6,9 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 
 import br.com.ucb.sisgestor.apresentacao.forms.ManterUsuarioActionForm;
 import br.com.ucb.sisgestor.entidade.Usuario;
-import br.com.ucb.sisgestor.negocio.DepartamentoBO;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
+import br.com.ucb.sisgestor.negocio.impl.PermissaoBOImpl;
 import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
 import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.constantes.ConstantesRoles;
@@ -48,6 +48,7 @@ public class ManterUsuarioAction extends BaseAction {
 		Usuario usuario = new Usuario();
 		Utils.copyProperties(usuario, form);
 
+		//Usuário pode atualizar os seus dados
 		if (!this.getUser().getId().equals(usuario.getId())
 				&& !request.isUserInRole(ConstantesRoles.MANTER_USUARIO)) {
 			this.addMessageKey("erro.acessoNegado");
@@ -84,14 +85,12 @@ public class ManterUsuarioAction extends BaseAction {
 	 */
 	public ActionForward popupEditarPermissoes(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) formulario;
-		Integer id = Integer.parseInt(request.getParameter("id"));
-		Usuario usuario = usuarioBO.obter(id);
+		Usuario usuario = usuarioBO.obter(form.getId());
 
 		form.setRoles(usuario.getPermissoes());
 
-		form.setPermissoesInformadas(usuarioBO.getTodasPermissoes());
+		form.setPermissoesInformadas(PermissaoBOImpl.getInstancia().obterTodos());
 
 		return this.findForward("popupEditarPermissoes");
 	}
@@ -109,11 +108,8 @@ public class ManterUsuarioAction extends BaseAction {
 			HttpServletResponse response) {
 		ManterUsuarioActionForm frm = (ManterUsuarioActionForm) form;
 
-		DepartamentoBO departamentoBO = DepartamentoBOImpl.getInstancia();
-
-		frm.setListaDepartamentos(departamentoBO.obterTodos());
-
-		frm.setPermissoesInformadas(usuarioBO.getTodasPermissoes());
+		frm.setListaDepartamentos(DepartamentoBOImpl.getInstancia().obterTodos());
+		frm.setPermissoesInformadas(PermissaoBOImpl.getInstancia().obterTodos());
 
 		return this.findForward("popupNovoUsuario");
 	}
