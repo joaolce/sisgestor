@@ -34,7 +34,7 @@
 					</label>
 				</div>
 				<div style="float: left;">
-					<label style="float: right;">
+					<label style="float: left;">
 						<br />
 						<bean:message key="label.departamento" />
 						<br />
