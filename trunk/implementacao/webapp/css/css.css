@@ -7,7 +7,7 @@
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 16px;
 	font-weight: bold;
-	color: #6699CC;
+	color: #1f4b78;
 }
 
 .sub_titulo {
@@ -42,7 +42,7 @@
 
 .fundo {
 	background-color: #FFFFFF;
-	background-image: url(../imagens/fundo.jpg);
+	background-image: url(../imagens/login/fundo.jpg);
 	background-repeat: repeat-x;
 }
 
@@ -51,7 +51,7 @@
 	font-size: 11px;
 	font-weight: bold;
 	color: #FFFFFF;
-	background-color: #6699CC;
+	background-color: #1f4b78;
 	border-top-width: 1px;
 	border-right-width: 1px;
 	border-bottom-width: 1px;
