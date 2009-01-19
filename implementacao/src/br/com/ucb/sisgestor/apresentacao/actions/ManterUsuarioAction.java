@@ -86,11 +86,12 @@ public class ManterUsuarioAction extends BaseAction {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) formulario;
-		//		Integer id = Integer.parseInt(request.getParameter("id"));
-		Integer id = 1;
+		Integer id = Integer.parseInt(request.getParameter("id"));
 		Usuario usuario = usuarioBO.obter(id);
 
 		form.setRoles(usuario.getPermissoes());
+
+		form.setPermissoesInformadas(usuarioBO.getTodasPermissoes());
 
 		return this.findForward("popupEditarPermissoes");
 	}
@@ -111,6 +112,8 @@ public class ManterUsuarioAction extends BaseAction {
 		DepartamentoBO departamentoBO = DepartamentoBOImpl.getInstancia();
 
 		frm.setListaDepartamentos(departamentoBO.obterTodos());
+
+		frm.setPermissoesInformadas(usuarioBO.getTodasPermissoes());
 
 		return this.findForward("popupNovoUsuario");
 	}

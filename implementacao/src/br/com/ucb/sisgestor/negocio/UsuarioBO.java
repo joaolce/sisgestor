@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.negocio;
 
+import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import java.util.List;
@@ -36,6 +37,13 @@ public interface UsuarioBO extends BaseBO<Usuario, Integer> {
 	 */
 	public List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
 			Integer paginaAtual);
+
+	/**
+	 * Recupera todas permissões.
+	 * 
+	 * @return {@link List} de {@link Permissao}
+	 */
+	public List<Permissao> getTodasPermissoes();
 
 	/**
 	 * Recupera o total de registros retornados pela consulta.

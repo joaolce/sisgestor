@@ -74,7 +74,7 @@
 		<fieldset style="padding: 5px; width: 50%; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.usuario"/>
-				<html:link href="#" onclick="usuario.editarPermissoes(id);" titleKey="dica.permissao.editar">
+				<html:link href="#" onclick="usuario.editarPermissoes();" titleKey="dica.permissao.editar">
 					<html:img srcKey="imagem.permissao" height="17" width="17"/>
 				</html:link>
 			</legend>

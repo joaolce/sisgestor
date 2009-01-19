@@ -5,21 +5,34 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 
 <script type="text/javascript" src="dwr/interface/ManterUsuarioDWR.js"></script>
-<script type="text/javascript" src="js/manterDepartamento/manterUsuario.js"></script>
+<script type="text/javascript" src="js/manterUsuario/manterUsuario.js"></script>
 
-<html:form action="/manterUsuario.do?method=salvar" onsubmit="usuario.salvar(this); JanelaFactory.fecharJanelaAtiva(); return false;" styleId="manterUsuarioForm">
-
+<html:form action="/manterUsuario.do?method=salvar" onsubmit="usuario.salvar(this); JanelaFactory.fecharJanelaAtiva(); return false;"  styleId="manterUsuarioForm">
 	<fieldset style="margin: 5pt auto; padding: 10px; width: 95%;">
 		<div style="float: left;">
 			<label>
-				<b><bean:message key="label.login"/>:</b>
+				<b><bean:message key="label.login"/></b>
+				<br />
 				<html:text property="login" size="11" maxlength="10" />
 			</label> 
 			<br />
+			<br />
 			<label>
-				<b><bean:message key="label.nome"/>:</b>
+				<b><bean:message key="label.nome"/></b>
+				<br />
 				<html:text property="nome" size="51" maxlength="50" />
 			</label> 
+			<br />
+			<br />
+			<label>
+				<b><bean:message key="label.departamento"/></b>
+				<br />
+				<html:select property="departamento" styleId="departamento">
+					<html:option value="" />
+					<html:optionsCollection name="manterUsuarioForm" property="listaDepartamentos" label="sigla" value="id" />
+				</html:select>
+			</label>
+			<br />
 			<br />
 			<label>
 				<b><bean:message key="label.email"/>: </b>
@@ -27,15 +40,9 @@
 			</label>
 			<br />
 		</div>
-			<div style="float: left;">
-				<label>
-					<b><bean:message key="label.departamento"/>: </b>
-					<html:select property="departamento" styleId="departamento">
-						<html:option value="" />
-						<html:optionsCollection name="manterUsuarioForm" property="listaDepartamentos" label="sigla" value="id" />
-					</html:select>
-				</label>
-			</div>
+		<div id="tabPermissoes" style="margin: 6px;">
+			<tiles:insert definition="includeTabPermissoes"/>
+		</div>
 	</fieldset>
 	<div style="clear: both; padding: 5px;" align="center">	
 		<html:submit titleKey="dica.salvar" styleClass="botaoOkCancelar">

@@ -39,9 +39,9 @@
 		<put name="corpo">/paginas/manterUsuario/manterUsuario.jsp</put>
 		<put name="titulo">Manter Usuário</put>
 	</definition>
-	<definition name="popupNovoUsuario" path="/paginas/manterUsuario/popupNovoUsuario.jsp" />
+	<definition name="popupNovoUsuario"      path="/paginas/manterUsuario/popupNovoUsuario.jsp" />
 	<definition name="popupEditarPermissoes" path="/paginas/manterUsuario/popupEditarPermissoes.jsp" />
-	<definition name="includeTabPermissoes" path="/paginas/manterUsuario/tabPermissoes.jsp" />
+	<definition name="includeTabPermissoes"  path="/paginas/manterUsuario/tabPermissoes.jsp" />
 	
 	
 		

@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.negocio.impl;
 
+import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.mail.Email;
 import br.com.ucb.sisgestor.mail.EmailSender;
@@ -12,6 +13,7 @@ import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsuarioDAO;
 import br.com.ucb.sisgestor.persistencia.impl.UsuarioDAOImpl;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Transaction;
@@ -97,6 +99,21 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	public List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
 			Integer paginaAtual) {
 		return this.dao.getByLoginNomeDepartamento(login, nome, departamento, paginaAtual);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 */
+	public List<Permissao> getTodasPermissoes() {
+		Permissao p = new Permissao();
+		p.setId(1);
+		p.setDescricao("descricao da permissao");
+
+		List<Permissao> lista = new ArrayList<Permissao>();
+
+		lista.add(p);
+		return lista;
 	}
 
 	/**
