@@ -15,6 +15,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.ListUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.validator.GenericValidator;
@@ -139,8 +140,7 @@ public final class Utils {
 					}
 				} else if (eUmaString && Date.class.isInstance(valorOrigem)) {
 					Date valor = (Date) PropertyUtils.getProperty(origem, descriptorOrigem.getName());
-					PropertyUtils.setProperty(destino, descriptor.getName(), DataUtil
-							.converteDateToString(valor));
+					PropertyUtils.setProperty(destino, descriptor.getName(), DataUtil.converteDateToString(valor));
 				}
 
 				// ================== ASSOCIAÇÕES ================== 
@@ -559,5 +559,18 @@ public final class Utils {
 		} catch (Exception e) {
 			logger.warn(e.getMessage(), e);
 		}
+	}
+
+	/**
+	 * Faz a subtração de todos os elementos da segunda lista na primeira lista.
+	 * 
+	 * @param <T> tipo das listas
+	 * @param original lista original
+	 * @param subtracao lista a ser reduzida da lista original
+	 * @param tipo tipo das listas
+	 * @return novo {@link List} da diferença
+	 */
+	public static <T>List<T> subtrair(List<T> original, List<T> subtracao, Class<T> tipo) {
+		return GenericsUtil.checkedList(ListUtils.subtract(original, subtracao), tipo);
 	}
 }
