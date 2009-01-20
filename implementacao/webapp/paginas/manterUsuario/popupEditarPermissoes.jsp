@@ -5,7 +5,7 @@
 <script type="text/javascript" src="dwr/interface/ManterUsuarioDWR.js"></script>
 <script type="text/javascript" src="js/manterUsuario/manterUsuario.js"></script>
 
-<html:form  action="manterUsuario.do" onsubmit="usuario.atualizarPermissoes(this); JanelaFactory.fecharJanelaAtiva(); return false;"  styleId="manterUsuarioForm">
+<html:form action="/manterUsuario.do" onsubmit="usuario.atualizarPermissoes(this); JanelaFactory.fecharJanelaAtiva(); return false;" styleId="manterUsuarioForm">
 	<fieldset style="margin: 5pt auto; padding: 10px; width: 95%;">
 		<div id="tabPermissoes" style="margin: 6px;">
 			<tiles:insert definition="includeTabPermissoes"/>

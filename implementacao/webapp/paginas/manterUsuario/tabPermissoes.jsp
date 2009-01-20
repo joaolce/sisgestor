@@ -17,7 +17,7 @@
 			<html:select multiple="true"  altKey="dica.desselecionar" titleKey="dica.desselecionar"  
 			 	property="permissoes"  size="10" style="width: 220px;" styleId="permissoes"
 			 	ondblclick="usuario.transferePermissao('permissoes', 'permissoesInform');" >
-			 	<html:optionsCollection name="manterUsuarioForm" property="roles" label="descricao" value="id"/>
+			 	<html:optionsCollection name="manterUsuarioForm" property="roles" label="descricao" value="id" />
 			</html:select>
 		</label>
 	</div>
@@ -38,13 +38,13 @@
 	<div>
 		<label class="labelComboTransferencia">
 			<span id="itensPermissoes">
-				<b><bean:message key="label.permissoes"/></b>
+				<b><bean:message key="label.permissoesDisponiveis"/></b>
 			</span>
 			<br />
 			<html:select multiple="true" altKey="dica.selecionar" titleKey="dica.selecionar" 
 				property="permissoesInform" value="id" size="10" style="width: 220px;" styleId="permissoesInform" 
 				ondblclick="usuario.transferePermissao('permissoesInform', 'permissoes');">
-				<html:optionsCollection name="manterUsuarioForm" property="permissoesInformadas" label="descricao" value="id"/>
+				<html:optionsCollection name="manterUsuarioForm" property="permissoesDisponiveis" label="descricao" value="id" />
 			</html:select>
 		</label>
 	</div>

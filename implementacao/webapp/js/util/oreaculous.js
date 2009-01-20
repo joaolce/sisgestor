@@ -2,171 +2,169 @@
  * Oreaculous JS
  * 
  * API Para criação de janelas div dinâmicas
- * 
- * @author deinf.sdantas
  */
 var Janela = Class.create();
 Janela.prototype = {
    /**
-    * altura da janela
-    * 
-    * @type Integer
-    */
+	 * altura da janela
+	 * 
+	 * @type Integer
+	 */
    height :null,
 
    /**
-    * largura da janela
-    * 
-    * @type Integer
-    */
+	 * largura da janela
+	 * 
+	 * @type Integer
+	 */
    width :null,
 
    /**
-    * posição Y em relação ao elemento que contém a janelaDiv
-    * 
-    * @type Integer
-    */
+	 * posição Y em relação ao elemento que contém a janelaDiv
+	 * 
+	 * @type Integer
+	 */
    top :0,
 
    /**
-    * posição X em relação ao elemento que contém a janelaDiv
-    * 
-    * @type Integer
-    */
+	 * posição X em relação ao elemento que contém a janelaDiv
+	 * 
+	 * @type Integer
+	 */
    left :0,
 
    /**
-    * Indicar se a janela está modal ou não, ao chamar undoModal se ele for chamado novamente não
-    * poderá fazer nada se o valor do modal for false
-    * 
-    * @type Boolean
-    */
+	 * Indicar se a janela está modal ou não, ao chamar undoModal se ele for chamado novamente não
+	 * poderá fazer nada se o valor do modal for false
+	 * 
+	 * @type Boolean
+	 */
    modal :true,
 
    /**
-    * Título da janela
-    * 
-    * @type String
-    */
+	 * Título da janela
+	 * 
+	 * @type String
+	 */
    titulo :null,
 
    /**
-    * ID do div de dentro da janela que irá conter o conteúdo, também usado para identificar a
-    * janela. Não será possível ter duas janelas com o mesmo ID
-    */
+	 * ID do div de dentro da janela que irá conter o conteúdo, também usado para identificar a
+	 * janela. Não será possível ter duas janelas com o mesmo ID
+	 */
    idConteudo :null,
 
    /**
-    * Objeto de arraste da janela, coisa do scriptaculous
-    * 
-    * @type Draggable
-    */
+	 * Objeto de arraste da janela, coisa do scriptaculous
+	 * 
+	 * @type Draggable
+	 */
    draggable :null,
 
    /**
-    * Elemento div que representa a janela toda
-    * 
-    * @type HTMLDivElement
-    */
+	 * Elemento div que representa a janela toda
+	 * 
+	 * @type HTMLDivElement
+	 */
    janelaDiv :null,
 
    /**
-    * Janela anterior que está por trás da atual
-    * 
-    * @type Janela
-    */
+	 * Janela anterior que está por trás da atual
+	 * 
+	 * @type Janela
+	 */
    janelaAnterior :null,
 
    /**
-    * Botão fechar da janela, quando o botão é removido ele vem pra cá para depois poder ser
-    * recolado
-    * 
-    * @type HTMLDivElement
-    */
+	 * Botão fechar da janela, quando o botão é removido ele vem pra cá para depois poder ser
+	 * recolado
+	 * 
+	 * @type HTMLDivElement
+	 */
    botaoFechar :null,
 
    /**
-    * Manipulador de evento que é acionado ao fechar a janela. Para que a janela não seja fechada
-    * basta retornar false no manipulador do evento
-    * 
-    * @type Function
-    */
+	 * Manipulador de evento que é acionado ao fechar a janela. Para que a janela não seja fechada
+	 * basta retornar false no manipulador do evento
+	 * 
+	 * @type Function
+	 */
    onClose :null,
 
    /**
-    * Manipulador de evento que deverá ser acionado quando o conteúdo de uma URL tiver sido
-    * carregado dentro da div de conteúdo
-    * 
-    * @type Function
-    */
+	 * Manipulador de evento que deverá ser acionado quando o conteúdo de uma URL tiver sido
+	 * carregado dentro da div de conteúdo
+	 * 
+	 * @type Function
+	 */
    onCompletePosFunction :null,
 
    /**
-    * Endereço URL que deverá fornecer um conteúdo HTML para a DIV
-    * 
-    * @type String
-    */
+	 * Endereço URL que deverá fornecer um conteúdo HTML para a DIV
+	 * 
+	 * @type String
+	 */
    url :null,
 
    /**
-    * Método HTTP utilizado para realizar a requisição
-    * 
-    * @type String
-    */
+	 * Método HTTP utilizado para realizar a requisição
+	 * 
+	 * @type String
+	 */
    httpMethod :"get",
 
    /**
-    * Se o método de requisição é POST, aqui conterá a querystring que deverá ir no corpo da
-    * requisição POST
-    * 
-    * @type String
-    */
+	 * Se o método de requisição é POST, aqui conterá a querystring que deverá ir no corpo da
+	 * requisição POST
+	 * 
+	 * @type String
+	 */
    postBody :null,
 
    /**
-    * Avaliar scripts dentro do HTML recebido da resposta
-    * 
-    * @type Boolean
-    */
+	 * Avaliar scripts dentro do HTML recebido da resposta
+	 * 
+	 * @type Boolean
+	 */
    evalScripts :true,
 
    /**
-    * id do elemento que cobre a tela anterior
-    * 
-    * @type String
-    */
+	 * id do elemento que cobre a tela anterior
+	 * 
+	 * @type String
+	 */
    idElementoCobertor :"elementoCobertor",
 
    /**
-    * Índice de visualização da janela (mesma propriedade do estilo)
-    * 
-    * @type Integer
-    */
+	 * Índice de visualização da janela (mesma propriedade do estilo)
+	 * 
+	 * @type Integer
+	 */
    zIndex :null,
 
    /**
-    * objeto utilizado na requisição
-    * 
-    * @type XMLHttpRequest
-    */
+	 * objeto utilizado na requisição
+	 * 
+	 * @type XMLHttpRequest
+	 */
    transportRequest :null,
 
    /**
-    * ajaxOptions
-    */
+	 * ajaxOptions
+	 */
    ajaxOptions :null,
    /**
-    * @constructor
-    * 
-    * @param {Integer} height altura da janela
-    * @param {Integer} width largura da janela
-    * @param {Integer} left quantidade de pixels a partir da esquerda do elemento contedor
-    *        (coordenada X da tela)
-    * @param {Integer} top quantidade de pixels a partir do top do elemento contedor {coordenada Y
-    *        da tela}
-    * @param {String} titulo texto de título da janela
-    * @param {String} idConteudo identificador do div que representará o conteúdo da janela
-    */
+	 * @constructor
+	 * 
+	 * @param {Integer} height altura da janela
+	 * @param {Integer} width largura da janela
+	 * @param {Integer} left quantidade de pixels a partir da esquerda do elemento contedor
+	 *        (coordenada X da tela)
+	 * @param {Integer} top quantidade de pixels a partir do top do elemento contedor {coordenada Y
+	 *        da tela}
+	 * @param {String} titulo texto de título da janela
+	 * @param {String} idConteudo identificador do div que representará o conteúdo da janela
+	 */
    initialize : function(height, width, left, top, titulo, idConteudo) {
 	   this.top = top;
 	   this.left = left;
@@ -178,8 +176,8 @@ Janela.prototype = {
 	   this.efeitoAbrir();
    },
    /**
-    * Cria a janela
-    */
+	 * Cria a janela
+	 */
    criarJanela : function() {
 	   var janelaDiv = Builder.node("div", {
 	      UNSELECTABLE :"on",
@@ -218,9 +216,9 @@ Janela.prototype = {
 			   this.draggable.finishDrag(event);
 			   this.draggable.destroy();
 			   /*
-			    * acontece um BUG com o IE se o usuário clica com o botão do meio do mouse em cima da
-			    * barra de título: a janela fica por trás de tudo
-			    */
+				 * acontece um BUG com o IE se o usuário clica com o botão do meio do mouse em cima da
+				 * barra de título: a janela fica por trás de tudo
+				 */
 			   if (Prototype.Browser.IE) {
 				   this.janelaDiv.setStyle( {
 					   zIndex :this.zIndex
@@ -236,20 +234,14 @@ Janela.prototype = {
 	      style :this.getEstiloConteudo()
 	   }));
 	   Element.hide(janelaDiv);
-	   janelaDiv.onkeydown = ( function(event) {
-		   event = event || window.event;
-		   if (event.keyCode == 27) {
-			   this.fecharJanela();
-		   }
-	   }).bindAsEventListener(this);
 	   this.getPrincipal().appendChild(janelaDiv);
 	   this.getPrincipal().makePositioned();
 	   this.janelaDiv = janelaDiv;
    },
 
    /**
-    * Efeito usado ao abrir a janela
-    */
+	 * Efeito usado ao abrir a janela
+	 */
    efeitoAbrir : function() {
 	   if (Configuracao.efeitoAbrir != null) {
 		   Configuracao.efeitoAbrir(this.janelaDiv);
@@ -257,14 +249,14 @@ Janela.prototype = {
 	   this.focusJanela();
    },
    /**
-    * Colocar o foco em uma janela
-    */
+	 * Colocar o foco em uma janela
+	 */
    focusJanela : function() {
 	   this.janelaDiv.focus();
    },
    /**
-    * Efeito usado ao fechar a janela
-    */
+	 * Efeito usado ao fechar a janela
+	 */
    efeitoFechar : function() {
 	   if (Configuracao.efeitoFechar != null) {
 		   Configuracao.efeitoFechar(this.janelaDiv);
@@ -272,27 +264,27 @@ Janela.prototype = {
    },
 
    /**
-    * retorna o div contendo o botão fechar da janela
-    * 
-    * @return {HTMLDivElement}
-    */
+	 * retorna o div contendo o botão fechar da janela
+	 * 
+	 * @return {HTMLDivElement}
+	 */
    getBotaoFechar : function() {
 	   return $(this.janelaDiv.firstChild.lastChild.firstChild);
    },
 
    /**
-    * remove o botão fechar da janela
-    * 
-    * @return {HTMLAnchorElement}
-    */
+	 * remove o botão fechar da janela
+	 * 
+	 * @return {HTMLAnchorElement}
+	 */
    removerBotaoFechar : function() {
 	   this.botaoFechar = this.getBotaoFechar().remove();
 	   return this.botaoFechar;
    },
 
    /**
-    * adiciona um botão fechar a janela
-    */
+	 * adiciona um botão fechar a janela
+	 */
    adicionarBotaoFechar : function() {
 	   if (this.botaoFechar != null) {
 		   this.janelaDiv.firstChild.lastChild.appendChild(this.botaoFechar);
@@ -300,10 +292,10 @@ Janela.prototype = {
    },
 
    /**
-    * retorna o elemento onde as janelas serão acrescentadas (appendadas)
-    * 
-    * @return{Element}
-    */
+	 * retorna o elemento onde as janelas serão acrescentadas (appendadas)
+	 * 
+	 * @return{Element}
+	 */
    getPrincipal : function() {
 	   if (Configuracao.DivPrincipal != null) {
 		   return $(Configuracao.DivPrincipal);
@@ -312,55 +304,55 @@ Janela.prototype = {
    },
 
    /**
-    * retorna o estilo personalizado pelo usuário com o estilo de configuração padrão da barra da
-    * janela
-    * 
-    * @return {String}
-    */
+	 * retorna o estilo personalizado pelo usuário com o estilo de configuração padrão da barra da
+	 * janela
+	 * 
+	 * @return {String}
+	 */
    getEstiloBarra : function() {
 	   return Configuracao.EstiloBarra
 	      .concat("cursor:move; white-space: nowrap;padding-left: 5px; height: 16px;");
    },
 
    /**
-    * retorna o estilo personalizado pelo usuário com o estilo de configuração padrão da barra de
-    * janela
-    * 
-    * @return {String}
-    */
+	 * retorna o estilo personalizado pelo usuário com o estilo de configuração padrão da barra de
+	 * janela
+	 * 
+	 * @return {String}
+	 */
    getEstiloBarraTitulo : function() {
 	   return Configuracao.EstiloBarraTitulo.concat("width:90%; float: left;");
    },
 
    /**
-    * retorna o estilo da janela
-    * 
-    * @return {String}
-    */
+	 * retorna o estilo da janela
+	 * 
+	 * @return {String}
+	 */
    getEstiloJanela : function() {
 	   return Configuracao.EstiloJanela.concat("position: absolute; ");
    },
 
    /**
-    * estilo do conteúdo modificável da janela
-    * 
-    * @return {String}
-    */
+	 * estilo do conteúdo modificável da janela
+	 * 
+	 * @return {String}
+	 */
    getEstiloConteudo : function() {
 	   return Configuracao.EstiloConteudo;
    },
 
    /**
-    * adiciona elementos ao div de conteúdo da janela
-    */
+	 * adiciona elementos ao div de conteúdo da janela
+	 */
    adicionarConteudo : function(element) {
 	   this.getConteudo().appendChild(element);
    },
    /**
-    * retorna o div de conteúdo da janela
-    * 
-    * @return {HTMLDivElement}
-    */
+	 * retorna o div de conteúdo da janela
+	 * 
+	 * @return {HTMLDivElement}
+	 */
    getConteudo : function() {
 	   var conteudo = this.janelaDiv.lastChild;
 	   while (conteudo.id != this.idConteudo) {
@@ -369,28 +361,28 @@ Janela.prototype = {
 	   return $(conteudo);
    },
    /**
-    * estilo da div que contém o botão fechar com o estilo personalizado pelo usuário
-    * 
-    * @return {String}
-    */
+	 * estilo da div que contém o botão fechar com o estilo personalizado pelo usuário
+	 * 
+	 * @return {String}
+	 */
    getEstiloDivFechar : function() {
 	   return Configuracao.EstiloDivFechar.concat("text-align: right; width: 5%; float: right;");
    },
    /**
-    * estilo do botão fechar com o estilo personalizado pelo usuário
-    */
+	 * estilo do botão fechar com o estilo personalizado pelo usuário
+	 */
    getEstiloBotaoFechar : function() {
 	   return Configuracao.EstiloBotaoFechar.concat("padding-right: 3px;");
    },
    /**
-    * remover o conteúdo da div de conteúdo
-    */
+	 * remover o conteúdo da div de conteúdo
+	 */
    removerConteudo : function() {
 	   this.getConteudo().innerHTML = "";
    },
    /**
-    * centralizar a posição x da janela
-    */
+	 * centralizar a posição x da janela
+	 */
    centralizarX : function() {
 	   var largura = this.getPrincipal().clientWidth;
 	   this.janelaDiv.setStyle( {
@@ -398,20 +390,20 @@ Janela.prototype = {
 	   });
    },
    /**
-    * coordenada X da janela
-    * 
-    * @param {Number} position
-    */
+	 * coordenada X da janela
+	 * 
+	 * @param {Number} position
+	 */
    setX : function(position) {
 	   this.janelaDiv.setStyle( {
 		   left :position + "px"
 	   });
    },
    /**
-    * coordenada Y da janela
-    * 
-    * @param {Number} position
-    */
+	 * coordenada Y da janela
+	 * 
+	 * @param {Number} position
+	 */
    setY : function(position) {
 	   this.janelaDiv.setStyle( {
 		   top :position + "px"
@@ -442,25 +434,25 @@ Janela.prototype = {
 	   }
    },
    /**
-    * adiciona um manipulador de evento ao evento fechar janela, se a função passada retornar false
-    * a janela não é fechada
-    * 
-    * @param {Function} oncloseFunction
-    */
+	 * adiciona um manipulador de evento ao evento fechar janela, se a função passada retornar false
+	 * a janela não é fechada
+	 * 
+	 * @param {Function} oncloseFunction
+	 */
    setOnClose : function(oncloseFunction) {
 	   this.onClose = oncloseFunction;
    },
    /**
-    * retorna o manipulador de evento ao fechar janela
-    * 
-    * @return{Function}
-    */
+	 * retorna o manipulador de evento ao fechar janela
+	 * 
+	 * @return{Function}
+	 */
    getOnClose : function() {
 	   return this.onClose;
    },
    /**
-    * fecha e remove a janela
-    */
+	 * fecha e remove a janela
+	 */
    fecharJanela : function() {
 	   if ((this.getOnClose() != null) && (typeof this.getOnClose() == "function")) {
 		   var isFechar = this.onClose();
@@ -503,10 +495,10 @@ Janela.prototype = {
 	   }
    },
    /**
-    * bloqueia os elementos que estão por tráz da janela que foi aberta, é sempre bloqueado o resto
-    * da página se for a primeira janela a ser aberta ou a janela anterior a que acabou de ser
-    * aberta
-    */
+	 * bloqueia os elementos que estão por tráz da janela que foi aberta, é sempre bloqueado o resto
+	 * da página se for a primeira janela a ser aberta ou a janela anterior a que acabou de ser
+	 * aberta
+	 */
    makeModal : function() {
 	   var cobertor = null
 	   if (Prototype.Browser.IE && (window.navigator.appVersion.indexOf("MSIE 6.0") != -1)) {
@@ -553,8 +545,8 @@ Janela.prototype = {
 	   });
    },
    /**
-    * descobre a janela anterior ou o fundo da página toda
-    */
+	 * descobre a janela anterior ou o fundo da página toda
+	 */
    undoModal : function() {
 	   if (!this.modal) {
 		   return;
@@ -577,15 +569,15 @@ Janela.prototype = {
    },
 
    /**
-    * set a janela anterior a que foi acabou de ser aberta, se for a primeira a propriedade é nula
-    */
+	 * set a janela anterior a que foi acabou de ser aberta, se for a primeira a propriedade é nula
+	 */
    setJanelaAnterior : function(janela) {
 	   this.janelaAnterior = janela;
    },
 
    /**
-    * retorna o postBody da requisição POST
-    */
+	 * retorna o postBody da requisição POST
+	 */
    getPostBody : function() {
 	   if (this.postBody == null) {
 		   return undefined;
@@ -594,18 +586,18 @@ Janela.prototype = {
    },
 
    /**
-    * seta o postBody da requisição POST
-    * 
-    * @param {String} postBody
-    */
+	 * seta o postBody da requisição POST
+	 * 
+	 * @param {String} postBody
+	 */
    setPostBody : function(postBody) {
 	   this.setMethod("post");
 	   this.postBody = postBody;
    },
 
    /**
-    * retorna a url que deverá fornecer o conteúdo HTML da div
-    */
+	 * retorna a url que deverá fornecer o conteúdo HTML da div
+	 */
    getUrl : function() {
 	   if (this.url == null) {
 		   return this.url;
@@ -614,45 +606,45 @@ Janela.prototype = {
    },
 
    /**
-    * set o endereço que deverá fornecer o conteúdo HTML da div
-    */
+	 * set o endereço que deverá fornecer o conteúdo HTML da div
+	 */
    setUrl : function(url) {
 	   this.url = url;
    },
 
    /**
-    * método a ser utilizado na requisição
-    */
+	 * método a ser utilizado na requisição
+	 */
    getMethod : function() {
 	   return this.httpMethod;
    },
 
    /**
-    * seta o método a ser utilizado na requisição POST ou GET (padrão: GET)
-    */
+	 * seta o método a ser utilizado na requisição POST ou GET (padrão: GET)
+	 */
    setMethod : function(method) {
 	   this.httpMethod = method;
    },
 
    /**
-    * avaliar scripts
-    */
+	 * avaliar scripts
+	 */
    getEvalscripts : function() {
 	   return this.evalScripts;
    },
 
    /**
-    * seta avaliar scripts
-    */
+	 * seta avaliar scripts
+	 */
    setEvalscripts : function(state) {
 	   this.evalScripts = state;
    },
 
    /**
-    * carrega o conteúdo html da url passada dentro do conteúdo da div
-    * 
-    * @param {String} url
-    */
+	 * carrega o conteúdo html da url passada dentro do conteúdo da div
+	 * 
+	 * @param {String} url
+	 */
    carregarUrl : function(url) {
 	   if ((url != null) && (url != undefined)) {
 		   this.setUrl(url);
@@ -672,17 +664,17 @@ Janela.prototype = {
 	   this.ajaxOptions = updater.options;
    },
    /**
-    * recarrega o conteúdo da DIV com o html retornado pela URL
-    */
+	 * recarrega o conteúdo da DIV com o html retornado pela URL
+	 */
    recarregarConteudo : function() {
 	   this.carregarUrl();
    },
    /**
-    * manipulador de evento
-    * 
-    * @param {Ajax.Request} ajaxRequest
-    * @param {Object} json
-    */
+	 * manipulador de evento
+	 * 
+	 * @param {Ajax.Request} ajaxRequest
+	 * @param {Object} json
+	 */
    onSuccess : function(ajaxRequest, json) {
 	   if ((Configuracao.onSuccess != undefined) && (Configuracao.onSuccess != null)) {
 		   var janela = JanelaFactory.getJanelaByXHR(ajaxRequest.transport);
@@ -691,22 +683,22 @@ Janela.prototype = {
    },
 
    /**
-    * manipulador de eventos
-    * 
-    * @param {Ajax.Request} ajaxRequest
-    * @param {Object} json
-    */
+	 * manipulador de eventos
+	 * 
+	 * @param {Ajax.Request} ajaxRequest
+	 * @param {Object} json
+	 */
    onComplete : function(ajaxRequest, json) {
 	   var janela = JanelaFactory.getJanelaByXHR(ajaxRequest.transport);
 	   Configuracao.onComplete(ajaxRequest.transport, janela);
    },
 
    /**
-    * manipulador de eventos
-    * 
-    * @param {Ajax.Request} ajaxRequest
-    * @param {Object} json
-    */
+	 * manipulador de eventos
+	 * 
+	 * @param {Ajax.Request} ajaxRequest
+	 * @param {Object} json
+	 */
    onFailure : function(ajaxRequest, json) {
 	   if ((Configuracao.onSuccess != undefined) && (Configuracao.onSuccess != null)) {
 		   var janela = JanelaFactory.getJanelaByXHR(ajaxRequest.transport);
@@ -714,27 +706,27 @@ Janela.prototype = {
 	   }
    },
    /**
-    * manipulador de eventos
-    * 
-    * @param {Ajax.Request} ajaxRequest
-    */
+	 * manipulador de eventos
+	 * 
+	 * @param {Ajax.Request} ajaxRequest
+	 */
    onException : function(request) {
 	   Configuracao.onFailure(request, this);
    },
    /**
-    * set posfunction que deverá ser executada quando o conteúdo HTML estiver preenchido dentro da
-    * div
-    * 
-    * @param {Function} posFunction
-    */
+	 * set posfunction que deverá ser executada quando o conteúdo HTML estiver preenchido dentro da
+	 * div
+	 * 
+	 * @param {Function} posFunction
+	 */
    addOnComplete : function(posFunction) {
 	   this.onCompletePosFunction = posFunction;
    },
 
    /**
-    * corrige posição da div se a página tiver barras de rolagem verticais, deixando sempre a janela
-    * no centro da tela verticalmente
-    */
+	 * corrige posição da div se a página tiver barras de rolagem verticais, deixando sempre a janela
+	 * no centro da tela verticalmente
+	 */
    corrigirPosicaoDiv : function() {
 	   var div = this.janelaDiv;
 	   if (((document.body.clientHeight > document.documentElement.clientHeight) && (document.documentElement.scrollTop != 0))
@@ -777,24 +769,24 @@ Janela.prototype = {
 var JanelaFactory = Class.create();
 JanelaFactory = {
    /**
-    * de Janela
-    * 
-    * @type Array
-    */
+	 * de Janela
+	 * 
+	 * @type Array
+	 */
    janelasAbertas :new Array(),
    /**
-    * Instancia uma nova Janela, registra e retorna o objeto
-    * 
-    * @param {Integer} height
-    * @param {Integer} width
-    * @param {Integer} left
-    * @param {Integer} top
-    * @param {String} titulo
-    * @param {String} idConteudo
-    * 
-    * @return instancia da janela com os parâmetros passados
-    * @type Janela
-    */
+	 * Instancia uma nova Janela, registra e retorna o objeto
+	 * 
+	 * @param {Integer} height
+	 * @param {Integer} width
+	 * @param {Integer} left
+	 * @param {Integer} top
+	 * @param {String} titulo
+	 * @param {String} idConteudo
+	 * 
+	 * @return instancia da janela com os parâmetros passados
+	 * @type Janela
+	 */
    getInstance : function(height, width, left, top, titulo, idConteudo) {
 	   if ($(idConteudo) == null) {
 		   var novaJanela = new Janela(height, width, left, top, titulo, idConteudo);
@@ -809,8 +801,8 @@ JanelaFactory = {
 	   return null;
    },
    /**
-    * fechar janela ativa
-    */
+	 * fechar janela ativa
+	 */
    fecharJanelaAtiva : function() {
 	   this.janelasAbertas[this.janelasAbertas.length - 1].fecharJanela();
 	   if (this.janelasAbertas.length != 0) {
@@ -818,10 +810,10 @@ JanelaFactory = {
 	   }
    },
    /**
-    * fecha a janela pelo id da mesma
-    * 
-    * @param {String} idJanela
-    */
+	 * fecha a janela pelo id da mesma
+	 * 
+	 * @param {String} idJanela
+	 */
    fecharJanela : function(idJanela) {
 	   var janela = this.getJanelaById(idJanela);
 	   if (janela != null) {
@@ -829,13 +821,13 @@ JanelaFactory = {
 	   }
    },
    /**
-    * retorna uma instância aberta da janela pelo id da mesma
-    * 
-    * @param {String} idJanela
-    * 
-    * @return janela criada
-    * @type Janela
-    */
+	 * retorna uma instância aberta da janela pelo id da mesma
+	 * 
+	 * @param {String} idJanela
+	 * 
+	 * @return janela criada
+	 * @type Janela
+	 */
    getJanelaById : function(idJanela) {
 	   for ( var index = 0; index < this.janelasAbertas.length; index++) {
 		   var janela = this.janelasAbertas[index];
@@ -846,13 +838,13 @@ JanelaFactory = {
 	   return null;
    },
    /**
-    * retorna uma janela aberta onde o XHR é igual ao xhr passado
-    * 
-    * @param {XMLHttpRequest} transportRequest
-    * 
-    * @return instância da janela
-    * @type Janela
-    */
+	 * retorna uma janela aberta onde o XHR é igual ao xhr passado
+	 * 
+	 * @param {XMLHttpRequest} transportRequest
+	 * 
+	 * @return instância da janela
+	 * @type Janela
+	 */
    getJanelaByXHR : function(transportRequest) {
 	   for ( var index = 0; index < this.janelasAbertas.length; index++) {
 		   var janela = this.janelasAbertas[index];
