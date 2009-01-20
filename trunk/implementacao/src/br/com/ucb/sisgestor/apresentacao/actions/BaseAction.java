@@ -551,16 +551,6 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Alias de BaseAction#sendAJAXErrors();
-	 * 
-	 * @return d
-	 * @throws Exception
-	 */
-	protected ActionForward sendAJAXResponse() throws Exception {
-		return this.sendAJAXErrors();
-	}
-
-	/**
 	 * Envia uma resposta (mensagens ou erros), uma url de redirecionamento e seta o estado da requisição para
 	 * definir as cores da resposta (se é vermelho ou verde) o padrão da da cor é vermelho os erros ou
 	 * mensagens podem ser adicionados pelos métodos BaseAction.addMessage o forwardName passsado deverá ser o
@@ -574,12 +564,6 @@ public class BaseAction extends DispatchAction {
 	 */
 	protected ActionForward sendAJAXResponse(ActionForward forward, boolean estado) throws Exception {
 		AjaxResponse response = new AjaxResponse();
-
-		//		if (!forward.getContextRelative()) {
-		//			String appName = this.getRequest().getContextPath();
-		//			response.setUrlForward(appName + forward.getPath());
-		//		}
-
 		response.setStatus(estado);
 		this.addMessagesToResponse(this.getActionErrors(), response);
 		this.printAndFlushResponse(response);
@@ -629,27 +613,6 @@ public class BaseAction extends DispatchAction {
 	protected ActionForward sendAJAXResponse(boolean estado) throws Exception {
 		AjaxResponse response = new AjaxResponse();
 		response.setStatus(estado);
-		this.addMessagesToResponse(this.getActionErrors(), response);
-		this.printAndFlushResponse(response);
-		this.setActionErrors(null);
-		return null;
-	}
-
-	/**
-	 * Envia uma resposta (mensagens ou erros) e uma url de redirecionamento para o Javascript os erros ou
-	 * mensagens podem ser adicionados pelos métodos BaseAction.addError
-	 * 
-	 * @param forwardName
-	 * @return d
-	 * @throws Exception
-	 */
-	protected ActionForward sendAJAXResponse(String forwardName) throws Exception {
-		AjaxResponse response = new AjaxResponse();
-		this.findForward(forwardName);
-		//		if (!forward.getContextRelative()) {
-		//			String appName = this.getRequest().getContextPath();
-		//			response.setUrlForward(appName + forward.getPath());
-		//		}
 		this.addMessagesToResponse(this.getActionErrors(), response);
 		this.printAndFlushResponse(response);
 		this.setActionErrors(null);

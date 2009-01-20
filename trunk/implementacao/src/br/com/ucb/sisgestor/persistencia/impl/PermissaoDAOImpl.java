@@ -15,7 +15,7 @@ import br.com.ucb.sisgestor.persistencia.PermissaoDAO;
  */
 public class PermissaoDAOImpl extends BaseDAOImpl<Permissao, Integer> implements PermissaoDAO {
 
-	private static PermissaoDAO	instancia	= new PermissaoDAOImpl();
+	private static final PermissaoDAO	instancia	= new PermissaoDAOImpl();
 
 	/**
 	 * Cria uma nova instância do tipo {@link PermissaoDAOImpl}.

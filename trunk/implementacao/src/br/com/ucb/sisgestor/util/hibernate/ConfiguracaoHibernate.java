@@ -26,27 +26,21 @@ public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 	private final boolean						criarBancoDeDados	= false;
 	private final boolean						isGerarScript		= false;
 	private final boolean						isMostrarSQL		= true;
-	private final String							FALSE					= "false";
-	private final String							TRUE					= "true";
 
 	private ConfiguracaoHibernate() {
-		if (this.isMostrarSQL) {
-			this.setProperty(Environment.SHOW_SQL, this.TRUE);
-		} else {
-			this.setProperty(Environment.SHOW_SQL, this.FALSE);
-		}
 		this.setProperty(Environment.DIALECT, MySQL5InnoDBDialect.class.getName());
 		this.setProperty(Environment.DRIVER, Driver.class.getName());
-		this.setProperty(Environment.DEFAULT_SCHEMA, "sisgestor");
 		this.setProperty(Environment.DATASOURCE, "java:/SisGestorDB");
+		this.setProperty(Environment.DEFAULT_SCHEMA, "sisgestor");
+		this.setProperty(Environment.SHOW_SQL, Boolean.toString(this.isMostrarSQL));
 		this.setProperty(Environment.POOL_SIZE, "10");
 		this.setProperty(Environment.ISOLATION, "1");
-		this.setProperty(Environment.USE_IDENTIFIER_ROLLBACK, this.TRUE);
-		this.setProperty(Environment.ORDER_UPDATES, this.TRUE);
+		this.setProperty(Environment.USE_IDENTIFIER_ROLLBACK, Boolean.toString(true));
+		this.setProperty(Environment.ORDER_UPDATES, Boolean.toString(true));
 		this.setProperty(Environment.TRANSACTION_STRATEGY, JTATransactionFactory.class.getName());
 		this.setProperty(Environment.TRANSACTION_MANAGER_STRATEGY, JBossTransactionManagerLookup.class
 				.getName());
-		this.setProperty(Environment.USE_REFLECTION_OPTIMIZER, this.FALSE);
+		this.setProperty(Environment.USE_REFLECTION_OPTIMIZER, Boolean.toString(false));
 
 		for (Class<?> classe : ClassesAnotadas.getClassesAnotadas()) {
 			this.addAnnotatedClass(classe);
@@ -54,7 +48,7 @@ public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 	}
 
 	/**
-	 * Recupera a configuração do hibernate
+	 * Recupera a configuração do hibernate.
 	 * 
 	 * @return configuração do hibernate
 	 */
@@ -66,7 +60,7 @@ public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 	}
 
 	/**
-	 * Cria Banco de dados
+	 * Cria o banco de dados.
 	 */
 	public void recriarBancoDeDados() {
 		if (this.criarBancoDeDados) {

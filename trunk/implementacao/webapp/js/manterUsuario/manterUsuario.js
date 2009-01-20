@@ -182,7 +182,7 @@ ComportamentosTela.prototype = {
     */
    popupNovoUsuario : function() {
 	   var url = "manterUsuario.do?method=popupNovoUsuario";
-	   createWindow(420, 550, 280, 40, "Novo Usuario", "divNovoUsuario", url);
+	   createWindow(430, 550, 280, 40, "Novo Usuario", "divNovoUsuario", url);
    },
 
    /**
@@ -193,7 +193,7 @@ ComportamentosTela.prototype = {
    editarPermissoes : function() {
 	   var id = dwr.util.getValue("id");
 	   var url = "manterUsuario.do?method=popupEditarPermissoes&id=" + id;
-	   createWindow(340, 550, 280, 70, "Editar Permissões do Usuário", "divPermissao", url);
+	   createWindow(260, 550, 280, 70, "Editar Permissões do Usuário", "divPermissao", url);
    },
    /**
     * Envia ao action a ação de salvar os dados do usuario

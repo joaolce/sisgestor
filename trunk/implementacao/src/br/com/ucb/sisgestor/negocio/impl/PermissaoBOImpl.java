@@ -18,8 +18,8 @@ import java.util.List;
  */
 public class PermissaoBOImpl extends BaseBOImpl<Permissao, Integer> implements PermissaoBO {
 
-	private static PermissaoBO	instancia	= new PermissaoBOImpl();
-	private PermissaoDAO			dao;
+	private static final PermissaoBO	instancia	= new PermissaoBOImpl();
+	private PermissaoDAO					dao;
 
 	/**
 	 * Cria uma nova instância do tipo {@link UsuarioBOImpl}.
