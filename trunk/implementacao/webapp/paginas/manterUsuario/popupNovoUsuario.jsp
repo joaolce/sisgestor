@@ -35,7 +35,7 @@
 			<br />
 			<br />
 			<label>
-				<b><bean:message key="label.email"/>: </b>
+				<b><bean:message key="label.email"/></b> <br />
 				<html:text property="email" size="41" maxlength="40" />
 			</label>
 			<br />

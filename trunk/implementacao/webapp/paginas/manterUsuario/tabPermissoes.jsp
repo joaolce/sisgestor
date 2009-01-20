@@ -15,8 +15,9 @@
 			</span>
 			<br/>
 			<html:select multiple="true"  altKey="dica.desselecionar" titleKey="dica.desselecionar"  
-			 	property="permissoesSel"  size="10" style="width: 220px;" styleId="permissoesSel"
-			 	ondblclick="usuario.transferePermissao('permissoesSel', 'permissoesInform');" >
+			 	property="permissoes"  size="10" style="width: 220px;" styleId="permissoes"
+			 	ondblclick="usuario.transferePermissao('permissoes', 'permissoesInform');" >
+			 	<html:optionsCollection name="manterUsuarioForm" property="roles" label="descricao" value="id"/>
 			</html:select>
 		</label>
 	</div>
@@ -24,13 +25,13 @@
 		<br />
 		<br />
 		<html:button property="direita" titleKey="dica.selecionarVarios" style="width: 30px;" 
-			onclick="usuario.transfereTodasPermissoes('permissoesInform', 'permissoesSel');">
+			onclick="usuario.transfereTodasPermissoes('permissoesInform', 'permissoes');">
 			<bean:message key="label.direita"/>
 		</html:button>
 		<br />
 		<br />
 		<html:button property="esquerda" titleKey="dica.desselecionaVarios" style="width: 30px;" 
-			onclick="usuario.transfereTodasPermissoes('permissoesSel', 'permissoesInform');">
+			onclick="usuario.transfereTodasPermissoes('permissoes', 'permissoesInform');">
 			<bean:message key="label.esquerda"/>
 		</html:button>
 	</div>
@@ -42,10 +43,9 @@
 			<br />
 			<html:select multiple="true" altKey="dica.selecionar" titleKey="dica.selecionar" 
 				property="permissoesInform" value="id" size="10" style="width: 220px;" styleId="permissoesInform" 
-				ondblclick="usuario.transferePermissao('permissoesInform', 'permissoesSel');">
+				ondblclick="usuario.transferePermissao('permissoesInform', 'permissoes');">
 				<html:optionsCollection name="manterUsuarioForm" property="permissoesInformadas" label="descricao" value="id"/>
 			</html:select>
 		</label>
-		
 	</div>
 </div>

@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.apresentacao.actions;
 
 import br.com.ucb.sisgestor.apresentacao.forms.ManterUsuarioActionForm;
+import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
@@ -12,6 +13,7 @@ import br.com.ucb.sisgestor.negocio.impl.PermissaoBOImpl;
 import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
 import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.constantes.ConstantesRoles;
+import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -89,7 +91,6 @@ public class ManterUsuarioAction extends BaseAction {
 		Usuario usuario = usuarioBO.obter(form.getId());
 
 		form.setRoles(usuario.getPermissoes());
-
 		form.setPermissoesInformadas(PermissaoBOImpl.getInstancia().obterTodos());
 
 		return this.findForward("popupEditarPermissoes");
@@ -109,6 +110,7 @@ public class ManterUsuarioAction extends BaseAction {
 		ManterUsuarioActionForm frm = (ManterUsuarioActionForm) form;
 
 		frm.setListaDepartamentos(DepartamentoBOImpl.getInstancia().obterTodos());
+		frm.setRoles(new ArrayList<Permissao>());
 		frm.setPermissoesInformadas(PermissaoBOImpl.getInstancia().obterTodos());
 
 		return this.findForward("popupNovoUsuario");

@@ -15,12 +15,12 @@
 		</html:link>
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE USUARIO -->
-	<fieldset style="padding: 5px; width: 60%; margin: 5 auto;">
+	<fieldset style="padding: 10px; width: 50%; margin: 5 auto;">
 		<legend>
 			<bean:message key="label.criterioPesquisa" />
 		</legend>
 		<html:form action="/manterUsuario.do" onsubmit="usuario.pesquisar(); return false;" styleId="manterUsuarioForm">
-			<div style="float: left; width: 70%;">
+			<div style="float: left; width: 80%;">
 				<div style="float: left; width: 100%;">
 					<label style="float: left;">
 						<bean:message key="label.login" />
@@ -39,7 +39,9 @@
 						<bean:message key="label.departamento" />
 						<br />
 						<html:select property="departamento" styleId="departamentoPesquisa">
-							<html:option value="" />
+							<html:option value="">
+								<bean:message key="label.todos" />
+							</html:option>
 							<html:optionsCollection name="manterUsuarioForm" property="listaDepartamentos" label="sigla" value="id" />
 						</html:select>
 					</label>
