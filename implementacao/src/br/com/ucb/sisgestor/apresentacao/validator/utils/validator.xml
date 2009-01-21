@@ -13,4 +13,7 @@
 		<validacao action="br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction" 
 		validator="br.com.ucb.sisgestor.apresentacao.validator.ManterDepartamentoValidator" />
 		
+		<validacao action="br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction" 
+		validator="br.com.ucb.sisgestor.apresentacao.validator.ManterUsuarioValidator" />
+		
 </validate-mapping>

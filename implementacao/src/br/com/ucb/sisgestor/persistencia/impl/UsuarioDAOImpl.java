@@ -72,6 +72,14 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario, Integer> implements Usu
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected Order getOrdemLista() {
+		return Order.asc("nome").ignoreCase();
+	}
+
+	/**
 	 * Monta os critérios para a paginação dos usuários.
 	 * 
 	 * @param login parte do login do usuário

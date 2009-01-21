@@ -80,7 +80,7 @@
 			<div style="float: left; width: 70%">
 				<label style="float: left;">
 					<b><bean:message key="label.login"/>:</b>
-					<html:text property="login" size="11" maxlength="10" />
+					<html:text property="login" size="16" maxlength="15" />
 				</label> 
 				<label style="float: right;">
 					<b><bean:message key="label.departamento"/>: </b>
@@ -93,7 +93,7 @@
 			<div style="float: left;">
 				<label>
 					<b><bean:message key="label.nome"/>:</b>
-					<html:text property="nome" size="51" maxlength="50" />
+					<html:text property="nome" size="51" maxlength="150" />
 				</label> 
 				<br />
 				<label>

@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.Order;
 
 /**
  * Implementação da interface que representa um DAO (Data Access Object).
@@ -61,7 +62,7 @@ public class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serializable> i
 	 */
 	public List<T> obterTodos() {
 		Criteria criteria = this.getSession().createCriteria(this.classePersistente);
-
+		criteria.addOrder(this.getOrdemLista());
 		return GenericsUtil.checkedList(criteria.list(), this.classePersistente);
 	}
 
@@ -91,6 +92,15 @@ public class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serializable> i
 			criteria.setFirstResult(paginaAtual.intValue() * maximoRegistros);
 		}
 		criteria.setMaxResults(maximoRegistros);
+	}
+
+	/**
+	 * Recupera a ordenação padrão do método {@link #obterTodos()}.
+	 * 
+	 * @return ordenação padrão
+	 */
+	protected Order getOrdemLista() {
+		return Order.asc("id");
 	}
 
 	/**
