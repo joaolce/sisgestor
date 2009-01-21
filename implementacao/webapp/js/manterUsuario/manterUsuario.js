@@ -201,7 +201,8 @@ ComportamentosTela.prototype = {
     * @param form formulário
     * @return
     */
-   salvar : function(form) {
+   salvar: function(form) {
+	   ComboFunctions.selecionaCombo("permissoes");
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
 			   JanelaFactory.fecharJanela("divNovoUsuario");
@@ -216,7 +217,8 @@ ComportamentosTela.prototype = {
     * @param form
     * @return
     */
-   atualizarPermissoes : function(form) {
+   atualizarPermissoes: function(form) {
+	   ComboFunctions.selecionaCombo("permissoes");
    // Desenvolver
    },
 

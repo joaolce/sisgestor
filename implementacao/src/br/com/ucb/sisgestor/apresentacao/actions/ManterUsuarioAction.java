@@ -7,6 +7,7 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 import br.com.ucb.sisgestor.apresentacao.forms.ManterUsuarioActionForm;
 import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.entidade.Usuario;
+import br.com.ucb.sisgestor.negocio.PermissaoBO;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
 import br.com.ucb.sisgestor.negocio.impl.PermissaoBOImpl;
@@ -94,6 +95,7 @@ public class ManterUsuarioAction extends BaseAction {
 		List<Permissao> todasPermissoes = PermissaoBOImpl.getInstancia().obterTodos();
 		List<Permissao> permissoesUsuario = usuario.getPermissoes();
 
+		//TODO Erro de programação, não está removendo 
 		form.setRoles(usuario.getPermissoes());
 		form.setPermissoesDisponiveis(Utils.subtrair(todasPermissoes, permissoesUsuario, Permissao.class));
 
@@ -114,7 +116,6 @@ public class ManterUsuarioAction extends BaseAction {
 		ManterUsuarioActionForm frm = (ManterUsuarioActionForm) form;
 
 		frm.setListaDepartamentos(DepartamentoBOImpl.getInstancia().obterTodos());
-		frm.setRoles(new ArrayList<Permissao>());
 		frm.setPermissoesDisponiveis(PermissaoBOImpl.getInstancia().obterTodos());
 
 		return this.findForward("popupNovoUsuario");
@@ -132,13 +133,34 @@ public class ManterUsuarioAction extends BaseAction {
 	 */
 	public ActionForward salvar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) formulario;
 		Usuario usuario = new Usuario();
 		Utils.copyProperties(usuario, form);
+
+		//TODO Verificar porque nao copiou do form
+		usuario.setPermissoes(this.getPermissoes(form.getPermissoes()));
 
 		usuarioBO.salvar(usuario);
 
 		this.addMessageKey("mensagem.usuario.salvar");
 		return this.sendAJAXResponse(true);
+	}
+
+	/**
+	 * 
+	 * Método temporário para recuperar as permissões informadas pelo form mas que não foram copiadas pro
+	 * objeto persistente.
+	 * 
+	 * @param permissoes
+	 * @return Lista de permissoes
+	 */
+	private List<Permissao> getPermissoes(Integer[] permissoes) {
+		List<Permissao> list = new ArrayList<Permissao>();
+		PermissaoBO permissaoBO = PermissaoBOImpl.getInstancia();
+		for (Integer key : permissoes) {
+			list.add(permissaoBO.obter(key));
+		}
+		return list;
 	}
 }

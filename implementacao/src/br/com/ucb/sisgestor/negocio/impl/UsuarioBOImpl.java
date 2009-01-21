@@ -14,6 +14,7 @@ import br.com.ucb.sisgestor.persistencia.impl.UsuarioDAOImpl;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.validator.GenericValidator;
 import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -140,6 +141,9 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	public void salvar(Usuario usuario) throws Exception {
 		Transaction transaction = this.beginTransaction();
 		try {
+			if (GenericValidator.isBlankOrNull(usuario.getSenha())) {
+				usuario.setSenha("1234");
+			}
 			this.dao.salvarOuAtualizar(usuario);
 			HibernateUtil.commit(transaction);
 		} catch (ConstraintViolationException ce) {
