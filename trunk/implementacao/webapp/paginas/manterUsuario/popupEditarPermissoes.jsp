@@ -12,8 +12,8 @@
 		</div>
 	</fieldset>
 	<div style="clear: both; padding: 5px;" align="center">	
-		<html:submit titleKey="dica.salvar" styleClass="botaoOkCancelar">
-			<bean:message key="label.salvar"/>
+		<html:submit titleKey="dica.ok" styleClass="botaoOkCancelar">
+			<bean:message key="label.ok"/>
 		</html:submit>
 		<html:button property="cancelar" titleKey="dica.cancelar" onclick="JanelaFactory.fecharJanelaAtiva();" styleClass="botaoOkCancelar">
 			<bean:message key="botao.cancelar"/>

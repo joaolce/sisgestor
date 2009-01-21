@@ -17,7 +17,9 @@
 			<html:select multiple="true"  altKey="dica.desselecionar" titleKey="dica.desselecionar"  
 			 	property="permissoes"  size="10" style="width: 220px;" styleId="permissoes"
 			 	ondblclick="usuario.transferePermissao('permissoes', 'permissoesInform');" >
-			 	<html:optionsCollection name="manterUsuarioForm" property="roles" label="descricao" value="id" />
+			 	<logic:present name="manterUsuarioForm" property="roles">
+			 		<html:optionsCollection name="manterUsuarioForm" property="roles" label="descricao" value="id" />
+			 	</logic:present>
 			</html:select>
 		</label>
 	</div>
@@ -44,7 +46,9 @@
 			<html:select multiple="true" altKey="dica.selecionar" titleKey="dica.selecionar" 
 				property="permissoesInform" value="id" size="10" style="width: 220px;" styleId="permissoesInform" 
 				ondblclick="usuario.transferePermissao('permissoesInform', 'permissoes');">
-				<html:optionsCollection name="manterUsuarioForm" property="permissoesDisponiveis" label="descricao" value="id" />
+				<logic:present name="manterUsuarioForm" property="permissoesDisponiveis">
+					<html:optionsCollection name="manterUsuarioForm" property="permissoesDisponiveis" label="descricao" value="id" />
+				</logic:present>
 			</html:select>
 		</label>
 	</div>
