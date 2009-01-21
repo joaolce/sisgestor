@@ -498,22 +498,19 @@ public class BaseValidator {
 				this.addErrorKey("erro.required", labelProperty);
 				this.setFocusControl(formProperty);
 			}
-		}
-		if (value instanceof Number) {
+		} else if (value instanceof Number) {
 			if (((Number) value).intValue() == 0) {
 				this.addErrorKey("erro.required", labelProperty);
 				this.setFocusControl(formProperty);
 			}
-		}
-		if (value instanceof Object[]) {
+		} else if (value instanceof Object[]) {
 			Object[] valorArray = (Object[]) value;
 			if (valorArray.length == 0) {
 				this.addErrorKey("erro.necessarioSelecao", labelProperty);
 				this.setFocusControl(formProperty);
 			}
-		}
-		if (value instanceof Character) {
-			if (GenericValidator.isBlankOrNull(((Character) value).toString())) {
+		} else if (value instanceof Character) {
+			if (StringUtils.isBlank(((Character) value).toString())) {
 				this.addErrorKey("erro.required", labelProperty);
 				this.setFocusControl(formProperty);
 			}
@@ -536,11 +533,34 @@ public class BaseValidator {
 				this.addError("erro.maxlength", this.getMessageKey(keyProperty), "" + maximo);
 				this.setFocusControl(formProperty);
 			}
-		}
-		if (value instanceof Integer) {
-			Integer valor = (Integer) value;
+		} else if (value instanceof Number) {
+			Number valor = (Number) value;
 			if (valor.intValue() > maximo) {
 				this.addError("erro.maxinteger", this.getMessageKey(keyProperty), "" + maximo);
+				this.setFocusControl(formProperty);
+			}
+		}
+	}
+
+	/**
+	 * Valida uma string para saber se o tamanho minimo de caracteres foi alcançado.
+	 * 
+	 * @param keyProperty nome do campo no properties
+	 * @param formProperty nome da propriedade do form a ser verificada
+	 * @param minimo mínimo a ser validado
+	 */
+	protected void validaTamanhoMinimo(String keyProperty, String formProperty, int minimo) {
+		Object value = this.getFormValue(formProperty);
+		if (value instanceof String) {
+			String valor = (String) value;
+			if (valor.length() < minimo) {
+				this.addError("erro.minlength", this.getMessageKey(keyProperty), "" + minimo);
+				this.setFocusControl(formProperty);
+			}
+		} else if (value instanceof Number) {
+			Number valor = (Number) value;
+			if (valor.intValue() < minimo) {
+				this.addError("erro.mininteger", this.getMessageKey(keyProperty), "" + minimo);
 				this.setFocusControl(formProperty);
 			}
 		}

@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.persistencia.impl;
 
 import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.persistencia.PermissaoDAO;
+import org.hibernate.criterion.Order;
 
 /**
  * Implementação da interface de acesso a dados de {@link Permissao}.
@@ -32,5 +33,13 @@ public class PermissaoDAOImpl extends BaseDAOImpl<Permissao, Integer> implements
 	 */
 	public static PermissaoDAO getInstancia() {
 		return instancia;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected Order getOrdemLista() {
+		return Order.asc("descricao").ignoreCase();
 	}
 }

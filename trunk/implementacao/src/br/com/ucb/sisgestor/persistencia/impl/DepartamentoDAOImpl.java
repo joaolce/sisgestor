@@ -63,6 +63,14 @@ public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento, Integer> impl
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected Order getOrdemLista() {
+		return Order.asc("sigla").ignoreCase();
+	}
+
+	/**
 	 * Monta os critérios para a paginação dos departamentos.
 	 * 
 	 * @param sigla sigla do departamento
