@@ -165,11 +165,10 @@ ComportamentosTela.prototype = {
     * @param form
     * @return
     */
-   excluir : function() {
+   excluir: function() {
 	   JanelasComuns.showConfirmDialog("Deseja excluir o usuário selecionado?", ( function() {
 		   var idUsuario = dwr.util.getValue($("formSalvar").id);
-		   requestUtils.simpleRequest("manterUsuario.do?method=excluir&id=" + idUsuario, null,
-		      ( function() {
+		   requestUtils.simpleRequest("manterUsuario.do?method=excluir&id=" + idUsuario,( function() {
 			      if (requestUtils.status) {
 				      this.pesquisar();
 			      }
@@ -252,6 +251,25 @@ ComportamentosTela.prototype = {
 		   dwr.util.removeAllOptions("permissoesInform");
 		   dwr.util.addOptions("permissoesInform", permissoes, "id", "descricao");
 	   });
+   },
+   
+   /**
+    * Abre popup para o usuário alterar sua senha. 
+    */
+   popupEditarSenha: function(){
+	   var url = "manterUsuario.do?method=popupEditarSenha";
+	   createWindow(180, 300, 370, 70, "Alterar Minha Senha", "divSenha", url);
+   },
+   
+   /**
+    * Envia para a action efetuar as alterações. 
+    */
+   atualizarSenha: function(form){
+	   requestUtils.submitForm(form, ( function() {
+		   if (requestUtils.status) {
+			   JanelaFactory.fecharJanela("divSenha");
+		   }
+	   }).bind(this));
    }
 };
 

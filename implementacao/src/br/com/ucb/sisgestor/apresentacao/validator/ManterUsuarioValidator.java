@@ -34,7 +34,13 @@ public class ManterUsuarioValidator extends BaseValidator {
 		this.validaRequerido("label.senha.nova", "novaSenha");
 		this.validaRequerido("label.senha.confirmar", "confirmarSenha");
 		this.validaTamanhoMinimo("label.senha.nova", "novaSenha", 6);
-		this.validaTamanhoMinimo("label.senha.confirmar", "confirmarSenha", 6);
+		if (!this.getFormValue("senhaAtual").equals(this.getUser().getSenha())) {
+			this.addError("erro.senha.atual");
+		}
+		if (!this.getFormValue("novaSenha").equals(this.getFormValue("confirmarSenha"))) {
+			this.addError("erro.senha.diferente", this.getMessageKey("label.senha.nova"), this
+					.getMessageKey("label.senha.confirmar"));
+		}
 	}
 
 	/**

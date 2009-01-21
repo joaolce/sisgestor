@@ -50,7 +50,21 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	 * {@inheritDoc}
 	 */
 	public void atualizar(Usuario usuario) throws NegocioException {
-		this.salvar(usuario);
+		Transaction transaction = this.beginTransaction();
+		try {
+			this.dao.atualizar(usuario);
+			HibernateUtil.commit(transaction);
+		} catch (ConstraintViolationException ce) {
+			HibernateUtil.rollback(transaction);
+			if ("UUR_LOGIN".equals(ce.getConstraintName())) {
+				throw new NegocioException("erro.usuario.login");
+			} else {
+				throw ce;
+			}
+		} catch (Exception e) {
+			HibernateUtil.rollback(transaction);
+			throw new NegocioException(e);
+		}
 	}
 
 	/**
@@ -138,7 +152,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 			if (GenericValidator.isBlankOrNull(usuario.getSenha())) {
 				usuario.setSenha("1234");
 			}
-			this.dao.salvarOuAtualizar(usuario);
+			this.dao.salvar(usuario);
 			HibernateUtil.commit(transaction);
 		} catch (ConstraintViolationException ce) {
 			HibernateUtil.rollback(transaction);
@@ -152,4 +166,6 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 			throw new NegocioException(e);
 		}
 	}
+
+
 }

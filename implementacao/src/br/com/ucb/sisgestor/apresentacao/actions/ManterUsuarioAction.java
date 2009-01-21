@@ -65,6 +65,29 @@ public class ManterUsuarioAction extends BaseAction {
 	}
 
 	/**
+	 * Atualiza a senha do usuário.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward da inclusão
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward atualizarSenha(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		ManterUsuarioActionForm form = (ManterUsuarioActionForm) formulario;
+		Usuario usuario = super.getUser();
+		usuario.setSenha(form.getNovaSenha());
+
+		usuarioBO.atualizar(usuario);
+
+		this.addMessageKey("mensagem.usuario.senha");
+		return this.sendAJAXResponse(true);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -75,6 +98,33 @@ public class ManterUsuarioAction extends BaseAction {
 		form.setListaDepartamentos(DepartamentoBOImpl.getInstancia().obterTodos());
 
 		return this.findForward(FWD_ENTRADA);
+	}
+
+	/**
+	 * Exclui um usuário.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward da exclusão
+	 * @throws Exception caso ocorra erro na operação
+	 */
+	public ActionForward excluir(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ManterUsuarioActionForm form = (ManterUsuarioActionForm) formulario;
+
+		Usuario usuario = usuarioBO.obter(form.getId());
+
+		if (super.getUser().getId().equals(usuario.getId())) {
+			this.addMessageKey("erro.excluir.naoPermitido");
+			return this.sendAJAXResponse(false);
+		}
+
+		usuarioBO.excluir(usuario);
+
+		this.addMessageKey("mensagem.usuario.excluir");
+		return this.sendAJAXResponse(true);
 	}
 
 	/**
@@ -102,6 +152,22 @@ public class ManterUsuarioAction extends BaseAction {
 	}
 
 	/**
+	 * Abre popup para editar senha.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param form objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward do popup
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward popupEditarSenha(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		return this.findForward("popupEditarSenha");
+	}
+
+	/**
 	 * Tela de popup para incluir um novo usuário.
 	 * 
 	 * @param mapping objeto mapping da action
@@ -120,6 +186,7 @@ public class ManterUsuarioAction extends BaseAction {
 
 		return this.findForward("popupNovoUsuario");
 	}
+
 
 	/**
 	 * Salva um usuário.

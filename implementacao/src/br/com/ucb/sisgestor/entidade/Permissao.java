@@ -8,8 +8,6 @@ import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.ManyToMany;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 /**
  * Classe que representa uma permissão no sistema. <br />
@@ -44,7 +42,6 @@ public class Permissao extends ObjetoPersistente {
 	 * @return usuários pertencentes da permissão
 	 */
 	@ManyToMany(targetEntity = Usuario.class, mappedBy = "permissoes")
-	@Cascade( {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	public List<Usuario> getUsuarios() {
 		return this.usuarios;
 	}
