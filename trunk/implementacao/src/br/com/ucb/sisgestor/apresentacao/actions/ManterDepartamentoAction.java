@@ -31,12 +31,12 @@ public class ManterDepartamentoAction extends BaseAction {
 	/**
 	 * Atualiza um departamento.
 	 * 
-	 * @param mapping
-	 * @param formulario
-	 * @param request
-	 * @param response
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
 	 * @return forward da atualização
-	 * @throws Exception
+	 * @throws Exception caso ocorra erro na operação
 	 */
 	public ActionForward atualizar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -65,12 +65,12 @@ public class ManterDepartamentoAction extends BaseAction {
 	/**
 	 * Excluí um departamento.
 	 * 
-	 * @param mapping
-	 * @param formulario
-	 * @param request
-	 * @param response
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
 	 * @return forward da exclusão
-	 * @throws Exception
+	 * @throws Exception caso ocorra erro na operação
 	 */
 	public ActionForward excluir(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -86,14 +86,15 @@ public class ManterDepartamentoAction extends BaseAction {
 	/**
 	 * Tela de popup para incluir um novo departamento.
 	 * 
-	 * @param mapping
-	 * @param form
-	 * @param request
-	 * @param response
+	 * @param mapping objeto mapping da action
+	 * @param form objeto form da action
+	 * @param request request atual
+	 * @param response response atual
 	 * @return forward do popup
+	 * @throws Exception caso ocorra erro na operação
 	 */
 	public ActionForward popupNovoDepartamento(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm frm = (ManterDepartamentoActionForm) form;
 
 		frm.setListaDepartamentos(departamentoBO.obterTodos());
@@ -104,12 +105,12 @@ public class ManterDepartamentoAction extends BaseAction {
 	/**
 	 * Salva um departamento.
 	 * 
-	 * @param mapping
-	 * @param formulario
-	 * @param request
-	 * @param response
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
 	 * @return forward da inclusão
-	 * @throws Exception
+	 * @throws Exception caso ocorra erro na operação
 	 */
 	public ActionForward salvar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {

@@ -154,7 +154,8 @@ ComportamentosTela.prototype = {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o departamento selecionado?", ( function() {
 		   requestUtils.submitForm(form, ( function() {
 			   if (requestUtils.status) {
-				   departamento.pesquisar();
+			   	this.pesquisar();
+			   	this.atualizarDepartamentosSuperior();
 			   }
 		   }).bind(this));
 	   }).bind(this));
@@ -173,6 +174,7 @@ ComportamentosTela.prototype = {
 		      null, ( function() {
 			      if (requestUtils.status) {
 				      this.pesquisar();
+				      this.atualizarDepartamentosSuperior();
 			      }
 		      }).bind(this));
 	   }).bind(this));
@@ -188,7 +190,9 @@ ComportamentosTela.prototype = {
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
 			   JanelaFactory.fecharJanela("divNovoDepartamento");
-			   departamento.pesquisar();
+			   this.pesquisar();
+			   this.atualizarDepartamentosSuperior();
+			   
 		   }
 	   }).bind(this));
    },
@@ -199,6 +203,17 @@ ComportamentosTela.prototype = {
    popupNovoDepartamento : function() {
 	   var url = "manterDepartamento.do?method=popupNovoDepartamento";
 	   createWindow(270, 430, 280, 70, "Novo Departamento", "divNovoDepartamento", url);
+   },
+   
+   /**
+    * Atualiza os departamentos na combo de departamento superior.
+    */
+   atualizarDepartamentosSuperior : function() {
+   	dwr.util.removeAllOptions("departamentoSuperior");
+	   ManterDepartamentoDWR.obterTodos((function(departamentos){
+	   	dwr.util.addOptions("departamentoSuperior", [" "]);
+	   	dwr.util.addOptions("departamentoSuperior", departamentos, "id", "sigla");
+	   }));
    }
 };
 

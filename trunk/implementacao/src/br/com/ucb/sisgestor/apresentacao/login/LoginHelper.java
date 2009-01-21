@@ -35,7 +35,7 @@ public class LoginHelper {
 	 * @param response response atual
 	 * @param username nome do usuário a logar
 	 * @param password senha do usuário a logar
-	 * @throws LoginException
+	 * @throws LoginException caso login não efetuado com sucesso
 	 */
 	public void doLogin(HttpServletRequest request, HttpServletResponse response, String username,
 			String password) throws LoginException {

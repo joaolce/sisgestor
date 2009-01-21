@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.ListUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.validator.GenericValidator;
@@ -85,7 +86,7 @@ public final class Utils {
 	 * 
 	 * @param destino objeto de destino
 	 * @param origem objeto origem
-	 * @throws Exception
+	 * @throws Exception caso ocorra erro na recuperação das propriedades
 	 */
 	public static void copyProperties(Object destino, Object origem) throws Exception {
 		//pega os descritores
@@ -194,7 +195,7 @@ public final class Utils {
 	 * ao utilizar esse método ele irá decodificar todas as propriedades do form para aparecer acentos e
 	 * caracteres especiais
 	 * 
-	 * @param form
+	 * @param form form submetido
 	 */
 	public static void decodeAjaxForm(ActionForm form) {
 		PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(form);
@@ -222,7 +223,7 @@ public final class Utils {
 	}
 
 	/**
-	 * Faz com que o navegador não faça cache das páginas
+	 * Faz com que o navegador não faça cache das páginas.
 	 * 
 	 * @param request request atual
 	 * @param response response atual
@@ -314,13 +315,13 @@ public final class Utils {
 	}
 
 	/**
-	 * verificar se todas as propriedades passadas no array dos dois objetos passados são iguais
+	 * Verifica se todas as propriedades passadas no array dos dois objetos passados são iguais.
 	 * 
 	 * @param o1 primeiro objeto a comparar
 	 * @param o2 segundo objeto a comparar
 	 * @param propriedades que deverão ser iguais nos dois objetos
 	 * @return <code>true</code> caso as todas propriedades iguais, <code>false</code> caso contrário
-	 * @throws Exception
+	 * @throws Exception caso exceção seja lançada
 	 */
 	public static boolean isAllEqual(Object o1, Object o2, String... propriedades) throws Exception {
 		for (String propriedade : propriedades) {
@@ -435,7 +436,7 @@ public final class Utils {
 	}
 
 	/**
-	 * Verifica se os objetos são iguais
+	 * Verifica se os objetos são iguais.
 	 * 
 	 * @param o1 primeiro objeto a verificar
 	 * @param o2 segundo objeto a verificar
@@ -468,41 +469,41 @@ public final class Utils {
 	}
 
 	/**
-	 * verificar se todas as propriedades do objeto passado possuem valores não significativos Exemplo: zero,
+	 * Verifica se todas as propriedades do objeto passado possuem valores não significativos Exemplo: zero,
 	 * strings vazias, qualquer propriedade nula, ou arrays vazios são considerados
 	 * 
 	 * Útil quando você tem um objeto onde é necessário que ao menos uma propriedade esteja preenchida
 	 * 
-	 * @param object
+	 * @param objeto objeto a verificar
 	 * @param excludes propriedades que deverão ser desconsideradas da validação
 	 * 
-	 * @return true se for encontrado alguma propriedade vazia de acordo com critério
+	 * @return <code>true</code> se for encontrado alguma propriedade vazia de acordo com critério
 	 */
-	public static boolean isTodasPropriedadesVazias(Object object, String... excludes) {
+	public static boolean isTodasPropriedadesVazias(Object objeto, String... excludes) {
 		if (excludes != null) {
 			Arrays.sort(excludes);
 		}
-		PropertyDescriptor[] descritores = PropertyUtils.getPropertyDescriptors(object);
+		PropertyDescriptor[] descritores = PropertyUtils.getPropertyDescriptors(objeto);
 		int totalPropriedades = 0;
 		int totalVazias = 0;
-		for (PropertyDescriptor descritore : descritores) {
-			boolean readable = PropertyUtils.isReadable(object, descritore.getName());
-			boolean writeable = PropertyUtils.isWriteable(object, descritore.getName());
+		for (PropertyDescriptor descritor : descritores) {
+			boolean readable = PropertyUtils.isReadable(objeto, descritor.getName());
+			boolean writeable = PropertyUtils.isWriteable(objeto, descritor.getName());
 			if (!readable || !writeable) {
 				continue;
 			}
-			if ((excludes != null) && (Arrays.binarySearch(excludes, descritore.getName()) >= 0)) {
+			if ((excludes != null) && (Arrays.binarySearch(excludes, descritor.getName()) >= 0)) {
 				continue;
 			}
 			Object propriedade;
 			try {
-				propriedade = PropertyUtils.getProperty(object, descritore.getName());
+				propriedade = PropertyUtils.getProperty(objeto, descritor.getName());
 			} catch (Exception e) {
 				continue;
 			}
-			if (descritore.getPropertyType().getName().equals(String.class.getName())) {
+			if (descritor.getPropertyType().getName().equals(String.class.getName())) {
 				totalPropriedades++;
-				if (GenericValidator.isBlankOrNull((String) propriedade)) {
+				if (StringUtils.isBlank((String) propriedade)) {
 					totalVazias++;
 				}
 				continue;

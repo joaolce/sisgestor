@@ -55,11 +55,11 @@ public class BaseValidator {
 	 * Método de execução padrão, deve ser executado para preencher variáveis locais e facilitar a vida do
 	 * programador. A principio, a {@link BaseAction} chama esse método.
 	 * 
-	 * @param mapping
-	 * @param form
-	 * @param request
-	 * @param response
-	 * @throws InvocationTargetException
+	 * @param mapping objeto mapping da action
+	 * @param form objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @throws InvocationTargetException caso ocorra erro na invocação no método do validator
 	 */
 	public void execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws InvocationTargetException {
@@ -240,9 +240,8 @@ public class BaseValidator {
 	 * Recupera o usuário da sessão
 	 * 
 	 * @return o usuário logado no sistema
-	 * @throws Exception
 	 */
-	protected Usuario getUser() throws Exception {
+	protected Usuario getUser() {
 		return (Usuario) this.getSession().getAttribute(DadosContexto.USUARIOSESSAO);
 	}
 
@@ -448,7 +447,7 @@ public class BaseValidator {
 	/**
 	 * Valida um campo de e-mail.
 	 * 
-	 * @param labelProperty
+	 * @param labelProperty chave do label
 	 * @param formProperty nome da propriedade representante do campo e-mail no form
 	 */
 	protected void validaEmail(String labelProperty, String formProperty) {

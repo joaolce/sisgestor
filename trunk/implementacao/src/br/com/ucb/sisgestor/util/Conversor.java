@@ -8,7 +8,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Timestamp;
@@ -21,6 +20,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.StringTokenizer;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Classe de métodos para fazer conversões de utilidades
@@ -39,10 +39,8 @@ public final class Conversor {
 	 * Transforma um {@link Blob} em um {@link ByteArrayOutputStream}
 	 * 
 	 * @param blob {@link Blob} a transformar
-	 * 
 	 * @return ByteArrayOutputStream transformado
-	 * 
-	 * @throws Exception
+	 * @throws Exception caso tenha erro na conversão
 	 */
 	public static ByteArrayOutputStream blobToByteArrayOutputStream(Blob blob) throws Exception {
 		int size;
@@ -74,7 +72,6 @@ public final class Conversor {
 	 * Recupera um {@link java.util.Date} da data do final do mês
 	 * 
 	 * @param data data que deseja ver o último dia do mês
-	 * 
 	 * @return data com o último dia do mês
 	 */
 	public static Date calculaDataFimMes(Date data) {
@@ -110,7 +107,6 @@ public final class Conversor {
 	 * Recupera o primeiro dia do próximo mês da data informada
 	 * 
 	 * @param data data informada
-	 * 
 	 * @return nova data
 	 */
 	public static Date calculaDataInicioMesSeguinte(Date data) {
@@ -127,7 +123,6 @@ public final class Conversor {
 	 * obs: a {@link String} será com ','
 	 * 
 	 * @param valor valor a formatar
-	 * 
 	 * @return String formatada
 	 */
 	public static String doubleToString(double valor) {
@@ -140,7 +135,6 @@ public final class Conversor {
 	 * válida.
 	 * 
 	 * @param inData horário formatado a ser validado.
-	 * 
 	 * @return <code>true</code> se o horário for válido, <code>false</code> caso contrário.
 	 */
 	public static boolean ehDataHoraValida(String inData) {
@@ -164,7 +158,6 @@ public final class Conversor {
 	 * Verifica se uma data no formato 'dd/MM/yyyy' é válida
 	 * 
 	 * @param inData {@link String} da data a verificar
-	 * 
 	 * @return <code>true</code> caso seja válida, <code>false</code> caso contrário
 	 */
 	public static boolean ehDataValida(String inData) {
@@ -187,7 +180,6 @@ public final class Conversor {
 	 * Verifica se um horário no padrão 99:99, variando entre 00:00 e 23:59 é válido.
 	 * 
 	 * @param sHorario String - horário formatado a ser validado.
-	 * 
 	 * @return <code>true</code> se o horário for válido, <code>false</code> caso contrário.
 	 */
 	public static boolean ehHorarioValido(String sHorario) {
@@ -195,8 +187,7 @@ public final class Conversor {
 			return false;
 		}
 
-		DateFormat df =
-				DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, new Locale("pt", "BR"));
+		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, DataUtil.LOCALE_BR);
 		df.setLenient(false);
 
 		try {
@@ -211,14 +202,12 @@ public final class Conversor {
 	 * Verifica se um horário no padrão 99:99:99, variando entre 00:00:00 e 23:59:59 é válido.
 	 * 
 	 * @param sHorario horário formatado a ser validado.
-	 * 
 	 * @return true se o horário for válido, false, caso contrário.
 	 */
 	public static boolean ehHorarioValidoHHMMSS(String sHorario) {
 		if (sHorario.length() != 8) {
 			return false;
 		}
-
 		return ehDataHoraValida(getDataAtual() + " " + sHorario);
 	}
 
@@ -226,7 +215,6 @@ public final class Conversor {
 	 * Retorna uma String vazia caso a informada seja nula
 	 * 
 	 * @param inEntrada {@link String} informada
-	 * 
 	 * @return <code>null</code> ou a própria String
 	 */
 	public static String ehNulo(String inEntrada) {
@@ -241,12 +229,10 @@ public final class Conversor {
 	 * Lê o arquivo e coloca em um {@link ByteArrayInputStream}
 	 * 
 	 * @param inFile arquivo recuperar dados
-	 * 
 	 * @return ByteArrayInputStream com os dados do arquivo
-	 * 
-	 * @throws IOException
+	 * @throws Exception caso tenha erro na conversão
 	 */
-	public static ByteArrayInputStream fileToByteArrayInputStream(File inFile) throws IOException {
+	public static ByteArrayInputStream fileToByteArrayInputStream(File inFile) throws Exception {
 		FileInputStream fis = new FileInputStream(inFile);
 		int tamanho = (int) inFile.length();
 
@@ -265,12 +251,10 @@ public final class Conversor {
 	 * Lê o arquivo e coloca em um {@link ByteArrayOutputStream}
 	 * 
 	 * @param inFile arquivo recuperar dados
-	 * 
 	 * @return ByteArrayOutputStream com os dados do arquivo
-	 * 
-	 * @throws IOException
+	 * @throws Exception caso ocorra erro na conversão
 	 */
-	public static ByteArrayOutputStream fileToByteArrayOutputStream(File inFile) throws IOException {
+	public static ByteArrayOutputStream fileToByteArrayOutputStream(File inFile) throws Exception {
 		FileInputStream fis = new FileInputStream(inFile);
 		final int TAMANHO_BYTES_ARQUIVO = (int) inFile.length();
 		final int TAMANHO_BUFFER = 1000;
@@ -295,7 +279,6 @@ public final class Conversor {
 	 * Transforma um float para uma string
 	 * 
 	 * @param valor valor em float
-	 * 
 	 * @return String do valor
 	 */
 	public static String floatToString(float valor) {
@@ -324,7 +307,6 @@ public final class Conversor {
 	 * 
 	 * @param valor valor a formatar
 	 * @param casasDecimais número de casas decimais a String deve ter
-	 * 
 	 * @return String do número
 	 */
 	public static String formataDoubleToString(double valor, int casasDecimais) {
@@ -335,7 +317,6 @@ public final class Conversor {
 	 * Formata o valor Double recebido em String no formato 999.999.999,99.
 	 * 
 	 * @param valor O valor a ser formatado.
-	 * 
 	 * @return Uma String contendo o valor já formatado.
 	 */
 	public static String formataValorParaString(Double valor) {
@@ -391,13 +372,11 @@ public final class Conversor {
 	 * Transforma um {@link InputStream} para um {@link ByteArrayOutputStream}
 	 * 
 	 * @param iStream {@link InputStream} a transformar
-	 * 
 	 * @return ByteArrayOutputStream convertido
-	 * 
-	 * @throws IOException
+	 * @throws Exception caso ocorra erro na conversão
 	 */
 	public static ByteArrayOutputStream inputStreamToByteArrayOutputStream(InputStream iStream)
-			throws IOException {
+			throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int bytesLidos;
 		byte[] buffer = new byte[1024];
@@ -412,27 +391,19 @@ public final class Conversor {
 	 * Retorna <code>null</code> caso o valor da String seja vazio
 	 * 
 	 * @param valor String a verificar
-	 * 
 	 * @return <code>null</code> caso vazio, String original caso contenha algo
 	 */
 	public static String nullSeVazio(String valor) {
-
-		if (valor == null) {
-			return null;
-		}
-		valor = valor.trim();
-		if (valor.equals("")) {
+		if (StringUtils.isBlank(valor)) {
 			return null;
 		}
 		return valor;
-
 	}
 
 	/**
 	 * Recupera o valor informado do número em extenso
 	 * 
 	 * @param valor valor informado
-	 * 
 	 * @return valor por extenso
 	 */
 	public static String numeroExtenso(double valor) {
@@ -452,7 +423,6 @@ public final class Conversor {
 	 * Recupera uma String do valor informado
 	 * 
 	 * @param inEntrada número informado
-	 * 
 	 * @return String do número
 	 */
 	public static String numeroToString(double inEntrada) {
@@ -474,7 +444,6 @@ public final class Conversor {
 	 * Verifica se o campo está null/vazio
 	 * 
 	 * @param inEntrada String a verificar
-	 * 
 	 * @return true caso seja nulo/vazio
 	 */
 	public static boolean seNulo(String inEntrada) {
@@ -503,7 +472,6 @@ public final class Conversor {
 	 * Converte uma data {@link java.sql.Date} para String no formato "dd/MM/yyyy"
 	 * 
 	 * @param inData data a converter
-	 * 
 	 * @return String formada
 	 */
 	public static String sqlDateToString(java.sql.Date inData) {
@@ -514,7 +482,6 @@ public final class Conversor {
 	 * Converte uma data {@link java.sql.Date} para String no formato "ddMMyyyy"
 	 * 
 	 * @param inData data a converter
-	 * 
 	 * @return String formada
 	 */
 	public static String sqlDateToStringSemDelimitadores(java.sql.Date inData) {
@@ -525,7 +492,6 @@ public final class Conversor {
 	 * Transforma uma data {@link java.sql.Date} em {@link java.util.Date}
 	 * 
 	 * @param inData String da data a converter
-	 * 
 	 * @return data em java.sql.Date
 	 */
 	public static Date sqlDateToUtilDate(java.sql.Date inData) {
@@ -536,10 +502,8 @@ public final class Conversor {
 	 * Converte uma data String no formato "yyyyMMddHHmmss" para {@link java.util.Date}
 	 * 
 	 * @param inDataHora String da data a converter
-	 * 
 	 * @return data convertida
-	 * 
-	 * @throws ParseException
+	 * @throws ParseException caso ocorra erro na conversão
 	 */
 	public static java.util.Date StringAAAAMMDDHHMMSSToDate(String inDataHora) throws ParseException {
 		return new SimpleDateFormat("yyyyMMddHHmmss").parse(inDataHora);
@@ -549,10 +513,8 @@ public final class Conversor {
 	 * Converte uma data String no formato "yyyyMMdd" para {@link java.util.Date}
 	 * 
 	 * @param inData String da data a converter
-	 * 
 	 * @return data convertida
-	 * 
-	 * @throws ParseException
+	 * @throws ParseException caso ocorra erro na conversão
 	 */
 	public static java.util.Date StringAAAAMMDDToDate(String inData) throws ParseException {
 		return new SimpleDateFormat("yyyyMMdd").parse(inData);
@@ -562,10 +524,8 @@ public final class Conversor {
 	 * Converte uma data String no formato "ddMMyyyyHHmmss" para {@link java.util.Date}
 	 * 
 	 * @param inDataHora String da data a converter
-	 * 
 	 * @return data convertida
-	 * 
-	 * @throws ParseException
+	 * @throws ParseException caso ocorra erro na conversão
 	 */
 	public static java.util.Date StringDDMMAAAAHHMMSSToDate(String inDataHora) throws ParseException {
 		return new SimpleDateFormat("ddMMyyyyHHmmss").parse(inDataHora);
@@ -575,10 +535,8 @@ public final class Conversor {
 	 * Converte uma data String no formato "ddMMyyyy" para {@link java.util.Date}
 	 * 
 	 * @param inData String da data a converter
-	 * 
 	 * @return data convertida
-	 * 
-	 * @throws ParseException
+	 * @throws ParseException caso ocorra erro na conversão
 	 */
 	public static java.util.Date StringDDMMAAAAToDate(String inData) throws ParseException {
 		return new SimpleDateFormat("ddMMyyyy").parse(inData);
@@ -588,10 +546,8 @@ public final class Conversor {
 	 * Converte uma data String no formato "dd/MM/yyyy HH:mm:ss" para {@link java.util.Date}
 	 * 
 	 * @param inDataHora String da data a converter
-	 * 
 	 * @return data convertida
-	 * 
-	 * @throws ParseException
+	 * @throws ParseException caso ocorra erro na conversão
 	 */
 	public static java.util.Date StringToDateTime(String inDataHora) throws ParseException {
 		return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(inDataHora);
@@ -601,7 +557,6 @@ public final class Conversor {
 	 * Converte uma String em um double
 	 * 
 	 * @param valor String
-	 * 
 	 * @return double correspondente
 	 */
 	public static double stringToDouble(String valor) {
@@ -613,7 +568,6 @@ public final class Conversor {
 	 * Converte uma String em um float
 	 * 
 	 * @param inEntrada valor em String
-	 * 
 	 * @return float correspondente
 	 */
 	public static float stringToFloat(String inEntrada) {
@@ -625,10 +579,8 @@ public final class Conversor {
 	 * Converte uma data String no formato "dd/MM/yyyy" para o fromato {@link java.sql.Date}
 	 * 
 	 * @param inData String a converter
-	 * 
 	 * @return java.sql.Date Data convertida
-	 * 
-	 * @throws ParseException
+	 * @throws ParseException caso ocorra erro na conversão
 	 */
 	public static java.sql.Date stringToSqlDate(String inData) throws ParseException {
 		java.util.Date auxData = stringToUtilDate(inData);
@@ -639,10 +591,8 @@ public final class Conversor {
 	 * Converte uma string no formato 'dd/MM/yyyy' para {@link Timestamp}
 	 * 
 	 * @param inData String a converter
-	 * 
 	 * @return Timestamp convertido
-	 * 
-	 * @throws ParseException
+	 * @throws ParseException caso ocorra erro na conversão
 	 */
 	public static java.sql.Timestamp stringToTimestamp(String inData) throws ParseException {
 		java.util.Date auxData = stringToUtilDate(inData);
@@ -653,10 +603,8 @@ public final class Conversor {
 	 * Converte uma data String no formato "dd/MM/yyyy" para {@link java.util.Date}
 	 * 
 	 * @param inData String data
-	 * 
 	 * @return java.util.Date
-	 * 
-	 * @throws ParseException
+	 * @throws ParseException caso ocorra erro na conversão
 	 */
 	public static java.util.Date stringToUtilDate(String inData) throws ParseException {
 		return new SimpleDateFormat("dd/MM/yyyy").parse(inData);
@@ -666,7 +614,6 @@ public final class Conversor {
 	 * Transforma um {@link Timestamp} na String no formato 'dd/MM/yyyy'
 	 * 
 	 * @param inData {@link Timestamp} a transformar
-	 * 
 	 * @return String do Timestamp formatado
 	 */
 	public static String TimestampToString(java.sql.Timestamp inData) {
@@ -691,7 +638,6 @@ public final class Conversor {
 	 * Transforma um {@link Timestamp} em {@link java.util.Date}
 	 * 
 	 * @param dataHora {@link Timestamp} a transformar
-	 * 
 	 * @return Data transformada
 	 */
 	public static java.util.Date TimestampToUtilDate(Timestamp dataHora) {
@@ -702,7 +648,6 @@ public final class Conversor {
 	 * Transforma uma {@link ByteArrayInputStream} para um {@link InputStream}
 	 * 
 	 * @param baos {@link ByteArrayInputStream} a tranformar
-	 * 
 	 * @return InputStream associado
 	 */
 	public static InputStream transformaOutputInput(ByteArrayOutputStream baos) {
@@ -713,7 +658,6 @@ public final class Conversor {
 	 * Transforma as primeiras letras das palavras em maiuscúlo
 	 * 
 	 * @param texto texto a modificar
-	 * 
 	 * @return novo texto
 	 */
 	public static String transformaPrimeirasLetrasMaiusculo(String texto) {
@@ -731,7 +675,6 @@ public final class Conversor {
 				result += nome + " ";
 			}
 		}
-
 		return result;
 	}
 
@@ -740,7 +683,6 @@ public final class Conversor {
 	 * % e & estão sendo tratados atualmente.
 	 * 
 	 * @param str String contendo os códigos unicode no lugar do caracteres especiais.
-	 * 
 	 * @return String com os caracteres especiais substituídos.
 	 */
 	public static String trataCaracteresEspeciais(String str) {
@@ -757,7 +699,6 @@ public final class Conversor {
 	 * Converte uma java.util.Date para String no formato 'dd/MM/yyyy HH:mm:ss'
 	 * 
 	 * @param inData data a converter
-	 * 
 	 * @return data formatada
 	 */
 	public static String utilDateTimeToString(java.util.Date inData) {
@@ -768,7 +709,6 @@ public final class Conversor {
 	 * Converte uma java.util.Date para String no formato 'dd/MM/yyyy HH:mm'
 	 * 
 	 * @param inData data a converter
-	 * 
 	 * @return data formatada
 	 */
 	public static String utilDateTimeToStringSemSegundos(java.util.Date inData) {
@@ -779,7 +719,6 @@ public final class Conversor {
 	 * Converte java.util.Date para 'ddMMyyyy'
 	 * 
 	 * @param inData data a converter
-	 * 
 	 * @return data formatada
 	 */
 	public static String utilDateToDDMMAAAA(java.util.Date inData) {
@@ -790,7 +729,6 @@ public final class Conversor {
 	 * Transforma uma {@link java.util.Date} para {@link java.sql.Date}
 	 * 
 	 * @param inData data a converter
-	 * 
 	 * @return data do tipo java.sql.Date
 	 */
 	public static java.sql.Date utilDateToSqlDate(java.util.Date inData) {
@@ -801,7 +739,6 @@ public final class Conversor {
 	 * Retorna a data formatada no formato 'dd/MM/yyyy' da data informada
 	 * 
 	 * @param inData data informada
-	 * 
 	 * @return data formatada
 	 */
 	public static String utilDateToString(java.util.Date inData) {
@@ -812,7 +749,6 @@ public final class Conversor {
 	 * Converte uma data java.util.Date para String no formato "yyyyMMdd"
 	 * 
 	 * @param inData data a converter
-	 * 
 	 * @return String formatada
 	 */
 	public static String utilDateToStringAAAAMMDD(java.util.Date inData) {
@@ -823,7 +759,6 @@ public final class Conversor {
 	 * Converte uma data java.util.Date para String no formato "ddMMyyyyHHmmss"
 	 * 
 	 * @param inData data a converter
-	 * 
 	 * @return String formatada
 	 */
 	public static String utilDateToStringDDMMAAAAHHMMSS(java.util.Date inData) {
@@ -835,9 +770,7 @@ public final class Conversor {
 	 * Ex: "25 de janeiro de 2002"
 	 * 
 	 * @param inData data a pegar a String
-	 * 
 	 * @return String
-	 * 
 	 */
 	public static String utilDateToStringPorExtenso(java.util.Date inData) {
 		String mes = "";
@@ -891,7 +824,6 @@ public final class Conversor {
 	 * Recupera o {@link Timestamp} da data informada
 	 * 
 	 * @param inData data informada
-	 * 
 	 * @return Timestamp da data
 	 */
 	public static java.sql.Timestamp utilDateToTimestamp(java.util.Date inData) {
@@ -902,7 +834,6 @@ public final class Conversor {
 	 * Retorna a hora formatada no formato 'HH:mm:ss' da data informada
 	 * 
 	 * @param inData data informada
-	 * 
 	 * @return hora formatada
 	 */
 	public static String utilTimeToString(java.util.Date inData) {
@@ -913,7 +844,6 @@ public final class Conversor {
 	 * Retorna a hora formatada no formato 'HH:mm:ss:SS' da data informada
 	 * 
 	 * @param inData data informada
-	 * 
 	 * @return hora formatada
 	 */
 	public static String utilTimeToStringComMilisegundos(java.util.Date inData) {
@@ -924,7 +854,6 @@ public final class Conversor {
 	 * Retorna a hora formatada no formato 'HH:mm' da data informada
 	 * 
 	 * @param inData data informada
-	 * 
 	 * @return hora formatada
 	 */
 	public static String utilTimeToStringSemSegundos(java.util.Date inData) {
@@ -935,17 +864,9 @@ public final class Conversor {
 	 * Recupera um valor, e retorna em uma String formatada
 	 * 
 	 * @param valor valor a formatar
-	 * 
 	 * @return valor formatado em String
 	 */
 	public static String valorMonetarioToString(double valor) {
-		String outData;
-		DecimalFormat formatador = new DecimalFormat("##,###,###,###,###,##0.00");
-		outData = formatador.format(valor);
-		outData = outData.replace('.', '/');
-		outData = outData.replace(',', '.');
-		outData = outData.replace('/', ',');
-
-		return outData;
+		return new DecimalFormat("#,##0.00").format(valor);
 	}
 }

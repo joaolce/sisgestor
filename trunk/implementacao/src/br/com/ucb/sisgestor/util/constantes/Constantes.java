@@ -15,8 +15,8 @@ import br.com.ucb.sisgestor.util.DataUtil;
 public interface Constantes {
 
 	/** Versão atual do sistema. */
-	public final String	VERSAO		= "0.1";
+	public final String	VERSAO		= "0.2";
 
 	/** Data da versão atual do sistema. */
-	public final String	VERSAO_DATA	= DataUtil.converteDateToString(DataUtil.getDate(12, 1, 2009));
+	public final String	VERSAO_DATA	= DataUtil.converteDateToString(DataUtil.getDate(21, 1, 2009));
 }

@@ -23,12 +23,12 @@ public class PrincipalAction extends BaseAction {
 	 * Quando ocorrer qualquer erro inesperado na aplicação esse método será invocado para exibição de uma
 	 * página de erro amigável com alguns detalhes do erro pra facilitar a depuração
 	 * 
-	 * @param mapping
-	 * @param form
-	 * @param request
-	 * @param response
+	 * @param mapping objeto mapping da action
+	 * @param form objeto form da action
+	 * @param request request atual
+	 * @param response response atual
 	 * @return {@link ActionForward}
-	 * @throws Exception
+	 * @throws Exception caso exceção seja lançada
 	 */
 	public ActionForward erro(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -40,12 +40,12 @@ public class PrincipalAction extends BaseAction {
 	 * Sobrescrita do método execute. Apenas para verificar se o método chamado é o padrão de entrada, caso não
 	 * seja não será feito os procedimentos genéricos.
 	 * 
-	 * @param mapping
-	 * @param form
-	 * @param request
-	 * @param response
+	 * @param mapping objeto mapping da action
+	 * @param form objeto form da action
+	 * @param request request atual
+	 * @param response response atual
 	 * @return {@link ActionForward}
-	 * @throws Exception
+	 * @throws Exception caso exceção seja lançada
 	 */
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,

@@ -98,7 +98,7 @@ public final class DataUtil {
 	 * 
 	 * @param txtData data no formato dd/MM/yyyy
 	 * @return data com a hora atual
-	 * @throws Exception
+	 * @throws Exception caso ocorra erro na conversão
 	 */
 	public static Date concatenaHoraAtual(String txtData) throws Exception {
 		DateFormat dfDataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");

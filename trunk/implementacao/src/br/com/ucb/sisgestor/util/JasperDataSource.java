@@ -27,7 +27,6 @@ public class JasperDataSource implements JRDataSource {
 	 * Cria uma nova instância do tipo JasperDataSource
 	 * 
 	 * @param lista lista de dados para o relatório
-	 * 
 	 */
 	public JasperDataSource(List<? extends Object> lista) {
 		this.dado = lista;
@@ -38,10 +37,8 @@ public class JasperDataSource implements JRDataSource {
 	 * Recupera o valor do field solicitado pelo jasper
 	 * 
 	 * @param jrField field requerido
-	 * 
 	 * @return valor solicitado
-	 * 
-	 * @throws JRException
+	 * @throws JRException caso ocorra exceção ao pegar valor do campo
 	 */
 	public Object getFieldValue(JRField jrField) throws JRException {
 		Object valor = null;
@@ -71,8 +68,7 @@ public class JasperDataSource implements JRDataSource {
 	 * Verifica se há um próximo elemento
 	 * 
 	 * @return true case haja, false caso contrário
-	 * 
-	 * @throws JRException
+	 * @throws JRException caso seja lançada exceção
 	 */
 	public boolean next() throws JRException {
 		return (++this.index < this.dado.size());

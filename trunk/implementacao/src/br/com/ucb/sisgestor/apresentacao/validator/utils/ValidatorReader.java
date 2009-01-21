@@ -10,9 +10,9 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.validator.GenericValidator;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -63,21 +63,16 @@ public class ValidatorReader {
 	 * @param action action a ser executada
 	 * 
 	 * @return classe de validação da action, ou <code>null</code> caso não houver
-	 * @throws ClassNotFoundException
-	 * @throws IllegalAccessException
-	 * @throws InstantiationException
+	 * @throws Exception caso exceção seja lançada
 	 */
-	public static BaseValidator getValidator(String action) throws ClassNotFoundException,
-			InstantiationException, IllegalAccessException {
+	public static BaseValidator getValidator(String action) throws Exception {
 		BaseValidator validator = null;
 
 		String nome = validatorMap.get(action);
-		if (GenericValidator.isBlankOrNull(nome)) {
-			return null;
+		if (StringUtils.isNotBlank(nome)) {
+			Class<?> classe = Class.forName(nome);
+			validator = (BaseValidator) classe.newInstance();
 		}
-		Class<?> classe = Class.forName(nome);
-		validator = (BaseValidator) classe.newInstance();
-
 		return validator;
 	}
 }

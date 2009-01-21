@@ -21,7 +21,7 @@ public interface UsuarioBO extends BaseBO<Usuario, Integer> {
 	 * 
 	 * @param login login do usuário
 	 * @return <code>true</code> caso foi enviada com sucesso, <code>false</code> em caso de insucesso
-	 * @throws NegocioException
+	 * @throws NegocioException caso uma regra de negócio seja violada
 	 */
 	public boolean enviarLembreteDeSenha(String login) throws NegocioException;
 
@@ -52,7 +52,7 @@ public interface UsuarioBO extends BaseBO<Usuario, Integer> {
 	 * 
 	 * @param login login do usuário
 	 * @return usuário encontrado
-	 * @throws NegocioException
+	 * @throws NegocioException caso uma regra de negócio seja violada
 	 */
 	public Usuario recuperarPorLogin(String login) throws NegocioException;
 }

@@ -85,7 +85,7 @@ public class EmailSender {
 	 * Envia um {@link Email}.
 	 * 
 	 * @param email email a ser enviado
-	 * @throws Exception
+	 * @throws Exception caso ocorra algum erro no envio do email
 	 */
 	public void send(Email email) throws Exception {
 		MimeMessage message = email.getMessage();
