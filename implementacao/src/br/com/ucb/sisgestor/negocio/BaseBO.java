@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.negocio;
 
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
+import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -23,17 +24,17 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * Atualiza um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a atualizar
-	 * @throws Exception
+	 * @throws NegocioException
 	 */
-	public void atualizar(T obj) throws Exception;
+	public void atualizar(T obj) throws NegocioException;
 
 	/**
 	 * Apaga um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a apagar
-	 * @throws Exception
+	 * @throws NegocioException
 	 */
-	public void excluir(T obj) throws Exception;
+	public void excluir(T obj) throws NegocioException;
 
 	/**
 	 * Recupera um objeto a partir da sua chave primária.
@@ -55,7 +56,7 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * Salva um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a salvar
-	 * @throws Exception
+	 * @throws NegocioException
 	 */
-	public void salvar(T obj) throws Exception;
+	public void salvar(T obj) throws NegocioException;
 }

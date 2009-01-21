@@ -45,14 +45,14 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	/**
 	 * {@inheritDoc}
 	 */
-	public void atualizar(Departamento departamento) throws Exception {
+	public void atualizar(Departamento departamento) throws NegocioException {
 		this.salvar(departamento);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void excluir(Departamento departamento) throws Exception {
+	public void excluir(Departamento departamento) throws NegocioException {
 		Transaction transaction = this.beginTransaction();
 		try {
 			if ((departamento.getDepartamentosFilhos() != null)
@@ -66,7 +66,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 			HibernateUtil.commit(transaction);
 		} catch (Exception e) {
 			HibernateUtil.rollback(transaction);
-			throw e;
+			throw new NegocioException(e);
 		}
 	}
 
@@ -101,7 +101,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	/**
 	 * {@inheritDoc}
 	 */
-	public void salvar(Departamento departamento) throws Exception {
+	public void salvar(Departamento departamento) throws NegocioException {
 		Transaction transaction = this.beginTransaction();
 		try {
 			this.dao.salvarOuAtualizar(departamento);
@@ -115,7 +115,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 			}
 		} catch (Exception e) {
 			HibernateUtil.rollback(transaction);
-			throw e;
+			throw new NegocioException(e);
 		}
 	}
 }

@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.negocio.PermissaoBO;
+import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.PermissaoDAO;
 import br.com.ucb.sisgestor.persistencia.impl.PermissaoDAOImpl;
 import java.util.List;
@@ -41,14 +42,14 @@ public class PermissaoBOImpl extends BaseBOImpl<Permissao, Integer> implements P
 	/**
 	 * {@inheritDoc}
 	 */
-	public void atualizar(Permissao obj) throws Exception {
+	public void atualizar(Permissao obj) throws NegocioException {
 		throw new UnsupportedOperationException("erro.operacaoNaoSuportada");
 	}
 
 	/**
-	 *{@inheritDoc}
+	 * {@inheritDoc}
 	 */
-	public void excluir(Permissao obj) throws Exception {
+	public void excluir(Permissao obj) throws NegocioException {
 		throw new UnsupportedOperationException("erro.operacaoNaoSuportada");
 	}
 
@@ -69,7 +70,7 @@ public class PermissaoBOImpl extends BaseBOImpl<Permissao, Integer> implements P
 	/**
 	 * {@inheritDoc}
 	 */
-	public void salvar(Permissao obj) throws Exception {
+	public void salvar(Permissao obj) throws NegocioException {
 		throw new UnsupportedOperationException("erro.operacaoNaoSuportada");
 	}
 }
