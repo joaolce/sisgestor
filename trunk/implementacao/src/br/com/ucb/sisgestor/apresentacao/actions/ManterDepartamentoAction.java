@@ -8,7 +8,6 @@ import br.com.ucb.sisgestor.apresentacao.forms.ManterDepartamentoActionForm;
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.negocio.DepartamentoBO;
 import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
-import br.com.ucb.sisgestor.util.Utils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -43,7 +42,7 @@ public class ManterDepartamentoAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm form = (ManterDepartamentoActionForm) formulario;
 		Departamento departamento = new Departamento();
-		Utils.copyProperties(departamento, form);
+		this.copyProperties(departamento, form);
 
 		departamentoBO.atualizar(departamento);
 
@@ -116,7 +115,7 @@ public class ManterDepartamentoAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm form = (ManterDepartamentoActionForm) formulario;
 		Departamento departamento = new Departamento();
-		Utils.copyProperties(departamento, form);
+		this.copyProperties(departamento, form);
 
 		departamentoBO.salvar(departamento);
 

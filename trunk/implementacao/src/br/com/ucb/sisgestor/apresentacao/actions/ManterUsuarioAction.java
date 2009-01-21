@@ -50,7 +50,7 @@ public class ManterUsuarioAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) actionForm;
 		Usuario usuario = new Usuario();
-		Utils.copyProperties(usuario, form);
+		this.copyProperties(usuario, form);
 
 		//Usuário pode atualizar os seus dados
 		if (!this.getUser().getId().equals(usuario.getId())
@@ -95,7 +95,6 @@ public class ManterUsuarioAction extends BaseAction {
 		List<Permissao> todasPermissoes = PermissaoBOImpl.getInstancia().obterTodos();
 		List<Permissao> permissoesUsuario = usuario.getPermissoes();
 
-		//TODO Erro de programação, não está removendo 
 		form.setRoles(usuario.getPermissoes());
 		form.setPermissoesDisponiveis(Utils.subtrair(todasPermissoes, permissoesUsuario, Permissao.class));
 
@@ -136,7 +135,7 @@ public class ManterUsuarioAction extends BaseAction {
 
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) formulario;
 		Usuario usuario = new Usuario();
-		Utils.copyProperties(usuario, form);
+		this.copyProperties(usuario, form);
 
 		//TODO Verificar porque nao copiou do form
 		usuario.setPermissoes(this.getPermissoes(form.getPermissoes()));
@@ -148,7 +147,6 @@ public class ManterUsuarioAction extends BaseAction {
 	}
 
 	/**
-	 * 
 	 * Método temporário para recuperar as permissões informadas pelo form mas que não foram copiadas pro
 	 * objeto persistente.
 	 * 

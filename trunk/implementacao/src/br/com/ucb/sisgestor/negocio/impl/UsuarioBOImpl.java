@@ -48,10 +48,8 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @throws Exception
 	 */
-	public void atualizar(Usuario usuario) throws Exception {
+	public void atualizar(Usuario usuario) throws NegocioException {
 		this.salvar(usuario);
 	}
 
@@ -78,17 +76,15 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @throws Exception
 	 */
-	public void excluir(Usuario usuario) throws Exception {
+	public void excluir(Usuario usuario) throws NegocioException {
 		Transaction transaction = this.beginTransaction();
 		try {
 			this.dao.excluir(usuario);
 			HibernateUtil.commit(transaction);
 		} catch (Exception e) {
 			HibernateUtil.rollback(transaction);
-			throw e;
+			throw new NegocioException(e);
 		}
 	}
 
@@ -135,10 +131,8 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * @throws Exception
 	 */
-	public void salvar(Usuario usuario) throws Exception {
+	public void salvar(Usuario usuario) throws NegocioException {
 		Transaction transaction = this.beginTransaction();
 		try {
 			if (GenericValidator.isBlankOrNull(usuario.getSenha())) {
@@ -148,14 +142,14 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 			HibernateUtil.commit(transaction);
 		} catch (ConstraintViolationException ce) {
 			HibernateUtil.rollback(transaction);
-			if (ce.getConstraintName().equals("UUR_LOGIN")) {
+			if ("UUR_LOGIN".equals(ce.getConstraintName())) {
 				throw new NegocioException("erro.usuario.login");
 			} else {
 				throw ce;
 			}
 		} catch (Exception e) {
 			HibernateUtil.rollback(transaction);
-			throw e;
+			throw new NegocioException(e);
 		}
 	}
 }

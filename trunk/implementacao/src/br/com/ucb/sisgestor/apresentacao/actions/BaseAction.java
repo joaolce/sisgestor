@@ -167,10 +167,10 @@ public class BaseAction extends DispatchAction {
 		try {
 			return super.execute(mapping, actionForm, request, response);
 		} catch (NegocioException e) {
-			if (e.getArgs() != null) {
-				this.addMessageKey(e.getMessage(), e.getArgs());
+			if (!e.getCause().equals(e)) {
+				this.addMessage(e.getMessage());
 			} else {
-				this.addMessageKey(e.getMessage());
+				this.addMessageKey(e.getMessage(), e.getArgs());
 			}
 
 			if (this.isAJAXRequest()) {

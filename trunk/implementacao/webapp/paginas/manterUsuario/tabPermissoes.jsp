@@ -1,11 +1,6 @@
-<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
-
-<script type="text/javascript" src="dwr/interface/ManterUsuarioDWR.js"></script>
-<script type="text/javascript" src="js/manterUsuario/manterUsuario.js"></script>
 
 <div class="divInternoAba">
 	<div style="float: left; margin-right: 5px;">

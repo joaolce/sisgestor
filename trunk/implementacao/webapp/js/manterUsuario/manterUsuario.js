@@ -58,7 +58,7 @@ ComportamentosTela.prototype = {
 	   }
 	   ManterUsuarioDWR.getById(idUsuario, ( function(usuario) {
 		   Effect.Appear("formSalvar");
-		   dwr.util.setValue($("formSalvar").id, this.getIdSelecionado());
+		   dwr.util.setValue($("formSalvar").id, idUsuario);
 		   dwr.util.setValue("login", usuario.login);
 		   dwr.util.setValue("nome", usuario.nome);
 		   dwr.util.setValue("email", usuario.email);
@@ -191,7 +191,7 @@ ComportamentosTela.prototype = {
     * @return
     */
    editarPermissoes : function() {
-	   var id = dwr.util.getValue("id");
+	   var id = $("formSalvar").id.value;
 	   var url = "manterUsuario.do?method=popupEditarPermissoes&id=" + id;
 	   createWindow(260, 550, 280, 70, "Editar Permissões do Usuário", "divPermissao", url);
    },
