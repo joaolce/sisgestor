@@ -28,6 +28,19 @@ public class ManterUsuarioActionForm extends BaseForm {
 	private Integer[]				permissoesInform;
 	private Integer[]				permissoes;
 
+	private String					senhaAtual;
+	private String					novaSenha;
+	private String					confirmarSenha;
+
+	/**
+	 * Recupera o valor de confirmarSenha
+	 * 
+	 * @return confirmarSenha
+	 */
+	public String getConfirmarSenha() {
+		return this.confirmarSenha;
+	}
+
 	/**
 	 * Recupera o valor de departamento
 	 * 
@@ -83,6 +96,16 @@ public class ManterUsuarioActionForm extends BaseForm {
 	}
 
 	/**
+	 * Recupera o valor de novaSenha
+	 * 
+	 * @return novaSenha
+	 */
+	public String getNovaSenha() {
+		return this.novaSenha;
+	}
+
+
+	/**
 	 * Recupera o valor de permissoes
 	 * 
 	 * @return permissoes
@@ -100,7 +123,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 		return this.permissoesDisponiveis;
 	}
 
-
 	/**
 	 * Recupera o valor de permissoesInform
 	 * 
@@ -117,6 +139,24 @@ public class ManterUsuarioActionForm extends BaseForm {
 	 */
 	public List<Permissao> getRoles() {
 		return this.roles;
+	}
+
+	/**
+	 * Recupera o valor de senhaAtual
+	 * 
+	 * @return senhaAtual
+	 */
+	public String getSenhaAtual() {
+		return this.senhaAtual;
+	}
+
+	/**
+	 * Atribui confirmarSenha
+	 * 
+	 * @param confirmarSenha o valor a ajustar em confirmarSenha
+	 */
+	public void setConfirmarSenha(String confirmarSenha) {
+		this.confirmarSenha = confirmarSenha;
 	}
 
 	/**
@@ -173,6 +213,17 @@ public class ManterUsuarioActionForm extends BaseForm {
 		this.nome = nome;
 	}
 
+
+	/**
+	 * Atribui novaSenha
+	 * 
+	 * @param novaSenha o valor a ajustar em novaSenha
+	 */
+	public void setNovaSenha(String novaSenha) {
+		this.novaSenha = novaSenha;
+	}
+
+
 	/**
 	 * Atribui permissoes
 	 * 
@@ -181,6 +232,7 @@ public class ManterUsuarioActionForm extends BaseForm {
 	public void setPermissoes(Integer[] permissoes) {
 		this.permissoes = permissoes;
 	}
+
 
 	/**
 	 * Atribui permissoesDisponiveis
@@ -191,6 +243,7 @@ public class ManterUsuarioActionForm extends BaseForm {
 		this.permissoesDisponiveis = permissoesDisponiveis;
 	}
 
+
 	/**
 	 * Atribui permissoesInform
 	 * 
@@ -200,6 +253,7 @@ public class ManterUsuarioActionForm extends BaseForm {
 		this.permissoesInform = permissoesInform;
 	}
 
+
 	/**
 	 * Atribui roles
 	 * 
@@ -207,5 +261,15 @@ public class ManterUsuarioActionForm extends BaseForm {
 	 */
 	public void setRoles(List<Permissao> roles) {
 		this.roles = roles;
+	}
+
+
+	/**
+	 * Atribui senhaAtual
+	 * 
+	 * @param senhaAtual o valor a ajustar em senhaAtual
+	 */
+	public void setSenhaAtual(String senhaAtual) {
+		this.senhaAtual = senhaAtual;
 	}
 }

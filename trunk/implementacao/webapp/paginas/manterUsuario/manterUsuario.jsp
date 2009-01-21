@@ -7,6 +7,9 @@
 <div class="bordas" id="BordaExterna">
 
 	<div id="divMenuOpcoes">
+		<html:link href="#" titleKey="dica.senha" onclick="usuario.popupEditarSenha();">
+			<html:img srcKey="imagem.senha" width="20" height="19" />
+		</html:link>
 		<html:link href="#" titleKey="dica.usuario.novo" onclick="usuario.popupNovoUsuario();">
 			<html:img srcKey="imagem.novo" width="20" height="19" />
 		</html:link>

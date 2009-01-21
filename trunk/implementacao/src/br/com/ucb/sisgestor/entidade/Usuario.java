@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.NaturalId;
 
@@ -84,7 +82,6 @@ public class Usuario extends ObjetoPersistente {
 	 * @return permissoes permissões do usuário no sistema
 	 */
 	@ManyToMany(targetEntity = Permissao.class)
-	@Cascade( {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	@JoinTable(name = "UPM_USUARIO_PERMISSAO", //
 	joinColumns = @JoinColumn(name = "UUR_ID", referencedColumnName = "UUR_ID", nullable = false), //
 	inverseJoinColumns = @JoinColumn(name = "PRM_ID", referencedColumnName = "PRM_ID", nullable = false))

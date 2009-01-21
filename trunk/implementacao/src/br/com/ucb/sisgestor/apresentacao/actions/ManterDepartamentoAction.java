@@ -63,7 +63,7 @@ public class ManterDepartamentoAction extends BaseAction {
 	}
 
 	/**
-	 * Excluí um departamento.
+	 * Exclui um departamento.
 	 * 
 	 * @param mapping objeto mapping da action
 	 * @param formulario objeto form da action
