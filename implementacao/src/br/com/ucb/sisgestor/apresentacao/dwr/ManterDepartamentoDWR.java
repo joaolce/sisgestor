@@ -37,6 +37,15 @@ public class ManterDepartamentoDWR extends BaseDWR {
 	}
 
 	/**
+	 * Recupera todos os departamentos cadastrados.
+	 * 
+	 * @return um {@link List} de {@link Departamento}
+	 */
+	public List<Departamento> obterTodos() {
+		return departamentoBO.obterTodos();
+	}
+
+	/**
 	 * Pesquisa os departamentos com os parâmetros preenchidos.
 	 * 
 	 * @param sigla parte da sigla do departamento

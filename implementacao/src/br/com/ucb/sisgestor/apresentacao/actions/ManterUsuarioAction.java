@@ -39,12 +39,12 @@ public class ManterUsuarioAction extends BaseAction {
 	/**
 	 * Atualiza um usuário.
 	 * 
-	 * @param mapping
-	 * @param actionForm
-	 * @param request
-	 * @param response
+	 * @param mapping objeto mapping da action
+	 * @param actionForm objeto form da action
+	 * @param request request atual
+	 * @param response response atual
 	 * @return forward da atualização
-	 * @throws Exception
+	 * @throws Exception caso exceção seja lançada
 	 */
 	public ActionForward atualizar(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -80,12 +80,12 @@ public class ManterUsuarioAction extends BaseAction {
 	/**
 	 * Exibe a lista de permissões que existem para o usuário
 	 * 
-	 * @param mapping
-	 * @param formulario
-	 * @param request
-	 * @param response
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
 	 * @return forward do popup
-	 * @throws Exception
+	 * @throws Exception caso exceção seja lançada
 	 */
 	public ActionForward popupEditarPermissoes(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -104,14 +104,15 @@ public class ManterUsuarioAction extends BaseAction {
 	/**
 	 * Tela de popup para incluir um novo usuário.
 	 * 
-	 * @param mapping
-	 * @param form
-	 * @param request
-	 * @param response
+	 * @param mapping objeto mapping da action
+	 * @param form objeto form da action
+	 * @param request request atual
+	 * @param response response atual
 	 * @return forward do popup
+	 * @throws Exception caso exceção seja lançada
 	 */
 	public ActionForward popupNovoUsuario(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response) throws Exception {
 		ManterUsuarioActionForm frm = (ManterUsuarioActionForm) form;
 
 		frm.setListaDepartamentos(DepartamentoBOImpl.getInstancia().obterTodos());
@@ -123,12 +124,12 @@ public class ManterUsuarioAction extends BaseAction {
 	/**
 	 * Salva um usuário.
 	 * 
-	 * @param mapping
-	 * @param formulario
-	 * @param request
-	 * @param response
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
 	 * @return forward da inclusão
-	 * @throws Exception
+	 * @throws Exception caso exceção seja lançada
 	 */
 	public ActionForward salvar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {

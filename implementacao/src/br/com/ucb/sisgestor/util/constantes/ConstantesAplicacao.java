@@ -23,7 +23,11 @@ public class ConstantesAplicacao {
 	private static String	BIND_NAME_CONTEXT_PATH	= "java:contextPathAplicacao";
 	private static String	BIND_NAME_URL_APLICACAO	= "java:urlAplicacao";
 	private static boolean	constantesOk				= false;
-	private static Log		log							= LogFactory.getLog(ConstantesAplicacao.class);
+	private static Log		log;
+
+	static {
+		log = LogFactory.getLog(ConstantesAplicacao.class);
+	}
 
 	/**
 	 * Recupera o contexto da aplicação.
@@ -31,9 +35,9 @@ public class ConstantesAplicacao {
 	 * @see HttpServletRequest#getContextPath()
 	 * 
 	 * @return {@link String} do contexto
-	 * @throws Exception
+	 * @throws NamingException caso NamingException seja lançada
 	 */
-	public static String getContextPath() throws Exception {
+	public static String getContextPath() throws NamingException {
 		Context context = new InitialContext();
 		return (String) context.lookup(BIND_NAME_CONTEXT_PATH);
 	}
@@ -42,9 +46,9 @@ public class ConstantesAplicacao {
 	 * Recupera a url da aplicação.
 	 * 
 	 * @return {@link String} da url
-	 * @throws Exception
+	 * @throws NamingException caso NamingException seja lançada
 	 */
-	public static String getUrlAplicacao() throws Exception {
+	public static String getUrlAplicacao() throws NamingException {
 		Context context = new InitialContext();
 		return (String) context.lookup(BIND_NAME_URL_APLICACAO);
 	}
@@ -53,7 +57,7 @@ public class ConstantesAplicacao {
 	 * Seta as constantes na primeira vez.
 	 * 
 	 * @param request request atual
-	 * @throws Exception
+	 * @throws Exception caso ocorra exceção ao setar variáveis
 	 */
 	public static synchronized void setConstantes(HttpServletRequest request) throws Exception {
 		if (!constantesOk) {
@@ -68,9 +72,9 @@ public class ConstantesAplicacao {
 	 * Armazena o contexto da aplicação.
 	 * 
 	 * @param contextPath contexto da aplicação
-	 * @throws Exception
+	 * @throws NamingException caso NamingException seja lançada
 	 */
-	private static void setContextPath(String contextPath) throws Exception {
+	private static void setContextPath(String contextPath) throws NamingException {
 		setJNDIAttribute(BIND_NAME_CONTEXT_PATH, contextPath);
 	}
 
@@ -79,7 +83,7 @@ public class ConstantesAplicacao {
 	 * 
 	 * @param name nome do atributo
 	 * @param value valor do atributo
-	 * @throws NamingException
+	 * @throws NamingException caso NamingException seja lançada
 	 */
 	private static void setJNDIAttribute(String name, String value) throws NamingException {
 		Context context = new InitialContext();
@@ -95,9 +99,9 @@ public class ConstantesAplicacao {
 	 * 
 	 * @param serverURL {@link URL} da aplicação
 	 * @param contextPath contexto da aplicação
-	 * @throws Exception
+	 * @throws NamingException caso NamingException seja lançada
 	 */
-	private static void setUrlAplicacao(URL serverURL, String contextPath) throws Exception {
+	private static void setUrlAplicacao(URL serverURL, String contextPath) throws NamingException {
 		String url = serverURL.toExternalForm() + contextPath;
 		setJNDIAttribute(BIND_NAME_URL_APLICACAO, url);
 	}

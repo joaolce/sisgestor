@@ -24,7 +24,7 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * Atualiza um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a atualizar
-	 * @throws NegocioException
+	 * @throws NegocioException caso uma regra de negócio seja violada
 	 */
 	public void atualizar(T obj) throws NegocioException;
 
@@ -32,7 +32,7 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * Apaga um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a apagar
-	 * @throws NegocioException
+	 * @throws NegocioException caso uma regra de negócio seja violada
 	 */
 	public void excluir(T obj) throws NegocioException;
 
@@ -56,7 +56,7 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * Salva um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a salvar
-	 * @throws NegocioException
+	 * @throws NegocioException caso uma regra de negócio seja violada
 	 */
 	public void salvar(T obj) throws NegocioException;
 }

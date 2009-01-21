@@ -97,7 +97,7 @@ public class Email {
 	 * Recupera o assunto do email.
 	 * 
 	 * @return assunto do email
-	 * @throws MessagingException
+	 * @throws MessagingException caso ocorra exceção ao recuperar o assunto
 	 */
 	public String getAssunto() throws MessagingException {
 		return this.message.getSubject();
@@ -107,7 +107,7 @@ public class Email {
 	 * Recupera o corpo do email.
 	 * 
 	 * @return corpo do email
-	 * @throws MessagingException
+	 * @throws MessagingException caso ocorra exceção ao recuperar o conteúdo do email
 	 */
 	public String getCorpo() throws MessagingException {
 		BodyPart bodyPart = this.msg.getBodyPart(0);
@@ -121,8 +121,8 @@ public class Email {
 	/**
 	 * Recupera todos os destinatários do email.
 	 * 
-	 * @return destinatários do email
-	 * @throws Exception
+	 * @return destinatários do email separados por ';'
+	 * @throws Exception caso ocorra exceção ao recuperar destinatários
 	 */
 	public String getDestinatarios() throws Exception {
 		Address[] addresses = this.getMessage().getAllRecipients();
@@ -154,7 +154,7 @@ public class Email {
 	 * Recupera o remetente do email.
 	 * 
 	 * @return remetente do email
-	 * @throws Exception
+	 * @throws Exception caso ocorra exceção ao recuperar o remetente
 	 */
 	public String getRemetente() throws Exception {
 		return this.message.getFrom()[0].toString();
