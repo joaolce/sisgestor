@@ -10,7 +10,7 @@
 		<html:link href="#" titleKey="dica.senha" onclick="usuario.popupEditarSenha();">
 			<html:img srcKey="imagem.senha" width="20" height="19" />
 		</html:link>
-		<html:link href="#" titleKey="dica.usuario.novo" onclick="usuario.popupNovoUsuario();">
+		<html:link href="#novoUsuario" titleKey="dica.usuario.novo" onclick="usuario.popupNovoUsuario();" linkName="novoUsuario">
 			<html:img srcKey="imagem.novo" width="20" height="19" />
 		</html:link>
 	</div>
@@ -104,9 +104,6 @@
 					<html:text property="email" size="41" maxlength="40" />
 				</label> 
 				<br />
-			</div>
-			<div style="float: left;">
-				
 			</div>
 			<div style="clear: both; padding: 5px;" align="center">
 				<html:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar">
