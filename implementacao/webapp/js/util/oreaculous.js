@@ -237,6 +237,8 @@ Janela.prototype = {
 	   this.getPrincipal().appendChild(janelaDiv);
 	   this.getPrincipal().makePositioned();
 	   this.janelaDiv = janelaDiv;
+	   this.centralizarX();
+	   this.centralizarY();
    },
 
    /**
@@ -381,12 +383,23 @@ Janela.prototype = {
 	   this.getConteudo().innerHTML = "";
    },
    /**
-	 * centralizar a posição x da janela
+	 * Centraliza a posição x da janela
 	 */
    centralizarX : function() {
 	   var largura = this.getPrincipal().clientWidth;
+	   var inicioAreaUtil = window.pageXOffset;
 	   this.janelaDiv.setStyle( {
-		   left :((largura / 2) - (this.janelaDiv.getWidth() / 2)) + "px"
+		   left :(((largura / 2) - (this.janelaDiv.getWidth() / 2)) + inicioAreaUtil / 2) + "px"
+	   });
+   },
+   /**
+	 * Centraliza a posição y da janela.
+	 */
+   centralizarY : function() {
+	   var altura = this.getPrincipal().clientHeight;
+	   var inicioAreaUtil = window.pageYOffset;
+	   this.janelaDiv.setStyle( {
+		   top :(((altura / 2) - (this.janelaDiv.getHeight() / 2)) + inicioAreaUtil / 2) + "px"
 	   });
    },
    /**
