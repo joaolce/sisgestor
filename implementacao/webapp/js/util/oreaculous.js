@@ -238,7 +238,6 @@ Janela.prototype = {
 	   this.getPrincipal().makePositioned();
 	   this.janelaDiv = janelaDiv;
 	   this.centralizarX();
-	   this.centralizarY();
    },
 
    /**
@@ -392,16 +391,7 @@ Janela.prototype = {
 		   left :(((largura / 2) - (this.janelaDiv.getWidth() / 2)) + inicioAreaUtil / 2) + "px"
 	   });
    },
-   /**
-	 * Centraliza a posição y da janela.
-	 */
-   centralizarY : function() {
-	   var altura = this.getPrincipal().clientHeight;
-	   var inicioAreaUtil = window.pageYOffset;
-	   this.janelaDiv.setStyle( {
-		   top :(((altura / 2) - (this.janelaDiv.getHeight() / 2)) + inicioAreaUtil / 2) + "px"
-	   });
-   },
+   
    /**
 	 * coordenada X da janela
 	 * 

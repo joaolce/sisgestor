@@ -7,7 +7,7 @@
 <div class="bordas" id="BordaExterna">
 
 	<div id="divMenuOpcoes">
-		<html:link href="#" titleKey="dica.senha" onclick="usuario.popupEditarSenha();">
+		<html:link href="#editarSenha" titleKey="dica.senha" onclick="usuario.popupEditarSenha();" linkName="editarSenha">
 			<html:img srcKey="imagem.senha" width="20" height="19" />
 		</html:link>
 		<html:link href="#novoUsuario" titleKey="dica.usuario.novo" onclick="usuario.popupNovoUsuario();" linkName="novoUsuario">
@@ -76,7 +76,7 @@
 		<fieldset style="padding: 5px; width: 50%; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.usuario"/>
-				<html:link href="#" onclick="usuario.editarPermissoes();" titleKey="dica.permissao.editar">
+				<html:link href="#editarPermissao" onclick="usuario.editarPermissoes();" titleKey="dica.permissao.editar" linkName="editarPermissao">
 					<html:img srcKey="imagem.permissao" height="17" width="17"/>
 				</html:link>
 			</legend>

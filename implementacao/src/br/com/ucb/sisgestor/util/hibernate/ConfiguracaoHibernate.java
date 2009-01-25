@@ -33,6 +33,11 @@ public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 		this.setProperty(Environment.DATASOURCE, "java:/SisGestorDB");
 		this.setProperty(Environment.DEFAULT_SCHEMA, "sisgestor");
 		this.setProperty(Environment.SHOW_SQL, Boolean.toString(this.isMostrarSQL));
+		if (this.criarBancoDeDados) {
+			this.setProperty(Environment.HBM2DDL_AUTO, "create-drop");
+		} else {
+			this.setProperty(Environment.HBM2DDL_AUTO, "validate");
+		}
 		this.setProperty(Environment.POOL_SIZE, "10");
 		this.setProperty(Environment.ISOLATION, "1");
 		this.setProperty(Environment.USE_IDENTIFIER_ROLLBACK, Boolean.toString(true));
@@ -68,8 +73,8 @@ public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 			if (this.isGerarScript) {
 				schemaExport.setOutputFile(".\\scriptDB-sisgestor.txt");
 			}
-			schemaExport.drop(this.isGerarScript, true);
-			schemaExport.create(this.isGerarScript, true);
+			schemaExport.drop(false, true);
+			schemaExport.create(false, true);
 		}
 	}
 }

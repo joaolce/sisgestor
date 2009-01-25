@@ -63,6 +63,7 @@ ComportamentosTela.prototype = {
 		   dwr.util.setValue("nome", usuario.nome);
 		   dwr.util.setValue("email", usuario.email);
 		   dwr.util.setValue("departamento", usuario.departamento.id);
+		   this.removerPermissoesUsuario();
 	   }).bind(this));
    },
 
@@ -186,14 +187,17 @@ ComportamentosTela.prototype = {
 
    /**
     * Abre janela para editar permissões do usuário
-    * 
-    * @return
     */
    editarPermissoes : function() {
 	   var id = $("formSalvar").id.value;
 	   var url = "manterUsuario.do?method=popupEditarPermissoes&id=" + id;
-	   createWindow(260, 550, 280, 70, "Editar Permissões do Usuário", "divPermissao", url);
+	   var janela = createWindow(260, 550, 280, 70, "Editar Permissões do Usuário", "divPermissao", url);
+	   janela.addOnComplete((function() {
+	   	ComboFunctions.ordenarOptions("permissoes"); 
+	   	} 
+	   ));
    },
+   
    /**
     * Envia ao action a ação de salvar os dados do usuario
     * 
@@ -211,16 +215,37 @@ ComportamentosTela.prototype = {
    },
 
    /**
-    * Atualiza as permissões selecionadas para o usuário
+    * Atualiza as permissões selecionadas para o usuário.
     * 
-    * @param form
-    * @return
+    * @param form formulário da submissão
     */
-   atualizarPermissoes: function(form) {
-	   ComboFunctions.selecionaCombo("permissoes");
-   // Desenvolver
+   atualizarPermissoes : function(form) {
+   	this.removerPermissoesUsuario();
+	   ComboFunctions.selecionaCombo("permissoes"); //TODO verificar se é necessário
+	   var formSalvar = $("formSalvar");
+	   var permissoes = ComboFunctions.getValues("permissoes");
+	   for (var count = 0; count < permissoes.length; count++) {
+	   	formSalvar.appendChild(Builder.node("input", {
+		      type :"hidden",
+		      name :"permissoes",
+		      value :permissoes[count]
+		   }));
+	   }
    },
-
+   
+   /**
+    * Remove as permissões do usuário no form de alteração.
+    */
+   removerPermissoesUsuario : function() {
+	   var formSalvar = $("formSalvar");
+	   var inputsForm = formSalvar.getElementsByTagName("input");
+	   for (var count = 0; count < inputsForm.length; count++) {
+	   	if((inputsForm.item(count).type == "hidden") && (inputsForm.item(count).name == "permissoes")) {
+	   		formSalvar.removeChild(inputsForm.item(count));
+	   	}
+	   }
+   },
+   
    /**
     * Transfere todos os itens (Permissão) de um combo para o outro e vice-versa
     * 
