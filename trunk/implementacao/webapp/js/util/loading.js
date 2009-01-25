@@ -17,7 +17,7 @@ var definicoesJanela = {
    loadingWidth :"100px",
 
    /** posição x onde loading irá aparecer na tela */
-   loadingLeft :"400px",
+   loadingLeft :"460px",
 
    /** configurações de borda do loading */
    loadingBorder :"",
@@ -59,8 +59,12 @@ LoadingControl.prototype = {
 	   Element.setStyle(corpo, {
 	      height :definicoesJanela.loadingHeight,
 	      width :definicoesJanela.loadingWidth,
+	      left :definicoesJanela.loadingLeft,
+	      top :(document.documentElement.scrollTop) + "px",
+	      position :"absolute",
 	      border :definicoesJanela.loadingBorder,
-	      backgroundColor :definicoesJanela.loadingBackground
+	      backgroundColor :definicoesJanela.loadingBackground,
+	      zIndex :100
 	   });
 	   corpo.appendChild(imagem);
 

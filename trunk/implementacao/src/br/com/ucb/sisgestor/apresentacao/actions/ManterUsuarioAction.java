@@ -7,7 +7,6 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 import br.com.ucb.sisgestor.apresentacao.forms.ManterUsuarioActionForm;
 import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.entidade.Usuario;
-import br.com.ucb.sisgestor.negocio.PermissaoBO;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
 import br.com.ucb.sisgestor.negocio.impl.PermissaoBOImpl;
@@ -49,8 +48,9 @@ public class ManterUsuarioAction extends BaseAction {
 	public ActionForward atualizar(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) actionForm;
-		Usuario usuario = new Usuario();
+		Usuario usuario = usuarioBO.obter(form.getId());
 		this.copyProperties(usuario, form);
+		usuario.setPermissoes(this.getPermissoes(form.getPermissoes()));
 
 		//Usuário pode atualizar os seus dados
 		if (!this.getUser().getId().equals(usuario.getId())
@@ -59,6 +59,7 @@ public class ManterUsuarioAction extends BaseAction {
 			return this.sendAJAXResponse(false);
 		}
 		usuarioBO.atualizar(usuario);
+		this.doUsuario(true);
 
 		this.addMessageKey("mensagem.usuario.alterar");
 		return this.sendAJAXResponse(true);
@@ -116,7 +117,7 @@ public class ManterUsuarioAction extends BaseAction {
 
 		Usuario usuario = usuarioBO.obter(form.getId());
 
-		if (super.getUser().getId().equals(usuario.getId())) {
+		if (this.getUser().getId().equals(usuario.getId())) {
 			this.addMessageKey("erro.excluir.naoPermitido");
 			return this.sendAJAXResponse(false);
 		}
@@ -223,9 +224,11 @@ public class ManterUsuarioAction extends BaseAction {
 	 */
 	private List<Permissao> getPermissoes(Integer[] permissoes) {
 		List<Permissao> list = new ArrayList<Permissao>();
-		PermissaoBO permissaoBO = PermissaoBOImpl.getInstancia();
+		Permissao permissao;
 		for (Integer key : permissoes) {
-			list.add(permissaoBO.obter(key));
+			permissao = new Permissao();
+			permissao.setId(key);
+			list.add(permissao);
 		}
 		return list;
 	}
