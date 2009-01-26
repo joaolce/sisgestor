@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.ManyToMany;
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * Classe que representa uma permissão no sistema. <br />
@@ -42,6 +43,7 @@ public class Permissao extends ObjetoPersistente {
 	 * @return usuários pertencentes da permissão
 	 */
 	@ManyToMany(targetEntity = Usuario.class, mappedBy = "permissoes")
+	@ForeignKey(name = "IR_PRM_UPM")
 	public List<Usuario> getUsuarios() {
 		return this.usuarios;
 	}

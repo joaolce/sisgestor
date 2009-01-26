@@ -85,7 +85,7 @@ public class Usuario extends ObjetoPersistente {
 	@JoinTable(name = "UPM_USUARIO_PERMISSAO", //
 	joinColumns = @JoinColumn(name = "UUR_ID", referencedColumnName = "UUR_ID", nullable = false), //
 	inverseJoinColumns = @JoinColumn(name = "PRM_ID", referencedColumnName = "PRM_ID", nullable = false))
-	@ForeignKey(name = "IR_UUR_UPM", inverseName = "IR_PRM_UPM")
+	@ForeignKey(name = "IR_UUR_UPM")
 	public List<Permissao> getPermissoes() {
 		return this.permissoes;
 	}
