@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.apresentacao.validator;
 
 import br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Validações da action {@link ManterUsuarioAction}.
@@ -49,5 +50,10 @@ public class ManterUsuarioValidator extends BaseValidator {
 		this.validaEmail("label.email", "email");
 		this.validaTamanhoMaximo("label.login", "login", 15);
 		this.validaTamanhoMaximo("label.nome", "nome", 150);
+		String login = (String) this.getFormValue("login");
+		if (StringUtils.contains(login, ' ')) {
+			this.addError("erro.usuario.login.branco");
+			this.setFocusControl("login");
+		}
 	}
 }

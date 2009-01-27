@@ -7,6 +7,7 @@
 	<link href="imagens/logoPequeno.jpg" rel="shortcut icon" />
 </head>
 <body onload="document.getElementById('j_username').focus();">
+	<form action="." method="post">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td width="33%" class="fundo">&nbsp;</td>
@@ -47,7 +48,6 @@
 			<td>&nbsp;</td>
 			<td colspan="2">
 	<table width="100%" border="0" cellspacing="2" cellpadding="0">
-		<form action="j_security_check" method="post">
 		<thead>
 		<tr align="center">
 			<td colspan="2">
@@ -74,22 +74,17 @@
 		</tr>
 		<tr>
 			<td colspan="2" align="center"> 
-				<input type="submit" value="Enviar" class="botao" />
+				<input type="submit" value="Enviar" class="botao" onclick="document.forms[0].action='j_security_check';"/>
 			</td>
 		</tr>
-		</form>
 		<tr>
 			<td colspan="2">&nbsp;</td>
 		</tr>
 		<tr>
 			<td align="center" class="creditos" colspan="2">
-				<form action="dologin" method="post">
-					<div align="center">
-						<input type="hidden" name="opr" id="opr" value="paginaAvisarSenha" class="botao" /> 
-						<strong>Se voc&ecirc; esqueceu sua senha,</strong>
-						<input type="submit" value="Clique Aqui" class="botao" />
-					</div>
-				</form>
+				<input type="hidden" name="opr" id="opr" value="paginaAvisarSenha" class="botao" /> 
+				<strong>Se voc&ecirc; esqueceu sua senha,</strong>
+				<input type="button" value="Clique Aqui" class="botao" onclick="document.forms[0].action='dologin'; document.forms[0].submit();"/>
 			</td>
 		</tr>
 		<tr>
@@ -118,5 +113,6 @@
 			<td width="33%" class="fundo">&nbsp;</td>
 		</tr>
 	</table>
+	</form>
 </body>
 </html>
