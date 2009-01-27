@@ -58,7 +58,10 @@ public class ManterUsuarioAction extends BaseAction {
 			return this.sendAJAXResponse(false);
 		}
 		usuarioBO.atualizar(usuario);
-		this.doUsuario(true);
+
+		if (this.getUser().getId().equals(usuario.getId())) {
+			this.doUsuario(true);
+		}
 
 		this.addMessageKey("mensagem.usuario.alterar");
 		return this.sendAJAXResponse(true);
@@ -82,6 +85,7 @@ public class ManterUsuarioAction extends BaseAction {
 		usuario.setSenha(form.getNovaSenha());
 
 		usuarioBO.atualizar(usuario);
+		this.doUsuario(true);
 
 		this.addMessageKey("mensagem.usuario.senha");
 		return this.sendAJAXResponse(true);
@@ -129,7 +133,7 @@ public class ManterUsuarioAction extends BaseAction {
 	}
 
 	/**
-	 * Abre popup para editar senha.
+	 * Abre o popup para editar senha.
 	 * 
 	 * @param mapping objeto mapping da action
 	 * @param form objeto form da action
@@ -140,12 +144,11 @@ public class ManterUsuarioAction extends BaseAction {
 	 */
 	public ActionForward popupEditarSenha(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
 		return this.findForward("popupEditarSenha");
 	}
 
 	/**
-	 * Tela de popup para incluir um novo usuário.
+	 * Abre o popup para incluir um novo usuário.
 	 * 
 	 * @param mapping objeto mapping da action
 	 * @param form objeto form da action
@@ -182,7 +185,6 @@ public class ManterUsuarioAction extends BaseAction {
 		Usuario usuario = new Usuario();
 		this.copyProperties(usuario, form);
 
-		//TODO Verificar porque nao copiou do form
 		usuario.setPermissoes(this.getPermissoes(form.getPermissoes()));
 
 		usuarioBO.salvar(usuario);
@@ -192,10 +194,10 @@ public class ManterUsuarioAction extends BaseAction {
 	}
 
 	/**
-	 * Recupera as permissões informadas pelo form mas que não foram copiadas pro objeto persistente.
+	 * Recupera um {@link List} de {@link Permissao} a partir dos id´s.
 	 * 
-	 * @param permissoes
-	 * @return Lista de permissoes
+	 * @param permissoes identificador das permissões
+	 * @return Lista de permissões
 	 */
 	private List<Permissao> getPermissoes(Integer[] permissoes) {
 		List<Permissao> list = new ArrayList<Permissao>();

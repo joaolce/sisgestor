@@ -108,11 +108,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 			HibernateUtil.commit(transaction);
 		} catch (ConstraintViolationException ce) {
 			HibernateUtil.rollback(transaction);
-			if ("DPR_SIGLA".equals(ce.getConstraintName())) {
-				throw new NegocioException("erro.departamento.sigla");
-			} else {
-				throw ce;
-			}
+			throw new NegocioException("erro.departamento.sigla");
 		} catch (Exception e) {
 			HibernateUtil.rollback(transaction);
 			throw new NegocioException(e);

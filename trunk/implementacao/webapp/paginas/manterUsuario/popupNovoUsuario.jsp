@@ -5,7 +5,7 @@
 <script type="text/javascript" src="dwr/interface/ManterUsuarioDWR.js"></script>
 <script type="text/javascript" src="js/manterUsuario/manterUsuario.js"></script>
 
-<html:form action="/manterUsuario.do?method=salvar" onsubmit="usuario.salvar(this); JanelaFactory.fecharJanelaAtiva(); return false;"  styleId="manterUsuarioForm">
+<html:form action="/manterUsuario.do?method=salvar" onsubmit="usuario.salvar(this); return false;"  styleId="manterUsuarioForm">
 	<fieldset style="margin: 5pt auto; padding: 10px; width: 95%;">
 		<div style="float: left;">
 			<label>

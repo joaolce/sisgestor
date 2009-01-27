@@ -23,10 +23,11 @@ public class BaseDWR {
 	 * Recupera a mensagem no properties.
 	 * 
 	 * @param key chave da mensagem
+	 * @param args argumentos da mensagem a subtituir
 	 * @return {@link String} da mensagem
 	 */
-	protected String getMessage(String key) {
-		return Utils.getMessageFromProperties(key);
+	protected String getMessage(String key, String... args) {
+		return Utils.getMessageFromProperties(key, args);
 	}
 
 	/**

@@ -26,19 +26,25 @@ ComportamentosTela.prototype = {
    /**
     * Recupera o form manterDepartamentoForm
     * 
-    * @return
+    * @return formulário
     */
    getForm : function() {
 	   return $("manterDepartamentoForm");
    },
 
+   /**
+    * Retorna a linha selecionada da tabela de departamentos.
+    * 
+    * @return linha selecionada da tabela
+    */
    getTR : function() {
-	   var tabela = FactoryTabelas.getTabelaById(this.getTBodyTelaPrincipal());
-	   return tabela.getSelectedTR();
+	   return FactoryTabelas.getTabelaById(this.getTBodyTelaPrincipal()).getSelectedTR();
    },
 
    /**
-    * Recupera o id selecionado que é um hidden dentro da tabela.
+    * Recupera o id do departamento selecionado.
+    * 
+    * @return id do departamento selecionado
     */
    getIdSelecionado : function() {
 	   return this.getTR().select("input[type=\"hidden\"]")[0].value;
@@ -55,7 +61,7 @@ ComportamentosTela.prototype = {
 	   }
 	   ManterDepartamentoDWR.getById(idDepartamento, ( function(departamento) {
 		   Effect.Appear("formSalvar");
-		   dwr.util.setValue($("formSalvar").id, this.getIdSelecionado());
+		   dwr.util.setValue($("formSalvar").id, idDepartamento);
 		   dwr.util.setValue("sigla", departamento.sigla);
 		   dwr.util.setValue("nome", departamento.nome);
 		   dwr.util.setValue("email", departamento.email);
@@ -77,22 +83,19 @@ ComportamentosTela.prototype = {
 
 	   if (this.tabelaTelaPrincipal == null) {
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabela(this.getTBodyTelaPrincipal());
+		   this.tabelaTelaPrincipal.abstractOnTrocarPagina = this.onTrocarPagina.bind(this);
 	   }
 	   this.tabelaTelaPrincipal.reiniciarPaginacao();
-	   this.tabelaTelaPrincipal.abstractOnTrocarPagina = this.onTrocarPagina.bind(this);
 	   ManterDepartamentoDWR.pesquisar(sigla, nome, null, this.popularTabela.bind(this));
    },
 
    /**
     * Evento ao trocar de página, toda vez que o usuário avançar ou retroceder a paginação essa
-    * função será invocada
+    * função será invocada.
     * 
-    * @param {Integer} novaPagina
+    * @param {Integer} novaPagina número da nova página
     */
    onTrocarPagina : function(novaPagina) {
-	   if (this.tabela != null) {
-		   this.tabela.toggleShowDivPaginacao(false);
-	   }
 	   var sigla = dwr.util.getValue("siglaPesquisa");
 	   var nome = dwr.util.getValue("nomePesquisa");
 
@@ -100,10 +103,9 @@ ComportamentosTela.prototype = {
    },
 
    /**
-    * Popula a tabela principal com a lista de departamentos
+    * Popula a tabela principal com a lista de departamentos.
     * 
-    * @param resultadoDTO
-    * @return
+    * @param resultadoDTO resultado da pesquisa
     */
    popularTabela : function(resultadoDTO) {
 	   var listaDepartamento = resultadoDTO.colecaoParcial;
@@ -145,60 +147,55 @@ ComportamentosTela.prototype = {
    },
 
    /**
-    * Envia ao action a ação de atualizar os dados do departamento selecionado
+    * Envia ao action a ação de atualizar os dados do departamento selecionado.
     * 
-    * @param form
-    * @return
+    * @param form formulário submetido
     */
    atualizar : function(form) {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o departamento selecionado?", ( function() {
 		   requestUtils.submitForm(form, ( function() {
 			   if (requestUtils.status) {
-			   	this.pesquisar();
 			   	this.atualizarDepartamentosSuperior();
+			   	this.pesquisar();
 			   }
 		   }).bind(this));
 	   }).bind(this));
    },
 
    /**
-    * Envia ao action a ação de excluir o departamento selecionado
+    * Envia ao action a ação de excluir o departamento selecionado.
     * 
-    * @param form
-    * @return
+    * @param form formulário submetido
     */
    excluir : function() {
 	   JanelasComuns.showConfirmDialog("Deseja excluir o departamento selecionado?", ( function() {
 		   var idDepartamento = dwr.util.getValue($("formSalvar").id);
-		   requestUtils.simpleRequest("manterDepartamento.do?method=excluir&id=" + idDepartamento,
-		      null, ( function() {
+		   requestUtils.simpleRequest("manterDepartamento.do?method=excluir&id=" + idDepartamento, ( function() {
 			      if (requestUtils.status) {
+			      	this.atualizarDepartamentosSuperior();
 				      this.pesquisar();
-				      this.atualizarDepartamentosSuperior();
 			      }
 		      }).bind(this));
 	   }).bind(this));
    },
 
    /**
-    * Envia ao action a ação de salvar os dados do departamento
+    * Envia ao action a ação de salvar os dados do novo departamento.
     * 
-    * @param form formulário
-    * @return
+    * @param form formulário submetido
     */
    salvar : function(form) {
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
 			   JanelaFactory.fecharJanela("divNovoDepartamento");
-			   this.pesquisar();
 			   this.atualizarDepartamentosSuperior();
-			   
+			   this.pesquisar();
 		   }
 	   }).bind(this));
    },
 
    /**
-    * Abre a janela para novo departamento
+    * Abre a janela para novo departamento.
     */
    popupNovoDepartamento : function() {
 	   var url = "manterDepartamento.do?method=popupNovoDepartamento";
