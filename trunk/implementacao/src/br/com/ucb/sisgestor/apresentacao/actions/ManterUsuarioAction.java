@@ -11,7 +11,6 @@ import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
 import br.com.ucb.sisgestor.negocio.impl.PermissaoBOImpl;
 import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
-import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.constantes.ConstantesRoles;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +96,7 @@ public class ManterUsuarioAction extends BaseAction {
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) actionForm;
 
 		form.setListaDepartamentos(DepartamentoBOImpl.getInstancia().obterTodos());
+		form.setPermissoesDisponiveis(PermissaoBOImpl.getInstancia().obterTodos());
 
 		return this.findForward(FWD_ENTRADA);
 	}
@@ -126,30 +126,6 @@ public class ManterUsuarioAction extends BaseAction {
 
 		this.addMessageKey("mensagem.usuario.excluir");
 		return this.sendAJAXResponse(true);
-	}
-
-	/**
-	 * Exibe a lista de permissões que existem para o usuário
-	 * 
-	 * @param mapping objeto mapping da action
-	 * @param formulario objeto form da action
-	 * @param request request atual
-	 * @param response response atual
-	 * @return forward do popup
-	 * @throws Exception caso exceção seja lançada
-	 */
-	public ActionForward popupEditarPermissoes(ActionMapping mapping, ActionForm formulario,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ManterUsuarioActionForm form = (ManterUsuarioActionForm) formulario;
-		Usuario usuario = usuarioBO.obter(form.getId());
-
-		List<Permissao> todasPermissoes = PermissaoBOImpl.getInstancia().obterTodos();
-		List<Permissao> permissoesUsuario = usuario.getPermissoes();
-
-		form.setRoles(usuario.getPermissoes());
-		form.setPermissoesDisponiveis(Utils.subtrair(todasPermissoes, permissoesUsuario, Permissao.class));
-
-		return this.findForward("popupEditarPermissoes");
 	}
 
 	/**
@@ -216,14 +192,16 @@ public class ManterUsuarioAction extends BaseAction {
 	}
 
 	/**
-	 * Método temporário para recuperar as permissões informadas pelo form mas que não foram copiadas pro
-	 * objeto persistente.
+	 * Recupera as permissões informadas pelo form mas que não foram copiadas pro objeto persistente.
 	 * 
 	 * @param permissoes
 	 * @return Lista de permissoes
 	 */
 	private List<Permissao> getPermissoes(Integer[] permissoes) {
 		List<Permissao> list = new ArrayList<Permissao>();
+		if (permissoes == null) {
+			return list;
+		}
 		Permissao permissao;
 		for (Integer key : permissoes) {
 			permissao = new Permissao();

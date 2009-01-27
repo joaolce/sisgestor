@@ -422,6 +422,25 @@ ComboFunctions = {
 	   }
 	   $(origem).options[indice] = null;
    },
+   
+   /**
+    * Remove a opção da combo a partir do seu valor.
+    * 
+    * @param {String} origem id do objeto combo que possui o valor selecionado
+    * @param {Integer} valor a ser apagado
+    */
+   removeOptionValue : function(origem, valor) {
+	   if (valor == undefined) {
+		   return;
+	   }
+	   for(var i = 0; i < $(origem).options.length; i++) {
+	   	if($(origem).options[i].value == valor) {
+	   	   $(origem).options[i] = null;
+	   	}
+	   }
+	   this.ordenarOptions(origem);
+   },
+   
    /**
     * seleciona todos os options de um combo
     * 

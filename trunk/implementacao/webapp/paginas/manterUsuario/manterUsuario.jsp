@@ -1,5 +1,6 @@
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
 <script type="text/javascript" src="dwr/interface/ManterUsuarioDWR.js"></script>
 <script type="text/javascript" src="js/manterUsuario/manterUsuario.js"></script>
@@ -73,27 +74,23 @@
 	<!-- FIELDSET PARA DADOS DO USUARIO -->
 	<html:form action="/manterUsuario.do?method=atualizar" onsubmit="usuario.atualizar(this); return false;" styleId="formSalvar" style="display: none; margin-top: 10px;">
 		<html:hidden property="id"/>
-		<fieldset style="padding: 5px; width: 50%; margin: 5 auto;">
+		<fieldset style="padding: 5px; padding-right: 0px; width: 956px; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.usuario"/>
-				<html:link href="#editarPermissao" onclick="usuario.editarPermissoes();" titleKey="dica.permissao.editar" linkName="editarPermissao">
-					<html:img srcKey="imagem.permissao" height="17" width="17"/>
-				</html:link>
 			</legend>
-			<div style="float: left; width: 70%">
+			<div style="float: left;">
 				<label style="float: left;">
 					<b><bean:message key="label.login"/>:</b>
 					<html:text property="login" size="16" maxlength="15" />
-				</label> 
-				<label style="float: right;">
+				</label>
+				<label style="margin-left: 10px;">
 					<b><bean:message key="label.departamento"/>: </b>
 					<html:select property="departamento" styleId="departamento">
 						<html:option value="" />
 						<html:optionsCollection name="manterUsuarioForm" property="listaDepartamentos" label="sigla" value="id" />
 					</html:select>
 				</label>
-			</div>
-			<div style="float: left;">
+				<br />
 				<label>
 					<b><bean:message key="label.nome"/>:</b>
 					<html:text property="nome" size="51" maxlength="150" />
@@ -103,7 +100,52 @@
 					<b><bean:message key="label.email"/>: </b>
 					<html:text property="email" size="41" maxlength="40" />
 				</label> 
-				<br />
+			</div>
+			<div id="tabPermissoes" style="float: right; width: 60%;">
+				<div style="float: left; margin-right: 5px;">
+					<label class="labelComboTransferencia">
+						<span id="itensPermissoesSelecionadas">
+							<b><bean:message key="label.permissoesSelecionadas"/></b>
+						</span>
+						<br/>
+						<html:select multiple="true"  altKey="dica.desselecionar" titleKey="dica.desselecionar"  
+			 				property="permissoes"  size="7" style="width: 220px;" styleId="permissoes"
+			 				ondblclick="usuario.transferePermissao('permissoes', 'permissoesInform');" >
+			 				<logic:present name="manterUsuarioForm" property="roles">
+			 					<html:optionsCollection name="manterUsuarioForm" property="roles" label="descricao" value="id" />
+			 				</logic:present>
+						</html:select>
+					</label>
+				</div>
+				<div style="float: left; margin: 20px 3px 0 0; ">
+					<br />
+					<br />
+					<html:button property="direita" titleKey="dica.selecionarVarios" style="width: 30px;" 
+						onclick="usuario.transfereTodasPermissoes('permissoesInform', 'permissoes');">
+						<bean:message key="label.direita"/>
+					</html:button>
+					<br />
+					<br />
+					<html:button property="esquerda" titleKey="dica.desselecionaVarios" style="width: 30px;" 
+						onclick="usuario.transfereTodasPermissoes('permissoes', 'permissoesInform');">
+						<bean:message key="label.esquerda"/>
+					</html:button>
+				</div>
+				<div>
+					<label class="labelComboTransferencia">
+						<span id="itensPermissoes">
+							<b><bean:message key="label.permissoesDisponiveis"/></b>
+						</span>
+						<br />
+						<html:select multiple="true" altKey="dica.selecionar" titleKey="dica.selecionar" 
+							property="permissoesInform" value="id" size="7" style="width: 220px;" styleId="permissoesInform" 
+							ondblclick="usuario.transferePermissao('permissoesInform', 'permissoes');">
+							<logic:present name="manterUsuarioForm" property="permissoesDisponiveis">
+								<html:optionsCollection name="manterUsuarioForm" property="permissoesDisponiveis" label="descricao" value="id" />
+							</logic:present>
+						</html:select>
+					</label>
+				</div>
 			</div>
 			<div style="clear: both; padding: 5px;" align="center">
 				<html:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar">

@@ -18,12 +18,7 @@ public class ManterUsuarioValidator extends BaseValidator {
 	 * Faz as validações no método atualizar.
 	 */
 	public void atualizar() {
-		this.validaRequerido("label.login", "login");
-		this.validaRequerido("label.nome", "nome");
-		this.validaRequerido("label.departamento", "departamento");
-		this.validaEmail("label.email", "email");
-		this.validaTamanhoMaximo("label.login", "login", 15);
-		this.validaTamanhoMaximo("label.nome", "nome", 150);
+		this.salvar();
 	}
 
 	/**

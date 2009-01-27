@@ -63,7 +63,12 @@ ComportamentosTela.prototype = {
 		   dwr.util.setValue("nome", usuario.nome);
 		   dwr.util.setValue("email", usuario.email);
 		   dwr.util.setValue("departamento", usuario.departamento.id);
-		   this.removerPermissoesUsuario();
+		   dwr.util.removeAllOptions("permissoes");
+		   dwr.util.addOptions("permissoes", usuario.permissoes, "id", "descricao");
+		   for(var i = 0; i < usuario.permissoes.length; i++) {
+		   	ComboFunctions.removeOptionValue("permissoesInform", usuario.permissoes[i].id);
+		   }
+		   ComboFunctions.ordenarOptions("permissoes");
 	   }).bind(this));
    },
 
@@ -152,6 +157,7 @@ ComportamentosTela.prototype = {
     */
    atualizar : function(form) {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o usuário selecionado?", ( function() {
+	   	ComboFunctions.selecionaCombo("permissoes");
 		   requestUtils.submitForm(form, ( function() {
 			   if (requestUtils.status) {
 				   usuario.pesquisar();
@@ -205,7 +211,7 @@ ComportamentosTela.prototype = {
     * @return
     */
    salvar: function(form) {
-	   ComboFunctions.selecionaCombo("permissoes");
+	   ComboFunctions.selecionaCombo("permissoesNovo");
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
 			   JanelaFactory.fecharJanela("divNovoUsuario");
@@ -230,19 +236,6 @@ ComportamentosTela.prototype = {
 		      name :"permissoes",
 		      value :permissoes[count]
 		   }));
-	   }
-   },
-   
-   /**
-    * Remove as permissões do usuário no form de alteração.
-    */
-   removerPermissoesUsuario : function() {
-	   var formSalvar = $("formSalvar");
-	   var inputsForm = formSalvar.getElementsByTagName("input");
-	   for (var count = 0; count < inputsForm.length; count++) {
-	   	if((inputsForm.item(count).type == "hidden") && (inputsForm.item(count).name == "permissoes")) {
-	   		formSalvar.removeChild(inputsForm.item(count));
-	   	}
 	   }
    },
    

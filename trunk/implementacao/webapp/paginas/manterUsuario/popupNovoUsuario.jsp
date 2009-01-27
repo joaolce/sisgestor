@@ -1,6 +1,6 @@
-<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
 <script type="text/javascript" src="dwr/interface/ManterUsuarioDWR.js"></script>
 <script type="text/javascript" src="js/manterUsuario/manterUsuario.js"></script>
@@ -38,8 +38,51 @@
 			</label>
 			<br />
 		</div>
-		<div id="tabPermissoes" style="margin: 6px;">
-			<tiles:insert definition="includeTabPermissoes"/>
+		<div id="tabPermissoes" style="margin: 6px;" class="divInternoAba">
+			<div style="float: left; margin-right: 5px;">
+				<label class="labelComboTransferencia">
+					<span id="itensPermissoesSelecionadas">
+						<b><bean:message key="label.permissoesSelecionadas"/></b>
+					</span>
+					<br/>
+					<html:select multiple="true"  altKey="dica.desselecionar" titleKey="dica.desselecionar"  
+					 	property="permissoes"  size="10" style="width: 220px;" styleId="permissoesNovo"
+					 	ondblclick="usuario.transferePermissao('permissoesNovo', 'permissoesInformNovo');" >
+					 	<logic:present name="manterUsuarioForm" property="roles">
+					 		<html:optionsCollection name="manterUsuarioForm" property="roles" label="descricao" value="id" />
+					 	</logic:present>
+					</html:select>
+				</label>
+			</div>
+			<div style="float: left; margin: 20px 3px 0 0; ">
+				<br />
+				<br />
+				<html:button property="direita" titleKey="dica.selecionarVarios" style="width: 30px;" 
+					onclick="usuario.transfereTodasPermissoes('permissoesInformNovo', 'permissoesNovo');">
+					<bean:message key="label.direita"/>
+				</html:button>
+				<br />
+				<br />
+				<html:button property="esquerda" titleKey="dica.desselecionaVarios" style="width: 30px;" 
+					onclick="usuario.transfereTodasPermissoes('permissoesNovo', 'permissoesInformNovo');">
+					<bean:message key="label.esquerda"/>
+				</html:button>
+			</div>
+			<div>
+				<label class="labelComboTransferencia">
+					<span id="itensPermissoes">
+						<b><bean:message key="label.permissoesDisponiveis"/></b>
+					</span>
+					<br />
+					<html:select multiple="true" altKey="dica.selecionar" titleKey="dica.selecionar" 
+						property="permissoesInform" value="id" size="10" style="width: 220px;" styleId="permissoesInformNovo" 
+						ondblclick="usuario.transferePermissao('permissoesInformNovo', 'permissoesNovo');">
+						<logic:present name="manterUsuarioForm" property="permissoesDisponiveis">
+							<html:optionsCollection name="manterUsuarioForm" property="permissoesDisponiveis" label="descricao" value="id" />
+						</logic:present>
+					</html:select>
+				</label>
+			</div>
 		</div>
 	</fieldset>
 	<div style="clear: both; padding: 5px;" align="center">	
