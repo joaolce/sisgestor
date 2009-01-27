@@ -38,7 +38,7 @@
 			</div>
 			<div style="padding-top: 14px; clear: both;">
 				<html:submit styleClass="botaoOkCancelar">
-					<bean:message key="label.pesquisar" />
+					<bean:message key="botao.pesquisar" />
 				</html:submit>
 			</div>
 		</html:form>
@@ -92,10 +92,10 @@
 			</div>
 			<div style="clear: both; padding: 5px;" align="center">
 				<html:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar">
-					<bean:message key="label.atualizar"/>
+					<bean:message key="botao.atualizar"/>
 				</html:submit>
 				<html:button property="excluir" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="departamento.excluir();">
-					<bean:message key="label.excluir"/>
+					<bean:message key="botao.excluir"/>
 				</html:button>
 			</div>
 		</fieldset>

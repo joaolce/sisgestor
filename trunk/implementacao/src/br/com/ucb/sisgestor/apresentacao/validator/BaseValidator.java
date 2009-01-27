@@ -262,7 +262,7 @@ public class BaseValidator {
 	/**
 	 * Armazena o controle de focus no campo.
 	 * 
-	 * @param focusControl campo a ter o focus
+	 * @param focusControl campo do form a ter o focus
 	 */
 	protected void setFocusControl(String focusControl) {
 		if (this.focusControl == null) {
