@@ -13,6 +13,7 @@ import br.com.ucb.sisgestor.persistencia.BaseDAO;
 import br.com.ucb.sisgestor.util.constantes.DadosContexto;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import java.util.List;
+import org.hibernate.Hibernate;
 
 /**
  * Objeto DWR de manter usuário do projeto.
@@ -35,7 +36,9 @@ public class ManterUsuarioDWR extends BaseDWR {
 	 * @return usuario encontrado
 	 */
 	public Usuario getById(Integer id) {
-		return usuarioBO.obter(id);
+		Usuario usuario = usuarioBO.obter(id);
+		Hibernate.initialize(usuario.getPermissoes());
+		return usuario;
 	}
 
 	/**
