@@ -20,28 +20,34 @@ ComportamentosTela.prototype = {
    /**
     * Retorna a tabela da tela inicial do caso de uso
     * 
-    * @return{HTMLTableSectionElement}
+    * @return {HTMLTableSectionElement}
     */
    getTBodyTelaPrincipal : function() {
 	   return $("corpoManterUsuario");
    },
 
    /**
-    * Recupera o form manterUsuarioForm
+    * Recupera o form manterUsuarioForm.
     * 
-    * @return
+    * @return form do manter usuário
     */
    getForm : function() {
 	   return $("manterUsuarioForm");
    },
 
+   /**
+    * Recupera a linha selecionada.
+    * 
+    * @return linha selecionada
+    */
    getTR : function() {
-	   var tabela = FactoryTabelas.getTabelaById(this.getTBodyTelaPrincipal());
-	   return tabela.getSelectedTR();
+	   return FactoryTabelas.getTabelaById(this.getTBodyTelaPrincipal()).getSelectedTR();
    },
 
    /**
-    * Recupera o id selecionado que é um hidden dentro da tabela.
+    * Recupera o id do usuário selecionado.
+    * 
+    * @return id do usuário selecionado
     */
    getIdSelecionado : function() {
 	   return this.getTR().select("input[type=\"hidden\"]")[0].value;
@@ -63,13 +69,27 @@ ComportamentosTela.prototype = {
 		   dwr.util.setValue("nome", usuario.nome);
 		   dwr.util.setValue("email", usuario.email);
 		   dwr.util.setValue("departamento", usuario.departamento.id);
-		   dwr.util.removeAllOptions("permissoes");
-		   dwr.util.addOptions("permissoes", usuario.permissoes, "id", "descricao");
+		   this.atualizarPermissoesUsuario(usuario);
+	   }).bind(this));
+   },
+   
+   /**
+    * Atualiza no form do usuário as suas permissões e as permissões disponíveis.
+    * 
+    * @param usuario usuário a ser visualizado
+    */
+   atualizarPermissoesUsuario : function(usuario) {
+	   dwr.util.removeAllOptions("permissoes");
+	   dwr.util.addOptions("permissoes", usuario.permissoes, "id", "descricao");
+	   dwr.util.removeAllOptions("permissoesInform");
+	   ManterUsuarioDWR.getTodasPermissoes( function(permissoes) {
+		   dwr.util.addOptions("permissoesInform", permissoes, "id", "descricao");
+		   //remove das permissões disponíveis, as permissões que o usuário já tem.
 		   for(var i = 0; i < usuario.permissoes.length; i++) {
 		   	ComboFunctions.removeOptionValue("permissoesInform", usuario.permissoes[i].id);
 		   }
-		   ComboFunctions.ordenarOptions("permissoes");
-	   }).bind(this));
+	   });
+	   ComboFunctions.ordenarOptions("permissoes");
    },
 
    /**
@@ -83,35 +103,30 @@ ComportamentosTela.prototype = {
 
 	   if (this.tabelaTelaPrincipal == null) {
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabela(this.getTBodyTelaPrincipal());
+		   this.tabelaTelaPrincipal.abstractOnTrocarPagina = this.onTrocarPagina.bind(this);
 	   }
 	   this.tabelaTelaPrincipal.reiniciarPaginacao();
-	   this.tabelaTelaPrincipal.abstractOnTrocarPagina = this.onTrocarPagina.bind(this);
 	   ManterUsuarioDWR.pesquisar(login, nome, departamento, null, this.popularTabela.bind(this));
    },
 
    /**
     * Evento ao trocar de página, toda vez que o usuário avançar ou retroceder a paginação essa
-    * função será invocada
+    * função será invocada.
     * 
-    * @param {Integer} novaPagina
+    * @param {Integer} novaPagina número da nova página
     */
    onTrocarPagina : function(novaPagina) {
-	   if (this.tabela != null) {
-		   this.tabela.toggleShowDivPaginacao(false);
-	   }
 	   var login = dwr.util.getValue("loginPesquisa");
 	   var nome = dwr.util.getValue("nomePesquisa");
 	   var departamento = dwr.util.getValue("departamentoPesquisa");
 
-	   ManterUsuarioDWR.pesquisar(login, nome, departamento, novaPagina, this.popularTabela
-	      .bind(this));
+	   ManterUsuarioDWR.pesquisar(login, nome, departamento, novaPagina, this.popularTabela.bind(this));
    },
 
    /**
-    * Popula a tabela principal com a lista de usuarios
+    * Popula a tabela principal com a lista de usuários.
     * 
-    * @param resultadoDTO
-    * @return
+    * @param resultadoDTO resultado da pesquisa
     */
    popularTabela : function(resultadoDTO) {
 	   var listaUsuario = resultadoDTO.colecaoParcial;
@@ -150,41 +165,39 @@ ComportamentosTela.prototype = {
    },
 
    /**
-    * Envia ao action a ação de atualizar os dados do usuario selecionado
+    * Envia ao action a ação de atualizar os dados do usuario selecionado.
     * 
-    * @param form
-    * @return
+    * @param form form submetido
     */
    atualizar : function(form) {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o usuário selecionado?", ( function() {
 	   	ComboFunctions.selecionaCombo("permissoes");
 		   requestUtils.submitForm(form, ( function() {
 			   if (requestUtils.status) {
-				   usuario.pesquisar();
+			   	this.pesquisar();
 			   }
 		   }).bind(this));
 	   }).bind(this));
    },
 
    /**
-    * Envia ao action a ação de excluir o usuario selecionado
+    * Envia ao action a ação de excluir o usuário selecionado.
     * 
-    * @param form
-    * @return
+    * @param form form submetido
     */
    excluir: function() {
 	   JanelasComuns.showConfirmDialog("Deseja excluir o usuário selecionado?", ( function() {
 		   var idUsuario = dwr.util.getValue($("formSalvar").id);
 		   requestUtils.simpleRequest("manterUsuario.do?method=excluir&id=" + idUsuario,( function() {
-			      if (requestUtils.status) {
-				      this.pesquisar();
-			      }
-		      }).bind(this));
+				if (requestUtils.status) {
+					this.pesquisar();
+				}
+			}).bind(this));
 	   }).bind(this));
    },
 
    /**
-    * Abre a janela para novo usuario
+    * Abre a janela para novo usuario.
     */
    popupNovoUsuario : function() {
 	   var url = "manterUsuario.do?method=popupNovoUsuario";
@@ -192,53 +205,20 @@ ComportamentosTela.prototype = {
    },
 
    /**
-    * Abre janela para editar permissões do usuário
-    */
-   editarPermissoes : function() {
-	   var id = $("formSalvar").id.value;
-	   var url = "manterUsuario.do?method=popupEditarPermissoes&id=" + id;
-	   var janela = createWindow(260, 550, 280, 70, "Editar Permissões do Usuário", "divPermissao", url);
-	   janela.addOnComplete((function() {
-	   	ComboFunctions.ordenarOptions("permissoes"); 
-	   	} 
-	   ));
-   },
-   
-   /**
-    * Envia ao action a ação de salvar os dados do usuario
+    * Envia ao action a ação de salvar os dados do usuário.
     * 
-    * @param form formulário
-    * @return
+    * @param form formulário submetido
     */
    salvar: function(form) {
 	   ComboFunctions.selecionaCombo("permissoesNovo");
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
 			   JanelaFactory.fecharJanela("divNovoUsuario");
-			   usuario.pesquisar();
+			   this.pesquisar();
 		   }
 	   }).bind(this));
    },
 
-   /**
-    * Atualiza as permissões selecionadas para o usuário.
-    * 
-    * @param form formulário da submissão
-    */
-   atualizarPermissoes : function(form) {
-   	this.removerPermissoesUsuario();
-	   ComboFunctions.selecionaCombo("permissoes"); //TODO verificar se é necessário
-	   var formSalvar = $("formSalvar");
-	   var permissoes = ComboFunctions.getValues("permissoes");
-	   for (var count = 0; count < permissoes.length; count++) {
-	   	formSalvar.appendChild(Builder.node("input", {
-		      type :"hidden",
-		      name :"permissoes",
-		      value :permissoes[count]
-		   }));
-	   }
-   },
-   
    /**
     * Transfere todos os itens (Permissão) de um combo para o outro e vice-versa
     * 
@@ -260,29 +240,19 @@ ComportamentosTela.prototype = {
    },
 
    /**
-    * Recupera todas permissões.
-    * 
-    * @return
-    */
-   getTodasPermissoes : function() {
-	   ManterUsuarioDWR.getTodasPermissoes( function(permissoes) {
-		   dwr.util.removeAllOptions("permissoesInform");
-		   dwr.util.addOptions("permissoesInform", permissoes, "id", "descricao");
-	   });
-   },
-   
-   /**
     * Abre popup para o usuário alterar sua senha. 
     */
    popupEditarSenha: function(){
 	   var url = "manterUsuario.do?method=popupEditarSenha";
-	   createWindow(180, 300, 370, 70, "Alterar Minha Senha", "divSenha", url);
+	   createWindow(160, 300, 370, 70, "Alterar Minha Senha", "divSenha", url);
    },
    
    /**
     * Envia para a action efetuar as alterações. 
+    * 
+    * @param form form submetido
     */
-   atualizarSenha: function(form){
+   atualizarSenha: function(form) {
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
 			   JanelaFactory.fecharJanela("divSenha");

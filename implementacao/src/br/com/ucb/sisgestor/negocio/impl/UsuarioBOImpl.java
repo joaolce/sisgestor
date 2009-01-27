@@ -56,11 +56,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 			HibernateUtil.commit(transaction);
 		} catch (ConstraintViolationException ce) {
 			HibernateUtil.rollback(transaction);
-			if ("UUR_LOGIN".equals(ce.getConstraintName())) {
-				throw new NegocioException("erro.usuario.login");
-			} else {
-				throw ce;
-			}
+			throw new NegocioException("erro.usuario.login");
 		} catch (Exception e) {
 			HibernateUtil.rollback(transaction);
 			throw new NegocioException(e);
@@ -156,11 +152,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 			HibernateUtil.commit(transaction);
 		} catch (ConstraintViolationException ce) {
 			HibernateUtil.rollback(transaction);
-			if ("UUR_LOGIN".equals(ce.getConstraintName())) {
-				throw new NegocioException("erro.usuario.login");
-			} else {
-				throw ce;
-			}
+			throw new NegocioException("erro.usuario.login");
 		} catch (Exception e) {
 			HibernateUtil.rollback(transaction);
 			throw new NegocioException(e);
