@@ -215,6 +215,10 @@ input[type="text"].data {
 	color: red;
 }
 
+.linhaCinza {
+	border: 1px solid #E5E9ED;
+}
+
 #overCap {
 	border: 1px solid threedlightshadow;
 	color: rgb(0, 0, 0);
