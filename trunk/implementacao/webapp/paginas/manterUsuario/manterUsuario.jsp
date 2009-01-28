@@ -6,7 +6,6 @@
 <script type="text/javascript" src="js/manterUsuario/manterUsuario.js"></script>
 
 <div class="bordas" id="BordaExterna">
-
 	<div id="divMenuOpcoes">
 		<html:link href="#editarSenha" titleKey="dica.senha" onclick="usuario.popupEditarSenha();" linkName="editarSenha">
 			<html:img srcKey="imagem.senha" width="20" height="19" />
@@ -16,37 +15,32 @@
 		</html:link>
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE USUARIO -->
-	<fieldset style="padding: 10px; width: 50%; margin: 5 auto;">
+	<fieldset style="padding: 10px; width: 60%; margin: 5 auto;">
 		<legend>
 			<bean:message key="label.criterioPesquisa" />
 		</legend>
 		<html:form action="/manterUsuario.do" onsubmit="usuario.pesquisar(); return false;" styleId="manterUsuarioForm">
-			<div style="float: left; width: 80%;">
-				<div style="float: left; width: 100%;">
-					<label style="float: left;">
-						<bean:message key="label.login" />
-						<br />
-						<input type="text" name="loginPesquisa" id="loginPesquisa" size="16" maxlength="15" />
-					</label>
-					<label style="float: right;">
-						<bean:message key="label.nome" />
-						<br />
-						<input type="text" name="nomePesquisa" id="nomePesquisa"  size="51" maxlength="150" />
-					</label>
-				</div>
-				<div style="float: left;">
-					<label style="float: left;">
-						<br />
-						<bean:message key="label.departamento" />
-						<br />
-						<html:select property="departamento" styleId="departamentoPesquisa">
-							<html:option value="">
-								<bean:message key="label.todos" />
-							</html:option>
-							<html:optionsCollection name="manterUsuarioForm" property="listaDepartamentos" label="sigla" value="id" />
-						</html:select>
-					</label>
-				</div>
+			<div style="float: left;">
+				<label style="float: left;">
+					<bean:message key="label.login" />
+					<br />
+					<input type="text" name="loginPesquisa" id="loginPesquisa" size="16" maxlength="15" />
+				</label>
+				<label style="float: left; margin-left: 20px;">
+					<bean:message key="label.nome" />
+					<br />
+					<input type="text" name="nomePesquisa" id="nomePesquisa"  size="51" maxlength="150" />
+				</label>
+				<label style="float: left; margin-left: 20px;">
+					<bean:message key="label.departamento" />
+					<br />
+					<html:select property="departamento" styleId="departamentoPesquisa">
+						<html:option value="">
+							<bean:message key="label.todos" />
+						</html:option>
+						<html:optionsCollection name="manterUsuarioForm" property="listaDepartamentos" label="sigla" value="id" />
+					</html:select>
+				</label>
 			</div>
 			<div style="padding-top: 14px; clear: both;">
 				<html:submit styleClass="botaoOkCancelar">
