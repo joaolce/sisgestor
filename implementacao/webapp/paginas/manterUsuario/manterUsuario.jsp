@@ -68,16 +68,22 @@
 	<!-- FIELDSET PARA DADOS DO USUARIO -->
 	<html:form action="/manterUsuario.do?method=atualizar" onsubmit="usuario.atualizar(this); return false;" styleId="formSalvar" style="display: none; margin-top: 10px;">
 		<html:hidden property="id"/>
-		<fieldset style="padding: 5px; padding-right: 0px; width: 956px; margin: 5 auto;">
+		<fieldset style="padding: 5px; padding-right: 0px; width: 90%; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.usuario"/>
 			</legend>
-			<div style="float: left;">
+			<div style="float: left; margin-top: 14px;">
 				<label style="float: left;">
 					<b><bean:message key="label.login"/>:</b>
 					<html:text property="login" size="16" maxlength="15" />
 				</label>
-				<label style="margin-left: 10px;">
+				<br />
+				<label style="float: left; margin-top: 3px;">
+					<b><bean:message key="label.nome"/>:</b>
+					<html:text property="nome" size="51" maxlength="150" />
+				</label> 
+				<br />
+				<label style="float: left; margin-top: 3px;">
 					<b><bean:message key="label.departamento"/>: </b>
 					<html:select property="departamento" styleId="departamento">
 						<html:option value="" />
@@ -85,12 +91,7 @@
 					</html:select>
 				</label>
 				<br />
-				<label>
-					<b><bean:message key="label.nome"/>:</b>
-					<html:text property="nome" size="51" maxlength="150" />
-				</label> 
-				<br />
-				<label>
+				<label style="float: left; margin-top: 3px;">
 					<b><bean:message key="label.email"/>: </b>
 					<html:text property="email" size="41" maxlength="40" />
 				</label> 
