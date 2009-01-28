@@ -5,8 +5,12 @@
 package br.com.ucb.sisgestor.apresentacao.dwr;
 
 import br.com.ucb.sisgestor.entidade.Usuario;
+import br.com.ucb.sisgestor.negocio.BaseBO;
 import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.constantes.DadosContexto;
+import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.directwebremoting.WebContextFactory;
@@ -79,5 +83,23 @@ public class BaseDWR {
 	 */
 	protected void setSessionAttribute(String name, Object value) {
 		this.getSession().setAttribute(name, value);
+	}
+
+	/**
+	 * Seta o total de registros retornados pela consulta.
+	 * 
+	 * @param dto parâmetros da consulta
+	 * @param resultado resultado parcial da consulta
+	 * @param bo bo a realizar a consulta
+	 */
+	protected void setTotalPesquisa(PesquisaPaginadaDTO dto, ListaResultadoDTO<?> resultado, BaseBO<?, ?> bo) {
+		List<?> lista = resultado.getColecaoParcial();
+		if ((dto.getPaginaAtual() == null) && !lista.isEmpty()) {
+			Integer total = bo.getTotalPesquisa(dto);
+			this.setSessionAttribute(DadosContexto.TOTAL_PESQUISA, total);
+			resultado.setTotalRegistros(total);
+		} else {
+			resultado.setTotalRegistros((Integer) this.getSessionAttribute(DadosContexto.TOTAL_PESQUISA));
+		}
 	}
 }

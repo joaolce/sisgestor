@@ -13,6 +13,4 @@ import java.io.Serializable;
  * @since 10/01/2009
  */
 public abstract class BaseDTO implements Serializable {
-
-	private static final long	serialVersionUID	= -4815415641566490985L;
 }

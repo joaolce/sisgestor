@@ -36,6 +36,7 @@ public class ManterUsuarioValidator extends BaseValidator {
 		if (!this.getFormValue("novaSenha").equals(this.getFormValue("confirmarSenha"))) {
 			this.addError("erro.senha.diferente", this.getMessageKey("label.senha.nova"), this
 					.getMessageKey("label.senha.confirmar"));
+			this.setFocusControl("confirmarSenha");
 		}
 	}
 

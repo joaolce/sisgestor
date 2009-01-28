@@ -7,9 +7,8 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.negocio.DepartamentoBO;
 import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
-import br.com.ucb.sisgestor.persistencia.BaseDAO;
-import br.com.ucb.sisgestor.util.constantes.DadosContexto;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaDepartamentoDTO;
 import java.util.List;
 
 /**
@@ -48,29 +47,20 @@ public class ManterDepartamentoDWR extends BaseDWR {
 	/**
 	 * Pesquisa os departamentos com os parâmetros preenchidos.
 	 * 
-	 * @param sigla parte da sigla do departamento
-	 * @param nome parte do nome do departamento
-	 * @param paginaAtual página atual da pesquisa
+	 * @param parametros parâmetros da pesquisa
 	 * @return {@link List} de {@link Departamento}
 	 */
-	public ListaResultadoDTO<Departamento> pesquisar(String sigla, String nome, Integer paginaAtual) {
-		List<Departamento> listaDepartamentos = departamentoBO.getBySiglaNome(sigla, nome, paginaAtual);
+	public ListaResultadoDTO<Departamento> pesquisar(PesquisaDepartamentoDTO parametros) {
+		String sigla = parametros.getSigla();
+		String nome = parametros.getNome();
+		Integer paginaAtual = parametros.getPaginaAtual();
 
-		ListaResultadoDTO<Departamento> dto = new ListaResultadoDTO<Departamento>();
+		List<Departamento> lista = departamentoBO.getBySiglaNome(sigla, nome, paginaAtual);
 
-		dto.setColecaoParcial(listaDepartamentos);
+		ListaResultadoDTO<Departamento> resultado = new ListaResultadoDTO<Departamento>();
+		resultado.setColecaoParcial(lista);
 
-		//Busca o total de registros
-		if ((paginaAtual == null) && !listaDepartamentos.isEmpty()) {
-			Integer total = departamentoBO.getTotalRegistros(sigla, nome);
-			this.setSessionAttribute(DadosContexto.TOTAL_PESQUISA, total);
-			this.setSessionAttribute(DadosContexto.TAMANHO_PAGINA, BaseDAO.MAXIMO_RESULTADOS);
-			dto.setTotalRegistros(total);
-			dto.setQuantidadeRegistrosPagina(BaseDAO.MAXIMO_RESULTADOS);
-		} else {
-			dto.setTotalRegistros((Integer) this.getSessionAttribute(DadosContexto.TOTAL_PESQUISA));
-			dto.setQuantidadeRegistrosPagina((Integer) this.getSessionAttribute(DadosContexto.TAMANHO_PAGINA));
-		}
-		return dto;
+		this.setTotalPesquisa(parametros, resultado, departamentoBO);
+		return resultado;
 	}
 }

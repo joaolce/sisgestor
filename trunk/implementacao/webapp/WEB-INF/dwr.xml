@@ -20,7 +20,9 @@
 		
 		<!-- Convertendo Forms e DTO -->
 		<convert match="br.com.ucb.sisgestor.util.dto.ListaResultadoDTO" converter="bean" />
-	
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaDepartamentoDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaUsuarioDTO" converter="bean" />
+		
 		<!-- Convertendo Entidades -->
 		<convert match="br.com.ucb.sisgestor.entidade.Departamento" converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Usuario" 		converter="hibernate3" />

@@ -10,7 +10,7 @@ Configuracao = {
    onSuccess : function(request, janela) {
 	   if ((request.status == 0) || (request.status == 403)) {
 		   requestUtils.showErrorDetail(request);
-		   return;
+		   return true;
 	   }
 	   // verificar se não é a página de login
 	   if (isBlankOrNull(request.getResponseHeader("ajaxResponse"))) {
@@ -21,11 +21,12 @@ Configuracao = {
 		   hideLoading();
 		   return false;
 	   }
+	   return true;
    },
    onComplete : function(request, janela) {
 	   if ((request.status == 0) || (request.status == 403)) {
 		   requestUtils.showErrorDetail(request);
-		   return;
+		   return true;
 	   }
 	   var ajaxResponse = request.getResponseHeader("ajaxResponse");
 	   if ((ajaxResponse == null) || new String(ajaxResponse).blank()) {
@@ -38,6 +39,7 @@ Configuracao = {
 	   }
 	   configuraPagina(janela.idConteudo);
 	   Form.focusFirstElement(janela.getConteudo().getElementsByTagName("form").item(0));
+	   return true;
    },
    onFailure : function(request, janela) {
 	   if ((request.status == 0) || (request.status == 403)) {

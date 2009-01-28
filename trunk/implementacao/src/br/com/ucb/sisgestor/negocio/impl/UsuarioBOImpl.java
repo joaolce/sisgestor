@@ -11,10 +11,11 @@ import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsuarioDAO;
 import br.com.ucb.sisgestor.persistencia.impl.UsuarioDAOImpl;
+import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaUsuarioDTO;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.validator.GenericValidator;
 import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -109,8 +110,10 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	/**
 	 * {@inheritDoc}
 	 */
-	public Integer getTotalRegistros(String login, String nome, Integer departamento) {
-		return this.dao.getTotalRegistros(login, nome, departamento);
+	@Override
+	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
+		PesquisaUsuarioDTO dto = (PesquisaUsuarioDTO) parametros;
+		return this.dao.getTotalRegistros(dto.getLogin(), dto.getNome(), dto.getDepartamento());
 	}
 
 	/**
@@ -145,9 +148,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	public void salvar(Usuario usuario) throws NegocioException {
 		Transaction transaction = this.beginTransaction();
 		try {
-			if (GenericValidator.isBlankOrNull(usuario.getSenha())) {
-				usuario.setSenha("1234");
-			}
+			usuario.setSenha("1234");
 			this.dao.salvar(usuario);
 			HibernateUtil.commit(transaction);
 		} catch (ConstraintViolationException ce) {

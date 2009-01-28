@@ -391,7 +391,7 @@ Janela.prototype = {
 		   left :(((largura / 2) - (this.janelaDiv.getWidth() / 2)) + inicioAreaUtil / 2) + "px"
 	   });
    },
-   
+
    /**
 	 * coordenada X da janela
 	 * 
@@ -732,26 +732,29 @@ Janela.prototype = {
 	 */
    corrigirPosicaoDiv : function() {
 	   var div = this.janelaDiv;
-	   if (((document.body.clientHeight > document.documentElement.clientHeight) && (document.documentElement.scrollTop != 0))
-	      || (document.body.clientHeight < (div.offsetTop + div.offsetHeight))) {
-		   if ((document.body.clientHeight > document.documentElement.clientHeight)
-		      && (document.documentElement.scrollTop != 0)) {
-			   if (document.documentElement.clientHeight > div.offsetHeight) {
-				   var tamanhoDivModificado = ((document.documentElement.scrollTop + (document.documentElement.clientHeight / 2)) - (div.offsetHeight / 2))
+	   var scrollTop = Prototype.Browser.IE
+	      ? document.documentElement.scrollTop : document.body.scrollTop;
+	   var bodyClientHeight = document.body.clientHeight;
+	   var documentClientHeight = document.documentElement.clientHeight;
+	   var tamanhoDivModificado = null;
+	   if (((bodyClientHeight > documentClientHeight) && (scrollTop != 0))
+	      || (bodyClientHeight < (div.offsetTop + div.offsetHeight))) {
+		   if ((bodyClientHeight > documentClientHeight) && (scrollTop != 0)) {
+			   if (documentClientHeight > div.offsetHeight) {
+				   tamanhoDivModificado = ((scrollTop + (documentClientHeight / 2)) - (div.offsetHeight / 2))
 				      + "px";
 				   Element.setStyle(div, {
 					   top :tamanhoDivModificado
 				   });
 			   } else {
-				   var tamanhoDivModificado = document.documentElement.scrollTop + "px";
+				   tamanhoDivModificado = scrollTop + "px";
 				   Element.setStyle(div, {
 					   top :tamanhoDivModificado
 				   });
 			   }
 		   } else {
-			   if (document.body.clientHeight > div.offsetHeight) {
-				   var tamanhoDivModificado = ((document.body.clientHeight / 2) - (div.offsetHeight / 2))
-				      + "px";
+			   if (bodyClientHeight > div.offsetHeight) {
+				   tamanhoDivModificado = ((bodyClientHeight / 2) - (div.offsetHeight / 2)) + "px";
 				   Element.setStyle(div, {
 					   top :tamanhoDivModificado
 				   });

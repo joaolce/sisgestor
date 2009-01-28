@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.negocio;
 
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
+import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.io.Serializable;
 import java.util.List;
 
@@ -37,6 +38,14 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	public void excluir(T obj) throws NegocioException;
 
 	/**
+	 * Retorna o total de registros retornados pela consulta.
+	 * 
+	 * @param parametros dto de parâmetros
+	 * @return número total de registros da consulta
+	 */
+	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros);
+
+	/**
 	 * Recupera um objeto a partir da sua chave primária.
 	 * 
 	 * @param pk chave primária do objeto persistente
@@ -53,7 +62,7 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	public List<T> obterTodos();
 
 	/**
-	 * Salva um objeto na base de dados.
+	 * Salva (incluí) um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a salvar
 	 * @throws NegocioException caso uma regra de negócio seja violada

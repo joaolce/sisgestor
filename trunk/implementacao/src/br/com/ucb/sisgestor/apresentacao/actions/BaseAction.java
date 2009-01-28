@@ -167,7 +167,7 @@ public class BaseAction extends DispatchAction {
 		try {
 			return super.execute(mapping, actionForm, request, response);
 		} catch (NegocioException e) {
-			if (!e.getCause().equals(e)) {
+			if ((e.getCause() != null) && !e.getCause().equals(e)) {
 				this.addMessage(e.getMessage());
 			} else {
 				this.addMessageKey(e.getMessage(), e.getArgs());

@@ -24,92 +24,92 @@ var RequestUtils = Class.create();
 
 RequestUtils.prototype = {
    /**
-    * @constructor
-    */
+	 * @constructor
+	 */
    initialize : function() {
 
    },
 
    /**
-    * status da requisição se true as mensagens aparecerão em verde, false as mensagens aparecerão
-    * em vermelho
-    * 
-    * @type Boolean
-    */
+	 * status da requisição se true as mensagens aparecerão em verde, false as mensagens aparecerão
+	 * em vermelho
+	 * 
+	 * @type Boolean
+	 */
    status :false,
 
    /**
-    * de mensagens recebidas e processadas pelo Javascript
-    * 
-    * @type Array
-    */
+	 * de mensagens recebidas e processadas pelo Javascript
+	 * 
+	 * @type Array
+	 */
    mensagens :null,
 
    /**
-    * @type String url para onde usuário será mandado
-    */
+	 * @type String url para onde usuário será mandado
+	 */
    redirecionar :null,
 
    /**
-    * @type String nome do campo que será focalizado quando o usuário clicar ok na janela de
-    *       mensagens
-    */
+	 * @type String nome do campo que será focalizado quando o usuário clicar ok na janela de
+	 *       mensagens
+	 */
    focusControl :null,
    /**
-    * @type String id gerado pela inserção, atualização ou exclusão
-    */
+	 * @type String id gerado pela inserção, atualização ou exclusão
+	 */
    generatedId :null,
    /**
-    * hashmap de valores {chave e valor} devolvidos pelo servidor
-    * 
-    * @type Hash
-    */
+	 * hashmap de valores {chave e valor} devolvidos pelo servidor
+	 * 
+	 * @type Hash
+	 */
    valoresDevolvidos :null,
    /**
-    * @type String nome do nó do xml que vai retornar o status da operação
-    */
+	 * @type String nome do nó do xml que vai retornar o status da operação
+	 */
    nodeStatus :"status",
 
    /**
-    * @type String nome do nó do xml que irá conter as mensagens
-    */
+	 * @type String nome do nó do xml que irá conter as mensagens
+	 */
    nodeMessage :"message",
 
    /**
-    * @type String nome do nó do xml que irá conter a url para onde a página será redirecionada
-    */
+	 * @type String nome do nó do xml que irá conter a url para onde a página será redirecionada
+	 */
    nodeUrlForward :"urlForward",
    /**
-    * @type String id gerado do objeto, utilizado geralmente para retornar ao Javascript o id do
-    *       objeto que foi inserido, excluído ou alterado
-    */
+	 * @type String id gerado do objeto, utilizado geralmente para retornar ao Javascript o id do
+	 *       objeto que foi inserido, excluído ou alterado
+	 */
    nodeGeneratedId :"generatedId",
    /**
-    * @type String nome do nó do xml que irá conter o campo que deverá ser focalizado
-    */
+	 * @type String nome do nó do xml que irá conter o campo que deverá ser focalizado
+	 */
    focusControlNode :"focusControl",
    /**
-    * @see valoresDevolvidos
-    * @type String nome do nó do xml que irá conter os valores devolvidos pelo servidor
-    */
+	 * @see valoresDevolvidos
+	 * @type String nome do nó do xml que irá conter os valores devolvidos pelo servidor
+	 */
    valoresDevolvidosNode :"valoresDevolvidos",
    janelaAtual :null,
    /**
-    * função que será executada quando o usuário clicar ok na janela de mensagens
-    * 
-    * @type Function
-    */
+	 * função que será executada quando o usuário clicar ok na janela de mensagens
+	 * 
+	 * @type Function
+	 */
    posClickFunction :null,
    imagemFalha :"imagens/falha.png",
    imagemInformacao :"imagens/informacao.png",
    imagemSucesso :"imagens/check.png",
    imagemConfirmacao :"imagens/confirmacao.png",
    /**
-    * mostrar uma mensagem de erro quando o servidor cair ou ficar sem conexão de internet ou alguma
-    * resposta diferente de 200 for recebida
-    * 
-    * @param {XMLHttpRequest} request
-    */
+	 * mostrar uma mensagem de erro quando o servidor cair ou ficar sem conexão de internet ou alguma
+	 * resposta diferente de 200 for recebida
+	 * 
+	 * @param {XMLHttpRequest} request
+	 */
    showErrorDetail : function(request) {
 	   var codigoResposta = request.status;
 	   if ((codigoResposta == 403) || (codigoResposta == 405)) {
@@ -120,18 +120,18 @@ RequestUtils.prototype = {
 	   }
    },
    /**
-    * @type HTMLFormElement
-    */
+	 * @type HTMLFormElement
+	 */
    formSubmetido :null,
    /**
-    * fazer uma requisição assíncrona simples utilizando o método GET a uma url que deverá responder
-    * um XML para o javascript processar
-    * 
-    * @param {String} url
-    * @param {Function} posFunction função a ser executada quando a resposta for recebida (opcional)
-    * @param {Function} posClickFunction função a ser executada quando o usuário clicar ok na janela
-    *        de mensagens
-    */
+	 * fazer uma requisição assíncrona simples utilizando o método GET a uma url que deverá responder
+	 * um XML para o javascript processar
+	 * 
+	 * @param {String} url
+	 * @param {Function} posFunction função a ser executada quando a resposta for recebida (opcional)
+	 * @param {Function} posClickFunction função a ser executada quando o usuário clicar ok na janela
+	 *        de mensagens
+	 */
    simpleRequest : function(url, posFunction, posClickFunction) {
 	   var esse = this;
 	   var aj = new Ajax.Request(url, {
@@ -153,20 +153,20 @@ RequestUtils.prototype = {
 
    },
    /**
-    * enviar um formulário assíncronamente, deverá ser chamado no evento onsubmit do form
-    * 
-    * @param {HTMLFormElement} form
-    * @param {Function} posFunction função a ser executada quando a resposta for recebida (opcional)
-    * @param {Function} posClickFunction função a ser executada quando o usuário clicar ok na janela
-    *        de mensagens
-    */
+	 * enviar um formulário assíncronamente, deverá ser chamado no evento onsubmit do form
+	 * 
+	 * @param {HTMLFormElement} form
+	 * @param {Function} posFunction função a ser executada quando a resposta for recebida (opcional)
+	 * @param {Function} posClickFunction função a ser executada quando o usuário clicar ok na janela
+	 *        de mensagens
+	 */
    submitForm : function(form, posFunction, posClickFunction) {
 	   if ((form == null) || (form == undefined) || (form.nodeName == undefined)
 	      || (form.nodeName != "FORM")) {
-		   throw new Object("Não é um objeto FORM");
+		   throw new Error("Não é um objeto FORM");
 	   }
 	   if (isBlankOrNull(form.action)) {
-		   throw new Object("atributo action vazio");
+		   throw new Error("atributo action vazio");
 	   }
 
 	   var inputsControl = null;
@@ -209,10 +209,10 @@ RequestUtils.prototype = {
 	   selectControl = new HabilitaDesabilitaElementos("select");
    },
    /**
-    * processar a resposta do servidor
-    * 
-    * @param {XMLHttpRequest} request
-    */
+	 * processar a resposta do servidor
+	 * 
+	 * @param {XMLHttpRequest} request
+	 */
    processarResposta : function(request) {
 	   if ((request.status == 0) || (request.status == 403)) {
 		   this.showErrorDetail(request);
@@ -277,10 +277,10 @@ RequestUtils.prototype = {
 	   }
    },
    /**
-    * mostrar as mensagens recebidas do servidor em uma janela própria para mensagens que até 200px
-    * ela se ajustará ao tamanho e a quantidade de mensagens e a partir desse tamanho ela terá uma
-    * barra de rolagem
-    */
+	 * mostrar as mensagens recebidas do servidor em uma janela própria para mensagens que até 200px
+	 * ela se ajustará ao tamanho e a quantidade de mensagens e a partir desse tamanho ela terá uma
+	 * barra de rolagem
+	 */
    showMessages : function() {
 	   var alturaMensagens = this.mensagens.length * 16;
 	   var altura = (alturaMensagens) + 80;
@@ -376,9 +376,9 @@ RequestUtils.prototype = {
 	   }
    },
    /**
-    * fechar janela de mensagens e redirecionar o usuário para a url recebida como resposta (se
-    * houver)
-    */
+	 * fechar janela de mensagens e redirecionar o usuário para a url recebida como resposta (se
+	 * houver)
+	 */
    fecharJanela : function() {
 	   this.janelaAtual.fecharJanela();
    },
@@ -389,11 +389,11 @@ RequestUtils.prototype = {
 	   return this.focusControl
    },
    /**
-    * quando o campo de focus retornado for um campo múltiplo ele virá no formato
-    * nomeDoCampo[indice] e através do índice o componente saberá qual elemento focar
-    * 
-    * @return {Integer}
-    */
+	 * quando o campo de focus retornado for um campo múltiplo ele virá no formato
+	 * nomeDoCampo[indice] e através do índice o componente saberá qual elemento focar
+	 * 
+	 * @return {Integer}
+	 */
    getIndiceElementoFocus : function() {
 	   var foc = this.focusControl;
 	   if (foc.endsWith("]")) {
@@ -402,10 +402,10 @@ RequestUtils.prototype = {
 	   return null;
    },
    /**
-    * retorna todos os elementos que deverão ser focalizado
-    * 
-    * @return {Array} contendo os elementos de focus
-    */
+	 * retorna todos os elementos que deverão ser focalizado
+	 * 
+	 * @return {Array} contendo os elementos de focus
+	 */
    getElementosFocus : function() {
 	   var elementFocus = $(this.formSubmetido).select(
 	      "[name=\"" + this.getNomeElementoFocus() + "\"]");
@@ -427,9 +427,9 @@ RequestUtils.prototype = {
 	   return elementFocus;
    },
    /**
-    * procurar o elemento de focus na tela e ativar o destaque em cima dele
-    * 
-    */
+	 * procurar o elemento de focus na tela e ativar o destaque em cima dele
+	 * 
+	 */
    processarFocusControl : function() {
 	   var elementFocus = this.getElementosFocus();
 	   FactoryAbas.ativaAbaPorElemento(elementFocus);

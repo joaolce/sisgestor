@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.negocio.BaseBO;
+import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.io.Serializable;
 import org.hibernate.Transaction;
@@ -29,6 +30,13 @@ public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Seriali
 	 */
 	protected BaseBOImpl() {
 		//apenas para proteger no pacote
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
+		return null;
 	}
 
 	/**
