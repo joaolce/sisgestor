@@ -8,6 +8,7 @@
 </head>
 <body>
 	<form action="dologin" method="post">
+	<input type="hidden" name="opr" id="opr" value="lembrarSenha" class="botao" /> 
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td width="33%" class="fundo">&nbsp;</td>
@@ -66,8 +67,7 @@
 		</tr>
 		<tr>
 			<td colspan="2" align="center"> 
-				<input type="hidden" name="opr" id="opr" value="lembrarSenha" class="botao" /> 
-				<input type="submit" value="Enviar" class="botao" />
+				<input type="submit" value="Enviar" class="botao" onclick="document.getElementById('opr').value = 'lembrarSenha';" />
 			</td>
 		</tr>
 		<tr>
@@ -75,7 +75,7 @@
 		</tr>
 		<tr>
 			<td align="center" class="creditos" colspan="2">
-				<input type="button" value="Voltar" class="botao" onclick="history.back();"/>
+				<input type="submit" value="Voltar" class="botao" onclick="document.getElementById('opr').value = '';"/>
 			</td>
 		</tr>
 		<tr>
