@@ -95,7 +95,8 @@ dwr.util.setValue = function(ele, val, options) {
 					} else {
 						/*
 						 * aqui ocorreu a mudança, o struts gera checkbox (<html:checkbox />) com o value
-						 * contendo "on" então se o valor for igual a esse marca o checkbox da forma antiga
+						 * contendo "on" então se o valor for igual a esse marca o checkbox da forma
+						 * antiga
 						 */
 						var valorComparacao = node.value == "on" ? true : node.value;
 						node.checked = (valorComparacao == val);

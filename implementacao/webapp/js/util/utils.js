@@ -15,15 +15,15 @@ HabilitaDesabilitaElementos.prototype = {
    elementoAlvo :null,
    elementsStore :null,
    /**
-    * @constructor
-    * 
-    * @param {String} tag elemento html que deverá ser desabilitado
-    * @param {String} idelemento elemento pai, opcional, se não passado desabilitará todas as tags
-    *        especificadas do documento
-    */
+	 * @constructor
+	 * 
+	 * @param {String} tag elemento html que deverá ser desabilitado
+	 * @param {String} idelemento elemento pai, opcional, se não passado desabilitará todas as tags
+	 *        especificadas do documento
+	 */
    initialize : function(tag, idelemento) {
 	   if (! [ "input", "select", "textarea" ].include(tag)) {
-		   throw new Object("somente input, select, textarea");
+		   throw new Error("somente input, select, textarea");
 	   }
 	   if ((idelemento != undefined) && (idelemento != null)) {
 		   this.elementoAlvo = $(idelemento)
@@ -34,9 +34,9 @@ HabilitaDesabilitaElementos.prototype = {
    },
    ativo :true,
    /**
-    * troca o estado dos elementos desabilitados, utilize essa função para voltar o estado normal
-    * dos objetos desativados
-    */
+	 * troca o estado dos elementos desabilitados, utilize essa função para voltar o estado normal
+	 * dos objetos desativados
+	 */
    doEstado : function() {
 	   var selects = null;
 	   if (this.elementoAlvo != null) {
@@ -62,9 +62,9 @@ HabilitaDesabilitaElementos.prototype = {
 	   }
    },
    /**
-    * 
-    * @param {Boolean} estado
-    */
+	 * 
+	 * @param {Boolean} estado
+	 */
    setEstado : function(estado) {
 	   this.ativo = estado;
 	   this.doEstado();
@@ -77,14 +77,14 @@ HabilitaDesabilitaElementos.prototype = {
 var CheckboxFunctions = Class.create();
 CheckboxFunctions = {
    /**
-    * marca todos os checkbox onde o valor do mesmo seja igual a um dos valores do array de integer
-    * passado no argumento
-    * 
-    * @param {Array} arrayValores valores a serem marcados nos checks
-    * @param {String} checkboxName nome do checkbox a ser marcado os valores
-    * @param {String} propertyName nome da propriedade dentro dos objetos do array que será extraído
-    *        o valor a ser marcado (opcional)
-    */
+	 * marca todos os checkbox onde o valor do mesmo seja igual a um dos valores do array de integer
+	 * passado no argumento
+	 * 
+	 * @param {Array} arrayValores valores a serem marcados nos checks
+	 * @param {String} checkboxName nome do checkbox a ser marcado os valores
+	 * @param {String} propertyName nome da propriedade dentro dos objetos do array que será extraído
+	 *        o valor a ser marcado (opcional)
+	 */
    setCheckboxes : function(arrayValores, checkboxName, propertyName) {
 	   var checkboxes;
 	   if (typeof checkboxName == "string") {
@@ -116,11 +116,11 @@ CheckboxFunctions = {
 	   }
    },
    /**
-    * retornar os valores dos checkboxes que está marcados em um array
-    * 
-    * @param {String} checkboxName name do checkbox que terá seus valores coletados
-    * @return {Array}
-    */
+	 * retornar os valores dos checkboxes que está marcados em um array
+	 * 
+	 * @param {String} checkboxName name do checkbox que terá seus valores coletados
+	 * @return {Array}
+	 */
    getCheckboxesValues : function(checkboxName) {
 	   var chk = document.getElementsByName(checkboxName);
 	   var valores = new Array();
@@ -144,12 +144,12 @@ CheckboxFunctions = {
 	   return valores;
    },
    /**
-    * recuperar o objecto HTMLInputElement Checkbox da coleção de checkboxes que contenha o valor
-    * passado
-    * 
-    * @param {Object} checkbox
-    * @param {Object} valor
-    */
+	 * recuperar o objecto HTMLInputElement Checkbox da coleção de checkboxes que contenha o valor
+	 * passado
+	 * 
+	 * @param {Object} checkbox
+	 * @param {Object} valor
+	 */
    getCheckbox : function(checkbox, valor) {
 	   var chks = document.getElementsByName(checkbox);
 	   for ( var i = 0; i < chks.length; i++) {
@@ -160,10 +160,10 @@ CheckboxFunctions = {
 	   return null;
    },
    /**
-    * 
-    * @param {String} checkboxName name do checkbox
-    * @return {Integer}
-    */
+	 * 
+	 * @param {String} checkboxName name do checkbox
+	 * @return {Integer}
+	 */
    getQtdsMarcados : function(checkboxName) {
 	   var colecao = document.getElementsByName(checkboxName);
 	   var total = 0;
@@ -175,23 +175,23 @@ CheckboxFunctions = {
 	   return total;
    },
    /**
-    * Marcar todos os checkbox da coleção
-    * 
-    * @param {String} checkboxName
-    */
+	 * Marcar todos os checkbox da coleção
+	 * 
+	 * @param {String} checkboxName
+	 */
    marcarTodos : function(checkboxName) {
 	   this.marcar(true, checkboxName);
    },
    /**
-    * @param {String} checkboxName
-    */
+	 * @param {String} checkboxName
+	 */
    desmarcarTodos : function(checkboxName) {
 	   this.marcar(false, checkboxName);
    },
    /**
-    * @param {HTMLButtonElement} botaoChamador
-    * @param {String} checkboxName
-    */
+	 * @param {HTMLButtonElement} botaoChamador
+	 * @param {String} checkboxName
+	 */
    marcarBotao : function(botaoChamador, checkboxName) {
 	   if (botaoChamador.statusCheckBox == undefined) {
 		   botaoChamador.statusCheckBox = true;
@@ -200,9 +200,9 @@ CheckboxFunctions = {
 	   botaoChamador.statusCheckBox = !botaoChamador.statusCheckBox;
    },
    /**
-    * @param {Boolean} status
-    * @param {String} checkboxName
-    */
+	 * @param {Boolean} status
+	 * @param {String} checkboxName
+	 */
    marcar : function(status, checkboxName) {
 	   var colecao = document.getElementsByName(checkboxName);
 	   for ( var i = 0; i < colecao.length; i++) {
@@ -210,19 +210,19 @@ CheckboxFunctions = {
 	   }
    },
    /**
-    * criar vários checkboxes dentro de um determinado elemento (div, de preferência)
-    * 
-    * @see dwr.util.addOptions
-    * @see dwr.util.addRows
-    * 
-    * @param {String} divId id do elemento conterá os checkboxes criados
-    * @param {Array} arraydata dados que preencherão os checkboxes
-    * @param {String} value propriedade contida nos elementos do arraydata que possui o valor dos
-    *        checks
-    * @param {String} text propriedade contida nos elementos do arraydata que possui o label dos
-    *        checks
-    * @param {String} radioname nome do conjunto de checkboxes que será criado
-    */
+	 * criar vários checkboxes dentro de um determinado elemento (div, de preferência)
+	 * 
+	 * @see dwr.util.addOptions
+	 * @see dwr.util.addRows
+	 * 
+	 * @param {String} divId id do elemento conterá os checkboxes criados
+	 * @param {Array} arraydata dados que preencherão os checkboxes
+	 * @param {String} value propriedade contida nos elementos do arraydata que possui o valor dos
+	 *        checks
+	 * @param {String} text propriedade contida nos elementos do arraydata que possui o label dos
+	 *        checks
+	 * @param {String} radioname nome do conjunto de checkboxes que será criado
+	 */
    addCheckboxes : function(divId, arraydata, value, text, checkname) {
 	   var divcontainer = $(divId);
 	   // limpa o div
@@ -259,19 +259,19 @@ CheckboxFunctions = {
 var RadioFunctions = Class.create();
 RadioFunctions = {
    /**
-    * criar vários radios dentro de um determinado elemento (div, de preferência)
-    * 
-    * @see dwr.util.addOptions
-    * @see dwr.util.addRows
-    * 
-    * @param {String} divId id do elemento conterá os radios criados
-    * @param {Array} arraydata dados que preencherão os radiobuttons
-    * @param {String} value propriedade contida nos elementos do arraydata que possui o valor dos
-    *        radios
-    * @param {String} text propriedade contida nos elementos do arraydata que possui o label dos
-    *        radios
-    * @param {String} radioname nome do conjunto de radio que será criado
-    */
+	 * criar vários radios dentro de um determinado elemento (div, de preferência)
+	 * 
+	 * @see dwr.util.addOptions
+	 * @see dwr.util.addRows
+	 * 
+	 * @param {String} divId id do elemento conterá os radios criados
+	 * @param {Array} arraydata dados que preencherão os radiobuttons
+	 * @param {String} value propriedade contida nos elementos do arraydata que possui o valor dos
+	 *        radios
+	 * @param {String} text propriedade contida nos elementos do arraydata que possui o label dos
+	 *        radios
+	 * @param {String} radioname nome do conjunto de radio que será criado
+	 */
    addRadios : function(divId, arraydata, value, text, radioname) {
 	   var divcontainer = $(divId);
 	   divcontainer.innerHTML = "";
@@ -298,17 +298,17 @@ RadioFunctions = {
 	   });
    },
    /**
-    * set um valor em um RADIO deve ser utilizado no lugar do dwr.util.getValue quando o objeto
-    * passado não é o id de um objeto ou seja o seguinte código não funcionaria com o dwr.util
-    * <code>
+	 * set um valor em um RADIO deve ser utilizado no lugar do dwr.util.getValue quando o objeto
+	 * passado não é o id de um objeto ou seja o seguinte código não funcionaria com o dwr.util
+	 * <code>
     * 		dwr.util.getValue(form.radios);
     * 		dwr.util.setValue(form.radios, "valor");
     * </code>
-    * 
-    * @param {NodeList} collection de radios
-    * 
-    * @return{String}
-    */
+	 * 
+	 * @param {NodeList} collection de radios
+	 * 
+	 * @return{String}
+	 */
    getValue : function(radios) {
 	   if (typeof radios == "string") {
 		   return dwr.util.getValue(radios);
@@ -330,16 +330,16 @@ RadioFunctions = {
 	   }
    },
    /**
-    * set um valor em um RADIO deve ser utilizado no lugar do dwr.util.getValue quando o objeto
-    * passado não é o id de um objeto ou seja o seguinte código não funcionaria com o dwr.util
-    * <code>
+	 * set um valor em um RADIO deve ser utilizado no lugar do dwr.util.getValue quando o objeto
+	 * passado não é o id de um objeto ou seja o seguinte código não funcionaria com o dwr.util
+	 * <code>
     * 		dwr.util.getValue(form.radios);
     * 		dwr.util.setValue(form.radios, "valor");
     * </code>
-    * 
-    * @param {NodeList} collection de radios
-    * @param {String} valor
-    */
+	 * 
+	 * @param {NodeList} collection de radios
+	 * @param {String} valor
+	 */
    setValue : function(radios, valor) {
 	   if (typeof radios == "string") {
 		   return dwr.util.getValue(radios);
@@ -374,14 +374,14 @@ RadioFunctions = {
 var ComboFunctions = Class.create();
 ComboFunctions = {
    /**
-    * transfere um indice selecionado em um combo para outro combo o valor dos options a serem
-    * manipulados devem conter apenas números
-    * 
-    * @param {String} origem id do objeto combo que possui um índice selecionado
-    * @param {String} destino id do objeto combo destino onde o option representado pelo índice
-    *        selecionado será adicionado
-    * @param {Integer} inx indice a ser transferido da origem (opcional)
-    */
+	 * transfere um indice selecionado em um combo para outro combo o valor dos options a serem
+	 * manipulados devem conter apenas números
+	 * 
+	 * @param {String} origem id do objeto combo que possui um índice selecionado
+	 * @param {String} destino id do objeto combo destino onde o option representado pelo índice
+	 *        selecionado será adicionado
+	 * @param {Integer} inx indice a ser transferido da origem (opcional)
+	 */
    transfereOptions : function(origem, destino, inx) {
 	   var indice;
 	   if (inx == undefined) {
@@ -405,11 +405,11 @@ ComboFunctions = {
 	   this.ordenarOptions(destino);
    },
    /**
-    * Remove o indice selecionado em um combo
-    * 
-    * @param {String} origem id do objeto combo que possui um índice selecionado
-    * @param {Integer} index a ser apagado(opcional)
-    */
+	 * Remove o indice selecionado em um combo
+	 * 
+	 * @param {String} origem id do objeto combo que possui um índice selecionado
+	 * @param {Integer} index a ser apagado(opcional)
+	 */
    removeOption : function(origem, index) {
 	   var indice;
 	   if (index == undefined) {
@@ -422,30 +422,30 @@ ComboFunctions = {
 	   }
 	   $(origem).options[indice] = null;
    },
-   
+
    /**
-    * Remove a opção da combo a partir do seu valor.
-    * 
-    * @param {String} origem id do objeto combo que possui o valor selecionado
-    * @param {Integer} valor a ser apagado
-    */
+	 * Remove a opção da combo a partir do seu valor.
+	 * 
+	 * @param {String} origem id do objeto combo que possui o valor selecionado
+	 * @param {String} valor a ser apagado
+	 */
    removeOptionValue : function(origem, valor) {
 	   if (valor == undefined) {
 		   return;
 	   }
-	   for(var i = 0; i < $(origem).options.length; i++) {
-	   	if($(origem).options[i].value == valor) {
-	   	   $(origem).options[i] = null;
-	   	}
+	   for ( var i = 0; i < $(origem).options.length; i++) {
+		   if ($(origem).options[i].value == valor) {
+			   $(origem).options[i] = null;
+		   }
 	   }
 	   this.ordenarOptions(origem);
    },
-   
+
    /**
-    * seleciona todos os options de um combo
-    * 
-    * @param {String} select objeto select a ser selecionado
-    */
+	 * seleciona todos os options de um combo
+	 * 
+	 * @param {String} select objeto select a ser selecionado
+	 */
    selecionaCombo : function(select) {
 	   var oSelect = document.getElementById(select);
 	   oSelect.multiple = true;
@@ -454,10 +454,10 @@ ComboFunctions = {
 	   }
    },
    /**
-    * deseleciona um select que tenha um option selecionado (GAMBI I.E.)
-    * 
-    * @param {String} select id do select que será desselecionado
-    */
+	 * deseleciona um select que tenha um option selecionado (GAMBI I.E.)
+	 * 
+	 * @param {String} select id do select que será desselecionado
+	 */
    deselecionarCombo : function(select) {
 	   if (Prototype.Browser.IE) {
 		   var options = $(select).options;
@@ -468,17 +468,17 @@ ComboFunctions = {
 	   }
    },
    /**
-    * transferir todos ostions de um select para outro o valor dos options a serem manipulados devem
-    * ser sempre números pois não será transferido os que já estiverem no select destino (que
-    * possuirem o mesmo value)
-    * 
-    * @see dwr.util.addOptions
-    * @see dwr.util.removeAllOptions
-    * 
-    * @param {String} origem id do select de origem dos options
-    * @param {String} destino destino dos options coletados substituida no dia 13/03/2008 pois o
-    *        sistema deve selecinar e enviar so as selecionadas
-    */
+	 * transferir todos ostions de um select para outro o valor dos options a serem manipulados devem
+	 * ser sempre números pois não será transferido os que já estiverem no select destino (que
+	 * possuirem o mesmo value)
+	 * 
+	 * @see dwr.util.addOptions
+	 * @see dwr.util.removeAllOptions
+	 * 
+	 * @param {String} origem id do select de origem dos options
+	 * @param {String} destino destino dos options coletados substituida no dia 13/03/2008 pois o
+	 *        sistema deve selecinar e enviar so as selecionadas
+	 */
    transfereTodosOld : function(origem, destino) {
 	   var options = $(destino).options;
 	   var valores = new Array();
@@ -511,8 +511,8 @@ ComboFunctions = {
 
 /**
  * transferir options de um select para outro o valor dos options a serem manipulados devem ser
- * sempre números pois não será transferido os que já estiverem no select destino (que possuirem
- * o mesmo value)
+ * sempre números pois não será transferido os que já estiverem no select destino (que possuirem o
+ * mesmo value)
  * 
  * @see dwr.util.addOptions
  * 
@@ -554,8 +554,8 @@ if (Prototype.Browser.IE) {
 	dwr.util.addOptions(origem, movimentaParaOrigem, "value", "text");
 } else {
 	dwr.util.addOptions(destino, movimentaParaDestino, "value", "text");
-	// TODO: Existe um BUG no firefox versão 2.0.0.3 que as vezes o dwr.util.removeAllOptions
-	// não funciona
+	// TODO: Existe um BUG no firefox versão 2.0.0.3 que as vezes o dwr.util.removeAllOptions não
+	// funciona
 	dwr.util.removeAllOptions(origem);
 	dwr.util.addOptions(origem, movimentaParaOrigem, "value", "text");
 }
@@ -673,7 +673,7 @@ var select = $(elemento);
 var options = select.options;
 var valores = new Array();
 for ( var index = 0; index < options.length; index++) {
-	valores.push(options[index].innerHTML);
+	valores.push(new String(options[index].innerHTML).strip());
 }
 return valores;
 },
@@ -759,6 +759,22 @@ function MaskInput(id, mask) {
 	if (mask == "##/##/####") {
 		Event.observe(id, "keyup", function(event) {
 			formataData($(id));
+			// Ao pressionar a tecla TAB, o valor do campo é selecionado
+			if (event.keyCode == 9) {
+				Form.Element.activate($(id));
+			}
+		});
+
+		Event.observe(id, "keypress", function(event) {
+			// Recupera o caracter informado
+			var key = event.charCode;
+
+			var elemento = Event.element(event);
+
+			// Limpa o campo apenas se o caracter informado for número e se já estiver preenchido
+			if ((key >= 48) && (key <= 57) && ($(elemento).value.length == 10)) {
+				dwr.util.setValue($(elemento), "");
+			}
 		});
 
 		Event.observe(id, "blur", function(event) {
@@ -823,7 +839,7 @@ function limparForm(form) {
 		textareas = document.getElementsByTagName("textarea");
 	}
 	var input;
-	for (i = 0; i < inputs.length; i++) {
+	for ( var i = 0; i < inputs.length; i++) {
 		input = inputs.item(i);
 		if (input.type == "checkbox") {
 			input.checked = false;
@@ -967,10 +983,10 @@ function getStringTimestamp(data) {
 	 * outra aparece uma data com GMT-0200 ao invés do GMT brasileiro GMT-0300 (Hora Oficial do
 	 * Brasil)
 	 */
-	if (data.toString().indexOf("GMT-0200") != -1) {
-		data = new Date(data.getTime());
-		data.setHours(data.getHours() - 1);
-	}
+	/*
+	 * if(data.toString().indexOf("GMT-0200") != -1){ data = new Date(data.getTime());
+	 * data.setHours(data.getHours() -1); }
+	 */
 	return formatDate(data, "dd/MM/yyyy HH:mm");
 }
 /**
@@ -1180,6 +1196,21 @@ function limparFormatacao(dado) {
 	return dado.replace(/\D/g, "");
 }
 /**
+ * formata documento para CPF/CNPJ
+ */
+function formatarDocumento(documento) {
+	if ((documento.length != 11) && (documento.length != 14)) {
+		return "";
+	}
+	if (documento.length == 11) {
+		return documento.substr(0, 3) + '.' + documento.substr(3, 3) + '.' + documento.substr(6, 3)
+		   + '-' + documento.substr(9, 2);
+	} else {
+		return documento.substr(0, 2) + '.' + documento.substr(2, 3) + '.' + documento.substr(5, 3)
+		   + '/' + documento.substr(8, 4) + '-' + documento.substr(12, 2);
+	}
+}
+/**
  * formata data fornece a mascara conforme o valor for digitado em evento onkeyup ou press e invoca
  * uma outra funcao filtra campo para a remocao caso os caracteres especiais tenha sido digitados
  */
@@ -1210,8 +1241,8 @@ function confirmacaoSair(form) {
 		shouldCoverDisplay = false;
 		window.onbeforeunload = function() {
 			return "Deseja sair sem salvar as alterações?";
-		}
-	}
+		};
+	};
 	form.getElements().each( function(elemento) {
 		switch (elemento.nodeName.toLowerCase()) {
 			case "input":

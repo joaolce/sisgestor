@@ -15,44 +15,44 @@ ComportamentosTela.prototype = {
    tabelaTelaPrincipal :null,
 
    /**
-    * Retorna a tabela da tela inicial do caso de uso
-    * 
-    * @return{HTMLTableSectionElement}
-    */
+	 * Retorna a tabela da tela inicial do caso de uso
+	 * 
+	 * @return{HTMLTableSectionElement}
+	 */
    getTBodyTelaPrincipal : function() {
 	   return $("corpoManterDepartamento");
    },
 
    /**
-    * Recupera o form manterDepartamentoForm
-    * 
-    * @return formulário
-    */
+	 * Recupera o form manterDepartamentoForm
+	 * 
+	 * @return formulário
+	 */
    getForm : function() {
 	   return $("manterDepartamentoForm");
    },
 
    /**
-    * Retorna a linha selecionada da tabela de departamentos.
-    * 
-    * @return linha selecionada da tabela
-    */
+	 * Retorna a linha selecionada da tabela de departamentos.
+	 * 
+	 * @return linha selecionada da tabela
+	 */
    getTR : function() {
 	   return FactoryTabelas.getTabelaById(this.getTBodyTelaPrincipal()).getSelectedTR();
    },
 
    /**
-    * Recupera o id do departamento selecionado.
-    * 
-    * @return id do departamento selecionado
-    */
+	 * Recupera o id do departamento selecionado.
+	 * 
+	 * @return id do departamento selecionado
+	 */
    getIdSelecionado : function() {
 	   return this.getTR().select("input[type=\"hidden\"]")[0].value;
    },
 
    /**
-    * Preenche os campos do departamento selecionado.
-    */
+	 * Preenche os campos do departamento selecionado.
+	 */
    visualizar : function() {
 	   Element.hide("formSalvar");
 	   var idDepartamento = this.getIdSelecionado();
@@ -74,46 +74,32 @@ ComportamentosTela.prototype = {
    },
 
    /**
-    * Pesquisa os departamentos por parte do nome
-    */
+	 * Pesquisa os departamentos por parte da sigla e do nome.
+	 */
    pesquisar : function() {
 	   Effect.Fade("formSalvar");
-	   var sigla = dwr.util.getValue("siglaPesquisa");
-	   var nome = dwr.util.getValue("nomePesquisa");
+	   var dto = {
+	      sigla :dwr.util.getValue("siglaPesquisa"),
+	      nome :dwr.util.getValue("nomePesquisa")
+	   };
 
 	   if (this.tabelaTelaPrincipal == null) {
-		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabela(this.getTBodyTelaPrincipal());
-		   this.tabelaTelaPrincipal.abstractOnTrocarPagina = this.onTrocarPagina.bind(this);
+		   var chamadaRemota = ManterDepartamentoDWR.pesquisar.bind(ManterDepartamentoDWR);
+		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
+		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
+		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(9);
 	   }
-	   this.tabelaTelaPrincipal.reiniciarPaginacao();
-	   ManterDepartamentoDWR.pesquisar(sigla, nome, null, this.popularTabela.bind(this));
+	   this.tabelaTelaPrincipal.setParametros(dto);
+	   this.tabelaTelaPrincipal.executarChamadaRemota();
    },
 
    /**
-    * Evento ao trocar de página, toda vez que o usuário avançar ou retroceder a paginação essa
-    * função será invocada.
-    * 
-    * @param {Integer} novaPagina número da nova página
-    */
-   onTrocarPagina : function(novaPagina) {
-	   var sigla = dwr.util.getValue("siglaPesquisa");
-	   var nome = dwr.util.getValue("nomePesquisa");
-
-	   ManterDepartamentoDWR.pesquisar(sigla, nome, novaPagina, this.popularTabela.bind(this));
-   },
-
-   /**
-    * Popula a tabela principal com a lista de departamentos.
-    * 
-    * @param resultadoDTO resultado da pesquisa
-    */
-   popularTabela : function(resultadoDTO) {
-	   var listaDepartamento = resultadoDTO.colecaoParcial;
-	   dwr.util.removeAllRows(this.getTBodyTelaPrincipal());
-
-	   this.tabelaTelaPrincipal.toggleShowDivPaginacao(true);
-	   this.tabelaTelaPrincipal.setQtdRegistrosPagina(resultadoDTO.quantidadeRegistrosPagina);
-	   this.tabelaTelaPrincipal.setTotalRegistros(resultadoDTO.totalRegistros);
+	 * Popula a tabela principal com a lista de departamentos.
+	 * 
+	 * @param listaDepartamento lista de departamentos retornados
+	 */
+   popularTabela : function(listaDepartamento) {
+	   this.tabelaTelaPrincipal.removerResultado();
 
 	   if (listaDepartamento.length != 0) {
 		   var cellfuncs = new Array();
@@ -139,7 +125,7 @@ ComportamentosTela.prototype = {
 			   }
 			   return "";
 		   });
-		   dwr.util.addRows(this.getTBodyTelaPrincipal(), listaDepartamento, cellfuncs);
+		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
 		   this.tabelaTelaPrincipal.setOnClick(this.visualizar.bind(this));
 	   } else {
 		   this.tabelaTelaPrincipal.semRegistros("Não foram encontrados departamentos.");
@@ -147,32 +133,33 @@ ComportamentosTela.prototype = {
    },
 
    /**
-    * Envia ao action a ação de atualizar os dados do departamento selecionado.
-    * 
-    * @param form formulário submetido
-    */
+	 * Envia ao action a ação de atualizar os dados do departamento selecionado.
+	 * 
+	 * @param form formulário submetido
+	 */
    atualizar : function(form) {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o departamento selecionado?", ( function() {
 		   requestUtils.submitForm(form, ( function() {
 			   if (requestUtils.status) {
-			   	this.atualizarDepartamentosSuperior();
-			   	this.pesquisar();
+				   this.atualizarDepartamentosSuperior();
+				   this.pesquisar();
 			   }
 		   }).bind(this));
 	   }).bind(this));
    },
 
    /**
-    * Envia ao action a ação de excluir o departamento selecionado.
-    * 
-    * @param form formulário submetido
-    */
+	 * Envia ao action a ação de excluir o departamento selecionado.
+	 * 
+	 * @param form formulário submetido
+	 */
    excluir : function() {
 	   JanelasComuns.showConfirmDialog("Deseja excluir o departamento selecionado?", ( function() {
 		   var idDepartamento = dwr.util.getValue($("formSalvar").id);
-		   requestUtils.simpleRequest("manterDepartamento.do?method=excluir&id=" + idDepartamento, ( function() {
+		   requestUtils.simpleRequest("manterDepartamento.do?method=excluir&id=" + idDepartamento,
+		      ( function() {
 			      if (requestUtils.status) {
-			      	this.atualizarDepartamentosSuperior();
+				      this.atualizarDepartamentosSuperior();
 				      this.pesquisar();
 			      }
 		      }).bind(this));
@@ -180,10 +167,10 @@ ComportamentosTela.prototype = {
    },
 
    /**
-    * Envia ao action a ação de salvar os dados do novo departamento.
-    * 
-    * @param form formulário submetido
-    */
+	 * Envia ao action a ação de salvar os dados do novo departamento.
+	 * 
+	 * @param form formulário submetido
+	 */
    salvar : function(form) {
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
@@ -195,21 +182,21 @@ ComportamentosTela.prototype = {
    },
 
    /**
-    * Abre a janela para novo departamento.
-    */
+	 * Abre a janela para novo departamento.
+	 */
    popupNovoDepartamento : function() {
 	   var url = "manterDepartamento.do?method=popupNovoDepartamento";
 	   createWindow(270, 430, 280, 70, "Novo Departamento", "divNovoDepartamento", url);
    },
-   
+
    /**
-    * Atualiza os departamentos na combo de departamento superior.
-    */
+	 * Atualiza os departamentos na combo de departamento superior.
+	 */
    atualizarDepartamentosSuperior : function() {
-   	dwr.util.removeAllOptions("departamentoSuperior");
-	   ManterDepartamentoDWR.obterTodos((function(departamentos){
-	   	dwr.util.addOptions("departamentoSuperior", [" "]);
-	   	dwr.util.addOptions("departamentoSuperior", departamentos, "id", "sigla");
+	   dwr.util.removeAllOptions("departamentoSuperior");
+	   ManterDepartamentoDWR.obterTodos(( function(departamentos) {
+		   dwr.util.addOptions("departamentoSuperior", [ " " ]);
+		   dwr.util.addOptions("departamentoSuperior", departamentos, "id", "sigla");
 	   }));
    }
 };

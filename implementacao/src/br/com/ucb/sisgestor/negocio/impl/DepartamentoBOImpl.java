@@ -9,6 +9,8 @@ import br.com.ucb.sisgestor.negocio.DepartamentoBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.DepartamentoDAO;
 import br.com.ucb.sisgestor.persistencia.impl.DepartamentoDAOImpl;
+import br.com.ucb.sisgestor.util.dto.PesquisaDepartamentoDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.util.List;
 import org.hibernate.Transaction;
@@ -80,8 +82,10 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	/**
 	 * {@inheritDoc}
 	 */
-	public Integer getTotalRegistros(String sigla, String nome) {
-		return this.dao.getTotalRegistros(sigla, nome);
+	@Override
+	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
+		PesquisaDepartamentoDTO dto = (PesquisaDepartamentoDTO) parametros;
+		return this.dao.getTotalRegistros(dto.getSigla(), dto.getNome());
 	}
 
 	/**

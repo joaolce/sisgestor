@@ -4,9 +4,8 @@
  * Wrapper de tabelas
  * 
  * Adiciona a todas as linhas de uma tabelas eventos como onclick ou ondblclick além fornecer
- * informações como a referência da linha selecionada (TR) ou o índice da linha selecionada
- * 
- * @author deinf.sdantas
+ * informações como a referência da linha selecionada (TR) ou o índice da linha selecionada Realiza
+ * a paginação dos resultados na tabela
  * 
  * Exemplo:
  * 
@@ -23,7 +22,7 @@
  * 
  * <code>
  * 		//javascript
- * 		var tabela = FactoryTabelas.getNewTabela("corpoTabelaClicavel");
+ * 		var tabela = FactoryTabelas.getNewTabela("tabelaTeste");
  * 		tabela.setOnDblClick(function(){
  * 			alert("clicou duas vezes");
  * 		});
@@ -37,106 +36,109 @@
 var Tabela = Class.create();
 Tabela.prototype = {
    /**
-    * estilo que deverá ser aplicado a tabela
-    * 
-    * @type String
-    */
+	 * estilo que deverá ser aplicado a tabela
+	 * 
+	 * @type String
+	 */
    _className :"corpoTabelaClicavel",
    /**
-    * id e estilo da linha selecionada
-    * 
-    * @type String
-    */
+	 * id de estilo da linha selecionada
+	 * 
+	 * @type String
+	 */
    _linhaSelecionada :"linhaSelecionada",
    /**
-    * linha selecionada
-    * 
-    * @type HTMLTableRowElement
-    */
+	 * linha selecionada
+	 * 
+	 * @type HTMLTableRowElement
+	 */
    _trSelecionada :null,
    /**
-    * tabela onde o wrapper está aplicado
-    * 
-    * @type HTMLTableSectionElement _tabela
-    */
+	 * tabela onde o wrapper está aplicado
+	 * 
+	 * @type HTMLTableSectionElement
+	 */
    _tabela :null,
    /**
-    * indica se a tabela é selecionável ou não (selecionável no sentido de clicar segurar o mouse e
-    * selecionar o texto da tabela) o que não é útil quando a intenção da tabela é apenas clicar em
-    * uma linha para selecionar o registro
-    * 
-    * @type Boolean
-    */
+	 * indica se a tabela é selecionável ou não (selecionável no sentido de clicar segurar o mouse e
+	 * selecionar o texto da tabela) o que não é útil quando a intenção da tabela é apenas clicar em
+	 * uma linha para selecionar o registro
+	 * 
+	 * @type Boolean
+	 */
    selecionavel :false,
    /**
-    * Total de registros retornados pela consulta
-    * 
-    * @type Integer
-    */
+	 * Total de registros retornados pela consulta
+	 * 
+	 * @type Integer
+	 */
    totalRegistros :null,
    /**
-    * Total de páginas
-    * 
-    * @type Integer
-    */
+	 * Total de páginas
+	 * 
+	 * @type Integer
+	 */
    totalPaginas :null,
    /**
-    * Quantidade de registros a serem exibidos por página
-    * 
-    * @type Integer
-    */
+	 * Quantidade de registros a serem exibidos por página
+	 * 
+	 * @type Integer
+	 */
    qtdRegistrosPagina :18,
    /**
-    * Máximo de páginas a serem apresentadas para paginação
-    * 
-    * @type Integer
-    */
+	 * Máximo de páginas a serem apresentadas para paginação
+	 * 
+	 * @type Integer
+	 */
    qtdPaginasExibidas :20,
    /**
-    * página atual
-    * 
-    * @type Integer
-    */
+	 * página atual
+	 * 
+	 * @type Integer
+	 */
    paginaAtual :0,
    /**
-    * Div que contém a paginação
-    * 
-    * @type HTMLDivElement
-    */
+	 * Div que contém a paginação
+	 * 
+	 * @type HTMLDivElement
+	 */
    divPaginacao :null,
    /**
-    * Indicar se os cliques deverão ser processados ou não
-    * 
-    * @type Boolean
-    */
+	 * Indicar se os cliques deverão ser processados ou não
+	 * 
+	 * @type Boolean
+	 */
    desativado :false,
    /**
-    * Cria o wrapper na tabela especificada pelo id
-    * 
-    * @constructor
-    * @param {String} idTabela
-    * @param {String} className
-    */
+	 * Cria o wrapper na tabela especificada pelo id
+	 * 
+	 * @constructor
+	 * @param {String} idTabela
+	 * @param {String} className
+	 */
    initialize : function(idTabela, className) {
 	   if (className != undefined) {
 		   this._className = className;
 	   }
 	   this._tabela = $(idTabela);
+	   if (this._tabela == null) {
+		   throw new Error(" o corpo da tabela passado não pode ser nulo ");
+	   }
 	   if ((this._className != null) && !this._className.blank()) {
 		   this._tabela.className = this._className;
 	   }
    },
    /**
-    * aplica os manipuladores de evento na tabela
-    */
+	 * aplica os manipuladores de evento na tabela
+	 */
    configurar : function() {
 	   this.aplicarEventos(this._tabela);
    },
    /**
-    * aplica o evento na tabela e em seus filhos
-    * 
-    * @param {HTMLElement}
-    */
+	 * aplica o evento na tabela e em seus filhos
+	 * 
+	 * @param {HTMLElement}
+	 */
    aplicarEventos : function(elemento) {
 	   Element.cleanWhitespace(elemento);
 	   for ( var index = 0; index < elemento.childNodes.length; index++) {
@@ -163,18 +165,26 @@ Tabela.prototype = {
 	   }
    },
    /**
-    * retorna a referência da linha selecionada
-    * 
-    * @return {HTMLTableRowElement}
-    */
+	 * retorna a referência da linha selecionada
+	 * 
+	 * @return {HTMLTableRowElement}
+	 */
    getSelectedTR : function() {
 	   return this._trSelecionada;
    },
    /**
-    * sobe até chegar no nó da tr a partir do elemento que causou o evento
-    * 
-    * @param {Event} event
-    */
+	 * Retornar todas as linhas da tabela
+	 * 
+	 * @return
+	 */
+   getAllTR : function() {
+	   return this._tabela.childElements();
+   },
+   /**
+	 * sobe até chegar no nó da tr a partir do elemento que causou o evento
+	 * 
+	 * @param {Event} event
+	 */
    _selecionarLinha : function(event) {
 	   // recupera o elemento que causou o evento
 	   var tr = Event.element(event);
@@ -185,11 +195,11 @@ Tabela.prototype = {
 	   this._seleciona(tr);
    },
    /**
-    * cria ou retorna o botão voltar
-    * 
-    * @return o botão de voltar
-    * @type HTMLSpanElement
-    */
+	 * cria ou retorna o botão voltar
+	 * 
+	 * @return o botão de voltar
+	 * @type HTMLSpanElement
+	 */
    _getRewindButton : function() {
 	   var resultado = this.divPaginacao.select("a[id=\"voltarPagina\"]");
 	   var botao = null;
@@ -220,11 +230,11 @@ Tabela.prototype = {
 	   return $(botao.parentNode);
    },
    /**
-    * cria ou retorna o botão avançar
-    * 
-    * @return o botão de avançar
-    * @type HTMLSpanElement
-    */
+	 * cria ou retorna o botão avançar
+	 * 
+	 * @return o botão de avançar
+	 * @type HTMLSpanElement
+	 */
    _getForwardButton : function() {
 	   var resultado = this.divPaginacao.select("a[id=\"avancarPagina\"]");
 	   var botao = null;
@@ -249,10 +259,10 @@ Tabela.prototype = {
 	   return $(botao.parentNode);
    },
    /**
-    * esconder ou mostrar o botão de voltar
-    * 
-    * @param {Boolean} exibe
-    */
+	 * esconder ou mostrar o botão de voltar
+	 * 
+	 * @param {Boolean} exibe
+	 */
    toggleRewindButton : function(exibe) {
 	   if (exibe) {
 		   this._getRewindButton().style.visibility = "";
@@ -261,10 +271,10 @@ Tabela.prototype = {
 	   }
    },
    /**
-    * mostrar ou esconder o botão de avançar
-    * 
-    * @param {Boolean} exibe
-    */
+	 * mostrar ou esconder o botão de avançar
+	 * 
+	 * @param {Boolean} exibe
+	 */
    toggleForwardButton : function(exibe) {
 	   if (exibe) {
 		   this._getForwardButton().style.visibility = "";
@@ -273,34 +283,45 @@ Tabela.prototype = {
 	   }
    },
    /**
-    * @return div que contém a paginação
-    * @type HTMLDivElement
-    */
+	 * @return div que contém a paginação
+	 * @type HTMLDivElement
+	 */
    getDivPaginacao : function() {
 	   return this.divPaginacao;
    },
    /**
-    * mostra ou não o div de paginação
-    * 
-    * @param {Boolean} exibe
-    */
+	 * mostra ou não o div de paginação Serve para evitar que o usuário clique duas vezes na página
+	 * antes do resultado voltar do servidor.
+	 * 
+	 * Evita que ele fique clicando e sobrecarregando o servidor
+	 * 
+	 * @param {Boolean} exibe
+	 */
    toggleShowDivPaginacao : function(exibe) {
 	   this.desativado = !exibe;
    },
    /**
-    * setar quantidade de registros por página (um valor padrão já está setado)
-    * 
-    * @see qtdRegistrosPagina
-    * @param {Integer} novoValor
-    */
+	 * setar quantidade de registros por página (um valor padrão já está setado)
+	 * 
+	 * @see qtdRegistrosPagina
+	 * @param {Integer} novoValor
+	 */
    setQtdRegistrosPagina : function(novoValor) {
 	   this.qtdRegistrosPagina = novoValor;
    },
    /**
-    * Total de registros retornados pela consulta
-    * 
-    * @param {Integer} totalRegistros
-    */
+	 * retornar o total de registros retornados pela consulta
+	 * 
+	 * @return
+	 */
+   getTotalRegistros : function() {
+	   return this.totalRegistros;
+   },
+   /**
+	 * Total de registros retornados pela consulta
+	 * 
+	 * @param {Integer} totalRegistros
+	 */
    setTotalRegistros : function(totalRegistros) {
 	   this.totalRegistros = totalRegistros;
 	   if (this.divPaginacao == null) {
@@ -370,61 +391,177 @@ Tabela.prototype = {
 	   }
    },
    /**
-    * @return true se primeira false se não
-    * @type Boolean
-    */
+	 * @return true se primeira false se não
+	 * @type Boolean
+	 */
    isPrimeiraPagina : function() {
 	   return this.paginaAtual == 0;
    },
    /**
-    * @return true se última false se não
-    * @type Boolean
-    */
+	 * @return true se última false se não
+	 * @type Boolean
+	 */
    isUltimaPagina : function() {
 	   return this.paginaAtual + 1 == this.totalPaginas;
    },
+   /**
+	 * Será invocada quando o usuário clicar em uma página
+	 * 
+	 * @return
+	 */
    trocouPagina : function() {
 	   this.setTotalRegistros(this.totalRegistros);
-	   this.abstractOnTrocarPagina(this.paginaAtual);
+	   this.onTrocarPagina(this.paginaAtual);
    },
    /**
-    * Toda vez que o usuário clicar para trocar de página essa função será invocada
-    * 
-    * @param {Integer} novaPagina
-    */
-   abstractOnTrocarPagina : function(novaPagina) {
-   // overhide me
+	 * Função de callback a ser executada quando a resposta voltar do servidor
+	 * 
+	 * @type Function
+	 */
+   callBack :null,
+   /**
+	 * Setar função de callback. Função a ser invocada quando a resposta voltar do servidor
+	 * 
+	 * @param {Function} callback
+	 * @return
+	 */
+   setCallBack : function(callback) {
+	   this.callBack = callback;
    },
    /**
-    * @return a página atual
-    * @type Integer
-    */
+	 * Coleção de registros retornado pela consulta
+	 * 
+	 * @type Array
+	 */
+   colecaoParcial :null,
+   /**
+	 * Setar a coleção
+	 * 
+	 * @param {Array} colecaoParcial
+	 * @return
+	 */
+   setColecaoParcial : function(colecaoParcial) {
+	   this.colecaoParcial = colecaoParcial;
+   },
+   /**
+	 * Quando a resposta voltar do servidor esse método será invocado O objeto retornado deverá ser
+	 * uma instância do ListaResultadoDTO Que conterá o total de registros retornados pela consulta e
+	 * a coleção parcial contendo os resultados
+	 * 
+	 * @param {Object} listaResultadoDTO
+	 * @return
+	 */
+   retornoDeChamada : function(listaResultadoDTO) {
+	   this.setTotalRegistros(listaResultadoDTO.totalRegistros);
+	   this.colecaoParcial = listaResultadoDTO.colecaoParcial;
+	   this.callBack(listaResultadoDTO.colecaoParcial);
+	   this.toggleShowDivPaginacao(true);
+   },
+   /**
+	 * Adicionar o resultado recebido à tabela
+	 * 
+	 * @param {Array} cellfuncs
+	 * @return
+	 */
+   adicionarResultadoTabela : function(cellfuncs) {
+	   var colecao = $A(arguments)[1];
+	   if (colecao != undefined) {
+		   this.colecaoParcial = colecao;
+	   }
+	   dwr.util.addRows(this._tabela, this.colecaoParcial, cellfuncs);
+   },
+   /**
+	 * Remover as linhas da tabela
+	 * 
+	 * @return
+	 */
+   removerResultado : function() {
+	   dwr.util.removeAllRows(this._tabela);
+   },
+   /**
+	 * Chamada remota que acionará o DWR
+	 * 
+	 * @type Function
+	 */
+   chamadaRemota :null,
+   /**
+	 * Setar a chamada remota a ser acionada. o objeto deve ser passado atrelado ao escopo assim como
+	 * segue o exemplo <code>
+    * ManterInstituicao.getInstituicoesFinanceirasBySegmento.bind(ManterInstituicao)
+    * </code>
+	 * 
+	 * @param chamadaRemota
+	 * @return
+	 */
+   setRemoteCall : function(chamadaRemota) {
+	   this.chamadaRemota = chamadaRemota;
+   },
+   /**
+	 * Parâmetros a serem passados ao DWR
+	 * 
+	 * @type Object
+	 */
+   parametros :null,
+   /**
+	 * os parâmetros poderão ser um objeto qualquer, mas precisam ter a propriedade "paginaAtual" (no
+	 * Java claro). No java deverá ser tratado a página atual para fazer a paginação.
+	 * 
+	 * @param {Object} parametros
+	 * @return
+	 */
+   setParametros : function(parametros) {
+	   this.parametros = parametros;
+	   this.reiniciarPaginacao();
+   },
+   /**
+	 * Executar a chamada remota com os parâmetros setados
+	 * 
+	 * @return
+	 */
+   executarChamadaRemota : function() {
+	   this.chamadaRemota(this.parametros, this.retornoDeChamada.bind(this));
+   },
+   /**
+	 * Toda vez que o usuário clicar para trocar de página essa função será invocada
+	 * 
+	 * @param {Integer} novaPagina
+	 */
+   onTrocarPagina : function(novaPagina) {
+	   this.parametros.paginaAtual = novaPagina;
+	   this.toggleShowDivPaginacao(false);
+	   this.chamadaRemota(this.parametros, this.retornoDeChamada.bind(this));
+   },
+   /**
+	 * @return a página atual
+	 * @type Integer
+	 */
    getPaginaAtual : function() {
 	   return this.paginaAtual;
    },
    /**
-    * ir para a primeira página
-    */
+	 * ir para a primeira página
+	 */
    primeiraPagina : function() {
 	   this.gotoPage(0);
    },
    /**
-    * reiniciar paginação
-    */
+	 * reiniciar paginação
+	 */
    reiniciarPaginacao : function() {
 	   this.paginaAtual = 0;
+	   this.setTotalRegistros(0);
    },
    /**
-    * ir para última página
-    */
+	 * ir para última página
+	 */
    ultimaPagina : function() {
 	   this.gotoPage(this.totalPaginas - 1);
    },
    /**
-    * ir para a página especificada
-    * 
-    * @param {Integer} novaPagina
-    */
+	 * ir para a página especificada
+	 * 
+	 * @param {Integer} novaPagina
+	 */
    gotoPage : function(novaPagina) {
 	   if (!this.desativado) {
 		   this.paginaAtual = novaPagina;
@@ -432,8 +569,8 @@ Tabela.prototype = {
 	   }
    },
    /**
-    * retroceder resultados
-    */
+	 * retroceder resultados
+	 */
    rewindResults : function() {
 	   if (!this.desativado) {
 		   this.toggleRewindButton(!this.isUltimaPagina());
@@ -444,8 +581,8 @@ Tabela.prototype = {
 	   }
    },
    /**
-    * avançar resultados
-    */
+	 * avançar resultados
+	 */
    forwardResults : function() {
 	   if (!this.desativado) {
 		   this.toggleForwardButton(!this.isPrimeiraPagina());
@@ -456,8 +593,10 @@ Tabela.prototype = {
 	   }
    },
    /**
-    * @param {HTMLTableRowElement} tr
-    */
+	 * Coloca a linha da tabela em uma cor diferente para indicar que a mesma está selecionada
+	 * 
+	 * @param {HTMLTableRowElement} tr
+	 */
    selecionarTR : function(tr) {
 	   if (this._trSelecionada == null) {
 		   this._trSelecionada = tr;
@@ -468,58 +607,58 @@ Tabela.prototype = {
 	   this._trSelecionada.id = this._linhaSelecionada;
    },
    /**
-    * seleciona a tr passada, destacando com outro estilo
-    * 
-    * @param {HTMLTableRowElement} tr
-    */
+	 * seleciona a tr passada, destacando com outro estilo e invocando o evento de click
+	 * 
+	 * @param {HTMLTableRowElement} tr
+	 */
    _seleciona : function(tr) {
 	   this.selecionarTR(tr);
-	   if ((this.onClick != null) && (typeof this.onClick == "function")) {
+	   if ((this.onClick != null) && this.onClick instanceof Function) {
 		   this.onClick(tr);
 	   }
    },
    /**
-    * função a ser chamada ao clicar uma vez em uma linha
-    * 
-    * @param {HTMLTableRowElement} tr
-    */
+	 * função a ser chamada ao clicar uma vez em uma linha
+	 * 
+	 * @param {HTMLTableRowElement} tr
+	 */
    onClick : function(tr) {},
    /**
-    * função a ser chamada ao clicar duas vezes em uma linha
-    * 
-    * @param {HTMLTableRowElement} tr
-    */
+	 * função a ser chamada ao clicar duas vezes em uma linha
+	 * 
+	 * @param {HTMLTableRowElement} tr
+	 */
    onDblClick : function(tr) {},
    /**
-    * seta uma função para ser chamada quando uma linha da tabela for clicada uma vez
-    * 
-    * @param {Function}clickFunction
-    */
+	 * seta uma função para ser chamada quando uma linha da tabela for clicada uma vez
+	 * 
+	 * @param {Function}clickFunction
+	 */
    setOnClick : function(clickFunction) {
 	   this.onClick = clickFunction;
 	   this.configurar();
    },
    /**
-    * seta uma função para ser chamada ao clicar duas vezes em uma linha da tabela
-    * 
-    * @param {Function} dblClickFunction
-    */
+	 * seta uma função para ser chamada ao clicar duas vezes em uma linha da tabela
+	 * 
+	 * @param {Function} dblClickFunction
+	 */
    setOnDblClick : function(dblClickFunction) {
 	   this.onDblClick = dblClickFunction;
 	   this.configurar();
    },
    /**
-    * seleciona o índice passado
-    * 
-    * @param {Integer} indice da linha a ser selecioando
-    */
+	 * seleciona o índice passado
+	 * 
+	 * @param {Integer} indice da linha a ser selecioando
+	 */
    setSelecionado : function(indice) {
 	   var tr = this._tabela.childNodes.item(indice);
 	   this._seleciona(tr);
    },
    /**
-    * deselecionar a linha selecionada (se houver)
-    */
+	 * deselecionar a linha selecionada (se houver)
+	 */
    selecionarNenhum : function() {
 	   if (this._trSelecionada != null) {
 		   this._trSelecionada.id = "";
@@ -527,10 +666,10 @@ Tabela.prototype = {
 	   }
    },
    /**
-    * colocar uma linha de registro não encontrado em uma tabela
-    * 
-    * @param {String} mensagem
-    */
+	 * Colocar uma mensagem dentro da tabela
+	 * 
+	 * @param {String} mensagem
+	 */
    semRegistros : function(mensagem) {
 	   var colunas = this._tabela.parentNode.getElementsByTagName("th").length;
 	   var trVazia = Builder.node("tr", null, [ Builder.node("td", {
@@ -546,46 +685,77 @@ Tabela.prototype = {
 		   }).bind(this);
 		   window.setTimeout(fix, 0);
 	   }
+	   this.reiniciarPaginacao();
    },
    /**
-    * Desabilitar a seleção de um texto da tabela, não permite que o usuário selecione um texto da
-    * tabela, usado internamente
-    * 
-    * @see Tabela.selecionavel
-    * @param {Event} e
-    * @return {Boolean}
-    */
+	 * Desabilitar a seleção de um texto da tabela, não permite que o usuário selecione um texto da
+	 * tabela, usado internamente
+	 * 
+	 * @see Tabela.selecionavel
+	 * @param {Event} e
+	 * @return {Boolean}
+	 */
    _enable : function(e) {
-	   var e = e ? e : window.event;
-
+	   e = e ? e : window.event;
+	   var targer = null;
 	   if (e.button != 1) {
 		   if (e.target) {
-			   var targer = e.target;
+			   targer = e.target;
 		   } else if (e.srcElement) {
-			   var targer = e.srcElement;
+			   targer = e.srcElement;
 		   }
-
 		   return false;
 	   }
+	   return true;
    },
    /**
-    * habilitar a seleção do elemento usada internamente para não permitir que o usuário selecione
-    * um texto da tabela
-    * 
-    * @return{Boolean}
-    */
+	 * habilitar a seleção do elemento usada internamente para não permitir que o usuário selecione
+	 * um texto da tabela
+	 * 
+	 * @return {Boolean}
+	 */
    _disable : function() {
 	   return true;
    }
-
-
 };
 
 var FactoryTabelas = Class.create();
 FactoryTabelas = {
    tabelas :new Hash(),
+   /**
+	 * Criar uma nova tabela
+	 * 
+	 * @param {String} idTabela id da tabela a ser criado o wrapper
+	 * @param {String} className estilo a ser aplicado na tabela
+	 */
    getNewTabela : function(idTabela, className) {
 	   var tabela = new Tabela(idTabela, className);
+	   this.tabelas.set(idTabela, tabela);
+	   return tabela;
+   },
+   /**
+	 * Cria uma nova tabela com paginação a chamada remota deve ser passada atrelada ao escopo como
+	 * segue o exemplo abaixo:
+	 * 
+	 * <code>
+    * ManterUsuarioDWR.pesquisar.bind(ManterUsuarioDWR)
+    * </code>
+	 * 
+	 * os parâmetros poderá ser qualquer objeto, mas o objeto a ser tratado no java deverá conter a
+	 * propriedade "paginaAtual" do tipo Integer para o DWR converter a propriedade passada pelo
+	 * tabelas
+	 * 
+	 * @param {String} idTabela
+	 * @param {Function} chamadaRemota
+	 * @param {Function} callback
+	 * @param {Object} parametros
+	 */
+   getNewTabelaPaginada : function(idTabela, chamadaRemota, callback) {
+	   var tabela = new Tabela(idTabela);
+
+	   tabela.setRemoteCall(chamadaRemota);
+	   tabela.setCallBack(callback);
+
 	   this.tabelas.set(idTabela, tabela);
 	   return tabela;
    },

@@ -18,7 +18,6 @@ public class ListaResultadoDTO<T extends ObjetoPersistente> extends BaseDTO {
 
 	private Integer	totalRegistros;
 	private List<T>	colecaoParcial;
-	private Integer	quantidadeRegistrosPagina;
 
 	/**
 	 * Recupera a coleção de registros da página atual.
@@ -27,15 +26,6 @@ public class ListaResultadoDTO<T extends ObjetoPersistente> extends BaseDTO {
 	 */
 	public List<T> getColecaoParcial() {
 		return this.colecaoParcial;
-	}
-
-	/**
-	 * Recupera a quantidade de registros por página.
-	 * 
-	 * @return quantidade de registros por página
-	 */
-	public Integer getQuantidadeRegistrosPagina() {
-		return this.quantidadeRegistrosPagina;
 	}
 
 	/**
@@ -55,17 +45,6 @@ public class ListaResultadoDTO<T extends ObjetoPersistente> extends BaseDTO {
 	public void setColecaoParcial(List<T> colecaoParcial) {
 		this.colecaoParcial = colecaoParcial;
 	}
-
-
-	/**
-	 * Atribui a quantidade de registros por página.
-	 * 
-	 * @param quantidadeRegistrosPagina quantidade de registros por página
-	 */
-	public void setQuantidadeRegistrosPagina(Integer quantidadeRegistrosPagina) {
-		this.quantidadeRegistrosPagina = quantidadeRegistrosPagina;
-	}
-
 
 	/**
 	 * Atribui o total de registros da consulta

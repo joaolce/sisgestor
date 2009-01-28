@@ -9,9 +9,8 @@ import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.impl.PermissaoBOImpl;
 import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
-import br.com.ucb.sisgestor.persistencia.BaseDAO;
-import br.com.ucb.sisgestor.util.constantes.DadosContexto;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaUsuarioDTO;
 import java.util.List;
 import org.hibernate.Hibernate;
 
@@ -54,32 +53,21 @@ public class ManterUsuarioDWR extends BaseDWR {
 	/**
 	 * Pesquisa os usuários com os parâmetros preenchidos.
 	 * 
-	 * @param login parte do login do usuário
-	 * @param nome parte do nome do usuário
-	 * @param departamento departamento do usuário
-	 * @param paginaAtual página atual da pesquisa
+	 * @param parametros parâmetros da pesquisa
 	 * @return {@link List} de {@link Usuario}
 	 */
-	public ListaResultadoDTO<Usuario> pesquisar(String login, String nome, Integer departamento,
-			Integer paginaAtual) {
-		List<Usuario> listaUsuarios =
-				usuarioBO.getByLoginNomeDepartamento(login, nome, departamento, paginaAtual);
+	public ListaResultadoDTO<Usuario> pesquisar(PesquisaUsuarioDTO parametros) {
+		String login = parametros.getLogin();
+		String nome = parametros.getNome();
+		Integer departamento = parametros.getDepartamento();
+		Integer paginaAtual = parametros.getPaginaAtual();
 
-		ListaResultadoDTO<Usuario> dto = new ListaResultadoDTO<Usuario>();
+		List<Usuario> lista = usuarioBO.getByLoginNomeDepartamento(login, nome, departamento, paginaAtual);
 
-		dto.setColecaoParcial(listaUsuarios);
+		ListaResultadoDTO<Usuario> resultado = new ListaResultadoDTO<Usuario>();
+		resultado.setColecaoParcial(lista);
 
-		//Busca o total de registros
-		if ((paginaAtual == null) && !listaUsuarios.isEmpty()) {
-			Integer total = usuarioBO.getTotalRegistros(login, nome, departamento);
-			this.setSessionAttribute(DadosContexto.TOTAL_PESQUISA, total);
-			this.setSessionAttribute(DadosContexto.TAMANHO_PAGINA, BaseDAO.MAXIMO_RESULTADOS);
-			dto.setTotalRegistros(total);
-			dto.setQuantidadeRegistrosPagina(BaseDAO.MAXIMO_RESULTADOS);
-		} else {
-			dto.setTotalRegistros((Integer) this.getSessionAttribute(DadosContexto.TOTAL_PESQUISA));
-			dto.setQuantidadeRegistrosPagina((Integer) this.getSessionAttribute(DadosContexto.TAMANHO_PAGINA));
-		}
-		return dto;
+		this.setTotalPesquisa(parametros, resultado, usuarioBO);
+		return resultado;
 	}
 }

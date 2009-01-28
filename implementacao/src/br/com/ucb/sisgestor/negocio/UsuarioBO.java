@@ -38,16 +38,6 @@ public interface UsuarioBO extends BaseBO<Usuario, Integer> {
 			Integer paginaAtual);
 
 	/**
-	 * Recupera o total de registros retornados pela consulta.
-	 * 
-	 * @param login parte do login do usuário
-	 * @param nome parte do nome do usuário
-	 * @param departamento identificador do departamento do usuário
-	 * @return total de registros
-	 */
-	public Integer getTotalRegistros(String login, String nome, Integer departamento);
-
-	/**
 	 * Recupera um usuário a partir do seu login.
 	 * 
 	 * @param login login do usuário

@@ -35,14 +35,14 @@ var definicoesJanela = {
 var LoadingControl = Class.create();
 LoadingControl.prototype = {
    /**
-    * @constructor
-    */
+	 * @constructor
+	 */
    initialize : function() {},
    controle :0,
    /**
-    * 
-    * @return {HTMLDivElement}
-    */
+	 * 
+	 * @return {HTMLDivElement}
+	 */
    getLoading : function() {
 	   var corpo = Builder.node("div", {
 		   id :definicoesJanela.idLoading
@@ -76,8 +76,8 @@ LoadingControl.prototype = {
 	   return corpo;
    },
    /**
-    * exibir a imagem de loading
-    */
+	 * exibir a imagem de loading
+	 */
    showLoading : function() {
 	   this.controle++;
 
@@ -120,8 +120,8 @@ LoadingControl.prototype = {
 	   $(Configuracao.DivPrincipal).appendChild(corpo);
    },
    /**
-    * esconder a imagem de loading
-    */
+	 * esconder a imagem de loading
+	 */
    hideLoading : function() {
 	   this.controle--;
 	   if (this.isNotRequesting()) {
