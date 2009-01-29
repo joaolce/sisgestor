@@ -43,7 +43,6 @@
 	</noscript>
 	<div id="principal" style="display: none;">
 		<tiles:insert attribute="corpo" />
-		<tiles:insert attribute="rodape" />
 		
 		<%-- exibir mensagens de erro geradas --%>
 		<logic:empty name="messageStatus" >
