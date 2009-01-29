@@ -59,11 +59,16 @@ public class ManterUsuarioAction extends BaseAction {
 		}
 		usuarioBO.atualizar(usuario);
 
+		this.addMessageKey("mensagem.usuario.alterar");
+
+		/*Se usuário está atualizando os próprios dados, deverá
+		 *efetuar novo login para as alterações surtirem efeito
+		 */
 		if (this.getUser().getId().equals(usuario.getId())) {
 			this.doUsuario(true);
+			this.addMessageKey("mensagem.alteracao");
 		}
 
-		this.addMessageKey("mensagem.usuario.alterar");
 		return this.sendAJAXResponse(true);
 	}
 
