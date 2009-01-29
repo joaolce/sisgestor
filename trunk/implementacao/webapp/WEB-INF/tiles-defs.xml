@@ -10,32 +10,27 @@
 		<put name="topo">/paginas/topo.jsp</put>
 		<put name="menu">/paginas/menu.jsp</put>
 		<put name="corpo">/paginas/principal/principal.jsp</put>
-		<put name="rodape">/paginas/blank.jsp</put>
-	</definition>
-	
-	<definition name="definicaoPrincipalRodape" extends="definicaoPrincipal">
-		<put name="rodape">/paginas/rodape.jsp</put>
 	</definition>
 	
 	<!-- PÁGINAS AUXILIARES -->
-	<definition name="erro" extends="definicaoPrincipalRodape">
+	<definition name="erro" extends="definicaoPrincipal">
 		<put name="titulo">Falha da aplicação</put>
 		<put name="corpo">/paginas/auxilio/erro.jsp</put>
 	</definition>
-	<definition name="erroValidacao" extends="definicaoPrincipalRodape">
+	<definition name="erroValidacao" extends="definicaoPrincipal">
 		<put name="titulo">Resultado da operação</put>
 		<put name="corpo">/paginas/auxilio/erroValidacao.jsp</put>
 	</definition>
 	
 	<!--  MANTER DEPARTAMENTO-->
-	<definition name="definicaoManterDepartamento" extends="definicaoPrincipalRodape">
+	<definition name="definicaoManterDepartamento" extends="definicaoPrincipal">
 		<put name="corpo">/paginas/manterDepartamento/manterDepartamento.jsp</put>
 		<put name="titulo">Manter Departamento</put>
 	</definition>
 	<definition name="popupNovoDepartamento" path="/paginas/manterDepartamento/popupNovoDepartamento.jsp" />
 
 	<!--  MANTER USUARIO -->
-	<definition name="definicaoManterUsuario" extends="definicaoPrincipalRodape">
+	<definition name="definicaoManterUsuario" extends="definicaoPrincipal">
 		<put name="corpo">/paginas/manterUsuario/manterUsuario.jsp</put>
 		<put name="titulo">Manter Usuário</put>
 	</definition>

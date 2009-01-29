@@ -70,13 +70,10 @@ TH {
 #principal {
 	background-color: #E5E9ED;
 	width: 1000px;
-	height: 580px;
 	position: relative;
 	display: block;
 	margin: 0 auto !important;
-	padding-left: 5px;
-	padding-right: 5px;
-	padding-top: 5px;
+	padding: 5px;
 	top: 21px;
 }
 
