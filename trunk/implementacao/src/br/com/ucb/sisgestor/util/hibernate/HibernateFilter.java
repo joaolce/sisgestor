@@ -37,7 +37,7 @@ public class HibernateFilter implements Filter {
 	}
 
 	/**
-	 * Executado a cada requisição
+	 * Executado a cada requisição.
 	 * 
 	 * @see javax.servlet.Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
@@ -45,6 +45,8 @@ public class HibernateFilter implements Filter {
 			throws IOException, ServletException {
 		try {
 			chain.doFilter(request, response);
+		} catch (Throwable e) {
+			HibernateUtil.rollback(HibernateUtil.getSession().getTransaction());
 		} finally {
 			HibernateUtil.closeSession();
 		}

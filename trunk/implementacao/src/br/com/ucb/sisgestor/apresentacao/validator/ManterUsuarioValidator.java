@@ -49,6 +49,7 @@ public class ManterUsuarioValidator extends BaseValidator {
 		this.validaRequerido("label.departamento", "departamento");
 		this.validaRequerido("label.permissoesSelecionadas", "permissoes");
 		this.validaEmail("label.email", "email");
+		this.validaTamanhoMinimo("label.login", "login", 5);
 		this.validaTamanhoMaximo("label.login", "login", 15);
 		this.validaTamanhoMaximo("label.nome", "nome", 150);
 		String login = (String) this.getFormValue("login");
