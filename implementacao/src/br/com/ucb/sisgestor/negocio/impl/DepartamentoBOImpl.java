@@ -68,7 +68,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 			HibernateUtil.commit(transaction);
 		} catch (Exception e) {
 			HibernateUtil.rollback(transaction);
-			throw new NegocioException(e);
+			this.verificaExcecao(e);
 		}
 	}
 
@@ -115,7 +115,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 			throw new NegocioException("erro.departamento.sigla");
 		} catch (Exception e) {
 			HibernateUtil.rollback(transaction);
-			throw new NegocioException(e);
+			this.verificaExcecao(e);
 		}
 	}
 }

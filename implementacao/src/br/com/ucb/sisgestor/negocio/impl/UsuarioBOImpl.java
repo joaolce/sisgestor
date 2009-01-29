@@ -60,7 +60,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 			throw new NegocioException("erro.usuario.login.repetido");
 		} catch (Exception e) {
 			HibernateUtil.rollback(transaction);
-			throw new NegocioException(e);
+			this.verificaExcecao(e);
 		}
 	}
 
@@ -95,7 +95,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 			HibernateUtil.commit(transaction);
 		} catch (Exception e) {
 			HibernateUtil.rollback(transaction);
-			throw new NegocioException(e);
+			this.verificaExcecao(e);
 		}
 	}
 
@@ -156,9 +156,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 			throw new NegocioException("erro.usuario.login.repetido");
 		} catch (Exception e) {
 			HibernateUtil.rollback(transaction);
-			throw new NegocioException(e);
+			this.verificaExcecao(e);
 		}
 	}
-
-
 }

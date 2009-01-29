@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.negocio.BaseBO;
+import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.io.Serializable;
@@ -71,6 +72,21 @@ public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Seriali
 	 */
 	protected void refresh(T objeto) {
 		this.getSession().refresh(objeto);
+	}
+
+	/**
+	 * Verifica a exceção lançada, caso não seja {@link NegocioException}, lança uma nova
+	 * {@link NegocioException} e a exceção original como causa.
+	 * 
+	 * @param excecao exceção lançada
+	 * @throws NegocioException nova exceção ou a exceção lançada
+	 */
+	protected void verificaExcecao(Exception excecao) throws NegocioException {
+		if (excecao instanceof NegocioException) {
+			throw NegocioException.class.cast(excecao);
+		} else {
+			throw new NegocioException(excecao);
+		}
 	}
 
 	/**
