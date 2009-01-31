@@ -6,12 +6,20 @@ package br.com.ucb.sisgestor.util;
 
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import java.beans.PropertyDescriptor;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -38,6 +46,39 @@ public final class Utils {
 	 * Construtor privado (classe utilitária).
 	 */
 	private Utils() {
+	}
+
+	/**
+	 * Transforma um {@link Blob} em um {@link ByteArrayOutputStream}
+	 * 
+	 * @param blob {@link Blob} a transformar
+	 * @return ByteArrayOutputStream transformado
+	 * @throws Exception caso tenha erro na conversão
+	 */
+	public static ByteArrayOutputStream blobToByteArrayOutputStream(Blob blob) throws Exception {
+		int size;
+		ByteArrayOutputStream baos;
+
+		try {
+			size = (int) blob.length();
+		} catch (Exception e) {
+			return null;
+		}
+
+		byte[] buffer = new byte[size];
+		int readBytes = 0;
+		int totalRead = 0;
+		InputStream is = blob.getBinaryStream();
+
+		while ((readBytes = is.read(buffer, totalRead, size - totalRead)) != -1) { //NOPMD by João Lúcio - mais legível
+			totalRead += readBytes;
+		}
+
+		baos = new ByteArrayOutputStream();
+		baos.write(buffer);
+		baos.flush();
+
+		return baos;
 	}
 
 	/**
@@ -128,16 +169,14 @@ public final class Utils {
 					String valor = (String) PropertyUtils.getProperty(origem, descriptorOrigem.getName());
 					if (propertyType.getName().equals(Timestamp.class.getName())) {
 						//CONVERSOR TIMESTAMP
-						PropertyUtils.setProperty(destino, descriptor.getName(), DataUtil
-								.converteStringToTimestamp(valor));
+						PropertyUtils.setProperty(destino, descriptor.getName(), DataUtil.stringToTimestamp(valor));
 					} else {
 						//CONVERSOR DATE
-						PropertyUtils.setProperty(destino, descriptor.getName(), DataUtil
-								.converteStringToDate(valor));
+						PropertyUtils.setProperty(destino, descriptor.getName(), DataUtil.stringToUtilDate(valor));
 					}
 				} else if (eUmaString && Date.class.isInstance(valorOrigem)) {
 					Date valor = (Date) PropertyUtils.getProperty(origem, descriptorOrigem.getName());
-					PropertyUtils.setProperty(destino, descriptor.getName(), DataUtil.converteDateToString(valor));
+					PropertyUtils.setProperty(destino, descriptor.getName(), DataUtil.utilDateToString(valor));
 				}
 
 				// ================== ASSOCIAÇÕES ================== 
@@ -277,6 +316,69 @@ public final class Utils {
 	}
 
 	/**
+	 * Retorna uma String vazia caso a informada seja nula
+	 * 
+	 * @param texto {@link String} informada
+	 * @return <code>null</code> ou a própria String
+	 */
+	public static String ehNulo(String texto) {
+		if (texto == null) {
+			return "";
+		} else {
+			return texto;
+		}
+	}
+
+	/**
+	 * Lê o arquivo e coloca em um {@link ByteArrayInputStream}
+	 * 
+	 * @param inFile arquivo recuperar dados
+	 * @return ByteArrayInputStream com os dados do arquivo
+	 * @throws Exception caso tenha erro na conversão
+	 */
+	public static ByteArrayInputStream fileToByteArrayInputStream(File inFile) throws Exception {
+		FileInputStream fis = new FileInputStream(inFile);
+		int tamanho = (int) inFile.length();
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		int bytesLidos = 0;
+		byte[] buffer = new byte[tamanho];
+		while (bytesLidos < tamanho) {
+			bytesLidos += fis.read(buffer, bytesLidos, tamanho - bytesLidos);
+		}
+		baos.write(buffer);
+		return new ByteArrayInputStream(baos.toByteArray());
+	}
+
+	/**
+	 * Lê o arquivo e coloca em um {@link ByteArrayOutputStream}
+	 * 
+	 * @param inFile arquivo recuperar dados
+	 * @return ByteArrayOutputStream com os dados do arquivo
+	 * @throws Exception caso ocorra erro na conversão
+	 */
+	public static ByteArrayOutputStream fileToByteArrayOutputStream(File inFile) throws Exception {
+		FileInputStream fis = new FileInputStream(inFile);
+		final int TAMANHO_BYTES_ARQUIVO = (int) inFile.length();
+		final int TAMANHO_BUFFER = 1000;
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream(TAMANHO_BYTES_ARQUIVO);
+		int bytesLidos = 0, totalBytesLidos = 0;
+		byte[] buffer = new byte[TAMANHO_BUFFER];
+
+		while (totalBytesLidos < TAMANHO_BYTES_ARQUIVO) {
+			bytesLidos = fis.read(buffer, 0, TAMANHO_BUFFER);
+			if (bytesLidos == -1) {
+				break;
+			}
+			baos.write(buffer, 0, bytesLidos);
+			totalBytesLidos += bytesLidos;
+		}
+		fis.close();
+		return baos;
+	}
+
+	/**
 	 * Pegar uma mensagem do properties pelo key
 	 * 
 	 * @param key chave no arquivo properties
@@ -303,6 +405,25 @@ public final class Utils {
 			lista.add(role);
 		}
 		return lista;
+	}
+
+	/**
+	 * Transforma um {@link InputStream} para um {@link ByteArrayOutputStream}
+	 * 
+	 * @param iStream {@link InputStream} a transformar
+	 * @return ByteArrayOutputStream convertido
+	 * @throws Exception caso ocorra erro na conversão
+	 */
+	public static ByteArrayOutputStream inputStreamToByteArrayOutputStream(InputStream iStream)
+			throws Exception {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		int bytesLidos;
+		byte[] buffer = new byte[1024];
+
+		while ((bytesLidos = iStream.read(buffer)) != -1) { //NOPMD by João Lúcio - mais legível
+			baos.write(buffer, 0, bytesLidos);
+		}
+		return baos;
 	}
 
 	/**
@@ -531,6 +652,48 @@ public final class Utils {
 	}
 
 	/**
+	 * Retorna <code>null</code> caso o valor da String seja vazio
+	 * 
+	 * @param valor String a verificar
+	 * @return <code>null</code> caso vazio, String original caso contenha algo
+	 */
+	public static String nullSeVazio(String valor) {
+		if (StringUtils.isBlank(valor)) {
+			return null;
+		}
+		return valor;
+	}
+
+	/**
+	 * Recupera o valor informado do número por extenso.
+	 * 
+	 * @param valor valor informado
+	 * @return valor por extenso
+	 */
+	public static String numeroExtenso(double valor) {
+		String porExtenso;
+		int tamanho;
+
+		Extenso extenso = new Extenso(valor);
+		porExtenso = extenso.toString();
+		tamanho = porExtenso.length();
+		if (tamanho < 5) {
+			return null;
+		}
+		return porExtenso.substring(0, tamanho - 5);
+	}
+
+	/**
+	 * Transforma uma {@link ByteArrayInputStream} para um {@link InputStream}
+	 * 
+	 * @param baos {@link ByteArrayInputStream} a tranformar
+	 * @return InputStream associado
+	 */
+	public static InputStream outputStreamToInputStream(ByteArrayOutputStream baos) {
+		return new ByteArrayInputStream(baos.toByteArray());
+	}
+
+	/**
 	 * Seta nulo em todas as propriedades do bean que forem "writable" e que não forem primitivas
 	 * 
 	 * @param objeto objeto a "resetar"
@@ -561,5 +724,57 @@ public final class Utils {
 	 */
 	public static <T>List<T> subtrair(List<T> original, List<T> subtracao, Class<T> tipo) {
 		return GenericsUtil.checkedList(ListUtils.subtract(original, subtracao), tipo);
+	}
+
+	/**
+	 * Transforma as primeiras letras das palavras em maiuscúlo
+	 * 
+	 * @param texto texto a modificar
+	 * @return novo texto
+	 */
+	public static String primeirasLetrasMaiusculo(String texto) {
+		StringBuilder result = new StringBuilder("");
+		String nome;
+
+		StringTokenizer token = new StringTokenizer(texto.toLowerCase(DataUtil.LOCALE_BR), " ");
+
+		while (token.hasMoreElements()) {
+			nome = token.nextToken();
+
+			if ("da".equals(nome)) {
+				result.append(nome + " ");
+			} else {
+				result.append(nome.substring(0, 1).toUpperCase() + nome.substring(1) + " ");
+			}
+		}
+		return result.toString();
+	}
+
+	/**
+	 * Trata uma String convertendo códigos unicode em seus respectivos caracteres. Obs: Somente os caracteres
+	 * % e & estão sendo tratados atualmente.
+	 * 
+	 * @param str String contendo os códigos unicode no lugar do caracteres especiais.
+	 * @return String com os caracteres especiais substituídos.
+	 */
+	public static String trataCaracteresEspeciais(String str) {
+		String resultado = str;
+		if (str.indexOf("/u0025") != -1) {
+			resultado = resultado.replaceAll("/u0025", "%");
+		}
+		if (str.indexOf("/u0026") != -1) {
+			resultado = resultado.replaceAll("/u0026", "&");
+		}
+		return resultado;
+	}
+
+	/**
+	 * Recupera um valor, e retorna em uma String formatada com duas casas decimais.
+	 * 
+	 * @param valor valor a formatar
+	 * @return valor formatado em String
+	 */
+	public static String valorMonetarioToString(double valor) {
+		return new DecimalFormat("#,##0.00").format(valor);
 	}
 }

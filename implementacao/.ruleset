@@ -1,44 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset name="pmd-eclipse">
     <description>Regras do PMD para o projeto SisGestor</description>
-    <rule class="net.sourceforge.pmd.rules.sunsecure.MethodReturnsInternalArray" message="Returning ''{0}'' may expose an internal array." name="MethodReturnsInternalArray">
-        <description>
-Exposing internal arrays directly allows the user to modify some code that could be critical.
-It is safer to return a copy of the array.
-      </description>
-        <example><![CDATA[
-  
-public class SecureSystem {
-  UserData [] ud;
-  public UserData [] getUserData() {
-      // Don't return directly the internal array, return a copy
-      return ud;
-  }
-}
-  
-      ]]></example>
-        <priority>3</priority>
-        <properties/>
-    </rule>
-    <rule class="net.sourceforge.pmd.rules.sunsecure.ArrayIsStoredDirectly" message="The user-supplied array ''{0}'' is stored directly." name="ArrayIsStoredDirectly">
-        <description>
-Constructors and methods receiving arrays should clone objects and store the copy.
-This prevents that future changes from the user affect the internal functionality.
-      </description>
-        <example><![CDATA[
-  
-public class Foo {
- private String [] x;
-  public void foo (String [] param) {
-      // Don't do this, make a copy of the array at least
-      this.x=param;
-  }
-}
-  
-      ]]></example>
-        <priority>3</priority>
-        <properties/>
-    </rule>
     <rule class="net.sourceforge.pmd.rules.UnusedPrivateFieldRule" message="Avoid unused private fields such as ''{0}''." name="UnusedPrivateField">
         <description>
 Detects when a private field is declared and/or assigned a value, but not used.

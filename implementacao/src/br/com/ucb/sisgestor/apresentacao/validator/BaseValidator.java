@@ -382,7 +382,7 @@ public class BaseValidator {
 	 */
 	protected void validaData(String labelProperty, String formProperty) {
 		String dataInformadaString = (String) this.getFormValue(formProperty);
-		if (StringUtils.isNotBlank(dataInformadaString) && !DataUtil.isValidDate(dataInformadaString)) {
+		if (StringUtils.isNotBlank(dataInformadaString) && !DataUtil.ehDataValida(dataInformadaString)) {
 			this.addError("erro.dataInvalida", this.getMessageKey(labelProperty));
 			this.setFocusControl(formProperty);
 		}
@@ -399,16 +399,16 @@ public class BaseValidator {
 		String dataInformadaString = (String) this.getFormValue(formProperty);
 		if (StringUtils.isNotBlank(dataInformadaString)) {
 			//Testa se a data informada é válida
-			if (!DataUtil.isValidDate(dataInformadaString)) {
+			if (!DataUtil.ehDataValida(dataInformadaString)) {
 				this.addError("erro.dataInvalida", this.getMessageKey(labelProperty));
 				this.setFocusControl(formProperty);
 				return;
 			}
 
-			Date dataInformadaDate = DataUtil.converteStringToDate(dataInformadaString);
+			Date dataInformadaDate = DataUtil.stringToUtilDate(dataInformadaString);
 			Date dataAtual = DataUtil.getDataAtualSemHHMMSS();
 			if (dataInformadaDate.after(dataAtual)) {
-				String strDataAtual = DataUtil.converteDateToString(dataAtual);
+				String strDataAtual = DataUtil.utilDateToString(dataAtual);
 				this.addError("erro.dataMaiorDataAtual", this.getMessageKey(labelProperty), strDataAtual);
 				this.setFocusControl(formProperty);
 			}
@@ -426,16 +426,16 @@ public class BaseValidator {
 		String dataInformadaString = (String) this.getFormValue(formProperty);
 		if (StringUtils.isNotBlank(dataInformadaString)) {
 			//Testa se a data informada é válida
-			if (!DataUtil.isValidDate(dataInformadaString)) {
+			if (!DataUtil.ehDataValida(dataInformadaString)) {
 				this.addError("erro.dataInvalida", this.getMessageKey(labelProperty));
 				this.setFocusControl(formProperty);
 				return;
 			}
 
-			Date dataInformadaDate = DataUtil.converteStringToDate(dataInformadaString);
+			Date dataInformadaDate = DataUtil.stringToUtilDate(dataInformadaString);
 			Date dataAtual = DataUtil.getDataAtualSemHHMMSS();
 			if (dataInformadaDate.before(dataAtual)) {
-				String strDataAtual = DataUtil.converteDateToString(dataAtual);
+				String strDataAtual = DataUtil.utilDateToString(dataAtual);
 				this.addError("erro.dataMenorDataAtual", this.getMessageKey(labelProperty), strDataAtual);
 				this.setFocusControl(formProperty);
 			}
