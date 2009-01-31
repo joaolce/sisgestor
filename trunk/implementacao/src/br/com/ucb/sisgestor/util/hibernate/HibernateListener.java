@@ -23,6 +23,7 @@ public class HibernateListener implements ServletContextListener {
 	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
 	 */
 	public void contextDestroyed(ServletContextEvent arg0) {
+		//implementação desnecessária
 	}
 
 	/**

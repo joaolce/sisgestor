@@ -16,7 +16,7 @@
 	
 		<!-- Convertendo Exceções -->
 		<convert match="org.directwebremoting.extend.AccessDeniedException" converter="exception" />
-		<convert match="br.com.ucb.sisgestor.apresentacao.ajaxUtils.SessionExpiredException" converter="exception" />
+		<convert match="br.com.ucb.sisgestor.apresentacao.dwr.utils.SessionExpiredException" converter="exception" />
 		
 		<!-- Convertendo Forms e DTO -->
 		<convert match="br.com.ucb.sisgestor.util.dto.ListaResultadoDTO" converter="bean" />

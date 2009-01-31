@@ -10,7 +10,7 @@ package br.com.ucb.sisgestor.util.hibernate;
  * @author João Lúcio
  * @since 25/10/2008
  */
-public interface HibernateUserTypeConstants {
+public final class HibernateUserTypeConstants {
 
 	/**
 	 * Classe com o Hibernate user type para enumerações que implementam a interface

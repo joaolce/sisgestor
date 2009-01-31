@@ -29,11 +29,12 @@ import org.apache.struts.action.ActionServlet;
 public class HibernateFilter implements Filter {
 
 	/**
-	 * Executado na destruição do filtro
+	 * Executado na destruição do filtro.
 	 * 
 	 * @see javax.servlet.Filter#destroy()
 	 */
 	public void destroy() {
+		//implementação desnecessária
 	}
 
 	/**
@@ -45,7 +46,7 @@ public class HibernateFilter implements Filter {
 			throws IOException, ServletException {
 		try {
 			chain.doFilter(request, response);
-		} catch (Throwable e) {
+		} catch (Throwable e) { //NOPMD by João Lúcio - para capturar todos os erros que poder acontecer
 			HibernateUtil.rollback(HibernateUtil.getSession().getTransaction());
 		} finally {
 			HibernateUtil.closeSession();
@@ -53,10 +54,11 @@ public class HibernateFilter implements Filter {
 	}
 
 	/**
-	 * Executado na inicialização do filtro
+	 * Executado na inicialização do filtro.
 	 * 
 	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
 	 */
 	public void init(FilterConfig filterConfig) throws ServletException {
+		//implementação desnecessária
 	}
 }

@@ -32,11 +32,7 @@ import org.directwebremoting.util.LocalUtil;
  */
 public final class Utils {
 
-	private static Log	logger;
-
-	static {
-		logger = LogFactory.getLog(Utils.class);
-	}
+	private static final Log	LOG	= LogFactory.getLog(Utils.class);
 
 	/**
 	 * Construtor privado (classe utilitária).
@@ -88,7 +84,7 @@ public final class Utils {
 	 * @param origem objeto origem
 	 * @throws Exception caso ocorra erro na recuperação das propriedades
 	 */
-	public static void copyProperties(Object destino, Object origem) throws Exception {
+	public static void copyProperties(Object destino, Object origem) throws Exception { //NOPMD by João Lúcio - não dá para quebrar método
 		//pega os descritores
 		PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(destino);
 		//as propriedades que são do mesmo tipo serão copiadas por último
@@ -218,7 +214,7 @@ public final class Utils {
 				}
 			}
 		} catch (Exception e) {
-			logger.error("Provavelmente alguma propriedade do form lançando exceção... nada grave", e);
+			LOG.error("Provavelmente alguma propriedade do form lançando exceção... nada grave", e);
 		}
 	}
 
@@ -241,7 +237,7 @@ public final class Utils {
 	 * 
 	 * @param objeto objeto a verificar
 	 */
-	public static void doNuloNaPropriedadeVazia(Object objeto) {
+	public static void doNuloNaPropriedadeVazia(Object objeto) { //NOPMD by João Lúcio - não dá para quebrar método
 		PropertyDescriptor[] descritores = PropertyUtils.getPropertyDescriptors(objeto);
 		for (PropertyDescriptor descritore : descritores) {
 			boolean readable = PropertyUtils.isReadable(objeto, descritore.getName());
@@ -255,31 +251,26 @@ public final class Utils {
 			} catch (Exception e) {
 				continue;
 			}
-			if (propriedade instanceof String) {
-				if (GenericValidator.isBlankOrNull((String) propriedade)) {
-					try {
-						PropertyUtils.setProperty(objeto, descritore.getName(), null);
-					} catch (Exception e) {
-						logger.warn("Anh?!", e);
-					}
+			if ((propriedade instanceof String) && (StringUtils.isBlank((String) propriedade))) {
+				try {
+					PropertyUtils.setProperty(objeto, descritore.getName(), null);
+				} catch (Exception e) {
+					LOG.warn("Anh?!", e);
 				}
 			}
-			if (propriedade instanceof Character) {
-				if (GenericValidator.isBlankOrNull(((Character) propriedade).toString())) {
-					try {
-						PropertyUtils.setProperty(objeto, descritore.getName(), null);
-					} catch (Exception e) {
-						logger.warn("Anh?!", e);
-					}
+			if ((propriedade instanceof Character)
+					&& (StringUtils.isBlank(((Character) propriedade).toString()))) {
+				try {
+					PropertyUtils.setProperty(objeto, descritore.getName(), null);
+				} catch (Exception e) {
+					LOG.warn("Anh?!", e);
 				}
 			}
-			if (propriedade instanceof Number) {
-				if (((Number) propriedade).intValue() == 0) {
-					try {
-						PropertyUtils.setProperty(objeto, descritore.getName(), null);
-					} catch (Exception e) {
-						logger.warn("Anh?!", e);
-					}
+			if ((propriedade instanceof Number) && (((Number) propriedade).intValue() == 0)) {
+				try {
+					PropertyUtils.setProperty(objeto, descritore.getName(), null);
+				} catch (Exception e) {
+					LOG.warn("Anh?!", e);
 				}
 			}
 		}
@@ -344,16 +335,14 @@ public final class Utils {
 	 * @param cnpj cnpj a ser validado
 	 * @return <code>true</code> caso cnpj válido, <code>false</code> caso contrário
 	 */
-	public static boolean isCNPJ(String cnpj) {
-
+	public static boolean isCNPJ(String cnpj) { //NOPMD by João Lúcio - necessário para limpar formatação
 		cnpj = limpaMascara(cnpj);
-
 		if (cnpj.length() != 14) {
 			return false;
 		}
 
 		int soma = 0, dig;
-		String cnpj_calc = cnpj.substring(0, 12);
+		StringBuilder cnpj_calc = new StringBuilder(cnpj.substring(0, 12));
 
 		char[] chr_cnpj = cnpj.toCharArray();
 
@@ -370,7 +359,7 @@ public final class Utils {
 		}
 		dig = 11 - (soma % 11);
 
-		cnpj_calc += ((dig == 10) || (dig == 11)) ? "0" : Integer.toString(dig);
+		cnpj_calc.append(((dig == 10) || (dig == 11)) ? "0" : Integer.toString(dig));
 
 		/* Segunda parte */
 		soma = 0;
@@ -385,7 +374,7 @@ public final class Utils {
 			}
 		}
 		dig = 11 - (soma % 11);
-		cnpj_calc += ((dig == 10) || (dig == 11)) ? "0" : Integer.toString(dig);
+		cnpj_calc.append(((dig == 10) || (dig == 11)) ? "0" : Integer.toString(dig));
 
 		if (!cnpj.equals(cnpj_calc)) {
 			return false;
@@ -394,12 +383,12 @@ public final class Utils {
 	}
 
 	/**
-	 * Valida um CPF
+	 * Valida um CPF.
 	 * 
 	 * @param cpf cpf a ser validado
 	 * @return <code>true</code> caso cpf válido, <code>false</code> caso contrário
 	 */
-	public static boolean isCPF(String cpf) {
+	public static boolean isCPF(String cpf) { //NOPMD by João Lúcio - necessário para limpar formatação
 		cpf = limpaMascara(cpf);
 		if (cpf.length() == 11) {
 			int d1, d2;
@@ -409,7 +398,7 @@ public final class Utils {
 			d1 = d2 = 0;
 			digito1 = digito2 = resto = 0;
 			for (int n_Count = 1; n_Count < cpf.length() - 1; n_Count++) {
-				digitoCPF = Integer.valueOf(cpf.substring(n_Count - 1, n_Count)).intValue();
+				digitoCPF = Integer.valueOf(cpf.substring(n_Count - 1, n_Count));
 				d1 = d1 + (11 - n_Count) * digitoCPF;
 				d2 = d2 + (12 - n_Count) * digitoCPF;
 			}
@@ -427,7 +416,7 @@ public final class Utils {
 				digito2 = 11 - resto;
 			}
 			String nDigVerific = cpf.substring(cpf.length() - 2, cpf.length());
-			nDigResult = String.valueOf(digito1) + String.valueOf(digito2);
+			nDigResult = String.valueOf(digito1) + digito2;
 			if (nDigVerific.equals(nDigResult)) {
 				return true;
 			}
@@ -442,12 +431,11 @@ public final class Utils {
 	 * @param o2 segundo objeto a verificar
 	 * @return <code>true</code> caso sejam iguais, <code>false</code> caso contrário
 	 */
-	public static boolean isEqual(Object o1, Object o2) {
-		if ((o1 instanceof Collection) ^ (o2 instanceof Collection)) {
-			if (((o1 != null) && ((Collection<?>) o1).isEmpty() && (o2 == null))
-					|| ((o2 != null) && ((Collection<?>) o2).isEmpty() && (o1 == null))) {
-				return true;
-			}
+	public static boolean isEqual(Object o1, Object o2) { //NOPMD by João Lúcio - não dá para quebrar
+		if (((o1 instanceof Collection) ^ (o2 instanceof Collection))
+				&& (((o1 != null) && ((Collection<?>) o1).isEmpty() && (o2 == null)) || ((o2 != null)
+						&& ((Collection<?>) o2).isEmpty() && (o1 == null)))) {
+			return true;
 		}
 		if (((o1 == null) ^ (o2 == null))) {
 			return false;
@@ -479,7 +467,7 @@ public final class Utils {
 	 * 
 	 * @return <code>true</code> se for encontrado alguma propriedade vazia de acordo com critério
 	 */
-	public static boolean isTodasPropriedadesVazias(Object objeto, String... excludes) {
+	public static boolean isTodasPropriedadesVazias(Object objeto, String... excludes) { //NOPMD by João Lúcio - não dá para quebrar método
 		if (excludes != null) {
 			Arrays.sort(excludes);
 		}
@@ -558,7 +546,7 @@ public final class Utils {
 				}
 			}
 		} catch (Exception e) {
-			logger.warn(e.getMessage(), e);
+			LOG.warn(e.getMessage(), e);
 		}
 	}
 

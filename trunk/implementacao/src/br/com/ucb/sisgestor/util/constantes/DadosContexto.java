@@ -10,18 +10,18 @@ package br.com.ucb.sisgestor.util.constantes;
  * @author João Lúcio
  * @since 25/10/2008
  */
-public interface DadosContexto {
+public final class DadosContexto {
 
 	/** Data do último login */
-	public final String	DATA_LOGIN		= "dataLogin";
+	public static final String	DATA_LOGIN		= "dataLogin";
 	/** Indica se foi erro do container */
-	public final String	ERRO_CONTAINER	= "errorContainer";
+	public static final String	ERRO_CONTAINER	= "errorContainer";
 	/** Hora do último login */
-	public final String	HORA_LOGIN		= "horaLogin";
+	public static final String	HORA_LOGIN		= "horaLogin";
 	/** Tamanho da página (em registros) de paginação */
-	public final String	TAMANHO_PAGINA	= "tamanhoPaginaPesquisa";
+	public static final String	TAMANHO_PAGINA	= "tamanhoPaginaPesquisa";
 	/** Total de registros da pesquisa de paginação */
-	public final String	TOTAL_PESQUISA	= "totalPesquisa";
+	public static final String	TOTAL_PESQUISA	= "totalPesquisa";
 	/** Usuário atual na sessão */
-	public final String	USUARIOSESSAO	= "usuarioSessao";
+	public static final String	USUARIOSESSAO	= "usuarioSessao";
 }

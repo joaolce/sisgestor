@@ -4,7 +4,7 @@
  */
 package br.com.ucb.sisgestor.apresentacao.actions;
 
-import br.com.ucb.sisgestor.apresentacao.ajaxUtils.AjaxResponse;
+import br.com.ucb.sisgestor.apresentacao.dwr.utils.AjaxResponse;
 import br.com.ucb.sisgestor.apresentacao.validator.BaseValidator;
 import br.com.ucb.sisgestor.apresentacao.validator.utils.RoleValidatorReader;
 import br.com.ucb.sisgestor.apresentacao.validator.utils.ValidatorReader;
@@ -24,6 +24,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
+import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -49,13 +50,13 @@ import org.hibernate.Hibernate;
  */
 public class BaseAction extends DispatchAction {
 
-	private static Log								logger;
 	/** forward de entrada, todas as actions devem ter. */
 	protected static final String					FWD_ENTRADA				= "entrada";
 	/** forward de erro de validação. */
 	protected static final String					FWD_ERRO_VALIDACAO	= "erroValidacao";
 	/** forward de acesso negado. */
 	protected static final String					FWD_NEGADO				= "acessoNegado";
+	private static final Log						LOG						= LogFactory.getLog(BaseAction.class);
 
 	private ThreadLocal<ActionErrors>			actionErrorsThread	= new ThreadLocal<ActionErrors>();
 	private ThreadLocal<ActionForm>				formThread				= new ThreadLocal<ActionForm>();
@@ -63,10 +64,6 @@ public class BaseAction extends DispatchAction {
 	private ThreadLocal<HttpServletRequest>	requestThread			= new ThreadLocal<HttpServletRequest>();
 	private ThreadLocal<HttpServletResponse>	responseThread			= new ThreadLocal<HttpServletResponse>();
 	private ThreadLocal<HttpSession>				sessionThread			= new ThreadLocal<HttpSession>();
-
-	static {
-		logger = LogFactory.getLog(BaseAction.class);
-	}
 
 	/**
 	 * Método padrão para exibir a tela de entrada caso seja necessário carregar algum dado para exibir na
@@ -96,7 +93,7 @@ public class BaseAction extends DispatchAction {
 	 * @throws Exception caso ocorra erro na operação
 	 */
 	@Override
-	public ActionForward execute(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
+	public ActionForward execute(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request, //NOPMD by João Lúcio - não dá para quebrar
 			HttpServletResponse response) throws Exception {
 
 		//popula as variaveis de instância
@@ -110,7 +107,7 @@ public class BaseAction extends DispatchAction {
 		 * Utils.decodeAjaxForm para decodificar o formulário que foi codificado no Javascript
 		 */
 		if (this.isAJAXRequest()) {
-			logger.debug("requisição ajax em processo");
+			LOG.debug("requisição ajax em processo");
 			if ("get".equalsIgnoreCase(request.getMethod())) {
 				Utils.decodeAjaxForm(actionForm);
 			}
@@ -132,12 +129,12 @@ public class BaseAction extends DispatchAction {
 		} catch (NegocioException e) {
 			return new ActionForward("dologin", true);
 		} catch (InvocationTargetException e) {
-			logger.fatal(e.getMessage(), e);
+			LOG.fatal(e.getMessage(), e);
 			this.getResponse().sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"" + e.getTargetException());
 			return null;
 		} catch (Exception e) {
-			logger.fatal(e.getMessage(), e);
+			LOG.fatal(e.getMessage(), e);
 			this.getResponse().sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
 			return null;
 		}
@@ -167,10 +164,10 @@ public class BaseAction extends DispatchAction {
 		try {
 			return super.execute(mapping, actionForm, request, response);
 		} catch (NegocioException e) {
-			if (e.getCause() != null) {
-				this.addMessage(e.getMessage());
-			} else {
+			if (e.getCause() == null) {
 				this.addMessageKey(e.getMessage(), e.getArgs());
+			} else {
+				this.addMessage(e.getMessage());
 			}
 
 			if (this.isAJAXRequest()) {
@@ -179,7 +176,7 @@ public class BaseAction extends DispatchAction {
 			this.saveMessages(false);
 			return mapping.findForward(validator.getForwardErroValidacao());
 		} catch (Exception e) {
-			logger.fatal(e.getMessage(), e);
+			LOG.fatal(e.getMessage(), e);
 			if (this.isAJAXRequest()) {
 				this.addMessageKey("erro.falhaMensagemAjax", e.getMessage());
 				return this.sendAJAXResponse(false);
@@ -239,13 +236,13 @@ public class BaseAction extends DispatchAction {
 	protected final void doUsuario(boolean ignoraSessao) throws Exception {
 		if ((this.getRequest().getUserPrincipal() == null)
 				|| (this.getRequest().getUserPrincipal().getName() == null)) {
-			throw new Exception("userPrincipal está nulo!");
+			throw new LoginException("userPrincipal está nulo!");
 		}
 		Usuario usuarioAtual = (Usuario) this.getSession().getAttribute(DadosContexto.USUARIOSESSAO);
 		String name = this.getRequest().getUserPrincipal().getName();
 
 		if ((usuarioAtual == null) || !name.equalsIgnoreCase(usuarioAtual.getLogin().trim()) || ignoraSessao) {
-			logger.debug("completando o processo de login");
+			LOG.debug("completando o processo de login");
 
 			UsuarioBO bo = UsuarioBOImpl.getInstancia();
 
@@ -279,7 +276,7 @@ public class BaseAction extends DispatchAction {
 		try {
 			PropertyUtils.copyProperties(fwd, this.findForward(forward));
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 		}
 		return fwd;
 	}
@@ -291,11 +288,11 @@ public class BaseAction extends DispatchAction {
 	 */
 	protected ActionErrors getActionErrors() {
 		ActionErrors errors;
-		if (this.actionErrorsThread.get() != null) {
-			errors = this.actionErrorsThread.get();
-		} else {
+		if (this.actionErrorsThread.get() == null) {
 			errors = new ActionErrors();
 			this.actionErrorsThread.set(errors);
+		} else {
+			errors = this.actionErrorsThread.get();
 		}
 		return errors;
 	}
@@ -416,6 +413,7 @@ public class BaseAction extends DispatchAction {
 	 * @param params parâmetros do método
 	 * @return valor de retorno da invocação do método
 	 */
+	@SuppressWarnings("PMD")
 	protected Object invokeFormMethod(String methodName, Class<?>[] paramTypes, Object[] params) {
 		Object object = null;
 		try {
@@ -424,15 +422,15 @@ public class BaseAction extends DispatchAction {
 
 			object = method.invoke(this.getForm(), params);
 		} catch (IllegalAccessException e) {
-			logger.error(e);
+			LOG.error(e);
 		} catch (SecurityException e) {
-			logger.error(e);
+			LOG.error(e);
 		} catch (NoSuchMethodException e) {
-			logger.error(e);
+			LOG.error(e);
 		} catch (IllegalArgumentException e) {
-			logger.error(e);
+			LOG.error(e);
 		} catch (InvocationTargetException e) {
-			logger.error(e);
+			LOG.error(e);
 		}
 		return object;
 	}
@@ -585,9 +583,9 @@ public class BaseAction extends DispatchAction {
 	 */
 	protected ActionForward sendAJAXResponse(ActionForward forward, boolean estado, ParametrosURL parametros)
 			throws Exception {
-		forward = this.findForwardConfigurable(forward.getName());
-		forward.setPath(parametros.aggregateParams(forward.getPath()));
-		return this.sendAJAXResponse(forward, estado);
+		ActionForward forwardConfigurable = this.findForwardConfigurable(forward.getName());
+		forwardConfigurable.setPath(parametros.aggregateParams(forwardConfigurable.getPath()));
+		return this.sendAJAXResponse(forwardConfigurable, estado);
 	}
 
 	/**
@@ -690,10 +688,10 @@ public class BaseAction extends DispatchAction {
 		Iterator<ActionMessage> iter = GenericsUtil.checkedIterator(errors.get(), ActionMessage.class);
 		while (iter.hasNext()) {
 			ActionMessage actionMessage = iter.next();
-			if ((actionMessage.getValues() != null) && (actionMessage.getValues().length != 0)) {
-				message = resources.getMessage(actionMessage.getKey(), actionMessage.getValues());
-			} else {
+			if ((actionMessage.getValues() == null) || (actionMessage.getValues().length == 0)) {
 				message = resources.getMessage(actionMessage.getKey());
+			} else {
+				message = resources.getMessage(actionMessage.getKey(), actionMessage.getValues());
 			}
 			if (message != null) {
 				ajaxResponseXML.addMessage(message);
@@ -719,7 +717,7 @@ public class BaseAction extends DispatchAction {
 		}
 
 		validator.setResources(this.getResources(this.getRequest()));
-		logger.debug("executando validator");
+		LOG.debug("executando validator");
 		validator.execute(this.getMapping(), this.getForm(), this.getRequest(), this.getResponse());
 
 		return validator;
@@ -757,7 +755,7 @@ public class BaseAction extends DispatchAction {
 
 		this.setActionErrors(errors);
 		if (this.isAJAXRequest()) {
-			logger.debug("processando mensagens de erro ajax");
+			LOG.debug("processando mensagens de erro ajax");
 			AjaxResponse ajaxResponse = new AjaxResponse();
 			//recuperar o primeiro campo onde a validação falhou para mover o foco para ele 
 			if (StringUtils.isNotBlank(focusControl)) {
@@ -766,7 +764,7 @@ public class BaseAction extends DispatchAction {
 			ajaxResponse.setStatus(false);
 			return this.sendAJAXResponse(ajaxResponse);
 		}
-		logger.debug("processando mensagens de erro");
+		LOG.debug("processando mensagens de erro");
 		this.saveMessagesOnSession(false);
 
 		//retorna o forward correto
@@ -790,7 +788,7 @@ public class BaseAction extends DispatchAction {
 		String referer = this.getRequest().getHeader("REFERER");
 		String method = this.getRequest().getMethod();
 		if ("POST".equalsIgnoreCase(method) && StringUtils.isBlank(referer)) {
-			throw new Exception("Requisição inválida!!!");
+			throw new SecurityException("Requisição inválida!!!");
 		}
 	}
 
@@ -800,6 +798,6 @@ public class BaseAction extends DispatchAction {
 	 * @param status <code>true</code> - verde, <code>false</code> - vermelho
 	 */
 	private void setStatus(boolean status) {
-		this.setSessionAttribute("messageStatus", new Boolean(status));
+		this.setSessionAttribute("messageStatus", Boolean.valueOf(status));
 	}
 }

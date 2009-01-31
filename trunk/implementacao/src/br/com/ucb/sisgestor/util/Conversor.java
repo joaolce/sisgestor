@@ -2,7 +2,7 @@
  * Projeto: SisGestor
  * Criação: 09/12/2008 por João Lúcio
  */
-package br.com.ucb.sisgestor.util;
+package br.com.ucb.sisgestor.util; //NOPMD by João Lúcio - classe utiliária
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -57,7 +57,7 @@ public final class Conversor {
 		int totalRead = 0;
 		InputStream is = blob.getBinaryStream();
 
-		while ((readBytes = is.read(buffer, totalRead, size - totalRead)) != -1) {
+		while ((readBytes = is.read(buffer, totalRead, size - totalRead)) != -1) { //NOPMD by João Lúcio - mais legível
 			totalRead += readBytes;
 		}
 
@@ -243,8 +243,7 @@ public final class Conversor {
 			bytesLidos += fis.read(buffer, bytesLidos, tamanho - bytesLidos);
 		}
 		baos.write(buffer);
-		ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-		return bais;
+		return new ByteArrayInputStream(baos.toByteArray());
 	}
 
 	/**
@@ -288,7 +287,7 @@ public final class Conversor {
 
 	/**
 	 * Retorna a data, recebida "quebrada", em uma data válida no formato "dd/MM/yyyy". Se a data não for
-	 * válida, retorna null.
+	 * válida, retorna <code>null</code>.
 	 * 
 	 * @param dia dia da data
 	 * @param mes mês da data
@@ -299,46 +298,11 @@ public final class Conversor {
 	 */
 	public static String formataData(String dia, String mes, String ano) {
 		String data = dia + '/' + mes + '/' + ano;
-		return ehDataValida(data) ? data : null;
-	}
-
-	/**
-	 * Retorna a String de um número
-	 * 
-	 * @param valor valor a formatar
-	 * @param casasDecimais número de casas decimais a String deve ter
-	 * @return String do número
-	 */
-	public static String formataDoubleToString(double valor, int casasDecimais) {
-		return new DecimalFormat("#,###,###,###,##0." + "0000000000".substring(0, casasDecimais)).format(valor);
-	}
-
-	/**
-	 * Formata o valor Double recebido em String no formato 999.999.999,99.
-	 * 
-	 * @param valor O valor a ser formatado.
-	 * @return Uma String contendo o valor já formatado.
-	 */
-	public static String formataValorParaString(Double valor) {
-		String strValor = valor.toString();
-		strValor = strValor.replace('.', ',');
-		String[] temp = strValor.split(",");
-
-		StringBuffer buffValor = new StringBuffer(temp[0]);
-		if ((temp.length > 0) && (temp[0].length() > 3)) {
-			int pos = temp[0].length() - 3;
-			for (int i = temp[0].length() - 1; i >= 0; i--) {
-				if ((i > 0) && (i == pos)) {
-					buffValor.insert(i, ".");
-					pos -= 3;
-				}
-			}
+		if (ehDataValida(data)) {
+			return data;
+		} else {
+			return null;
 		}
-		if ((temp[1] != null) && (temp[1].length() == 1)) {
-			temp[1] = temp[1].concat("0");
-		}
-		strValor = buffValor.toString() + "," + temp[1];
-		return strValor;
 	}
 
 	/**
@@ -381,7 +345,7 @@ public final class Conversor {
 		int bytesLidos;
 		byte[] buffer = new byte[1024];
 
-		while ((bytesLidos = iStream.read(buffer)) != -1) {
+		while ((bytesLidos = iStream.read(buffer)) != -1) { //NOPMD by João Lúcio - mais legível
 			baos.write(buffer, 0, bytesLidos);
 		}
 		return baos;
@@ -441,16 +405,6 @@ public final class Conversor {
 	}
 
 	/**
-	 * Verifica se o campo está null/vazio
-	 * 
-	 * @param inEntrada String a verificar
-	 * @return true caso seja nulo/vazio
-	 */
-	public static boolean seNulo(String inEntrada) {
-		return (inEntrada == null) || (inEntrada.trim().length() == 0);
-	}
-
-	/**
 	 * Soma uma determinada quantidade de dias, meses e/ou anos a data Atual. (Subtrai se a quantidade for
 	 * negativa)
 	 * 
@@ -475,7 +429,7 @@ public final class Conversor {
 	 * @return String formada
 	 */
 	public static String sqlDateToString(java.sql.Date inData) {
-		return new SimpleDateFormat("dd/MM/yyyy").format(inData);
+		return new SimpleDateFormat("dd/MM/yyyy", DataUtil.LOCALE_BR).format(inData);
 	}
 
 	/**
@@ -485,7 +439,7 @@ public final class Conversor {
 	 * @return String formada
 	 */
 	public static String sqlDateToStringSemDelimitadores(java.sql.Date inData) {
-		return new SimpleDateFormat("ddMMyyyy").format(inData);
+		return new SimpleDateFormat("ddMMyyyy", DataUtil.LOCALE_BR).format(inData);
 	}
 
 	/**
@@ -505,8 +459,8 @@ public final class Conversor {
 	 * @return data convertida
 	 * @throws ParseException caso ocorra erro na conversão
 	 */
-	public static java.util.Date StringAAAAMMDDHHMMSSToDate(String inDataHora) throws ParseException {
-		return new SimpleDateFormat("yyyyMMddHHmmss").parse(inDataHora);
+	public static java.util.Date stringAAAAMMDDHHMMSSToDate(String inDataHora) throws ParseException {
+		return new SimpleDateFormat("yyyyMMddHHmmss", DataUtil.LOCALE_BR).parse(inDataHora);
 	}
 
 	/**
@@ -516,8 +470,8 @@ public final class Conversor {
 	 * @return data convertida
 	 * @throws ParseException caso ocorra erro na conversão
 	 */
-	public static java.util.Date StringAAAAMMDDToDate(String inData) throws ParseException {
-		return new SimpleDateFormat("yyyyMMdd").parse(inData);
+	public static java.util.Date stringAAAAMMDDToDate(String inData) throws ParseException {
+		return new SimpleDateFormat("yyyyMMdd", DataUtil.LOCALE_BR).parse(inData);
 	}
 
 	/**
@@ -527,8 +481,8 @@ public final class Conversor {
 	 * @return data convertida
 	 * @throws ParseException caso ocorra erro na conversão
 	 */
-	public static java.util.Date StringDDMMAAAAHHMMSSToDate(String inDataHora) throws ParseException {
-		return new SimpleDateFormat("ddMMyyyyHHmmss").parse(inDataHora);
+	public static java.util.Date stringDDMMAAAAHHMMSSToDate(String inDataHora) throws ParseException {
+		return new SimpleDateFormat("ddMMyyyyHHmmss", DataUtil.LOCALE_BR).parse(inDataHora);
 	}
 
 	/**
@@ -538,8 +492,8 @@ public final class Conversor {
 	 * @return data convertida
 	 * @throws ParseException caso ocorra erro na conversão
 	 */
-	public static java.util.Date StringDDMMAAAAToDate(String inData) throws ParseException {
-		return new SimpleDateFormat("ddMMyyyy").parse(inData);
+	public static java.util.Date stringDDMMAAAAToDate(String inData) throws ParseException {
+		return new SimpleDateFormat("ddMMyyyy", DataUtil.LOCALE_BR).parse(inData);
 	}
 
 	/**
@@ -549,30 +503,28 @@ public final class Conversor {
 	 * @return data convertida
 	 * @throws ParseException caso ocorra erro na conversão
 	 */
-	public static java.util.Date StringToDateTime(String inDataHora) throws ParseException {
-		return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(inDataHora);
+	public static java.util.Date stringToDateTime(String inDataHora) throws ParseException {
+		return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", DataUtil.LOCALE_BR).parse(inDataHora);
 	}
 
 	/**
 	 * Converte uma String em um double
 	 * 
-	 * @param valor String
+	 * @param valor valor em String
 	 * @return double correspondente
 	 */
 	public static double stringToDouble(String valor) {
-		valor = valor.replace(',', '.');
-		return Double.parseDouble(valor);
+		return Double.parseDouble(valor.replace(',', '.'));
 	}
 
 	/**
-	 * Converte uma String em um float
+	 * Converte uma String em um float.
 	 * 
-	 * @param inEntrada valor em String
+	 * @param valor valor em String
 	 * @return float correspondente
 	 */
-	public static float stringToFloat(String inEntrada) {
-		inEntrada = inEntrada.replace(',', '.');
-		return Float.parseFloat(inEntrada);
+	public static float stringToFloat(String valor) {
+		return Float.parseFloat(valor.replace(',', '.'));
 	}
 
 	/**
@@ -607,7 +559,7 @@ public final class Conversor {
 	 * @throws ParseException caso ocorra erro na conversão
 	 */
 	public static java.util.Date stringToUtilDate(String inData) throws ParseException {
-		return new SimpleDateFormat("dd/MM/yyyy").parse(inData);
+		return new SimpleDateFormat("dd/MM/yyyy", DataUtil.LOCALE_BR).parse(inData);
 	}
 
 	/**
@@ -616,8 +568,8 @@ public final class Conversor {
 	 * @param inData {@link Timestamp} a transformar
 	 * @return String do Timestamp formatado
 	 */
-	public static String TimestampToString(java.sql.Timestamp inData) {
-		return TimestampToString(inData, "dd/MM/yyyy");
+	public static String timestampToString(java.sql.Timestamp inData) {
+		return timestampToString(inData, "dd/MM/yyyy");
 	}
 
 	/**
@@ -628,8 +580,8 @@ public final class Conversor {
 	 * 
 	 * @return String do Timestamp formatado
 	 */
-	public static String TimestampToString(java.sql.Timestamp inData, String formato) {
-		SimpleDateFormat formatador = new SimpleDateFormat(formato);
+	public static String timestampToString(java.sql.Timestamp inData, String formato) {
+		SimpleDateFormat formatador = new SimpleDateFormat(formato, DataUtil.LOCALE_BR);
 		formatador.setLenient(false);
 		return formatador.format(inData);
 	}
@@ -640,7 +592,7 @@ public final class Conversor {
 	 * @param dataHora {@link Timestamp} a transformar
 	 * @return Data transformada
 	 */
-	public static java.util.Date TimestampToUtilDate(Timestamp dataHora) {
+	public static java.util.Date timestampToUtilDate(Timestamp dataHora) {
 		return new java.util.Date(dataHora.getTime());
 	}
 
@@ -661,21 +613,21 @@ public final class Conversor {
 	 * @return novo texto
 	 */
 	public static String transformaPrimeirasLetrasMaiusculo(String texto) {
-		String result = "";
-		String nome = new String();
+		StringBuilder result = new StringBuilder("");
+		String nome;
 
-		StringTokenizer token = new StringTokenizer(texto.toLowerCase(), " ");
+		StringTokenizer token = new StringTokenizer(texto.toLowerCase(DataUtil.LOCALE_BR), " ");
 
 		while (token.hasMoreElements()) {
 			nome = token.nextToken();
 
-			if (!nome.equals("da")) {
-				result += nome.substring(0, 1).toUpperCase() + nome.substring(1) + " ";
+			if ("da".equals(nome)) {
+				result.append(nome + " ");
 			} else {
-				result += nome + " ";
+				result.append(nome.substring(0, 1).toUpperCase() + nome.substring(1) + " ");
 			}
 		}
-		return result;
+		return result.toString();
 	}
 
 	/**
@@ -686,13 +638,14 @@ public final class Conversor {
 	 * @return String com os caracteres especiais substituídos.
 	 */
 	public static String trataCaracteresEspeciais(String str) {
+		String resultado = str;
 		if (str.indexOf("/u0025") != -1) {
-			str = str.replaceAll("/u0025", "%");
+			resultado = resultado.replaceAll("/u0025", "%");
 		}
 		if (str.indexOf("/u0026") != -1) {
-			str = str.replaceAll("/u0026", "&");
+			resultado = resultado.replaceAll("/u0026", "&");
 		}
-		return str;
+		return resultado;
 	}
 
 	/**
@@ -702,7 +655,7 @@ public final class Conversor {
 	 * @return data formatada
 	 */
 	public static String utilDateTimeToString(java.util.Date inData) {
-		return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(inData);
+		return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", DataUtil.LOCALE_BR).format(inData);
 	}
 
 	/**
@@ -712,7 +665,7 @@ public final class Conversor {
 	 * @return data formatada
 	 */
 	public static String utilDateTimeToStringSemSegundos(java.util.Date inData) {
-		return new SimpleDateFormat("dd/MM/yyyy HH:mm").format(inData);
+		return new SimpleDateFormat("dd/MM/yyyy HH:mm", DataUtil.LOCALE_BR).format(inData);
 	}
 
 	/**
@@ -722,7 +675,7 @@ public final class Conversor {
 	 * @return data formatada
 	 */
 	public static String utilDateToDDMMAAAA(java.util.Date inData) {
-		return new SimpleDateFormat("ddMMyyyy").format(inData);
+		return new SimpleDateFormat("ddMMyyyy", DataUtil.LOCALE_BR).format(inData);
 	}
 
 	/**
@@ -742,7 +695,7 @@ public final class Conversor {
 	 * @return data formatada
 	 */
 	public static String utilDateToString(java.util.Date inData) {
-		return new SimpleDateFormat("dd/MM/yyyy").format(inData);
+		return new SimpleDateFormat("dd/MM/yyyy", DataUtil.LOCALE_BR).format(inData);
 	}
 
 	/**
@@ -752,7 +705,7 @@ public final class Conversor {
 	 * @return String formatada
 	 */
 	public static String utilDateToStringAAAAMMDD(java.util.Date inData) {
-		return new SimpleDateFormat("yyyyMMdd").format(inData);
+		return new SimpleDateFormat("yyyyMMdd", DataUtil.LOCALE_BR).format(inData);
 	}
 
 	/**
@@ -762,7 +715,7 @@ public final class Conversor {
 	 * @return String formatada
 	 */
 	public static String utilDateToStringDDMMAAAAHHMMSS(java.util.Date inData) {
-		return new SimpleDateFormat("ddMMyyyyHHmmss").format(inData);
+		return new SimpleDateFormat("ddMMyyyyHHmmss", DataUtil.LOCALE_BR).format(inData);
 	}
 
 	/**
@@ -773,51 +726,51 @@ public final class Conversor {
 	 * @return String
 	 */
 	public static String utilDateToStringPorExtenso(java.util.Date inData) {
-		String mes = "";
-		String descricao = "";
-		descricao = DataUtil.getDia(inData) + " de ";
+		StringBuilder descricao = new StringBuilder("");
+		descricao.append(DataUtil.getDia(inData) + " de ");
 
 		switch (DataUtil.getMes(inData)) {
 			case 1:
-				mes = "janeiro";
+				descricao.append("janeiro");
 				break;
 			case 2:
-				mes = "fevereiro";
+				descricao.append("fevereiro");
 				break;
 			case 3:
-				mes = "março";
+				descricao.append("março");
 				break;
 			case 4:
-				mes = "abril";
+				descricao.append("abril");
 				break;
 			case 5:
-				mes = "maio";
+				descricao.append("maio");
 				break;
 			case 6:
-				mes = "junho";
+				descricao.append("junho");
 				break;
 			case 7:
-				mes = "julho";
+				descricao.append("julho");
 				break;
 			case 8:
-				mes = "agosto";
+				descricao.append("agosto");
 				break;
 			case 9:
-				mes = "setembro";
+				descricao.append("setembro");
 				break;
 			case 10:
-				mes = "outubro";
+				descricao.append("outubro");
 				break;
 			case 11:
-				mes = "novembro";
+				descricao.append("novembro");
 				break;
 			case 12:
-				mes = "dezembro";
+				descricao.append("dezembro");
 				break;
+			default:
 		}
 
-		descricao += mes + " de " + DataUtil.getAno(inData);
-		return descricao;
+		descricao.append(" de " + DataUtil.getAno(inData));
+		return descricao.toString();
 	}
 
 	/**
@@ -837,7 +790,7 @@ public final class Conversor {
 	 * @return hora formatada
 	 */
 	public static String utilTimeToString(java.util.Date inData) {
-		return new SimpleDateFormat("HH:mm:ss").format(inData);
+		return new SimpleDateFormat("HH:mm:ss", DataUtil.LOCALE_BR).format(inData);
 	}
 
 	/**
@@ -847,7 +800,7 @@ public final class Conversor {
 	 * @return hora formatada
 	 */
 	public static String utilTimeToStringComMilisegundos(java.util.Date inData) {
-		return new SimpleDateFormat("HH:mm:ss:SS").format(inData);
+		return new SimpleDateFormat("HH:mm:ss:SS", DataUtil.LOCALE_BR).format(inData);
 	}
 
 	/**
@@ -857,7 +810,7 @@ public final class Conversor {
 	 * @return hora formatada
 	 */
 	public static String utilTimeToStringSemSegundos(java.util.Date inData) {
-		return new SimpleDateFormat("HH:mm").format(inData);
+		return new SimpleDateFormat("HH:mm", DataUtil.LOCALE_BR).format(inData);
 	}
 
 	/**

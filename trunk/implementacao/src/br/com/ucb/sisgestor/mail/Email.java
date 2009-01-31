@@ -22,14 +22,10 @@ import org.apache.commons.logging.LogFactory;
  */
 public class Email {
 
-	private static Log	logger;
+	private static final Log	LOG	= LogFactory.getLog(Email.class);
 
-	private MimeMessage	message;
-	private Multipart		msg;
-
-	static {
-		logger = LogFactory.getLog(Email.class);
-	}
+	private MimeMessage			message;
+	private Multipart				msg;
 
 	/**
 	 * Cria uma nova instância do tipo {@link Email}
@@ -52,7 +48,7 @@ public class Email {
 					this.message.addRecipient(Message.RecipientType.CC, new InternetAddress(endereco.trim()));
 				}
 			} catch (MessagingException e) {
-				logger.error(e.getMessage(), e);
+				LOG.error(e.getMessage(), e);
 			}
 		}
 	}
@@ -70,7 +66,7 @@ public class Email {
 					this.message.addRecipient(Message.RecipientType.BCC, new InternetAddress(endereco.trim()));
 				}
 			} catch (MessagingException e) {
-				logger.error(e.getMessage(), e);
+				LOG.error(e.getMessage(), e);
 			}
 		}
 	}
@@ -88,7 +84,7 @@ public class Email {
 					this.message.addRecipient(Message.RecipientType.TO, new InternetAddress(endereco.trim()));
 				}
 			} catch (MessagingException e) {
-				logger.error(e.getMessage(), e);
+				LOG.error(e.getMessage(), e);
 			}
 		}
 	}
@@ -145,7 +141,7 @@ public class Email {
 		try {
 			this.message.setContent(this.msg);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 		}
 		return this.message;
 	}
@@ -169,7 +165,7 @@ public class Email {
 		try {
 			this.message.setSubject(assunto);
 		} catch (MessagingException e) {
-			logger.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 		}
 	}
 
@@ -184,7 +180,7 @@ public class Email {
 			txt.setContent(corpo, EmailSender.getMimeType());
 			this.msg.addBodyPart(txt);
 		} catch (MessagingException e) {
-			logger.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 		}
 	}
 
@@ -197,7 +193,7 @@ public class Email {
 		try {
 			this.message.setFrom(new InternetAddress(remetente));
 		} catch (MessagingException e) {
-			logger.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 		}
 	}
 }

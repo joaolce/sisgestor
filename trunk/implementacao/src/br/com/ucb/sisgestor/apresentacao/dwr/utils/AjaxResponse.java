@@ -2,7 +2,7 @@
  * Projeto: SisGestor
  * Criação: 24/10/2008 por João Lúcio
  */
-package br.com.ucb.sisgestor.apresentacao.ajaxUtils;
+package br.com.ucb.sisgestor.apresentacao.dwr.utils;
 
 import br.com.ucb.sisgestor.util.GenericsUtil;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import org.w3c.dom.Node;
  */
 public class AjaxResponse {
 
-	private DOMElement				ajaxResponse;
+	private DOMElement				response;
 	private Document					document;
 	private Map<String, Object>	valoresDevolvidos;
 
@@ -31,8 +31,8 @@ public class AjaxResponse {
 	public AjaxResponse() {
 		this.document = DocumentFactory.getInstance().createDocument();
 		this.document.setXMLEncoding("UTF-8");
-		this.ajaxResponse = new DOMElement("ajaxResponse");
-		this.document.add(this.ajaxResponse);
+		this.response = new DOMElement("ajaxResponse");
+		this.document.add(this.response);
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class AjaxResponse {
 	public void addMessage(String message) {
 		DOMElement element = new DOMElement("message");
 		element.setText(message);
-		this.ajaxResponse.add(element);
+		this.response.add(element);
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class AjaxResponse {
 	 * @param estado status da requisição: <code>true</code> - verde, <code>false</code> - vermelho
 	 */
 	public void setStatus(boolean estado) {
-		this.setNode("status", new Boolean(estado).toString());
+		this.setNode("status", Boolean.toString(estado));
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class AjaxResponse {
 	public String toString() {
 		DOMElement jsonObject = this.getValoresRetorno();
 		if (jsonObject != null) {
-			this.ajaxResponse.add(jsonObject);
+			this.response.add(jsonObject);
 		}
 		return this.document.asXML();
 	}
@@ -141,13 +141,13 @@ public class AjaxResponse {
 	 * @param value valor do nó
 	 */
 	private void setNode(String node, String value) {
-		List<Node> selectNodes = GenericsUtil.checkedList(this.ajaxResponse.elements(node), Node.class);
+		List<Node> selectNodes = GenericsUtil.checkedList(this.response.elements(node), Node.class);
 		DOMElement element = new DOMElement(node);
 		element.setText(value);
-		if (selectNodes.size() == 0) {
-			this.ajaxResponse.add(element);
+		if (selectNodes.isEmpty()) {
+			this.response.add(element);
 		} else {
-			this.ajaxResponse.replaceChild(element, selectNodes.get(0));
+			this.response.replaceChild(element, selectNodes.get(0));
 		}
 	}
 }

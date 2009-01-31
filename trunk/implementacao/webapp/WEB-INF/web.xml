@@ -43,7 +43,7 @@
 		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
 		<init-param>
 			<param-name>org.directwebremoting.extend.AccessControl</param-name>
-			<param-value>br.com.ucb.sisgestor.apresentacao.ajaxUtils.ControleAcessoDWR</param-value>
+			<param-value>br.com.ucb.sisgestor.apresentacao.dwr.utils.ControleAcessoDWR</param-value>
 		</init-param>
 		<init-param>
 			<param-name>debug</param-name>

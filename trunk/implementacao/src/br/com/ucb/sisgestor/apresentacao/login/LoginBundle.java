@@ -18,7 +18,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public final class LoginBundle {
 
-	private static Log				logger;
 	private static final String	LOCAL_RESOURCE	= "resources/";
 	private static final String	ERRO_RESOURCE	= "erro_page.html";
 	private static final String	LOGIN_RESOURCE	= "login_page.html";
@@ -29,10 +28,7 @@ public final class LoginBundle {
 	private static StringBuilder	erroPage;
 	private static StringBuilder	loginPage;
 	private static StringBuilder	senhaPage;
-
-	static {
-		logger = LogFactory.getLog(LoginBundle.class);
-	}
+	private static final Log		LOG				= LogFactory.getLog(LoginBundle.class);
 
 	/**
 	 * Cria uma nova instância do tipo {@link LoginBundle}
@@ -91,27 +87,29 @@ public final class LoginBundle {
 		loginPage = this.replaceText(loginPage, VERSAO_DATA, Constantes.VERSAO_DATA);
 	}
 
-	private synchronized StringBuilder loadResourceFile(String filename) {
-		logger.debug("Obtendo o recurso: " + filename);
-		InputStream is = (LoginBundle.class).getResourceAsStream(filename);
-		byte buffer[] = new byte[256];
-		int cnt = 0;
-		StringBuilder html = new StringBuilder();
-		do {
-			try {
-				cnt = is.read(buffer);
-			} catch (IOException e) {
-				logger.error("Erro na leitura dos dados.", e);
-				cnt = 0;
-			}
-			if (cnt > 0) {
-				for (int i = 0; i < cnt; i++) {
-					char c = (char) buffer[i];
-					html.append(c);
+	private StringBuilder loadResourceFile(String filename) {
+		synchronized (this) {
+			LOG.debug("Obtendo o recurso: " + filename);
+			InputStream is = (LoginBundle.class).getResourceAsStream(filename);
+			byte buffer[] = new byte[256];
+			int cnt = 0;
+			StringBuilder html = new StringBuilder();
+			do {
+				try {
+					cnt = is.read(buffer);
+				} catch (IOException e) {
+					LOG.error("Erro na leitura dos dados.", e);
+					cnt = 0;
 				}
-			}
-		} while (cnt > 0);
-		return html;
+				if (cnt > 0) {
+					for (int i = 0; i < cnt; i++) {
+						char c = (char) buffer[i];
+						html.append(c);
+					}
+				}
+			} while (cnt > 0);
+			return html;
+		}
 	}
 
 	/**

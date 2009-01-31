@@ -36,7 +36,7 @@ public final class Extenso {
 	 * Cria uma nova instância do tipo Extenso
 	 */
 	public Extenso() {
-		modulos = new ArrayList<Integer>();
+		this.modulos = new ArrayList<Integer>();
 	}
 
 	/**
@@ -46,7 +46,7 @@ public final class Extenso {
 	 */
 	public Extenso(BigDecimal dec) {
 		this();
-		setNumero(dec);
+		this.setNumero(dec);
 	}
 
 	/**
@@ -56,7 +56,7 @@ public final class Extenso {
 	 */
 	public Extenso(double dec) {
 		this();
-		setNumero(dec);
+		this.setNumero(dec);
 	}
 
 	/**
@@ -69,22 +69,23 @@ public final class Extenso {
 			throw new IllegalArgumentException("número não pode ser menor que zero");
 		}
 		// Converte para inteiro arredondando os centavos
-		numero = dec.setScale(2, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal.valueOf(100)).toBigInteger();
+		this.numero =
+				dec.setScale(2, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal.valueOf(100)).toBigInteger();
 
 		// Adiciona valores
-		modulos.clear();
-		if (numero.equals(BigInteger.ZERO)) {
+		this.modulos.clear();
+		if (this.numero.equals(BigInteger.ZERO)) {
 			// Centavos
-			modulos.add(new Integer(0));
+			this.modulos.add(Integer.valueOf(0));
 			// Valor
-			modulos.add(new Integer(0));
+			this.modulos.add(Integer.valueOf(0));
 		} else {
 			// Adiciona centavos
-			adicionaModulo(100);
+			this.adicionaModulo(100);
 
 			// Adiciona grupos de 1000
-			while (!numero.equals(BigInteger.ZERO)) {
-				adicionaModulo(1000);
+			while (!this.numero.equals(BigInteger.ZERO)) {
+				this.adicionaModulo(1000);
 			}
 		}
 	}
@@ -95,7 +96,7 @@ public final class Extenso {
 	 * @param dec valor a armazenar
 	 */
 	public void setNumero(double dec) {
-		setNumero(new BigDecimal(dec));
+		this.setNumero(new BigDecimal(dec));
 	}
 
 	/**
@@ -104,39 +105,39 @@ public final class Extenso {
 	 * @return a String da classe
 	 */
 	@Override
-	public String toString() {
+	public String toString() { //NOPMD by João Lúcio - não dá para quebrar
 		StringBuffer buf = new StringBuffer();
 
 		int ct;
 
-		for (ct = modulos.size() - 1; ct > 0; ct--) {
+		for (ct = this.modulos.size() - 1; ct > 0; ct--) {
 			// Se ja existe texto e o atual não é zero
-			if ((buf.length() > 0) && !ehGrupoZero(ct)) {
+			if ((buf.length() > 0) && !this.ehGrupoZero(ct)) {
 				buf.append(" e ");
 			}
-			buf.append(numToString(modulos.get(ct).intValue(), ct));
+			buf.append(this.numToString(this.modulos.get(ct).intValue(), ct));
 		}
 		if (buf.length() > 0) {
-			if (ehUnicoGrupo()) {
+			if (this.ehUnicoGrupo()) {
 				buf.append(" de ");
 			}
 			while (buf.toString().endsWith(" ")) {
 				buf.setLength(buf.length() - 1);
 			}
-			if (ehPrimeiroGrupoUm()) {
+			if (this.ehPrimeiroGrupoUm()) {
 				buf.insert(0, "h");
 			}
-			if ((modulos.size() == 2) && (modulos.get(1).intValue() == 1)) {
+			if ((this.modulos.size() == 2) && (this.modulos.get(1).intValue() == 1)) {
 				buf.append(" real");
 			} else {
 				buf.append(" reais");
 			}
-			if (modulos.get(0).intValue() != 0) {
+			if (this.modulos.get(0).intValue() != 0) {
 				buf.append(" e ");
 			}
 		}
-		if (modulos.get(0).intValue() != 0) {
-			buf.append(numToString(modulos.get(0).intValue(), 0));
+		if (this.modulos.get(0).intValue() != 0) {
+			buf.append(this.numToString(this.modulos.get(0).intValue(), 0));
 		}
 		return buf.toString();
 	}
@@ -149,13 +150,13 @@ public final class Extenso {
 	 */
 	private void adicionaModulo(int divisor) {
 		// Encontra newNum[0] = num modulo divisor, newNum[1] = num dividido divisor
-		BigInteger[] newNum = numero.divideAndRemainder(BigInteger.valueOf(divisor));
+		BigInteger[] newNum = this.numero.divideAndRemainder(BigInteger.valueOf(divisor));
 
 		// Adiciona modulo
-		modulos.add(new Integer(newNum[1].intValue()));
+		this.modulos.add(Integer.valueOf(newNum[1].intValue()));
 
 		// Altera numero
-		numero = newNum[0];
+		this.numero = newNum[0];
 	}
 
 	/**
@@ -166,10 +167,10 @@ public final class Extenso {
 	 * @return
 	 */
 	private boolean ehGrupoZero(int ps) {
-		if ((ps <= 0) || (ps >= modulos.size())) {
+		if ((ps <= 0) || (ps >= this.modulos.size())) {
 			return true;
 		}
-		return modulos.get(ps).intValue() == 0;
+		return this.modulos.get(ps).intValue() == 0;
 	}
 
 	/**
@@ -178,7 +179,7 @@ public final class Extenso {
 	 * @return <code>true</code> caso seja, <code>false</code> caso contrário
 	 */
 	private boolean ehPrimeiroGrupoUm() {
-		if (modulos.get(modulos.size() - 1).intValue() == 1) {
+		if (this.modulos.get(this.modulos.size() - 1).intValue() == 1) {
 			return true;
 		}
 		return false;
@@ -190,15 +191,15 @@ public final class Extenso {
 	 * @return Description of the Returned Value
 	 */
 	private boolean ehUnicoGrupo() {
-		if (modulos.size() <= 3) {
+		if (this.modulos.size() <= 3) {
 			return false;
 		}
-		if (!ehGrupoZero(1) && !ehGrupoZero(2)) {
+		if (!this.ehGrupoZero(1) && !this.ehGrupoZero(2)) {
 			return false;
 		}
 		boolean hasOne = false;
-		for (int i = 3; i < modulos.size(); i++) {
-			if (modulos.get(i).intValue() != 0) {
+		for (int i = 3; i < this.modulos.size(); i++) {
+			if (this.modulos.get(i).intValue() != 0) {
 				if (hasOne) {
 					return false;
 				}
@@ -225,9 +226,9 @@ public final class Extenso {
 		if (numero != 0) {
 			if (centena != 0) {
 				if ((dezena == 0) && (centena == 1)) {
-					buf.append(numeros[2][0]);
+					buf.append(this.numeros[2][0]);
 				} else {
-					buf.append(numeros[2][centena]);
+					buf.append(this.numeros[2][centena]);
 				}
 			}
 
@@ -236,20 +237,20 @@ public final class Extenso {
 			}
 			if (dezena > 19) {
 				dezena /= 10;
-				buf.append(numeros[1][dezena - 2]);
+				buf.append(this.numeros[1][dezena - 2]);
 				if (unidade != 0) {
 					buf.append(" e ");
-					buf.append(numeros[0][unidade]);
+					buf.append(this.numeros[0][unidade]);
 				}
 			} else if ((centena == 0) || (dezena != 0)) {
-				buf.append(numeros[0][dezena]);
+				buf.append(this.numeros[0][dezena]);
 			}
 
-			buf.append(" ");
+			buf.append(' ');
 			if (numero == 1) {
-				buf.append(qualificadores[escala][0]);
+				buf.append(this.qualificadores[escala][0]);
 			} else {
-				buf.append(qualificadores[escala][1]);
+				buf.append(this.qualificadores[escala][1]);
 			}
 		}
 		return buf.toString();

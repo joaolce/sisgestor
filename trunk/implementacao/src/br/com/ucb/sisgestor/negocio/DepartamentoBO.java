@@ -23,5 +23,5 @@ public interface DepartamentoBO extends BaseBO<Departamento, Integer> {
 	 * @param paginaAtual página atual da pesquisa
 	 * @return {@link List} de {@link Departamento}
 	 */
-	public List<Departamento> getBySiglaNome(String sigla, String nome, Integer paginaAtual);
+	List<Departamento> getBySiglaNome(String sigla, String nome, Integer paginaAtual);
 }

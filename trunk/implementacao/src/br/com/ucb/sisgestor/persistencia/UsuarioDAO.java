@@ -24,7 +24,7 @@ public interface UsuarioDAO extends BaseDAO<Usuario, Integer> {
 	 * @param paginaAtual página atual da pesquisa
 	 * @return {@link List} de {@link Usuario}
 	 */
-	public List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
+	List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
 			Integer paginaAtual);
 
 	/**
@@ -35,7 +35,7 @@ public interface UsuarioDAO extends BaseDAO<Usuario, Integer> {
 	 * @param departamento identificador do departamento do usuário
 	 * @return total de registros
 	 */
-	public Integer getTotalRegistros(String login, String nome, Integer departamento);
+	Integer getTotalRegistros(String login, String nome, Integer departamento);
 
 	/**
 	 * Recupera um {@link Usuario} a partir do seu login.
@@ -43,5 +43,5 @@ public interface UsuarioDAO extends BaseDAO<Usuario, Integer> {
 	 * @param login login do usuário
 	 * @return usuário encontrado
 	 */
-	public Usuario recuperarPorLogin(String login);
+	Usuario recuperarPorLogin(String login);
 }

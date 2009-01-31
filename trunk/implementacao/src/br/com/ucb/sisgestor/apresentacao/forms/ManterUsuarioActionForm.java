@@ -110,6 +110,7 @@ public class ManterUsuarioActionForm extends BaseForm {
 	 * 
 	 * @return permissoes
 	 */
+	@SuppressWarnings("PMD")
 	public Integer[] getPermissoes() {
 		return this.permissoes;
 	}
@@ -128,6 +129,7 @@ public class ManterUsuarioActionForm extends BaseForm {
 	 * 
 	 * @return permissoesInform
 	 */
+	@SuppressWarnings("PMD")
 	public Integer[] getPermissoesInform() {
 		return this.permissoesInform;
 	}
@@ -213,7 +215,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 		this.nome = nome;
 	}
 
-
 	/**
 	 * Atribui novaSenha
 	 * 
@@ -223,16 +224,15 @@ public class ManterUsuarioActionForm extends BaseForm {
 		this.novaSenha = novaSenha;
 	}
 
-
 	/**
 	 * Atribui permissoes
 	 * 
 	 * @param permissoes o valor a ajustar em permissoes
 	 */
+	@SuppressWarnings("PMD")
 	public void setPermissoes(Integer[] permissoes) {
 		this.permissoes = permissoes;
 	}
-
 
 	/**
 	 * Atribui permissoesDisponiveis
@@ -243,16 +243,15 @@ public class ManterUsuarioActionForm extends BaseForm {
 		this.permissoesDisponiveis = permissoesDisponiveis;
 	}
 
-
 	/**
 	 * Atribui permissoesInform
 	 * 
 	 * @param permissoesInform o valor a ajustar em permissoesInform
 	 */
+	@SuppressWarnings("PMD")
 	public void setPermissoesInform(Integer[] permissoesInform) {
 		this.permissoesInform = permissoesInform;
 	}
-
 
 	/**
 	 * Atribui roles
@@ -262,7 +261,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 	public void setRoles(List<Permissao> roles) {
 		this.roles = roles;
 	}
-
 
 	/**
 	 * Atribui senhaAtual

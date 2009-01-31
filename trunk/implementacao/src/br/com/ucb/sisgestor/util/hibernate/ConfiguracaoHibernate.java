@@ -22,18 +22,18 @@ import org.hibernate.transaction.JTATransactionFactory;
  */
 public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 
-	private static ConfiguracaoHibernate	configuracao;
-	private final boolean						criarBancoDeDados	= false;
-	private final boolean						isGerarScript		= false;
-	private final boolean						isMostrarSQL		= true;
+	private static final ConfiguracaoHibernate	configuracao		= new ConfiguracaoHibernate();
+	private static boolean								criarBancoDeDados	= false;
+	private static boolean								isGerarScript		= false;
+	private static boolean								isMostrarSQL		= true;
 
 	private ConfiguracaoHibernate() {
 		this.setProperty(Environment.DIALECT, MySQL5InnoDBDialect.class.getName());
 		this.setProperty(Environment.DRIVER, Driver.class.getName());
 		this.setProperty(Environment.DATASOURCE, "java:/SisGestorDB");
 		this.setProperty(Environment.DEFAULT_SCHEMA, "sisgestor");
-		this.setProperty(Environment.SHOW_SQL, Boolean.toString(this.isMostrarSQL));
-		if (this.criarBancoDeDados) {
+		this.setProperty(Environment.SHOW_SQL, Boolean.toString(isMostrarSQL));
+		if (criarBancoDeDados) {
 			this.setProperty(Environment.HBM2DDL_AUTO, "create-drop");
 		} else {
 			this.setProperty(Environment.HBM2DDL_AUTO, "validate");
@@ -58,9 +58,6 @@ public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 	 * @return configuração do hibernate
 	 */
 	public static ConfiguracaoHibernate getConfiguracao() {
-		if (configuracao == null) {
-			configuracao = new ConfiguracaoHibernate();
-		}
 		return configuracao;
 	}
 
@@ -68,9 +65,9 @@ public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 	 * Cria o banco de dados.
 	 */
 	public void recriarBancoDeDados() {
-		if (this.criarBancoDeDados) {
+		if (ConfiguracaoHibernate.criarBancoDeDados) {
 			SchemaExport schemaExport = new SchemaExport(this);
-			if (this.isGerarScript) {
+			if (ConfiguracaoHibernate.isGerarScript) {
 				schemaExport.setOutputFile(".\\scriptDB-sisgestor.txt");
 			}
 			schemaExport.drop(false, true);

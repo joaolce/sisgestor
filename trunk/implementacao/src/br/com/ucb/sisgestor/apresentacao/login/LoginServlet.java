@@ -25,19 +25,15 @@ import org.apache.commons.logging.LogFactory;
  */
 public final class LoginServlet extends HttpServlet {
 
-	private static Log				logger;
 	private static final String	CHARSET			= "ISO-8859-1";
 	private static final String	ERROR				= "error";
 	private static final String	HTML_MIME_TYPE	= "text/html";
 	private static final String	LOGIN_ERROR		= "loginerror";
 	private static final String	LOGOUT			= "logout";
+	private static final Log		LOG				= LogFactory.getLog(LoginServlet.class);
 
 	private LoginBundle				loginBundle;
 	private LoginHelper				loginHelper;
-
-	static {
-		logger = LogFactory.getLog(LoginServlet.class);
-	}
 
 	/**
 	 * {@inheritDoc}
@@ -56,22 +52,25 @@ public final class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
 		String param;
-		if (null != request.getParameter(LOGOUT)) {
-			logger.debug("Efetuando logout.");
-			this.loginHelper.doLogout(request, response);
-			response.sendRedirect(".");
-		} else if (null != (param = request.getParameter(ERROR))) {
-			logger.debug("Página de acesso negado.");
-			int erro = param.equals("") ? 0 : Integer.parseInt(param);
-			if ((erro == HttpServletResponse.SC_METHOD_NOT_ALLOWED)
-					|| (erro == HttpServletResponse.SC_FORBIDDEN)) {
-				this.escrevePagina(response, this.loginBundle.getErroPage("Acesso não autorizado."));
+		if (request.getParameter(LOGOUT) == null) {
+			param = request.getParameter(ERROR);
+			if (param == null) {
+				LOG.debug("Página de login.");
+				this.escrevePagina(response, this.loginBundle.getLoginPage(""));
 			} else {
-				this.escrevePagina(response, this.loginBundle.getErroPage("Erro não reconhecido."));
+				LOG.debug("Página de acesso negado.");
+				int erro = "".equals(param) ? 0 : Integer.parseInt(param);
+				if ((erro == HttpServletResponse.SC_METHOD_NOT_ALLOWED)
+						|| (erro == HttpServletResponse.SC_FORBIDDEN)) {
+					this.escrevePagina(response, this.loginBundle.getErroPage("Acesso não autorizado."));
+				} else {
+					this.escrevePagina(response, this.loginBundle.getErroPage("Erro não reconhecido."));
+				}
 			}
 		} else {
-			logger.debug("Página de login.");
-			this.escrevePagina(response, this.loginBundle.getLoginPage(""));
+			LOG.debug("Efetuando logout.");
+			this.loginHelper.doLogout(request, response);
+			response.sendRedirect(".");
 		}
 	}
 
@@ -81,22 +80,22 @@ public final class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
-		if (null != request.getParameter(LOGIN_ERROR)) {
-			logger.debug("Página de login negado.");
-			this.escrevePagina(response, this.loginBundle.getLoginPage("Login e/ou senha inválida."));
-		} else {
+		if (request.getParameter(LOGIN_ERROR) == null) {
 			String operacao = request.getParameter("opr");
-			logger.debug("Operação: " + operacao);
+			LOG.debug("Operação: " + operacao);
 			if ("paginaAvisarSenha".equals(operacao)) {
-				logger.debug("Página de lembrete de senha.");
+				LOG.debug("Página de lembrete de senha.");
 				this.escrevePagina(response, this.loginBundle.getSenhaPage(""));
 			} else if ("lembrarSenha".equals(operacao)) {
-				logger.debug("Página de lembrete de senha, enviando a senha.");
+				LOG.debug("Página de lembrete de senha, enviando a senha.");
 				this.enviarLembreteDeSenha(request, response);
 			} else {
-				logger.debug("Operação não identificada. Redirecionando para a raiz da aplicação.");
+				LOG.debug("Operação não identificada. Redirecionando para a raiz da aplicação.");
 				response.sendRedirect(".");
 			}
+		} else {
+			LOG.debug("Página de login negado.");
+			this.escrevePagina(response, this.loginBundle.getLoginPage("Login e/ou senha inválida."));
 		}
 	}
 
@@ -155,10 +154,7 @@ public final class LoginServlet extends HttpServlet {
 				valorParametro = "";
 			}
 		}
-		if (maxLength > 0) {
-			if (maxLength > valorParametro.length()) {
-				maxLength = valorParametro.length();
-			}
+		if ((maxLength > 0) && (maxLength < valorParametro.length())) {
 			valorParametro = valorParametro.substring(0, maxLength);
 		}
 		return valorParametro;

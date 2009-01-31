@@ -55,7 +55,7 @@ public class IntegerUserType<E extends Enum<E>> implements UserType, Parameteriz
 	 * {@inheritDoc}
 	 */
 	public boolean equals(Object x, Object y) throws HibernateException {
-		if (x == y) {
+		if (x == y) { //NOPMD by João Lúcio - implementação de infra. Precisa testar se os objetos são os mesmos
 			return true;
 		}
 		if ((null == x) || (null == y)) {
