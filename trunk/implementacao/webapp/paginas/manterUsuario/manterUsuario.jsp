@@ -51,7 +51,7 @@
 	</fieldset>
 
 	<div id="divUsuarios" style="clear: left; width: 956px; height: 240px; overflow: auto; border: 1px solid gray; margin-top: 10px;">
-		<table style="width: 98%">
+		<table style="width: 99.9%">
 			<thead>
 				<tr>
 					<th>&nbsp;</th>
@@ -59,6 +59,7 @@
 					<th><bean:message key="label.nome" /></th>
 					<th><bean:message key="label.email" /></th>
 					<th><bean:message key="label.departamento" /></th>
+					<th><bean:message key="label.chefe" /></th>
 				</tr>
 			</thead>
 			<tbody id="corpoManterUsuario" class="corpoTabelaClicavel"></tbody>
@@ -75,7 +76,7 @@
 			<div style="float: left; margin-top: 14px;">
 				<label style="float: left;">
 					<b><bean:message key="label.login"/>:</b>
-					<html:text property="login" size="16" maxlength="15" />
+					<html:text property="login" size="16" maxlength="15" readonly="true" />
 				</label>
 				<br />
 				<label style="float: left; margin-top: 3px;">
@@ -83,13 +84,22 @@
 					<html:text property="nome" size="51" maxlength="150" />
 				</label> 
 				<br />
-				<label style="float: left; margin-top: 3px;">
-					<b><bean:message key="label.departamento"/>: </b>
-					<html:select property="departamento" styleId="departamento">
-						<html:option value="" />
-						<html:optionsCollection name="manterUsuarioForm" property="listaDepartamentos" label="sigla" value="id" />
-					</html:select>
-				</label>
+				<div style="float: left; margin-top: 3px;">
+					<label>
+						<b><bean:message key="label.departamento"/>: </b>
+						<html:select property="departamento" styleId="departamento">
+							<html:option value="" />
+							<html:optionsCollection name="manterUsuarioForm" property="listaDepartamentos" label="sigla" value="id" />
+						</html:select>
+					</label>
+					<label style="margin-left: 7px;">
+						<b><bean:message key="label.chefe"/>: </b>
+						<html:select property="chefe" styleId="chefe">
+							<html:option value="0" key="label.nao" />
+							<html:option value="1" key="label.sim" />
+						</html:select>
+					</label>
+				</div>
 				<br />
 				<label style="float: left; margin-top: 3px;">
 					<b><bean:message key="label.email"/>: </b>

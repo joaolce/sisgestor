@@ -45,7 +45,7 @@
 	</fieldset>
 
 	<div id="divDepartamentos" style="clear: left; width: 956px; height: 240px; overflow: auto; border: 1px solid gray; margin-top: 10px;">
-		<table style="width: 98%">
+		<table style="width: 99.9%">
 			<thead>
 				<tr>
 					<th>&nbsp;</th>
@@ -72,12 +72,12 @@
 					<html:text property="sigla" size="11" maxlength="10" />
 				</label> 
 				<br />
-				<label>
+				<label style="margin-top: 3px;">
 					<b><bean:message key="label.nome"/>:</b>
 					<html:text property="nome" size="51" maxlength="50" />
 				</label> 
 				<br />
-				<label>
+				<label style="margin-top: 3px;">
 					<b><bean:message key="label.departamentoSuperior"/>: </b>
 					<html:select property="departamentoSuperior" styleId="departamentoSuperior">
 						<html:option value="" />
@@ -85,7 +85,7 @@
 					</html:select>
 				</label>
 				<br />
-				<label>
+				<label style="margin-top: 3px;">
 					<b><bean:message key="label.email"/>: </b>
 					<html:text property="email" size="41" maxlength="40" />
 				</label> 
