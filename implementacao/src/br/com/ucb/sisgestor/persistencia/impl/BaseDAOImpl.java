@@ -62,7 +62,10 @@ public class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serializable> i
 	 */
 	public List<T> obterTodos() {
 		Criteria criteria = this.getSession().createCriteria(this.classePersistente);
-		criteria.addOrder(this.getOrdemLista());
+		Order order = this.getOrdemLista();
+		if (order != null) {
+			criteria.addOrder(order);
+		}
 		return GenericsUtil.checkedList(criteria.list(), this.classePersistente);
 	}
 
@@ -100,7 +103,7 @@ public class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serializable> i
 	 * @return ordenação padrão
 	 */
 	protected Order getOrdemLista() {
-		return Order.asc("id");
+		return null;
 	}
 
 	/**

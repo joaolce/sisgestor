@@ -30,8 +30,19 @@ public class Usuario extends ObjetoPersistente {
 	private String				login;
 	private String				senha;
 	private String				email;
+	private Boolean			chefe;
 	private Departamento		departamento;
 	private List<Permissao>	permissoes;
+
+	/**
+	 * Recupera se o usuário é chefe do departamento.
+	 * 
+	 * @return se o usuário é chefe do departamento
+	 */
+	@Column(name = "UUR_CHEFE", nullable = false)
+	public Boolean getChefe() {
+		return this.chefe;
+	}
 
 	/**
 	 * Recupera o departamento do usuário
@@ -101,6 +112,15 @@ public class Usuario extends ObjetoPersistente {
 	}
 
 	/**
+	 * Atribui se o usuário é chefe do departamento.
+	 * 
+	 * @param chefe se o usuário é chefe do departamento
+	 */
+	public void setChefe(Boolean chefe) {
+		this.chefe = chefe;
+	}
+
+	/**
 	 * Atribui o departamento do usuário
 	 * 
 	 * @param departamento departamento do usuário
@@ -136,6 +156,7 @@ public class Usuario extends ObjetoPersistente {
 		this.nome = nome;
 	}
 
+
 	/**
 	 * Atribui as permissões do usuário no sistema
 	 * 
@@ -144,6 +165,7 @@ public class Usuario extends ObjetoPersistente {
 	public void setPermissoes(List<Permissao> permissoes) {
 		this.permissoes = permissoes;
 	}
+
 
 	/**
 	 * Atribui a senha do usuário

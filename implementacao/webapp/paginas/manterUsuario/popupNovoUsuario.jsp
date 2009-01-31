@@ -13,26 +13,30 @@
 				<br />
 				<html:text property="login" size="11" maxlength="10" />
 			</label> 
-			<br />
-			<br />
-			<label>
+			<label style="float: left; margin-top: 15px;">
 				<b><bean:message key="label.nome"/></b>
 				<br />
 				<html:text property="nome" size="51" maxlength="50" />
 			</label> 
-			<br />
-			<br />
-			<label>
-				<b><bean:message key="label.departamento"/></b>
-				<br />
-				<html:select property="departamento" styleId="departamento">
-					<html:option value="" />
-					<html:optionsCollection name="manterUsuarioForm" property="listaDepartamentos" label="sigla" value="id" />
-				</html:select>
-			</label>
-			<br />
-			<br />
-			<label>
+			<div style="width: 60%; margin-top: 15px;">
+				<label style="float: left; margin-top: inherit;">
+					<b><bean:message key="label.departamento"/></b>
+					<br />
+					<html:select property="departamento" styleId="departamento">
+						<html:option value="" />
+						<html:optionsCollection name="manterUsuarioForm" property="listaDepartamentos" label="sigla" value="id" />
+					</html:select>
+				</label>
+				<label style="float: right; margin-top: inherit;">
+					<b><bean:message key="label.chefe"/></b>
+					<br />
+					<html:select property="chefe" styleId="chefe">
+						<html:option value="0" key="label.nao" />
+						<html:option value="1" key="label.sim" />
+					</html:select>
+				</label>
+			</div>
+			<label style="float: left; margin-top: 15px;">
 				<b><bean:message key="label.email"/></b> <br />
 				<html:text property="email" size="41" maxlength="40" />
 			</label>

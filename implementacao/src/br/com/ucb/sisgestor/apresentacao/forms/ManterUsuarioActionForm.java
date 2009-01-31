@@ -22,6 +22,7 @@ public class ManterUsuarioActionForm extends BaseForm {
 	private String					nome;
 	private String					email;
 	private Integer				departamento;
+	private Boolean				chefe;
 	private List<Departamento>	listaDepartamentos;
 	private List<Permissao>		roles;
 	private List<Permissao>		permissoesDisponiveis;
@@ -31,6 +32,15 @@ public class ManterUsuarioActionForm extends BaseForm {
 	private String					senhaAtual;
 	private String					novaSenha;
 	private String					confirmarSenha;
+
+	/**
+	 * Recupera o valor de chefe.
+	 * 
+	 * @return chefe
+	 */
+	public Boolean getChefe() {
+		return this.chefe;
+	}
 
 	/**
 	 * Recupera o valor de confirmarSenha
@@ -95,6 +105,7 @@ public class ManterUsuarioActionForm extends BaseForm {
 		return this.nome;
 	}
 
+
 	/**
 	 * Recupera o valor de novaSenha
 	 * 
@@ -103,7 +114,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 	public String getNovaSenha() {
 		return this.novaSenha;
 	}
-
 
 	/**
 	 * Recupera o valor de permissoes
@@ -150,6 +160,15 @@ public class ManterUsuarioActionForm extends BaseForm {
 	 */
 	public String getSenhaAtual() {
 		return this.senhaAtual;
+	}
+
+	/**
+	 * Atribui chefe.
+	 * 
+	 * @param chefe o valor a ajustar em chefe
+	 */
+	public void setChefe(Boolean chefe) {
+		this.chefe = chefe;
 	}
 
 	/**
@@ -253,6 +272,7 @@ public class ManterUsuarioActionForm extends BaseForm {
 		this.permissoesInform = permissoesInform;
 	}
 
+
 	/**
 	 * Atribui roles
 	 * 
@@ -261,6 +281,7 @@ public class ManterUsuarioActionForm extends BaseForm {
 	public void setRoles(List<Permissao> roles) {
 		this.roles = roles;
 	}
+
 
 	/**
 	 * Atribui senhaAtual

@@ -69,6 +69,7 @@ ComportamentosTela.prototype = {
 		   dwr.util.setValue("nome", usuario.nome);
 		   dwr.util.setValue("email", usuario.email);
 		   dwr.util.setValue("departamento", usuario.departamento.id);
+		   dwr.util.setValue("chefe", usuario.chefe);
 		   this.atualizarPermissoesUsuario(usuario);
 	   }).bind(this));
    },
@@ -141,6 +142,13 @@ ComportamentosTela.prototype = {
 		   });
 		   cellfuncs.push( function(usuario) {
 			   return usuario.departamento.sigla;
+		   });
+		   cellfuncs.push( function(usuario) {
+		   	if(usuario.chefe) {
+		   		return "Sim";
+		   	} else {
+		   		return "Não";
+		   	}
 		   });
 		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
 		   this.tabelaTelaPrincipal.setOnClick(this.visualizar.bind(this));

@@ -47,6 +47,7 @@ public class ManterUsuarioValidator extends BaseValidator {
 		this.validaRequerido("label.login", "login");
 		this.validaRequerido("label.nome", "nome");
 		this.validaRequerido("label.departamento", "departamento");
+		this.validaRequerido("label.chefe", "chefe");
 		this.validaRequerido("label.permissoesSelecionadas", "permissoes");
 		this.validaEmail("label.email", "email");
 		this.validaTamanhoMinimo("label.login", "login", 5);
