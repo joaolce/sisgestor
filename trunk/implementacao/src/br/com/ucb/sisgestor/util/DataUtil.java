@@ -2,7 +2,7 @@
  * Projeto: SisGestor
  * Criação: 27/10/2008 por João Lúcio
  */
-package br.com.ucb.sisgestor.util;
+package br.com.ucb.sisgestor.util; //NOPMD by João Lúcio - classe utilitária
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -15,7 +15,7 @@ import java.util.Locale;
 import org.apache.commons.validator.GenericValidator;
 
 /**
- * Classe utilitária para manipulações com datas
+ * Classe utilitária para manipulações com data/hora.
  * 
  * @author João Lúcio
  * @since 27/10/2008
@@ -23,25 +23,35 @@ import org.apache.commons.validator.GenericValidator;
 public final class DataUtil {
 
 	/** {@link Locale} pt-BR */
-	public static final Locale			LOCALE_BR	= new Locale("pt", "BR");
+	public static final Locale			LOCALE_BR			= new Locale("pt", "BR");
 	/** Unidade que representa o segundo */
-	public static final int				SEGUNDO		= 1;
+	public static final int				SEGUNDO				= 1;
 	/** Unidade que representa o minuto */
-	public static final int				MINUTO		= 2;
+	public static final int				MINUTO				= 2;
 	/** Unidade que representa a hora */
-	public static final int				HORA			= 3;
+	public static final int				HORA					= 3;
 	/** Unidade que representa o dia */
-	public static final int				DIA			= 4;
+	public static final int				DIA					= 4;
 	/** Unidade que representa o mês */
-	public static final int				MES			= 5;
+	public static final int				MES					= 5;
 	/** Unidade que representa o ano */
-	public static final int				ANO			= 6;
+	public static final int				ANO					= 6;
 	/** Data no formato dd/MM/yyyy */
-	public static final DateFormat	DATE_MEDIUM	= DateFormat.getDateInstance(DateFormat.MEDIUM, LOCALE_BR);
+	public static final DateFormat	DATA_MEDIUM			=
+																				DateFormat.getDateInstance(DateFormat.MEDIUM,
+																						LOCALE_BR);
+	/** Data-hora no formato dd/MM/yyyy HH:mm:ss */
+	public static final DateFormat	DATA_HORA_MEDIUM	=
+																				DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
+																						DateFormat.MEDIUM, LOCALE_BR);
 	/** Hora no formato HH:mm:ss */
-	public static final DateFormat	HORA_MEDIUM	= DateFormat.getTimeInstance(DateFormat.MEDIUM, LOCALE_BR);
+	public static final DateFormat	HORA_MEDIUM			=
+																				DateFormat.getTimeInstance(DateFormat.MEDIUM,
+																						LOCALE_BR);
 	/** Data no formato Quinta, 1 de Janeiro de 2009 */
-	public static final DateFormat	DATE_FULL	= DateFormat.getDateInstance(DateFormat.FULL, LOCALE_BR);
+	public static final DateFormat	DATA_FULL			=
+																				DateFormat.getDateInstance(DateFormat.FULL,
+																						LOCALE_BR);
 
 	/**
 	 * Construtor privado (classe utilitária).
@@ -50,25 +60,10 @@ public final class DataUtil {
 	}
 
 	/**
-	 * Adiciona barras a uma String de data original <br>
-	 * <br>
-	 * ex: Rebece "01012002" e retorna "01/01/2002"
-	 * 
-	 * @param data data a inserir as barras
-	 * @return data com as barras inseridas
-	 */
-	public static String adicionaBarras(String data) {
-		if (data.indexOf('/') == -1) {
-			return data.substring(0, 2) + "/" + data.substring(2, 4) + "/" + data.substring(4);
-		}
-		return data;
-	}
-
-	/**
 	 * Adiciona a data original o valor informado
 	 * 
-	 * @param tipo tipo a adicionar: {@link DataUtil#SEGUNDO}, {@link DataUtil#MINUTO}, {@link DataUtil#HORA},
-	 *        {@link DataUtil#DIA}, {@link DataUtil#MES}, {@link DataUtil#ANO}
+	 * @param tipo tipo a adicionar: {@link #SEGUNDO}, {@link #MINUTO}, {@link #HORA}, {@link #DIA},
+	 *        {@link #MES}, {@link #ANO}
 	 * @param valor valor a adicionar
 	 * @param data data inicial
 	 * @return data com os valores adicionados
@@ -84,7 +79,7 @@ public final class DataUtil {
 		} else if (tipo == HORA) {
 			data2.add(Calendar.HOUR_OF_DAY, valor);
 		} else if (tipo == DIA) {
-			data2.add(Calendar.DATE, valor);
+			data2.add(Calendar.DAY_OF_MONTH, valor);
 		} else if (tipo == MES) {
 			data2.add(Calendar.MONTH, valor);
 		} else if (tipo == ANO) {
@@ -94,54 +89,52 @@ public final class DataUtil {
 	}
 
 	/**
+	 * Recupera um {@link java.util.Date} da data do final do mês
+	 * 
+	 * @param data data que deseja ver o último dia do mês
+	 * @return data com o último dia do mês
+	 */
+	public static Date calculaDataFimMes(Date data) {
+		Date dt = calculaDataInicioMesSeguinte(data);
+		return adicionar(DIA, -1, dt);
+	}
+
+	/**
+	 * Recupera um {@link java.util.Date} da data do final do próximo mês
+	 * 
+	 * @return data do final do próximo mês
+	 */
+	public static Date calculaDataFimMesSeguinte() {
+		Date data = new Date();
+		data = adicionar(MES, 1, data);
+		return calculaDataFimMes(data);
+	}
+
+	/**
+	 * Recupera o primeiro dia do próximo mês da data informada
+	 * 
+	 * @param data data informada
+	 * @return nova data
+	 */
+	public static Date calculaDataInicioMesSeguinte(Date data) {
+		Calendar data2 = Calendar.getInstance();
+		data2.setTime(data);
+		data2.set(Calendar.DAY_OF_MONTH, 1);
+		data2.add(Calendar.MONTH, 1);
+		return data2.getTime();
+	}
+
+	/**
 	 * Concatena a hora atual a data informada.
 	 * 
 	 * @param txtData data no formato dd/MM/yyyy
 	 * @return data com a hora atual
-	 * @throws Exception caso ocorra erro na conversão
 	 */
-	public static Date concatenaHoraAtual(String txtData) throws Exception {
-		DateFormat dfDataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", LOCALE_BR);
-		synchronized (HORA_MEDIUM) {
-			String txtHora = HORA_MEDIUM.format(new Date(System.currentTimeMillis()));
-			return dfDataHora.parse(txtData + " " + txtHora);
-		}
-	}
-
-	/**
-	 * Converte uma Data para String no formato dd/MM/yyyy
-	 * 
-	 * @param date {@link Date} a converter
-	 * @return data formatada em {@link String}
-	 */
-	public static String converteDateToString(Date date) {
-		synchronized (DATE_MEDIUM) {
-			return DATE_MEDIUM.format(date);
-		}
-	}
-
-	/**
-	 * Converte um {@link Date} para String no formato HH:mm:ss
-	 * 
-	 * @param date {@link Date} a converter
-	 * @return hora formatada em {@link String}
-	 */
-	public static String converteDateToStringHora(Date date) {
-		synchronized (HORA_MEDIUM) {
-			return HORA_MEDIUM.format(date);
-		}
-	}
-
-	/**
-	 * Recebe uma data em qualquer formato BR e retorna um {@link Date}
-	 * 
-	 * @param data data em formato brasileiro
-	 * @return objeto {@link Date} correspondente
-	 */
-	public static Date converteStringToDate(String data) {
-		synchronized (DATE_MEDIUM) {
+	public static Date concatenaHoraAtual(String txtData) {
+		String txtHora = getStringHoraAtual();
+		synchronized (DATA_HORA_MEDIUM) {
 			try {
-				return new Date(DATE_MEDIUM.parse(data).getTime());
+				return DATA_HORA_MEDIUM.parse(txtData + " " + txtHora);
 			} catch (Exception e) {
 				return null;
 			}
@@ -149,13 +142,43 @@ public final class DataUtil {
 	}
 
 	/**
-	 * Recebe uma data em qualquer formato BR e retorna um {@link Timestamp}
+	 * Verifica se a data no padrão dd/MM/yyyy HH:mm:ss é válida.
 	 * 
-	 * @param data data em formato brasileiro
-	 * @return objeto {@link Timestamp} correspondente
+	 * @param data horário formatado a ser validado.
+	 * @return <code>true</code> se o horário for válido, <code>false</code> caso contrário.
 	 */
-	public static Timestamp converteStringToTimestamp(String data) {
-		return new Timestamp(converteStringToDate(data).getTime());
+	public static boolean ehDataHoraValida(String data) {
+		return GenericValidator.isDate(data, "dd/MM/yyyy HH:mm:ss", true);
+	}
+
+	/**
+	 * Verifica se uma data no formato dd/MM/yyyy é válida.
+	 * 
+	 * @param data data a validar
+	 * @return <code>true</code> caso seja válida, <code>false</code> caso contrário
+	 */
+	public static boolean ehDataValida(String data) {
+		return GenericValidator.isDate(data, "dd/MM/yyyy", true);
+	}
+
+	/**
+	 * Verifica se um horário no formato HH:mm:sss é válida.
+	 * 
+	 * @param hora horário formatado a ser validado.
+	 * @return true se o horário for válido, false, caso contrário.
+	 */
+	public static boolean ehHorarioValidoHHMMSS(String hora) {
+		return GenericValidator.isDate(hora, "HH:mm:ss", true);
+	}
+
+	/**
+	 * Verifica se um horário no formato HH:mm é válida.
+	 * 
+	 * @param hora horário formatado a ser validado.
+	 * @return <code>true</code> se o horário for válido, <code>false</code> caso contrário.
+	 */
+	public static boolean ehHoraValida(String hora) {
+		return GenericValidator.isDate(hora, "HH:mm", true);
 	}
 
 	/**
@@ -169,6 +192,26 @@ public final class DataUtil {
 	 */
 	public static boolean entre(Date data, Date dataInicio, Date dataTermino, boolean ignoraHora) {
 		return maiorOuIgual(data, dataInicio, ignoraHora) && menorOuIgual(data, dataTermino, ignoraHora);
+	}
+
+	/**
+	 * Retorna a data, recebida "quebrada", em uma data válida no formato "dd/MM/yyyy". Se a data não for
+	 * válida, retorna <code>null</code>.
+	 * 
+	 * @param dia dia da data
+	 * @param mes mês da data
+	 * @param ano ano da data
+	 * 
+	 * @return String da data formatada
+	 * 
+	 */
+	public static String formataData(String dia, String mes, String ano) {
+		String data = dia + '/' + mes + '/' + ano;
+		if (ehDataValida(data)) {
+			return data;
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -189,7 +232,7 @@ public final class DataUtil {
 	}
 
 	/**
-	 * Retorna a data atual do sistema
+	 * Retorna a data atual do sistema.
 	 * 
 	 * @return a data atual
 	 */
@@ -218,7 +261,6 @@ public final class DataUtil {
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
-
 		return new Date(calendar.getTime().getTime());
 	}
 
@@ -247,7 +289,6 @@ public final class DataUtil {
 		calendar.set(Calendar.DAY_OF_MONTH, dia);
 		calendar.set(Calendar.MONTH, mes - 1);
 		calendar.set(Calendar.YEAR, ano);
-
 		return getDataSemHHMMSS(calendar);
 	}
 
@@ -260,7 +301,6 @@ public final class DataUtil {
 	public static int getDia(Date data) {
 		Calendar cal = Calendar.getInstance(LOCALE_BR);
 		cal.setTime(data);
-
 		return cal.get(Calendar.DAY_OF_MONTH);
 	}
 
@@ -286,14 +326,13 @@ public final class DataUtil {
 	public static int getMes(Date data) {
 		Calendar cal = Calendar.getInstance(LOCALE_BR);
 		cal.setTime(data);
-
 		return cal.get(Calendar.MONTH) + 1;
 	}
 
 	/**
 	 * Retorna o número de entidades de diferenca entre duas datas <br />
-	 * As entidades de retorno são: {@link DataUtil#SEGUNDO}, {@link DataUtil#MINUTO}, {@link DataUtil#HORA},
-	 * {@link DataUtil#DIA}, {@link DataUtil#MES}, {@link DataUtil#ANO}
+	 * As entidades de retorno são: {@link #SEGUNDO}, {@link #MINUTO}, {@link #HORA}, {@link #DIA},
+	 * {@link #MES}, {@link #ANO}
 	 * 
 	 * @param entidadeRetorno unidade de retorno
 	 * @param data1 1ª data a comparar
@@ -343,24 +382,44 @@ public final class DataUtil {
 	}
 
 	/**
-	 * Retorna a data atual do sistema no formato dd/MM/yyyy
+	 * Retorna a data atual do sistema no formato dd/MM/yyyy.
 	 * 
 	 * @return data atual no formato dd/MM/yyyy
 	 */
 	public static String getStringDataAtual() {
-		synchronized (DATE_MEDIUM) {
-			return DATE_MEDIUM.format(getDataAtualSemHHMMSS());
+		synchronized (DATA_MEDIUM) {
+			return DATA_MEDIUM.format(getDataAtual());
 		}
 	}
 
 	/**
-	 * Retorna a String da data atual no formato: Quinta, 1 de Janeiro de 2009
+	 * Retorna a String da data atual no formato: Quinta, 1 de Janeiro de 2009.
 	 * 
 	 * @return a {@link String} formatada da data atual completa
 	 */
 	public static String getStringDataAtualCompleta() {
-		synchronized (DATE_FULL) {
-			return DATE_FULL.format(new Timestamp(System.currentTimeMillis()));
+		synchronized (DATA_FULL) {
+			return DATA_FULL.format(new Timestamp(System.currentTimeMillis()));
+		}
+	}
+
+	/**
+	 * Obtem a data/hora atual em String no formato "dd/MM/yyyy HH:mm:ss"
+	 * 
+	 * @return String da data/hora atual
+	 */
+	public static String getStringDataHoraAtual() {
+		return getStringDataAtual() + " " + getStringHoraAtual();
+	}
+
+	/**
+	 * Obtem a hora atual em String no formato "HH:mm:ss"
+	 * 
+	 * @return String da hora atual
+	 */
+	public static String getStringHoraAtual() {
+		synchronized (HORA_MEDIUM) {
+			return HORA_MEDIUM.format(getDataAtual());
 		}
 	}
 
@@ -378,16 +437,6 @@ public final class DataUtil {
 			data2 = getDataSemHHMMSS(data2);
 		}
 		return data1.equals(data2);
-	}
-
-	/**
-	 * Verifica se uma data no formato dd/MM/yyyy é válida.
-	 * 
-	 * @param data data a validar
-	 * @return <code>true</code> caso seja válida, <code>false</code> caso contrário
-	 */
-	public static boolean isValidDate(String data) {
-		return GenericValidator.isDate(data, "dd/MM/yyyy", true);
 	}
 
 	/**
@@ -458,5 +507,252 @@ public final class DataUtil {
 			return dataSubstituta;
 		}
 		return dataOriginal;
+	}
+
+	/**
+	 * Soma uma determinada quantidade de dias, meses e/ou anos a data Atual. (Subtrai se a quantidade for
+	 * negativa)
+	 * 
+	 * @param qtdDias quantidade de dias a adicionar
+	 * @param qtdMeses quantidade de meses a adicionar
+	 * @param qtdAnos quantidade de anos a adicionar
+	 * 
+	 * @return String que representa a data modificada
+	 */
+	public static String somaDiasDataAtual(int qtdDias, int qtdMeses, int qtdAnos) {
+		Calendar calendario = Calendar.getInstance();
+		calendario.add(Calendar.DAY_OF_MONTH, qtdDias);
+		calendario.add(Calendar.MONTH, qtdMeses);
+		calendario.add(Calendar.YEAR, qtdAnos);
+		return utilDateToString(calendario.getTime());
+	}
+
+	/**
+	 * Converte uma data {@link java.sql.Date} para String no formato "dd/MM/yyyy".
+	 * 
+	 * @param inData data a converter
+	 * @return String formada
+	 */
+	public static String sqlDateToString(java.sql.Date inData) {
+		synchronized (DATA_MEDIUM) {
+			return DATA_MEDIUM.format(inData);
+		}
+	}
+
+	/**
+	 * Transforma uma data {@link java.sql.Date} em {@link java.util.Date}.
+	 * 
+	 * @param inData String da data a converter
+	 * @return data em java.sql.Date
+	 */
+	public static Date sqlDateToUtilDate(java.sql.Date inData) {
+		return new Date(inData.getTime());
+	}
+
+	/**
+	 * Converte uma data String no formato "dd/MM/yyyy HH:mm:ss" para {@link java.util.Date}.
+	 * 
+	 * @param inDataHora String da data a converter
+	 * @return data convertida
+	 */
+	public static java.util.Date stringToDateTime(String inDataHora) {
+		synchronized (DATA_HORA_MEDIUM) {
+			try {
+				return DATA_HORA_MEDIUM.parse(inDataHora);
+			} catch (Exception e) {
+				return null;
+			}
+		}
+	}
+
+	/**
+	 * Converte uma data String no formato "dd/MM/yyyy" para o formato {@link java.sql.Date}
+	 * 
+	 * @param inData String a converter
+	 * @return java.sql.Date Data convertida
+	 */
+	public static java.sql.Date stringToSqlDate(String inData) {
+		java.util.Date auxData = stringToUtilDate(inData);
+		return utilDateToSqlDate(auxData);
+	}
+
+	/**
+	 * Converte uma string no formato 'dd/MM/yyyy' para {@link Timestamp}
+	 * 
+	 * @param inData String a converter
+	 * @return Timestamp convertido
+	 */
+	public static java.sql.Timestamp stringToTimestamp(String inData) {
+		java.util.Date auxData = stringToUtilDate(inData);
+		return utilDateToTimestamp(auxData);
+	}
+
+	/**
+	 * Recebe uma data no formato dd/MM/yyyy e retorna um {@link Date}
+	 * 
+	 * @param data data em formato brasileiro
+	 * @return objeto {@link Date} correspondente
+	 */
+	public static Date stringToUtilDate(String data) {
+		synchronized (DATA_MEDIUM) {
+			try {
+				return new Date(DATA_MEDIUM.parse(data).getTime());
+			} catch (Exception e) {
+				return null;
+			}
+		}
+	}
+
+	/**
+	 * Transforma um {@link Timestamp} na String no formato 'dd/MM/yyyy'
+	 * 
+	 * @param inData {@link Timestamp} a transformar
+	 * @return String do Timestamp formatado
+	 */
+	public static String timestampToString(java.sql.Timestamp inData) {
+		return timestampToString(inData, "dd/MM/yyyy");
+	}
+
+	/**
+	 * Transforma um {@link Timestamp} em uma string formatada
+	 * 
+	 * @param inData {@link Timestamp} a transformar
+	 * @param formato formato da String a transformar
+	 * 
+	 * @return String do Timestamp formatado
+	 */
+	public static String timestampToString(java.sql.Timestamp inData, String formato) {
+		SimpleDateFormat formatador = new SimpleDateFormat(formato, LOCALE_BR);
+		formatador.setLenient(false);
+		return formatador.format(inData);
+	}
+
+	/**
+	 * Transforma um {@link Timestamp} em {@link java.util.Date}
+	 * 
+	 * @param dataHora {@link Timestamp} a transformar
+	 * @return Data transformada
+	 */
+	public static java.util.Date timestampToUtilDate(Timestamp dataHora) {
+		return new java.util.Date(dataHora.getTime());
+	}
+
+	/**
+	 * Transforma uma {@link java.util.Date} para {@link java.sql.Date}
+	 * 
+	 * @param inData data a converter
+	 * @return data do tipo java.sql.Date
+	 */
+	public static java.sql.Date utilDateToSqlDate(java.util.Date inData) {
+		return new java.sql.Date(inData.getTime());
+	}
+
+	/**
+	 * Converte uma Data para String no formato dd/MM/yyyy
+	 * 
+	 * @param date {@link Date} a converter
+	 * @return data formatada em {@link String}
+	 */
+	public static String utilDateToString(Date date) {
+		synchronized (DATA_MEDIUM) {
+			return DATA_MEDIUM.format(date);
+		}
+	}
+
+	/**
+	 * Converte um {@link Date} para String no formato HH:mm:ss.
+	 * 
+	 * @param date {@link Date} a converter
+	 * @return hora formatada em {@link String}
+	 */
+	public static String utilDateToStringHora(Date date) {
+		synchronized (HORA_MEDIUM) {
+			return HORA_MEDIUM.format(date);
+		}
+	}
+
+	/**
+	 * Converte uma data no formato java.util.Date para String no formato "dia de mês de ano" <br>
+	 * Ex: "25 de janeiro de 2002"
+	 * 
+	 * @param inData data a pegar a String
+	 * @return String
+	 */
+	public static String utilDateToStringPorExtenso(java.util.Date inData) {
+		StringBuilder descricao = new StringBuilder("");
+		descricao.append(getDia(inData) + " de ");
+
+		switch (getMes(inData)) {
+			case 1:
+				descricao.append("janeiro");
+				break;
+			case 2:
+				descricao.append("fevereiro");
+				break;
+			case 3:
+				descricao.append("março");
+				break;
+			case 4:
+				descricao.append("abril");
+				break;
+			case 5:
+				descricao.append("maio");
+				break;
+			case 6:
+				descricao.append("junho");
+				break;
+			case 7:
+				descricao.append("julho");
+				break;
+			case 8:
+				descricao.append("agosto");
+				break;
+			case 9:
+				descricao.append("setembro");
+				break;
+			case 10:
+				descricao.append("outubro");
+				break;
+			case 11:
+				descricao.append("novembro");
+				break;
+			case 12:
+				descricao.append("dezembro");
+				break;
+			default:
+		}
+
+		descricao.append(" de " + getAno(inData));
+		return descricao.toString();
+	}
+
+	/**
+	 * Recupera o {@link Timestamp} da data informada
+	 * 
+	 * @param inData data informada
+	 * @return Timestamp da data
+	 */
+	public static java.sql.Timestamp utilDateToTimestamp(java.util.Date inData) {
+		return new java.sql.Timestamp(inData.getTime());
+	}
+
+	/**
+	 * Retorna a hora formatada no formato 'HH:mm:ss:SS' da data informada
+	 * 
+	 * @param inData data informada
+	 * @return hora formatada
+	 */
+	public static String utilTimeToStringComMilisegundos(java.util.Date inData) {
+		return new SimpleDateFormat("HH:mm:ss:SS", LOCALE_BR).format(inData);
+	}
+
+	/**
+	 * Retorna a hora formatada no formato 'HH:mm' da data informada
+	 * 
+	 * @param inData data informada
+	 * @return hora formatada
+	 */
+	public static String utilTimeToStringSemSegundos(java.util.Date inData) {
+		return new SimpleDateFormat("HH:mm", LOCALE_BR).format(inData);
 	}
 }

@@ -18,5 +18,5 @@ public final class Constantes {
 	public static final String	VERSAO		= "0.2";
 
 	/** Data da versão atual do sistema. */
-	public static final String	VERSAO_DATA	= DataUtil.converteDateToString(DataUtil.getDate(21, 1, 2009));
+	public static final String	VERSAO_DATA	= DataUtil.utilDateToString(DataUtil.getDate(21, 1, 2009));
 }

@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.apresentacao.login;
 
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
+import br.com.ucb.sisgestor.util.Utils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -62,9 +63,11 @@ public final class LoginServlet extends HttpServlet {
 				int erro = "".equals(param) ? 0 : Integer.parseInt(param);
 				if ((erro == HttpServletResponse.SC_METHOD_NOT_ALLOWED)
 						|| (erro == HttpServletResponse.SC_FORBIDDEN)) {
-					this.escrevePagina(response, this.loginBundle.getErroPage("Acesso não autorizado."));
+					this.escrevePagina(response, this.loginBundle.getErroPage(Utils
+							.getMessageFromProperties("erro.acessoNegado")));
 				} else {
-					this.escrevePagina(response, this.loginBundle.getErroPage("Erro não reconhecido."));
+					this.escrevePagina(response, this.loginBundle.getErroPage(Utils
+							.getMessageFromProperties("erro.desconhecido")));
 				}
 			}
 		} else {
@@ -95,7 +98,8 @@ public final class LoginServlet extends HttpServlet {
 			}
 		} else {
 			LOG.debug("Página de login negado.");
-			this.escrevePagina(response, this.loginBundle.getLoginPage("Login e/ou senha inválida."));
+			this.escrevePagina(response, this.loginBundle.getLoginPage(Utils
+					.getMessageFromProperties("erro.loginSemSucesso")));
 		}
 	}
 
@@ -112,12 +116,15 @@ public final class LoginServlet extends HttpServlet {
 		try {
 			boolean ok = UsuarioBOImpl.getInstancia().enviarLembreteDeSenha(login);
 			if (ok) {
-				this.escrevePagina(response, this.loginBundle.getSenhaPage("Senha enviada."));
+				this.escrevePagina(response, this.loginBundle.getSenhaPage(Utils
+						.getMessageFromProperties("mensagem.senhaEnviada")));
 			} else {
-				this.escrevePagina(response, this.loginBundle.getSenhaPage("Senha não enviada."));
+				this.escrevePagina(response, this.loginBundle.getSenhaPage(Utils
+						.getMessageFromProperties("erro.senhaNaoEnviada")));
 			}
 		} catch (NegocioException ne) {
-			this.escrevePagina(response, this.loginBundle.getSenhaPage("Senha não enviada."));
+			this.escrevePagina(response, this.loginBundle.getSenhaPage(Utils
+					.getMessageFromProperties("erro.senhaNaoEnviada")));
 		}
 	}
 

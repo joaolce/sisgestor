@@ -120,7 +120,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 	 * 
 	 * @return permissoes
 	 */
-	@SuppressWarnings("PMD")
 	public Integer[] getPermissoes() {
 		return this.permissoes;
 	}
@@ -139,7 +138,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 	 * 
 	 * @return permissoesInform
 	 */
-	@SuppressWarnings("PMD")
 	public Integer[] getPermissoesInform() {
 		return this.permissoesInform;
 	}
@@ -248,7 +246,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 	 * 
 	 * @param permissoes o valor a ajustar em permissoes
 	 */
-	@SuppressWarnings("PMD")
 	public void setPermissoes(Integer[] permissoes) {
 		this.permissoes = permissoes;
 	}
@@ -267,7 +264,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 	 * 
 	 * @param permissoesInform o valor a ajustar em permissoesInform
 	 */
-	@SuppressWarnings("PMD")
 	public void setPermissoesInform(Integer[] permissoesInform) {
 		this.permissoesInform = permissoesInform;
 	}
