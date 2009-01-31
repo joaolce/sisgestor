@@ -26,13 +26,11 @@ import org.dom4j.io.SAXReader;
  */
 public class ValidatorReader {
 
-	private static Log								logger;
 	private static final Map<String, String>	validatorMap	= new TreeMap<String, String>();
+	private static final Log						LOG				= LogFactory.getLog(ValidatorReader.class);
 
 	static {
-		logger = LogFactory.getLog(ValidatorReader.class);
 		try {
-			//pega o arquivo como stream
 			InputStream input =
 					ValidatorReader.class
 							.getResourceAsStream("/br/com/ucb/sisgestor/apresentacao/validator/utils/validator.xml");
@@ -53,7 +51,7 @@ public class ValidatorReader {
 				validatorMap.put(action, validator);
 			}
 		} catch (DocumentException e) {
-			logger.error(e);
+			LOG.error(e); //NOPMD by João Lúcio - apenas para logar
 		}
 	}
 

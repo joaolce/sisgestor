@@ -10,12 +10,12 @@ package br.com.ucb.sisgestor.util.constantes;
  * @author João Lúcio
  * @since 17/01/2009
  */
-public interface ConstantesRoles {
+public final class ConstantesRoles {
 
 	/** Permissão Minima do sistema */
-	public static String	PERMISSAO_MINIMA		= "1";
+	public static final String	PERMISSAO_MINIMA		= "1";
 	/** Manter Departamento */
-	public static String	MANTER_DEPARTAMENTO	= "2";
+	public static final String	MANTER_DEPARTAMENTO	= "2";
 	/** Manter Usuário */
-	public static String	MANTER_USUARIO			= "3";
+	public static final String	MANTER_USUARIO			= "3";
 }

@@ -2,10 +2,10 @@
  * Projeto: SisGestor
  * Criação: 25/10/2008 por João Lúcio
  */
-package br.com.ucb.sisgestor.apresentacao.ajaxUtils;
+package br.com.ucb.sisgestor.apresentacao.dwr.utils;
 
 /**
- * Exceção de sessão expirada
+ * Exceção de sessão expirada.
  * 
  * @author João Lúcio
  * @since 25/10/2008

@@ -41,7 +41,7 @@ public class NegocioException extends Exception {
 	 * @return argumentos da mensagem
 	 */
 	public String[] getArgs() {
-		return this.args;
+		return this.args.clone();
 	}
 
 	/**
@@ -50,6 +50,6 @@ public class NegocioException extends Exception {
 	 * @param args argumentos da mensagem
 	 */
 	public void setArgs(String[] args) {
-		this.args = args;
+		this.args = args.clone();
 	}
 }

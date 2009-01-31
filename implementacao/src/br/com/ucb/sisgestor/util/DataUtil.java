@@ -58,7 +58,7 @@ public final class DataUtil {
 	 * @return data com as barras inseridas
 	 */
 	public static String adicionaBarras(String data) {
-		if (data.indexOf("/") == -1) {
+		if (data.indexOf('/') == -1) {
 			return data.substring(0, 2) + "/" + data.substring(2, 4) + "/" + data.substring(4);
 		}
 		return data;
@@ -101,11 +101,11 @@ public final class DataUtil {
 	 * @throws Exception caso ocorra erro na conversão
 	 */
 	public static Date concatenaHoraAtual(String txtData) throws Exception {
-		DateFormat dfDataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-
-		String txtHora = HORA_MEDIUM.format(new Date(System.currentTimeMillis()));
-
-		return dfDataHora.parse(txtData + " " + txtHora);
+		DateFormat dfDataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", LOCALE_BR);
+		synchronized (HORA_MEDIUM) {
+			String txtHora = HORA_MEDIUM.format(new Date(System.currentTimeMillis()));
+			return dfDataHora.parse(txtData + " " + txtHora);
+		}
 	}
 
 	/**
@@ -115,7 +115,9 @@ public final class DataUtil {
 	 * @return data formatada em {@link String}
 	 */
 	public static String converteDateToString(Date date) {
-		return DATE_MEDIUM.format(date);
+		synchronized (DATE_MEDIUM) {
+			return DATE_MEDIUM.format(date);
+		}
 	}
 
 	/**
@@ -125,7 +127,9 @@ public final class DataUtil {
 	 * @return hora formatada em {@link String}
 	 */
 	public static String converteDateToStringHora(Date date) {
-		return HORA_MEDIUM.format(date);
+		synchronized (HORA_MEDIUM) {
+			return HORA_MEDIUM.format(date);
+		}
 	}
 
 	/**
@@ -135,10 +139,12 @@ public final class DataUtil {
 	 * @return objeto {@link Date} correspondente
 	 */
 	public static Date converteStringToDate(String data) {
-		try {
-			return new Date(DATE_MEDIUM.parse(data).getTime());
-		} catch (Exception e) {
-			return null;
+		synchronized (DATE_MEDIUM) {
+			try {
+				return new Date(DATE_MEDIUM.parse(data).getTime());
+			} catch (Exception e) {
+				return null;
+			}
 		}
 	}
 
@@ -342,7 +348,9 @@ public final class DataUtil {
 	 * @return data atual no formato dd/MM/yyyy
 	 */
 	public static String getStringDataAtual() {
-		return DATE_MEDIUM.format(getDataAtualSemHHMMSS());
+		synchronized (DATE_MEDIUM) {
+			return DATE_MEDIUM.format(getDataAtualSemHHMMSS());
+		}
 	}
 
 	/**
@@ -351,7 +359,9 @@ public final class DataUtil {
 	 * @return a {@link String} formatada da data atual completa
 	 */
 	public static String getStringDataAtualCompleta() {
-		return DATE_FULL.format(new Timestamp(System.currentTimeMillis()));
+		synchronized (DATE_FULL) {
+			return DATE_FULL.format(new Timestamp(System.currentTimeMillis()));
+		}
 	}
 
 	/**
@@ -362,7 +372,7 @@ public final class DataUtil {
 	 * @param ignoraHora se ignorará as horas
 	 * @return <code>true</code> caso sejam, <code>false</code> caso contrário
 	 */
-	public static boolean igual(Date data1, Date data2, boolean ignoraHora) {
+	public static boolean igual(Date data1, Date data2, boolean ignoraHora) { //NOPMD by João Lúcio - caso tenha que ignorar hora
 		if (ignoraHora) {
 			data1 = getDataSemHHMMSS(data1);
 			data2 = getDataSemHHMMSS(data2);
@@ -388,7 +398,7 @@ public final class DataUtil {
 	 * @param ignoraHora se ignorará as horas
 	 * @return <code>true</code> caso seja, <code>false</code> caso contrário
 	 */
-	public static boolean maior(Date data1, Date data2, boolean ignoraHora) {
+	public static boolean maior(Date data1, Date data2, boolean ignoraHora) { //NOPMD by João Lúcio - caso tenha que ignorar hora
 		if (ignoraHora) {
 			data1 = getDataSemHHMMSS(data1);
 			data2 = getDataSemHHMMSS(data2);
@@ -416,7 +426,7 @@ public final class DataUtil {
 	 * @param ignoraHora se ignorará as horas
 	 * @return <code>true</code> caso seja, <code>false</code> caso contrário
 	 */
-	public static boolean menor(Date data1, Date data2, boolean ignoraHora) {
+	public static boolean menor(Date data1, Date data2, boolean ignoraHora) { //NOPMD by João Lúcio - caso tenha que ignorar hora
 		if (ignoraHora) {
 			data1 = getDataSemHHMMSS(data1);
 			data2 = getDataSemHHMMSS(data2);

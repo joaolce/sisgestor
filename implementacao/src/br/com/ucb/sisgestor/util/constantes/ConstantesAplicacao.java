@@ -20,14 +20,10 @@ import org.apache.struts.util.RequestUtils;
  */
 public class ConstantesAplicacao {
 
-	private static String	BIND_NAME_CONTEXT_PATH	= "java:contextPathAplicacao";
-	private static String	BIND_NAME_URL_APLICACAO	= "java:urlAplicacao";
-	private static boolean	constantesOk				= false;
-	private static Log		log;
-
-	static {
-		log = LogFactory.getLog(ConstantesAplicacao.class);
-	}
+	private static final String	BIND_NAME_CONTEXT_PATH	= "java:contextPathAplicacao";
+	private static final String	BIND_NAME_URL_APLICACAO	= "java:urlAplicacao";
+	private static Boolean			constantesOk				= Boolean.FALSE;
+	private static final Log		LOG							= LogFactory.getLog(ConstantesAplicacao.class);
 
 	/**
 	 * Recupera o contexto da aplicação.
@@ -59,12 +55,14 @@ public class ConstantesAplicacao {
 	 * @param request request atual
 	 * @throws Exception caso ocorra exceção ao setar variáveis
 	 */
-	public static synchronized void setConstantes(HttpServletRequest request) throws Exception {
-		if (!constantesOk) {
-			String contextPath = request.getContextPath();
-			setUrlAplicacao(RequestUtils.serverURL(request), contextPath);
-			setContextPath(contextPath);
-			constantesOk = true;
+	public static void setConstantes(HttpServletRequest request) throws Exception {
+		synchronized (constantesOk) {
+			if (!constantesOk) {
+				String contextPath = request.getContextPath();
+				setUrlAplicacao(RequestUtils.serverURL(request), contextPath);
+				setContextPath(contextPath);
+				constantesOk = Boolean.TRUE;
+			}
 		}
 	}
 
@@ -90,7 +88,7 @@ public class ConstantesAplicacao {
 		try {
 			context.bind(name, value);
 		} catch (NameAlreadyBoundException e) {
-			log.warn(name + " já setado no contexto! valor: " + value);
+			LOG.warn(name + " já setado no contexto! valor: " + value);
 		}
 	}
 

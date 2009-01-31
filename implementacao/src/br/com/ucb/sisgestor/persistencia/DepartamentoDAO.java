@@ -23,7 +23,7 @@ public interface DepartamentoDAO extends BaseDAO<Departamento, Integer> {
 	 * @param paginaAtual página atual da pesquisa
 	 * @return {@link List} de {@link Departamento}
 	 */
-	public List<Departamento> getBySiglaNome(String sigla, String nome, Integer paginaAtual);
+	List<Departamento> getBySiglaNome(String sigla, String nome, Integer paginaAtual);
 
 	/**
 	 * Recupera o total de registros retornados pela consulta.
@@ -32,5 +32,5 @@ public interface DepartamentoDAO extends BaseDAO<Departamento, Integer> {
 	 * @param nome parte do nome do departamento
 	 * @return totalRegistros total de registros encontrados
 	 */
-	public Integer getTotalRegistros(String sigla, String nome);
+	Integer getTotalRegistros(String sigla, String nome);
 }

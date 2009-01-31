@@ -23,7 +23,7 @@ public interface UsuarioBO extends BaseBO<Usuario, Integer> {
 	 * @return <code>true</code> caso foi enviada com sucesso, <code>false</code> em caso de insucesso
 	 * @throws NegocioException caso uma regra de negócio seja violada
 	 */
-	public boolean enviarLembreteDeSenha(String login) throws NegocioException;
+	boolean enviarLembreteDeSenha(String login) throws NegocioException;
 
 	/**
 	 * Retorna um {@link List} de {@link Usuario} a partir dos parâmetros informados.
@@ -34,7 +34,7 @@ public interface UsuarioBO extends BaseBO<Usuario, Integer> {
 	 * @param paginaAtual página atual da pesquisa
 	 * @return Retorna os usuários
 	 */
-	public List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
+	List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
 			Integer paginaAtual);
 
 	/**
@@ -44,5 +44,5 @@ public interface UsuarioBO extends BaseBO<Usuario, Integer> {
 	 * @return usuário encontrado
 	 * @throws NegocioException caso uma regra de negócio seja violada
 	 */
-	public Usuario recuperarPorLogin(String login) throws NegocioException;
+	Usuario recuperarPorLogin(String login) throws NegocioException;
 }

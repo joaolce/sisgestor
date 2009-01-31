@@ -12,11 +12,11 @@ import br.com.ucb.sisgestor.util.DataUtil;
  * @author João Lúcio
  * @since 14/01/2009
  */
-public interface Constantes {
+public final class Constantes {
 
 	/** Versão atual do sistema. */
-	public final String	VERSAO		= "0.2";
+	public static final String	VERSAO		= "0.2";
 
 	/** Data da versão atual do sistema. */
-	public final String	VERSAO_DATA	= DataUtil.converteDateToString(DataUtil.getDate(21, 1, 2009));
+	public static final String	VERSAO_DATA	= DataUtil.converteDateToString(DataUtil.getDate(21, 1, 2009));
 }

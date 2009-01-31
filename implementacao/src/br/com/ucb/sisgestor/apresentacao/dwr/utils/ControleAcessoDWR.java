@@ -2,7 +2,7 @@
  * Projeto: SisGestor
  * Criação: 25/10/2008 por João Lúcio
  */
-package br.com.ucb.sisgestor.apresentacao.ajaxUtils;
+package br.com.ucb.sisgestor.apresentacao.dwr.utils;
 
 import br.com.ucb.sisgestor.util.constantes.DadosContexto;
 import javax.servlet.http.HttpServletRequest;

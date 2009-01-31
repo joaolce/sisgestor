@@ -27,7 +27,7 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * @param obj objeto persistente a atualizar
 	 * @throws NegocioException caso uma regra de negócio seja violada
 	 */
-	public void atualizar(T obj) throws NegocioException;
+	void atualizar(T obj) throws NegocioException;
 
 	/**
 	 * Apaga um objeto na base de dados.
@@ -35,7 +35,7 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * @param obj objeto persistente a apagar
 	 * @throws NegocioException caso uma regra de negócio seja violada
 	 */
-	public void excluir(T obj) throws NegocioException;
+	void excluir(T obj) throws NegocioException;
 
 	/**
 	 * Retorna o total de registros retornados pela consulta.
@@ -43,7 +43,7 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * @param parametros dto de parâmetros
 	 * @return número total de registros da consulta
 	 */
-	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros);
+	Integer getTotalPesquisa(PesquisaPaginadaDTO parametros);
 
 	/**
 	 * Recupera um objeto a partir da sua chave primária.
@@ -52,14 +52,14 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * 
 	 * @return objeto recuperado
 	 */
-	public T obter(PK pk);
+	T obter(PK pk);
 
 	/**
 	 * Recupera todos os objetos.
 	 * 
 	 * @return um {@link List} de objeto
 	 */
-	public List<T> obterTodos();
+	List<T> obterTodos();
 
 	/**
 	 * Salva (incluí) um objeto na base de dados.
@@ -67,5 +67,5 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * @param obj objeto persistente a salvar
 	 * @throws NegocioException caso uma regra de negócio seja violada
 	 */
-	public void salvar(T obj) throws NegocioException;
+	void salvar(T obj) throws NegocioException;
 }

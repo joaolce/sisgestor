@@ -34,7 +34,8 @@ import org.apache.struts.util.MessageResources;
  */
 public class BaseValidator {
 
-	private static Log				logger;
+	private static final Log		LOG	= LogFactory.getLog(BaseValidator.class);
+
 	//Campos que devem ser informados em caso de erro.
 	private ActionErrors				actionErrors;
 	private String						focusControl;
@@ -47,10 +48,6 @@ public class BaseValidator {
 	private HttpSession				session;
 	private ActionForm				form;
 
-	static {
-		logger = LogFactory.getLog(BaseValidator.class);
-	}
-
 	/**
 	 * Método de execução padrão, deve ser executado para preencher variáveis locais e facilitar a vida do
 	 * programador. A principio, a {@link BaseAction} chama esse método.
@@ -61,6 +58,7 @@ public class BaseValidator {
 	 * @param response response atual
 	 * @throws InvocationTargetException caso ocorra erro na invocação no método do validator
 	 */
+	@SuppressWarnings("PMD")
 	public void execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws InvocationTargetException {
 
@@ -77,13 +75,13 @@ public class BaseValidator {
 			Method method = this.getClass().getMethod(nomeMetodo);
 			method.invoke(this);
 		} catch (SecurityException e) {
-			logger.error(e);
+			LOG.error(e);
 		} catch (NoSuchMethodException e) {
-			logger.debug("método de validação não encontrado");
+			LOG.debug("método de validação não encontrado");
 		} catch (IllegalArgumentException e) {
-			logger.error(e);
+			LOG.error(e);
 		} catch (IllegalAccessException e) {
-			logger.error(e);
+			LOG.error(e);
 		}
 	}
 
@@ -184,7 +182,7 @@ public class BaseValidator {
 		try {
 			value = PropertyUtils.getProperty(this.getForm(), formProperty);
 		} catch (Exception e) {
-			value = null;
+			value = null; //NOPMD by João Lúcio - necessário para indicar que nada foi recuperado
 		}
 		return value;
 	}
@@ -484,7 +482,7 @@ public class BaseValidator {
 			try {
 				propertyType = PropertyUtils.getPropertyType(this.getForm(), formProperty);
 			} catch (Exception e) {
-				propertyType = null;
+				propertyType = null; //NOPMD by João Lúcio - necessário para referenciar o tipo da propriedade
 			}
 			if ((propertyType != null) && propertyType.isArray()) {
 				this.addErrorKey("erro.necessarioSelecao", labelProperty);
@@ -509,11 +507,9 @@ public class BaseValidator {
 				this.addErrorKey("erro.necessarioSelecao", labelProperty);
 				this.setFocusControl(formProperty);
 			}
-		} else if (value instanceof Character) {
-			if (StringUtils.isBlank(((Character) value).toString())) {
-				this.addErrorKey("erro.required", labelProperty);
-				this.setFocusControl(formProperty);
-			}
+		} else if ((value instanceof Character) && (StringUtils.isBlank(((Character) value).toString()))) {
+			this.addErrorKey("erro.required", labelProperty);
+			this.setFocusControl(formProperty);
 		}
 	}
 

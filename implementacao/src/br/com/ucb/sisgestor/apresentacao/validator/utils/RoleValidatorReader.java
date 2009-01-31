@@ -27,13 +27,11 @@ import org.dom4j.io.SAXReader;
  */
 public class RoleValidatorReader {
 
-	private static Log								logger;
 	private static final Map<String, String>	roleValidatorMap	= new TreeMap<String, String>();
+	private static final Log						LOG					= LogFactory.getLog(RoleValidatorReader.class);
 
 	static {
-		logger = LogFactory.getLog(RoleValidatorReader.class);
 		try {
-
 			InputStream input =
 					RoleValidatorReader.class
 							.getResourceAsStream("/br/com/ucb/sisgestor/apresentacao/validator/utils/roleValidator.xml");
@@ -54,7 +52,7 @@ public class RoleValidatorReader {
 				roleValidatorMap.put(actionMethod, roles);
 			}
 		} catch (DocumentException e) {
-			logger.error(e);
+			LOG.error(e); //NOPMD by João Lúcio - apenas para logar
 		}
 	}
 

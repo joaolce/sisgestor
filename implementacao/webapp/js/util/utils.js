@@ -1312,7 +1312,7 @@ Event.observe(window, "load", function() {
 	dwr.engine.setErrorHandler( function(message, ex) {
 		if (ex.name == "org.directwebremoting.extend.AccessDeniedException") {
 			JanelasComuns.showMessage("Acesso não autorizado!", false);
-		} else if (ex.name == "br.com.ucb.sisgestor.apresentacao.ajaxUtils.SessionExpiredException") {
+		} else if (ex.name == "br.com.ucb.sisgestor.apresentacao.dwr.utils.SessionExpiredException") {
 			JanelasComuns.sessaoFinalizada();
 		} else {
 			dwr.engine.defaultErrorHandler(message, ex);

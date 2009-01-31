@@ -17,21 +17,20 @@ import org.apache.commons.logging.LogFactory;
  */
 public class EmailSender {
 
-	private static Properties		configuracao;
-	private static Log				logger;
-	private static final String	properties	= "settings.properties";
-	private static EmailSender		sender;
+	private static Properties			configuracao;
+	private static final EmailSender	sender		= new EmailSender();
+	private static final String		properties	= "settings.properties";
+	private static final Log			LOG			= LogFactory.getLog(EmailSender.class);
 
-	private Session					session;
+	private Session						session;
 
 	static {
-		logger = LogFactory.getLog(EmailSender.class);
 		InputStream resourceAsStream = EmailSender.class.getResourceAsStream(properties);
 		configuracao = new Properties();
 		try {
 			configuracao.load(resourceAsStream);
 		} catch (IOException e) {
-			logger.error(e);
+			LOG.error(e); //NOPMD by João Lúcio - apenas para logar
 		}
 	}
 
@@ -57,9 +56,6 @@ public class EmailSender {
 	 * @return instância de {@link EmailSender}
 	 */
 	public static EmailSender getInstancia() {
-		if (sender == null) {
-			sender = new EmailSender();
-		}
 		return sender;
 	}
 
@@ -92,7 +88,7 @@ public class EmailSender {
 		try {
 			Transport.send(message);
 		} catch (Exception e) {
-			logger.error("Alguma coisa deu errado no envio de email.", e);
+			LOG.error("Alguma coisa deu errado no envio de email.", e);
 			throw e;
 		}
 	}

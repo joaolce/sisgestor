@@ -20,21 +20,21 @@ import java.util.List;
 public interface BaseDAO<T extends ObjetoPersistente, PK extends Serializable> {
 
 	/** Máximo de resultados paginados */
-	public final Integer	MAXIMO_RESULTADOS	= new Integer(9);
+	Integer	MAXIMO_RESULTADOS	= Integer.valueOf(9);
 
 	/**
 	 * Atualiza um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a atualizar
 	 */
-	public void atualizar(T obj);
+	void atualizar(T obj);
 
 	/**
 	 * Apaga um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a apagar
 	 */
-	public void excluir(T obj);
+	void excluir(T obj);
 
 	/**
 	 * Recupera um objeto a partir da sua chave primária.
@@ -43,26 +43,26 @@ public interface BaseDAO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * 
 	 * @return objeto recuperado
 	 */
-	public T obter(PK pk);
+	T obter(PK pk);
 
 	/**
 	 * Recupera todos os objetos.
 	 * 
 	 * @return um {@link List} de objeto
 	 */
-	public List<T> obterTodos();
+	List<T> obterTodos();
 
 	/**
 	 * Salva um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a salvar
 	 */
-	public void salvar(T obj);
+	void salvar(T obj);
 
 	/**
 	 * Salva ou atualiza um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a salvar ou atualizar
 	 */
-	public void salvarOuAtualizar(T obj);
+	void salvarOuAtualizar(T obj);
 }

@@ -112,7 +112,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 			HibernateUtil.commit(transaction);
 		} catch (ConstraintViolationException ce) {
 			HibernateUtil.rollback(transaction);
-			throw new NegocioException("erro.departamento.sigla");
+			throw new NegocioException("erro.departamento.sigla"); //NOPMD by João Lúcio - não é necessário ter causa exceção
 		} catch (Exception e) {
 			HibernateUtil.rollback(transaction);
 			this.verificaExcecao(e);

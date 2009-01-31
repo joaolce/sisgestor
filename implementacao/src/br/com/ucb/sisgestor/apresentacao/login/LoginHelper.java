@@ -20,13 +20,9 @@ import org.jboss.web.tomcat.security.login.WebAuthentication;
  */
 public class LoginHelper {
 
-	private static Log				logger;
+	private static final Log		LOG					= LogFactory.getLog(LoginHelper.class);
 	private static final String	LTPATOKEN_NAME		= "LtpaToken";
 	private static final String	LTPATOKEN2_NAME	= "LtpaToken2";
-
-	static {
-		logger = LogFactory.getLog(LoginHelper.class);
-	}
 
 	/**
 	 * Efetua o login do usuário.
@@ -39,10 +35,10 @@ public class LoginHelper {
 	 */
 	public void doLogin(HttpServletRequest request, HttpServletResponse response, String username,
 			String password) throws LoginException {
-		logger.debug("Efetuando autenticação.");
+		LOG.debug("Efetuando autenticação.");
 		WebAuthentication auth = new WebAuthentication();
 		auth.login(username, password);
-		logger.debug("request.getUserPrincipal() = " + request.getUserPrincipal());
+		LOG.debug("request.getUserPrincipal() = " + request.getUserPrincipal());
 		if (request.getUserPrincipal() == null) {
 			throw new LoginException("Login inválido");
 		}
@@ -58,13 +54,13 @@ public class LoginHelper {
 		WebAuthentication auth = new WebAuthentication();
 		auth.logout();
 
-		logger.debug("Invalidando a sessão HTTP");
+		LOG.debug("Invalidando a sessão HTTP");
 		request.getSession().invalidate();
-		logger.debug("Removendo cookies LtpaToken e LtpaToken2.");
+		LOG.debug("Removendo cookies LtpaToken e LtpaToken2.");
 		Cookie cookies[] = request.getCookies();
 		for (Cookie cookie : cookies) {
 			if (LTPATOKEN_NAME.equals(cookie.getName()) || LTPATOKEN2_NAME.equals(cookie.getName())) {
-				logger.debug("Cookie " + cookie.getName() + " encontrado.");
+				LOG.debug("Cookie " + cookie.getName() + " encontrado.");
 				cookie.setMaxAge(0);
 			}
 		}
