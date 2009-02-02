@@ -68,6 +68,7 @@
 	</target>
 	
 	<target name="cleanJBoss" description="Limpa os aquivos do JBoss">
+		<delete file="${env.JBOSS_HOME}/server/default/deploy/${app.name}.ear" failonerror="false"/>
 		<delete dir="${env.JBOSS_HOME}/server/default/deploy/sisgestor.war" failonerror="false" />
 		<delete dir="${env.JBOSS_HOME}/server/default/tmp/deploy" failonerror="false" />
 		<delete dir="${env.JBOSS_HOME}/server/default/work" failonerror="false" />
@@ -148,6 +149,10 @@
 		</ear>
 		
 		<antcall target="cleanClasses" />
+	</target>
+	
+	<target name="publicarEAR"  depends="geraEAR" description="publica o .ear">
+		<copy file="${file.ear}" tofile="${env.JBOSS_HOME}/server/default/deploy/${app.name}.ear" />
 	</target>
 	
 </project>

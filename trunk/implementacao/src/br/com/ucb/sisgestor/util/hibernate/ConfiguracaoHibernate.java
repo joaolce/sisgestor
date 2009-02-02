@@ -23,17 +23,17 @@ import org.hibernate.transaction.JTATransactionFactory;
 public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 
 	private static final ConfiguracaoHibernate	configuracao		= new ConfiguracaoHibernate();
-	private static boolean								criarBancoDeDados	= false;
-	private static boolean								isGerarScript		= false;
-	private static boolean								isMostrarSQL		= true;
+	private boolean										criarBancoDeDados	= false;
+	private boolean										isGerarScript		= false;
+	private boolean										isMostrarSQL		= true;
 
 	private ConfiguracaoHibernate() {
 		this.setProperty(Environment.DIALECT, MySQL5InnoDBDialect.class.getName());
 		this.setProperty(Environment.DRIVER, Driver.class.getName());
 		this.setProperty(Environment.DATASOURCE, "java:/SisGestorDB");
 		this.setProperty(Environment.DEFAULT_SCHEMA, "sisgestor");
-		this.setProperty(Environment.SHOW_SQL, Boolean.toString(isMostrarSQL));
-		if (criarBancoDeDados) {
+		this.setProperty(Environment.SHOW_SQL, Boolean.toString(this.isMostrarSQL));
+		if (this.criarBancoDeDados) {
 			this.setProperty(Environment.HBM2DDL_AUTO, "create-drop");
 		} else {
 			this.setProperty(Environment.HBM2DDL_AUTO, "validate");
@@ -65,9 +65,9 @@ public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 	 * Cria o banco de dados.
 	 */
 	public void recriarBancoDeDados() {
-		if (ConfiguracaoHibernate.criarBancoDeDados) {
+		if (this.criarBancoDeDados) {
 			SchemaExport schemaExport = new SchemaExport(this);
-			if (ConfiguracaoHibernate.isGerarScript) {
+			if (this.isGerarScript) {
 				schemaExport.setOutputFile(".\\scriptDB-sisgestor.txt");
 			}
 			schemaExport.drop(false, true);
