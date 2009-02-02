@@ -68,10 +68,12 @@ public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 		if (this.criarBancoDeDados) {
 			SchemaExport schemaExport = new SchemaExport(this);
 			if (this.isGerarScript) {
-				schemaExport.setOutputFile(".\\scriptDB-sisgestor.txt");
+				schemaExport.setOutputFile(".\\scriptDB-sisgestor.sql");
 			}
 			schemaExport.drop(false, true);
 			schemaExport.create(false, true);
+			schemaExport.setDelimiter(";");
+			schemaExport.setFormat(true);
 		}
 	}
 }

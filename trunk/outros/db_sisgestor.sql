@@ -1,92 +1,75 @@
-
-/*!40100 SET CHARACTER SET latin1;*/
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ANSI';*/
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;*/
-
-
-#
-# Database structure for database 'sisgestor'
-#
-
-DROP DATABASE /*!32312 IF EXISTS*/ "sisgestor";
-
-CREATE DATABASE "sisgestor";
-
-USE "sisgestor";
-
-
-#
-# Table structure for table 'dpr_departamento'
-#
-
-CREATE TABLE /*!32312 IF NOT EXISTS*/ "dpr_departamento" (
-  "DPR_ID" int(11) NOT NULL AUTO_INCREMENT,
-  "DPR_NOME" varchar(50) NOT NULL,
-  "DPR_EMAIL" varchar(30) DEFAULT NULL,
-  "DPR_SIGLA" char(10) NOT NULL,
-  "DPR_ID_SUPERIOR" int(11) DEFAULT NULL,
-  PRIMARY KEY ("DPR_ID"),
-  UNIQUE KEY "DPR_SIGLA" ("DPR_SIGLA"),
-  KEY "IR_DPR_DPR" ("DPR_ID_SUPERIOR"),
-  CONSTRAINT "IR_DPR_DPR" FOREIGN KEY ("DPR_ID_SUPERIOR") REFERENCES "dpr_departamento" ("DPR_ID")
-) AUTO_INCREMENT=2 /*!40100 DEFAULT CHARSET=latin1*/;
-
-
-
-#
-# Table structure for table 'prm_permissao'
-#
-
-CREATE TABLE /*!32312 IF NOT EXISTS*/ "prm_permissao" (
-  "PRM_ID" int(11) NOT NULL AUTO_INCREMENT,
-  "PRM_DESCRICAO" varchar(30) NOT NULL,
-  PRIMARY KEY ("PRM_ID")
-) AUTO_INCREMENT=2 /*!40100 DEFAULT CHARSET=latin1*/;
-
-
-
-#
-# Table structure for table 'upm_usuario_permissao'
-#
-
-CREATE TABLE /*!32312 IF NOT EXISTS*/ "upm_usuario_permissao" (
-  "UUR_ID" int(11) NOT NULL,
-  "PRM_ID" int(11) NOT NULL,
-  KEY "FK7972EB89EA570FD8" ("PRM_ID"),
-  KEY "FK7972EB897011A178" ("UUR_ID"),
-  CONSTRAINT "FK7972EB897011A178" FOREIGN KEY ("UUR_ID") REFERENCES "uur_usuario" ("UUR_ID"),
-  CONSTRAINT "FK7972EB89EA570FD8" FOREIGN KEY ("PRM_ID") REFERENCES "prm_permissao" ("PRM_ID")
-) /*!40100 DEFAULT CHARSET=latin1*/;
-
-
-
-#
-# Table structure for table 'uur_usuario'
-#
-
-CREATE TABLE /*!32312 IF NOT EXISTS*/ "uur_usuario" (
-  "UUR_ID" int(11) NOT NULL AUTO_INCREMENT,
-  "UUR_EMAIL" varchar(40) DEFAULT NULL, 	
-  "UUR_LOGIN" char(15) NOT NULL,
-  "UUR_NOME" varchar(150) NOT NULL,
-  "UUR_SENHA" varchar(255) NOT NULL,
-  "DPR_ID" int(11) NOT NULL,
-  PRIMARY KEY ("UUR_ID"),
-  UNIQUE KEY "UUR_LOGIN" ("UUR_LOGIN"),
-  KEY "IR_DPR_UUR" ("DPR_ID"),
-  CONSTRAINT "IR_DPR_UUR" FOREIGN KEY ("DPR_ID") REFERENCES "dpr_departamento" ("DPR_ID")
-) AUTO_INCREMENT=2 /*!40100 DEFAULT CHARSET=latin1*/;
-
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE;*/
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;*/
-
+alter table sisgestor.DPR_DEPARTAMENTO 
+DROP 
+    foreign key IR_DPR_DPR; 
+alter table sisgestor.UPM_USUARIO_PERMISSAO 
+DROP 
+    foreign key IR_PRM_UPM; 
+alter table sisgestor.UPM_USUARIO_PERMISSAO 
+DROP 
+    foreign key IR_UUR_UPM; 
+alter table sisgestor.UUR_USUARIO 
+DROP 
+    foreign key IR_DPR_UUR; 
+DROP 
+    table if exists sisgestor.DPR_DEPARTAMENTO; 
+DROP 
+    table if exists sisgestor.PRM_PERMISSAO; 
+DROP 
+    table if exists sisgestor.UPM_USUARIO_PERMISSAO; 
+DROP 
+    table if exists sisgestor.UUR_USUARIO; 
+CREATE 
+    table sisgestor.DPR_DEPARTAMENTO 
+    ( 
+        DPR_ID integer not null auto_increment, 
+        DPR_EMAIL varchar(40), 
+        DPR_NOME varchar(50) not null, 
+        DPR_SIGLA CHAR(10) not null, 
+        DPR_ID_SUPERIOR integer, 
+        primary key (DPR_ID), 
+        unique (DPR_SIGLA) 
+    ) 
+    ENGINE= InnoDB; 
+CREATE 
+    table sisgestor.PRM_PERMISSAO 
+    ( 
+        PRM_ID integer not null auto_increment, 
+        PRM_DESCRICAO varchar(30) not null, 
+        primary key (PRM_ID) 
+    ) 
+    ENGINE= InnoDB; 
+CREATE 
+    table sisgestor.UPM_USUARIO_PERMISSAO 
+    ( 
+        UUR_ID integer not null, 
+        PRM_ID integer not null, 
+        primary key (PRM_ID, UUR_ID) 
+    ) 
+    ENGINE= InnoDB; 
+CREATE 
+    table sisgestor.UUR_USUARIO 
+    ( 
+        UUR_ID integer not null auto_increment, 
+        UUR_CHEFE CHAR(1) not null, 
+        UUR_EMAIL varchar(40), 
+        UUR_LOGIN CHAR(15) not null, 
+        UUR_NOME varchar(150) not null, 
+        UUR_SENHA CHAR(20) not null, 
+        DPR_ID integer not null, 
+        primary key (UUR_ID), 
+        unique (UUR_LOGIN) 
+    ) 
+    ENGINE= InnoDB; 
+alter table sisgestor.DPR_DEPARTAMENTO add index IR_DPR_DPR (DPR_ID_SUPERIOR), add constraint IR_DPR_DPR foreign key (DPR_ID_SUPERIOR) references sisgestor.DPR_DEPARTAMENTO (DPR_ID); 
+alter table sisgestor.UPM_USUARIO_PERMISSAO add index IR_PRM_UPM (PRM_ID), add constraint IR_PRM_UPM foreign key (PRM_ID) references sisgestor.PRM_PERMISSAO (PRM_ID); 
+alter table sisgestor.UPM_USUARIO_PERMISSAO add index IR_UUR_UPM (UUR_ID), add constraint IR_UUR_UPM foreign key (UUR_ID) references sisgestor.UUR_USUARIO (UUR_ID); 
+alter table sisgestor.UUR_USUARIO add index IR_DPR_UUR (DPR_ID), add constraint IR_DPR_UUR foreign key (DPR_ID) references sisgestor.DPR_DEPARTAMENTO (DPR_ID); 
 
 INSERT INTO `dpr_departamento` (`DPR_ID`,`DPR_NOME`,`DPR_EMAIL`,`DPR_SIGLA`,`DPR_ID_SUPERIOR`) 
 	VALUES (1,'Departamento','email@mail.com','DP',NULL);
 
-INSERT INTO `uur_usuario` (`UUR_ID`,`UUR_EMAIL`,`UUR_LOGIN`,`UUR_NOME`,`UUR_SENHA`,`DPR_ID`) 
-	VALUES (1,'email@email.com','admin','Administrador','admin',1);
+INSERT INTO `uur_usuario` (`UUR_ID`,`UUR_EMAIL`,`UUR_LOGIN`,`UUR_NOME`,`UUR_SENHA`,`DPR_ID`,`UUR_CHEFE`) 
+	VALUES (1,'email@email.com','admin','Administrador','admin',1, 1);
 
 INSERT INTO `prm_permissao` (`PRM_ID`,`PRM_DESCRICAO`) 
 	VALUES (1,'1');
