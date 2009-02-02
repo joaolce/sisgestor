@@ -39,7 +39,7 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return se o usuário é chefe do departamento
 	 */
-	@Column(name = "UUR_CHEFE", nullable = false)
+	@Column(name = "UUR_CHEFE", nullable = false, columnDefinition = "CHAR(1)")
 	public Boolean getChefe() {
 		return this.chefe;
 	}
