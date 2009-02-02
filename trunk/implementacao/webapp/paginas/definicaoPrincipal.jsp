@@ -32,7 +32,8 @@
 	<script type="text/javascript" src="js/util/abas.js"></script>
 	<script type="text/javascript" src="js/util/requestUtils.js"></script>
 	<script type="text/javascript" src="js/util/tabelas.js"></script>
-	
+	<script type="text/javascript" src="dwr/interface/UtilDWR.js"></script>
+		
 	<script type="text/javascript" src="js/configurador_layout.js"></script>
 </head>
 <body>

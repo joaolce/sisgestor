@@ -48,7 +48,17 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	 * {@inheritDoc}
 	 */
 	public void atualizar(Departamento departamento) throws NegocioException {
-		this.salvar(departamento);
+		Transaction transaction = this.beginTransaction();
+		try {
+			this.dao.atualizar(departamento);
+			HibernateUtil.commit(transaction);
+		} catch (ConstraintViolationException ce) {
+			HibernateUtil.rollback(transaction);
+			throw new NegocioException("erro.departamento.sigla"); //NOPMD by João Lúcio - não é necessário ter causa exceção
+		} catch (Exception e) {
+			HibernateUtil.rollback(transaction);
+			this.verificaExcecao(e);
+		}
 	}
 
 	/**
@@ -108,7 +118,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	public void salvar(Departamento departamento) throws NegocioException {
 		Transaction transaction = this.beginTransaction();
 		try {
-			this.dao.salvarOuAtualizar(departamento);
+			this.dao.salvar(departamento);
 			HibernateUtil.commit(transaction);
 		} catch (ConstraintViolationException ce) {
 			HibernateUtil.rollback(transaction);

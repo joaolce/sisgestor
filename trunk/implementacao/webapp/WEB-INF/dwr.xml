@@ -13,6 +13,9 @@
 		<create javascript="ManterUsuarioDWR" creator="new">
 			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterUsuarioDWR" />
 		</create>
+		<create javascript="UtilDWR" creator="new">
+			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.UtilDWR" />
+		</create>
 	
 		<!-- Convertendo Exceções -->
 		<convert match="org.directwebremoting.extend.AccessDeniedException" converter="exception" />
