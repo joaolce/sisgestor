@@ -6,13 +6,11 @@ Event.observe(window, "load", function() {
 });
 
 /**
- * Comportamentos para o UC Manter Usuario.
+ * Comportamentos para o UC Manter Usuário.
+ * 
+ * @author Thiago
  */
 var ComportamentosTela = Class.create();
-/**
- * @author Thiago
- *
- */
 ComportamentosTela.prototype = {
    /**
 	 * @constructor
@@ -113,7 +111,7 @@ ComportamentosTela.prototype = {
 		   var chamadaRemota = ManterUsuarioDWR.pesquisar.bind(ManterUsuarioDWR);
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
 		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
-		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(9);
+		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA);
 	   }
 	   this.tabelaTelaPrincipal.setParametros(dto);
 	   this.tabelaTelaPrincipal.executarChamadaRemota();
@@ -173,15 +171,13 @@ ComportamentosTela.prototype = {
 		   ComboFunctions.selecionaCombo("permissoes");
 		   requestUtils.submitForm(form, null, ( function() {
 			   if (requestUtils.status) {
-				   UtilDWR.getUser((function (usuario){
-					   if(usuario.id == dwr.util.getValue($("formSalvar").id)) { 
-						   UtilDWR.finalizarSessao(function(){
-							   JanelasComuns.sessaoFinalizada();
-						   });
-					   }  else {
-						   this.pesquisar();
-					   }
-				   }).bind(this));
+				   if (Usuario.getUsuario().id == dwr.util.getValue($("formSalvar").id)) {
+					   UtilDWR.finalizarSessao( function() {
+						   JanelasComuns.sessaoFinalizada();
+					   });
+				   } else {
+					   this.pesquisar();
+				   }
 			   }
 		   }).bind(this));
 	   }).bind(this));
@@ -276,17 +272,15 @@ ComportamentosTela.prototype = {
 		   this.habilitarCampos(possui);
 
 		   // Recupera o usuário da sessão e verifica se ele pode editar os campos
-		   UtilDWR.getUser( (function(usuario) {
-			   if ((this.getIdSelecionado() != usuario.id) && !possui) {
-				   $("divBotoes").setStyle( {
-					   display :"none"
-				   });
-			   } else {
-				   $("divBotoes").setStyle( {
-					   display :"block"
-				   });
-			   }
-		   }).bind(this));
+		   if ((this.getIdSelecionado() != Usuario.getUsuario().id) && !possui) {
+			   $("divBotoes").setStyle( {
+				   display :"none"
+			   });
+		   } else {
+			   $("divBotoes").setStyle( {
+				   display :"block"
+			   });
+		   }
 	   }).bind(this));
    },
    

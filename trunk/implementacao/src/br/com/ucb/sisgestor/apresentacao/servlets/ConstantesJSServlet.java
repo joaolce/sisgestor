@@ -1,5 +1,6 @@
 package br.com.ucb.sisgestor.apresentacao.servlets;
 
+import br.com.ucb.sisgestor.persistencia.BaseDAO;
 import br.com.ucb.sisgestor.util.constantes.ConstantesRoles;
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ public class ConstantesJSServlet extends HttpServlet {
 		constantes.put("PERMISSAO_MINIMA", ConstantesRoles.PERMISSAO_MINIMA);
 		constantes.put("MANTER_DEPARTAMENTO", ConstantesRoles.MANTER_DEPARTAMENTO);
 		constantes.put("MANTER_USUARIO", ConstantesRoles.MANTER_USUARIO);
+		constantes.put("QTD_REGISTROS_PAGINA", BaseDAO.QTD_REGISTROS_PAGINA);
 	}
 
 	/**
