@@ -40,7 +40,8 @@ import org.directwebremoting.util.LocalUtil;
  */
 public final class Utils {
 
-	private static final Log	LOG	= LogFactory.getLog(Utils.class);
+	private static final MessageResources	resources	= MessageResources.getMessageResources("sisgestor");
+	private static final Log					LOG			= LogFactory.getLog(Utils.class);
 
 	/**
 	 * Construtor privado (classe utilitária).
@@ -386,7 +387,6 @@ public final class Utils {
 	 * @return String com a mensagem
 	 */
 	public static String getMessageFromProperties(String key, String... args) {
-		MessageResources resources = MessageResources.getMessageResources("sisgestor");
 		return resources.getMessage(key, args);
 	}
 
@@ -694,6 +694,30 @@ public final class Utils {
 	}
 
 	/**
+	 * Transforma as primeiras letras das palavras em maiuscúlo
+	 * 
+	 * @param texto texto a modificar
+	 * @return novo texto
+	 */
+	public static String primeirasLetrasMaiusculo(String texto) {
+		StringBuilder result = new StringBuilder("");
+		String nome;
+
+		StringTokenizer token = new StringTokenizer(texto.toLowerCase(DataUtil.LOCALE_BR), " ");
+
+		while (token.hasMoreElements()) {
+			nome = token.nextToken();
+
+			if ("da".equals(nome)) {
+				result.append(nome + " ");
+			} else {
+				result.append(nome.substring(0, 1).toUpperCase() + nome.substring(1) + " ");
+			}
+		}
+		return result.toString();
+	}
+
+	/**
 	 * Seta nulo em todas as propriedades do bean que forem "writable" e que não forem primitivas
 	 * 
 	 * @param objeto objeto a "resetar"
@@ -724,30 +748,6 @@ public final class Utils {
 	 */
 	public static <T>List<T> subtrair(List<T> original, List<T> subtracao, Class<T> tipo) {
 		return GenericsUtil.checkedList(ListUtils.subtract(original, subtracao), tipo);
-	}
-
-	/**
-	 * Transforma as primeiras letras das palavras em maiuscúlo
-	 * 
-	 * @param texto texto a modificar
-	 * @return novo texto
-	 */
-	public static String primeirasLetrasMaiusculo(String texto) {
-		StringBuilder result = new StringBuilder("");
-		String nome;
-
-		StringTokenizer token = new StringTokenizer(texto.toLowerCase(DataUtil.LOCALE_BR), " ");
-
-		while (token.hasMoreElements()) {
-			nome = token.nextToken();
-
-			if ("da".equals(nome)) {
-				result.append(nome + " ");
-			} else {
-				result.append(nome.substring(0, 1).toUpperCase() + nome.substring(1) + " ");
-			}
-		}
-		return result.toString();
 	}
 
 	/**
