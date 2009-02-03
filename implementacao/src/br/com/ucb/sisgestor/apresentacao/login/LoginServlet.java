@@ -72,7 +72,7 @@ public final class LoginServlet extends HttpServlet {
 			}
 		} else {
 			LOG.debug("Efetuando logout.");
-			this.loginHelper.doLogout(request, response);
+			this.loginHelper.doLogout(request);
 			response.sendRedirect(".");
 		}
 	}
