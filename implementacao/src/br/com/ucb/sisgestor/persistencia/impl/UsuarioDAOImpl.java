@@ -48,7 +48,7 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario, Integer> implements Usu
 	public List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
 			Integer paginaAtual) {
 		Criteria criteria = this.montarCriteriosPaginacao(login, nome, departamento);
-		this.adicionarPaginacao(criteria, paginaAtual, MAXIMO_RESULTADOS);
+		this.adicionarPaginacao(criteria, paginaAtual, QTD_REGISTROS_PAGINA);
 		criteria.addOrder(Order.asc("nome"));
 		return GenericsUtil.checkedList(criteria.list(), Usuario.class);
 	}

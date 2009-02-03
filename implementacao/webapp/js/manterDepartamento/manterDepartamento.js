@@ -7,6 +7,8 @@ Event.observe(window, "load", function() {
 
 /**
  * Comportamentos para o UC Manter Departamento.
+ * 
+ * @author João Lúcio
  */
 var ComportamentosTela = Class.create();
 ComportamentosTela.prototype = {
@@ -87,7 +89,7 @@ ComportamentosTela.prototype = {
 		   var chamadaRemota = ManterDepartamentoDWR.pesquisar.bind(ManterDepartamentoDWR);
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
 		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
-		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(9);
+		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA);
 	   }
 	   this.tabelaTelaPrincipal.setParametros(dto);
 	   this.tabelaTelaPrincipal.executarChamadaRemota();

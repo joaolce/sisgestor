@@ -19,8 +19,8 @@ import java.util.List;
  */
 public interface BaseDAO<T extends ObjetoPersistente, PK extends Serializable> {
 
-	/** Máximo de resultados paginados */
-	Integer	MAXIMO_RESULTADOS	= Integer.valueOf(9);
+	/** Quantidade de registros por paginação */
+	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(9);
 
 	/**
 	 * Atualiza um objeto na base de dados.

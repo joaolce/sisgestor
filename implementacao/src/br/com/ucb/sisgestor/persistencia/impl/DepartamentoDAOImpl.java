@@ -48,7 +48,7 @@ public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento, Integer> impl
 	 */
 	public List<Departamento> getBySiglaNome(String sigla, String nome, Integer pagina) {
 		Criteria criteria = this.montarCriteriosPaginacao(sigla, nome);
-		this.adicionarPaginacao(criteria, pagina, MAXIMO_RESULTADOS);
+		this.adicionarPaginacao(criteria, pagina, QTD_REGISTROS_PAGINA);
 		criteria.addOrder(Order.asc("sigla"));
 		return GenericsUtil.checkedList(criteria.list(), Departamento.class);
 	}
