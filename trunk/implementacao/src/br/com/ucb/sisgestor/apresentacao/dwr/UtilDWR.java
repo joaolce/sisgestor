@@ -6,7 +6,6 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 
 import br.com.ucb.sisgestor.apresentacao.login.LoginHelper;
 import br.com.ucb.sisgestor.entidade.Usuario;
-import br.com.ucb.sisgestor.util.constantes.ConstantesRoles;
 
 /**
  * DWR para utilidades.
@@ -17,21 +16,10 @@ import br.com.ucb.sisgestor.util.constantes.ConstantesRoles;
 public class UtilDWR extends BaseDWR {
 
 	/**
-	 * Finaliza sessão do usuário.<br>
-	 * Método chamado a partir do javascript
-	 * 
+	 * Finaliza sessão do usuário.
 	 */
 	public void finalizarSessao() {
-		new LoginHelper().doLogout(super.getRequest());
-	}
-
-	/**
-	 * Recupera a permissão de manter usuário.
-	 * 
-	 * @return permissão
-	 */
-	public String getPermissaoUsuario() {
-		return ConstantesRoles.MANTER_USUARIO;
+		new LoginHelper().doLogout(this.getRequest());
 	}
 
 	/**
@@ -45,8 +33,8 @@ public class UtilDWR extends BaseDWR {
 	/**
 	 * Verifica se o usuário atual possui a permissão.
 	 * 
-	 * @param permissao código da permissao
-	 * @return <code>true</code> se estiver;<br>
+	 * @param permissao código da permissão
+	 * @return <code>true</code> se possuir;<br>
 	 *         <code>false</code>se não.
 	 */
 	public boolean usuarioTemPermissao(String permissao) {
