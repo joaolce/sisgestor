@@ -9,6 +9,10 @@ Event.observe(window, "load", function() {
  * Comportamentos para o UC Manter Usuario.
  */
 var ComportamentosTela = Class.create();
+/**
+ * @author Thiago
+ *
+ */
 ComportamentosTela.prototype = {
    /**
 	 * @constructor
@@ -62,15 +66,18 @@ ComportamentosTela.prototype = {
 	   if (isNaN(idUsuario)) {
 		   return;
 	   }
-	   ManterUsuarioDWR.getById(idUsuario, ( function(usuario) {
+	   ManterUsuarioDWR.getById(idUsuario, ( function(_usuario) {
 		   Effect.Appear("formSalvar");
 		   dwr.util.setValue($("formSalvar").id, idUsuario);
-		   dwr.util.setValue("login", usuario.login);
-		   dwr.util.setValue("nome", usuario.nome);
-		   dwr.util.setValue("email", usuario.email);
-		   dwr.util.setValue("departamento", usuario.departamento.id);
-		   dwr.util.setValue("chefe", usuario.chefe);
-		   this.atualizarPermissoesUsuario(usuario);
+		   dwr.util.setValue("login", _usuario.login);
+		   dwr.util.setValue("nome", _usuario.nome);
+		   dwr.util.setValue("email", _usuario.email);
+		   dwr.util.setValue("departamento", _usuario.departamento.id);
+		   dwr.util.setValue("chefe", _usuario.chefe);
+		   this.atualizarPermissoesUsuario(_usuario);
+		   
+		   this.verificarPermissoes();
+		   
 	   }).bind(this));
    },
 
@@ -164,10 +171,19 @@ ComportamentosTela.prototype = {
 	 */
    atualizar : function(form) {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o usuário selecionado?", ( function() {
+		   this.habilitarCampos(true);
 		   ComboFunctions.selecionaCombo("permissoes");
-		   requestUtils.submitForm(form, ( function() {
+		   requestUtils.submitForm(form, null, ( function() {
 			   if (requestUtils.status) {
-				   this.pesquisar();
+				   UtilDWR.getUser(function (obj){
+					   if(obj.id == dwr.util.getValue($("formSalvar").id)){ 
+						   UtilDWR.finalizarSessao(function(){
+							   JanelasComuns.sessaoFinalizada();
+						   });
+					   }  else {
+						   usuario.pesquisar();
+					   }
+				   }).bind(this);
 			   }
 		   }).bind(this));
 	   }).bind(this));
@@ -252,6 +268,36 @@ ComportamentosTela.prototype = {
 			   JanelaFactory.fecharJanela("divSenha");
 		   }
 	   }).bind(this));
+   },
+   
+   /**
+    * Verifica se o usuário tem permissão para editar os campos
+    * */
+   verificarPermissoes : function(){
+	   UtilDWR.getPermissaoUsuario(function(permissao){
+		   UtilDWR.usuarioTemPermissao(permissao,function(possui){
+			   usuario.habilitarCampos(possui);
+			   
+			   //Recupera o usuário da sessão e verifica se ele pode editar os campos
+			   UtilDWR.getUser(function(_usuario){
+				   if(usuario.getIdSelecionado() != _usuario.id && !possui){
+					   $("divBotoes").setStyle({display : "none"});
+				   } else {
+					   $("divBotoes").setStyle({display : "block"});
+				   }
+			   });
+		   });
+	   });  
+   },
+   
+   /**
+    * Habilita/desabilita os campos que o usuário não tempermissão para alterar
+    * */
+   habilitarCampos : function(habilita){
+	   $("formSalvar").chefe.disabled = !habilita;
+	   $("formSalvar").departamento.disabled = !habilita;
+	   $("formSalvar").permissoes.disabled = !habilita;
+	   $("formSalvar").permissoesInform.disabled = !habilita;
    }
 };
 

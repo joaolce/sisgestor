@@ -152,7 +152,7 @@
 					</label>
 				</div>
 			</div>
-			<div style="clear: both; padding: 5px;" align="center">
+			<div style="clear: both; padding: 5px;" align="center" id="divBotoes">
 				<html:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar">
 					<bean:message key="botao.atualizar"/>
 				</html:submit>

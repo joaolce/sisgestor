@@ -65,7 +65,6 @@ public class ManterUsuarioAction extends BaseAction {
 		 *efetuar novo login para as alterações surtirem efeito
 		 */
 		if (this.getUser().getId().equals(usuario.getId())) {
-			this.doUsuario(true);
 			this.addMessageKey("mensagem.alteracao");
 		}
 

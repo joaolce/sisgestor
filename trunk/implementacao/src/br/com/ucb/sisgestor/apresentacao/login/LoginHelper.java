@@ -48,9 +48,8 @@ public class LoginHelper {
 	 * Efetua o logout do usuário.
 	 * 
 	 * @param request request atual
-	 * @param response response atual
 	 */
-	public void doLogout(HttpServletRequest request, HttpServletResponse response) {
+	public void doLogout(HttpServletRequest request) {
 		WebAuthentication auth = new WebAuthentication();
 		auth.logout();
 
