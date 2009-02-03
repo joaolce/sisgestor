@@ -50,6 +50,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	public void atualizar(Departamento departamento) throws NegocioException {
 		Transaction transaction = this.beginTransaction();
 		try {
+			this.verificaDepartamentoSuperior(departamento);
 			this.dao.atualizar(departamento);
 			HibernateUtil.commit(transaction);
 		} catch (ConstraintViolationException ce) {
@@ -118,6 +119,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	public void salvar(Departamento departamento) throws NegocioException {
 		Transaction transaction = this.beginTransaction();
 		try {
+			this.verificaDepartamentoSuperior(departamento);
 			this.dao.salvar(departamento);
 			HibernateUtil.commit(transaction);
 		} catch (ConstraintViolationException ce) {
@@ -126,6 +128,19 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 		} catch (Exception e) {
 			HibernateUtil.rollback(transaction);
 			this.verificaExcecao(e);
+		}
+	}
+
+	/**
+	 * Verifica o {@link Departamento} superior do departamento.
+	 * 
+	 * @param departamento departamento a verificar
+	 * @throws NegocioException caso departamento seja superior dele mesmo
+	 */
+	private void verificaDepartamentoSuperior(Departamento departamento) throws NegocioException {
+		if ((departamento.getDepartamentoSuperior() != null)
+				&& departamento.getDepartamentoSuperior().getId().equals(departamento.getId())) {
+			throw new NegocioException("erro.departamento.superiorIgual");
 		}
 	}
 }
