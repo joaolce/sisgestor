@@ -35,6 +35,9 @@
 	<script type="text/javascript" src="dwr/interface/UtilDWR.js"></script>
 		
 	<script type="text/javascript" src="js/configurador_layout.js"></script>
+	
+	<%-- Essas são as constantes que são lidas pelos JS da aplicação --%>
+	<jsp:include page="/constantesJS" flush="true"/>
 </head>
 <body>
 	<tiles:insert attribute="topo"/>

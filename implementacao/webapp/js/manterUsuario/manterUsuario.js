@@ -66,18 +66,16 @@ ComportamentosTela.prototype = {
 	   if (isNaN(idUsuario)) {
 		   return;
 	   }
-	   ManterUsuarioDWR.getById(idUsuario, ( function(_usuario) {
+	   ManterUsuarioDWR.getById(idUsuario, ( function(usuario) {
 		   Effect.Appear("formSalvar");
 		   dwr.util.setValue($("formSalvar").id, idUsuario);
-		   dwr.util.setValue("login", _usuario.login);
-		   dwr.util.setValue("nome", _usuario.nome);
-		   dwr.util.setValue("email", _usuario.email);
-		   dwr.util.setValue("departamento", _usuario.departamento.id);
-		   dwr.util.setValue("chefe", _usuario.chefe);
-		   this.atualizarPermissoesUsuario(_usuario);
-		   
+		   dwr.util.setValue("login", usuario.login);
+		   dwr.util.setValue("nome", usuario.nome);
+		   dwr.util.setValue("email", usuario.email);
+		   dwr.util.setValue("departamento", usuario.departamento.id);
+		   dwr.util.setValue("chefe", usuario.chefe);
+		   this.atualizarPermissoesUsuario(usuario);
 		   this.verificarPermissoes();
-		   
 	   }).bind(this));
    },
 
@@ -101,7 +99,7 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Pesquisa os usuarios por parte do nome
+	 * Faz a pesquisa dos usuarios pelos parâmetros informados.
 	 */
    pesquisar : function() {
 	   Effect.Fade("formSalvar");
@@ -175,15 +173,15 @@ ComportamentosTela.prototype = {
 		   ComboFunctions.selecionaCombo("permissoes");
 		   requestUtils.submitForm(form, null, ( function() {
 			   if (requestUtils.status) {
-				   UtilDWR.getUser(function (obj){
-					   if(obj.id == dwr.util.getValue($("formSalvar").id)){ 
+				   UtilDWR.getUser((function (usuario){
+					   if(usuario.id == dwr.util.getValue($("formSalvar").id)) { 
 						   UtilDWR.finalizarSessao(function(){
 							   JanelasComuns.sessaoFinalizada();
 						   });
 					   }  else {
-						   usuario.pesquisar();
+						   this.pesquisar();
 					   }
-				   }).bind(this);
+				   }).bind(this));
 			   }
 		   }).bind(this));
 	   }).bind(this));
@@ -207,7 +205,7 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Abre a janela para novo usuario.
+	 * Abre a janela para novo usuário.
 	 */
    popupNovoUsuario : function() {
 	   var url = "manterUsuario.do?method=popupNovoUsuario";
@@ -271,28 +269,30 @@ ComportamentosTela.prototype = {
    },
    
    /**
-    * Verifica se o usuário tem permissão para editar os campos
-    * */
-   verificarPermissoes : function(){
-	   UtilDWR.getPermissaoUsuario(function(permissao){
-		   UtilDWR.usuarioTemPermissao(permissao,function(possui){
-			   usuario.habilitarCampos(possui);
-			   
-			   //Recupera o usuário da sessão e verifica se ele pode editar os campos
-			   UtilDWR.getUser(function(_usuario){
-				   if(usuario.getIdSelecionado() != _usuario.id && !possui){
-					   $("divBotoes").setStyle({display : "none"});
-				   } else {
-					   $("divBotoes").setStyle({display : "block"});
-				   }
-			   });
-		   });
-	   });  
+	 * Verifica se o usuário tem permissão para editar os campos
+	 */
+   verificarPermissoes : function() {
+	   UtilDWR.usuarioTemPermissao(MANTER_USUARIO, (function(possui) {
+		   this.habilitarCampos(possui);
+
+		   // Recupera o usuário da sessão e verifica se ele pode editar os campos
+		   UtilDWR.getUser( (function(usuario) {
+			   if ((this.getIdSelecionado() != usuario.id) && !possui) {
+				   $("divBotoes").setStyle( {
+					   display :"none"
+				   });
+			   } else {
+				   $("divBotoes").setStyle( {
+					   display :"block"
+				   });
+			   }
+		   }).bind(this));
+	   }).bind(this));
    },
    
    /**
-    * Habilita/desabilita os campos que o usuário não tempermissão para alterar
-    * */
+	 * Habilita/desabilita os campos que o usuário não tem permissão para alterar
+	 */
    habilitarCampos : function(habilita){
 	   $("formSalvar").chefe.disabled = !habilita;
 	   $("formSalvar").departamento.disabled = !habilita;
