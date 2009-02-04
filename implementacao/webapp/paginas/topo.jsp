@@ -5,12 +5,12 @@
 
 <div style="width: 99.9%; background-color:#003366;">
 	<div class="cab" style="width: 69%; float: left;">
-		<div style="float: left;">
+		<div style="margin-left: 15px; float: left;">
 			<html:link href="principal.do?method=entrada" titleKey="dica.paginaInicial">
 				<html:img srcKey="imagem.logoPequeno" align="left" />
 			</html:link>
 		</div>
-		<div style="margin-top: 3px;">
+		<div style="margin-left: 120px; margin-top: 3px;">
 			<b><bean:message key="aplicacao.titulo"/></b>
 			<br />
 			<span id="tituloTela"><bean:message key="label.carregando"/></span>
