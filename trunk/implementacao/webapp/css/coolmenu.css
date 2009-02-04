@@ -17,14 +17,12 @@
 
 /* CoolMenus 4 - default styles - end */
 .clBar {
-	position: absolute;
-	height: 40px;
-	background-color: #F0F0FF;
-	color: black;
-	margin-right: auto;
-	margin-left: auto;
+	position: static;
+	background-color: #EFEFEF;
+	width: 100%;
+	color: #003366;
+	border-bottom: 1px solid;
 	visibility: hidden;
-	border-bottom: 1px solid gray;
 }
 
 .cmMenuBorder img {

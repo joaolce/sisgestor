@@ -21,17 +21,17 @@ oCMenu.onlineRoot = ""
 oCMenu.resizeCheck = 1
 oCMenu.wait = 200
 oCMenu.fillImg = "imagens/menu/fill.gif"
-oCMenu.zIndex = 400
+oCMenu.zIndex = 1
 oCMenu.pagecheck = 1
 oCMenu.checkscroll = 0
 
 // Background bar properties
-oCMenu.useBar = 0
+oCMenu.useBar = 1
 oCMenu.barWidth = "100%"
-oCMenu.barHeight = "menu"
+oCMenu.barHeight = 21
 oCMenu.barClass = "clBar"
 oCMenu.barX = 0
-oCMenu.barY = 0
+oCMenu.barY = 40
 oCMenu.barBorderX = 0
 oCMenu.barBorderY = 0
 oCMenu.barBorderClass = ""
