@@ -10,7 +10,6 @@ import br.com.ucb.sisgestor.util.GenericsUtil;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -75,18 +74,16 @@ public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento, Integer> impl
 	 * 
 	 * @param sigla sigla do departamento
 	 * @param nome nome do departamento
-	 * @return
+	 * @return {@link Criteria}
 	 */
 	private Criteria montarCriteriosPaginacao(String sigla, String nome) {
 		Criteria criteria = this.getSession().createCriteria(Departamento.class);
-		Conjunction conjunction = Restrictions.conjunction();
 		if (StringUtils.isNotBlank(sigla)) {
-			conjunction.add(Restrictions.like("sigla", sigla, MatchMode.ANYWHERE).ignoreCase());
+			criteria.add(Restrictions.like("sigla", sigla, MatchMode.ANYWHERE).ignoreCase());
 		}
 		if (StringUtils.isNotBlank(nome)) {
-			conjunction.add(Restrictions.like("nome", nome, MatchMode.ANYWHERE).ignoreCase());
+			criteria.add(Restrictions.like("nome", nome, MatchMode.ANYWHERE).ignoreCase());
 		}
-		criteria.add(conjunction);
 		return criteria;
 	}
 }

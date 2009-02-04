@@ -10,7 +10,6 @@ import br.com.ucb.sisgestor.util.GenericsUtil;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -89,18 +88,16 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario, Integer> implements Usu
 	 */
 	private Criteria montarCriteriosPaginacao(String login, String nome, Integer departamento) {
 		Criteria criteria = this.getSession().createCriteria(Usuario.class);
-		Conjunction conjunction = Restrictions.conjunction();
 		if (StringUtils.isNotBlank(login)) {
-			conjunction.add(Restrictions.like("login", login, MatchMode.ANYWHERE).ignoreCase());
+			criteria.add(Restrictions.like("login", login, MatchMode.ANYWHERE).ignoreCase());
 		}
 		if (StringUtils.isNotBlank(nome)) {
-			conjunction.add(Restrictions.like("nome", nome, MatchMode.ANYWHERE).ignoreCase());
+			criteria.add(Restrictions.like("nome", nome, MatchMode.ANYWHERE).ignoreCase());
 		}
 		if (departamento != null) {
 			criteria.createAlias("this.departamento", "departamento");
-			conjunction.add(Restrictions.eq("departamento.id", departamento));
+			criteria.add(Restrictions.eq("departamento.id", departamento));
 		}
-		criteria.add(conjunction);
 		return criteria;
 	}
 }
