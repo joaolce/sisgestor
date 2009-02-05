@@ -30,12 +30,12 @@
 		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaUsuarioDTO" converter="bean" />
 		
 		<!-- Convertendo Entidades -->
-		<convert match="br.com.ucb.sisgestor.entidade.Departamento" converter="hibernate3" />
-		<convert match="br.com.ucb.sisgestor.entidade.Usuario" 		converter="hibernate3" />
-		<convert match="br.com.ucb.sisgestor.entidade.Permissao"	converter="hibernate3" />
-		<convert match="br.com.ucb.sisgestor.entidade.Workflow"		converter="hibernate3" />
-		<convert match="br.com.ucb.sisgestor.entidade.Processo"		converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Atividade"	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Departamento" converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Permissao"	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Processo"		converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Tarefa"		converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Usuario" 		converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Workflow"		converter="hibernate3" />
 	</allow>
 </dwr>
