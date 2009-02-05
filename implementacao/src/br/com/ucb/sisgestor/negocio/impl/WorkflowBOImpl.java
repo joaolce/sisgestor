@@ -44,7 +44,6 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	 */
 	public void atualizar(Workflow obj) throws NegocioException {
 		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -52,23 +51,20 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	 */
 	public void excluir(Workflow obj) throws NegocioException {
 		// TODO Auto-generated method stub
-
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public Workflow obter(Integer pk) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.dao.obter(pk);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public List<Workflow> obterTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.dao.obterTodos();
 	}
 
 	/**
@@ -76,7 +72,5 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	 */
 	public void salvar(Workflow obj) throws NegocioException {
 		// TODO Auto-generated method stub
-
 	}
-
 }

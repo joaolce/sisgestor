@@ -35,7 +35,7 @@ public class Workflow extends BaseWorkflow {
 	 * 
 	 * @return ativo
 	 */
-	@Column(name = "WOR_ATIVO", nullable = false, columnDefinition = DEFINICAO_BOOLEAN)
+	@Column(name = "WOR_ATIVO", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_BOOLEAN)
 	public Boolean getAtivo() {
 		return this.ativo;
 	}

@@ -4,16 +4,15 @@
  */
 package br.com.ucb.sisgestor.util.constantes;
 
-
 /**
- * Classe para as constantes de tamanhos de campo para o banco de dados
+ * Classe para as constantes de tamanhos de campo para o banco de dados.
  * 
  * @author Thiago
  * @since 04/02/2009
  */
-public abstract class ConstantesDB {
+public final class ConstantesDB {
 
-	/** Tamanho do campo Descricção */
+	/** Tamanho do campo Descrição */
 	public static final int		DESCRICAO			= 50;
 
 	/** Tamanho do campo Nome */
@@ -29,7 +28,7 @@ public abstract class ConstantesDB {
 	public static final String	DEFINICAO_LOGIN	= "CHAR(15)";
 
 	/** Definição do campo boolean */
-	public static final String	DEFINICAO_BOOLEAN	= "CHAR(1)";
+	public static final String	DEFINICAO_BOOLEAN	= "BIT";
 
 	/** Definição do campo Senha */
 	public static final String	DEFINICAO_SENHA	= "CHAR(20)";
