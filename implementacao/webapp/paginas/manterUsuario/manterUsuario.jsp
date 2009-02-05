@@ -34,7 +34,7 @@
 				<label style="float: left; margin-left: 20px;">
 					<bean:message key="label.departamento" />
 					<br />
-					<html:select property="departamento" styleId="departamentoPesquisa">
+					<html:select property="departamento" styleId="departamentoPesquisa" onchange="usuario.pesquisar(); return false;">
 						<html:option value="">
 							<bean:message key="label.todos" />
 						</html:option>
