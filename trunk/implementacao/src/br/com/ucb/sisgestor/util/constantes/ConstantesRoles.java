@@ -18,4 +18,6 @@ public final class ConstantesRoles {
 	public static final String	MANTER_DEPARTAMENTO	= "2";
 	/** Manter Usuário */
 	public static final String	MANTER_USUARIO			= "3";
+	/** Manter Workflow */
+	public static final String	MANTER_WORKFLOW		= "4";
 }

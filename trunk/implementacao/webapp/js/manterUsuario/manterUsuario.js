@@ -3,6 +3,10 @@
  */
 Event.observe(window, "load", function() {
 	usuario.pesquisar();
+	
+	UtilDWR.usuarioTemPermissao(MANTER_USUARIO, (function(possui) {
+		usuario.permissaoManterUsuario = possui;
+	}));
 });
 
 /**
@@ -18,6 +22,8 @@ ComportamentosTela.prototype = {
    initialize : function() {},
 
    tabelaTelaPrincipal :null,
+   
+   permissaoManterUsuario : false,
 
    /**
 	 * Retorna a tabela da tela inicial do caso de uso
@@ -171,7 +177,7 @@ ComportamentosTela.prototype = {
 		   ComboFunctions.selecionaCombo("permissoes");
 		   requestUtils.submitForm(form, null, ( function() {
 			   if (requestUtils.status) {
-				   if (Usuario.getUsuario().id == dwr.util.getValue($("formSalvar").id)) {
+				   if (Usuario.getUsuario().id == dwr.util.getValue($("formSalvar").id) && this.permissaoManterUsuario ) {
 					   UtilDWR.finalizarSessao( function() {
 						   JanelasComuns.sessaoFinalizada();
 					   });
@@ -268,20 +274,17 @@ ComportamentosTela.prototype = {
 	 * Verifica se o usuário tem permissão para editar os campos
 	 */
    verificarPermissoes : function() {
-	   UtilDWR.usuarioTemPermissao(MANTER_USUARIO, (function(possui) {
-		   this.habilitarCampos(possui);
-
-		   // Recupera o usuário da sessão e verifica se ele pode editar os campos
-		   if ((this.getIdSelecionado() != Usuario.getUsuario().id) && !possui) {
-			   $("divBotoes").setStyle( {
-				   display :"none"
-			   });
-		   } else {
-			   $("divBotoes").setStyle( {
-				   display :"block"
-			   });
-		   }
-	   }).bind(this));
+	   this.habilitarCampos(this.permissaoManterUsuario);
+	   // Recupera o usuário da sessão e verifica se ele pode editar os campos
+	   if ((this.getIdSelecionado() != Usuario.getUsuario().id) && !this.permissaoManterUsuario) {
+		   $("divBotoes").setStyle( {
+			   display :"none"
+		   });
+	   } else {
+		   $("divBotoes").setStyle( {
+			   display :"block"
+		   });
+	   }
    },
    
    /**

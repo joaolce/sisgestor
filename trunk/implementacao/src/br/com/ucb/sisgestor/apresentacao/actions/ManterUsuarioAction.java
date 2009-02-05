@@ -51,9 +51,11 @@ public class ManterUsuarioAction extends BaseAction {
 		this.copyProperties(usuario, form);
 		usuario.setPermissoes(this.getPermissoes(form.getPermissoes()));
 
-		//Usuário pode atualizar os seus dados
-		if (!this.getUser().getId().equals(usuario.getId())
-				&& !request.isUserInRole(ConstantesRoles.MANTER_USUARIO)) {
+		Usuario usuarioLogado = this.getUser();
+		boolean temPermissao = request.isUserInRole(ConstantesRoles.MANTER_USUARIO);
+
+		//Usuário que não tem permissão apenas pode editar os próprios dados
+		if (!usuarioLogado.getId().equals(usuario.getId()) && !temPermissao) {
 			this.addMessageKey("erro.acessoNegado");
 			return this.sendAJAXResponse(false);
 		}
@@ -61,10 +63,12 @@ public class ManterUsuarioAction extends BaseAction {
 
 		this.addMessageKey("mensagem.usuario.alterar");
 
-		/*Se usuário está atualizando os próprios dados, deverá
-		 *efetuar novo login para as alterações surtirem efeito
+		/*Se usuário está atualizando os próprios dados e ele tem permissão para Manter Usuário, deverá
+		 *efetuar novo login para as alterações surtirem efeito.
+		 *
+		 *Essa mesma condição é verificada no manterUsuario.js
 		 */
-		if (this.getUser().getId().equals(usuario.getId())) {
+		if (usuarioLogado.getId().equals(usuario.getId()) && temPermissao) {
 			this.addMessageKey("mensagem.alteracao");
 		}
 

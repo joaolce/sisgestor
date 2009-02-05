@@ -26,6 +26,7 @@ public class ConstantesJSServlet extends HttpServlet {
 		constantes.put("PERMISSAO_MINIMA", ConstantesRoles.PERMISSAO_MINIMA);
 		constantes.put("MANTER_DEPARTAMENTO", ConstantesRoles.MANTER_DEPARTAMENTO);
 		constantes.put("MANTER_USUARIO", ConstantesRoles.MANTER_USUARIO);
+		constantes.put("MANTER_WORKFLOW", ConstantesRoles.MANTER_WORKFLOW);
 		constantes.put("QTD_REGISTROS_PAGINA", BaseDAO.QTD_REGISTROS_PAGINA);
 	}
 

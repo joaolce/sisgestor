@@ -29,7 +29,6 @@ public class ManterWorkflowDWR extends BaseDWR {
 	 * @return workflow encontrado
 	 */
 	public Workflow getById(Integer id) {
-		Workflow workflow = workflowBO.obter(id);
-		return workflow;
+		return workflowBO.obter(id);
 	}
 }

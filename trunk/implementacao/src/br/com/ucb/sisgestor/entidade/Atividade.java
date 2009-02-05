@@ -4,7 +4,7 @@
  */
 package br.com.ucb.sisgestor.entidade;
 
-import br.com.ucb.sisgestor.util.constantes.ConstantesBanco;
+import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -26,8 +26,8 @@ import org.hibernate.annotations.ForeignKey;
 @org.hibernate.annotations.Table(appliesTo = "ATI_ATIVIDADE")
 @AttributeOverrides( {
 		@AttributeOverride(name = "id", column = @Column(name = "ATI_ID", nullable = false)),
-		@AttributeOverride(name = "nome", column = @Column(name = "ATI_NOME", nullable = false, length = ConstantesBanco.NOME)),
-		@AttributeOverride(name = "descricao", column = @Column(name = "ATI_DESCRICAO", nullable = true, length = ConstantesBanco.DESCRICAO))})
+		@AttributeOverride(name = "nome", column = @Column(name = "ATI_NOME", nullable = false, length = ConstantesDB.NOME)),
+		@AttributeOverride(name = "descricao", column = @Column(name = "ATI_DESCRICAO", nullable = true, length = ConstantesDB.DESCRICAO))})
 public class Atividade extends BaseWorkflow {
 
 
