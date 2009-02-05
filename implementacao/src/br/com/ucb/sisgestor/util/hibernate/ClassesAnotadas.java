@@ -4,9 +4,13 @@
  */
 package br.com.ucb.sisgestor.util.hibernate;
 
+import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.entidade.Permissao;
+import br.com.ucb.sisgestor.entidade.Processo;
+import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.Usuario;
+import br.com.ucb.sisgestor.entidade.Workflow;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +33,10 @@ public class ClassesAnotadas {
 		classes.add(Usuario.class);
 		classes.add(Departamento.class);
 		classes.add(Permissao.class);
+		classes.add(Workflow.class);
+		classes.add(Processo.class);
+		classes.add(Atividade.class);
+		classes.add(Tarefa.class);
 	}
 
 	/**

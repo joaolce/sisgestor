@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.NaturalId;
 
@@ -33,13 +34,14 @@ public class Usuario extends ObjetoPersistente {
 	private Boolean			chefe;
 	private Departamento		departamento;
 	private List<Permissao>	permissoes;
+	private List<Tarefa>		tarefas;
 
 	/**
 	 * Recupera se o usuário é chefe do departamento.
 	 * 
 	 * @return se o usuário é chefe do departamento
 	 */
-	@Column(name = "UUR_CHEFE", nullable = false, columnDefinition = "CHAR(1)")
+	@Column(name = "UUR_CHEFE", nullable = false, columnDefinition = DEFINICAO_BOOLEAN)
 	public Boolean getChefe() {
 		return this.chefe;
 	}
@@ -61,7 +63,7 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return email do usuário
 	 */
-	@Column(name = "UUR_EMAIL", nullable = true, length = 40)
+	@Column(name = "UUR_EMAIL", nullable = true, length = EMAIL)
 	public String getEmail() {
 		return this.email;
 	}
@@ -71,7 +73,7 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return login do usuário
 	 */
-	@Column(name = "UUR_LOGIN", nullable = false, columnDefinition = "CHAR(15)", length = 15)
+	@Column(name = "UUR_LOGIN", nullable = false, columnDefinition = DEFINICAO_LOGIN, length = LOGIN)
 	@NaturalId(mutable = true)
 	public String getLogin() {
 		return this.login;
@@ -82,7 +84,7 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return nome do usuário
 	 */
-	@Column(name = "UUR_NOME", nullable = false, length = 150)
+	@Column(name = "UUR_NOME", nullable = false, length = NOME)
 	public String getNome() {
 		return this.nome;
 	}
@@ -106,9 +108,19 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return senha senha do usuário
 	 */
-	@Column(name = "UUR_SENHA", nullable = false, length = 20, columnDefinition = "CHAR(20)")
+	@Column(name = "UUR_SENHA", nullable = false, length = 20, columnDefinition = DEFINICAO_SENHA)
 	public String getSenha() {
 		return this.senha;
+	}
+
+	/**
+	 * Recupera o valor de tarefas
+	 * 
+	 * @return tarefas
+	 */
+	@OneToMany(targetEntity = Tarefa.class, mappedBy = "usuario")
+	public List<Tarefa> getTarefas() {
+		return this.tarefas;
 	}
 
 	/**
@@ -147,6 +159,7 @@ public class Usuario extends ObjetoPersistente {
 		this.login = login;
 	}
 
+
 	/**
 	 * Atribui o nome do usuário
 	 * 
@@ -174,5 +187,15 @@ public class Usuario extends ObjetoPersistente {
 	 */
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+
+	/**
+	 * Atribui tarefas
+	 * 
+	 * @param tarefas o valor a ajustar em tarefas
+	 */
+	public void setTarefas(List<Tarefa> tarefas) {
+		this.tarefas = tarefas;
 	}
 }

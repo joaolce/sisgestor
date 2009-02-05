@@ -37,4 +37,10 @@
 	<definition name="popupNovoUsuario" path="/paginas/manterUsuario/popupNovoUsuario.jsp" />
 	<definition name="popupEditarSenha" path="/paginas/manterUsuario/popupEditarSenha.jsp" />
 	
+	<!--  MANTER WORKFLOW -->
+	<definition name="definicaoManterWorkflow" extends="definicaoPrincipal">
+		<put name="corpo">/paginas/manterWorkflow/manterWorkflow.jsp</put>
+		<put name="titulo">Manter Workflow</put>
+	</definition>
+	
 </tiles-definitions>
