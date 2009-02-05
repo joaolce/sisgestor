@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Armazena as classes anotadas para o hibernate
+ * Armazena as classes anotadas para o hibernate.
  * 
  * @author João Lúcio
  * @since 23/10/2008
@@ -27,16 +27,16 @@ public class ClassesAnotadas {
 																							new ArrayList<Class<? extends Serializable>>();
 
 	/**
-	 * Adiciona as classes anotadas em uma lista
+	 * Adiciona as classes anotadas em uma lista.
 	 */
 	static {
-		classes.add(Usuario.class);
+		classes.add(Atividade.class);
 		classes.add(Departamento.class);
 		classes.add(Permissao.class);
-		classes.add(Workflow.class);
 		classes.add(Processo.class);
-		classes.add(Atividade.class);
 		classes.add(Tarefa.class);
+		classes.add(Usuario.class);
+		classes.add(Workflow.class);
 	}
 
 	/**
