@@ -23,7 +23,7 @@ import org.hibernate.transaction.JTATransactionFactory;
 public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 
 	private static final ConfiguracaoHibernate	configuracao		= new ConfiguracaoHibernate();
-	private boolean										criarBancoDeDados	= false;
+	private boolean										criarBancoDeDados	= true;
 	private boolean										isGerarScript		= false;
 	private boolean										isMostrarSQL		= true;
 

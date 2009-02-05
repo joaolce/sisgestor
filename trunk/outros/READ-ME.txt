@@ -7,17 +7,5 @@
  ** Informação Geral:
 ------------------------------------------------------------------------------------------------------
 Siga os passos abaixo para configurar o ambiente de desenvolvimento:
-
-	1) Descompacte o servidor de aplicações JBoss no diretório de sua preferência
 	
-	2) Crie a variável de ambiente JBOSS_HOME com o valor do diretório onde o JBoss foi descompactado
-		Exemplo:
-			D:\JBoss 
-			
-			onde dentro desse diretório, existam as pastas bin, client, server ....
-	
-	3) Execute o arquivo configuracao.bat para configurar as propriedades do servidor
-	
-	4) Execute o script db_sisgestor.sql para configurar as propriedades inicias do banco de dados
-	
-	5) Use o usuário "admim" e senha "admin" para efetuar login
+	1)Após iniciar o Servidor pelo Eclipse, execute o script sql para carregar o banco.

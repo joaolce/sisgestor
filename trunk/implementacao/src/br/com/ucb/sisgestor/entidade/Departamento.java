@@ -31,6 +31,17 @@ public class Departamento extends ObjetoPersistente {
 	private Departamento			departamentoSuperior;
 	private List<Departamento>	departamentosFilhos;
 	private List<Usuario>		usuarios;
+	private List<Atividade>		atividades;
+
+	/**
+	 * Recupera o valor de atividades
+	 * 
+	 * @return atividades
+	 */
+	@OneToMany(targetEntity = Atividade.class, mappedBy = "departamento")
+	public List<Atividade> getAtividades() {
+		return this.atividades;
+	}
 
 	/**
 	 * Recupera os departamentos filhos diretos do departamento.
@@ -59,7 +70,7 @@ public class Departamento extends ObjetoPersistente {
 	 * 
 	 * @return email do departamento
 	 */
-	@Column(name = "DPR_EMAIL", nullable = true, length = 40)
+	@Column(name = "DPR_EMAIL", nullable = true, length = EMAIL)
 	public String getEmail() {
 		return this.email;
 	}
@@ -69,7 +80,7 @@ public class Departamento extends ObjetoPersistente {
 	 * 
 	 * @return nome do departamento
 	 */
-	@Column(name = "DPR_NOME", nullable = false, length = 50)
+	@Column(name = "DPR_NOME", nullable = false, length = NOME)
 	public String getNome() {
 		return this.nome;
 	}
@@ -79,7 +90,7 @@ public class Departamento extends ObjetoPersistente {
 	 * 
 	 * @return sigla do departamento
 	 */
-	@Column(name = "DPR_SIGLA", nullable = false, columnDefinition = "CHAR(10)")
+	@Column(name = "DPR_SIGLA", nullable = false, columnDefinition = DEFINICAO_SIGLA)
 	@NaturalId(mutable = true)
 	public String getSigla() {
 		return this.sigla;
@@ -93,6 +104,15 @@ public class Departamento extends ObjetoPersistente {
 	@OneToMany(targetEntity = Usuario.class, mappedBy = "departamento")
 	public List<Usuario> getUsuarios() {
 		return this.usuarios;
+	}
+
+	/**
+	 * Atribui atividades
+	 * 
+	 * @param atividades o valor a ajustar em atividades
+	 */
+	public void setAtividades(List<Atividade> atividades) {
+		this.atividades = atividades;
 	}
 
 	/**
@@ -113,6 +133,7 @@ public class Departamento extends ObjetoPersistente {
 		this.departamentoSuperior = departamentoSuperior;
 	}
 
+
 	/**
 	 * Atribui o email do departamento.
 	 * 
@@ -121,6 +142,7 @@ public class Departamento extends ObjetoPersistente {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 
 	/**
 	 * Atribui o nome do departamento

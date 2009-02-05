@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.entidade;
 
 import br.com.ucb.sisgestor.util.Utils;
+import br.com.ucb.sisgestor.util.constantes.ConstantesBanco;
 import java.io.Serializable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +20,7 @@ import javax.persistence.Transient;
  * @since 21/10/2008
  */
 @MappedSuperclass
-public abstract class ObjetoPersistente implements Serializable {
+public abstract class ObjetoPersistente implements Serializable, ConstantesBanco {
 
 	private Integer	id;
 

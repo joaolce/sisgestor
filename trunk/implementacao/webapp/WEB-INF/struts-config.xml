@@ -54,6 +54,16 @@
 			<forward name="popupNovoUsuario" path="popupNovoUsuario" />
 			<forward name="popupEditarSenha" path="popupEditarSenha" />
 		</action>
+		
+		<!-- Manter Workflow -->
+		<action path="/manterWorkflow" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.ManterWorkflowAction"
+			name="manterWorkflowForm"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoManterWorkflow" />
+		</action>
 	</action-mappings>
 
 

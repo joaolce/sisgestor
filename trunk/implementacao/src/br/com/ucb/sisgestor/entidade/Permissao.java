@@ -32,7 +32,7 @@ public class Permissao extends ObjetoPersistente {
 	 * 
 	 * @return descrição da permissão
 	 */
-	@Column(name = "PRM_DESCRICAO", nullable = false, length = 30)
+	@Column(name = "PRM_DESCRICAO", nullable = false, length = DESCRICAO)
 	public String getDescricao() {
 		return this.descricao;
 	}
