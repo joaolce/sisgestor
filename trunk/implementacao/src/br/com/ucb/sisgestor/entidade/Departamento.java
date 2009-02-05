@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.entidade;
 
+import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -70,7 +71,7 @@ public class Departamento extends ObjetoPersistente {
 	 * 
 	 * @return email do departamento
 	 */
-	@Column(name = "DPR_EMAIL", nullable = true, length = EMAIL)
+	@Column(name = "DPR_EMAIL", nullable = true, length = ConstantesDB.EMAIL)
 	public String getEmail() {
 		return this.email;
 	}
@@ -80,7 +81,7 @@ public class Departamento extends ObjetoPersistente {
 	 * 
 	 * @return nome do departamento
 	 */
-	@Column(name = "DPR_NOME", nullable = false, length = NOME)
+	@Column(name = "DPR_NOME", nullable = false, length = ConstantesDB.NOME)
 	public String getNome() {
 		return this.nome;
 	}
@@ -90,7 +91,7 @@ public class Departamento extends ObjetoPersistente {
 	 * 
 	 * @return sigla do departamento
 	 */
-	@Column(name = "DPR_SIGLA", nullable = false, columnDefinition = DEFINICAO_SIGLA)
+	@Column(name = "DPR_SIGLA", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_SIGLA)
 	@NaturalId(mutable = true)
 	public String getSigla() {
 		return this.sigla;

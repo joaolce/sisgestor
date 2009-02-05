@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.entidade;
 
+import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -32,7 +33,7 @@ public class Permissao extends ObjetoPersistente {
 	 * 
 	 * @return descrição da permissão
 	 */
-	@Column(name = "PRM_DESCRICAO", nullable = false, length = DESCRICAO)
+	@Column(name = "PRM_DESCRICAO", nullable = false, length = ConstantesDB.DESCRICAO)
 	public String getDescricao() {
 		return this.descricao;
 	}

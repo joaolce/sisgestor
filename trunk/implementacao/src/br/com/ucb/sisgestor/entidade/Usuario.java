@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.entidade;
 
+import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -41,7 +42,7 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return se o usuário é chefe do departamento
 	 */
-	@Column(name = "UUR_CHEFE", nullable = false, columnDefinition = DEFINICAO_BOOLEAN)
+	@Column(name = "UUR_CHEFE", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_BOOLEAN)
 	public Boolean getChefe() {
 		return this.chefe;
 	}
@@ -63,7 +64,7 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return email do usuário
 	 */
-	@Column(name = "UUR_EMAIL", nullable = true, length = EMAIL)
+	@Column(name = "UUR_EMAIL", nullable = true, length = ConstantesDB.EMAIL)
 	public String getEmail() {
 		return this.email;
 	}
@@ -73,7 +74,7 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return login do usuário
 	 */
-	@Column(name = "UUR_LOGIN", nullable = false, columnDefinition = DEFINICAO_LOGIN, length = LOGIN)
+	@Column(name = "UUR_LOGIN", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_LOGIN, length = ConstantesDB.LOGIN)
 	@NaturalId(mutable = true)
 	public String getLogin() {
 		return this.login;
@@ -84,7 +85,7 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return nome do usuário
 	 */
-	@Column(name = "UUR_NOME", nullable = false, length = NOME)
+	@Column(name = "UUR_NOME", nullable = false, length = ConstantesDB.NOME)
 	public String getNome() {
 		return this.nome;
 	}
@@ -108,7 +109,7 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return senha senha do usuário
 	 */
-	@Column(name = "UUR_SENHA", nullable = false, length = 20, columnDefinition = DEFINICAO_SENHA)
+	@Column(name = "UUR_SENHA", nullable = false, length = 20, columnDefinition = ConstantesDB.DEFINICAO_SENHA)
 	public String getSenha() {
 		return this.senha;
 	}
