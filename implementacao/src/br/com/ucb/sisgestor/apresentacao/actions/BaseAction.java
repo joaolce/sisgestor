@@ -96,11 +96,14 @@ public class BaseAction extends DispatchAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request, //NOPMD by João Lúcio - não dá para quebrar
 			HttpServletResponse response) throws Exception {
 
+		//verificar se a requisição post possui um referer, questões de segurança 
+		this.segurancaPost(request);
 		//popula as variaveis de instância
+		if (actionForm != null) {
+			Utils.doNuloNaStringVazia(actionForm);
+		}
 		this.populaParametrosAction(mapping, actionForm, request, response);
 		ConstantesAplicacao.setConstantes(request);
-		//verificar se a requisição post possui um referer, questões de segurança 
-		this.segurancaPost();
 
 		/* se o parâmetro estiver presente é porque a submissão foi assíncrona e para não acontecer problemas
 		 * com a codificação do charset (problemas com acentos e caracteres especiais) utiliza-se o 
@@ -782,11 +785,12 @@ public class BaseAction extends DispatchAction {
 	 * Verifica se a requisição post possui um referer (página de origem da requisição) pra evitar requisições
 	 * diretas (o que caracteriza burlagem do sistema).
 	 * 
+	 * @param request request atual
 	 * @throws Exception caso seja detectada burlagem no sistema
 	 */
-	private void segurancaPost() throws Exception {
-		String referer = this.getRequest().getHeader("REFERER");
-		String method = this.getRequest().getMethod();
+	private void segurancaPost(HttpServletRequest request) throws Exception {
+		String referer = request.getHeader("REFERER");
+		String method = request.getMethod();
 		if ("POST".equalsIgnoreCase(method) && StringUtils.isBlank(referer)) {
 			throw new SecurityException("Requisição inválida!!!");
 		}

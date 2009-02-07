@@ -799,8 +799,10 @@ function MaskInput(id, mask) {
  * @param {String} elemento
  */
 function ativarMascara(elemento) {
-	$(elemento).focus();
-	$(elemento).blur();
+	try {
+		$(elemento).focus();
+		$(elemento).blur();
+	} catch (e) {/* do nothing */}
 }
 /**
  * Selecionar uma tag
