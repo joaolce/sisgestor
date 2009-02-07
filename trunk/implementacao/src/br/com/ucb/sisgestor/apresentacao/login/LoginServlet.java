@@ -6,11 +6,11 @@ package br.com.ucb.sisgestor.apresentacao.login;
 
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
-import br.com.ucb.sisgestor.util.Utils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +35,7 @@ public final class LoginServlet extends HttpServlet {
 
 	private LoginBundle				loginBundle;
 	private LoginHelper				loginHelper;
+	private ResourceBundle			properties;
 
 	/**
 	 * {@inheritDoc}
@@ -44,6 +45,11 @@ public final class LoginServlet extends HttpServlet {
 		super.init();
 		this.loginBundle = new LoginBundle();
 		this.loginHelper = new LoginHelper();
+		try {
+			this.properties = ResourceBundle.getBundle("sisgestor");
+		} catch (Exception e) {
+			LOG.warn("Erro ao capturar properties", e);
+		}
 	}
 
 	/**
@@ -63,11 +69,11 @@ public final class LoginServlet extends HttpServlet {
 				int erro = "".equals(param) ? 0 : Integer.parseInt(param);
 				if ((erro == HttpServletResponse.SC_METHOD_NOT_ALLOWED)
 						|| (erro == HttpServletResponse.SC_FORBIDDEN)) {
-					this.escrevePagina(response, this.loginBundle.getErroPage(Utils
-							.getMessageFromProperties("erro.acessoNegado")));
+					this.escrevePagina(response, this.loginBundle.getErroPage(this
+							.getMensagem("erro.acessoNegado")));
 				} else {
-					this.escrevePagina(response, this.loginBundle.getErroPage(Utils
-							.getMessageFromProperties("erro.desconhecido")));
+					this.escrevePagina(response, this.loginBundle.getErroPage(this
+							.getMensagem("erro.desconhecido")));
 				}
 			}
 		} else {
@@ -98,8 +104,9 @@ public final class LoginServlet extends HttpServlet {
 			}
 		} else {
 			LOG.debug("Página de login negado.");
-			this.escrevePagina(response, this.loginBundle.getLoginPage(Utils
-					.getMessageFromProperties("erro.loginSemSucesso")));
+			this
+					.escrevePagina(response, this.loginBundle.getLoginPage(this
+							.getMensagem("erro.loginSemSucesso")));
 		}
 	}
 
@@ -116,15 +123,16 @@ public final class LoginServlet extends HttpServlet {
 		try {
 			boolean ok = UsuarioBOImpl.getInstancia().enviarLembreteDeSenha(login);
 			if (ok) {
-				this.escrevePagina(response, this.loginBundle.getSenhaPage(Utils
-						.getMessageFromProperties("mensagem.senhaEnviada")));
+				this.escrevePagina(response, this.loginBundle.getSenhaPage(this
+						.getMensagem("mensagem.senhaEnviada")));
 			} else {
-				this.escrevePagina(response, this.loginBundle.getSenhaPage(Utils
-						.getMessageFromProperties("erro.senhaNaoEnviada")));
+				this.escrevePagina(response, this.loginBundle.getSenhaPage(this
+						.getMensagem("erro.senhaNaoEnviada")));
 			}
 		} catch (NegocioException ne) {
-			this.escrevePagina(response, this.loginBundle.getSenhaPage(Utils
-					.getMessageFromProperties("erro.senhaNaoEnviada")));
+			this
+					.escrevePagina(response, this.loginBundle.getSenhaPage(this
+							.getMensagem("erro.senhaNaoEnviada")));
 		}
 	}
 
@@ -165,5 +173,15 @@ public final class LoginServlet extends HttpServlet {
 			valorParametro = valorParametro.substring(0, maxLength);
 		}
 		return valorParametro;
+	}
+
+	/**
+	 * Recupera uma mensagem no properties.
+	 * 
+	 * @param key chave da mensagem
+	 * @return mensagem
+	 */
+	private String getMensagem(String key) {
+		return this.properties.getString(key);
 	}
 }
