@@ -3,8 +3,8 @@
  */
 Event.observe(window, "load", function() {
 	usuario.pesquisar();
-	
-	UtilDWR.usuarioTemPermissao(MANTER_USUARIO, (function(possui) {
+
+	UtilDWR.usuarioTemPermissao(MANTER_USUARIO, ( function(possui) {
 		usuario.permissaoManterUsuario = possui;
 	}));
 });
@@ -22,8 +22,11 @@ ComportamentosTela.prototype = {
    initialize : function() {},
 
    tabelaTelaPrincipal :null,
-   
-   permissaoManterUsuario : false,
+
+   /**
+	 * Se o usuário logado possui permissão de manter usuário.
+	 */
+   permissaoManterUsuario :false,
 
    /**
 	 * Retorna a tabela da tela inicial do caso de uso
@@ -62,7 +65,7 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Preenche os campos do usuario selecionado.
+	 * Preenche os campos do usuário selecionado.
 	 */
    visualizar : function() {
 	   Element.hide("formSalvar");
@@ -79,7 +82,7 @@ ComportamentosTela.prototype = {
 		   dwr.util.setValue("departamento", usuario.departamento.id);
 		   dwr.util.setValue("chefe", usuario.chefe);
 		   this.atualizarPermissoesUsuario(usuario);
-		   this.verificarPermissoes();
+		   this.habilitarCampos(this.permissaoManterUsuario);
 	   }).bind(this));
    },
 
@@ -147,17 +150,19 @@ ComportamentosTela.prototype = {
 			   return usuario.nome;
 		   });
 		   cellfuncs.push( function(usuario) {
-			   return usuario.email;
+			   if (usuario.email != null) {
+				   return usuario.email;
+			   }
+			   return "&nbsp;";
 		   });
 		   cellfuncs.push( function(usuario) {
 			   return usuario.departamento.sigla;
 		   });
 		   cellfuncs.push( function(usuario) {
-		   	if(usuario.chefe) {
-		   		return "Sim";
-		   	} else {
-		   		return "Não";
-		   	}
+			   if (usuario.chefe) {
+				   return "Sim";
+			   }
+			   return "Não";
 		   });
 		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
 		   this.tabelaTelaPrincipal.setOnClick(this.visualizar.bind(this));
@@ -177,7 +182,8 @@ ComportamentosTela.prototype = {
 		   ComboFunctions.selecionaCombo("permissoes");
 		   requestUtils.submitForm(form, null, ( function() {
 			   if (requestUtils.status) {
-				   if (Usuario.getUsuario().id == dwr.util.getValue($("formSalvar").id) && this.permissaoManterUsuario ) {
+				   if ((Usuario.getUsuario().id == dwr.util.getValue($("formSalvar").id))
+				      && this.permissaoManterUsuario) {
 					   UtilDWR.finalizarSessao( function() {
 						   JanelasComuns.sessaoFinalizada();
 					   });
@@ -230,7 +236,7 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Transfere todos os itens (Permissão) de um combo para o outro e vice-versa
+	 * Transfere todos os itens (Permissão) de um combo para o outro e vice-versa.
 	 * 
 	 * @param {String} origem combo de origem
 	 * @param {String} destino combo de destino
@@ -240,7 +246,7 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Transfere as permissões de um combo para o outro onde ficarão os itens selecionados
+	 * Transfere as permissões de um combo para o outro onde ficarão os itens selecionados.
 	 * 
 	 * @param {String} origem combo de origem
 	 * @param {String} destino combo de destino
@@ -269,28 +275,11 @@ ComportamentosTela.prototype = {
 		   }
 	   }).bind(this));
    },
-   
+
    /**
-	 * Verifica se o usuário tem permissão para editar os campos
+	 * Habilita/desabilita os campos que o usuário não tem permissão para alterar.
 	 */
-   verificarPermissoes : function() {
-	   this.habilitarCampos(this.permissaoManterUsuario);
-	   // Recupera o usuário da sessão e verifica se ele pode editar os campos
-	   if ((this.getIdSelecionado() != Usuario.getUsuario().id) && !this.permissaoManterUsuario) {
-		   $("divBotoes").setStyle( {
-			   display :"none"
-		   });
-	   } else {
-		   $("divBotoes").setStyle( {
-			   display :"block"
-		   });
-	   }
-   },
-   
-   /**
-	 * Habilita/desabilita os campos que o usuário não tem permissão para alterar
-	 */
-   habilitarCampos : function(habilita){
+   habilitarCampos : function(habilita) {
 	   $("formSalvar").chefe.disabled = !habilita;
 	   $("formSalvar").departamento.disabled = !habilita;
 	   $("formSalvar").permissoes.disabled = !habilita;

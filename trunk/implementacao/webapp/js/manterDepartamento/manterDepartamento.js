@@ -119,13 +119,16 @@ ComportamentosTela.prototype = {
 			   return departamento.nome;
 		   });
 		   cellfuncs.push( function(departamento) {
-			   return departamento.email;
+			   if (departamento.email != null) {
+				   return departamento.email;
+			   }
+			   return "&nbsp;";
 		   });
 		   cellfuncs.push( function(departamento) {
 			   if (departamento.departamentoSuperior != null) {
 				   return departamento.departamentoSuperior.sigla;
 			   }
-			   return "";
+			   return "&nbsp;";
 		   });
 		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
 		   this.tabelaTelaPrincipal.setOnClick(this.visualizar.bind(this));

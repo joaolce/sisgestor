@@ -206,6 +206,10 @@ input[type="text"].data {
 	border: solid 1px red;
 }
 
+.linhaCinza {
+	border: 1px solid #E5E9ED;
+}
+
 .mensagemErro {
 	font-weight: bold;
 	color: red;
@@ -237,7 +241,7 @@ input[type="text"].data {
 
 .estiloTabela div:FIRST-CHILD {
 	float: left;
-	width: 360px;
+	width: 390px;
 }
 
 .mtabi {
@@ -267,7 +271,7 @@ input[type="text"].data {
 }
 
 .btDesativado img {
-	filter: alpha(opacity = 30);
+	filter: alpha(opacity =   30);
 	opacity: 0.3;
 }
 

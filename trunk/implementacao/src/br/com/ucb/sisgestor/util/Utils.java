@@ -5,6 +5,8 @@
 package br.com.ucb.sisgestor.util;
 
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
+import br.com.ucb.sisgestor.entidade.Permissao;
+import br.com.ucb.sisgestor.entidade.Usuario;
 import java.beans.PropertyDescriptor;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -273,44 +275,36 @@ public final class Utils {
 	}
 
 	/**
-	 * Seta nulo em todas as strings vazias ou números zero do objeto passado
+	 * Seta <code>null</code> em todas as strings vazias.
 	 * 
 	 * @param objeto objeto a verificar
 	 */
-	public static void doNuloNaPropriedadeVazia(Object objeto) { //NOPMD by João Lúcio - não dá para quebrar método
+	public static void doNuloNaStringVazia(Object objeto) {
 		PropertyDescriptor[] descritores = PropertyUtils.getPropertyDescriptors(objeto);
-		for (PropertyDescriptor descritore : descritores) {
-			boolean readable = PropertyUtils.isReadable(objeto, descritore.getName());
-			boolean writeable = PropertyUtils.isWriteable(objeto, descritore.getName());
+		for (PropertyDescriptor descritor : descritores) {
+			boolean readable = PropertyUtils.isReadable(objeto, descritor.getName());
+			boolean writeable = PropertyUtils.isWriteable(objeto, descritor.getName());
 			if (!readable || !writeable) {
 				continue;
 			}
 			Object propriedade;
 			try {
-				propriedade = PropertyUtils.getProperty(objeto, descritore.getName());
+				propriedade = PropertyUtils.getProperty(objeto, descritor.getName());
 			} catch (Exception e) {
 				continue;
 			}
 			if ((propriedade instanceof String) && (StringUtils.isBlank((String) propriedade))) {
 				try {
-					PropertyUtils.setProperty(objeto, descritore.getName(), null);
+					PropertyUtils.setProperty(objeto, descritor.getName(), null);
 				} catch (Exception e) {
-					LOG.warn("Anh?!", e);
+					LOG.warn("erro ao atribuir null em " + descritor.getName(), e);
 				}
-			}
-			if ((propriedade instanceof Character)
+			} else if ((propriedade instanceof Character)
 					&& (StringUtils.isBlank(((Character) propriedade).toString()))) {
 				try {
-					PropertyUtils.setProperty(objeto, descritore.getName(), null);
+					PropertyUtils.setProperty(objeto, descritor.getName(), null);
 				} catch (Exception e) {
-					LOG.warn("Anh?!", e);
-				}
-			}
-			if ((propriedade instanceof Number) && (((Number) propriedade).intValue() == 0)) {
-				try {
-					PropertyUtils.setProperty(objeto, descritore.getName(), null);
-				} catch (Exception e) {
-					LOG.warn("Anh?!", e);
+					LOG.warn("erro ao atribuir null em " + descritor.getName(), e);
 				}
 			}
 		}
@@ -388,23 +382,6 @@ public final class Utils {
 	 */
 	public static String getMessageFromProperties(String key, String... args) {
 		return resources.getMessage(key, args);
-	}
-
-	/**
-	 * Retorna um {@link List} de {@link String} das roles informadas separadas por vírgulas <br />
-	 * 
-	 * @param roles {@link String} das roles separadas por vírgulas
-	 * 
-	 * @return Lista das roles
-	 */
-	public static List<String> getRoleCollection(String roles) {
-		String[] split = roles.split(",");
-		List<String> lista = new ArrayList<String>(split.length);
-
-		for (String role : split) {
-			lista.add(role);
-		}
-		return lista;
 	}
 
 	/**
@@ -652,7 +629,7 @@ public final class Utils {
 	}
 
 	/**
-	 * Retorna <code>null</code> caso o valor da String seja vazio
+	 * Retorna <code>null</code> caso o valor da String seja vazio.
 	 * 
 	 * @param valor String a verificar
 	 * @return <code>null</code> caso vazio, String original caso contenha algo
@@ -766,6 +743,28 @@ public final class Utils {
 			resultado = resultado.replaceAll("/u0026", "&");
 		}
 		return resultado;
+	}
+
+	/**
+	 * Verifica se o usuário possui pelo menos uma das permissões informadas, separadas por vírgulas.
+	 * 
+	 * @param usuario usuário a verificar
+	 * @param roles identificadores das permissões a verificar
+	 * @return <code>true</code> caso tenha alguma permissão, <code>false</code> caso contrário
+	 */
+	public static boolean usuarioTemPermissao(Usuario usuario, String roles) {
+		if (StringUtils.isNotBlank(roles)) {
+			String[] rolesArray = roles.split(",");
+
+			for (Permissao permissao : usuario.getPermissoes()) {
+				for (String role : rolesArray) {
+					if (permissao.getId().equals(Integer.parseInt(role))) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	/**

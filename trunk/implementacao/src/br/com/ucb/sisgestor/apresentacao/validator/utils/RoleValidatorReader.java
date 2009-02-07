@@ -4,9 +4,9 @@
  */
 package br.com.ucb.sisgestor.apresentacao.validator.utils;
 
-import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.util.GenericsUtil;
+import br.com.ucb.sisgestor.util.Utils;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
@@ -65,22 +65,12 @@ public class RoleValidatorReader {
 	 * @return <code>true</code> caso tenha permissão, <code>false</code> caso contrário
 	 */
 	public boolean isUserInAnyRoles(Usuario usuario, String action, String method) {
-		String regras = roleValidatorMap.get(action + "#" + method);
+		String roles = roleValidatorMap.get(action + "#" + method);
 
 		//neste caso, não existe nenhuma regra, então, pode passar
-		if (StringUtils.isBlank(regras)) {
+		if (StringUtils.isBlank(roles)) {
 			return true;
 		}
-
-		String[] roles = regras.split(",");
-
-		for (Permissao permissao : usuario.getPermissoes()) {
-			for (String role : roles) {
-				if (permissao.getId().equals(Integer.parseInt(role))) {
-					return true;
-				}
-			}
-		}
-		return false;
+		return Utils.usuarioTemPermissao(usuario, roles);
 	}
 }

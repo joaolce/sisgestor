@@ -1,5 +1,6 @@
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
+<%@ taglib uri="http://www.ucb.br/sisgestor/taglib" prefix="htmlSGR" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
 <script type="text/javascript" src="dwr/interface/ManterUsuarioDWR.js"></script>
@@ -10,9 +11,9 @@
 		<html:link href="#editarSenha" titleKey="dica.senha" onclick="usuario.popupEditarSenha();" linkName="editarSenha">
 			<html:img srcKey="imagem.senha" width="20" height="19" />
 		</html:link>
-		<html:link href="#novoUsuario" titleKey="dica.usuario.novo" onclick="usuario.popupNovoUsuario();" linkName="novoUsuario">
+		<htmlSGR:link href="#novoUsuario" titleKey="dica.usuario.novo" onclick="usuario.popupNovoUsuario();" linkName="novoUsuario" roles="3">
 			<html:img srcKey="imagem.novo" width="20" height="19" />
-		</html:link>
+		</htmlSGR:link>
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE USUARIO -->
 	<fieldset style="padding: 10px; width: 60%; margin: 5 auto;">
@@ -153,12 +154,12 @@
 				</div>
 			</div>
 			<div style="clear: both; padding: 5px;" align="center" id="divBotoes">
-				<html:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar">
+				<htmlSGR:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar" roles="3">
 					<bean:message key="botao.atualizar"/>
-				</html:submit>
-				<html:button property="excluir" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="usuario.excluir();">
+				</htmlSGR:submit>
+				<htmlSGR:button property="excluir" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="usuario.excluir();" roles="3">
 					<bean:message key="botao.excluir"/>
-				</html:button>
+				</htmlSGR:button>
 			</div>
 		</fieldset>
 	</html:form>

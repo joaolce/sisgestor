@@ -1,8 +1,7 @@
-<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
-<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
+<%@ taglib uri="http://www.ucb.br/sisgestor/taglib" prefix="htmlSGR" %>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
 <script type="text/javascript" src="dwr/interface/ManterDepartamentoDWR.js"></script>
 <script type="text/javascript" src="js/manterDepartamento/manterDepartamento.js"></script>
@@ -10,9 +9,9 @@
 <div class="bordas" id="BordaExterna">
 
 	<div id="divMenuOpcoes">
-		<html:link href="#novoDepartamento" titleKey="dica.departamento.novo" onclick="departamento.popupNovoDepartamento();" linkName="novoDepartamento">
+		<htmlSGR:link href="#novoDepartamento" titleKey="dica.departamento.novo" onclick="departamento.popupNovoDepartamento();" linkName="novoDepartamento" roles="2">
 			<html:img srcKey="imagem.novo" width="20" height="19" />
-		</html:link>
+		</htmlSGR:link>
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE DEPARTAMENTOS -->
 	<fieldset style="padding: 10px; width: 50%; margin: 5 auto;">
@@ -91,12 +90,12 @@
 				</label> 
 			</div>
 			<div style="clear: both; padding: 5px;" align="center">
-				<html:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar">
+				<htmlSGR:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar" roles="2">
 					<bean:message key="botao.atualizar"/>
-				</html:submit>
-				<html:button property="excluir" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="departamento.excluir();">
+				</htmlSGR:submit>
+				<htmlSGR:button property="excluir" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="departamento.excluir();" roles="2">
 					<bean:message key="botao.excluir"/>
-				</html:button>
+				</htmlSGR:button>
 			</div>
 		</fieldset>
 	</html:form>
