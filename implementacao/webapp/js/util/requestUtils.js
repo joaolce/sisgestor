@@ -1,8 +1,6 @@
 /**
  * Request Utils
  * 
- * @author DEINF.SDANTAS
- * 
  * Funcionalidades de requisições de form e de url simples com tratamento do XML gerado
  * 
  * <b>(1) para submeter um form assíncronamente para o Struts:</b> <code>

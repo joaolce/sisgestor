@@ -152,11 +152,10 @@
 			
 			<zipfileset dir="${dir.webinf}/lib" prefix="lib" />
 		</ear>
-		
-		<antcall target="cleanClasses" />
 	</target>
 	
 	<target name="publicarEAR"  depends="geraEAR" description="publica o .ear">
+		<echo message="publicando o .ear na pasta do jboss" />
 		<copy file="${file.ear}" tofile="${env.JBOSS_HOME}/server/default/deploy/${app.name}.ear" />
 	</target>
 	

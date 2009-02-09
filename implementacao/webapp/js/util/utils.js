@@ -1,7 +1,5 @@
 /**
  * Utilitários JS da aplicação
- * 
- * @author DEINF.SDANTAS
  */
 
 /**

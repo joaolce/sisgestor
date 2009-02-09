@@ -32,6 +32,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.validator.GenericValidator;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.util.MessageResources;
+import org.apache.struts.util.PropertyMessageResourcesFactory;
 import org.directwebremoting.util.LocalUtil;
 
 /**
@@ -42,8 +43,8 @@ import org.directwebremoting.util.LocalUtil;
  */
 public final class Utils {
 
-	private static final MessageResources	resources	= MessageResources.getMessageResources("sisgestor");
-	private static final Log					LOG			= LogFactory.getLog(Utils.class);
+	private static MessageResources	resources;
+	private static final Log			LOG	= LogFactory.getLog(Utils.class);
 
 	/**
 	 * Construtor privado (classe utilitária).
@@ -381,6 +382,14 @@ public final class Utils {
 	 * @return String com a mensagem
 	 */
 	public static String getMessageFromProperties(String key, String... args) {
+		synchronized (resources) {
+			if (resources == null) {
+				PropertyMessageResourcesFactory.setFactoryClass(PropertyMessageResourcesFactory.class.getName());
+				PropertyMessageResourcesFactory fac = new PropertyMessageResourcesFactory();
+				fac.setReturnNull(true);
+				resources = fac.createResources("sisgestor");
+			}
+		}
 		return resources.getMessage(key, args);
 	}
 

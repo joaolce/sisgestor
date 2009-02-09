@@ -6,9 +6,8 @@ package br.com.ucb.sisgestor.entidade;
 
 import javax.persistence.MappedSuperclass;
 
-
 /**
- * Objeto base para os dados de workflow
+ * Objeto base para os dados de workflow.
  * 
  * @author Thiago
  * @since 04/02/2009

@@ -6,7 +6,6 @@ import br.com.ucb.sisgestor.util.constantes.DadosContexto;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 
-
 /**
  * Classe escrita para sobrescrever a LinkTag original para desabilitar o link caso o usuário não possua uma
  * das permissões de acesso
@@ -17,7 +16,6 @@ import javax.servlet.jsp.JspException;
 public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 
 	private String	roles;
-
 
 	/**
 	 * Cria uma nova instância do tipo {@link LinkTag}.
@@ -72,8 +70,6 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 	protected void prepareMouseEvents(StringBuffer handlers) {
 		if (this.usuarioTemPermissao()) {
 			this.prepareAttribute(handlers, "onclick", this.getOnclick());
-		} else {
-			this.prepareAttribute(handlers, "onclick", null);
 		}
 		this.prepareAttribute(handlers, "ondblclick", this.getOndblclick());
 		this.prepareAttribute(handlers, "onmouseover", this.getOnmouseover());

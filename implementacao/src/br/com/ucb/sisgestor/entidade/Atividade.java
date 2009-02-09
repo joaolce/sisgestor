@@ -14,9 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import org.hibernate.annotations.ForeignKey;
 
-
 /**
- * Classe que representa uma Atividade
+ * Classe que representa uma Atividade.
  * 
  * @author Thiago
  * @since 04/02/2009
@@ -30,13 +29,9 @@ import org.hibernate.annotations.ForeignKey;
 		@AttributeOverride(name = "descricao", column = @Column(name = "ATI_DESCRICAO", nullable = true, length = ConstantesDB.DESCRICAO))})
 public class Atividade extends BaseWorkflow {
 
-
 	private Processo		processo;
-
 	private List<Tarefa>	tarefas;
-
 	private Departamento	departamento;
-
 
 	/**
 	 * Recupera o valor de departamento
@@ -61,8 +56,6 @@ public class Atividade extends BaseWorkflow {
 	public Processo getProcesso() {
 		return this.processo;
 	}
-
-
 
 	/**
 	 * Recupera o valor de tarefas
@@ -91,8 +84,6 @@ public class Atividade extends BaseWorkflow {
 	public void setProcesso(Processo processo) {
 		this.processo = processo;
 	}
-
-
 
 	/**
 	 * Atribui tarefas

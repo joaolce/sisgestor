@@ -1,7 +1,5 @@
 /**
  * Controle de exibição da imagem de loading
- * 
- * @author deinf.sdantas
  */
 var definicoesJanela = {
    /** caminho da imagem de loading */

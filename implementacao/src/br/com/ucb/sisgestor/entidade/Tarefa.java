@@ -12,9 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import org.hibernate.annotations.ForeignKey;
 
-
 /**
- * Classe que representa uma Tarefa
+ * Classe que representa uma Tarefa.
  * 
  * @author Thiago
  * @since 04/02/2009
@@ -29,7 +28,6 @@ import org.hibernate.annotations.ForeignKey;
 public class Tarefa extends BaseWorkflow {
 
 	private Atividade	atividade;
-
 	private Usuario	usuario;
 
 	/**
@@ -44,7 +42,6 @@ public class Tarefa extends BaseWorkflow {
 		return this.atividade;
 	}
 
-
 	/**
 	 * Recupera o valor de usuario
 	 * 
@@ -57,7 +54,6 @@ public class Tarefa extends BaseWorkflow {
 		return this.usuario;
 	}
 
-
 	/**
 	 * Atribui atividade
 	 * 
@@ -66,8 +62,6 @@ public class Tarefa extends BaseWorkflow {
 	public void setAtividade(Atividade atividade) {
 		this.atividade = atividade;
 	}
-
-
 
 	/**
 	 * Atribui usuario

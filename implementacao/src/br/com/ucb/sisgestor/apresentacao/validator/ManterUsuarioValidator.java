@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.apresentacao.validator;
 
 import br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction;
+import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -32,6 +33,7 @@ public class ManterUsuarioValidator extends BaseValidator {
 		this.validaTamanhoMinimo("label.senha.nova", "novaSenha", 6);
 		if (!this.getFormValue("senhaAtual").equals(this.getUser().getSenha())) {
 			this.addError("erro.senha.atual");
+			this.setFocusControl("senhaAtual");
 		}
 		if (!this.getFormValue("novaSenha").equals(this.getFormValue("confirmarSenha"))) {
 			this.addError("erro.senha.diferente", this.getMessageKey("label.senha.nova"), this
@@ -51,8 +53,8 @@ public class ManterUsuarioValidator extends BaseValidator {
 		this.validaRequerido("label.permissoesSelecionadas", "permissoes");
 		this.validaEmail("label.email", "email");
 		this.validaTamanhoMinimo("label.login", "login", 5);
-		this.validaTamanhoMaximo("label.login", "login", 15);
-		this.validaTamanhoMaximo("label.nome", "nome", 150);
+		this.validaTamanhoMaximo("label.login", "login", ConstantesDB.LOGIN);
+		this.validaTamanhoMaximo("label.nome", "nome", ConstantesDB.NOME);
 		String login = (String) this.getFormValue("login");
 		if (StringUtils.contains(login, ' ')) {
 			this.addError("erro.usuario.login.branco");
