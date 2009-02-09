@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.apresentacao.validator;
 
 import br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction;
+import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 
 /**
  * Validações da action {@link ManterDepartamentoAction}.
@@ -27,8 +28,8 @@ public class ManterDepartamentoValidator extends BaseValidator {
 	public void salvar() {
 		this.validaRequerido("label.sigla", "sigla");
 		this.validaRequerido("label.nome", "nome");
-		this.validaTamanhoMaximo("label.sigla", "sigla", 10);
-		this.validaTamanhoMaximo("label.nome", "nome", 50);
+		this.validaTamanhoMaximo("label.sigla", "sigla", ConstantesDB.SIGLA);
+		this.validaTamanhoMaximo("label.nome", "nome", ConstantesDB.NOME);
 		this.validaEmail("label.email", "email");
 	}
 }

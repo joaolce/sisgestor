@@ -74,7 +74,7 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return login do usuário
 	 */
-	@Column(name = "UUR_LOGIN", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_LOGIN, length = ConstantesDB.LOGIN)
+	@Column(name = "UUR_LOGIN", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_LOGIN)
 	@NaturalId(mutable = true)
 	public String getLogin() {
 		return this.login;
@@ -109,7 +109,7 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return senha senha do usuário
 	 */
-	@Column(name = "UUR_SENHA", nullable = false, length = 20, columnDefinition = ConstantesDB.DEFINICAO_SENHA)
+	@Column(name = "UUR_SENHA", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_SENHA)
 	public String getSenha() {
 		return this.senha;
 	}

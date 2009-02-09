@@ -13,10 +13,10 @@ package br.com.ucb.sisgestor.util.constantes;
 public final class ConstantesDB {
 
 	/** Tamanho do campo Descrição */
-	public static final int		DESCRICAO			= 50;
+	public static final int		DESCRICAO			= 60;
 
 	/** Tamanho do campo Nome */
-	public static final int		NOME					= 60;
+	public static final int		NOME					= 100;
 
 	/** Tamanho do campo Login */
 	public static final int		LOGIN					= 15;
@@ -24,15 +24,21 @@ public final class ConstantesDB {
 	/** Tamanho do campo E-mail */
 	public static final int		EMAIL					= 50;
 
+	/** Tamanho do campo sigla */
+	public static final int		SIGLA					= 10;
+
+	/** Tamanho do campo senha */
+	public static final int		SENHA					= 20;
+
 	/** Definição do campo Login */
-	public static final String	DEFINICAO_LOGIN	= "CHAR(15)";
+	public static final String	DEFINICAO_LOGIN	= "CHAR(" + LOGIN + ")";
 
 	/** Definição do campo boolean */
 	public static final String	DEFINICAO_BOOLEAN	= "BIT";
 
 	/** Definição do campo Senha */
-	public static final String	DEFINICAO_SENHA	= "CHAR(20)";
+	public static final String	DEFINICAO_SENHA	= "CHAR(" + SENHA + ")";
 
-	/** Definição do campo */
-	public static final String	DEFINICAO_SIGLA	= "CHAR(10)";
+	/** Definição do campo sigla */
+	public static final String	DEFINICAO_SIGLA	= "CHAR(" + SIGLA + ")";
 }

@@ -38,7 +38,9 @@
 						<bean:message key="label.mensagem"/>:
 						<bean:write name="javax.servlet.error.message" />
 					</logic:present>
-					<bean:write name="javax.servlet.error.exception" property="message" ignore="true" />
+					<logic:present name="javax.servlet.error.exception" property="message">
+						<bean:write name="javax.servlet.error.exception" property="message" />
+					</logic:present>
 					<bean:write name="rootCause" ignore="true" />
 				</div>
 				<logic:present name="javax.servlet.error.exception">

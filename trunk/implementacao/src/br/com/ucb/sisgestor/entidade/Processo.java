@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import org.hibernate.annotations.ForeignKey;
 
-
 /**
  * Classe para representar um Processo
  * 
@@ -31,7 +30,6 @@ import org.hibernate.annotations.ForeignKey;
 public class Processo extends BaseWorkflow {
 
 	private Workflow			workflow;
-
 	private List<Atividade>	atividades;
 
 	/**
@@ -55,8 +53,6 @@ public class Processo extends BaseWorkflow {
 	public Workflow getWorkflow() {
 		return this.workflow;
 	}
-
-
 
 	/**
 	 * Atribui atividades

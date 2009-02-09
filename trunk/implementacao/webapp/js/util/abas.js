@@ -1,8 +1,6 @@
 /**
  * ABAS
  * 
- * @author DEINF.SDANTAS
- * 
  * <b>Instruções de uso</b>
  * 
  * <code>

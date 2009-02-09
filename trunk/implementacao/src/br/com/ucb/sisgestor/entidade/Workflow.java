@@ -11,9 +11,8 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.OneToMany;
 
-
 /**
- * Classe para representar um workflow
+ * Classe para representar um workflow.
  * 
  * @author Thiago
  * @since 04/02/2009

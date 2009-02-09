@@ -44,9 +44,9 @@ public abstract class ObjetoPersistente implements Serializable {
 	}
 
 	/**
-	 * Verifica se todas as propriedades do objeto são nulas
+	 * Verifica se todas as propriedades do objeto são nulas.
 	 * 
-	 * @return <code>true</code> caso verdadeiro, <code>false</code> caso contrário
+	 * @return <code>true</code> caso sejam, <code>false</code> caso contrário
 	 */
 	@Transient
 	protected boolean isAllNull() {

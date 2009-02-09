@@ -26,12 +26,13 @@ public class BaseForm extends ActionForm {
 	}
 
 	/**
-	 * Busca uma mensagem no arquivo de propriedades
+	 * Busca uma mensagem no arquivo de propriedades.
 	 * 
-	 * @param property chave da propriedade
+	 * @param key chave da propriedade
+	 * @param args argumentos da mensagem a substituir
 	 * @return valor da propriedade
 	 */
-	protected String getMessage(String property) {
-		return Utils.getMessageFromProperties(property);
+	protected String getMessage(String key, String... args) {
+		return Utils.getMessageFromProperties(key, args);
 	}
 }
