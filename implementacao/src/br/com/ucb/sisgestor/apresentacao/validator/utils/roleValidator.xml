@@ -31,5 +31,15 @@
 		roles="3"  />
 	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction#salvar" 
 		roles="3" />
+		
+	<!-- Manter Workflow -->
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterWorkflowAction#atualizar" 
+		roles="4" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterWorkflowAction#excluir" 
+		roles="4" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterWorkflowAction#popupNovoWorkflow" 
+		roles="4"  />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterWorkflowAction#salvar" 
+		roles="4" />
 
 </validator-mapping>
