@@ -61,7 +61,7 @@ public class ManterUsuarioAction extends BaseAction {
 		}
 		usuarioBO.atualizar(usuario);
 
-		this.addMessageKey("mensagem.usuario.alterar");
+		this.addMessageKey("mensagem.alterar", "Usuário");
 
 		/*Se usuário está atualizando os próprios dados e ele tem permissão para Manter Usuário, deverá
 		 *efetuar novo login para as alterações surtirem efeito.
@@ -136,7 +136,7 @@ public class ManterUsuarioAction extends BaseAction {
 
 		usuarioBO.excluir(usuario);
 
-		this.addMessageKey("mensagem.usuario.excluir");
+		this.addMessageKey("mensagem.excluir", "Usuário");
 		return this.sendAJAXResponse(true);
 	}
 
@@ -197,7 +197,7 @@ public class ManterUsuarioAction extends BaseAction {
 
 		usuarioBO.salvar(usuario);
 
-		this.addMessageKey("mensagem.usuario.salvar");
+		this.addMessageKey("mensagem.salvar", "Usuário");
 		return this.sendAJAXResponse(true);
 	}
 

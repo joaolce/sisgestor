@@ -28,6 +28,7 @@
 		<convert match="br.com.ucb.sisgestor.util.dto.ListaResultadoDTO" converter="bean" />
 		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaDepartamentoDTO" converter="bean" />
 		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaUsuarioDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaWorkflowDTO" converter="bean" />
 		
 		<!-- Convertendo Entidades -->
 		<convert match="br.com.ucb.sisgestor.entidade.Atividade"	converter="hibernate3" />

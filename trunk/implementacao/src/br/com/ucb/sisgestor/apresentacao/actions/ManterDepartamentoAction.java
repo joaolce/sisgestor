@@ -46,7 +46,7 @@ public class ManterDepartamentoAction extends BaseAction {
 
 		departamentoBO.atualizar(departamento);
 
-		this.addMessageKey("mensagem.departamento.alterar");
+		this.addMessageKey("mensagem.alterar", "Departamento");
 		return this.sendAJAXResponse(true);
 	}
 
@@ -79,7 +79,7 @@ public class ManterDepartamentoAction extends BaseAction {
 
 		departamentoBO.excluir(departamento);
 
-		this.addMessageKey("mensagem.departamento.excluir");
+		this.addMessageKey("mensagem.excluir", "Departamento");
 		return this.sendAJAXResponse(true);
 	}
 
@@ -120,7 +120,7 @@ public class ManterDepartamentoAction extends BaseAction {
 
 		departamentoBO.salvar(departamento);
 
-		this.addMessageKey("mensagem.departamento.salvar");
+		this.addMessageKey("mensagem.salvar", "Departamento");
 		return this.sendAJAXResponse(true);
 	}
 }

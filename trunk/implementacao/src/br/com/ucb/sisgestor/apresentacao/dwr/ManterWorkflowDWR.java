@@ -7,6 +7,9 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.impl.WorkflowBOImpl;
+import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaWorkflowDTO;
+import java.util.List;
 
 /**
  * Objeto DWR de manter workflow do projeto.
@@ -30,5 +33,26 @@ public class ManterWorkflowDWR extends BaseDWR {
 	 */
 	public Workflow getById(Integer id) {
 		return workflowBO.obter(id);
+	}
+
+	/**
+	 * Pesquisa os usuários com os parâmetros preenchidos.
+	 * 
+	 * @param parametros parâmetros da pesquisa
+	 * @return {@link List} de {@link Workflow}
+	 */
+	public ListaResultadoDTO<Workflow> pesquisar(PesquisaWorkflowDTO parametros) {
+		String nome = parametros.getNome();
+		String descricao = parametros.getDescricao();
+		Boolean ativo = parametros.getAtivo();
+		Integer paginaAtual = parametros.getPaginaAtual();
+
+		List<Workflow> lista = workflowBO.getByNomeDescricaoAtivo(nome, descricao, ativo, paginaAtual);
+
+		ListaResultadoDTO<Workflow> resultado = new ListaResultadoDTO<Workflow>();
+		resultado.setColecaoParcial(lista);
+
+		this.setTotalPesquisa(parametros, resultado, workflowBO);
+		return resultado;
 	}
 }
