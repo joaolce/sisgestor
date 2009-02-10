@@ -3,10 +3,7 @@
  */
 Event.observe(window, "load", function() {
 	usuario.pesquisar();
-
-	UtilDWR.usuarioTemPermissao(MANTER_USUARIO, ( function(possui) {
-		usuario.permissaoManterUsuario = possui;
-	}));
+	usuario.permissaoManterUsuario = Usuario.temPermissao(MANTER_USUARIO);
 });
 
 /**

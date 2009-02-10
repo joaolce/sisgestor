@@ -9,18 +9,27 @@
 	<fieldset style="margin: 5pt auto; padding: 10px; width: 95%;">
 		<div style="float: left;">
 			<label>
-				<b><bean:message key="label.login"/></b>
+				<b>
+					<bean:message key="label.login"/>
+					<span class="obrigatorio">*</span>
+				</b>
 				<br />
 				<html:text property="login" size="11" maxlength="10" />
 			</label> 
 			<label style="float: left; margin-top: 15px;">
-				<b><bean:message key="label.nome"/></b>
+				<b>
+					<bean:message key="label.nome"/>
+					<span class="obrigatorio">*</span>
+				</b>
 				<br />
-				<html:text property="nome" size="51" maxlength="50" />
+				<html:text property="nome" size="51" maxlength="100" />
 			</label> 
 			<div style="width: 60%; margin-top: 15px;">
 				<label style="float: left; margin-top: inherit;">
-					<b><bean:message key="label.departamento"/></b>
+					<b>
+						<bean:message key="label.departamento"/>
+						<span class="obrigatorio">*</span>
+					</b>
 					<br />
 					<html:select property="departamento" styleId="departamento">
 						<html:option value="" />
@@ -28,7 +37,10 @@
 					</html:select>
 				</label>
 				<label style="float: right; margin-top: inherit;">
-					<b><bean:message key="label.chefe"/></b>
+					<b>
+						<bean:message key="label.chefe"/>
+						<span class="obrigatorio">*</span>
+					</b>
 					<br />
 					<html:select property="chefe" styleId="chefe">
 						<html:option value="0" key="label.nao" />
@@ -38,7 +50,7 @@
 			</div>
 			<label style="float: left; margin-top: 15px;">
 				<b><bean:message key="label.email"/></b> <br />
-				<html:text property="email" size="41" maxlength="40" />
+				<html:text property="email" size="51" maxlength="50" />
 			</label>
 			<br />
 		</div>
@@ -46,7 +58,10 @@
 			<div style="float: left; margin-right: 5px;">
 				<label class="labelComboTransferencia">
 					<span id="itensPermissoesSelecionadas">
-						<b><bean:message key="label.permissoesSelecionadas"/></b>
+						<b>
+							<bean:message key="label.permissoesSelecionadas"/>
+							<span class="obrigatorio">*</span>
+						</b>
 					</span>
 					<br/>
 					<html:select multiple="true"  altKey="dica.desselecionar" titleKey="dica.desselecionar"  

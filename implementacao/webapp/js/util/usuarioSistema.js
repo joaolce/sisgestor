@@ -1,5 +1,7 @@
 Event.observe(window, "load", function(event) {
+	dwr.engine.setAsync(false);
 	UtilDWR.getUser(Usuario.setUsuario.bind(Usuario));
+	dwr.engine.setAsync(true);
 });
 
 /**
@@ -26,5 +28,21 @@ Usuario = {
 	 */
    setUsuario : function(usuario) {
 	   this._usuario = usuario;
+   },
+   
+   /**
+    * Verifica se o usuário logado possui a permissão informada.
+    * 
+    * @param permissao código da permissão
+    * @return <code>true</code> caso usuário possui permissão, <code>false</code> caso não possua
+    */
+   temPermissao : function(permissao) {
+   	permissao = parseInt(permissao);
+	   for ( var i = 0; i < this._usuario.permissoes.length; i++) {
+		  	if(parseInt(this._usuario.permissoes[i].id) == permissao) {
+		  		return true;
+		  	}
+	   }
+	   return false;
    }
 };

@@ -244,7 +244,8 @@ public class BaseValidator {
 	}
 
 	/**
-	 * Valida uma propriedade do form como número diferente de zero e diferente de null e não adiciona mensagem
+	 * Valida uma propriedade do form como número diferente de zero e diferente de <code>null</code> e não
+	 * adiciona mensagem.
 	 * 
 	 * @param formProperty nome da propriedade no form
 	 * @return <code>true</code> caso seja número válido, <code>false</code> caso contrário
@@ -339,39 +340,48 @@ public class BaseValidator {
 	 * 
 	 * @param labelKeyProp chave do label do campo
 	 * @param formProperty propriedade do form
+	 * @return <code>true</code> caso validação com sucesso, <code>false</code> caso contrário
 	 */
-	protected void validaAlfaNumerico(String labelKeyProp, String formProperty) {
+	protected boolean validaAlfaNumerico(String labelKeyProp, String formProperty) {
 		Object value = this.getFormValue(formProperty);
 		if ((value != null) && !((String) value).matches("\\w*")) {
 			this.addError("erro.alfaNumerico", this.getMessageKey(labelKeyProp));
 			this.setFocusControl(formProperty);
+			return false;
 		}
+		return true;
 	}
 
 	/**
 	 * Valida um CNPJ.
 	 * 
 	 * @param formProperty propriedade do form a ser validada como cnpj
+	 * @return <code>true</code> caso validação com sucesso, <code>false</code> caso contrário
 	 */
-	protected void validaCNPJ(String formProperty) {
-		String str_cnpj = (String) this.getFormValue(formProperty);
-		if (!Utils.isCNPJ(str_cnpj)) {
+	protected boolean validaCNPJ(String formProperty) {
+		String cnpj = (String) this.getFormValue(formProperty);
+		if (!Utils.isCNPJ(cnpj)) {
 			this.addError("erro.cnpjInvalido");
 			this.setFocusControl(formProperty);
+			return false;
 		}
+		return true;
 	}
 
 	/**
 	 * Valida um CPF.
 	 * 
 	 * @param formProperty propriedade do form a ser validada como cpf
+	 * @return <code>true</code> caso validação com sucesso, <code>false</code> caso contrário
 	 */
-	protected void validaCPF(String formProperty) {
-		String s_aux = (String) this.getFormValue(formProperty);
-		if (!Utils.isCPF(s_aux)) {
+	protected boolean validaCPF(String formProperty) {
+		String cpf = (String) this.getFormValue(formProperty);
+		if (!Utils.isCPF(cpf)) {
 			this.addError("erro.cpfInvalido");
 			this.setFocusControl(formProperty);
+			return false;
 		}
+		return true;
 	}
 
 	/**
@@ -379,13 +389,16 @@ public class BaseValidator {
 	 * 
 	 * @param labelProperty chave do label da data
 	 * @param formProperty propriedade do form
+	 * @return <code>true</code> caso validação com sucesso, <code>false</code> caso contrário
 	 */
-	protected void validaData(String labelProperty, String formProperty) {
+	protected boolean validaData(String labelProperty, String formProperty) {
 		String dataInformadaString = (String) this.getFormValue(formProperty);
 		if (StringUtils.isNotBlank(dataInformadaString) && !DataUtil.ehDataValida(dataInformadaString)) {
 			this.addError("erro.dataInvalida", this.getMessageKey(labelProperty));
 			this.setFocusControl(formProperty);
+			return false;
 		}
+		return true;
 	}
 
 	/**
@@ -394,15 +407,14 @@ public class BaseValidator {
 	 * 
 	 * @param labelProperty chave do label no properties
 	 * @param formProperty propriedade do form
+	 * @return <code>true</code> caso validação com sucesso, <code>false</code> caso contrário
 	 */
-	protected void validaDataMaiorDataAtual(String labelProperty, String formProperty) {
+	protected boolean validaDataMaiorDataAtual(String labelProperty, String formProperty) {
 		String dataInformadaString = (String) this.getFormValue(formProperty);
 		if (StringUtils.isNotBlank(dataInformadaString)) {
 			//Testa se a data informada é válida
-			if (!DataUtil.ehDataValida(dataInformadaString)) {
-				this.addError("erro.dataInvalida", this.getMessageKey(labelProperty));
-				this.setFocusControl(formProperty);
-				return;
+			if (!this.validaData(labelProperty, formProperty)) {
+				return false;
 			}
 
 			Date dataInformadaDate = DataUtil.stringToUtilDate(dataInformadaString);
@@ -411,8 +423,10 @@ public class BaseValidator {
 				String strDataAtual = DataUtil.utilDateToString(dataAtual);
 				this.addError("erro.dataMaiorDataAtual", this.getMessageKey(labelProperty), strDataAtual);
 				this.setFocusControl(formProperty);
+				return false;
 			}
 		}
+		return true;
 	}
 
 	/**
@@ -421,15 +435,14 @@ public class BaseValidator {
 	 * 
 	 * @param labelProperty chave do label no properties
 	 * @param formProperty propriedade do form
+	 * @return <code>true</code> caso validação com sucesso, <code>false</code> caso contrário
 	 */
-	protected void validaDataMenorDataAtual(String labelProperty, String formProperty) {
+	protected boolean validaDataMenorDataAtual(String labelProperty, String formProperty) {
 		String dataInformadaString = (String) this.getFormValue(formProperty);
 		if (StringUtils.isNotBlank(dataInformadaString)) {
 			//Testa se a data informada é válida
-			if (!DataUtil.ehDataValida(dataInformadaString)) {
-				this.addError("erro.dataInvalida", this.getMessageKey(labelProperty));
-				this.setFocusControl(formProperty);
-				return;
+			if (!this.validaData(labelProperty, formProperty)) {
+				return false;
 			}
 
 			Date dataInformadaDate = DataUtil.stringToUtilDate(dataInformadaString);
@@ -438,8 +451,10 @@ public class BaseValidator {
 				String strDataAtual = DataUtil.utilDateToString(dataAtual);
 				this.addError("erro.dataMenorDataAtual", this.getMessageKey(labelProperty), strDataAtual);
 				this.setFocusControl(formProperty);
+				return false;
 			}
 		}
+		return true;
 	}
 
 	/**
@@ -447,13 +462,16 @@ public class BaseValidator {
 	 * 
 	 * @param labelProperty chave do label
 	 * @param formProperty nome da propriedade representante do campo e-mail no form
+	 * @return <code>true</code> caso validação com sucesso, <code>false</code> caso contrário
 	 */
-	protected void validaEmail(String labelProperty, String formProperty) {
+	protected boolean validaEmail(String labelProperty, String formProperty) {
 		String value = (String) this.getFormValue(formProperty);
 		if (StringUtils.isNotBlank(value) && !GenericValidator.isEmail(value)) {
 			this.addError("erro.emailInvalido", this.getMessageKey(labelProperty));
 			this.setFocusControl(formProperty);
+			return false;
 		}
+		return true;
 	}
 
 	/**
@@ -464,8 +482,8 @@ public class BaseValidator {
 	 * @param formProperty nome do campo no form
 	 */
 	protected void validaMensagem(String keyProperty, String formProperty) {
-		this.setFocusControl(formProperty);
 		this.addError(keyProperty);
+		this.setFocusControl(formProperty);
 	}
 
 	/**
@@ -474,8 +492,9 @@ public class BaseValidator {
 	 * 
 	 * @param labelProperty nome do campo no arquivo .properties
 	 * @param formProperty nome da propriedade do form a ser verificada
+	 * @return <code>true</code> caso validação com sucesso, <code>false</code> caso contrário
 	 */
-	protected void validaRequerido(String labelProperty, String formProperty) {
+	protected boolean validaRequerido(String labelProperty, String formProperty) {
 		Object value = this.getFormValue(formProperty);
 		if (value == null) {
 			Class<?> propertyType;
@@ -490,52 +509,55 @@ public class BaseValidator {
 				this.addErrorKey("erro.required", labelProperty);
 			}
 			this.setFocusControl(formProperty);
-		}
-		if (value instanceof String) {
+			return false;
+		} else if (value instanceof String) {
 			if (StringUtils.isBlank((String) value)) {
 				this.addErrorKey("erro.required", labelProperty);
 				this.setFocusControl(formProperty);
+				return false;
 			}
 		} else if (value instanceof Number) {
 			if (((Number) value).intValue() == 0) {
 				this.addErrorKey("erro.required", labelProperty);
 				this.setFocusControl(formProperty);
+				return false;
 			}
 		} else if (value instanceof Object[]) {
 			Object[] valorArray = (Object[]) value;
 			if (valorArray.length == 0) {
 				this.addErrorKey("erro.necessarioSelecao", labelProperty);
 				this.setFocusControl(formProperty);
+				return false;
 			}
 		} else if ((value instanceof Character) && (StringUtils.isBlank(((Character) value).toString()))) {
 			this.addErrorKey("erro.required", labelProperty);
 			this.setFocusControl(formProperty);
+			return false;
 		}
+		return true;
 	}
 
 	/**
-	 * Valida uma string para saber se o tamanho máximo de caracteres foi ultrapassado valida um integer para
-	 * saber se o valor do mesmo é superior ao valor passado no parâmetro
+	 * Valida uma string para saber se o tamanho máximo de caracteres foi ultrapassado ou valida um integer
+	 * para saber se o valor do mesmo é superior ao valor passado no parâmetro
 	 * 
 	 * @param keyProperty nome do campo no properties
 	 * @param formProperty nome da propriedade do form a ser verificada
 	 * @param maximo máximo a ser validado
+	 * @return <code>true</code> caso validação com sucesso, <code>false</code> caso contrário
 	 */
-	protected void validaTamanhoMaximo(String keyProperty, String formProperty, int maximo) {
+	protected boolean validaTamanhoMaximo(String keyProperty, String formProperty, int maximo) {
 		Object value = this.getFormValue(formProperty);
-		if (value instanceof String) {
-			String valor = (String) value;
-			if (valor.length() > maximo) {
-				this.addError("erro.maxlength", this.getMessageKey(keyProperty), "" + maximo);
-				this.setFocusControl(formProperty);
-			}
-		} else if (value instanceof Number) {
-			Number valor = (Number) value;
-			if (valor.intValue() > maximo) {
-				this.addError("erro.maxinteger", this.getMessageKey(keyProperty), "" + maximo);
-				this.setFocusControl(formProperty);
-			}
+		if ((value instanceof String) && (((String) value).length() > maximo)) {
+			this.addError("erro.maxlength", this.getMessageKey(keyProperty), Integer.toString(maximo));
+			this.setFocusControl(formProperty);
+			return false;
+		} else if ((value instanceof Number) && (((Number) value).intValue() > maximo)) {
+			this.addError("erro.maxinteger", this.getMessageKey(keyProperty), Integer.toString(maximo));
+			this.setFocusControl(formProperty);
+			return false;
 		}
+		return true;
 	}
 
 	/**
@@ -544,21 +566,19 @@ public class BaseValidator {
 	 * @param keyProperty nome do campo no properties
 	 * @param formProperty nome da propriedade do form a ser verificada
 	 * @param minimo mínimo a ser validado
+	 * @return <code>true</code> caso validação com sucesso, <code>false</code> caso contrário
 	 */
-	protected void validaTamanhoMinimo(String keyProperty, String formProperty, int minimo) {
+	protected boolean validaTamanhoMinimo(String keyProperty, String formProperty, int minimo) {
 		Object value = this.getFormValue(formProperty);
-		if (value instanceof String) {
-			String valor = (String) value;
-			if (valor.length() < minimo) {
-				this.addError("erro.minlength", this.getMessageKey(keyProperty), "" + minimo);
-				this.setFocusControl(formProperty);
-			}
-		} else if (value instanceof Number) {
-			Number valor = (Number) value;
-			if (valor.intValue() < minimo) {
-				this.addError("erro.mininteger", this.getMessageKey(keyProperty), "" + minimo);
-				this.setFocusControl(formProperty);
-			}
+		if ((value instanceof String) && (((String) value).length() < minimo)) {
+			this.addError("erro.minlength", this.getMessageKey(keyProperty), Integer.toString(minimo));
+			this.setFocusControl(formProperty);
+			return false;
+		} else if ((value instanceof Number) && (((Number) value).intValue() < minimo)) {
+			this.addError("erro.mininteger", this.getMessageKey(keyProperty), Integer.toString(minimo));
+			this.setFocusControl(formProperty);
+			return false;
 		}
+		return true;
 	}
 }

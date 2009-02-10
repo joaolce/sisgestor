@@ -35,10 +35,8 @@
 				<label style="float: left; margin-left: 20px;">
 					<bean:message key="label.departamento" />
 					<br />
-					<html:select property="departamento" styleId="departamentoPesquisa" onchange="usuario.pesquisar(); return false;">
-						<html:option value="">
-							<bean:message key="label.todos" />
-						</html:option>
+					<html:select property="departamento" styleId="departamentoPesquisa">
+						<html:option value="" key="label.todos" />
 						<html:optionsCollection name="manterUsuarioForm" property="listaDepartamentos" label="sigla" value="id" />
 					</html:select>
 				</label>
@@ -76,25 +74,37 @@
 			</legend>
 			<div style="float: left; margin-top: 14px;">
 				<label style="float: left;">
-					<b><bean:message key="label.login"/>:</b>
-					<html:text property="login" size="16" maxlength="15" readonly="true" />
+					<b>
+						<bean:message key="label.login"/>
+						<span class="obrigatorio">*</span>
+					</b>
+					<html:text property="login" size="16" maxlength="15" />
 				</label>
 				<br />
 				<label style="float: left; margin-top: 3px;">
-					<b><bean:message key="label.nome"/>:</b>
-					<html:text property="nome" size="51" maxlength="150" />
+					<b>
+						<bean:message key="label.nome"/>
+						<span class="obrigatorio">*</span>
+					</b>
+					<html:text property="nome" size="51" maxlength="100" />
 				</label> 
 				<br />
 				<div style="float: left; margin-top: 3px;">
 					<label>
-						<b><bean:message key="label.departamento"/>: </b>
+						<b>
+							<bean:message key="label.departamento"/>
+							<span class="obrigatorio">*</span>
+						</b>
 						<html:select property="departamento" styleId="departamento">
 							<html:option value="" />
 							<html:optionsCollection name="manterUsuarioForm" property="listaDepartamentos" label="sigla" value="id" />
 						</html:select>
 					</label>
 					<label style="margin-left: 7px;">
-						<b><bean:message key="label.chefe"/>: </b>
+						<b>
+							<bean:message key="label.chefe"/>
+							<span class="obrigatorio">*</span>
+						</b>
 						<html:select property="chefe" styleId="chefe">
 							<html:option value="0" key="label.nao" />
 							<html:option value="1" key="label.sim" />
@@ -103,15 +113,18 @@
 				</div>
 				<br />
 				<label style="float: left; margin-top: 3px;">
-					<b><bean:message key="label.email"/>: </b>
-					<html:text property="email" size="41" maxlength="40" />
+					<b><bean:message key="label.email"/></b>
+					<html:text property="email" size="51" maxlength="50" />
 				</label> 
 			</div>
 			<div id="tabPermissoes" style="float: right; width: 60%;">
 				<div style="float: left; margin-right: 5px;">
 					<label class="labelComboTransferencia">
 						<span id="itensPermissoesSelecionadas">
-							<b><bean:message key="label.permissoesSelecionadas"/></b>
+							<b>
+								<bean:message key="label.permissoesSelecionadas"/>
+								<span class="obrigatorio">*</span>
+							</b>
 						</span>
 						<br/>
 						<html:select multiple="true"  altKey="dica.desselecionar" titleKey="dica.desselecionar"  
