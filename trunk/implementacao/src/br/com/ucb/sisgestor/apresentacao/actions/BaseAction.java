@@ -99,9 +99,6 @@ public class BaseAction extends DispatchAction {
 		//verificar se a requisição post possui um referer, questões de segurança 
 		this.segurancaPost(request);
 		//popula as variaveis de instância
-		if (actionForm != null) {
-			Utils.doNuloNaStringVazia(actionForm);
-		}
 		this.populaParametrosAction(mapping, actionForm, request, response);
 		ConstantesAplicacao.setConstantes(request);
 
@@ -165,6 +162,9 @@ public class BaseAction extends DispatchAction {
 		//FIM VALIDAÇÃO
 
 		try {
+			if (actionForm != null) {
+				Utils.doNuloNaStringVazia(actionForm);
+			}
 			return super.execute(mapping, actionForm, request, response);
 		} catch (NegocioException e) {
 			if (e.getCause() == null) {

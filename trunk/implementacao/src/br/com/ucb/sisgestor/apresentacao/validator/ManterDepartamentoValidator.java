@@ -26,10 +26,13 @@ public class ManterDepartamentoValidator extends BaseValidator {
 	 * Faz as validações no método salvar.
 	 */
 	public void salvar() {
-		this.validaRequerido("label.sigla", "sigla");
-		this.validaRequerido("label.nome", "nome");
-		this.validaTamanhoMaximo("label.sigla", "sigla", ConstantesDB.SIGLA);
-		this.validaTamanhoMaximo("label.nome", "nome", ConstantesDB.NOME);
+		if (this.validaRequerido("label.sigla", "sigla")) {
+			this.validaTamanhoMinimo("label.sigla", "sigla", 3);
+			this.validaTamanhoMaximo("label.sigla", "sigla", ConstantesDB.SIGLA);
+		}
+		if (this.validaRequerido("label.nome", "nome")) {
+			this.validaTamanhoMaximo("label.nome", "nome", ConstantesDB.NOME);
+		}
 		this.validaEmail("label.email", "email");
 	}
 }

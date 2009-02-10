@@ -1,22 +1,30 @@
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
-<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 
 <html:form action="/manterUsuario.do?method=atualizarSenha"  onsubmit="usuario.atualizarSenha(this); return false;" styleId="manterUsuarioForm">
 	<fieldset style="margin: 5pt auto; padding: 10px; width: 90%;">
 		<div>
 			<label>
-				<b><bean:message key="label.senha.atual"/>:</b>
+				<b>
+					<bean:message key="label.senha.atual"/>
+					<span class="obrigatorio">*</span>
+				</b>
 				<html:password property="senhaAtual" maxlength="20" size="21"/>
 			</label>
 			<br />	
 			<label>
-				<b><bean:message key="label.senha.nova"/>:</b>
+				<b>
+					<bean:message key="label.senha.nova"/>
+					<span class="obrigatorio">*</span>
+				</b>
 				<html:password property="novaSenha" maxlength="20" size="21"/>
 			</label>
 			<br />
 			<label>
-				<b><bean:message key="label.senha.confirmar"/>:</b>
+				<b>
+					<bean:message key="label.senha.confirmar"/>
+					<span class="obrigatorio">*</span>
+				</b>
 				<html:password property="confirmarSenha" maxlength="20" size="21"/>
 			</label>
 			

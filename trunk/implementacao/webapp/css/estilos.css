@@ -206,6 +206,12 @@ input[type="text"].data {
 	border: solid 1px red;
 }
 
+.obrigatorio {
+	color: red;
+	border: hidden;
+	margin-left: 1px;
+}
+
 .linhaCinza {
 	border: 1px solid #E5E9ED;
 }
@@ -213,10 +219,6 @@ input[type="text"].data {
 .mensagemErro {
 	font-weight: bold;
 	color: red;
-}
-
-.linhaCinza {
-	border: 1px solid #E5E9ED;
 }
 
 #overCap {

@@ -67,17 +67,23 @@
 			</legend>
 			<div>
 				<label>
-					<b><bean:message key="label.sigla"/>:</b>
+					<b>
+						<bean:message key="label.sigla"/>
+						<span class="obrigatorio">*</span>
+					</b>
 					<html:text property="sigla" size="11" maxlength="10" />
 				</label> 
 				<br />
 				<label style="margin-top: 3px;">
-					<b><bean:message key="label.nome"/>:</b>
-					<html:text property="nome" size="51" maxlength="50" />
+					<b>
+						<bean:message key="label.nome"/>
+						<span class="obrigatorio">*</span>
+					</b>
+					<html:text property="nome" size="51" maxlength="100" />
 				</label> 
 				<br />
 				<label style="margin-top: 3px;">
-					<b><bean:message key="label.departamentoSuperior"/>: </b>
+					<b><bean:message key="label.departamentoSuperior"/></b>
 					<html:select property="departamentoSuperior" styleId="departamentoSuperior">
 						<html:option value="" />
 						<html:optionsCollection name="manterDepartamentoForm" property="listaDepartamentos" label="sigla" value="id" />
@@ -85,8 +91,8 @@
 				</label>
 				<br />
 				<label style="margin-top: 3px;">
-					<b><bean:message key="label.email"/>: </b>
-					<html:text property="email" size="41" maxlength="40" />
+					<b><bean:message key="label.email"/></b>
+					<html:text property="email" size="51" maxlength="50" />
 				</label> 
 			</div>
 			<div style="clear: both; padding: 5px;" align="center">

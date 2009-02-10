@@ -12,16 +12,22 @@
 	<fieldset style="margin: 5pt auto; padding: 10px; width: 95%;">
 		<div>
 			<label>
-				<b><bean:message key="label.sigla"/></b>
+				<b>
+					<bean:message key="label.sigla"/>
+					<span class="obrigatorio">*</span>
+				</b>
 				<br />
 				<html:text property="sigla" size="11" maxlength="10" />
 			</label> 
 			<br />
 			<br />
 			<label>
-				<b><bean:message key="label.nome"/></b>
+				<b>
+					<bean:message key="label.nome"/>
+					<span class="obrigatorio">*</span>
+				</b>
 				<br />
-				<html:text property="nome" size="51" maxlength="50" />
+				<html:text property="nome" size="51" maxlength="100" />
 			</label>
 			<br />
 			<br />
@@ -38,7 +44,7 @@
 			<label>
 				<b><bean:message key="label.email"/></b>
 				<br />
-				<html:text property="email" size="41" maxlength="40" />
+				<html:text property="email" size="51" maxlength="50" />
 			</label>
 		</div>
 	</fieldset>

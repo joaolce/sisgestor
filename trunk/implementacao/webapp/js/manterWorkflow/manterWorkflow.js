@@ -3,10 +3,7 @@
  */
 Event.observe(window, "load", function() {
 	workflow.pesquisar();
-
-	UtilDWR.usuarioTemPermissao(MANTER_WORKFLOW, ( function(possui) {
-		workflow.permissaoManterWorkflow = possui;
-	}));
+	workflow.permissaoManterWorkflow = Usuario.temPermissao(MANTER_WORKFLOW);
 });
 
 /**
@@ -25,7 +22,7 @@ ComportamentosTela.prototype = {
    tabelaTelaPrincipal :null,
 
    /**
-	 * Se o workflow logado possui permissão de manter workflow.
+	 * Se o usuário logado possui permissão de manter workflow.
 	 */
    permissaoManterWorkflow :false,
 

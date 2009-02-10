@@ -12,6 +12,10 @@ package br.com.ucb.sisgestor.util.constantes;
  */
 public final class ConstantesDB {
 
+	/*
+	 * ATENÇÃO: Se fizer mudança aqui, altere também no validator e nas jsp´s.
+	 */
+
 	/** Tamanho do campo Descrição */
 	public static final int		DESCRICAO			= 60;
 
