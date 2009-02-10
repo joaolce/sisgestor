@@ -1,22 +1,19 @@
 /*
  * Projeto: sisgestor
- * Criação: 03/01/2009 por João Lúcio
+ * Criação: 28/01/2009 por João Lúcio
  */
-package br.com.ucb.sisgestor.apresentacao.forms;
-
-import br.com.ucb.sisgestor.apresentacao.actions.ManterWorkflowAction;
+package br.com.ucb.sisgestor.util.dto;
 
 /**
- * Form para a action {@link ManterWorkflowAction}.
+ * DTO para pesquisas de workflow.
  * 
  * @author Thiago
- * @since 04/02/2009
+ * @since 09/02/2009
  */
-public class ManterWorkflowActionForm extends BaseForm {
+public class PesquisaWorkflowDTO extends PesquisaPaginadaDTO {
 
-	private Integer	id;
-	private String		descricao;
 	private String		nome;
+	private String		descricao;
 	private Boolean	ativo;
 
 	/**
@@ -28,7 +25,6 @@ public class ManterWorkflowActionForm extends BaseForm {
 		return this.ativo;
 	}
 
-
 	/**
 	 * Recupera o valor de descricao
 	 * 
@@ -37,19 +33,6 @@ public class ManterWorkflowActionForm extends BaseForm {
 	public String getDescricao() {
 		return this.descricao;
 	}
-
-
-
-	/**
-	 * Recupera o valor de id
-	 * 
-	 * @return id
-	 */
-	public Integer getId() {
-		return this.id;
-	}
-
-
 
 	/**
 	 * Recupera o valor de nome
@@ -60,8 +43,6 @@ public class ManterWorkflowActionForm extends BaseForm {
 		return this.nome;
 	}
 
-
-
 	/**
 	 * Atribui ativo
 	 * 
@@ -70,8 +51,6 @@ public class ManterWorkflowActionForm extends BaseForm {
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
-
-
 
 	/**
 	 * Atribui descricao
@@ -82,19 +61,6 @@ public class ManterWorkflowActionForm extends BaseForm {
 		this.descricao = descricao;
 	}
 
-
-
-	/**
-	 * Atribui id
-	 * 
-	 * @param id o valor a ajustar em id
-	 */
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-
-
 	/**
 	 * Atribui nome
 	 * 
@@ -103,4 +69,6 @@ public class ManterWorkflowActionForm extends BaseForm {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+
 }

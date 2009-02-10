@@ -9,7 +9,9 @@ import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.WorkflowDAO;
 import br.com.ucb.sisgestor.persistencia.impl.WorkflowDAOImpl;
+import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.util.List;
+import org.hibernate.Transaction;
 
 /**
  * Objeto de negócio para {@link Workflow}.
@@ -42,15 +44,37 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	/**
 	 * {@inheritDoc}
 	 */
-	public void atualizar(Workflow obj) throws NegocioException {
-		// TODO Auto-generated method stub
+	public void atualizar(Workflow workflow) throws NegocioException {
+		Transaction transaction = this.beginTransaction();
+		try {
+			this.dao.atualizar(workflow);
+			HibernateUtil.commit(transaction);
+		} catch (Exception e) {
+			HibernateUtil.rollback(transaction);
+			this.verificaExcecao(e);
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void excluir(Workflow obj) throws NegocioException {
-		// TODO Auto-generated method stub
+	public void excluir(Workflow workflow) throws NegocioException {
+		Transaction transaction = this.beginTransaction();
+		try {
+			this.dao.excluir(workflow);
+			HibernateUtil.commit(transaction);
+		} catch (Exception e) {
+			HibernateUtil.rollback(transaction);
+			this.verificaExcecao(e);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<Workflow> getByNomeDescricaoAtivo(String nome, String descricao, Boolean ativo,
+			Integer paginaAtual) {
+		return this.dao.getByNomeDescricaoAtivo(nome, descricao, ativo, paginaAtual);
 	}
 
 	/**
@@ -70,7 +94,14 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	/**
 	 * {@inheritDoc}
 	 */
-	public void salvar(Workflow obj) throws NegocioException {
-		// TODO Auto-generated method stub
+	public void salvar(Workflow workflow) throws NegocioException {
+		Transaction transaction = this.beginTransaction();
+		try {
+			this.dao.salvar(workflow);
+			HibernateUtil.commit(transaction);
+		} catch (Exception e) {
+			HibernateUtil.rollback(transaction);
+			this.verificaExcecao(e);
+		}
 	}
 }
