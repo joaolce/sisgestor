@@ -69,7 +69,7 @@ public class ManterUsuarioAction extends BaseAction {
 		 *Essa mesma condição é verificada no manterUsuario.js
 		 */
 		if (usuarioLogado.getId().equals(usuario.getId()) && temPermissao) {
-			this.addMessageKey("mensagem.alteracao");
+			this.addMessageKey("mensagem.novoLogin");
 		}
 
 		return this.sendAJAXResponse(true);

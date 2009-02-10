@@ -8,7 +8,6 @@ import br.com.ucb.sisgestor.apresentacao.forms.ManterWorkflowActionForm;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.impl.WorkflowBOImpl;
-import br.com.ucb.sisgestor.util.constantes.ConstantesRoles;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -45,13 +44,6 @@ public class ManterWorkflowAction extends BaseAction {
 		Workflow workflow = workflowBO.obter(form.getId());
 		this.copyProperties(workflow, form);
 
-		boolean temPermissao = request.isUserInRole(ConstantesRoles.MANTER_WORKFLOW);
-
-		//Usuário que não tem permissão apenas pode visualizar o workflow
-		if (!temPermissao) {
-			this.addMessageKey("erro.acessoNegado");
-			return this.sendAJAXResponse(false);
-		}
 		workflowBO.atualizar(workflow);
 
 		this.addMessageKey("mensagem.alterar", "Workflow");
@@ -85,12 +77,6 @@ public class ManterWorkflowAction extends BaseAction {
 		ManterWorkflowActionForm form = (ManterWorkflowActionForm) formulario;
 
 		Workflow workflow = workflowBO.obter(form.getId());
-
-		boolean temPermissao = request.isUserInRole(ConstantesRoles.MANTER_WORKFLOW);
-		if (!temPermissao) {
-			this.addMessageKey("erro.excluir.naoPermitido");
-			return this.sendAJAXResponse(false);
-		}
 
 		workflowBO.excluir(workflow);
 
@@ -131,7 +117,6 @@ public class ManterWorkflowAction extends BaseAction {
 		ManterWorkflowActionForm form = (ManterWorkflowActionForm) formulario;
 		Workflow workflow = new Workflow();
 		this.copyProperties(workflow, form);
-
 
 		workflowBO.salvar(workflow);
 
