@@ -71,6 +71,7 @@ ComportamentosTela.prototype = {
 		   dwr.util.setValue("nome", workflow.nome);
 		   dwr.util.setValue("descricao", workflow.descricao);
 		   dwr.util.setValue("ativo", workflow.ativo);
+		   this.contaChar();
 	   }).bind(this));
    },
 
