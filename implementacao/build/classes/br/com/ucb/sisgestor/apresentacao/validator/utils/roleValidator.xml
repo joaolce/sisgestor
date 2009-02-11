@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validate-mapping [
+<!ELEMENT validator-mapping (validacao+)>
+<!ELEMENT validacao EMPTY>
+<!ATTLIST validacao
+    actionMethod CDATA #REQUIRED
+    roles CDATA #REQUIRED
+>
+]>
+<!--  
+	Todas as validações de transação que se aplicarem somente para um ou outro método de 
+	action deverão ser registradas aqui ao invés de estarem no web.xml .
+	Colocar no web.xml somente as que se aplicarem a todos os métodos da action
+-->
+<validator-mapping>
+
+	<!-- Manter Departamento  -->
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction#atualizar" 
+		roles="2" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction#excluir" 
+		roles="2" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction#popupNovoDepartamento" 
+		roles="2"  />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction#salvar" 
+		roles="2" />
+		
+	<!-- Manter Usuário -->
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction#excluir" 
+		roles="3" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction#popupNovoUsuario" 
+		roles="3"  />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction#salvar" 
+		roles="3" />
+
+</validator-mapping>
