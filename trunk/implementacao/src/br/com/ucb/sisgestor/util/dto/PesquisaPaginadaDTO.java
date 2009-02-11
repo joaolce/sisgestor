@@ -15,18 +15,18 @@ public class PesquisaPaginadaDTO extends BaseDTO {
 	private Integer	paginaAtual;
 
 	/**
-	 * Recupera o valor de paginaAtual.
+	 * Recupera a página atual da pesquisa.
 	 * 
-	 * @return paginaAtual
+	 * @return página atual da pesquisa
 	 */
 	public Integer getPaginaAtual() {
 		return this.paginaAtual;
 	}
 
 	/**
-	 * Atribui paginaAtual.
+	 * Atribui a página atual da pesquisa.
 	 * 
-	 * @param paginaAtual o valor a ajustar em paginaAtual
+	 * @param paginaAtual página atual da pesquisa
 	 */
 	public void setPaginaAtual(Integer paginaAtual) {
 		this.paginaAtual = paginaAtual;

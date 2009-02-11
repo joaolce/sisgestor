@@ -16,4 +16,7 @@
 		<validacao action="br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction" 
 		validator="br.com.ucb.sisgestor.apresentacao.validator.ManterUsuarioValidator" />
 		
+		<validacao action="br.com.ucb.sisgestor.apresentacao.actions.ManterWorkflowAction" 
+		validator="br.com.ucb.sisgestor.apresentacao.validator.ManterWorkflowValidator" />
+		
 </validate-mapping>

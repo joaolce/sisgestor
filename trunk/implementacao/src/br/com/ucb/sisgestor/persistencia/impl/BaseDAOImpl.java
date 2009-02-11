@@ -77,13 +77,6 @@ public class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serializable> i
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public void salvarOuAtualizar(T obj) {
-		this.getSession().saveOrUpdate(obj);
-	}
-
-	/**
 	 * Adiciona paginação a consulta.
 	 * 
 	 * @param criteria criteria da consulta

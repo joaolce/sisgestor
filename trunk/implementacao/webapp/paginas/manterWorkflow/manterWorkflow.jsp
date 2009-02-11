@@ -18,7 +18,7 @@
 		</legend>
 		<html:form action="/manterWorkflow.do" onsubmit="workflow.pesquisar(); return false;" styleId="manterWorkflowForm">
 			<div style="float: left;">
-				<label style="float: left; margin-left: 20px;">
+				<label style="float: left;">
 					<bean:message key="label.nome" />
 					<br />
 					<input type="text" name="nomePesquisa" id="nomePesquisa"  size="51" maxlength="150" />
@@ -31,11 +31,17 @@
 				<label style="float: left; margin-left: 20px;">
 					<bean:message key="label.ativo" />
 					<br />
-					<html:select property="ativo" styleId="ativoPesquisa">
-						<html:option value=""  key="label.todos" />
-						<html:option value="1" key="label.sim" />
-						<html:option value="0" key="label.nao" />
-					</html:select>
+					<select name="ativoPesquisa" id="ativoPesquisa">
+						<option value="">
+							<bean:message key="label.todos" />
+						</option>
+						<option value="true">
+							<bean:message key="label.sim" />
+						</option>
+						<option value="false">
+							<bean:message key="label.nao" />
+						</option>
+					</select>
 				</label>
 			</div>
 			<div style="padding-top: 14px; clear: both;">

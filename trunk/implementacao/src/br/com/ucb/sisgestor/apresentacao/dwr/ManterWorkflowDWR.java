@@ -36,7 +36,7 @@ public class ManterWorkflowDWR extends BaseDWR {
 	}
 
 	/**
-	 * Pesquisa os usuários com os parâmetros preenchidos.
+	 * Pesquisa os workflows com os parâmetros preenchidos.
 	 * 
 	 * @param parametros parâmetros da pesquisa
 	 * @return {@link List} de {@link Workflow}

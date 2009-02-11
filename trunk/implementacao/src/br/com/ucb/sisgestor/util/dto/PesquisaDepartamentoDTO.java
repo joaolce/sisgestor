@@ -16,36 +16,36 @@ public class PesquisaDepartamentoDTO extends PesquisaPaginadaDTO {
 	private String	nome;
 
 	/**
-	 * Recupera o valor de nome.
+	 * Recupera parte do nome para pesquisa.
 	 * 
-	 * @return nome
+	 * @return parte do nome para pesquisa
 	 */
 	public String getNome() {
 		return this.nome;
 	}
 
 	/**
-	 * Recupera o valor de sigla.
+	 * Recupera parte da sigla para pesquisa.
 	 * 
-	 * @return sigla
+	 * @return parte da sigla para pesquisa
 	 */
 	public String getSigla() {
 		return this.sigla;
 	}
 
 	/**
-	 * Atribui nome.
+	 * Atribui parte do nome para pesquisa.
 	 * 
-	 * @param nome o valor a ajustar em nome
+	 * @param nome parte do nome para pesquisa
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
 	/**
-	 * Atribui sigla.
+	 * Atribui parte da sigla para pesquisa.
 	 * 
-	 * @param sigla o valor a ajustar em sigla
+	 * @param sigla parte da sigla para pesquisa
 	 */
 	public void setSigla(String sigla) {
 		this.sigla = sigla;

@@ -17,54 +17,54 @@ public class PesquisaUsuarioDTO extends PesquisaPaginadaDTO {
 	private Integer	departamento;
 
 	/**
-	 * Recupera o valor de departamento.
+	 * Recupera o código do departamento da pesquisa.
 	 * 
-	 * @return departamento
+	 * @return código do departamento da pesquisa
 	 */
 	public Integer getDepartamento() {
 		return this.departamento;
 	}
 
 	/**
-	 * Recupera o valor de login.
+	 * Recupera parte do login para pesquisa.
 	 * 
-	 * @return login
+	 * @return parte do login para pesquisa
 	 */
 	public String getLogin() {
 		return this.login;
 	}
 
 	/**
-	 * Recupera o valor de nome.
+	 * Recupera parte do nome para pesquisa.
 	 * 
-	 * @return nome
+	 * @return parte do nome para pesquisa
 	 */
 	public String getNome() {
 		return this.nome;
 	}
 
 	/**
-	 * Atribui departamento.
+	 * Atribui o código do departamento da pesquisa.
 	 * 
-	 * @param departamento o valor a ajustar em departamento
+	 * @param departamento código do departamento da pesquisa
 	 */
 	public void setDepartamento(Integer departamento) {
 		this.departamento = departamento;
 	}
 
 	/**
-	 * Atribui login.
+	 * Atribui parte do login para pesquisa.
 	 * 
-	 * @param login o valor a ajustar em login
+	 * @param login parte do login para pesquisa
 	 */
 	public void setLogin(String login) {
 		this.login = login;
 	}
 
 	/**
-	 * Atribui nome.
+	 * Atribui parte do nome para pesquisa.
 	 * 
-	 * @param nome o valor a ajustar em nome
+	 * @param nome parte do nome para pesquisa
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;

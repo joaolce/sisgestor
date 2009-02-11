@@ -47,19 +47,7 @@ public class ManterWorkflowAction extends BaseAction {
 		workflowBO.atualizar(workflow);
 
 		this.addMessageKey("mensagem.alterar", "Workflow");
-
 		return this.sendAJAXResponse(true);
-	}
-
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ActionForward entrada(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-
-		return this.findForward(FWD_ENTRADA);
 	}
 
 	/**
@@ -96,10 +84,8 @@ public class ManterWorkflowAction extends BaseAction {
 	 */
 	public ActionForward popupNovoWorkflow(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
 		return this.findForward("popupNovoWorkflow");
 	}
-
 
 	/**
 	 * Salva um workflow.

@@ -1251,6 +1251,9 @@ function confirmacaoSair(form) {
 						Event.observe(elemento, "keypress", campoAlterado);
 						Event.observe(elemento, "keyup", campoAlterado);
 						break;
+					case "hidden":
+						Event.observe(elemento, "propertychange", campoAlterado);
+						break;
 					case "radio":
 					case "button":
 					case "checkbox":

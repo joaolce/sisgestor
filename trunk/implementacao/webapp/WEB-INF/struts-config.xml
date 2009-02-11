@@ -64,6 +64,7 @@
 			scope="request"
 			parameter="method">
 			<forward name="entrada" path="definicaoManterWorkflow" />
+			<forward name="popupNovoWorkflow" path="popupNovoWorkflow" />
 		</action>
 	</action-mappings>
 
