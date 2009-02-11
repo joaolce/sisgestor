@@ -39,7 +39,8 @@ public final class ConfiguracaoHibernate extends AnnotationConfiguration {
 			this.setProperty(Environment.HBM2DDL_AUTO, "validate");
 		}
 		this.setProperty(Environment.POOL_SIZE, "10");
-		this.setProperty(Environment.ISOLATION, "1");
+		this.setProperty(Environment.ISOLATION, "2");
+		this.setProperty(Environment.AUTOCOMMIT, Boolean.toString(false));
 		this.setProperty(Environment.USE_IDENTIFIER_ROLLBACK, Boolean.toString(true));
 		this.setProperty(Environment.ORDER_UPDATES, Boolean.toString(true));
 		this.setProperty(Environment.TRANSACTION_STRATEGY, JTATransactionFactory.class.getName());
