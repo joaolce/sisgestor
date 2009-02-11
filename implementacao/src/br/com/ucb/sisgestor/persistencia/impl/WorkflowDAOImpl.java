@@ -40,7 +40,6 @@ public class WorkflowDAOImpl extends BaseDAOImpl<Workflow, Integer> implements W
 		return instancia;
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -51,7 +50,6 @@ public class WorkflowDAOImpl extends BaseDAOImpl<Workflow, Integer> implements W
 		criteria.addOrder(Order.asc("nome"));
 		return GenericsUtil.checkedList(criteria.list(), Workflow.class);
 	}
-
 
 	/**
 	 * {@inheritDoc}
@@ -71,17 +69,16 @@ public class WorkflowDAOImpl extends BaseDAOImpl<Workflow, Integer> implements W
 	 */
 	private Criteria montarCriteriosPaginacao(String nome, String descricao, Boolean ativo) {
 		Criteria criteria = this.getSession().createCriteria(Workflow.class);
+		criteria.add(Restrictions.isNull("dataHoraExclusao"));
 		if (StringUtils.isNotBlank(nome)) {
 			criteria.add(Restrictions.like("nome", nome, MatchMode.ANYWHERE).ignoreCase());
 		}
 		if (StringUtils.isNotBlank(descricao)) {
 			criteria.add(Restrictions.like("descricao", descricao, MatchMode.ANYWHERE).ignoreCase());
 		}
-		//TODO Decidir pela pesquisa - Combo ou checkbox
-		//		if (departamento != null) {
-		//			criteria.createAlias("this.departamento", "departamento");
-		//			criteria.add(Restrictions.eq("departamento.id", departamento));
-		//		}
+		if (ativo != null) {
+			criteria.add(Restrictions.eq("ativo", ativo));
+		}
 		return criteria;
 	}
 }

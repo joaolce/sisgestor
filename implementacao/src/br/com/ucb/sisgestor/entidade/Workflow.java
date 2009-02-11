@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.entidade;
 
 import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
+import java.sql.Timestamp;
 import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -27,6 +28,7 @@ import javax.persistence.OneToMany;
 public class Workflow extends BaseWorkflow {
 
 	private Boolean			ativo;
+	private Timestamp			dataHoraExclusao;
 	private List<Processo>	processos;
 
 	/**
@@ -37,6 +39,16 @@ public class Workflow extends BaseWorkflow {
 	@Column(name = "WOR_ATIVO", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_BOOLEAN)
 	public Boolean getAtivo() {
 		return this.ativo;
+	}
+
+	/**
+	 * Recupera a data/hora de exclusão do workflow.
+	 * 
+	 * @return data/hora de exclusão do workflow
+	 */
+	@Column(name = "WOR_DATA_HORA_EXCLUSAO", nullable = true)
+	public Timestamp getDataHoraExclusao() {
+		return this.dataHoraExclusao;
 	}
 
 	/**
@@ -59,6 +71,15 @@ public class Workflow extends BaseWorkflow {
 	}
 
 	/**
+	 * Atribui a data/hora de exclusão do workflow.
+	 * 
+	 * @param dataHoraExclusao data/hora de exclusão do workflow
+	 */
+	public void setDataHoraExclusao(Timestamp dataHoraExclusao) {
+		this.dataHoraExclusao = dataHoraExclusao;
+	}
+
+	/**
 	 * Atribui processos
 	 * 
 	 * @param processos o valor a ajustar em processos
@@ -66,5 +87,4 @@ public class Workflow extends BaseWorkflow {
 	public void setProcessos(List<Processo> processos) {
 		this.processos = processos;
 	}
-
 }

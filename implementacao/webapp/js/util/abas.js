@@ -94,12 +94,17 @@ Aba.prototype = {
    setAtivo : function(e) {
 	   var elemento = $A(arguments)[1];
 	   this.pares.each(( function(pair) {
+	   	var divArea = $(pair.value);
 		   if (pair.key != elemento) {
 			   $(pair.key).className = this.styleClassInativo;
-			   $(pair.value).hide();
+			   divArea.hide();
 		   } else {
 			   $(pair.key).className = this.styleClassAtivo;
-			   $(pair.value).show();
+			   divArea.show();
+			   var firstDescendant = divArea.firstDescendant();
+			   if((firstDescendant != null) && (firstDescendant.nodeName.toLowerCase() == "textarea") && (divArea.descendans().length == 1)) {
+			   	firstDescendant.focus();
+			   }
 		   }
 	   }).bind(this));
    },

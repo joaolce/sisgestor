@@ -49,7 +49,6 @@ public class ManterUsuarioDWR extends BaseDWR {
 		return PermissaoBOImpl.getInstancia().obterTodos();
 	}
 
-
 	/**
 	 * Pesquisa os usuários com os parâmetros preenchidos.
 	 * 

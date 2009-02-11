@@ -17,54 +17,54 @@ public class PesquisaWorkflowDTO extends PesquisaPaginadaDTO {
 	private Boolean	ativo;
 
 	/**
-	 * Recupera o valor de ativo
+	 * Recupera indicador de ativo para a pesquisa.
 	 * 
-	 * @return ativo
+	 * @return indicador de ativo para a pesquisa
 	 */
 	public Boolean getAtivo() {
 		return this.ativo;
 	}
 
 	/**
-	 * Recupera o valor de descricao
+	 * Recupera parte da descrição para pesquisa.
 	 * 
-	 * @return descricao
+	 * @return parte da descrição para pesquisa
 	 */
 	public String getDescricao() {
 		return this.descricao;
 	}
 
 	/**
-	 * Recupera o valor de nome
+	 * Recupera parte do nome para pesquisa.
 	 * 
-	 * @return nome
+	 * @return parte do nome para pesquisa
 	 */
 	public String getNome() {
 		return this.nome;
 	}
 
 	/**
-	 * Atribui ativo
+	 * Atribui indicador de ativo para a pesquisa.
 	 * 
-	 * @param ativo o valor a ajustar em ativo
+	 * @param ativo indicador de ativo para a pesquisa
 	 */
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
 
 	/**
-	 * Atribui descricao
+	 * Atribui parte da descrição para pesquisa.
 	 * 
-	 * @param descricao o valor a ajustar em descricao
+	 * @param descricao parte da descrição para pesquisa
 	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
 
 	/**
-	 * Atribui nome
+	 * Atribui parte do nome para pesquisa.
 	 * 
-	 * @param nome o valor a ajustar em nome
+	 * @param nome parte do nome para pesquisa
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;

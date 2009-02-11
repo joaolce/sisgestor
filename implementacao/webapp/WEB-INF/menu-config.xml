@@ -13,7 +13,7 @@
     name CDATA #REQUIRED
     title CDATA #REQUIRED
     description CDATA #IMPLIED
-    page CDATA #REQUIRED
+    page CDATA #IMPLIED
     width CDATA #IMPLIED
     image CDATA #IMPLIED
 >
@@ -34,9 +34,9 @@
 	</Displayers>
 	
 	<Menus>
-		<Menu name="MenuDepartamento" title="menu.departamento" description="dica.departamento.atualizar" page="/manterDepartamento.do?method=entrada" width="130" image="imagens/departamentos.png" />
-		<Menu name="MenuUsuario" title="menu.usuario" description="dica.usuario.atualizar" page="/manterUsuario.do?method=entrada" image="imagens/usuarios.png" />
-		<Menu name="MenuWorkflow" title="menu.workflow" page="#">
+		<Menu name="MenuDepartamento" title="menu.departamento" description="dica.departamento.atualizar" page="/manterDepartamento.do?method=entrada" width="130" image="imagens/departamento.png" />
+		<Menu name="MenuUsuario" title="menu.usuario" description="dica.usuario.atualizar" page="/manterUsuario.do?method=entrada" image="imagens/usuario.png" />
+		<Menu name="MenuWorkflow" title="menu.workflow">
 			<Item name="MenuWorkflowPesquisar" title="menu.workflow.pesquisar" width="110" page="/manterWorkflow.do?method=entrada" />
 			<Item name="MenuWorkflowUtilizar" title="menu.workflow.utilizar" width="110" page="#" />
 		</Menu>

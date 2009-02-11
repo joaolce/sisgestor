@@ -17,7 +17,7 @@ public final class ConstantesDB {
 	 */
 
 	/** Tamanho do campo Descrição */
-	public static final int		DESCRICAO			= 60;
+	public static final int		DESCRICAO			= 200;
 
 	/** Tamanho do campo Nome */
 	public static final int		NOME					= 100;

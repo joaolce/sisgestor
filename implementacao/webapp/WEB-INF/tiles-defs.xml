@@ -42,5 +42,6 @@
 		<put name="corpo">/paginas/manterWorkflow/manterWorkflow.jsp</put>
 		<put name="titulo">Manter Workflow</put>
 	</definition>
+	<definition name="popupNovoWorkflow" path="/paginas/manterWorkflow/popupNovoWorkflow.jsp" />
 	
 </tiles-definitions>

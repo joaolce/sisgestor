@@ -3,11 +3,10 @@
  */
 Event.observe(window, "load", function() {
 	workflow.pesquisar();
-	workflow.permissaoManterWorkflow = Usuario.temPermissao(MANTER_WORKFLOW);
 });
 
 /**
- * Comportamentos para o UC Manter Usuário.
+ * Comportamentos para o UC Manter Workflow.
  * 
  * @author Thiago
  * @since 09/02/2009
@@ -20,11 +19,6 @@ ComportamentosTela.prototype = {
    initialize : function() {},
 
    tabelaTelaPrincipal :null,
-
-   /**
-	 * Se o usuário logado possui permissão de manter workflow.
-	 */
-   permissaoManterWorkflow :false,
 
    /**
 	 * Retorna a tabela da tela inicial do caso de uso
@@ -77,7 +71,6 @@ ComportamentosTela.prototype = {
 		   dwr.util.setValue("nome", workflow.nome);
 		   dwr.util.setValue("descricao", workflow.descricao);
 		   dwr.util.setValue("ativo", workflow.ativo);
-		   this.habilitarCampos(this.permissaoManterWorkflow);
 	   }).bind(this));
    },
 
@@ -126,7 +119,7 @@ ComportamentosTela.prototype = {
 			   return workflow.descricao;
 		   });
 		   cellfuncs.push( function(workflow) {
-			   if(workflow.ativo){
+			   if (workflow.ativo) {
 				   return "Sim";
 			   }
 			   return "Não";
@@ -145,7 +138,6 @@ ComportamentosTela.prototype = {
 	 */
    atualizar : function(form) {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o workflow selecionado?", ( function() {
-		   this.habilitarCampos(true);
 		   requestUtils.submitForm(form, null, ( function() {
 			   if (requestUtils.status) {
 				   this.pesquisar();
@@ -176,7 +168,7 @@ ComportamentosTela.prototype = {
 	 */
    popupNovoWorkflow : function() {
 	   var url = "manterWorkflow.do?method=popupNovoWorkflow";
-	   createWindow(430, 550, 280, 40, "Novo Workflow", "divNovoWorkflow", url);
+	   createWindow(255, 375, 280, 40, "Novo Workflow", "divNovoWorkflow", url);
    },
 
    /**
@@ -192,15 +184,13 @@ ComportamentosTela.prototype = {
 		   }
 	   }).bind(this));
    },
-
+   
    /**
-	 * Habilita/desabilita os campos que o workflow não tem permissão para alterar.
-	 */
-   habilitarCampos : function(habilita) {
-	   $("formSalvar").nome.disabled = !habilita;
-	   $("formSalvar").descricao.disabled = !habilita;
-	   $("formSalvar").ativo.disabled = !habilita;
-   }
+    * Limita a quantidade de caracteres do campo descrição.
+    */
+	contaChar: function() {
+		contaChar($("descricao"), 200);
+	}
 };
 
 var workflow = new ComportamentosTela();
