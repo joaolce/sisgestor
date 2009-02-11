@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validate-mapping [
+<!ELEMENT validator-mapping (validacao+)>
+<!ELEMENT validacao EMPTY>
+<!ATTLIST validacao
+    action CDATA #REQUIRED
+    validator CDATA #REQUIRED
+>
+]>
+
+<validate-mapping>
+
+		<validacao action="br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction" 
+		validator="br.com.ucb.sisgestor.apresentacao.validator.ManterDepartamentoValidator" />
+		
+		<validacao action="br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction" 
+		validator="br.com.ucb.sisgestor.apresentacao.validator.ManterUsuarioValidator" />
+		
+</validate-mapping>
