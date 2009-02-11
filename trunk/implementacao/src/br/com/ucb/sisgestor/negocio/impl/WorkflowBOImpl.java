@@ -9,6 +9,8 @@ import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.WorkflowDAO;
 import br.com.ucb.sisgestor.persistencia.impl.WorkflowDAOImpl;
+import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaWorkflowDTO;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.util.List;
 import org.hibernate.Transaction;
@@ -75,6 +77,15 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	public List<Workflow> getByNomeDescricaoAtivo(String nome, String descricao, Boolean ativo,
 			Integer paginaAtual) {
 		return this.dao.getByNomeDescricaoAtivo(nome, descricao, ativo, paginaAtual);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
+		PesquisaWorkflowDTO dto = (PesquisaWorkflowDTO) parametros;
+		return this.dao.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getAtivo());
 	}
 
 	/**

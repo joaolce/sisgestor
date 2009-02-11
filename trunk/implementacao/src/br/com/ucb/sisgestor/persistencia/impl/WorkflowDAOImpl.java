@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -49,6 +50,15 @@ public class WorkflowDAOImpl extends BaseDAOImpl<Workflow, Integer> implements W
 		this.adicionarPaginacao(criteria, paginaAtual, QTD_REGISTROS_PAGINA);
 		criteria.addOrder(Order.asc("nome"));
 		return GenericsUtil.checkedList(criteria.list(), Workflow.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Integer getTotalRegistros(String nome, String descricao, Boolean ativo) {
+		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, ativo);
+		criteria.setProjection(Projections.rowCount());
+		return (Integer) criteria.uniqueResult();
 	}
 
 	/**

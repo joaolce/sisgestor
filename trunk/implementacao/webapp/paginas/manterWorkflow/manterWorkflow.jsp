@@ -21,12 +21,12 @@
 				<label style="float: left;">
 					<bean:message key="label.nome" />
 					<br />
-					<input type="text" name="nomePesquisa" id="nomePesquisa"  size="51" maxlength="150" />
+					<input type="text" name="nomePesquisa" id="nomePesquisa"  size="51" maxlength="100" />
 				</label>
 				<label style="float: left; margin-left: 20px;">
 					<bean:message key="label.descricao" />
 					<br />
-					<input type="text" name="descricaoPesquisa" id="descricaoPesquisa"  size="51" maxlength="150" />
+					<input type="text" name="descricaoPesquisa" id="descricaoPesquisa"  size="51" maxlength="200" />
 				</label>
 				<label style="float: left; margin-left: 20px;">
 					<bean:message key="label.ativo" />
@@ -74,23 +74,37 @@
 				<bean:message key="label.dados.workflow"/>
 			</legend>
 			<div style="float: left; margin-top: 14px;">
-				<label style="float: left; margin-top: 3px;">
-					<b><bean:message key="label.nome"/>:</b>
-					<html:text property="nome" size="51" maxlength="150" />
-				</label> 
+				<div style="float: left;">
+					<label style="float: left;">
+						<b>
+							<bean:message key="label.nome"/>
+							<span class="obrigatorio">*</span>
+						</b>
+						<html:text property="nome" size="51" maxlength="100" />
+					</label> 
+					<label style="float: left; margin-left: 10px;">
+						<b>
+							<bean:message key="label.ativo"/>
+							<span class="obrigatorio">*</span>
+						</b>
+						<html:select property="ativo" styleId="ativo">
+							<html:option value="0" key="label.nao" />
+							<html:option value="1" key="label.sim" />
+						</html:select>
+					</label> 
+				</div>
 				<br />
 				<label style="float: left; margin-top: 3px;">
-					<b><bean:message key="label.descricao"/>:</b>
-					<html:text property="descricao" size="51" maxlength="150" />
+					<b style="vertical-align: top;">
+						<bean:message key="label.descricao" />
+						<span class="obrigatorio">*</span>
+					</b>
+					<html:textarea property="descricao" styleId="descricao" rows="4" cols="50" onkeypress="workflow.contaChar();" onkeydown="workflow.contaChar();" onkeyup="workflow.contaChar();" />
+					<br />
+					<bean:message key="label.maximoCaracteres" arg0="200"/>:
+					<span id="contagem" style="color: red;"></span>
 				</label> 
 				<br />
-				<label style="float: left; margin-top: 3px;">
-					<b><bean:message key="label.ativo"/></b>
-					<html:select property="ativo" styleId="ativo">
-						<html:option value="0" key="label.nao" />
-						<html:option value="1" key="label.sim" />
-					</html:select>
-				</label> 
 			</div>
 			<div style="clear: both; padding: 5px;" align="center" id="divBotoes">
 				<htmlSGR:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar" roles="4">
