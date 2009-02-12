@@ -72,7 +72,7 @@ ComportamentosTela.prototype = {
 		   dwr.util.setValue("descricao", workflow.descricao);
 		   dwr.util.setValue("ativo", workflow.ativo);
 		   this.habilitarLinks(true);
-		   this.contaChar();
+		   this.contaChar(false);
 	   }).bind(this));
    },
 
@@ -206,9 +206,15 @@ ComportamentosTela.prototype = {
    
    /**
     * Limita a quantidade de caracteres do campo descrição.
+    * 
+    * @param (Boolean) novo se for novo workflow
     */
-	contaChar: function() {
-		contaChar($("descricao"), 200);
+	contaChar: function(novo) {
+   	if(novo) {
+   		contaChar($("descricaoNovo"), 200, "contagemNovo");
+   	} else {
+   		contaChar($("descricao"), 200, "contagem");
+   	}
 	},
 	
 	/**
