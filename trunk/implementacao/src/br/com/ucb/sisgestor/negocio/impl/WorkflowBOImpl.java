@@ -9,6 +9,7 @@ import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.WorkflowDAO;
 import br.com.ucb.sisgestor.persistencia.impl.WorkflowDAOImpl;
+import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaWorkflowDTO;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
@@ -61,14 +62,9 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	 * {@inheritDoc}
 	 */
 	public void excluir(Workflow workflow) throws NegocioException {
-		Transaction transaction = this.beginTransaction();
-		try {
-			this.dao.excluir(workflow);
-			HibernateUtil.commit(transaction);
-		} catch (Exception e) {
-			HibernateUtil.rollback(transaction);
-			this.verificaExcecao(e);
-		}
+		workflow.setAtivo(Boolean.FALSE);
+		workflow.setDataHoraExclusao(DataUtil.getDataHoraAtual());
+		this.atualizar(workflow);
 	}
 
 	/**
