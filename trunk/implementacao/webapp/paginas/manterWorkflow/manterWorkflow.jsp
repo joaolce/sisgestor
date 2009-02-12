@@ -102,7 +102,7 @@
 						<bean:message key="label.descricao" />
 						<span class="obrigatorio">*</span>
 					</b>
-					<html:textarea property="descricao" styleId="descricao" rows="4" cols="50" onkeypress="workflow.contaChar();" onkeydown="workflow.contaChar();" onkeyup="workflow.contaChar();" />
+					<html:textarea property="descricao" styleId="descricao" rows="4" cols="50" onkeypress="workflow.contaChar(false);" onkeydown="workflow.contaChar(false);" onkeyup="workflow.contaChar(false);" />
 					<br />
 					<bean:message key="label.maximoCaracteres" arg0="200"/>:
 					<span id="contagem" style="color: red;"></span>

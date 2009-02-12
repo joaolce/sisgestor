@@ -1060,13 +1060,14 @@ function clonarRuntimeStyleIE(origem, destino) {
  * 
  * @param {HTMLTextAreaElement} txtArea
  * @param {Integer} tamanho
+ * @param (String) contagem
  */
-function contaChar(txtArea, tamanho) {
+function contaChar(txtArea, tamanho, contagem) {
 	if (txtArea.value.length > tamanho) {
 		dwr.util.setValue(txtArea, txtArea.value.substring(0, tamanho));
 		JanelasComuns.showMessage("É permitido somente " + tamanho + " caracteres.");
 	}
-	dwr.util.setValue("contagem", tamanho - txtArea.value.length);
+	dwr.util.setValue((contagem == undefined) ? "contagem" : contagem, tamanho - txtArea.value.length);
 }
 /**
  * pré carregar várias imagens

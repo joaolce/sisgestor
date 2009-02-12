@@ -33,13 +33,10 @@
 				<span class="obrigatorio">*</span>
 			</b>
 			<br />
-			<html:textarea property="descricao" styleId="descricao" rows="4" cols="50" 
-							onkeypress="workflow.contaChar();" 
-							onkeydown="workflow.contaChar();" 
-							onkeyup="workflow.contaChar();" />
+			<html:textarea property="descricao" styleId="descricaoNovo" rows="4" cols="50" onkeypress="workflow.contaChar(true);" onkeydown="workflow.contaChar(true);" onkeyup="workflow.contaChar(true);" />
 			<br />
 			<bean:message key="label.maximoCaracteres" arg0="200"/>:
-			<span id="contagem" style="color: red;"></span>
+			<span id="contagemNovo" style="color: red;"></span>
 		</label>
 	</fieldset>
 	<div style="clear: both; padding: 5px;" align="center">	
