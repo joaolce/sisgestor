@@ -2,11 +2,11 @@
  * Ação a ser realizada ao iniciar a página
  */
 Event.observe(window, "load", function() {
-	workflow.pesquisar();
+	processo.pesquisar();
 });
 
 /**
- * Comportamentos para o UC Manter Workflow.
+ * Comportamentos para o UC Manter Processo.
  * 
  * @author Thiago
  * @since 09/02/2009
@@ -26,16 +26,16 @@ ComportamentosTela.prototype = {
 	 * @return {HTMLTableSectionElement}
 	 */
    getTBodyTelaPrincipal : function() {
-	   return $("corpoManterWorkflow");
+	   return $("corpoManterProcesso");
    },
 
    /**
-	 * Recupera o form manterWorkflowForm.
+	 * Recupera o form manterProcessoForm.
 	 * 
-	 * @return form do manter workflow
+	 * @return form do manter processo
 	 */
    getForm : function() {
-	   return $("manterWorkflowForm");
+	   return $("manterProcessoForm");
    },
 
    /**
@@ -48,46 +48,44 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Recupera o id do workflow selecionado.
+	 * Recupera o id do processo selecionado.
 	 * 
-	 * @return id do workflow selecionado
+	 * @return id do processo selecionado
 	 */
    getIdSelecionado : function() {
 	   return this.getTR().select("input[type=\"hidden\"]")[0].value;
    },
 
    /**
-	 * Preenche os campos do workflow selecionado.
+	 * Preenche os campos do processo selecionado.
 	 */
    visualizar : function() {
 	   Element.hide("formSalvar");
-	   var idWorkflow = this.getIdSelecionado();
-	   if (isNaN(idWorkflow)) {
+	   var idProcesso = this.getIdSelecionado();
+	   if (isNaN(idProcesso)) {
 		   return;
 	   }
-	   ManterWorkflowDWR.getById(idWorkflow, ( function(workflow) {
+	   ManterProcessoDWR.getById(idProcesso, ( function(processo) {
 		   Effect.Appear("formSalvar");
-		   dwr.util.setValue($("formSalvar").id, idWorkflow);
-		   dwr.util.setValue("nome", workflow.nome);
-		   dwr.util.setValue("descricao", workflow.descricao);
-		   dwr.util.setValue("ativo", workflow.ativo);
-		   this.contaChar();
+		   dwr.util.setValue($("formSalvar").id, idProcesso);
+		   dwr.util.setValue("nome", processo.nome);
+		   dwr.util.setValue("descricao", processo.descricao);
 	   }).bind(this));
    },
 
    /**
-	 * Faz a pesquisa dos workflows pelos parâmetros informados.
+	 * Faz a pesquisa dos processos pelos parâmetros informados.
 	 */
    pesquisar : function() {
 	   Effect.Fade("formSalvar");
 	   var dto = {
 	      nome :dwr.util.getValue("nomePesquisa"),
 	      descricao :dwr.util.getValue("descricaoPesquisa"),
-	      ativo :dwr.util.getValue("ativoPesquisa")
+	      idWorkflow :dwr.util.getValue("idWorkflow")
 	   };
 
 	   if (this.tabelaTelaPrincipal == null) {
-		   var chamadaRemota = ManterWorkflowDWR.pesquisar.bind(ManterWorkflowDWR);
+		   var chamadaRemota = ManterProcessoDWR.pesquisar.bind(ManterProcessoDWR);
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
 		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
 		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA);
@@ -97,48 +95,42 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Popula a tabela principal com a lista de workflows.
+	 * Popula a tabela principal com a lista de processos.
 	 * 
-	 * @param listaWorkflow lista de workflows retornados
+	 * @param listaProcesso lista de processos retornados
 	 */
-   popularTabela : function(listaWorkflow) {
+   popularTabela : function(listaProcesso) {
 	   this.tabelaTelaPrincipal.removerResultado();
 
-	   if (listaWorkflow.length != 0) {
+	   if (listaProcesso.length != 0) {
 		   var cellfuncs = new Array();
-		   cellfuncs.push( function(workflow) {
+		   cellfuncs.push( function(processo) {
 			   return Builder.node("input", {
 			      type :"hidden",
 			      name :"id",
-			      value :workflow.id
+			      value :processo.id
 			   });
 		   });
-		   cellfuncs.push( function(workflow) {
-			   return workflow.nome;
+		   cellfuncs.push( function(processo) {
+			   return processo.nome;
 		   });
-		   cellfuncs.push( function(workflow) {
-			   return workflow.descricao;
-		   });
-		   cellfuncs.push( function(workflow) {
-			   if (workflow.ativo) {
-				   return "Sim";
-			   }
-			   return "Não";
+		   cellfuncs.push( function(processo) {
+			   return processo.descricao;
 		   });
 		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
 		   this.tabelaTelaPrincipal.setOnClick(this.visualizar.bind(this));
 	   } else {
-		   this.tabelaTelaPrincipal.semRegistros("Não foram encontrados workflows");
+		   this.tabelaTelaPrincipal.semRegistros("Não foram encontrados processos");
 	   }
    },
 
    /**
-	 * Envia ao action a ação de atualizar os dados do workflow selecionado.
+	 * Envia ao action a ação de atualizar os dados do processo selecionado.
 	 * 
 	 * @param form form submetido
 	 */
    atualizar : function(form) {
-	   JanelasComuns.showConfirmDialog("Deseja atualizar o workflow selecionado?", ( function() {
+	   JanelasComuns.showConfirmDialog("Deseja atualizar o processo selecionado?", ( function() {
 		   requestUtils.submitForm(form, null, ( function() {
 			   if (requestUtils.status) {
 				   this.pesquisar();
@@ -148,14 +140,14 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Envia ao action a ação de excluir o workflow selecionado.
+	 * Envia ao action a ação de excluir o processo selecionado.
 	 * 
 	 * @param form form submetido
 	 */
    excluir : function() {
-	   JanelasComuns.showConfirmDialog("Deseja excluir o workflow selecionado?", ( function() {
-		   var idWorkflow = dwr.util.getValue($("formSalvar").id);
-		   requestUtils.simpleRequest("manterWorkflow.do?method=excluir&id=" + idWorkflow,
+	   JanelasComuns.showConfirmDialog("Deseja excluir o processo selecionado?", ( function() {
+		   var idProcesso = dwr.util.getValue($("formSalvar").id);
+		   requestUtils.simpleRequest("manterProcesso.do?method=excluir&id=" + idProcesso,
 		      ( function() {
 			      if (requestUtils.status) {
 				      this.pesquisar();
@@ -165,38 +157,31 @@ ComportamentosTela.prototype = {
    },
 
    /**
-	 * Abre a janela para novo workflow.
+	 * Abre a janela para novo processo.
 	 */
-   popupNovoWorkflow : function() {
-	   var url = "manterWorkflow.do?method=popupNovoWorkflow";
-	   createWindow(255, 375, 280, 40, "Novo Workflow", "divNovoWorkflow", url);
+   popupNovoProcesso : function() {
+	   var url = "manterProcesso.do?method=popupNovoProcesso";
+	   createWindow(255, 375, 280, 40, "Novo Processo", "divNovoProcesso", url);
    },
    
    /**
     * Abre janela para gerenciar os processos
     * */
-   popupGerenciarProcessos :function(){
-	   var idWorkflow = dwr.util.getValue($("formSalvar").id);
-	   var url = "manterProcesso.do?method=popupGerenciarProcessos&"+idWorkflow;
-	   createWindow(536, 985, 280, 10, "Gerenciar Processos", "divGerenciarProcessos", url);
+   popupGerenciarAtividades :function(){
+	   JanelasComuns.showMessage("Implemente-me");
+//	   var url = "manterProcesso.do?method=popupGerenciarProcessos";
+//	   createWindow(536, 985, 280, 10, "Gerenciar Processos", "divGerenciarProcessos", url);
    }, 
    
    /**
-    * Abre janela para gerenciar os campos
-    * */
-   popupGerenciarCampos :function(){
-	   JanelasComuns.showMessage("Implemente-me");
-   }, 
-
-   /**
-	 * Envia ao action a ação de salvar os dados do workflow.
+	 * Envia ao action a ação de salvar os dados do processo.
 	 * 
 	 * @param form formulário submetido
 	 */
    salvar : function(form) {
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
-			   JanelaFactory.fecharJanela("divNovoWorkflow");
+			   JanelaFactory.fecharJanela("divNovoProcesso");
 			   this.pesquisar();
 		   }
 	   }).bind(this));
@@ -210,4 +195,4 @@ ComportamentosTela.prototype = {
 	}
 };
 
-var workflow = new ComportamentosTela();
+var processo = new ComportamentosTela();

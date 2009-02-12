@@ -7,6 +7,9 @@
 
 <div class="bordas" id="BordaExterna">
 	<div id="divMenuOpcoes">
+		<htmlSGR:link href="#gerenciarProcessos" titleKey="dica.processo.gerenciar" onclick="workflow.popupGerenciarProcessos();" linkName="gerenciarProcessos" roles="4">
+			<html:img srcKey="imagem.processo" width="20" height="19" />
+		</htmlSGR:link>
 		<htmlSGR:link href="#novoWorkflow" titleKey="dica.workflow.novo" onclick="workflow.popupNovoWorkflow();" linkName="novoWorkflow" roles="4">
 			<html:img srcKey="imagem.novo" width="20" height="19" />
 		</htmlSGR:link>

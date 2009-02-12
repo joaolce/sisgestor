@@ -16,6 +16,9 @@
 		<create javascript="ManterWorkflowDWR" creator="new">
 			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterWorkflowDWR" />
 		</create>
+		<create javascript="ManterProcessoDWR" creator="new">
+			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterProcessoDWR" />
+		</create>
 		<create javascript="UtilDWR" creator="new">
 			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.UtilDWR" />
 		</create>
@@ -29,6 +32,7 @@
 		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaDepartamentoDTO" converter="bean" />
 		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaUsuarioDTO" converter="bean" />
 		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaWorkflowDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaProcessoDTO" converter="bean" />
 		
 		<!-- Convertendo Entidades -->
 		<convert match="br.com.ucb.sisgestor.entidade.Atividade"	converter="hibernate3" />

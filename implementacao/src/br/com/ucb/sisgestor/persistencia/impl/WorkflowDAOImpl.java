@@ -72,7 +72,7 @@ public class WorkflowDAOImpl extends BaseDAOImpl<Workflow, Integer> implements W
 	/**
 	 * Monta os critérios para a paginação dos workflows.
 	 * 
-	 * @param nome parte do nome do usuário
+	 * @param nome parte do nome do workflow
 	 * @param descricao parte da descrição do workflow
 	 * @param ativo indica se o workflow está ativo ou não
 	 * @return {@link Criteria}
