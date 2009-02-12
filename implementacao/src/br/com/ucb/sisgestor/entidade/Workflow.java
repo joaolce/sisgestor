@@ -11,6 +11,8 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.OneToMany;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Classe para representar um workflow.
@@ -24,7 +26,7 @@ import javax.persistence.OneToMany;
 @AttributeOverrides( {
 		@AttributeOverride(name = "id", column = @Column(name = "WOR_ID", nullable = false)),
 		@AttributeOverride(name = "nome", column = @Column(name = "WOR_NOME", nullable = false, length = ConstantesDB.NOME)),
-		@AttributeOverride(name = "descricao", column = @Column(name = "WOR_DESCRICAO", nullable = true, length = ConstantesDB.DESCRICAO))})
+		@AttributeOverride(name = "descricao", column = @Column(name = "WOR_DESCRICAO", nullable = false, length = ConstantesDB.DESCRICAO))})
 public class Workflow extends BaseWorkflow {
 
 	private Boolean			ativo;
@@ -32,9 +34,9 @@ public class Workflow extends BaseWorkflow {
 	private List<Processo>	processos;
 
 	/**
-	 * Recupera o valor de ativo
+	 * Recupera o indicador se o workflow está ativo.
 	 * 
-	 * @return ativo
+	 * @return indicador se o workflow está ativo
 	 */
 	@Column(name = "WOR_ATIVO", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_BOOLEAN)
 	public Boolean getAtivo() {
@@ -52,19 +54,20 @@ public class Workflow extends BaseWorkflow {
 	}
 
 	/**
-	 * Recupera o valor de processos
+	 * Recupera os processos do workflow.
 	 * 
-	 * @return processos
+	 * @return processos do workflow
 	 */
 	@OneToMany(targetEntity = Processo.class, mappedBy = "workflow")
+	@Cascade(CascadeType.DELETE)
 	public List<Processo> getProcessos() {
 		return this.processos;
 	}
 
 	/**
-	 * Atribui ativo
+	 * Atribui o indicador se o workflow está ativo.
 	 * 
-	 * @param ativo o valor a ajustar em ativo
+	 * @param ativo indicador se o workflow está ativo
 	 */
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
@@ -80,9 +83,9 @@ public class Workflow extends BaseWorkflow {
 	}
 
 	/**
-	 * Atribui processos
+	 * Atribui processos do workflow.
 	 * 
-	 * @param processos o valor a ajustar em processos
+	 * @param processos processos do workflow
 	 */
 	public void setProcessos(List<Processo> processos) {
 		this.processos = processos;

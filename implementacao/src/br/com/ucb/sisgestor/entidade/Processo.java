@@ -12,6 +12,8 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
 
 /**
@@ -26,26 +28,27 @@ import org.hibernate.annotations.ForeignKey;
 @AttributeOverrides( {
 		@AttributeOverride(name = "id", column = @Column(name = "PRO_ID", nullable = false)),
 		@AttributeOverride(name = "nome", column = @Column(name = "PRO_NOME", nullable = false, length = ConstantesDB.NOME)),
-		@AttributeOverride(name = "descricao", column = @Column(name = "PRO_DESCRICAO", nullable = true, length = ConstantesDB.DESCRICAO))})
+		@AttributeOverride(name = "descricao", column = @Column(name = "PRO_DESCRICAO", nullable = false, length = ConstantesDB.DESCRICAO))})
 public class Processo extends BaseWorkflow {
 
 	private Workflow			workflow;
 	private List<Atividade>	atividades;
 
 	/**
-	 * Recupera o valor de atividades
+	 * Recupera as atividades do workflow.
 	 * 
-	 * @return atividades
+	 * @return atividades do workflow
 	 */
 	@OneToMany(targetEntity = Atividade.class, mappedBy = "processo")
+	@Cascade(CascadeType.DELETE)
 	public List<Atividade> getAtividades() {
 		return this.atividades;
 	}
 
 	/**
-	 * Recupera o valor de workflow
+	 * Recupera o workflow do processo.
 	 * 
-	 * @return workflow
+	 * @return workflow do processo
 	 */
 	@ManyToOne
 	@JoinColumn(name = "WOR_ID", nullable = false)
@@ -55,18 +58,18 @@ public class Processo extends BaseWorkflow {
 	}
 
 	/**
-	 * Atribui atividades
+	 * Atribui as atividades do workflow.
 	 * 
-	 * @param atividades o valor a ajustar em atividades
+	 * @param atividades atividades do workflow
 	 */
 	public void setAtividades(List<Atividade> atividades) {
 		this.atividades = atividades;
 	}
 
 	/**
-	 * Atribui workflow
+	 * Atribui o workflow do processo.
 	 * 
-	 * @param workflow o valor a ajustar em workflow
+	 * @param workflow workflow do processo
 	 */
 	public void setWorkflow(Workflow workflow) {
 		this.workflow = workflow;
