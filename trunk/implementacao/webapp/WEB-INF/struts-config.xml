@@ -8,6 +8,7 @@
 		<form-bean name="manterDepartamentoForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterDepartamentoActionForm" />
 		<form-bean name="manterUsuarioForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterUsuarioActionForm" />
 		<form-bean name="manterWorkflowForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterWorkflowActionForm" />
+		<form-bean name="manterProcessoForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterProcessoActionForm" />
 	</form-beans>
 
 	<global-exceptions>
@@ -65,6 +66,17 @@
 			parameter="method">
 			<forward name="entrada" path="definicaoManterWorkflow" />
 			<forward name="popupNovoWorkflow" path="popupNovoWorkflow" />
+		</action>
+		
+		<!-- Manter Processo -->
+		<action path="/manterProcesso" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.ManterProcessoAction"
+			name="manterProcessoForm"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoManterProcesso" />
+			<forward name="popupNovoProcesso" path="popupNovoProcesso" />
 		</action>
 	</action-mappings>
 

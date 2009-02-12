@@ -251,6 +251,15 @@ public final class DataUtil {
 	}
 
 	/**
+	 * Retorna a data e hora atual.
+	 * 
+	 * @return data e hora atual
+	 */
+	public static Timestamp getDataHoraAtual() {
+		return utilDateToTimestamp(getDataAtual());
+	}
+
+	/**
 	 * Zera a hora, minuto, segundo, milisegundo do {@link Calendar} informado
 	 * 
 	 * @param calendar {@link Calendar} a zerar

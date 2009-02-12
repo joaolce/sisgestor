@@ -16,7 +16,7 @@ import java.util.List;
 public interface WorkflowDAO extends BaseDAO<Workflow, Integer> {
 
 	/**
-	 * Retorna um {@link List} de {@link Workflow} a partir do login, nome e departamento.
+	 * Retorna um {@link List} de {@link Workflow} a partir do nome, descrição e/ou ativo/inativo
 	 * 
 	 * @param nome parte do nome do workflow
 	 * @param descricao parte da descrição do workflow
