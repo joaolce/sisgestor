@@ -24,16 +24,16 @@ import org.hibernate.annotations.ForeignKey;
 @AttributeOverrides( {
 		@AttributeOverride(name = "id", column = @Column(name = "TAR_ID", nullable = false)),
 		@AttributeOverride(name = "nome", column = @Column(name = "TAR_NOME", nullable = false, length = ConstantesDB.NOME)),
-		@AttributeOverride(name = "descricao", column = @Column(name = "TAR_DESCRICAO", nullable = true, length = ConstantesDB.DESCRICAO))})
+		@AttributeOverride(name = "descricao", column = @Column(name = "TAR_DESCRICAO", nullable = false, length = ConstantesDB.DESCRICAO))})
 public class Tarefa extends BaseWorkflow {
 
 	private Atividade	atividade;
 	private Usuario	usuario;
 
 	/**
-	 * Recupera o valor de atividade
+	 * Recupera a atividade da tarefa.
 	 * 
-	 * @return atividade
+	 * @return atividade da tarefa
 	 */
 	@ManyToOne
 	@JoinColumn(name = "ATI_ID", nullable = false)
@@ -43,9 +43,9 @@ public class Tarefa extends BaseWorkflow {
 	}
 
 	/**
-	 * Recupera o valor de usuario
+	 * Recupera o usuário da tarefa.
 	 * 
-	 * @return usuario
+	 * @return usuário da tarefa
 	 */
 	@ManyToOne
 	@JoinColumn(name = "UUR_ID", nullable = false)
@@ -55,18 +55,18 @@ public class Tarefa extends BaseWorkflow {
 	}
 
 	/**
-	 * Atribui atividade
+	 * Atribui a atividade da tarefa.
 	 * 
-	 * @param atividade o valor a ajustar em atividade
+	 * @param atividade atividade da tarefa
 	 */
 	public void setAtividade(Atividade atividade) {
 		this.atividade = atividade;
 	}
 
 	/**
-	 * Atribui usuario
+	 * Atribui o usuário da tarefa.
 	 * 
-	 * @param usuario o valor a ajustar em usuario
+	 * @param usuario usuário da tarefa
 	 */
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;

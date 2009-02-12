@@ -12,6 +12,8 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
 
 /**
@@ -26,7 +28,7 @@ import org.hibernate.annotations.ForeignKey;
 @AttributeOverrides( {
 		@AttributeOverride(name = "id", column = @Column(name = "ATI_ID", nullable = false)),
 		@AttributeOverride(name = "nome", column = @Column(name = "ATI_NOME", nullable = false, length = ConstantesDB.NOME)),
-		@AttributeOverride(name = "descricao", column = @Column(name = "ATI_DESCRICAO", nullable = true, length = ConstantesDB.DESCRICAO))})
+		@AttributeOverride(name = "descricao", column = @Column(name = "ATI_DESCRICAO", nullable = false, length = ConstantesDB.DESCRICAO))})
 public class Atividade extends BaseWorkflow {
 
 	private Processo		processo;
@@ -34,9 +36,9 @@ public class Atividade extends BaseWorkflow {
 	private Departamento	departamento;
 
 	/**
-	 * Recupera o valor de departamento
+	 * Recupera o departamento da atividade.
 	 * 
-	 * @return departamento
+	 * @return departamento da atividade
 	 */
 	@ManyToOne
 	@JoinColumn(name = "DRP_ID", nullable = false)
@@ -46,9 +48,9 @@ public class Atividade extends BaseWorkflow {
 	}
 
 	/**
-	 * Recupera o valor de processo
+	 * Recupera o processo da atividade.
 	 * 
-	 * @return processo
+	 * @return processo da atividade
 	 */
 	@ManyToOne
 	@JoinColumn(name = "PRO_ID", nullable = false)
@@ -58,37 +60,38 @@ public class Atividade extends BaseWorkflow {
 	}
 
 	/**
-	 * Recupera o valor de tarefas
+	 * Recupera as tarefas da atividade.
 	 * 
-	 * @return tarefas
+	 * @return tarefas da atividade
 	 */
 	@OneToMany(targetEntity = Tarefa.class, mappedBy = "atividade")
+	@Cascade(CascadeType.DELETE)
 	public List<Tarefa> getTarefas() {
 		return this.tarefas;
 	}
 
 	/**
-	 * Atribui departamento
+	 * Atribui o departamento da atividade.
 	 * 
-	 * @param departamento o valor a ajustar em departamento
+	 * @param departamento departamento da atividade
 	 */
 	public void setDepartamento(Departamento departamento) {
 		this.departamento = departamento;
 	}
 
 	/**
-	 * Atribui processo
+	 * Atribui o processo da atividade.
 	 * 
-	 * @param processo o valor a ajustar em processo
+	 * @param processo processo da atividade
 	 */
 	public void setProcesso(Processo processo) {
 		this.processo = processo;
 	}
 
 	/**
-	 * Atribui tarefas
+	 * Atribui as tarefas da atividade.
 	 * 
-	 * @param tarefas o valor a ajustar em tarefas
+	 * @param tarefas tarefas da atividade
 	 */
 	public void setTarefas(List<Tarefa> tarefas) {
 		this.tarefas = tarefas;
