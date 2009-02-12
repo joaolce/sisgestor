@@ -1,7 +1,6 @@
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://www.ucb.br/sisgestor/taglib" prefix="htmlSGR" %>
-<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
 <script type="text/javascript" src="dwr/interface/ManterUsuarioDWR.js"></script>
 <script type="text/javascript" src="js/manterUsuario/manterUsuario.js"></script>
@@ -49,7 +48,7 @@
 		</html:form>
 	</fieldset>
 
-	<div id="divUsuarios" style="clear: left; width: 956px; height: 240px; overflow: auto; border: 1px solid gray; margin-top: 10px;">
+	<div id="divUsuarios" style="clear: left; height: 240px; overflow: auto; border: 1px solid gray; margin-top: 10px;">
 		<table style="width: 99.9%">
 			<thead>
 				<tr>
@@ -68,11 +67,11 @@
 	<!-- FIELDSET PARA DADOS DO USUARIO -->
 	<html:form action="/manterUsuario.do?method=atualizar" onsubmit="usuario.atualizar(this); return false;" styleId="formSalvar" style="display: none; margin-top: 10px;">
 		<html:hidden property="id"/>
-		<fieldset style="padding: 5px; padding-right: 0px; width: 90%; margin: 5 auto;">
+		<fieldset style="padding: 10px; width: 90%; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.usuario"/>
 			</legend>
-			<div style="float: left; margin-top: 14px;">
+			<div style="float: left;">
 				<label style="float: left;">
 					<b>
 						<bean:message key="label.login"/>
@@ -130,9 +129,6 @@
 						<html:select multiple="true"  altKey="dica.desselecionar" titleKey="dica.desselecionar"  
 			 				property="permissoes"  size="7" style="width: 220px;" styleId="permissoes"
 			 				ondblclick="usuario.transferePermissao('permissoes', 'permissoesInform');" >
-			 				<logic:present name="manterUsuarioForm" property="roles">
-			 					<html:optionsCollection name="manterUsuarioForm" property="roles" label="descricao" value="id" />
-			 				</logic:present>
 						</html:select>
 					</label>
 				</div>
@@ -159,9 +155,6 @@
 						<html:select multiple="true" altKey="dica.selecionar" titleKey="dica.selecionar" 
 							property="permissoesInform" value="id" size="7" style="width: 220px;" styleId="permissoesInform" 
 							ondblclick="usuario.transferePermissao('permissoesInform', 'permissoes');">
-							<logic:present name="manterUsuarioForm" property="permissoesDisponiveis">
-								<html:optionsCollection name="manterUsuarioForm" property="permissoesDisponiveis" label="descricao" value="id" />
-							</logic:present>
 						</html:select>
 					</label>
 				</div>

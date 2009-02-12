@@ -148,7 +148,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	public void salvar(Usuario usuario) throws NegocioException {
 		Transaction transaction = this.beginTransaction();
 		try {
-			usuario.setSenha("1234");
+			usuario.setSenha("123456");
 			this.dao.salvar(usuario);
 			HibernateUtil.commit(transaction);
 		} catch (ConstraintViolationException ce) {

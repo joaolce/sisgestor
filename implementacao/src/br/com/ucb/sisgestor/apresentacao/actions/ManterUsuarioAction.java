@@ -108,7 +108,6 @@ public class ManterUsuarioAction extends BaseAction {
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) actionForm;
 
 		form.setListaDepartamentos(DepartamentoBOImpl.getInstancia().obterTodos());
-		form.setPermissoesDisponiveis(PermissaoBOImpl.getInstancia().obterTodos());
 
 		return this.findForward(FWD_ENTRADA);
 	}

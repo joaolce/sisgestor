@@ -24,111 +24,110 @@ public class ManterDepartamentoActionForm extends BaseForm {
 	private List<Departamento>	listaDepartamentos;
 
 	/**
-	 * Recupera o valor de departamentoSuperior
+	 * Recupera código do departamento superior.
 	 * 
-	 * @return departamentoSuperior
+	 * @return código do departamento superior
 	 */
 	public Integer getDepartamentoSuperior() {
 		return this.departamentoSuperior;
 	}
 
 	/**
-	 * Recupera o valor de email
+	 * Recupera o email do departamento.
 	 * 
-	 * @return email
+	 * @return email do departamento
 	 */
 	public String getEmail() {
 		return this.email;
 	}
 
 	/**
-	 * Recupera o valor de id
+	 * Recupera o identificador do departamento.
 	 * 
-	 * @return id
+	 * @return identificador do departamento
 	 */
 	public Integer getId() {
 		return this.id;
 	}
 
 	/**
-	 * Recupera o valor de listaDepartamentos
+	 * Recupera todos os departamentos cadastrados.
 	 * 
-	 * @return listaDepartamentos
+	 * @return todos os departamentos cadastrados
 	 */
 	public List<Departamento> getListaDepartamentos() {
 		return this.listaDepartamentos;
 	}
 
 	/**
-	 * Recupera o valor de nome
+	 * Recupera o nome do departamento.
 	 * 
-	 * @return nome
+	 * @return nome do departamento
 	 */
 	public String getNome() {
 		return this.nome;
 	}
 
 	/**
-	 * Recupera o valor de sigla
+	 * Recupera a sigla do departamento.
 	 * 
-	 * @return sigla
+	 * @return sigla do departamento
 	 */
 	public String getSigla() {
 		return this.sigla;
 	}
 
 	/**
-	 * Atribui departamentoSuperior
+	 * Atribui o código do departamento superior.
 	 * 
-	 * @param departamentoSuperior o valor a ajustar em departamentoSuperior
+	 * @param departamentoSuperior código do departamento superior
 	 */
 	public void setDepartamentoSuperior(Integer departamentoSuperior) {
 		this.departamentoSuperior = departamentoSuperior;
 	}
 
 	/**
-	 * Atribui email
+	 * Atribui o email do departamento
 	 * 
-	 * @param email o valor a ajustar em email
+	 * @param email email do departamento
 	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
 	/**
-	 * Atribui id
+	 * Atribui o identificador do departamento.
 	 * 
-	 * @param id o valor a ajustar em id
+	 * @param id identificador do departamento
 	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
 	/**
-	 * Atribui listaDepartamentos
+	 * Atribui todos os departamentos cadastrados.
 	 * 
-	 * @param listaDepartamentos o valor a ajustar em listaDepartamentos
+	 * @param listaDepartamentos todos os departamentos cadastrados
 	 */
 	public void setListaDepartamentos(List<Departamento> listaDepartamentos) {
 		this.listaDepartamentos = listaDepartamentos;
 	}
 
 	/**
-	 * Atribui nome
+	 * Atribui o nome do departamento.
 	 * 
-	 * @param nome o valor a ajustar em nome
+	 * @param nome nome do departamento
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
 	/**
-	 * Atribui sigla
+	 * Atribui a sigla do departamento.
 	 * 
-	 * @param sigla o valor a ajustar em sigla
+	 * @param sigla sigla do departamento
 	 */
 	public void setSigla(String sigla) {
 		this.sigla = sigla;
 	}
-
 }

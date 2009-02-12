@@ -24,265 +24,223 @@ public class ManterUsuarioActionForm extends BaseForm {
 	private Integer				departamento;
 	private Boolean				chefe;
 	private List<Departamento>	listaDepartamentos;
-	private List<Permissao>		roles;
 	private List<Permissao>		permissoesDisponiveis;
-	private Integer[]				permissoesInform;
 	private Integer[]				permissoes;
-
 	private String					senhaAtual;
 	private String					novaSenha;
 	private String					confirmarSenha;
 
 	/**
-	 * Recupera o valor de chefe.
+	 * Recupera o indicador de usuário chefe.
 	 * 
-	 * @return chefe
+	 * @return indicador de usuário chefe
 	 */
 	public Boolean getChefe() {
 		return this.chefe;
 	}
 
 	/**
-	 * Recupera o valor de confirmarSenha
+	 * Recupera a confirmação de nova senha do usuário.
 	 * 
-	 * @return confirmarSenha
+	 * @return confirmação de nova senha do usuário
 	 */
 	public String getConfirmarSenha() {
 		return this.confirmarSenha;
 	}
 
 	/**
-	 * Recupera o valor de departamento
+	 * Recupera o código do departamento.
 	 * 
-	 * @return departamento
+	 * @return código do departamento
 	 */
 	public Integer getDepartamento() {
 		return this.departamento;
 	}
 
 	/**
-	 * Recupera o valor de email
+	 * Recupera o email do usuário.
 	 * 
-	 * @return email
+	 * @return email do usuário
 	 */
 	public String getEmail() {
 		return this.email;
 	}
 
 	/**
-	 * Recupera o valor de id
+	 * Recupera o identificador do usuário.
 	 * 
-	 * @return id
+	 * @return identificador do usuário
 	 */
 	public Integer getId() {
 		return this.id;
 	}
 
 	/**
-	 * Recupera o valor de listaDepartamentos
+	 * Recupera todos os departamentos cadastrados.
 	 * 
-	 * @return listaDepartamentos
+	 * @return todos os departamentos cadastrados
 	 */
 	public List<Departamento> getListaDepartamentos() {
 		return this.listaDepartamentos;
 	}
 
 	/**
-	 * Recupera o valor de login
+	 * Recupera o login do usuário.
 	 * 
-	 * @return login
+	 * @return login do usuário
 	 */
 	public String getLogin() {
 		return this.login;
 	}
 
 	/**
-	 * Recupera o valor de nome
+	 * Recupera o nome do usuário.
 	 * 
-	 * @return nome
+	 * @return nome do usuário
 	 */
 	public String getNome() {
 		return this.nome;
 	}
 
-
 	/**
-	 * Recupera o valor de novaSenha
+	 * Recupera a nova senha do usuário.
 	 * 
-	 * @return novaSenha
+	 * @return nova senha do usuário
 	 */
 	public String getNovaSenha() {
 		return this.novaSenha;
 	}
 
 	/**
-	 * Recupera o valor de permissoes
+	 * Recupera os identificadores das permissões selecionadas.
 	 * 
-	 * @return permissoes
+	 * @return identificadores das permissões selecionadas
 	 */
 	public Integer[] getPermissoes() {
 		return this.permissoes;
 	}
 
 	/**
-	 * Recupera o valor de permissoesDisponiveis
+	 * Recupera todas as permissões do sistema.
 	 * 
-	 * @return permissoesDisponiveis
+	 * @return todas as permissões do sistema
 	 */
 	public List<Permissao> getPermissoesDisponiveis() {
 		return this.permissoesDisponiveis;
 	}
 
 	/**
-	 * Recupera o valor de permissoesInform
+	 * Recupera a senha atual do usuário.
 	 * 
-	 * @return permissoesInform
-	 */
-	public Integer[] getPermissoesInform() {
-		return this.permissoesInform;
-	}
-
-	/**
-	 * Recupera o valor de roles
-	 * 
-	 * @return roles
-	 */
-	public List<Permissao> getRoles() {
-		return this.roles;
-	}
-
-	/**
-	 * Recupera o valor de senhaAtual
-	 * 
-	 * @return senhaAtual
+	 * @return senha atual do usuário
 	 */
 	public String getSenhaAtual() {
 		return this.senhaAtual;
 	}
 
 	/**
-	 * Atribui chefe.
+	 * Atribui o indicador de usuário chefe.
 	 * 
-	 * @param chefe o valor a ajustar em chefe
+	 * @param chefe indicador de usuário chefe
 	 */
 	public void setChefe(Boolean chefe) {
 		this.chefe = chefe;
 	}
 
 	/**
-	 * Atribui confirmarSenha
+	 * Atribui a confirmação de nova senha do usuário.
 	 * 
-	 * @param confirmarSenha o valor a ajustar em confirmarSenha
+	 * @param confirmarSenha confirmação de nova senha do usuário
 	 */
 	public void setConfirmarSenha(String confirmarSenha) {
 		this.confirmarSenha = confirmarSenha;
 	}
 
 	/**
-	 * Atribui departamento
+	 * Atribui o código do departamento.
 	 * 
-	 * @param departamento o valor a ajustar em departamento
+	 * @param departamento código do departamento
 	 */
 	public void setDepartamento(Integer departamento) {
 		this.departamento = departamento;
 	}
 
 	/**
-	 * Atribui email
+	 * Atribui o email do usuário.
 	 * 
-	 * @param email o valor a ajustar em email
+	 * @param email email do usuário
 	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
 	/**
-	 * Atribui id
+	 * Atribui o identificador do usuário.
 	 * 
-	 * @param id o valor a ajustar em id
+	 * @param id identificador do usuário
 	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
 	/**
-	 * Atribui listaDepartamentos
+	 * Atribui todos os departamentos cadastrados.
 	 * 
-	 * @param listaDepartamentos o valor a ajustar em listaDepartamentos
+	 * @param listaDepartamentos todos os departamentos cadastrados
 	 */
 	public void setListaDepartamentos(List<Departamento> listaDepartamentos) {
 		this.listaDepartamentos = listaDepartamentos;
 	}
 
 	/**
-	 * Atribui login
+	 * Atribui o login do usuário.
 	 * 
-	 * @param login o valor a ajustar em login
+	 * @param login login do usuário
 	 */
 	public void setLogin(String login) {
 		this.login = login;
 	}
 
 	/**
-	 * Atribui nome
+	 * Atribui o nome do usuário.
 	 * 
-	 * @param nome o valor a ajustar em nome
+	 * @param nome nome do usuário
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
 	/**
-	 * Atribui novaSenha
+	 * Atribui a nova senha do usuário.
 	 * 
-	 * @param novaSenha o valor a ajustar em novaSenha
+	 * @param novaSenha nova senha do usuário
 	 */
 	public void setNovaSenha(String novaSenha) {
 		this.novaSenha = novaSenha;
 	}
 
 	/**
-	 * Atribui permissoes
+	 * Atribui os identificadores das permissões selecionadas.
 	 * 
-	 * @param permissoes o valor a ajustar em permissoes
+	 * @param permissoes identificadores das permissões selecionadas
 	 */
 	public void setPermissoes(Integer[] permissoes) {
 		this.permissoes = permissoes;
 	}
 
 	/**
-	 * Atribui permissoesDisponiveis
+	 * Atribui todas as permissões do sistema.
 	 * 
-	 * @param permissoesDisponiveis o valor a ajustar em permissoesDisponiveis
+	 * @param permissoesDisponiveis todas as permissões do sistema
 	 */
 	public void setPermissoesDisponiveis(List<Permissao> permissoesDisponiveis) {
 		this.permissoesDisponiveis = permissoesDisponiveis;
 	}
 
 	/**
-	 * Atribui permissoesInform
+	 * Atribui a senha atual do usuário.
 	 * 
-	 * @param permissoesInform o valor a ajustar em permissoesInform
-	 */
-	public void setPermissoesInform(Integer[] permissoesInform) {
-		this.permissoesInform = permissoesInform;
-	}
-
-
-	/**
-	 * Atribui roles
-	 * 
-	 * @param roles o valor a ajustar em roles
-	 */
-	public void setRoles(List<Permissao> roles) {
-		this.roles = roles;
-	}
-
-
-	/**
-	 * Atribui senhaAtual
-	 * 
-	 * @param senhaAtual o valor a ajustar em senhaAtual
+	 * @param senhaAtual senha atual do usuário
 	 */
 	public void setSenhaAtual(String senhaAtual) {
 		this.senhaAtual = senhaAtual;

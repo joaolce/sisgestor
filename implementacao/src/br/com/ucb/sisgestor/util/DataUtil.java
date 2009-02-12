@@ -251,7 +251,7 @@ public final class DataUtil {
 	}
 
 	/**
-	 * Retorna a data e hora atual.
+	 * Retorna um {@link Timestamp} da data e hora atual.
 	 * 
 	 * @return data e hora atual
 	 */

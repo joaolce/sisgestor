@@ -43,7 +43,7 @@
 		</html:form>
 	</fieldset>
 
-	<div id="divDepartamentos" style="clear: left; width: 956px; height: 240px; overflow: auto; border: 1px solid gray; margin-top: 10px;">
+	<div id="divDepartamentos" style="clear: left; height: 240px; overflow: auto; border: 1px solid gray; margin-top: 10px;">
 		<table style="width: 99.9%">
 			<thead>
 				<tr>
@@ -61,11 +61,11 @@
 	<html:form action="/manterDepartamento.do?method=atualizar" onsubmit="departamento.atualizar(this); return false;" styleId="formSalvar" style="display: none; margin-top: 10px;">
 		<!-- FIELDSET PARA DADOS DO DEPARTAMENTO -->
 		<html:hidden property="id"/>
-		<fieldset style="padding: 15px; width: 50%; margin: 5 auto;">
+		<fieldset style="padding: 10px; width: 40%; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.departamento"/>
 			</legend>
-			<div>
+			<div style="float: left;">
 				<label>
 					<b>
 						<bean:message key="label.sigla"/>

@@ -147,10 +147,7 @@ ComportamentosTela.prototype = {
 			   return usuario.nome;
 		   });
 		   cellfuncs.push( function(usuario) {
-			   if (usuario.email != null) {
-				   return usuario.email;
-			   }
-			   return "&nbsp;";
+		   	return nobreakSpace(usuario.email);
 		   });
 		   cellfuncs.push( function(usuario) {
 			   return usuario.departamento.sigla;
@@ -275,6 +272,8 @@ ComportamentosTela.prototype = {
 
    /**
 	 * Habilita/desabilita os campos que o usuário não tem permissão para alterar.
+	 * 
+	 * @param (Boolean) caso seja para habilitar ou desabilitar
 	 */
    habilitarCampos : function(habilita) {
 	   $("formSalvar").chefe.disabled = !habilita;

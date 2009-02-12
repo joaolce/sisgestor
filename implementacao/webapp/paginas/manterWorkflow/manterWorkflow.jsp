@@ -7,7 +7,7 @@
 
 <div class="bordas" id="BordaExterna">
 	<div id="divMenuOpcoes">
-		<htmlSGR:link href="#gerenciarProcessos" titleKey="dica.processo.gerenciar" onclick="workflow.popupGerenciarProcessos();" linkName="gerenciarProcessos" roles="4">
+		<htmlSGR:link href="#gerenciarProcessos" titleKey="dica.processo.gerenciar" linkName="gerenciarProcessos" styleId="linkGerenciarProcessos" styleClass="btDesativado" roles="4">
 			<html:img srcKey="imagem.processo" width="20" height="19" />
 		</htmlSGR:link>
 		<htmlSGR:link href="#novoWorkflow" titleKey="dica.workflow.novo" onclick="workflow.popupNovoWorkflow();" linkName="novoWorkflow" roles="4">
@@ -55,7 +55,7 @@
 		</html:form>
 	</fieldset>
 
-	<div id="divWorkflows" style="clear: left; width: 956px; height: 240px; overflow: auto; border: 1px solid gray; margin-top: 10px;">
+	<div id="divWorkflows" style="clear: left; height: 240px; overflow: auto; border: 1px solid gray; margin-top: 10px;">
 		<table style="width: 99.9%">
 			<thead>
 				<tr>
@@ -72,11 +72,11 @@
 	<!-- FIELDSET PARA DADOS DO WORKFLOW -->
 	<html:form action="/manterWorkflow.do?method=atualizar" onsubmit="workflow.atualizar(this); return false;" styleId="formSalvar" style="display: none; margin-top: 10px;">
 		<html:hidden property="id"/>
-		<fieldset style="padding: 5px; padding-right: 0px; width: 50%; margin: 5 auto;">
+		<fieldset style="padding: 10px; width: 50%; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.workflow"/>
 			</legend>
-			<div style="float: left; margin-top: 14px;">
+			<div style="float: left;">
 				<div style="float: left;">
 					<label style="float: left;">
 						<b>

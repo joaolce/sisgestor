@@ -15,7 +15,7 @@ FORM {
 	margin: 0;
 }
 
-img {
+IMG {
 	border: 0px;
 }
 
@@ -43,6 +43,11 @@ LABEL {
 TH {
 	font-size: 8pt;
 	white-space: nowrap;
+}
+
+THEAD TR {
+	background-color: #053A52;
+	color: #FFFFFF;
 }
 
 .corpoTabela TD {
@@ -273,7 +278,7 @@ input[type="text"].data {
 }
 
 .btDesativado img {
-	filter: alpha(opacity =   30);
+	filter: alpha(opacity = 30);
 	opacity: 0.3;
 }
 
