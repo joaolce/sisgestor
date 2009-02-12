@@ -71,6 +71,7 @@ ComportamentosTela.prototype = {
 		   dwr.util.setValue("nome", workflow.nome);
 		   dwr.util.setValue("descricao", workflow.descricao);
 		   dwr.util.setValue("ativo", workflow.ativo);
+		   this.habilitarLinks(true);
 		   this.contaChar();
 	   }).bind(this));
    },
@@ -80,6 +81,7 @@ ComportamentosTela.prototype = {
 	 */
    pesquisar : function() {
 	   Effect.Fade("formSalvar");
+	   this.habilitarLinks(false);
 	   var dto = {
 	      nome :dwr.util.getValue("nomePesquisa"),
 	      descricao :dwr.util.getValue("descricaoPesquisa"),
@@ -177,7 +179,7 @@ ComportamentosTela.prototype = {
     * */
    popupGerenciarProcessos :function(){
 	   var idWorkflow = dwr.util.getValue($("formSalvar").id);
-	   var url = "manterProcesso.do?method=popupGerenciarProcessos&"+idWorkflow;
+	   var url = "manterProcesso.do?method=entrada&workflow="+idWorkflow;
 	   createWindow(536, 985, 280, 10, "Gerenciar Processos", "divGerenciarProcessos", url);
    }, 
    
@@ -207,6 +209,21 @@ ComportamentosTela.prototype = {
     */
 	contaChar: function() {
 		contaChar($("descricao"), 200);
+	},
+	
+	/**
+	 * Habilita/desabilita os links, para quando um workflow seja selecionado.
+	 * 
+    * @param (Boolean) caso seja para habilitar ou desabilitar
+	 */
+	habilitarLinks : function(habilita) {
+		if(habilita) {
+			$("linkGerenciarProcessos").className = "";
+			$("linkGerenciarProcessos").onclick = this.popupGerenciarProcessos;
+		} else {
+			$("linkGerenciarProcessos").className = "btDesativado";
+			$("linkGerenciarProcessos").onclick = "";
+		}
 	}
 };
 

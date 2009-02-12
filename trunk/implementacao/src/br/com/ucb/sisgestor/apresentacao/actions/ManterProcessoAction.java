@@ -52,6 +52,19 @@ public class ManterProcessoAction extends BaseAction {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ActionForward entrada(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ManterProcessoActionForm form = (ManterProcessoActionForm) formulario;
+
+		Integer idWorkflow = form.getWorkflow();
+
+		return this.findForward(FWD_ENTRADA);
+	}
+
+	/**
 	 * Exclui um processo.
 	 * 
 	 * @param mapping objeto mapping da action
@@ -72,25 +85,6 @@ public class ManterProcessoAction extends BaseAction {
 
 		this.addMessageKey("mensagem.excluir", "Processo");
 		return this.sendAJAXResponse(true);
-	}
-
-	/**
-	 * Carrega a página dos processos
-	 * 
-	 * @param mapping objeto mapping da action
-	 * @param formulario objeto form da action
-	 * @param request request atual
-	 * @param response response atual
-	 * @return forward da exclusão
-	 * @throws Exception caso ocorra erro na operação
-	 */
-	public ActionForward popupGerenciarProcessos(ActionMapping mapping, ActionForm formulario,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ManterProcessoActionForm form = (ManterProcessoActionForm) formulario;
-
-		Integer idWorkflow = form.getIdWorkflow();
-
-		return this.findForward(FWD_ENTRADA);
 	}
 
 	/**

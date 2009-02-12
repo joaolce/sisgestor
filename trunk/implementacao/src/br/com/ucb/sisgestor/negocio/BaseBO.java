@@ -38,7 +38,7 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	void excluir(T obj) throws NegocioException;
 
 	/**
-	 * Retorna o total de registros retornados pela consulta.
+	 * Retorna o total de registros retornados pela consulta paginada.
 	 * 
 	 * @param parametros dto de parâmetros
 	 * @return número total de registros da consulta

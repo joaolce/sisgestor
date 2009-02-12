@@ -14,25 +14,23 @@ import br.com.ucb.sisgestor.apresentacao.actions.ManterProcessoAction;
  */
 public class ManterProcessoActionForm extends BaseForm {
 
-	private Integer	idWorkflow;
-
+	private Integer	workflow;
 
 	/**
-	 * Recupera o valor de idWorkflow
+	 * Recupera o identificador do workflow.
 	 * 
-	 * @return idWorkflow
+	 * @return identificador do workflow
 	 */
-	public Integer getIdWorkflow() {
-		return this.idWorkflow;
+	public Integer getWorkflow() {
+		return this.workflow;
 	}
 
-
 	/**
-	 * Atribui idWorkflow
+	 * Atribui o identificador do workflow.
 	 * 
-	 * @param idWorkflow o valor a ajustar em idWorkflow
+	 * @param workflow identificador do workflow
 	 */
-	public void setIdWorkflow(Integer idWorkflow) {
-		this.idWorkflow = idWorkflow;
+	public void setWorkflow(Integer workflow) {
+		this.workflow = workflow;
 	}
 }

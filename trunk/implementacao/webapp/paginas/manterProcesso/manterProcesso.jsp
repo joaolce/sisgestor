@@ -5,7 +5,7 @@
 <script type="text/javascript" src="dwr/interface/ManterProcessoDWR.js"></script>
 <script type="text/javascript" src="js/manterProcesso/manterProcesso.js"></script>
 
-<div class="bordas" id="BordaExterna">
+<div class="bordas" id="BordaExterna" style="height: 496px;">
 	Desenvolver...
 </div>
 	

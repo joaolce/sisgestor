@@ -1,6 +1,5 @@
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
-<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
 <script type="text/javascript" src="dwr/interface/ManterUsuarioDWR.js"></script>
 <script type="text/javascript" src="js/manterUsuario/manterUsuario.js"></script>
@@ -67,9 +66,6 @@
 					<html:select multiple="true"  altKey="dica.desselecionar" titleKey="dica.desselecionar"  
 					 	property="permissoes"  size="10" style="width: 220px;" styleId="permissoesNovo"
 					 	ondblclick="usuario.transferePermissao('permissoesNovo', 'permissoesInformNovo');" >
-					 	<logic:present name="manterUsuarioForm" property="roles">
-					 		<html:optionsCollection name="manterUsuarioForm" property="roles" label="descricao" value="id" />
-					 	</logic:present>
 					</html:select>
 				</label>
 			</div>
@@ -96,9 +92,7 @@
 					<html:select multiple="true" altKey="dica.selecionar" titleKey="dica.selecionar" 
 						property="permissoesInform" value="id" size="10" style="width: 220px;" styleId="permissoesInformNovo" 
 						ondblclick="usuario.transferePermissao('permissoesInformNovo', 'permissoesNovo');">
-						<logic:present name="manterUsuarioForm" property="permissoesDisponiveis">
-							<html:optionsCollection name="manterUsuarioForm" property="permissoesDisponiveis" label="descricao" value="id" />
-						</logic:present>
+						<html:optionsCollection name="manterUsuarioForm" property="permissoesDisponiveis" label="descricao" value="id" />
 					</html:select>
 				</label>
 			</div>

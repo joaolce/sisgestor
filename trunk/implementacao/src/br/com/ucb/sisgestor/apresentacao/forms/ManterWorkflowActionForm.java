@@ -20,85 +20,72 @@ public class ManterWorkflowActionForm extends BaseForm {
 	private Boolean	ativo;
 
 	/**
-	 * Recupera o valor de ativo
+	 * Recupera o indicador de ativo do workflow.
 	 * 
-	 * @return ativo
+	 * @return indicador de ativo do workflow
 	 */
 	public Boolean getAtivo() {
 		return this.ativo;
 	}
 
-
 	/**
-	 * Recupera o valor de descricao
+	 * Recupera a descrição do workflow.
 	 * 
-	 * @return descricao
+	 * @return descrição do workflow
 	 */
 	public String getDescricao() {
 		return this.descricao;
 	}
 
-
-
 	/**
-	 * Recupera o valor de id
+	 * Recupera o identificador do workflow.
 	 * 
-	 * @return id
+	 * @return identificador do workflow
 	 */
 	public Integer getId() {
 		return this.id;
 	}
 
-
-
 	/**
-	 * Recupera o valor de nome
+	 * Recupera o nome do workflow.
 	 * 
-	 * @return nome
+	 * @return nome do workflow
 	 */
 	public String getNome() {
 		return this.nome;
 	}
 
-
-
 	/**
-	 * Atribui ativo
+	 * Atribui o indicador de ativo do workflow.
 	 * 
-	 * @param ativo o valor a ajustar em ativo
+	 * @param ativo indicador de ativo do workflow
 	 */
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
 
-
-
 	/**
-	 * Atribui descricao
+	 * Atribui a descrição do workflow.
 	 * 
-	 * @param descricao o valor a ajustar em descricao
+	 * @param descricao descrição do workflow
 	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
 
-
-
 	/**
-	 * Atribui id
+	 * Atribui o identificador do workflow.
 	 * 
-	 * @param id o valor a ajustar em id
+	 * @param id identificador do workflow
 	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-
-
 	/**
-	 * Atribui nome
+	 * Atribui o nome do workflow.
 	 * 
-	 * @param nome o valor a ajustar em nome
+	 * @param nome nome do workflow
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;

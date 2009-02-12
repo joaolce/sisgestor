@@ -16,6 +16,13 @@ import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 public class ManterWorkflowValidator extends BaseValidator {
 
 	/**
+	 * Faz as validações do método atualizar.
+	 */
+	public void atualizar() {
+		this.salvar();
+	}
+
+	/**
 	 * Faz as validações do método salvar.
 	 */
 	public void salvar() {

@@ -41,6 +41,7 @@ public class ManterWorkflowAction extends BaseAction {
 	public ActionForward atualizar(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterWorkflowActionForm form = (ManterWorkflowActionForm) actionForm;
+
 		Workflow workflow = workflowBO.obter(form.getId());
 		this.copyProperties(workflow, form);
 
@@ -88,7 +89,7 @@ public class ManterWorkflowAction extends BaseAction {
 	}
 
 	/**
-	 * Salva um workflow.
+	 * Salva um novo workflow.
 	 * 
 	 * @param mapping objeto mapping da action
 	 * @param formulario objeto form da action
@@ -99,8 +100,8 @@ public class ManterWorkflowAction extends BaseAction {
 	 */
 	public ActionForward salvar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
 		ManterWorkflowActionForm form = (ManterWorkflowActionForm) formulario;
+
 		Workflow workflow = new Workflow();
 		this.copyProperties(workflow, form);
 
