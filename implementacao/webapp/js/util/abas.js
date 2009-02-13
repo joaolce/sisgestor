@@ -102,7 +102,7 @@ Aba.prototype = {
 			   $(pair.key).className = this.styleClassAtivo;
 			   divArea.show();
 			   var firstDescendant = divArea.firstDescendant();
-			   if((firstDescendant != null) && (firstDescendant.nodeName.toLowerCase() == "textarea") && (divArea.descendans().length == 1)) {
+			   if((firstDescendant != null) && (firstDescendant.nodeName.toLowerCase() == "textarea")) {
 			   	firstDescendant.focus();
 			   }
 		   }
