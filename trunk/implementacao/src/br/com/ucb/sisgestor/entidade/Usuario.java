@@ -115,9 +115,9 @@ public class Usuario extends ObjetoPersistente {
 	}
 
 	/**
-	 * Recupera o valor de tarefas
+	 * Recupera as tarefas que são do usuário.
 	 * 
-	 * @return tarefas
+	 * @return tarefas que são do usuário
 	 */
 	@OneToMany(targetEntity = Tarefa.class, mappedBy = "usuario")
 	public List<Tarefa> getTarefas() {
@@ -160,7 +160,6 @@ public class Usuario extends ObjetoPersistente {
 		this.login = login;
 	}
 
-
 	/**
 	 * Atribui o nome do usuário
 	 * 
@@ -169,7 +168,6 @@ public class Usuario extends ObjetoPersistente {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
 
 	/**
 	 * Atribui as permissões do usuário no sistema
@@ -180,7 +178,6 @@ public class Usuario extends ObjetoPersistente {
 		this.permissoes = permissoes;
 	}
 
-
 	/**
 	 * Atribui a senha do usuário
 	 * 
@@ -190,11 +187,10 @@ public class Usuario extends ObjetoPersistente {
 		this.senha = senha;
 	}
 
-
 	/**
-	 * Atribui tarefas
+	 * Atribui as tarefas que são do usuário.
 	 * 
-	 * @param tarefas o valor a ajustar em tarefas
+	 * @param tarefas tarefas que são do usuário
 	 */
 	public void setTarefas(List<Tarefa> tarefas) {
 		this.tarefas = tarefas;
