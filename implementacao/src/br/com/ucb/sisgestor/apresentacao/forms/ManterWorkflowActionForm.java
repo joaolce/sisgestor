@@ -14,7 +14,6 @@ import br.com.ucb.sisgestor.apresentacao.actions.ManterWorkflowAction;
  */
 public class ManterWorkflowActionForm extends BaseForm {
 
-	private Integer	id;
 	private String		descricao;
 	private String		nome;
 	private Boolean	ativo;
@@ -35,15 +34,6 @@ public class ManterWorkflowActionForm extends BaseForm {
 	 */
 	public String getDescricao() {
 		return this.descricao;
-	}
-
-	/**
-	 * Recupera o identificador do workflow.
-	 * 
-	 * @return identificador do workflow
-	 */
-	public Integer getId() {
-		return this.id;
 	}
 
 	/**
@@ -71,15 +61,6 @@ public class ManterWorkflowActionForm extends BaseForm {
 	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-
-	/**
-	 * Atribui o identificador do workflow.
-	 * 
-	 * @param id identificador do workflow
-	 */
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	/**

@@ -4,14 +4,18 @@
  */
 package br.com.ucb.sisgestor.negocio.impl;
 
+import java.util.List;
+
+import org.hibernate.Transaction;
+
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.TarefaDAO;
 import br.com.ucb.sisgestor.persistencia.impl.TarefaDAOImpl;
+import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaTarefaDTO;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
-import java.util.List;
-import org.hibernate.Transaction;
 
 /**
  * Objeto de negócio para {@link Tarefa}.
@@ -66,11 +70,20 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Tarefa> getByNomeDescricao(String nome, String descricao, Integer idAtividade,
+	public List<Tarefa> getByNomeDescricaoUsuario(String nome, String descricao, Integer usuario, Integer idAtividade,
 			Integer paginaAtual) {
-		return this.dao.getByNomeDescricao(nome, descricao, idAtividade, paginaAtual);
+		return this.dao.getByNomeDescricaoUsuario(nome, descricao, usuario, idAtividade, paginaAtual);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
+		PesquisaTarefaDTO dto = (PesquisaTarefaDTO) parametros;
+		return this.dao.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getUsuario(), dto.getIdAtividade());
+	}
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */

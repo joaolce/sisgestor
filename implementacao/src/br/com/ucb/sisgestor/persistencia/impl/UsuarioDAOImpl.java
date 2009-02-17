@@ -4,7 +4,6 @@
  */
 package br.com.ucb.sisgestor.persistencia.impl;
 
-import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.persistencia.UsuarioDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;

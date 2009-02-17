@@ -28,12 +28,14 @@ public class ConstantesJSServlet extends HttpServlet {
 		constantes.put("MANTER_USUARIO", ConstantesRoles.MANTER_USUARIO);
 		constantes.put("MANTER_WORKFLOW", ConstantesRoles.MANTER_WORKFLOW);
 		constantes.put("QTD_REGISTROS_PAGINA", BaseDAO.QTD_REGISTROS_PAGINA);
+		constantes.put("QTD_REGISTROS_PAGINA_PROCESSO", BaseDAO.QTD_REGISTROS_PAGINA_PROCESSO);
+		constantes.put("QTD_REGISTROS_PAGINA_ATIVIDADE", BaseDAO.QTD_REGISTROS_PAGINA_ATIVIDADE);
+		constantes.put("QTD_REGISTROS_PAGINA_TAREFA", BaseDAO.QTD_REGISTROS_PAGINA_TAREFA);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
 		if (javascript == null) {
@@ -68,7 +70,6 @@ public class ConstantesJSServlet extends HttpServlet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
 		this.doGet(request, response);

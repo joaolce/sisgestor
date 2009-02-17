@@ -5,13 +5,21 @@
 <script type="text/javascript" src="dwr/interface/ManterWorkflowDWR.js"></script>
 <script type="text/javascript" src="dwr/interface/ManterProcessoDWR.js"></script>
 <script type="text/javascript" src="dwr/interface/ManterAtividadeDWR.js"></script>
+<script type="text/javascript" src="dwr/interface/ManterTarefaDWR.js"></script>
+<script type="text/javascript" src="dwr/interface/ManterCampoDWR.js"></script>
+
 <script type="text/javascript" src="js/manterWorkflow/manterWorkflow.js"></script>
 <script type="text/javascript" src="js/manterProcesso/manterProcesso.js"></script>
 <script type="text/javascript" src="js/manterAtividade/manterAtividade.js"></script>
+<script type="text/javascript" src="js/manterTarefa/manterTarefa.js"></script>
+<script type="text/javascript" src="js/manterCampo/manterCampo.js"></script>
 
 
 <div class="bordas" id="BordaExterna">
 	<div id="divMenuOpcoes">
+		<htmlSGR:link href="#gerenciarCampos" titleKey="dica.campo.gerenciar" linkName="gerenciarCampos" onclick="workflow.popupGerenciarCampos();" roles="4">
+			<html:img srcKey="imagem.campo" width="20" height="19" />
+		</htmlSGR:link>
 		<htmlSGR:link href="#gerenciarProcessos" titleKey="dica.processo.gerenciar" linkName="gerenciarProcessos" styleId="linkGerenciarProcessos" styleClass="btDesativado" roles="4">
 			<html:img srcKey="imagem.processo" width="20" height="19" />
 		</htmlSGR:link>

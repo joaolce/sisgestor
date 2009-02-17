@@ -56,4 +56,8 @@
 	<definition name="definicaoManterTarefa" path="/paginas/manterTarefa/manterTarefa.jsp" />
 	<definition name="popupNovaTarefa" path="/paginas/manterTarefa/popupNovaTarefa.jsp" />
 	
+	<!--  MANTER CAMPO -->
+	<definition name="definicaoManterCampo" path="/paginas/manterCampo/manterCampo.jsp" />
+	<definition name="popupNovoCampo" path="/paginas/manterCampo/popupNovoCampo.jsp" />
+	
 </tiles-definitions>

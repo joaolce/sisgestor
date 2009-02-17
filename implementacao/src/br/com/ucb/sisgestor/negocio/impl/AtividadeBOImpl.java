@@ -4,14 +4,18 @@
  */
 package br.com.ucb.sisgestor.negocio.impl;
 
+import java.util.List;
+
+import org.hibernate.Transaction;
+
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.AtividadeDAO;
 import br.com.ucb.sisgestor.persistencia.impl.AtividadeDAOImpl;
+import br.com.ucb.sisgestor.util.dto.PesquisaAtividadeDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
-import java.util.List;
-import org.hibernate.Transaction;
 
 /**
  * Objeto de negócio para {@link Atividade}.
@@ -66,11 +70,19 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Atividade> getByNomeDescricao(String nome, String descricao, Integer idProcesso,
+	public List<Atividade> getByNomeDescricaoDepartamento(String nome, String descricao, Integer departamento, Integer idProcesso,
 			Integer paginaAtual) {
-		return this.dao.getByNomeDescricao(nome, descricao, idProcesso, paginaAtual);
+		return this.dao.getByNomeDescricaoDepartamento(nome, descricao, departamento,  idProcesso, paginaAtual);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
+		PesquisaAtividadeDTO dto = (PesquisaAtividadeDTO) parametros;
+		return this.dao.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getDepartamento(), dto.getIdProcesso());
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */

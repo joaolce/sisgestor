@@ -17,6 +17,8 @@ import org.apache.struts.action.ActionMapping;
  */
 public class BaseForm extends ActionForm {
 
+	private Integer id;
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -34,5 +36,23 @@ public class BaseForm extends ActionForm {
 	 */
 	protected String getMessage(String key, String... args) {
 		return Utils.getMessageFromProperties(key, args);
+	}
+
+	/**
+	 * Recupera o identificador do objeto.
+	 * 
+	 * @return identificador do objeto
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/**
+	 * Atribui o identificador do objeto.
+	 * 
+	 * @param id identificador do objeto
+	 */
+	public void setId(Integer id) {
+		this.id = id;
 	}
 }

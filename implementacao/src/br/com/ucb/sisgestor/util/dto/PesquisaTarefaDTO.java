@@ -15,6 +15,7 @@ public class PesquisaTarefaDTO extends PesquisaPaginadaDTO {
 	private Integer	idAtividade;
 	private String		nome;
 	private String		descricao;
+	private Integer usuario;
 
 
 	/**
@@ -71,6 +72,24 @@ public class PesquisaTarefaDTO extends PesquisaPaginadaDTO {
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	/**
+	 * Recupera o identificador do usuário para pesquisa.
+	 * 
+	 * @return identificador do usuário para pesquisa
+	 */
+	public Integer getUsuario() {
+		return usuario;
+	}
+
+	/**
+	 * Atribui o identificador do usuário para pesquisa.
+	 * 
+	 * @param usuario identificador do usuário para pesquisa
+	 */
+	public void setUsuario(Integer usuario) {
+		this.usuario = usuario;
 	}
 
 

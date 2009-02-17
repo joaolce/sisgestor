@@ -16,7 +16,6 @@ import java.util.List;
  */
 public class ManterTarefaActionForm extends BaseForm {
 
-	private Integer			id;
 	private String				descricao;
 	private String				nome;
 	private Integer			atividade;
@@ -41,17 +40,6 @@ public class ManterTarefaActionForm extends BaseForm {
 		return this.descricao;
 	}
 
-
-	/**
-	 * Recupera o valor de id
-	 * 
-	 * @return id
-	 */
-	public Integer getId() {
-		return this.id;
-	}
-
-
 	/**
 	 * Recupera o valor de listaUsuarios
 	 * 
@@ -60,7 +48,6 @@ public class ManterTarefaActionForm extends BaseForm {
 	public List<Usuario> getListaUsuarios() {
 		return this.listaUsuarios;
 	}
-
 
 	/**
 	 * Recupera o valor de nome
@@ -99,16 +86,6 @@ public class ManterTarefaActionForm extends BaseForm {
 	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-
-
-	/**
-	 * Atribui id
-	 * 
-	 * @param id o valor a ajustar em id
-	 */
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 

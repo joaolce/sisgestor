@@ -44,11 +44,11 @@ public class ManterAtividadeDWR extends BaseDWR {
 	public ListaResultadoDTO<Atividade> pesquisar(PesquisaAtividadeDTO parametros) {
 		String nome = parametros.getNome();
 		String descricao = parametros.getDescricao();
+		Integer departamento = parametros.getDepartamento();
 		Integer idProcesso = parametros.getIdProcesso();
 		Integer paginaAtual = parametros.getPaginaAtual();
-
-
-		List<Atividade> lista = atividadeBO.getByNomeDescricao(nome, descricao, idProcesso, paginaAtual);
+		
+		List<Atividade> lista = atividadeBO.getByNomeDescricaoDepartamento(nome, descricao, departamento, idProcesso, paginaAtual);
 
 		ListaResultadoDTO<Atividade> resultado = new ListaResultadoDTO<Atividade>();
 		resultado.setColecaoParcial(lista);

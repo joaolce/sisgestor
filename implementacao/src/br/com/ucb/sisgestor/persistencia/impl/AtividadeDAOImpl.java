@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -39,14 +40,23 @@ public class AtividadeDAOImpl extends BaseDAOImpl<Atividade, Integer> implements
 	public static AtividadeDAO getInstancia() {
 		return instancia;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public Integer getTotalRegistros(String nome, String descricao, Integer departamento, Integer idProcesso) {
+		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, departamento, idProcesso);
+		criteria.setProjection(Projections.rowCount());
+		return (Integer) criteria.uniqueResult();
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Atividade> getByNomeDescricao(String nome, String descricao, Integer idProcesso,
+	public List<Atividade> getByNomeDescricaoDepartamento(String nome, String descricao, Integer departamento, Integer idProcesso,
 			Integer paginaAtual) {
-		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, idProcesso);
-		this.adicionarPaginacao(criteria, paginaAtual, QTD_REGISTROS_PAGINA);
+		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, departamento, idProcesso);
+		this.adicionarPaginacao(criteria, paginaAtual, QTD_REGISTROS_PAGINA_ATIVIDADE);
 		criteria.addOrder(Order.asc("nome"));
 		return GenericsUtil.checkedList(criteria.list(), Atividade.class);
 	}
@@ -54,7 +64,6 @@ public class AtividadeDAOImpl extends BaseDAOImpl<Atividade, Integer> implements
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	protected Order getOrdemLista() {
 		return Order.asc("nome").ignoreCase();
 	}
@@ -65,17 +74,23 @@ public class AtividadeDAOImpl extends BaseDAOImpl<Atividade, Integer> implements
 	 * 
 	 * @param nome parte do nome do atividade
 	 * @param descricao parte da descrição do atividade
-	 * @param idWorkflow identificação do processo
+	 * @param idProcesso identificação do processo
 	 * @return {@link Criteria}
 	 */
-	private Criteria montarCriteriosPaginacao(String nome, String descricao, Integer idProcesso) {
+	private Criteria montarCriteriosPaginacao(String nome, String descricao, Integer departamento, Integer idProcesso) {
 		Criteria criteria = this.getSession().createCriteria(Atividade.class);
-		criteria.add(Restrictions.eq("this.processo.id", idProcesso));
+		criteria.createAlias("this.processo", "processo");
+		criteria.add(Restrictions.eq("processo.id", idProcesso));
 		if (StringUtils.isNotBlank(nome)) {
 			criteria.add(Restrictions.like("nome", nome, MatchMode.ANYWHERE).ignoreCase());
 		}
 		if (StringUtils.isNotBlank(descricao)) {
 			criteria.add(Restrictions.like("descricao", descricao, MatchMode.ANYWHERE).ignoreCase());
+		}
+		if(departamento != null){
+			criteria.createAlias("this.departamento", "departamento");
+			criteria.add(Restrictions.eq("departamento.id", departamento));
+			criteria.addOrder(Order.asc("departamento.sigla"));
 		}
 		return criteria;
 	}

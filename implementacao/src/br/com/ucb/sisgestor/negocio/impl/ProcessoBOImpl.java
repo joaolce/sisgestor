@@ -69,7 +69,6 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 			HibernateUtil.rollback(transaction);
 			this.verificaExcecao(e);
 		}
-
 	}
 
 
@@ -84,7 +83,6 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaProcessoDTO dto = (PesquisaProcessoDTO) parametros;
 		return this.dao.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getIdWorkflow());

@@ -209,9 +209,8 @@ public final class DataUtil {
 		String data = dia + '/' + mes + '/' + ano;
 		if (ehDataValida(data)) {
 			return data;
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**

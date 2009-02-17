@@ -11,6 +11,7 @@
 		<form-bean name="manterProcessoForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterProcessoActionForm" />
 		<form-bean name="manterAtividadeForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterAtividadeActionForm" />
 		<form-bean name="manterTarefaForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterTarefaActionForm" />
+		<form-bean name="manterCampoForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterCampoActionForm" />
 	</form-beans>
 
 	<global-exceptions>
@@ -102,6 +103,18 @@
 			<forward name="entrada" path="definicaoManterTarefa" />
 			<forward name="popupNovaTarefa" path="popupNovaTarefa" />
 		</action>
+		
+		<!-- Manter Campo -->
+		<action path="/manterCampo" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.ManterCampoAction"
+			name="manterCampoForm"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoManterCampo" />
+			<forward name="popupNovoCampo" path="popupNovoCampo" />
+		</action>
+		
 	</action-mappings>
 
 

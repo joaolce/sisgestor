@@ -41,7 +41,7 @@ public class ManterProcessoAction extends BaseAction {
 	public ActionForward atualizar(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterProcessoActionForm form = (ManterProcessoActionForm) actionForm;
-		//TODO Verificar criação do processo...
+
 		Processo processo = new Processo();
 		this.copyProperties(processo, form);
 
@@ -66,7 +66,7 @@ public class ManterProcessoAction extends BaseAction {
 		ManterProcessoActionForm form = (ManterProcessoActionForm) formulario;
 
 		Processo processo = processoBO.obter(form.getId());
-
+		
 		processoBO.excluir(processo);
 
 		this.addMessageKey("mensagem.excluir", "Processo");
@@ -100,8 +100,9 @@ public class ManterProcessoAction extends BaseAction {
 	 */
 	public ActionForward salvar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
+		
 		ManterProcessoActionForm form = (ManterProcessoActionForm) formulario;
+		
 		Processo processo = new Processo();
 		this.copyProperties(processo, form);
 

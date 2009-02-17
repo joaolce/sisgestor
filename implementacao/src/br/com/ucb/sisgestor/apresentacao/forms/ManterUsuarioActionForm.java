@@ -17,7 +17,6 @@ import java.util.List;
  */
 public class ManterUsuarioActionForm extends BaseForm {
 
-	private Integer				id;
 	private String					login;
 	private String					nome;
 	private String					email;
@@ -64,15 +63,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 	 */
 	public String getEmail() {
 		return this.email;
-	}
-
-	/**
-	 * Recupera o identificador do usuário.
-	 * 
-	 * @return identificador do usuário
-	 */
-	public Integer getId() {
-		return this.id;
 	}
 
 	/**
@@ -172,15 +162,6 @@ public class ManterUsuarioActionForm extends BaseForm {
 	 */
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	/**
-	 * Atribui o identificador do usuário.
-	 * 
-	 * @param id identificador do usuário
-	 */
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	/**

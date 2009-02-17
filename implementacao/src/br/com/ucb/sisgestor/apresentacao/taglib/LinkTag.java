@@ -36,7 +36,6 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 	/**
 	 * Release any acquired resources.
 	 */
-	@Override
 	public void release() {
 		super.release();
 		this.roles = "";
@@ -54,19 +53,16 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	protected String calculateURL() throws JspException {
 		if (this.usuarioTemPermissao()) {
 			return super.calculateURL();
-		} else {
-			return "#";
 		}
+		return "#";
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	protected void prepareMouseEvents(StringBuffer handlers) {
 		if (this.usuarioTemPermissao()) {
 			this.prepareAttribute(handlers, "onclick", this.getOnclick());
@@ -82,7 +78,6 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	protected String prepareStyles() throws JspException {
 		StringBuffer styles = new StringBuffer();
 		boolean errorsExist = this.doErrorsExist();

@@ -43,7 +43,7 @@ public class ManterAtividadeAction extends BaseAction {
 	public ActionForward atualizar(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterAtividadeActionForm form = (ManterAtividadeActionForm) actionForm;
-		//TODO Verificar criação da atividade...
+
 		Atividade atividade = new Atividade();
 		this.copyProperties(atividade, form);
 
@@ -56,7 +56,6 @@ public class ManterAtividadeAction extends BaseAction {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public ActionForward entrada(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterAtividadeActionForm form = (ManterAtividadeActionForm) formulario;
@@ -80,10 +79,10 @@ public class ManterAtividadeAction extends BaseAction {
 	 */
 	public ActionForward excluir(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		//		ManterAtividadeActionForm form = (ManterAtividadeActionForm) formulario;
+		ManterAtividadeActionForm form = (ManterAtividadeActionForm) formulario;
 
 		//TODO Verificar se há alguma tarefa em andamento antes de excluir
-		Atividade atividade = new Atividade();
+		Atividade atividade = atividadeBO.obter(form.getId());
 
 		atividadeBO.excluir(atividade);
 

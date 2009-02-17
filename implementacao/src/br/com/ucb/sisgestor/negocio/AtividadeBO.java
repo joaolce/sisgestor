@@ -20,9 +20,10 @@ public interface AtividadeBO extends BaseBO<Atividade, Integer> {
 	 * 
 	 * @param nome parte do nome da atividade
 	 * @param descricao parte da descrição da atividade
+	 * @param departamento Departamento responsável pela atividade
 	 * @param idProcesso indentificação do processo
 	 * @param paginaAtual página atual da pesquisa
 	 * @return Retorna as atividades
 	 */
-	List<Atividade> getByNomeDescricao(String nome, String descricao, Integer idProcesso, Integer paginaAtual);
+	List<Atividade> getByNomeDescricaoDepartamento(String nome, String descricao, Integer departamento, Integer idProcesso, Integer paginaAtual);
 }

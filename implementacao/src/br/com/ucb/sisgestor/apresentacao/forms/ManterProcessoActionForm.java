@@ -15,7 +15,6 @@ import br.com.ucb.sisgestor.apresentacao.actions.ManterProcessoAction;
 public class ManterProcessoActionForm extends BaseForm {
 
 	private Integer	workflow;
-	private Integer	id;
 	private String		descricao;
 	private String		nome;
 
@@ -27,16 +26,6 @@ public class ManterProcessoActionForm extends BaseForm {
 	public String getDescricao() {
 		return this.descricao;
 	}
-
-	/**
-	 * Recupera o valor de id
-	 * 
-	 * @return id
-	 */
-	public Integer getId() {
-		return this.id;
-	}
-
 
 	/**
 	 * Recupera o valor de nome
@@ -65,16 +54,6 @@ public class ManterProcessoActionForm extends BaseForm {
 	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-
-
-	/**
-	 * Atribui id
-	 * 
-	 * @param id o valor a ajustar em id
-	 */
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 
