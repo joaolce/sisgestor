@@ -26,7 +26,7 @@ public class ControleAcessoDWR extends DefaultAccessControl {
 	@Override
 	protected void assertIsExecutable(String scriptName, String methodName) throws SecurityException {
 		HttpServletRequest req = WebContextFactory.get().getHttpServletRequest();
-		if (req.getSession().getAttribute(DadosContexto.USUARIOSESSAO) == null) {
+		if (req.getSession().getAttribute(DadosContexto.USUARIO_SESSAO) == null) {
 			throw new SessionExpiredException("mensagem.naologado");
 		}
 		super.assertIsExecutable(scriptName, methodName);

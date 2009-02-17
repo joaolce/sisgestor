@@ -23,5 +23,5 @@ public final class DadosContexto {
 	/** Total de registros da pesquisa de paginação */
 	public static final String	TOTAL_PESQUISA	= "totalPesquisa";
 	/** Usuário atual na sessão */
-	public static final String	USUARIOSESSAO	= "usuarioSessao";
+	public static final String	USUARIO_SESSAO	= "usuarioSessao";
 }

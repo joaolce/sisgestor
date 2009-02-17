@@ -241,7 +241,7 @@ public class BaseAction extends DispatchAction {
 				|| (this.getRequest().getUserPrincipal().getName() == null)) {
 			throw new LoginException("userPrincipal está nulo!");
 		}
-		Usuario usuarioAtual = (Usuario) this.getSession().getAttribute(DadosContexto.USUARIOSESSAO);
+		Usuario usuarioAtual = (Usuario) this.getSession().getAttribute(DadosContexto.USUARIO_SESSAO);
 		String name = this.getRequest().getUserPrincipal().getName();
 
 		if ((usuarioAtual == null) || !name.equalsIgnoreCase(usuarioAtual.getLogin().trim()) || ignoraSessao) {
@@ -254,7 +254,7 @@ public class BaseAction extends DispatchAction {
 
 			this.getSession().setAttribute(DadosContexto.DATA_LOGIN, DataUtil.getStringDataAtualCompleta());
 			this.getSession().setAttribute(DadosContexto.HORA_LOGIN, DataUtil.getDataAtual());
-			this.getSession().setAttribute(DadosContexto.USUARIOSESSAO, usuarioAtual);
+			this.getSession().setAttribute(DadosContexto.USUARIO_SESSAO, usuarioAtual);
 		}
 	}
 
@@ -404,7 +404,7 @@ public class BaseAction extends DispatchAction {
 	 */
 	protected Usuario getUser() throws Exception {
 		this.doUsuario(false);
-		return (Usuario) this.getSession().getAttribute(DadosContexto.USUARIOSESSAO);
+		return (Usuario) this.getSession().getAttribute(DadosContexto.USUARIO_SESSAO);
 	}
 
 	/**

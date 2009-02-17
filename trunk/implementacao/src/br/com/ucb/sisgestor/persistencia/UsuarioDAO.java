@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.persistencia;
 
+import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import java.util.List;
 
@@ -44,4 +45,12 @@ public interface UsuarioDAO extends BaseDAO<Usuario, Integer> {
 	 * @return usuário encontrado
 	 */
 	Usuario recuperarPorLogin(String login);
+
+	/**
+	 * Recupera um {@link List} de {@link Usuario} do {@link Departamento}
+	 * 
+	 * @param departamento id do departamento
+	 * @return Lista de usuários do departamento
+	 */
+	List<Usuario> getByDepartamento(Integer departamento);
 }

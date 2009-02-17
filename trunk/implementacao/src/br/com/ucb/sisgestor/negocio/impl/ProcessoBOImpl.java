@@ -9,6 +9,8 @@ import br.com.ucb.sisgestor.negocio.ProcessoBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.ProcessoDAO;
 import br.com.ucb.sisgestor.persistencia.impl.ProcessoDAOImpl;
+import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaProcessoDTO;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.util.List;
 import org.hibernate.Transaction;
@@ -59,7 +61,15 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	 * {@inheritDoc}
 	 */
 	public void excluir(Processo processo) throws NegocioException {
-		this.atualizar(processo);
+		Transaction transaction = this.beginTransaction();
+		try {
+			this.dao.excluir(processo);
+			HibernateUtil.commit(transaction);
+		} catch (Exception e) {
+			HibernateUtil.rollback(transaction);
+			this.verificaExcecao(e);
+		}
+
 	}
 
 
@@ -69,6 +79,15 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	public List<Processo> getByNomeDescricao(String nome, String descricao, Integer idWorkflow,
 			Integer paginaAtual) {
 		return this.dao.getByNomeDescricao(nome, descricao, idWorkflow, paginaAtual);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
+		PesquisaProcessoDTO dto = (PesquisaProcessoDTO) parametros;
+		return this.dao.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getIdWorkflow());
 	}
 
 	/**

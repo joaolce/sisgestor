@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.negocio;
 
+import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import java.util.List;
@@ -45,4 +46,12 @@ public interface UsuarioBO extends BaseBO<Usuario, Integer> {
 	 * @throws NegocioException caso uma regra de negócio seja violada
 	 */
 	Usuario recuperarPorLogin(String login) throws NegocioException;
+
+	/**
+	 * Recupera um {@link List} de {@link Usuario} do {@link Departamento}
+	 * 
+	 * @param departamento Departamento
+	 * @return Lista de usuários do departamento
+	 */
+	List<Usuario> getByDepartamento(Departamento departamento);
 }

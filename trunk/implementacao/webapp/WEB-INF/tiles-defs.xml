@@ -48,4 +48,12 @@
 	<definition name="definicaoManterProcesso" path="/paginas/manterProcesso/manterProcesso.jsp" />
 	<definition name="popupNovoProcesso" path="/paginas/manterProcesso/popupNovoProcesso.jsp" />
 	
+	<!--  MANTER ATIVIDADE -->
+	<definition name="definicaoManterAtividade" path="/paginas/manterAtividade/manterAtividade.jsp" />
+	<definition name="popupNovaAtividade" path="/paginas/manterAtividade/popupNovaAtividade.jsp" />
+	
+	<!--  MANTER TAREFA -->
+	<definition name="definicaoManterTarefa" path="/paginas/manterTarefa/manterTarefa.jsp" />
+	<definition name="popupNovaTarefa" path="/paginas/manterTarefa/popupNovaTarefa.jsp" />
+	
 </tiles-definitions>

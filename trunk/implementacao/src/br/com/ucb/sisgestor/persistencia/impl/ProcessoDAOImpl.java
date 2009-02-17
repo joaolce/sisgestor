@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -46,10 +47,20 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 	public List<Processo> getByNomeDescricao(String nome, String descricao, Integer idWorkflow,
 			Integer paginaAtual) {
 		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, idWorkflow);
-		this.adicionarPaginacao(criteria, paginaAtual, QTD_REGISTROS_PAGINA);
+		this.adicionarPaginacao(criteria, paginaAtual, QTD_REGISTROS_PAGINA - 3);
 		criteria.addOrder(Order.asc("nome"));
 		return GenericsUtil.checkedList(criteria.list(), Processo.class);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Integer getTotalRegistros(String nome, String descricao, Integer idWorkflow) {
+		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, idWorkflow);
+		criteria.setProjection(Projections.rowCount());
+		return (Integer) criteria.uniqueResult();
+	}
+
 
 	/**
 	 * {@inheritDoc}
@@ -58,7 +69,6 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 	protected Order getOrdemLista() {
 		return Order.asc("nome").ignoreCase();
 	}
-
 
 	/**
 	 * Monta os critérios para a paginação dos processos.
@@ -70,7 +80,9 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 	 */
 	private Criteria montarCriteriosPaginacao(String nome, String descricao, Integer idWorkflow) {
 		Criteria criteria = this.getSession().createCriteria(Processo.class);
-		criteria.add(Restrictions.eq("this.workflow.id", idWorkflow));
+
+		criteria.createAlias("this.workflow", "workflow");
+		criteria.add(Restrictions.eq("workflow.id", idWorkflow));
 		if (StringUtils.isNotBlank(nome)) {
 			criteria.add(Restrictions.like("nome", nome, MatchMode.ANYWHERE).ignoreCase());
 		}
