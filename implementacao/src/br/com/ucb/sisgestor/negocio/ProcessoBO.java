@@ -22,7 +22,7 @@ public interface ProcessoBO extends BaseBO<Processo, Integer> {
 	 * @param descricao parte da descrição do processo
 	 * @param idWorkflow indentificação do workflow
 	 * @param paginaAtual página atual da pesquisa
-	 * @return Retorna os workflows
+	 * @return Retorna os processos
 	 */
 	List<Processo> getByNomeDescricao(String nome, String descricao, Integer idWorkflow, Integer paginaAtual);
 }

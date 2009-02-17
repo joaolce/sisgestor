@@ -19,4 +19,13 @@
 		<validacao action="br.com.ucb.sisgestor.apresentacao.actions.ManterWorkflowAction" 
 		validator="br.com.ucb.sisgestor.apresentacao.validator.ManterWorkflowValidator" />
 		
+		<validacao action="br.com.ucb.sisgestor.apresentacao.actions.ManterProcessoAction" 
+		validator="br.com.ucb.sisgestor.apresentacao.validator.ManterProcessoValidator" />
+		
+		<validacao action="br.com.ucb.sisgestor.apresentacao.actions.ManterAtividadeAction" 
+		validator="br.com.ucb.sisgestor.apresentacao.validator.ManterAtividadeValidator" />
+		
+		<validacao action="br.com.ucb.sisgestor.apresentacao.actions.ManterTarefaAction" 
+		validator="br.com.ucb.sisgestor.apresentacao.validator.ManterTarefaValidator" />
+		
 </validate-mapping>

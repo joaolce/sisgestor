@@ -41,5 +41,35 @@
 		roles="4"  />
 	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterWorkflowAction#salvar" 
 		roles="4" />
+		
+	<!-- Manter Processo -->
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterProcessoAction#atualizar" 
+		roles="4" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterProcessoAction#excluir" 
+		roles="4" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterProcessoAction#popupNovoProcesso" 
+		roles="4"  />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterProcessoAction#salvar" 
+		roles="4" />
+		
+	<!-- Manter Atividade -->
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterAtividadeAction#atualizar" 
+		roles="4" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterAtividadeAction#excluir" 
+		roles="4" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterAtividadeAction#popupNovaAtividade" 
+		roles="4"  />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterAtividadeAction#salvar" 
+		roles="4" />
+
+	<!-- Manter Tarefa -->
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterTarefaAction#atualizar" 
+		roles="4" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterTarefaAction#excluir" 
+		roles="4" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterTarefaAction#popupNovaTarefa" 
+		roles="4"  />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterTarefaAction#salvar" 
+		roles="4" />
 
 </validator-mapping>

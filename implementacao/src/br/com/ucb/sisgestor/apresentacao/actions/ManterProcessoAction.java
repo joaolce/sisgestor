@@ -52,19 +52,6 @@ public class ManterProcessoAction extends BaseAction {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ActionForward entrada(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		ManterProcessoActionForm form = (ManterProcessoActionForm) formulario;
-
-		Integer idWorkflow = form.getWorkflow();
-
-		return this.findForward(FWD_ENTRADA);
-	}
-
-	/**
 	 * Exclui um processo.
 	 * 
 	 * @param mapping objeto mapping da action
@@ -78,8 +65,7 @@ public class ManterProcessoAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterProcessoActionForm form = (ManterProcessoActionForm) formulario;
 
-		//TODO Verificar criação do processo...
-		Processo processo = new Processo();
+		Processo processo = processoBO.obter(form.getId());
 
 		processoBO.excluir(processo);
 

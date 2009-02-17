@@ -19,6 +19,12 @@
 		<create javascript="ManterProcessoDWR" creator="new">
 			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterProcessoDWR" />
 		</create>
+		<create javascript="ManterAtividadeDWR" creator="new">
+			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterAtividadeDWR" />
+		</create>
+		<create javascript="ManterTarefaDWR" creator="new">
+			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterTarefaDWR" />
+		</create>
 		<create javascript="UtilDWR" creator="new">
 			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.UtilDWR" />
 		</create>
@@ -33,14 +39,16 @@
 		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaUsuarioDTO" converter="bean" />
 		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaWorkflowDTO" converter="bean" />
 		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaProcessoDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaAtividadeDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaTarefaDTO" converter="bean" />
 		
 		<!-- Convertendo Entidades -->
-		<convert match="br.com.ucb.sisgestor.entidade.Atividade"	converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Departamento" converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Permissao"	converter="hibernate3" />
-		<convert match="br.com.ucb.sisgestor.entidade.Processo"		converter="hibernate3" />
-		<convert match="br.com.ucb.sisgestor.entidade.Tarefa"		converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Usuario" 		converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Workflow"		converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Processo"		converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Atividade"	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Tarefa"		converter="hibernate3" />
 	</allow>
 </dwr>

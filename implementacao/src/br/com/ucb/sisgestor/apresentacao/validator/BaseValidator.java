@@ -240,7 +240,7 @@ public class BaseValidator {
 	 * @return o usuário logado no sistema
 	 */
 	protected Usuario getUser() {
-		return (Usuario) this.getSession().getAttribute(DadosContexto.USUARIOSESSAO);
+		return (Usuario) this.getSession().getAttribute(DadosContexto.USUARIO_SESSAO);
 	}
 
 	/**

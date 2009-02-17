@@ -70,7 +70,7 @@ public class BaseDWR {
 	 * @return usuário logado
 	 */
 	protected Usuario getUser() {
-		return (Usuario) this.getSessionAttribute(DadosContexto.USUARIOSESSAO);
+		return (Usuario) this.getSessionAttribute(DadosContexto.USUARIO_SESSAO);
 	}
 
 	/**

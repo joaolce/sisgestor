@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.negocio.impl;
 
+import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.mail.Email;
 import br.com.ucb.sisgestor.mail.EmailSender;
@@ -158,5 +159,12 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 			HibernateUtil.rollback(transaction);
 			this.verificaExcecao(e);
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<Usuario> getByDepartamento(Departamento departamento) {
+		return this.dao.getByDepartamento(departamento.getId());
 	}
 }

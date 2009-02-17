@@ -1,18 +1,11 @@
 /**
- * Ação a ser realizada ao iniciar a página
- */
-Event.observe(window, "load", function() {
-	processo.pesquisar();
-});
-
-/**
  * Comportamentos para o UC Manter Processo.
  * 
  * @author Thiago
  * @since 09/02/2009
  */
-var ComportamentosTela = Class.create();
-ComportamentosTela.prototype = {
+var ManterProcesso = Class.create();
+ManterProcesso.prototype = {
    /**
 	 * @constructor
 	 */
@@ -60,16 +53,18 @@ ComportamentosTela.prototype = {
 	 * Preenche os campos do processo selecionado.
 	 */
    visualizar : function() {
-	   Element.hide("formSalvar");
+	   Element.hide("formSalvarProcesso");
 	   var idProcesso = this.getIdSelecionado();
 	   if (isNaN(idProcesso)) {
 		   return;
 	   }
 	   ManterProcessoDWR.getById(idProcesso, ( function(processo) {
-		   Effect.Appear("formSalvar");
-		   dwr.util.setValue($("formSalvar").id, idProcesso);
-		   dwr.util.setValue("nome", processo.nome);
-		   dwr.util.setValue("descricao", processo.descricao);
+		   Effect.Appear("formSalvarProcesso");
+		   dwr.util.setValue($("formSalvarProcesso").id, idProcesso);
+		   dwr.util.setValue("nomeProcesso", processo.nome);
+		   dwr.util.setValue("descricaoProcesso", processo.descricao);
+		   this.habilitarLinks(true);
+		   this.contaChar(false);
 	   }).bind(this));
    },
 
@@ -77,18 +72,18 @@ ComportamentosTela.prototype = {
 	 * Faz a pesquisa dos processos pelos parâmetros informados.
 	 */
    pesquisar : function() {
-	   Effect.Fade("formSalvar");
+	   Effect.Fade("formSalvarProcesso");
 	   var dto = {
-	      nome :dwr.util.getValue("nomePesquisa"),
-	      descricao :dwr.util.getValue("descricaoPesquisa"),
-	      idWorkflow :dwr.util.getValue("idWorkflow")
+	      nome :dwr.util.getValue("nomePesquisaProcesso"),
+	      descricao :dwr.util.getValue("descricaoPesquisaProcesso"),
+	      idWorkflow :dwr.util.getValue("workflow")
 	   };
 
 	   if (this.tabelaTelaPrincipal == null) {
 		   var chamadaRemota = ManterProcessoDWR.pesquisar.bind(ManterProcessoDWR);
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
 		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
-		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA);
+		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA-3);
 	   }
 	   this.tabelaTelaPrincipal.setParametros(dto);
 	   this.tabelaTelaPrincipal.executarChamadaRemota();
@@ -146,7 +141,7 @@ ComportamentosTela.prototype = {
 	 */
    excluir : function() {
 	   JanelasComuns.showConfirmDialog("Deseja excluir o processo selecionado?", ( function() {
-		   var idProcesso = dwr.util.getValue($("formSalvar").id);
+		   var idProcesso = dwr.util.getValue($("formSalvarProcesso").id);
 		   requestUtils.simpleRequest("manterProcesso.do?method=excluir&id=" + idProcesso,
 		      ( function() {
 			      if (requestUtils.status) {
@@ -161,16 +156,20 @@ ComportamentosTela.prototype = {
 	 */
    popupNovoProcesso : function() {
 	   var url = "manterProcesso.do?method=popupNovoProcesso";
-	   createWindow(255, 375, 280, 40, "Novo Processo", "divNovoProcesso", url);
+	   createWindow(255, 375, 280, 40, "Novo Processo", "divNovoProcesso", url, (function(){
+		   dwr.util.setValue("idWorkflow",$F("workflow"));
+	   }));
    },
    
    /**
     * Abre janela para gerenciar os processos
     * */
    popupGerenciarAtividades :function(){
-	   JanelasComuns.showMessage("Implemente-me");
-//	   var url = "manterProcesso.do?method=popupGerenciarProcessos";
-//	   createWindow(536, 985, 280, 10, "Gerenciar Processos", "divGerenciarProcessos", url);
+	   var idProcesso = dwr.util.getValue($("formSalvarProcesso").id);
+	   var url = "manterAtividade.do?method=entrada&processo="+idProcesso;
+	   createWindow(536, 985, 280, 10, "Gerenciar Atividades", "divGerenciarAtividades", url, (function(){
+		   atividade.pesquisar();
+	   }));
    }, 
    
    /**
@@ -190,9 +189,28 @@ ComportamentosTela.prototype = {
    /**
     * Limita a quantidade de caracteres do campo descrição.
     */
-	contaChar: function() {
-		contaChar($("descricao"), 200);
+   contaChar: function(novo) {
+	   if(novo) {
+		   contaChar($("descricaoNovo"), 200, "contagemNovo");
+	   } else {
+		   contaChar($("descricaoProcesso"), 200, "contagemProcesso");
+	   }
+	},
+	
+	/**
+	 * Habilita/desabilita os links, para quando um processo seja selecionado.
+	 * 
+    * @param (Boolean) caso seja para habilitar ou desabilitar
+	 */
+	habilitarLinks : function(habilita) {
+		if(habilita) {
+			$("linkGerenciarAtividades").className = "";
+			$("linkGerenciarAtividades").onclick = this.popupGerenciarAtividades;
+		} else {
+			$("linkGerenciarAtividades").className = "btDesativado";
+			$("linkGerenciarAtividades").onclick = "";
+		}
 	}
 };
 
-var processo = new ComportamentosTela();
+var processo = new ManterProcesso();

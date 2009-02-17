@@ -180,7 +180,9 @@ ComportamentosTela.prototype = {
    popupGerenciarProcessos :function(){
 	   var idWorkflow = dwr.util.getValue($("formSalvar").id);
 	   var url = "manterProcesso.do?method=entrada&workflow="+idWorkflow;
-	   createWindow(536, 985, 280, 10, "Gerenciar Processos", "divGerenciarProcessos", url);
+	   createWindow(536, 985, 280, 10, "Gerenciar Processos", "divGerenciarProcessos", url, (function(){
+		   processo.pesquisar();
+	   }));
    }, 
    
    /**
@@ -209,12 +211,12 @@ ComportamentosTela.prototype = {
     * 
     * @param (Boolean) novo se for novo workflow
     */
-	contaChar: function(novo) {
-   	if(novo) {
-   		contaChar($("descricaoNovo"), 200, "contagemNovo");
-   	} else {
-   		contaChar($("descricao"), 200, "contagem");
-   	}
+    contaChar: function(novo) {
+	   if(novo) {
+		   contaChar($("descricaoNovo"), 200, "contagemNovo");
+	   } else {
+		   contaChar($("descricao"), 200, "contagem");
+	   }
 	},
 	
 	/**

@@ -91,7 +91,7 @@ public class SubmitTag extends org.apache.struts.taglib.html.SubmitTag {
 	 */
 	private boolean usuarioTemPermissao() {
 		HttpServletRequest request = (HttpServletRequest) this.pageContext.getRequest();
-		Usuario usuario = (Usuario) request.getSession().getAttribute(DadosContexto.USUARIOSESSAO);
+		Usuario usuario = (Usuario) request.getSession().getAttribute(DadosContexto.USUARIO_SESSAO);
 		return Utils.usuarioTemPermissao(usuario, this.roles);
 	}
 

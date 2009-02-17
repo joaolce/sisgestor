@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.persistencia.impl;
 
+import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.persistencia.UsuarioDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
@@ -99,5 +100,15 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario, Integer> implements Usu
 			criteria.add(Restrictions.eq("departamento.id", departamento));
 		}
 		return criteria;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * */
+	public List<Usuario> getByDepartamento(Integer departamento) {
+		Criteria criteria = this.getSession().createCriteria(Usuario.class);
+		criteria.createAlias("this.departamento", "departamento");
+		criteria.add(Restrictions.eq("departamento.id", departamento));
+		return GenericsUtil.checkedList(criteria.list(), Usuario.class);
 	}
 }

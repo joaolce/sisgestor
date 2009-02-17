@@ -3,7 +3,12 @@
 <%@ taglib uri="http://www.ucb.br/sisgestor/taglib" prefix="htmlSGR" %>
 
 <script type="text/javascript" src="dwr/interface/ManterWorkflowDWR.js"></script>
+<script type="text/javascript" src="dwr/interface/ManterProcessoDWR.js"></script>
+<script type="text/javascript" src="dwr/interface/ManterAtividadeDWR.js"></script>
 <script type="text/javascript" src="js/manterWorkflow/manterWorkflow.js"></script>
+<script type="text/javascript" src="js/manterProcesso/manterProcesso.js"></script>
+<script type="text/javascript" src="js/manterAtividade/manterAtividade.js"></script>
+
 
 <div class="bordas" id="BordaExterna">
 	<div id="divMenuOpcoes">

@@ -1,9 +1,6 @@
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 
-<script type="text/javascript" src="dwr/interface/ManterWorkflowDWR.js"></script>
-<script type="text/javascript" src="js/manterWorkflow/manterWorkflow.js"></script>
-
 <html:form action="/manterWorkflow.do?method=salvar" onsubmit="workflow.salvar(this); return false;" styleId="manterWorkflowForm">
 	<fieldset style="margin: 5pt auto; padding: 10px;">
 		<div style="float: left;">
