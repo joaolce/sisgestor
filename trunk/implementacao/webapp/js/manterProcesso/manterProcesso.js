@@ -83,7 +83,7 @@ ManterProcesso.prototype = {
 		   var chamadaRemota = ManterProcessoDWR.pesquisar.bind(ManterProcessoDWR);
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
 		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
-		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA-3);
+		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA_PROCESSO);
 	   }
 	   this.tabelaTelaPrincipal.setParametros(dto);
 	   this.tabelaTelaPrincipal.executarChamadaRemota();
@@ -167,7 +167,7 @@ ManterProcesso.prototype = {
    popupGerenciarAtividades :function(){
 	   var idProcesso = dwr.util.getValue($("formSalvarProcesso").id);
 	   var url = "manterAtividade.do?method=entrada&processo="+idProcesso;
-	   createWindow(536, 985, 280, 10, "Gerenciar Atividades", "divGerenciarAtividades", url, (function(){
+	   createWindow(516, 985, 280, 30, "Gerenciar Atividades", "divGerenciarAtividades", url, (function(){
 		   atividade.pesquisar();
 	   }));
    }, 

@@ -320,9 +320,8 @@ public final class Utils {
 	public static String ehNulo(String texto) {
 		if (texto == null) {
 			return "";
-		} else {
-			return texto;
 		}
+		return texto;
 	}
 
 	/**

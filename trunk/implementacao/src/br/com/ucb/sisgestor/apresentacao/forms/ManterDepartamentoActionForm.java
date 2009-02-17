@@ -16,7 +16,6 @@ import java.util.List;
  */
 public class ManterDepartamentoActionForm extends BaseForm {
 
-	private Integer				id;
 	private String					sigla;
 	private String					nome;
 	private String					email;
@@ -39,15 +38,6 @@ public class ManterDepartamentoActionForm extends BaseForm {
 	 */
 	public String getEmail() {
 		return this.email;
-	}
-
-	/**
-	 * Recupera o identificador do departamento.
-	 * 
-	 * @return identificador do departamento
-	 */
-	public Integer getId() {
-		return this.id;
 	}
 
 	/**
@@ -93,15 +83,6 @@ public class ManterDepartamentoActionForm extends BaseForm {
 	 */
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	/**
-	 * Atribui o identificador do departamento.
-	 * 
-	 * @param id identificador do departamento
-	 */
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	/**

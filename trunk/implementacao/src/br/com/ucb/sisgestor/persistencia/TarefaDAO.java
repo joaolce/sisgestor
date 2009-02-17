@@ -21,10 +21,22 @@ public interface TarefaDAO extends BaseDAO<Tarefa, Integer> {
 	 * 
 	 * @param nome parte do nome da tarefa
 	 * @param descricao parte da descrição da tarefa
+	 * @param usuario Usuário responsável pela tarefa
 	 * @param idAtividade identificação da atividade
 	 * @param paginaAtual página atual da pesquisa
 	 * @return {@link List} de {@link Tarefa}
 	 */
-	List<Tarefa> getByNomeDescricao(String nome, String descricao, Integer idAtividade, Integer paginaAtual);
+	List<Tarefa> getByNomeDescricaoUsuario(String nome, String descricao, Integer usuario, Integer idAtividade, Integer paginaAtual);
+	
+	/**
+	 * Recupera o total de registros retornados pela consulta.
+	 * 
+	 * @param nome parte do nome da atividade
+	 * @param descricao parte da descrição da atividade
+	 * @param usuario Usuário responsável pela tarefa
+	 * @param idAtividade identificador da atividade
+	 * @return número do total de registros
+	 */
+	Integer getTotalRegistros(String nome, String descricao, Integer usuario, Integer idAtividade);
 
 }

@@ -164,7 +164,7 @@ public final class Extenso {
 	 * 
 	 * @param ps número da posição
 	 * 
-	 * @return
+	 * @return <code>true</code>, se igual a zero;<br><code>false</code>, se não.
 	 */
 	private boolean ehGrupoZero(int ps) {
 		if ((ps <= 0) || (ps >= this.modulos.size())) {

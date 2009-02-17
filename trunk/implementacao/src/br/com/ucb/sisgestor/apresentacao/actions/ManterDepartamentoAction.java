@@ -53,7 +53,6 @@ public class ManterDepartamentoAction extends BaseAction {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public ActionForward entrada(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm form = (ManterDepartamentoActionForm) actionForm;

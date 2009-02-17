@@ -189,7 +189,10 @@ ComportamentosTela.prototype = {
     * Abre janela para gerenciar os campos
     * */
    popupGerenciarCampos :function(){
-	   JanelasComuns.showMessage("Implemente-me");
+	   var url = "manterCampo.do?method=entrada";
+	   createWindow(536, 985, 280, 10, "Gerenciar Campos", "divGerenciarCampos", url, (function(){
+		   //campo.pesquisar();
+	   }));
    }, 
 
    /**

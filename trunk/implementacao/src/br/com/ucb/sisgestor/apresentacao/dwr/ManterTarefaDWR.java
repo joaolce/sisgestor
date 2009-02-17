@@ -44,11 +44,12 @@ public class ManterTarefaDWR extends BaseDWR {
 	public ListaResultadoDTO<Tarefa> pesquisar(PesquisaTarefaDTO parametros) {
 		String nome = parametros.getNome();
 		String descricao = parametros.getDescricao();
+		Integer usuario = parametros.getUsuario();
 		Integer idAtividade = parametros.getIdAtividade();
 		Integer paginaAtual = parametros.getPaginaAtual();
 
 
-		List<Tarefa> lista = tarefaBO.getByNomeDescricao(nome, descricao, idAtividade, paginaAtual);
+		List<Tarefa> lista = tarefaBO.getByNomeDescricaoUsuario(nome, descricao, usuario, idAtividade, paginaAtual);
 
 		ListaResultadoDTO<Tarefa> resultado = new ListaResultadoDTO<Tarefa>();
 		resultado.setColecaoParcial(lista);

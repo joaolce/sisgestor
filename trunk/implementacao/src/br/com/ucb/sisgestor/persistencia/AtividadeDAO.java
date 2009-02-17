@@ -21,10 +21,22 @@ public interface AtividadeDAO extends BaseDAO<Atividade, Integer> {
 	 * 
 	 * @param nome parte do nome da atividade
 	 * @param descricao parte da descrição da atividade
+	 * @param departamento Departamento responsável pela atividade
 	 * @param idProcesso identificação do processo
 	 * @param paginaAtual página atual da pesquisa
 	 * @return {@link List} de {@link Atividade}
 	 */
-	List<Atividade> getByNomeDescricao(String nome, String descricao, Integer idProcesso, Integer paginaAtual);
+	List<Atividade> getByNomeDescricaoDepartamento(String nome, String descricao, Integer departamento, Integer idProcesso, Integer paginaAtual);
+	
+	/**
+	 * Recupera o total de registros retornados pela consulta.
+	 * 
+	 * @param nome parte do nome da atividade
+	 * @param descricao parte da descrição da atividade
+	 * @param departamento Departamento responsável pela atividade
+	 * @param idProcesso identificador do processo
+	 * @return número do total de registros
+	 */
+	Integer getTotalRegistros(String nome, String descricao, Integer departamento, Integer idProcesso);
 
 }

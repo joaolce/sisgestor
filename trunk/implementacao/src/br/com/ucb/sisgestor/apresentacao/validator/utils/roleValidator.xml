@@ -71,5 +71,15 @@
 		roles="4"  />
 	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterTarefaAction#salvar" 
 		roles="4" />
+		
+	<!-- Manter Campo -->
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterCampoAction#atualizar" 
+		roles="4" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterCampoAction#excluir" 
+		roles="4" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterCampoAction#popupNovoCampo" 
+		roles="4"  />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterCampoAction#salvar" 
+		roles="4" />
 
 </validator-mapping>

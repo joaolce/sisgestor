@@ -20,9 +20,10 @@ public interface TarefaBO extends BaseBO<Tarefa, Integer> {
 	 * 
 	 * @param nome parte do nome da tarefa
 	 * @param descricao parte da descrição da tarefa
+	 * @param usuario Usuário responsável pela tarefa
 	 * @param idAtividade indentificação da atividade
 	 * @param paginaAtual página atual da pesquisa
 	 * @return Retorna as tarefas
 	 */
-	List<Tarefa> getByNomeDescricao(String nome, String descricao, Integer idAtividade, Integer paginaAtual);
+	List<Tarefa> getByNomeDescricaoUsuario(String nome, String descricao, Integer usuario, Integer idAtividade, Integer paginaAtual);
 }

@@ -47,14 +47,12 @@ public class PrincipalAction extends BaseAction {
 	 * @return {@link ActionForward}
 	 * @throws Exception caso exceção seja lançada
 	 */
-	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String method = request.getParameter(mapping.getParameter());
 		if (method.equals(FWD_ENTRADA)) {
 			return super.execute(mapping, form, request, response);
-		} else {
-			return this.dispatchMethod(mapping, form, request, response, method);
 		}
+		return this.dispatchMethod(mapping, form, request, response, method);
 	}
 }
