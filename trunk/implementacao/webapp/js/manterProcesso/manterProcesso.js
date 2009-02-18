@@ -37,7 +37,7 @@ ManterProcesso.prototype = {
 	 * @return linha selecionada
 	 */
    getTR : function() {
-	   return FactoryTabelas.getTabelaById(this.getTBodyTelaPrincipal()).getSelectedTR();
+	   return FactoryTabelas.getTabelaById(processo.getTBodyTelaPrincipal()).getSelectedTR();
    },
 
    /**
@@ -46,7 +46,7 @@ ManterProcesso.prototype = {
 	 * @return id do processo selecionado
 	 */
    getIdSelecionado : function() {
-	   return this.getTR().select("input[type=\"hidden\"]")[0].value;
+	   return processo.getTR().select("input[type=\"hidden\"]")[0].value;
    },
 
    /**
@@ -54,7 +54,7 @@ ManterProcesso.prototype = {
 	 */
    visualizar : function() {
 	   Element.hide("formSalvarProcesso");
-	   var idProcesso = this.getIdSelecionado();
+	   var idProcesso = processo.getIdSelecionado();
 	   if (isNaN(idProcesso)) {
 		   return;
 	   }
@@ -128,7 +128,7 @@ ManterProcesso.prototype = {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o processo selecionado?", ( function() {
 		   requestUtils.submitForm(form, null, ( function() {
 			   if (requestUtils.status) {
-				   this.pesquisar();
+				   processo.pesquisar();
 			   }
 		   }).bind(this));
 	   }).bind(this));

@@ -49,13 +49,14 @@ public class ManterAtividadeAction extends BaseAction {
 
 		atividadeBO.atualizar(atividade);
 
-		this.addMessageKey("mensagem.alterar", "Atividade");
+		this.addMessageKey("mensagem.alterar.a", "Atividade");
 		return this.sendAJAXResponse(true);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public ActionForward entrada(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterAtividadeActionForm form = (ManterAtividadeActionForm) formulario;
@@ -81,12 +82,11 @@ public class ManterAtividadeAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterAtividadeActionForm form = (ManterAtividadeActionForm) formulario;
 
-		//TODO Verificar se há alguma tarefa em andamento antes de excluir
 		Atividade atividade = atividadeBO.obter(form.getId());
 
 		atividadeBO.excluir(atividade);
 
-		this.addMessageKey("mensagem.excluir", "Atividade");
+		this.addMessageKey("mensagem.excluir.a", "Atividade");
 		return this.sendAJAXResponse(true);
 	}
 
@@ -130,7 +130,7 @@ public class ManterAtividadeAction extends BaseAction {
 
 		atividadeBO.salvar(atividade);
 
-		this.addMessageKey("mensagem.salvar", "Atividade");
+		this.addMessageKey("mensagem.salvar.a", "Atividade");
 		return this.sendAJAXResponse(true);
 	}
 }

@@ -16,19 +16,19 @@ import java.util.List;
  */
 public class ManterAtividadeActionForm extends BaseForm {
 
-	private String				descricao;
-	private String				nome;
+	private String					descricao;
+	private String					nome;
 	private Integer				processo;
-	private Integer				departamentoResponsavel;
+	private Integer				departamento;
 	private List<Departamento>	listaDepartamentos;
 
 	/**
-	 * Recupera o valor de departamentoResponsavel
+	 * Recupera o valor de departamento
 	 * 
-	 * @return departamentoResponsavel
+	 * @return departamento
 	 */
-	public Integer getDepartamentoResponsavel() {
-		return this.departamentoResponsavel;
+	public Integer getDepartamento() {
+		return this.departamento;
 	}
 
 	/**
@@ -72,12 +72,12 @@ public class ManterAtividadeActionForm extends BaseForm {
 
 
 	/**
-	 * Atribui departamentoResponsavel
+	 * Atribui departamento
 	 * 
-	 * @param departamentoResponsavel o valor a ajustar em departamentoResponsavel
+	 * @param departamento o valor a ajustar em departamento
 	 */
-	public void setDepartamentoResponsavel(Integer departamentoResponsavel) {
-		this.departamentoResponsavel = departamentoResponsavel;
+	public void setDepartamento(Integer departamento) {
+		this.departamento = departamento;
 	}
 
 

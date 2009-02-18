@@ -32,6 +32,6 @@ public class ManterAtividadeValidator extends BaseValidator {
 		if (this.validaRequerido("label.descricao", "descricao")) {
 			this.validaTamanhoMaximo("label.descricao", "descricao", ConstantesDB.DESCRICAO);
 		}
-		this.validaRequerido("label.departamento.responsavel", "departamentoResponsavel");
+		this.validaRequerido("label.departamento.responsavel", "departamento");
 	}
 }

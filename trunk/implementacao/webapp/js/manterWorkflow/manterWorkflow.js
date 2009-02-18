@@ -44,7 +44,7 @@ ComportamentosTela.prototype = {
 	 * @return linha selecionada
 	 */
    getTR : function() {
-	   return FactoryTabelas.getTabelaById(this.getTBodyTelaPrincipal()).getSelectedTR();
+	   return FactoryTabelas.getTabelaById(workflow.getTBodyTelaPrincipal()).getSelectedTR();
    },
 
    /**
@@ -53,7 +53,7 @@ ComportamentosTela.prototype = {
 	 * @return id do workflow selecionado
 	 */
    getIdSelecionado : function() {
-	   return this.getTR().select("input[type=\"hidden\"]")[0].value;
+	   return workflow.getTR().select("input[type=\"hidden\"]")[0].value;
    },
 
    /**
@@ -81,7 +81,7 @@ ComportamentosTela.prototype = {
 	 */
    pesquisar : function() {
 	   Effect.Fade("formSalvar");
-	   this.habilitarLinks(false);
+	   workflow.habilitarLinks(false);
 	   var dto = {
 	      nome :dwr.util.getValue("nomePesquisa"),
 	      descricao :dwr.util.getValue("descricaoPesquisa"),
@@ -104,7 +104,7 @@ ComportamentosTela.prototype = {
 	 * @param listaWorkflow lista de workflows retornados
 	 */
    popularTabela : function(listaWorkflow) {
-	   this.tabelaTelaPrincipal.removerResultado();
+	   workflow.tabelaTelaPrincipal.removerResultado();
 
 	   if (listaWorkflow.length != 0) {
 		   var cellfuncs = new Array();
@@ -143,7 +143,7 @@ ComportamentosTela.prototype = {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o workflow selecionado?", ( function() {
 		   requestUtils.submitForm(form, null, ( function() {
 			   if (requestUtils.status) {
-				   this.pesquisar();
+				   workflow.pesquisar();
 			   }
 		   }).bind(this));
 	   }).bind(this));
