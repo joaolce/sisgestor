@@ -4,11 +4,8 @@
  */
 package br.com.ucb.sisgestor.negocio.impl;
 
-import java.util.List;
-
-import org.hibernate.Transaction;
-
 import br.com.ucb.sisgestor.entidade.Atividade;
+import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.AtividadeDAO;
@@ -16,6 +13,8 @@ import br.com.ucb.sisgestor.persistencia.impl.AtividadeDAOImpl;
 import br.com.ucb.sisgestor.util.dto.PesquisaAtividadeDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
+import java.util.List;
+import org.hibernate.Transaction;
 
 /**
  * Objeto de negócio para {@link Atividade}.
@@ -63,26 +62,40 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 	 * {@inheritDoc}
 	 */
 	public void excluir(Atividade atividade) throws NegocioException {
-		this.atualizar(atividade);
+		Transaction transaction = this.beginTransaction();
+		try {
+			List<Tarefa> lista = atividade.getTarefas();
+			//Não permite excluir uma atividade que contém tarefas
+			if ((lista != null) && !lista.isEmpty()) {
+				throw new NegocioException("erro.atividade.tarefas");
+			}
+			this.dao.excluir(atividade);
+			HibernateUtil.commit(transaction);
+		} catch (Exception e) {
+			HibernateUtil.rollback(transaction);
+			this.verificaExcecao(e);
+		}
 	}
 
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Atividade> getByNomeDescricaoDepartamento(String nome, String descricao, Integer departamento, Integer idProcesso,
-			Integer paginaAtual) {
-		return this.dao.getByNomeDescricaoDepartamento(nome, descricao, departamento,  idProcesso, paginaAtual);
+	public List<Atividade> getByNomeDescricaoDepartamento(String nome, String descricao, Integer departamento,
+			Integer idProcesso, Integer paginaAtual) {
+		return this.dao.getByNomeDescricaoDepartamento(nome, descricao, departamento, idProcesso, paginaAtual);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaAtividadeDTO dto = (PesquisaAtividadeDTO) parametros;
-		return this.dao.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getDepartamento(), dto.getIdProcesso());
+		return this.dao.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getDepartamento(), dto
+				.getIdProcesso());
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

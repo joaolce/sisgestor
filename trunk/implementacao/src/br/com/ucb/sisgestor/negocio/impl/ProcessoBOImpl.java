@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.negocio.impl;
 
+import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Processo;
 import br.com.ucb.sisgestor.negocio.ProcessoBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
@@ -63,6 +64,11 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	public void excluir(Processo processo) throws NegocioException {
 		Transaction transaction = this.beginTransaction();
 		try {
+			List<Atividade> lista = processo.getAtividades();
+			//Não permite excluir um processo que contém atividades
+			if ((lista != null) && !lista.isEmpty()) {
+				throw new NegocioException("erro.processo.atividades");
+			}
 			this.dao.excluir(processo);
 			HibernateUtil.commit(transaction);
 		} catch (Exception e) {
@@ -83,6 +89,7 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaProcessoDTO dto = (PesquisaProcessoDTO) parametros;
 		return this.dao.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getIdWorkflow());

@@ -75,6 +75,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 			if ((departamento.getUsuarios() != null) && !departamento.getUsuarios().isEmpty()) {
 				throw new NegocioException("erro.departamento.usuarios");
 			}
+			//TODO Acrescentar aqui verificação se o departamento está sendo referenciado para outras tabelas.
 			this.dao.excluir(departamento);
 			HibernateUtil.commit(transaction);
 		} catch (Exception e) {
