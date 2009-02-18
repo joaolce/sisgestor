@@ -77,7 +77,7 @@ public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento, Integer> impl
 	 * @return {@link Criteria}
 	 */
 	private Criteria montarCriteriosPaginacao(String sigla, String nome) {
-		Criteria criteria = this.getSession().createCriteria(Departamento.class);
+		Criteria criteria = this.createCriteria(Departamento.class);
 		if (StringUtils.isNotBlank(sigla)) {
 			criteria.add(Restrictions.like("sigla", sigla, MatchMode.ANYWHERE).ignoreCase());
 		}

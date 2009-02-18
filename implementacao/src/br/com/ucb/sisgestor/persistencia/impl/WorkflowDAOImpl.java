@@ -78,7 +78,7 @@ public class WorkflowDAOImpl extends BaseDAOImpl<Workflow, Integer> implements W
 	 * @return {@link Criteria}
 	 */
 	private Criteria montarCriteriosPaginacao(String nome, String descricao, Boolean ativo) {
-		Criteria criteria = this.getSession().createCriteria(Workflow.class);
+		Criteria criteria = this.createCriteria(Workflow.class);
 		criteria.add(Restrictions.isNull("dataHoraExclusao"));
 		if (StringUtils.isNotBlank(nome)) {
 			criteria.add(Restrictions.like("nome", nome, MatchMode.ANYWHERE).ignoreCase());

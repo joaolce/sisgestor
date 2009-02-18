@@ -92,6 +92,7 @@ public class BaseAction extends DispatchAction {
 	 * @return {@link ActionForward}
 	 * @throws Exception caso ocorra erro na operação
 	 */
+	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request, //NOPMD by João Lúcio - não dá para quebrar
 			HttpServletResponse response) throws Exception {
 

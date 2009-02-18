@@ -29,9 +29,9 @@ public final class LoginServlet extends HttpServlet {
 	private static final String	CHARSET			= "ISO-8859-1";
 	private static final String	ERROR				= "error";
 	private static final String	HTML_MIME_TYPE	= "text/html";
+	private static final Log		LOG				= LogFactory.getLog(LoginServlet.class);
 	private static final String	LOGIN_ERROR		= "loginerror";
 	private static final String	LOGOUT			= "logout";
-	private static final Log		LOG				= LogFactory.getLog(LoginServlet.class);
 
 	private LoginBundle				loginBundle;
 	private LoginHelper				loginHelper;

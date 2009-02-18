@@ -10,11 +10,18 @@ Event.observe(window, "load", function() {
  * 
  * @author João Lúcio
  */
-var ComportamentosTela = Class.create();
-ComportamentosTela.prototype = {
-   initialize : function() {},
+var ManterDepartamento = Class.create();
+ManterDepartamento.prototype = {
 
+   /**
+	 * Tabela com os dados da pesquisa.
+	 */
    tabelaTelaPrincipal :null,
+
+   /**
+	 * @constructor
+	 */
+   initialize : function() {},
 
    /**
 	 * Retorna a tabela da tela inicial do caso de uso
@@ -23,15 +30,6 @@ ComportamentosTela.prototype = {
 	 */
    getTBodyTelaPrincipal : function() {
 	   return $("corpoManterDepartamento");
-   },
-
-   /**
-	 * Recupera o form manterDepartamentoForm
-	 * 
-	 * @return formulário
-	 */
-   getForm : function() {
-	   return $("manterDepartamentoForm");
    },
 
    /**
@@ -119,10 +117,7 @@ ComportamentosTela.prototype = {
 			   return departamento.nome;
 		   });
 		   cellfuncs.push( function(departamento) {
-			   if (departamento.email != null) {
-				   return departamento.email;
-			   }
-			   return "&nbsp;";
+			   return nobreakSpace(departamento.email);
 		   });
 		   cellfuncs.push( function(departamento) {
 			   if (departamento.departamentoSuperior != null) {
@@ -206,4 +201,4 @@ ComportamentosTela.prototype = {
    }
 };
 
-var departamento = new ComportamentosTela();
+var departamento = new ManterDepartamento();

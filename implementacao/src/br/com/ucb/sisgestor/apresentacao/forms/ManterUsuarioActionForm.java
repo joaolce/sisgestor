@@ -17,17 +17,17 @@ import java.util.List;
  */
 public class ManterUsuarioActionForm extends BaseForm {
 
+	private Boolean				chefe;
+	private String					confirmarSenha;
+	private Integer				departamento;
+	private String					email;
+	private List<Departamento>	listaDepartamentos;
 	private String					login;
 	private String					nome;
-	private String					email;
-	private Integer				departamento;
-	private Boolean				chefe;
-	private List<Departamento>	listaDepartamentos;
-	private List<Permissao>		permissoesDisponiveis;
-	private Integer[]				permissoes;
-	private String					senhaAtual;
 	private String					novaSenha;
-	private String					confirmarSenha;
+	private Integer[]				permissoes;
+	private List<Permissao>		permissoesDisponiveis;
+	private String					senhaAtual;
 
 	/**
 	 * Recupera o indicador de usuário chefe.

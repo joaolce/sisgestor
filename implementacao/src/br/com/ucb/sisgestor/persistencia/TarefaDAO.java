@@ -15,6 +15,8 @@ import java.util.List;
  */
 public interface TarefaDAO extends BaseDAO<Tarefa, Integer> {
 
+	/** Quantidade de registros por paginação da tela de Tarefas */
+	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(4);
 
 	/**
 	 * Retorna um {@link List} de {@link Tarefa} a partir do nome e/ou descrição
@@ -26,8 +28,9 @@ public interface TarefaDAO extends BaseDAO<Tarefa, Integer> {
 	 * @param paginaAtual página atual da pesquisa
 	 * @return {@link List} de {@link Tarefa}
 	 */
-	List<Tarefa> getByNomeDescricaoUsuario(String nome, String descricao, Integer usuario, Integer idAtividade, Integer paginaAtual);
-	
+	List<Tarefa> getByNomeDescricaoUsuario(String nome, String descricao, Integer usuario,
+			Integer idAtividade, Integer paginaAtual);
+
 	/**
 	 * Recupera o total de registros retornados pela consulta.
 	 * 

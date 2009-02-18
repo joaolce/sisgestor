@@ -18,9 +18,9 @@ import org.apache.commons.logging.LogFactory;
 public class EmailSender {
 
 	private static Properties			configuracao;
-	private static final EmailSender	sender		= new EmailSender();
-	private static final String		properties	= "settings.properties";
 	private static final Log			LOG			= LogFactory.getLog(EmailSender.class);
+	private static final String		properties	= "settings.properties";
+	private static final EmailSender	sender		= new EmailSender();
 
 	private Session						session;
 

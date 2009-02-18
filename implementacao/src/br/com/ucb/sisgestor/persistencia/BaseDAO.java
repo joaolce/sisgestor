@@ -21,15 +21,6 @@ public interface BaseDAO<T extends ObjetoPersistente, PK extends Serializable> {
 
 	/** Quantidade de registros por paginação */
 	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(9);
-	
-	/** Quantidade de registros por paginação da tela de Processos*/
-	Integer QTD_REGISTROS_PAGINA_PROCESSO = Integer.valueOf(6);
-	
-	/** Quantidade de registros por paginação da tela de Atividades*/
-	Integer QTD_REGISTROS_PAGINA_ATIVIDADE = Integer.valueOf(4);
-	
-	/** Quantidade de registros por paginação da tela de Tarefas*/
-	Integer QTD_REGISTROS_PAGINA_TAREFA = Integer.valueOf(4);
 
 	/**
 	 * Atualiza um objeto na base de dados.

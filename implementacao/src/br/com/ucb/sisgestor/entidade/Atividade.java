@@ -31,9 +31,9 @@ import org.hibernate.annotations.ForeignKey;
 		@AttributeOverride(name = "descricao", column = @Column(name = "ATI_DESCRICAO", nullable = false, length = ConstantesDB.DESCRICAO))})
 public class Atividade extends BaseWorkflow {
 
+	private Departamento	departamento;
 	private Processo		processo;
 	private List<Tarefa>	tarefas;
-	private Departamento	departamento;
 
 	/**
 	 * Recupera o departamento da atividade.

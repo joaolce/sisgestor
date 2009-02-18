@@ -48,7 +48,7 @@ public class ManterTarefaAction extends BaseAction {
 		ManterTarefaActionForm form = (ManterTarefaActionForm) actionForm;
 
 		Tarefa tarefa = new Tarefa();
-		
+
 		this.copyProperties(tarefa, form);
 
 		tarefaBO.atualizar(tarefa);
@@ -60,15 +60,16 @@ public class ManterTarefaAction extends BaseAction {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public ActionForward entrada(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterTarefaActionForm form = (ManterTarefaActionForm) formulario;
 
 		AtividadeBO atividadeBO = AtividadeBOImpl.getInstancia();
 		Atividade atividade = atividadeBO.obter(form.getAtividade());
-		
+
 		UsuarioBO usuarioBO = UsuarioBOImpl.getInstancia();
-		
+
 		form.setListaUsuarios(usuarioBO.getByDepartamento(atividade.getDepartamento()));
 
 		return this.findForward(FWD_ENTRADA);
@@ -109,7 +110,7 @@ public class ManterTarefaAction extends BaseAction {
 	public ActionForward popupNovaTarefa(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ManterTarefaActionForm form = (ManterTarefaActionForm) formulario;
-		
+
 		AtividadeBO atividadeBO = AtividadeBOImpl.getInstancia();
 
 		//Recupera a atividade para recuperar qual o departamento responsável.

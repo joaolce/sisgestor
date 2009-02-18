@@ -16,11 +16,11 @@ import java.util.List;
  */
 public class ManterTarefaActionForm extends BaseForm {
 
-	private String				descricao;
-	private String				nome;
 	private Integer			atividade;
-	private Integer			usuarioResponsavel;
+	private String				descricao;
 	private List<Usuario>	listaUsuarios;
+	private String				nome;
+	private Integer			usuarioResponsavel;
 
 	/**
 	 * Recupera o identificador da atividade.

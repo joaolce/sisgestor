@@ -40,7 +40,18 @@ public class AtividadeDAOImpl extends BaseDAOImpl<Atividade, Integer> implements
 	public static AtividadeDAO getInstancia() {
 		return instancia;
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<Atividade> getByNomeDescricaoDepartamento(String nome, String descricao, Integer departamento,
+			Integer idProcesso, Integer paginaAtual) {
+		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, departamento, idProcesso);
+		this.adicionarPaginacao(criteria, paginaAtual, AtividadeDAO.QTD_REGISTROS_PAGINA);
+		criteria.addOrder(Order.asc("nome"));
+		return GenericsUtil.checkedList(criteria.list(), Atividade.class);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -53,17 +64,7 @@ public class AtividadeDAOImpl extends BaseDAOImpl<Atividade, Integer> implements
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Atividade> getByNomeDescricaoDepartamento(String nome, String descricao, Integer departamento, Integer idProcesso,
-			Integer paginaAtual) {
-		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, departamento, idProcesso);
-		this.adicionarPaginacao(criteria, paginaAtual, QTD_REGISTROS_PAGINA_ATIVIDADE);
-		criteria.addOrder(Order.asc("nome"));
-		return GenericsUtil.checkedList(criteria.list(), Atividade.class);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
 	protected Order getOrdemLista() {
 		return Order.asc("nome").ignoreCase();
 	}
@@ -77,8 +78,9 @@ public class AtividadeDAOImpl extends BaseDAOImpl<Atividade, Integer> implements
 	 * @param idProcesso identificação do processo
 	 * @return {@link Criteria}
 	 */
-	private Criteria montarCriteriosPaginacao(String nome, String descricao, Integer departamento, Integer idProcesso) {
-		Criteria criteria = this.getSession().createCriteria(Atividade.class);
+	private Criteria montarCriteriosPaginacao(String nome, String descricao, Integer departamento,
+			Integer idProcesso) {
+		Criteria criteria = this.createCriteria(Atividade.class);
 		criteria.createAlias("this.processo", "processo");
 		criteria.add(Restrictions.eq("processo.id", idProcesso));
 		if (StringUtils.isNotBlank(nome)) {
@@ -87,7 +89,7 @@ public class AtividadeDAOImpl extends BaseDAOImpl<Atividade, Integer> implements
 		if (StringUtils.isNotBlank(descricao)) {
 			criteria.add(Restrictions.like("descricao", descricao, MatchMode.ANYWHERE).ignoreCase());
 		}
-		if(departamento != null){
+		if (departamento != null) {
 			criteria.createAlias("this.departamento", "departamento");
 			criteria.add(Restrictions.eq("departamento.id", departamento));
 			criteria.addOrder(Order.asc("departamento.sigla"));

@@ -25,5 +25,6 @@ public interface TarefaBO extends BaseBO<Tarefa, Integer> {
 	 * @param paginaAtual página atual da pesquisa
 	 * @return Retorna as tarefas
 	 */
-	List<Tarefa> getByNomeDescricaoUsuario(String nome, String descricao, Integer usuario, Integer idAtividade, Integer paginaAtual);
+	List<Tarefa> getByNomeDescricaoUsuario(String nome, String descricao, Integer usuario,
+			Integer idAtividade, Integer paginaAtual);
 }

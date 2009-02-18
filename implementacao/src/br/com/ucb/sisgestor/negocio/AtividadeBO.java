@@ -25,5 +25,6 @@ public interface AtividadeBO extends BaseBO<Atividade, Integer> {
 	 * @param paginaAtual página atual da pesquisa
 	 * @return Retorna as atividades
 	 */
-	List<Atividade> getByNomeDescricaoDepartamento(String nome, String descricao, Integer departamento, Integer idProcesso, Integer paginaAtual);
+	List<Atividade> getByNomeDescricaoDepartamento(String nome, String descricao, Integer departamento,
+			Integer idProcesso, Integer paginaAtual);
 }

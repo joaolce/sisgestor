@@ -21,12 +21,12 @@
 				<label style="float: left;">
 					<bean:message key="label.nome" />
 					<br />
-					<input type="text" name="nomePesquisaProcesso" id="nomePesquisaProcesso"  size="51" maxlength="100" />
+					<input type="text" name="nomePesquisaProcesso" id="nomePesquisaProcesso" size="51" maxlength="100" />
 				</label>
 				<label style="float: left; margin-left: 20px;">
 					<bean:message key="label.descricao" />
 					<br />
-					<input type="text" name="descricaoPesquisaProcesso" id="descricaoPesquisaProcesso"  size="51" maxlength="200" />
+					<input type="text" name="descricaoPesquisaProcesso" id="descricaoPesquisaProcesso" size="51" maxlength="200" />
 				</label>
 			</div>
 			<div style="padding-top: 14px; clear: both;">
@@ -51,9 +51,9 @@
 	</div>
 	
 	<!-- FIELDSET PARA DADOS DO PROCESSO -->
-	<html:form action="/manterProcesso.do?method=atualizar" onsubmit="processo.atualizar(this); return false;" styleId="formSalvarProcesso" style="display: none; margin-top: 10px;">
-		<html:hidden property="workflow" styleId="workflow"/>
-		<html:hidden property="id"/>
+	<html:form action="/manterProcesso.do?method=atualizar" onsubmit="processo.atualizar(this); return false;" styleId="formAtualizarProcesso" style="display: none; margin-top: 10px;">
+		<html:hidden property="workflow" styleId="workflowProcesso" />
+		<html:hidden property="id" />
 		<fieldset style="padding: 10px; width: 50%; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.processo"/>
@@ -65,7 +65,7 @@
 							<bean:message key="label.nome"/>
 							<span class="obrigatorio">*</span>
 						</b>
-						<html:text property="nome" size="51" maxlength="100" styleId="nomeProcesso"/>
+						<html:text property="nome" styleId="nomeProcesso" size="51" maxlength="100" />
 					</label> 
 				</div>
 				<br />
@@ -74,10 +74,7 @@
 						<bean:message key="label.descricao" />
 						<span class="obrigatorio">*</span>
 					</b>
-					<html:textarea property="descricao" styleId="descricaoProcesso" rows="4" cols="50" 
-					onkeypress="processo.contaChar(false);" 
-					onkeydown="processo.contaChar(false);" 
-					onkeyup="processo.contaChar(false);" />
+					<html:textarea property="descricao" styleId="descricaoProcesso" rows="4" cols="50" onkeypress="processo.contaChar(false);" onkeydown="processo.contaChar(false);" onkeyup="processo.contaChar(false);" />
 					<br />
 					<bean:message key="label.maximoCaracteres" arg0="200"/>:
 					<span id="contagemProcesso" style="color: red;"></span>

@@ -49,7 +49,8 @@ public class ManterTarefaDWR extends BaseDWR {
 		Integer paginaAtual = parametros.getPaginaAtual();
 
 
-		List<Tarefa> lista = tarefaBO.getByNomeDescricaoUsuario(nome, descricao, usuario, idAtividade, paginaAtual);
+		List<Tarefa> lista =
+				tarefaBO.getByNomeDescricaoUsuario(nome, descricao, usuario, idAtividade, paginaAtual);
 
 		ListaResultadoDTO<Tarefa> resultado = new ListaResultadoDTO<Tarefa>();
 		resultado.setColecaoParcial(lista);

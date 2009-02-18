@@ -6,12 +6,16 @@
  */
 var ManterProcesso = Class.create();
 ManterProcesso.prototype = {
+
+   /**
+	 * Tabela com os dados da pesquisa.
+	 */
+   tabelaTelaPrincipal :null,
+
    /**
 	 * @constructor
 	 */
    initialize : function() {},
-
-   tabelaTelaPrincipal :null,
 
    /**
 	 * Retorna a tabela da tela inicial do caso de uso
@@ -20,15 +24,6 @@ ManterProcesso.prototype = {
 	 */
    getTBodyTelaPrincipal : function() {
 	   return $("corpoManterProcesso");
-   },
-
-   /**
-	 * Recupera o form manterProcessoForm.
-	 * 
-	 * @return form do manter processo
-	 */
-   getForm : function() {
-	   return $("manterProcessoForm");
    },
 
    /**
@@ -53,14 +48,14 @@ ManterProcesso.prototype = {
 	 * Preenche os campos do processo selecionado.
 	 */
    visualizar : function() {
-	   Element.hide("formSalvarProcesso");
+	   Element.hide("formAtualizarProcesso");
 	   var idProcesso = processo.getIdSelecionado();
 	   if (isNaN(idProcesso)) {
 		   return;
 	   }
 	   ManterProcessoDWR.getById(idProcesso, ( function(processo) {
-		   Effect.Appear("formSalvarProcesso");
-		   dwr.util.setValue($("formSalvarProcesso").id, idProcesso);
+		   Effect.Appear("formAtualizarProcesso");
+		   dwr.util.setValue($("formAtualizarProcesso").id, idProcesso);
 		   dwr.util.setValue("nomeProcesso", processo.nome);
 		   dwr.util.setValue("descricaoProcesso", processo.descricao);
 		   this.habilitarLinks(true);
@@ -72,7 +67,8 @@ ManterProcesso.prototype = {
 	 * Faz a pesquisa dos processos pelos parâmetros informados.
 	 */
    pesquisar : function() {
-	   Effect.Fade("formSalvarProcesso");
+	   Effect.Fade("formAtualizarProcesso");
+	   processo.habilitarLinks(false);
 	   var dto = {
 	      nome :dwr.util.getValue("nomePesquisaProcesso"),
 	      descricao :dwr.util.getValue("descricaoPesquisaProcesso"),
@@ -126,7 +122,7 @@ ManterProcesso.prototype = {
 	 */
    atualizar : function(form) {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o processo selecionado?", ( function() {
-		   requestUtils.submitForm(form, null, ( function() {
+		   requestUtils.submitForm(form, ( function() {
 			   if (requestUtils.status) {
 				   processo.pesquisar();
 			   }
@@ -141,7 +137,7 @@ ManterProcesso.prototype = {
 	 */
    excluir : function() {
 	   JanelasComuns.showConfirmDialog("Deseja excluir o processo selecionado?", ( function() {
-		   var idProcesso = dwr.util.getValue($("formSalvarProcesso").id);
+		   var idProcesso = dwr.util.getValue($("formAtualizarProcesso").id);
 		   requestUtils.simpleRequest("manterProcesso.do?method=excluir&id=" + idProcesso,
 		      ( function() {
 			      if (requestUtils.status) {
@@ -156,22 +152,23 @@ ManterProcesso.prototype = {
 	 */
    popupNovoProcesso : function() {
 	   var url = "manterProcesso.do?method=popupNovoProcesso";
-	   createWindow(255, 375, 280, 40, "Novo Processo", "divNovoProcesso", url, (function(){
-		   dwr.util.setValue("idWorkflow",$F("workflow"));
+	   createWindow(255, 375, 280, 40, "Novo Processo", "divNovoProcesso", url, ( function() {
+		   dwr.util.setValue("workflowNovoProcesso", $F("workflowProcesso"));
 	   }));
    },
-   
+
    /**
-    * Abre janela para gerenciar os processos
-    * */
-   popupGerenciarAtividades :function(){
-	   var idProcesso = dwr.util.getValue($("formSalvarProcesso").id);
-	   var url = "manterAtividade.do?method=entrada&processo="+idProcesso;
-	   createWindow(516, 985, 280, 30, "Gerenciar Atividades", "divGerenciarAtividades", url, (function(){
-		   atividade.pesquisar();
-	   }));
-   }, 
-   
+	 * Abre janela para gerenciar os processos.
+	 */
+   popupGerenciarAtividades : function() {
+	   var idProcesso = dwr.util.getValue($("formAtualizarProcesso").id);
+	   var url = "manterAtividade.do?method=entrada&processo=" + idProcesso;
+	   createWindow(516, 985, 280, 30, "Gerenciar Atividades", "divGerenciarAtividades", url,
+	      ( function() {
+		      atividade.pesquisar();
+	      }));
+   },
+
    /**
 	 * Envia ao action a ação de salvar os dados do processo.
 	 * 
@@ -185,32 +182,32 @@ ManterProcesso.prototype = {
 		   }
 	   }).bind(this));
    },
-   
+
    /**
-    * Limita a quantidade de caracteres do campo descrição.
-    */
-   contaChar: function(novo) {
-	   if(novo) {
-		   contaChar($("descricaoNovo"), 200, "contagemNovo");
+	 * Limita a quantidade de caracteres do campo descrição.
+	 */
+   contaChar : function(novo) {
+	   if (novo) {
+		   contaChar($("descricaoNovoProcesso"), 200, "contagemNovoProcesso");
 	   } else {
 		   contaChar($("descricaoProcesso"), 200, "contagemProcesso");
 	   }
-	},
-	
-	/**
+   },
+
+   /**
 	 * Habilita/desabilita os links, para quando um processo seja selecionado.
 	 * 
-    * @param (Boolean) caso seja para habilitar ou desabilitar
+	 * @param (Boolean) caso seja para habilitar ou desabilitar
 	 */
-	habilitarLinks : function(habilita) {
-		if(habilita) {
-			$("linkGerenciarAtividades").className = "";
-			$("linkGerenciarAtividades").onclick = this.popupGerenciarAtividades;
-		} else {
-			$("linkGerenciarAtividades").className = "btDesativado";
-			$("linkGerenciarAtividades").onclick = "";
-		}
-	}
+   habilitarLinks : function(habilita) {
+	   if (habilita) {
+		   $("linkGerenciarAtividades").className = "";
+		   $("linkGerenciarAtividades").onclick = this.popupGerenciarAtividades;
+	   } else {
+		   $("linkGerenciarAtividades").className = "btDesativado";
+		   $("linkGerenciarAtividades").onclick = "";
+	   }
+   }
 };
 
 var processo = new ManterProcesso();

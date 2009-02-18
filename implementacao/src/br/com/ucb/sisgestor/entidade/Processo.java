@@ -31,8 +31,8 @@ import org.hibernate.annotations.ForeignKey;
 		@AttributeOverride(name = "descricao", column = @Column(name = "PRO_DESCRICAO", nullable = false, length = ConstantesDB.DESCRICAO))})
 public class Processo extends BaseWorkflow {
 
-	private Workflow			workflow;
 	private List<Atividade>	atividades;
+	private Workflow			workflow;
 
 	/**
 	 * Recupera as atividades do workflow.

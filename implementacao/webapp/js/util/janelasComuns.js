@@ -137,20 +137,20 @@ JanelasComuns = {
 	      fontWeight :"bold"
 	   });
    },
-	/**
+   /**
 	 * @param {String} mensagem
 	 */
-	showLoadingStatus: function(mensagem){
-		var janela = createWindow(50, 350, 300, 100, "Aguarde", "telaAguarde");
-		janela.undoModal();
-		janela.removerBotaoFechar();
-		dwr.util.setValue("telaAguarde", mensagem);
-		Element.setStyle("telaAguarde", {
-			fontWeight: "bold",
-			color: "#007AE2"
-		});
-		return janela;
-	},
+   showLoadingStatus : function(mensagem) {
+	   var janela = createWindow(50, 350, 300, 100, "Aguarde", "telaAguarde");
+	   janela.undoModal();
+	   janela.removerBotaoFechar();
+	   dwr.util.setValue("telaAguarde", mensagem);
+	   Element.setStyle("telaAguarde", {
+	      fontWeight :"bold",
+	      color :"#007AE2"
+	   });
+	   return janela;
+   },
    /**
 	 * Exibir uma mensagem em vermelho ou verde de acordo com o status passado
 	 * 

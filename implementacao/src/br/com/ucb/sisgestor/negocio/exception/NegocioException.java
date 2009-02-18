@@ -15,7 +15,7 @@ public class NegocioException extends Exception {
 	private String[]	args;
 
 	/**
-	 * Construtor recebe uma mensagem que está no properties
+	 * Construtor recebe uma mensagem que está no properties.
 	 * 
 	 * @param message mensagem
 	 * @param args argumentos da mensagem
@@ -24,7 +24,6 @@ public class NegocioException extends Exception {
 		super(message);
 		this.args = args;
 	}
-
 
 	/**
 	 * Cria uma nova instância do tipo {@link NegocioException}.
@@ -36,7 +35,7 @@ public class NegocioException extends Exception {
 	}
 
 	/**
-	 * Recupera os argumentos da mensagem
+	 * Recupera os argumentos da mensagem.
 	 * 
 	 * @return argumentos da mensagem
 	 */
@@ -45,7 +44,7 @@ public class NegocioException extends Exception {
 	}
 
 	/**
-	 * Atribuí os argumentos da mensagem
+	 * Atribuí os argumentos da mensagem.
 	 * 
 	 * @param args argumentos da mensagem
 	 */

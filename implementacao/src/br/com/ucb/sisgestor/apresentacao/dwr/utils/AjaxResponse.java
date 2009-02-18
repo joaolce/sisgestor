@@ -21,8 +21,8 @@ import org.w3c.dom.Node;
  */
 public class AjaxResponse {
 
-	private DOMElement				response;
 	private Document					document;
+	private DOMElement				response;
 	private Map<String, Object>	valoresDevolvidos;
 
 	/**

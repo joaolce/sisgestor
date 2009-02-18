@@ -14,9 +14,9 @@ import br.com.ucb.sisgestor.apresentacao.actions.ManterWorkflowAction;
  */
 public class ManterWorkflowActionForm extends BaseForm {
 
+	private Boolean	ativo;
 	private String		descricao;
 	private String		nome;
-	private Boolean	ativo;
 
 	/**
 	 * Recupera o indicador de ativo do workflow.

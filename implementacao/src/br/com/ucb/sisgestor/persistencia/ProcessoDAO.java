@@ -16,6 +16,8 @@ import java.util.List;
  */
 public interface ProcessoDAO extends BaseDAO<Processo, Integer> {
 
+	/** Quantidade de registros por paginação da tela de Processos */
+	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(6);
 
 	/**
 	 * Retorna um {@link List} de {@link Processo} a partir do nome e/ou descrição
