@@ -14,9 +14,9 @@ import br.com.ucb.sisgestor.apresentacao.actions.ManterProcessoAction;
  */
 public class ManterProcessoActionForm extends BaseForm {
 
-	private Integer	workflow;
 	private String		descricao;
 	private String		nome;
+	private Integer	workflow;
 
 	/**
 	 * Recupera o valor de descricao

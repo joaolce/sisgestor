@@ -12,11 +12,10 @@ package br.com.ucb.sisgestor.util.dto;
  */
 public class PesquisaTarefaDTO extends PesquisaPaginadaDTO {
 
+	private String		descricao;
 	private Integer	idAtividade;
 	private String		nome;
-	private String		descricao;
-	private Integer usuario;
-
+	private Integer	usuario;
 
 	/**
 	 * Recupera parte da descrição para pesquisa.
@@ -46,6 +45,15 @@ public class PesquisaTarefaDTO extends PesquisaPaginadaDTO {
 	}
 
 	/**
+	 * Recupera o identificador do usuário para pesquisa.
+	 * 
+	 * @return identificador do usuário para pesquisa
+	 */
+	public Integer getUsuario() {
+		return this.usuario;
+	}
+
+	/**
 	 * Atribui parte da descrição para pesquisa.
 	 * 
 	 * @param descricao parte da descrição para pesquisa
@@ -53,7 +61,6 @@ public class PesquisaTarefaDTO extends PesquisaPaginadaDTO {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-
 
 	/**
 	 * Atribui idAtividade
@@ -63,7 +70,6 @@ public class PesquisaTarefaDTO extends PesquisaPaginadaDTO {
 	public void setIdAtividade(Integer idAtividade) {
 		this.idAtividade = idAtividade;
 	}
-
 
 	/**
 	 * Atribui parte do nome para pesquisa.
@@ -75,15 +81,6 @@ public class PesquisaTarefaDTO extends PesquisaPaginadaDTO {
 	}
 
 	/**
-	 * Recupera o identificador do usuário para pesquisa.
-	 * 
-	 * @return identificador do usuário para pesquisa
-	 */
-	public Integer getUsuario() {
-		return usuario;
-	}
-
-	/**
 	 * Atribui o identificador do usuário para pesquisa.
 	 * 
 	 * @param usuario identificador do usuário para pesquisa
@@ -91,7 +88,4 @@ public class PesquisaTarefaDTO extends PesquisaPaginadaDTO {
 	public void setUsuario(Integer usuario) {
 		this.usuario = usuario;
 	}
-
-
-
 }

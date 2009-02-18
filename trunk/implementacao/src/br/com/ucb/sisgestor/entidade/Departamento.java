@@ -26,13 +26,13 @@ import org.hibernate.annotations.NaturalId;
 @AttributeOverride(name = "id", column = @Column(name = "DPR_ID", nullable = false))
 public class Departamento extends ObjetoPersistente {
 
-	private String					sigla;
-	private String					nome;
-	private String					email;
-	private Departamento			departamentoSuperior;
-	private List<Departamento>	departamentosFilhos;
-	private List<Usuario>		usuarios;
 	private List<Atividade>		atividades;
+	private List<Departamento>	departamentosFilhos;
+	private Departamento			departamentoSuperior;
+	private String					email;
+	private String					nome;
+	private String					sigla;
+	private List<Usuario>		usuarios;
 
 	/**
 	 * Recupera o valor de atividades

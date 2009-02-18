@@ -15,6 +15,8 @@ import java.util.List;
  */
 public interface AtividadeDAO extends BaseDAO<Atividade, Integer> {
 
+	/** Quantidade de registros por paginação da tela de Atividades */
+	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(4);
 
 	/**
 	 * Retorna um {@link List} de {@link Atividade} a partir do nome e/ou descrição
@@ -26,8 +28,9 @@ public interface AtividadeDAO extends BaseDAO<Atividade, Integer> {
 	 * @param paginaAtual página atual da pesquisa
 	 * @return {@link List} de {@link Atividade}
 	 */
-	List<Atividade> getByNomeDescricaoDepartamento(String nome, String descricao, Integer departamento, Integer idProcesso, Integer paginaAtual);
-	
+	List<Atividade> getByNomeDescricaoDepartamento(String nome, String descricao, Integer departamento,
+			Integer idProcesso, Integer paginaAtual);
+
 	/**
 	 * Recupera o total de registros retornados pela consulta.
 	 * 

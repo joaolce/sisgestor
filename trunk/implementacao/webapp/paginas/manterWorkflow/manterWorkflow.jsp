@@ -17,7 +17,7 @@
 
 <div class="bordas" id="BordaExterna">
 	<div id="divMenuOpcoes">
-		<htmlSGR:link href="#gerenciarCampos" titleKey="dica.campo.gerenciar" linkName="gerenciarCampos" onclick="workflow.popupGerenciarCampos();" roles="4">
+		<htmlSGR:link href="#gerenciarCampos" titleKey="dica.campo.gerenciar" linkName="gerenciarCampos" styleId="linkGerenciarCampos" styleClass="btDesativado" roles="4">
 			<html:img srcKey="imagem.campo" width="20" height="19" />
 		</htmlSGR:link>
 		<htmlSGR:link href="#gerenciarProcessos" titleKey="dica.processo.gerenciar" linkName="gerenciarProcessos" styleId="linkGerenciarProcessos" styleClass="btDesativado" roles="4">
@@ -37,17 +37,17 @@
 				<label style="float: left;">
 					<bean:message key="label.nome" />
 					<br />
-					<input type="text" name="nomePesquisa" id="nomePesquisa"  size="51" maxlength="100" />
+					<input type="text" name="nomePesquisaWorkflow" id="nomePesquisaWorkflow" size="51" maxlength="100" />
 				</label>
 				<label style="float: left; margin-left: 20px;">
 					<bean:message key="label.descricao" />
 					<br />
-					<input type="text" name="descricaoPesquisa" id="descricaoPesquisa"  size="51" maxlength="200" />
+					<input type="text" name="descricaoPesquisaWorkflow" id="descricaoPesquisaWorkflow" size="51" maxlength="200" />
 				</label>
 				<label style="float: left; margin-left: 20px;">
 					<bean:message key="label.ativo" />
 					<br />
-					<select name="ativoPesquisa" id="ativoPesquisa">
+					<select name="ativoPesquisaWorkflow" id="ativoPesquisaWorkflow">
 						<option value="">
 							<bean:message key="label.todos" />
 						</option>
@@ -83,7 +83,7 @@
 	</div>
 	
 	<!-- FIELDSET PARA DADOS DO WORKFLOW -->
-	<html:form action="/manterWorkflow.do?method=atualizar" onsubmit="workflow.atualizar(this); return false;" styleId="formSalvar" style="display: none; margin-top: 10px;">
+	<html:form action="/manterWorkflow.do?method=atualizar" onsubmit="workflow.atualizar(this); return false;" styleId="formAtualizarWorkflow" style="display: none; margin-top: 10px;">
 		<html:hidden property="id"/>
 		<fieldset style="padding: 10px; width: 50%; margin: 5 auto;">
 			<legend>
@@ -96,14 +96,14 @@
 							<bean:message key="label.nome"/>
 							<span class="obrigatorio">*</span>
 						</b>
-						<html:text property="nome" size="51" maxlength="100" />
+						<html:text property="nome" styleId="nomeWorkflow" size="51" maxlength="100" />
 					</label> 
 					<label style="float: left; margin-left: 10px;">
 						<b>
 							<bean:message key="label.ativo"/>
 							<span class="obrigatorio">*</span>
 						</b>
-						<html:select property="ativo" styleId="ativo">
+						<html:select property="ativo" styleId="ativoWorkflow">
 							<html:option value="0" key="label.nao" />
 							<html:option value="1" key="label.sim" />
 						</html:select>
@@ -115,10 +115,10 @@
 						<bean:message key="label.descricao" />
 						<span class="obrigatorio">*</span>
 					</b>
-					<html:textarea property="descricao" styleId="descricao" rows="4" cols="50" onkeypress="workflow.contaChar(false);" onkeydown="workflow.contaChar(false);" onkeyup="workflow.contaChar(false);" />
+					<html:textarea property="descricao" styleId="descricaoWorkflow" rows="4" cols="50" onkeypress="workflow.contaChar(false);" onkeydown="workflow.contaChar(false);" onkeyup="workflow.contaChar(false);" />
 					<br />
 					<bean:message key="label.maximoCaracteres" arg0="200"/>:
-					<span id="contagem" style="color: red;"></span>
+					<span id="contagemWorkflow" style="color: red;"></span>
 				</label> 
 				<br />
 			</div>

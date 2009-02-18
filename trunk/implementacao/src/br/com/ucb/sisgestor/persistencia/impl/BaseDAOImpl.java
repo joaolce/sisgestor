@@ -23,7 +23,8 @@ import org.hibernate.criterion.Order;
  * @author João Lúcio
  * @since 21/10/2008
  */
-public class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serializable> implements BaseDAO<T, PK> {
+public abstract class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serializable> implements
+		BaseDAO<T, PK> {
 
 	private Class<T>	classePersistente;
 
@@ -61,7 +62,7 @@ public class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serializable> i
 	 * {@inheritDoc}
 	 */
 	public List<T> obterTodos() {
-		Criteria criteria = this.getSession().createCriteria(this.classePersistente);
+		Criteria criteria = this.createCriteria(this.classePersistente);
 		Order order = this.getOrdemLista();
 		if (order != null) {
 			criteria.addOrder(order);
@@ -88,6 +89,16 @@ public class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serializable> i
 			criteria.setFirstResult(paginaAtual.intValue() * maximoRegistros);
 		}
 		criteria.setMaxResults(maximoRegistros);
+	}
+
+	/**
+	 * Cria um {@link Criteria} para a classe informada.
+	 * 
+	 * @param clazz classe a criar o criteria
+	 * @return criteria da classes
+	 */
+	protected Criteria createCriteria(Class<? extends ObjetoPersistente> clazz) {
+		return this.getSession().createCriteria(clazz);
 	}
 
 	/**

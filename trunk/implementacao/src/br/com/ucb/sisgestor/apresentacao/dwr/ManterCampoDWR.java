@@ -9,7 +9,6 @@ import br.com.ucb.sisgestor.negocio.CampoBO;
 import br.com.ucb.sisgestor.negocio.impl.CampoBOImpl;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaCampoDTO;
-
 import java.util.List;
 
 /**

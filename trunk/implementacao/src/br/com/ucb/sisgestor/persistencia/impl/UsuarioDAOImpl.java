@@ -43,6 +43,16 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario, Integer> implements Usu
 
 	/**
 	 * {@inheritDoc}
+	 * */
+	public List<Usuario> getByDepartamento(Integer departamento) {
+		Criteria criteria = this.createCriteria(Usuario.class);
+		criteria.createAlias("this.departamento", "departamento");
+		criteria.add(Restrictions.eq("departamento.id", departamento));
+		return GenericsUtil.checkedList(criteria.list(), Usuario.class);
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
 			Integer paginaAtual) {
@@ -65,7 +75,7 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario, Integer> implements Usu
 	 * {@inheritDoc}
 	 */
 	public Usuario recuperarPorLogin(String login) {
-		Criteria criteria = this.getSession().createCriteria(Usuario.class);
+		Criteria criteria = this.createCriteria(Usuario.class);
 		criteria.add(Restrictions.eq("login", login).ignoreCase());
 		return (Usuario) criteria.uniqueResult();
 	}
@@ -87,7 +97,7 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario, Integer> implements Usu
 	 * @return {@link Criteria}
 	 */
 	private Criteria montarCriteriosPaginacao(String login, String nome, Integer departamento) {
-		Criteria criteria = this.getSession().createCriteria(Usuario.class);
+		Criteria criteria = this.createCriteria(Usuario.class);
 		if (StringUtils.isNotBlank(login)) {
 			criteria.add(Restrictions.like("login", login, MatchMode.ANYWHERE).ignoreCase());
 		}
@@ -99,15 +109,5 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario, Integer> implements Usu
 			criteria.add(Restrictions.eq("departamento.id", departamento));
 		}
 		return criteria;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * */
-	public List<Usuario> getByDepartamento(Integer departamento) {
-		Criteria criteria = this.getSession().createCriteria(Usuario.class);
-		criteria.createAlias("this.departamento", "departamento");
-		criteria.add(Restrictions.eq("departamento.id", departamento));
-		return GenericsUtil.checkedList(criteria.list(), Usuario.class);
 	}
 }

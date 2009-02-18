@@ -18,17 +18,17 @@ import org.apache.commons.logging.LogFactory;
  */
 public final class LoginBundle {
 
-	private static final String	LOCAL_RESOURCE	= "resources/";
 	private static final String	ERRO_RESOURCE	= "erro_page.html";
+	private static StringBuilder	erroPage;
+	private static final String	LOCAL_RESOURCE	= "resources/";
+	private static final Log		LOG				= LogFactory.getLog(LoginBundle.class);
 	private static final String	LOGIN_RESOURCE	= "login_page.html";
-	private static final String	SENHA_RESOURCE	= "senha_page.html";
+	private static StringBuilder	loginPage;
 	private static final String	MENSAGEM			= "#MENSAGEM#";
+	private static final String	SENHA_RESOURCE	= "senha_page.html";
+	private static StringBuilder	senhaPage;
 	private static final String	VERSAO			= "#VERSAO#";
 	private static final String	VERSAO_DATA		= "#VERSAO_DATA#";
-	private static StringBuilder	erroPage;
-	private static StringBuilder	loginPage;
-	private static StringBuilder	senhaPage;
-	private static final Log		LOG				= LogFactory.getLog(LoginBundle.class);
 
 	/**
 	 * Cria uma nova instância do tipo {@link LoginBundle}

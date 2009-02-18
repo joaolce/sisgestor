@@ -47,7 +47,7 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 	public List<Processo> getByNomeDescricao(String nome, String descricao, Integer idWorkflow,
 			Integer paginaAtual) {
 		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, idWorkflow);
-		this.adicionarPaginacao(criteria, paginaAtual, QTD_REGISTROS_PAGINA - 3);
+		this.adicionarPaginacao(criteria, paginaAtual, ProcessoDAO.QTD_REGISTROS_PAGINA);
 		criteria.addOrder(Order.asc("nome"));
 		return GenericsUtil.checkedList(criteria.list(), Processo.class);
 	}
@@ -79,7 +79,7 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 	 * @return {@link Criteria}
 	 */
 	private Criteria montarCriteriosPaginacao(String nome, String descricao, Integer idWorkflow) {
-		Criteria criteria = this.getSession().createCriteria(Processo.class);
+		Criteria criteria = this.createCriteria(Processo.class);
 
 		criteria.createAlias("this.workflow", "workflow");
 		criteria.add(Restrictions.eq("workflow.id", idWorkflow));

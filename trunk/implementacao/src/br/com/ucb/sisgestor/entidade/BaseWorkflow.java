@@ -15,8 +15,8 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class BaseWorkflow extends ObjetoPersistente {
 
-	private String	nome;
 	private String	descricao;
+	private String	nome;
 
 	/**
 	 * Recupera o valor de descricao

@@ -15,7 +15,16 @@ public class PesquisaAtividadeDTO extends PesquisaPaginadaDTO {
 	private Integer	idProcesso;
 	private String		nome;
 	private String		descricao;
-	private Integer departamento;
+	private Integer	departamento;
+
+	/**
+	 * Recupera o identificador do departamento para pesquisa.
+	 * 
+	 * @return identificador do departamento para pesquisa
+	 */
+	public Integer getDepartamento() {
+		return this.departamento;
+	}
 
 	/**
 	 * Recupera parte da descrição para pesquisa.
@@ -44,6 +53,17 @@ public class PesquisaAtividadeDTO extends PesquisaPaginadaDTO {
 		return this.nome;
 	}
 
+
+	/**
+	 * Atribui o identificador do departamento para pesquisa.
+	 * 
+	 * @param departamento identificador do departamento para pesquisa
+	 */
+	public void setDepartamento(Integer departamento) {
+		this.departamento = departamento;
+	}
+
+
 	/**
 	 * Atribui parte da descrição para pesquisa.
 	 * 
@@ -52,7 +72,6 @@ public class PesquisaAtividadeDTO extends PesquisaPaginadaDTO {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-
 
 	/**
 	 * Atribui idProcesso
@@ -63,7 +82,6 @@ public class PesquisaAtividadeDTO extends PesquisaPaginadaDTO {
 		this.idProcesso = idProcesso;
 	}
 
-
 	/**
 	 * Atribui parte do nome para pesquisa.
 	 * 
@@ -71,24 +89,6 @@ public class PesquisaAtividadeDTO extends PesquisaPaginadaDTO {
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	/**
-	 * Recupera o identificador do departamento para pesquisa.
-	 * 
-	 * @return identificador do departamento para pesquisa
-	 */
-	public Integer getDepartamento() {
-		return departamento;
-	}
-
-	/**
-	 * Atribui o identificador do departamento para pesquisa.
-	 * 
-	 * @param departamento identificador do departamento para pesquisa
-	 */
-	public void setDepartamento(Integer departamento) {
-		this.departamento = departamento;
 	}
 
 }

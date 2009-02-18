@@ -25,9 +25,8 @@ import org.hibernate.classic.Session;
 public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Serializable> implements
 		BaseBO<T, PK> {
 
-
 	/**
-	 * Cria uma nova instância do tipo {@link BaseBOImpl}
+	 * Cria uma nova instância do tipo {@link BaseBOImpl}.
 	 */
 	protected BaseBOImpl() {
 		//apenas para proteger no pacote

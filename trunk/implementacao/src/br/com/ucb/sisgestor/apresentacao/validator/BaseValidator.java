@@ -39,14 +39,14 @@ public class BaseValidator {
 	//Campos que devem ser informados em caso de erro.
 	private ActionErrors				actionErrors;
 	private String						focusControl;
-	private String						forwardErroValidacao;
+	private ActionForm				form;
 
+	private String						forwardErroValidacao;
 	private ActionMapping			mapping;
 	private HttpServletRequest		request;
 	private MessageResources		resources;
 	private HttpServletResponse	response;
 	private HttpSession				session;
-	private ActionForm				form;
 
 	/**
 	 * Método de execução padrão, deve ser executado para preencher variáveis locais e facilitar a vida do

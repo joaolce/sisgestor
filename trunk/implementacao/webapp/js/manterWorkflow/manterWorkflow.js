@@ -11,31 +11,26 @@ Event.observe(window, "load", function() {
  * @author Thiago
  * @since 09/02/2009
  */
-var ComportamentosTela = Class.create();
-ComportamentosTela.prototype = {
+var ManterWorkflow = Class.create();
+ManterWorkflow.prototype = {
+
+   /**
+	 * Tabela com os dados da pesquisa.
+	 */
+   tabelaTelaPrincipal :null,
+
    /**
 	 * @constructor
 	 */
    initialize : function() {},
 
-   tabelaTelaPrincipal :null,
-
    /**
-	 * Retorna a tabela da tela inicial do caso de uso
+	 * Retorna a tabela da tela inicial do caso de uso.
 	 * 
 	 * @return {HTMLTableSectionElement}
 	 */
    getTBodyTelaPrincipal : function() {
 	   return $("corpoManterWorkflow");
-   },
-
-   /**
-	 * Recupera o form manterWorkflowForm.
-	 * 
-	 * @return form do manter workflow
-	 */
-   getForm : function() {
-	   return $("manterWorkflowForm");
    },
 
    /**
@@ -60,17 +55,17 @@ ComportamentosTela.prototype = {
 	 * Preenche os campos do workflow selecionado.
 	 */
    visualizar : function() {
-	   Element.hide("formSalvar");
+	   Element.hide("formAtualizarWorkflow");
 	   var idWorkflow = this.getIdSelecionado();
 	   if (isNaN(idWorkflow)) {
 		   return;
 	   }
 	   ManterWorkflowDWR.getById(idWorkflow, ( function(workflow) {
-		   Effect.Appear("formSalvar");
-		   dwr.util.setValue($("formSalvar").id, idWorkflow);
-		   dwr.util.setValue("nome", workflow.nome);
-		   dwr.util.setValue("descricao", workflow.descricao);
-		   dwr.util.setValue("ativo", workflow.ativo);
+		   Effect.Appear("formAtualizarWorkflow");
+		   dwr.util.setValue($("formAtualizarWorkflow").id, idWorkflow);
+		   dwr.util.setValue("nomeWorkflow", workflow.nome);
+		   dwr.util.setValue("descricaoWorkflow", workflow.descricao);
+		   dwr.util.setValue("ativoWorkflow", workflow.ativo);
 		   this.habilitarLinks(true);
 		   this.contaChar(false);
 	   }).bind(this));
@@ -80,12 +75,12 @@ ComportamentosTela.prototype = {
 	 * Faz a pesquisa dos workflows pelos parâmetros informados.
 	 */
    pesquisar : function() {
-	   Effect.Fade("formSalvar");
+	   Effect.Fade("formAtualizarWorkflow");
 	   workflow.habilitarLinks(false);
 	   var dto = {
-	      nome :dwr.util.getValue("nomePesquisa"),
-	      descricao :dwr.util.getValue("descricaoPesquisa"),
-	      ativo :dwr.util.getValue("ativoPesquisa")
+	      nome :dwr.util.getValue("nomePesquisaWorkflow"),
+	      descricao :dwr.util.getValue("descricaoPesquisaWorkflow"),
+	      ativo :dwr.util.getValue("ativoPesquisaWorkflow")
 	   };
 
 	   if (this.tabelaTelaPrincipal == null) {
@@ -141,7 +136,7 @@ ComportamentosTela.prototype = {
 	 */
    atualizar : function(form) {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o workflow selecionado?", ( function() {
-		   requestUtils.submitForm(form, null, ( function() {
+		   requestUtils.submitForm(form, ( function() {
 			   if (requestUtils.status) {
 				   workflow.pesquisar();
 			   }
@@ -156,7 +151,7 @@ ComportamentosTela.prototype = {
 	 */
    excluir : function() {
 	   JanelasComuns.showConfirmDialog("Deseja excluir o workflow selecionado?", ( function() {
-		   var idWorkflow = dwr.util.getValue($("formSalvar").id);
+		   var idWorkflow = dwr.util.getValue($("formAtualizarWorkflow").id);
 		   requestUtils.simpleRequest("manterWorkflow.do?method=excluir&id=" + idWorkflow,
 		      ( function() {
 			      if (requestUtils.status) {
@@ -173,27 +168,29 @@ ComportamentosTela.prototype = {
 	   var url = "manterWorkflow.do?method=popupNovoWorkflow";
 	   createWindow(255, 375, 280, 40, "Novo Workflow", "divNovoWorkflow", url);
    },
-   
+
    /**
-    * Abre janela para gerenciar os processos
-    * */
-   popupGerenciarProcessos :function(){
-	   var idWorkflow = dwr.util.getValue($("formSalvar").id);
-	   var url = "manterProcesso.do?method=entrada&workflow="+idWorkflow;
-	   createWindow(536, 985, 280, 10, "Gerenciar Processos", "divGerenciarProcessos", url, (function(){
-		   processo.pesquisar();
-	   }));
-   }, 
-   
+	 * Abre janela para gerenciar os processos.
+	 */
+   popupGerenciarProcessos : function() {
+	   var idWorkflow = dwr.util.getValue($("formAtualizarWorkflow").id);
+	   var url = "manterProcesso.do?method=entrada&workflow=" + idWorkflow;
+	   createWindow(536, 985, 280, 10, "Gerenciar Processos", "divGerenciarProcessos", url,
+	      ( function() {
+		      processo.pesquisar();
+	      }));
+   },
+
    /**
-    * Abre janela para gerenciar os campos
-    * */
-   popupGerenciarCampos :function(){
-	   var url = "manterCampo.do?method=entrada";
-	   createWindow(536, 985, 280, 10, "Gerenciar Campos", "divGerenciarCampos", url, (function(){
-		   //campo.pesquisar();
-	   }));
-   }, 
+	 * Abre janela para gerenciar os campos.
+	 */
+   popupGerenciarCampos : function() {
+   	var idWorkflow = dwr.util.getValue($("formAtualizarWorkflow").id);
+	   var url = "manterCampo.do?method=entrada&workflow=" + idWorkflow;
+	   createWindow(536, 985, 280, 10, "Gerenciar Campos", "divGerenciarCampos", url, ( function() {
+	   // campo.pesquisar();
+	      }));
+   },
 
    /**
 	 * Envia ao action a ação de salvar os dados do workflow.
@@ -208,34 +205,38 @@ ComportamentosTela.prototype = {
 		   }
 	   }).bind(this));
    },
-   
+
    /**
-    * Limita a quantidade de caracteres do campo descrição.
-    * 
-    * @param (Boolean) novo se for novo workflow
-    */
-    contaChar: function(novo) {
-	   if(novo) {
-		   contaChar($("descricaoNovo"), 200, "contagemNovo");
+	 * Limita a quantidade de caracteres do campo descrição.
+	 * 
+	 * @param (Boolean) novo se for novo workflow
+	 */
+   contaChar : function(novo) {
+	   if (novo) {
+		   contaChar($("descricaoNovoWorkflow"), 200, "contagemNovoWorkflow");
 	   } else {
-		   contaChar($("descricao"), 200, "contagem");
+		   contaChar($("descricaoWorkflow"), 200, "contagemWorkflow");
 	   }
-	},
-	
-	/**
+   },
+
+   /**
 	 * Habilita/desabilita os links, para quando um workflow seja selecionado.
 	 * 
-    * @param (Boolean) caso seja para habilitar ou desabilitar
+	 * @param (Boolean) caso seja para habilitar ou desabilitar
 	 */
-	habilitarLinks : function(habilita) {
-		if(habilita) {
-			$("linkGerenciarProcessos").className = "";
-			$("linkGerenciarProcessos").onclick = this.popupGerenciarProcessos;
-		} else {
-			$("linkGerenciarProcessos").className = "btDesativado";
-			$("linkGerenciarProcessos").onclick = "";
-		}
-	}
+   habilitarLinks : function(habilita) {
+	   if (habilita) {
+		   $("linkGerenciarProcessos").className = "";
+		   $("linkGerenciarProcessos").onclick = this.popupGerenciarProcessos;
+		   $("linkGerenciarCampos").className = "";
+		   $("linkGerenciarCampos").onclick = this.popupGerenciarCampos;
+	   } else {
+		   $("linkGerenciarProcessos").className = "btDesativado";
+		   $("linkGerenciarProcessos").onclick = "";
+		   $("linkGerenciarCampos").className = "btDesativado";
+		   $("linkGerenciarCampos").onclick = "";
+	   }
+   }
 };
 
-var workflow = new ComportamentosTela();
+var workflow = new ManterWorkflow();

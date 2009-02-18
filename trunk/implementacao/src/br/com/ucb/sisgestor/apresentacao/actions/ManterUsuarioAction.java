@@ -102,6 +102,7 @@ public class ManterUsuarioAction extends BaseAction {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public ActionForward entrada(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) actionForm;

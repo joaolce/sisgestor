@@ -28,13 +28,13 @@ import org.hibernate.annotations.NaturalId;
 @AttributeOverride(name = "id", column = @Column(name = "UUR_ID", nullable = false))
 public class Usuario extends ObjetoPersistente {
 
-	private String				nome;
-	private String				login;
-	private String				senha;
-	private String				email;
 	private Boolean			chefe;
 	private Departamento		departamento;
+	private String				email;
+	private String				login;
+	private String				nome;
 	private List<Permissao>	permissoes;
+	private String				senha;
 	private List<Tarefa>		tarefas;
 
 	/**

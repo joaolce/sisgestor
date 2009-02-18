@@ -93,20 +93,22 @@ Aba.prototype = {
 	 */
    setAtivo : function(e) {
 	   var elemento = $A(arguments)[1];
-	   this.pares.each(( function(pair) {
-	   	var divArea = $(pair.value);
-		   if (pair.key != elemento) {
-			   $(pair.key).className = this.styleClassInativo;
-			   divArea.hide();
-		   } else {
-			   $(pair.key).className = this.styleClassAtivo;
-			   divArea.show();
-			   var firstDescendant = divArea.firstDescendant();
-			   if((firstDescendant != null) && (firstDescendant.nodeName.toLowerCase() == "textarea")) {
-			   	firstDescendant.focus();
-			   }
-		   }
-	   }).bind(this));
+	   this.pares
+	      .each(( function(pair) {
+		      var divArea = $(pair.value);
+		      if (pair.key != elemento) {
+			      $(pair.key).className = this.styleClassInativo;
+			      divArea.hide();
+		      } else {
+			      $(pair.key).className = this.styleClassAtivo;
+			      divArea.show();
+			      var firstDescendant = divArea.firstDescendant();
+			      if ((firstDescendant != null)
+			         && (firstDescendant.nodeName.toLowerCase() == "textarea")) {
+				      firstDescendant.focus();
+			      }
+		      }
+	      }).bind(this));
    },
    /**
 	 * mostra a aba que contém o elemento passado

@@ -71,7 +71,6 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -89,7 +88,6 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 		return this.dao.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getUsuario(), dto
 				.getIdAtividade());
 	}
-
 
 	/**
 	 * {@inheritDoc}

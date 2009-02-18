@@ -27,6 +27,14 @@ public interface UsuarioBO extends BaseBO<Usuario, Integer> {
 	boolean enviarLembreteDeSenha(String login) throws NegocioException;
 
 	/**
+	 * Recupera um {@link List} de {@link Usuario} do {@link Departamento}
+	 * 
+	 * @param departamento Departamento
+	 * @return Lista de usuários do departamento
+	 */
+	List<Usuario> getByDepartamento(Departamento departamento);
+
+	/**
 	 * Retorna um {@link List} de {@link Usuario} a partir dos parâmetros informados.
 	 * 
 	 * @param login parte do login do usuário
@@ -46,12 +54,4 @@ public interface UsuarioBO extends BaseBO<Usuario, Integer> {
 	 * @throws NegocioException caso uma regra de negócio seja violada
 	 */
 	Usuario recuperarPorLogin(String login) throws NegocioException;
-
-	/**
-	 * Recupera um {@link List} de {@link Usuario} do {@link Departamento}
-	 * 
-	 * @param departamento Departamento
-	 * @return Lista de usuários do departamento
-	 */
-	List<Usuario> getByDepartamento(Departamento departamento);
 }

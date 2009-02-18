@@ -44,19 +44,10 @@ public class TarefaDAOImpl extends BaseDAOImpl<Tarefa, Integer> implements Taref
 	/**
 	 * {@inheritDoc}
 	 */
-	public Integer getTotalRegistros(String nome, String descricao, Integer usuario, Integer idAtividade) {
+	public List<Tarefa> getByNomeDescricaoUsuario(String nome, String descricao, Integer usuario,
+			Integer idAtividade, Integer paginaAtual) {
 		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, usuario, idAtividade);
-		criteria.setProjection(Projections.rowCount());
-		return (Integer) criteria.uniqueResult();
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public List<Tarefa> getByNomeDescricaoUsuario(String nome, String descricao, Integer usuario, Integer idAtividade,
-			Integer paginaAtual) {
-		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, usuario, idAtividade);
-		this.adicionarPaginacao(criteria, paginaAtual, QTD_REGISTROS_PAGINA_TAREFA);
+		this.adicionarPaginacao(criteria, paginaAtual, TarefaDAO.QTD_REGISTROS_PAGINA);
 		criteria.addOrder(Order.asc("nome"));
 		return GenericsUtil.checkedList(criteria.list(), Tarefa.class);
 	}
@@ -64,6 +55,16 @@ public class TarefaDAOImpl extends BaseDAOImpl<Tarefa, Integer> implements Taref
 	/**
 	 * {@inheritDoc}
 	 */
+	public Integer getTotalRegistros(String nome, String descricao, Integer usuario, Integer idAtividade) {
+		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, usuario, idAtividade);
+		criteria.setProjection(Projections.rowCount());
+		return (Integer) criteria.uniqueResult();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	protected Order getOrdemLista() {
 		return Order.asc("nome").ignoreCase();
 	}
@@ -77,18 +78,19 @@ public class TarefaDAOImpl extends BaseDAOImpl<Tarefa, Integer> implements Taref
 	 * @param idAtividade identificação do atividade
 	 * @return {@link Criteria}
 	 */
-	private Criteria montarCriteriosPaginacao(String nome, String descricao, Integer usuario, Integer idAtividade) {
-		Criteria criteria = this.getSession().createCriteria(Tarefa.class);
+	private Criteria montarCriteriosPaginacao(String nome, String descricao, Integer usuario,
+			Integer idAtividade) {
+		Criteria criteria = this.createCriteria(Tarefa.class);
 		criteria.add(Restrictions.eq("this.atividade.id", idAtividade));
 		criteria.createAlias("this.atividade", "atividade");
 		criteria.add(Restrictions.eq("atividade.id", idAtividade));
-		if(StringUtils.isNotBlank(nome)) {
+		if (StringUtils.isNotBlank(nome)) {
 			criteria.add(Restrictions.like("nome", nome, MatchMode.ANYWHERE).ignoreCase());
 		}
-		if(StringUtils.isNotBlank(descricao)) {
+		if (StringUtils.isNotBlank(descricao)) {
 			criteria.add(Restrictions.like("descricao", descricao, MatchMode.ANYWHERE).ignoreCase());
 		}
-		if(usuario != null){
+		if (usuario != null) {
 			criteria.createAlias("this.usuario", "usuario");
 			criteria.add(Restrictions.eq("usuario.id", usuario));
 			criteria.addOrder(Order.asc("usuario.nome"));

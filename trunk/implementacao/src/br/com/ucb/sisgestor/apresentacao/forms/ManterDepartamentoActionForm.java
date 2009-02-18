@@ -16,11 +16,11 @@ import java.util.List;
  */
 public class ManterDepartamentoActionForm extends BaseForm {
 
-	private String					sigla;
-	private String					nome;
-	private String					email;
 	private Integer				departamentoSuperior;
+	private String					email;
 	private List<Departamento>	listaDepartamentos;
+	private String					nome;
+	private String					sigla;
 
 	/**
 	 * Recupera código do departamento superior.

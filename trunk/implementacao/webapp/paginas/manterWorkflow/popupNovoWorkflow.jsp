@@ -10,7 +10,7 @@
 					<span class="obrigatorio">*</span>
 				</b>
 				<br />
-				<html:text property="nome" size="51" maxlength="100" />
+				<html:text property="nome" styleId="nomeNovoWorkflow" size="51" maxlength="100" />
 			</label> 
 			<label style="float: left; margin-top: 15px; margin-left: 15px;">
 				<b>
@@ -18,7 +18,7 @@
 					<span class="obrigatorio">*</span>
 				</b>
 				<br />
-				<html:select property="ativo" styleId="ativo">
+				<html:select property="ativo" styleId="ativoNovoWorkflow">
 					<html:option value="0" key="label.nao" />
 					<html:option value="1" key="label.sim" />
 				</html:select>
@@ -30,10 +30,10 @@
 				<span class="obrigatorio">*</span>
 			</b>
 			<br />
-			<html:textarea property="descricao" styleId="descricaoNovo" rows="4" cols="50" onkeypress="workflow.contaChar(true);" onkeydown="workflow.contaChar(true);" onkeyup="workflow.contaChar(true);" />
+			<html:textarea property="descricao" styleId="descricaoNovoWorkflow" rows="4" cols="50" onkeypress="workflow.contaChar(true);" onkeydown="workflow.contaChar(true);" onkeyup="workflow.contaChar(true);" />
 			<br />
 			<bean:message key="label.maximoCaracteres" arg0="200"/>:
-			<span id="contagemNovo" style="color: red;"></span>
+			<span id="contagemNovoWorkflow" style="color: red;"></span>
 		</label>
 	</fieldset>
 	<div style="clear: both; padding: 5px;" align="center">	

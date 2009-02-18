@@ -3,7 +3,7 @@
  */
 Event.observe(window, "load", function() {
 	usuario.pesquisar();
-	usuario.permissaoManterUsuario = Usuario.temPermissao(MANTER_USUARIO);
+	usuario.setPermissaoManterUsuario(Usuario.temPermissao(MANTER_USUARIO));
 });
 
 /**
@@ -11,13 +11,12 @@ Event.observe(window, "load", function() {
  * 
  * @author Thiago
  */
-var ComportamentosTela = Class.create();
-ComportamentosTela.prototype = {
-   /**
-	 * @constructor
-	 */
-   initialize : function() {},
+var ManterUsuario = Class.create();
+ManterUsuario.prototype = {
 
+   /**
+	 * Tabela com os dados da pesquisa.
+	 */
    tabelaTelaPrincipal :null,
 
    /**
@@ -26,21 +25,26 @@ ComportamentosTela.prototype = {
    permissaoManterUsuario :false,
 
    /**
-	 * Retorna a tabela da tela inicial do caso de uso
+	 * @constructor
+	 */
+   initialize : function() {},
+
+   /**
+	 * Atribui se o usuário logado possui permissão de manter usuário.
+	 * 
+	 * @param possui <code>true</code> se possui, <code>false</code> se não
+	 */
+   setPpermissaoManterUsuario : function(possui) {
+	   this.permissaoManterUsuario = possui;
+   },
+
+   /**
+	 * Retorna a tabela da tela inicial do caso de uso.
 	 * 
 	 * @return {HTMLTableSectionElement}
 	 */
    getTBodyTelaPrincipal : function() {
 	   return $("corpoManterUsuario");
-   },
-
-   /**
-	 * Recupera o form manterUsuarioForm.
-	 * 
-	 * @return form do manter usuário
-	 */
-   getForm : function() {
-	   return $("manterUsuarioForm");
    },
 
    /**
@@ -147,7 +151,7 @@ ComportamentosTela.prototype = {
 			   return usuario.nome;
 		   });
 		   cellfuncs.push( function(usuario) {
-		   	return nobreakSpace(usuario.email);
+			   return nobreakSpace(usuario.email);
 		   });
 		   cellfuncs.push( function(usuario) {
 			   return usuario.departamento.sigla;
@@ -283,4 +287,4 @@ ComportamentosTela.prototype = {
    }
 };
 
-var usuario = new ComportamentosTela();
+var usuario = new ManterUsuario();

@@ -103,6 +103,13 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	/**
 	 * {@inheritDoc}
 	 */
+	public List<Usuario> getByDepartamento(Departamento departamento) {
+		return this.dao.getByDepartamento(departamento.getId());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
 			Integer paginaAtual) {
 		return this.dao.getByLoginNomeDepartamento(login, nome, departamento, paginaAtual);
@@ -158,12 +165,5 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 			HibernateUtil.rollback(transaction);
 			this.verificaExcecao(e);
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public List<Usuario> getByDepartamento(Departamento departamento) {
-		return this.dao.getByDepartamento(departamento.getId());
 	}
 }

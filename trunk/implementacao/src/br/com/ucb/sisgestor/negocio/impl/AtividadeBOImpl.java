@@ -77,7 +77,6 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 */
