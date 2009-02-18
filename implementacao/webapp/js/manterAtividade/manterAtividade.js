@@ -54,7 +54,7 @@ ManterAtividade.prototype = {
 	 */
    visualizar : function() {
 	   Element.hide("formSalvarAtividade");
-	   var idAtividade = this.getIdSelecionado();
+	   var idAtividade = atividade.getIdSelecionado();
 	   if (isNaN(idAtividade)) {
 		   return;
 	   }
@@ -83,12 +83,12 @@ ManterAtividade.prototype = {
 
 	   if (this.tabelaTelaPrincipal == null) {
 		   var chamadaRemota = ManterAtividadeDWR.pesquisar.bind(ManterAtividadeDWR);
-		   atividade.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
-		      .getTBodyTelaPrincipal(), chamadaRemota, atividade.popularTabela.bind(this));
-		   atividade.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA_ATIVIDADE);
+		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
+		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
+		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA_ATIVIDADE);
 	   }
-	   atividade.tabelaTelaPrincipal.setParametros(dto);
-	   atividade.tabelaTelaPrincipal.executarChamadaRemota();
+	   this.tabelaTelaPrincipal.setParametros(dto);
+	   this.tabelaTelaPrincipal.executarChamadaRemota();
    },
 
    /**
@@ -152,7 +152,7 @@ ManterAtividade.prototype = {
 		   var idAtividade = dwr.util.getValue($("formSalvarAtividade").id);
 		   requestUtils.simpleRequest("manterAtividade.do?method=excluir&id=" + idAtividade,( function() {
 			      if (requestUtils.status) {
-				      atividade.pesquisar();
+			    	  this.pesquisar();
 			      }
 		      }).bind(this));
 	   }).bind(this));
@@ -175,7 +175,7 @@ ManterAtividade.prototype = {
 	   var idAtividade = dwr.util.getValue($("formSalvarAtividade").id);
 	   var url = "manterTarefa.do?method=entrada&atividade="+idAtividade;
 	   createWindow(536, 985, 280, 10, "Gerenciar Tarefas", "divGerenciarTarefas", url, (function(){
-		   tarefa.pesquisar();
+		   this.pesquisar();
 	   }));
    }, 
    
@@ -188,7 +188,7 @@ ManterAtividade.prototype = {
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
 			   JanelaFactory.fecharJanela("divNovaAtividade");
-			   this.pesquisar();
+			   atividade.pesquisar();
 		   }
 	   }).bind(this));
    },
