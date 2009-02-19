@@ -12,6 +12,15 @@
 			<br />
 			<html:text property="nome" size="51" maxlength="100" />
 		</label> 
+		<label>
+			<b>
+				<bean:message key="label.departamento.responsavel"/>
+			</b>
+			<html:select property="departamento" styleId="departamento">
+				<html:option value="" />
+				<html:optionsCollection name="manterAtividadeForm" property="listaDepartamentos" label="sigla" value="id" />
+			</html:select>
+		</label>
 		<label style="float: left; margin-top: 15px;">
 			<b>
 				<bean:message key="label.descricao"/>
@@ -25,17 +34,6 @@
 			<br />
 			<bean:message key="label.maximoCaracteres" arg0="200"/>:
 			<span id="contagemNovo" style="color: red;"></span>
-		</label>
-		<br />
-		<br />
-		<label>
-			<b>
-				<bean:message key="label.departamento.responsavel"/>
-			</b>
-			<html:select property="departamento" styleId="departamento">
-				<html:option value="" />
-				<html:optionsCollection name="manterAtividadeForm" property="listaDepartamentos" label="sigla" value="id" />
-			</html:select>
 		</label>
 	</fieldset>
 	<div style="clear: both; padding: 5px;" align="center">	

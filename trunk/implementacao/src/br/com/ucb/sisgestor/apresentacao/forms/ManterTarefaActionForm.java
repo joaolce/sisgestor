@@ -20,39 +20,39 @@ public class ManterTarefaActionForm extends BaseForm {
 	private String				descricao;
 	private List<Usuario>	listaUsuarios;
 	private String				nome;
-	private Integer			usuarioResponsavel;
+	private Integer			usuario;
 
 	/**
-	 * Recupera o identificador da atividade.
+	 * Recupera o código identificador da atividade.
 	 * 
-	 * @return identificador da atividade
+	 * @return código identificador da atividade
 	 */
 	public Integer getAtividade() {
 		return this.atividade;
 	}
 
 	/**
-	 * Recupera o valor de descricao
+	 * Recupera a descrição da tarefa
 	 * 
-	 * @return descricao
+	 * @return descrição da tarefa
 	 */
 	public String getDescricao() {
 		return this.descricao;
 	}
 
 	/**
-	 * Recupera o valor de listaUsuarios
+	 * Recupera um {@link List} de usuários disponíveis para esta tarefa
 	 * 
-	 * @return listaUsuarios
+	 * @return lista de usuários
 	 */
 	public List<Usuario> getListaUsuarios() {
 		return this.listaUsuarios;
 	}
 
 	/**
-	 * Recupera o valor de nome
+	 * Recupera o nome da tarefa
 	 * 
-	 * @return nome
+	 * @return nome da tarefa
 	 */
 	public String getNome() {
 		return this.nome;
@@ -60,19 +60,19 @@ public class ManterTarefaActionForm extends BaseForm {
 
 
 	/**
-	 * Recupera o valor de usuarioResponsavel
+	 * Recupera o usuário responsável pela tarefa
 	 * 
-	 * @return usuarioResponsavel
+	 * @return usuário responsavel
 	 */
-	public Integer getUsuarioResponsavel() {
-		return this.usuarioResponsavel;
+	public Integer getUsuario() {
+		return this.usuario;
 	}
 
 
 	/**
-	 * Atribui o identificador da atividade.
+	 * Atribui o código identificador da atividade.
 	 * 
-	 * @param atividade identificador da atividade
+	 * @param atividade código identificador da atividade
 	 */
 	public void setAtividade(Integer atividade) {
 		this.atividade = atividade;
@@ -82,7 +82,7 @@ public class ManterTarefaActionForm extends BaseForm {
 	/**
 	 * Atribui descricao
 	 * 
-	 * @param descricao o valor a ajustar em descricao
+	 * @param descricao descrição da tarefa
 	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
@@ -90,9 +90,9 @@ public class ManterTarefaActionForm extends BaseForm {
 
 
 	/**
-	 * Atribui listaUsuarios
+	 * Atribui uma lista de usuários à tarefa
 	 * 
-	 * @param listaUsuarios o valor a ajustar em listaUsuarios
+	 * @param listaUsuarios lista de usuários
 	 */
 	public void setListaUsuarios(List<Usuario> listaUsuarios) {
 		this.listaUsuarios = listaUsuarios;
@@ -100,9 +100,9 @@ public class ManterTarefaActionForm extends BaseForm {
 
 
 	/**
-	 * Atribui nome
+	 * Atribui o nome da tarefa
 	 * 
-	 * @param nome o valor a ajustar em nome
+	 * @param nome nome da tarefa
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
@@ -110,11 +110,11 @@ public class ManterTarefaActionForm extends BaseForm {
 
 
 	/**
-	 * Atribui usuarioResponsavel
+	 * Atribui o usuário responsável à tarefa
 	 * 
-	 * @param usuarioResponsavel o valor a ajustar em usuarioResponsavel
+	 * @param usuario usuário responsável pela tarefa
 	 */
-	public void setUsuarioResponsavel(Integer usuarioResponsavel) {
-		this.usuarioResponsavel = usuarioResponsavel;
+	public void setUsuario(Integer usuario) {
+		this.usuario = usuario;
 	}
 }

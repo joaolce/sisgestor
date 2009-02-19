@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.apresentacao.validator;
 
 import br.com.ucb.sisgestor.apresentacao.actions.ManterCampoAction;
+import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 
 /**
  * Validações da action {@link ManterCampoAction}.
@@ -25,6 +26,9 @@ public class ManterCampoValidator extends BaseValidator {
 	 * Faz as validações do método salvar.
 	 */
 	public void salvar() {
-		//TODO Implemente-me
+		if (this.validaRequerido("label.nome", "nome")) {
+			this.validaTamanhoMaximo("label.nome", "nome", ConstantesDB.NOME);
+		}
+		this.validaRequerido("label.tipo", "tipo");
 	}
 }

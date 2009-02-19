@@ -36,9 +36,9 @@ public class PesquisaAtividadeDTO extends PesquisaPaginadaDTO {
 	}
 
 	/**
-	 * Recupera o valor de idProcesso
+	 * Recupera código identificador do processo
 	 * 
-	 * @return idProcesso
+	 * @return código identificador do processo
 	 */
 	public Integer getIdProcesso() {
 		return this.idProcesso;
@@ -52,7 +52,6 @@ public class PesquisaAtividadeDTO extends PesquisaPaginadaDTO {
 	public String getNome() {
 		return this.nome;
 	}
-
 
 	/**
 	 * Atribui o identificador do departamento para pesquisa.
@@ -74,9 +73,9 @@ public class PesquisaAtividadeDTO extends PesquisaPaginadaDTO {
 	}
 
 	/**
-	 * Atribui idProcesso
+	 * Atribui o código identificador do processo
 	 * 
-	 * @param idProcesso o valor a ajustar em idProcesso
+	 * @param idProcesso o código identificador do processo
 	 */
 	public void setIdProcesso(Integer idProcesso) {
 		this.idProcesso = idProcesso;
@@ -90,5 +89,4 @@ public class PesquisaAtividadeDTO extends PesquisaPaginadaDTO {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
 }

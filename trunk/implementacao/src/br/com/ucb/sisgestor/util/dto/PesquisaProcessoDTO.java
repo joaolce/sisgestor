@@ -26,9 +26,9 @@ public class PesquisaProcessoDTO extends PesquisaPaginadaDTO {
 	}
 
 	/**
-	 * Recupera o valor de idWorkflow
+	 * Recupera o código identificador do workflow
 	 * 
-	 * @return idWorkflow
+	 * @return código identificador do workflow
 	 */
 	public Integer getIdWorkflow() {
 		return this.idWorkflow;
@@ -54,9 +54,9 @@ public class PesquisaProcessoDTO extends PesquisaPaginadaDTO {
 
 
 	/**
-	 * Atribui idWorkflow
+	 * Atribui o código identificador do workflow
 	 * 
-	 * @param idWorkflow o valor a ajustar em idWorkflow
+	 * @param idWorkflow código identificador do workflow
 	 */
 	public void setIdWorkflow(Integer idWorkflow) {
 		this.idWorkflow = idWorkflow;

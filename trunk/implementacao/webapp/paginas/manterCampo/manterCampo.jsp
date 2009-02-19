@@ -14,6 +14,21 @@
 			<bean:message key="label.criterioPesquisa" />
 		</legend>
 		<html:form action="/manterCampo.do" onsubmit="campo.pesquisar(); return false;" styleId="manterCampoForm">
+			<div style="float: left;">
+				<label style="float: left;">
+					<bean:message key="label.nome" />
+					<br />
+					<input type="text" name="nomePesquisaCampo" id="nomePesquisaCampo"  size="51" maxlength="100" />
+				</label>
+				<label style="float: left; margin-left: 20px;">
+					<bean:message key="label.tipo" />
+					<br />
+					<html:select property="tipo" styleId="tipoPesquisa">
+						<html:option value="" key="label.todos" />
+						<html:optionsCollection name="manterCampoForm" property="listaTipos" label="descricao" value="id" />
+					</html:select>
+				</label>
+			</div>
 			<div style="padding-top: 14px; clear: both;">
 				<html:submit styleClass="botaoOkCancelar">
 					<bean:message key="botao.pesquisar" />
@@ -23,12 +38,56 @@
 	</fieldset>
 
 	<div id="divCampos" style="clear: left; height: 240px; overflow: auto; border: 1px solid gray; margin-top: 10px;">
-		Implemente-me
+		<table style="width: 99.9%">
+			<thead>
+				<tr>
+					<th>&nbsp;</th>
+					<th><bean:message key="label.nome" /></th>
+					<th><bean:message key="label.tipo" /></th>
+				</tr>
+			</thead>
+			<tbody id="corpoManterCampo" class="corpoTabelaClicavel"/>
+		</table>
 	</div>
 	
 	<!-- FIELDSET PARA DADOS DO CAMPO -->
 	<html:form action="/manterCampo.do?method=atualizar" onsubmit="campo.atualizar(this); return false;" styleId="formSalvarCampo" style="display: none; margin-top: 10px;">
-		
+		<html:hidden property="id"/>
+		<fieldset style="padding: 10px; width: 70%; margin: 5 auto;">
+			<legend>
+				<bean:message key="label.dados.campo"/>
+			</legend>
+			<div style="float: left;">
+				<div style="float: left;">
+					<label style="float: left;">
+						<b>
+							<bean:message key="label.nome"/>
+							<span class="obrigatorio">*</span>
+						</b>
+						<html:text property="nome" size="51" maxlength="100" styleId="nomeCampo"/>
+					</label> 
+				</div>
+				<label style="float: left; margin-left: 20px;">
+					<b>
+						<bean:message key="label.tipo" />
+						<span class="obrigatorio">*</span>
+					</b>
+					<br />
+					<html:select property="tipo" styleId="tipo">
+						<html:option value="" />
+						<html:optionsCollection name="manterCampoForm" property="listaTipos" label="descricao" value="id" />
+					</html:select>
+				</label>
+			</div>
+			<div style="clear: both; padding: 5px;" align="center" id="divBotoes">
+				<htmlSGR:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar" roles="4">
+					<bean:message key="botao.atualizar"/>
+				</htmlSGR:submit>
+				<htmlSGR:button property="excluir" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="campo.excluir();" roles="4">
+					<bean:message key="botao.excluir"/>
+				</htmlSGR:button>
+			</div>
+		</fieldset>
 	</html:form>
 </div>
 	

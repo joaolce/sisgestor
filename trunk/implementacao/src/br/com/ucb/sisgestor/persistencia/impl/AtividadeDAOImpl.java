@@ -71,10 +71,10 @@ public class AtividadeDAOImpl extends BaseDAOImpl<Atividade, Integer> implements
 
 
 	/**
-	 * Monta os critérios para a paginação dos atividades.
+	 * Monta os critérios para a paginação das atividades.
 	 * 
-	 * @param nome parte do nome do atividade
-	 * @param descricao parte da descrição do atividade
+	 * @param nome parte do nome da atividade
+	 * @param descricao parte da descrição da atividade
 	 * @param idProcesso identificação do processo
 	 * @return {@link Criteria}
 	 */

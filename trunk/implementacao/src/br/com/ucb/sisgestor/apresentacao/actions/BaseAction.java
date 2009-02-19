@@ -17,7 +17,7 @@ import br.com.ucb.sisgestor.util.GenericsUtil;
 import br.com.ucb.sisgestor.util.ParametrosURL;
 import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.constantes.ConstantesAplicacao;
-import br.com.ucb.sisgestor.util.constantes.DadosContexto;
+import br.com.ucb.sisgestor.util.constantes.ConstantesContexto;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -50,6 +50,8 @@ import org.hibernate.Hibernate;
  */
 public class BaseAction extends DispatchAction {
 
+	/** forward de erro genérico */
+	protected static final String					FWD_ERRO					= "erro";
 	/** forward de entrada, todas as actions devem ter. */
 	protected static final String					FWD_ENTRADA				= "entrada";
 	/** forward de erro de validação. */
@@ -241,7 +243,7 @@ public class BaseAction extends DispatchAction {
 				|| (this.getRequest().getUserPrincipal().getName() == null)) {
 			throw new LoginException("userPrincipal está nulo!");
 		}
-		Usuario usuarioAtual = (Usuario) this.getSession().getAttribute(DadosContexto.USUARIO_SESSAO);
+		Usuario usuarioAtual = (Usuario) this.getSession().getAttribute(ConstantesContexto.USUARIO_SESSAO);
 		String name = this.getRequest().getUserPrincipal().getName();
 
 		if ((usuarioAtual == null) || !name.equalsIgnoreCase(usuarioAtual.getLogin().trim()) || ignoraSessao) {
@@ -249,12 +251,12 @@ public class BaseAction extends DispatchAction {
 
 			UsuarioBO bo = UsuarioBOImpl.getInstancia();
 
-			usuarioAtual = bo.recuperarPorLogin(name);
+			usuarioAtual = bo.getByLogin(name);
 			Hibernate.initialize(usuarioAtual.getPermissoes());
 
-			this.getSession().setAttribute(DadosContexto.DATA_LOGIN, DataUtil.getStringDataAtualCompleta());
-			this.getSession().setAttribute(DadosContexto.HORA_LOGIN, DataUtil.getDataAtual());
-			this.getSession().setAttribute(DadosContexto.USUARIO_SESSAO, usuarioAtual);
+			this.getSession().setAttribute(ConstantesContexto.DATA_LOGIN, DataUtil.getStringDataAtualCompleta());
+			this.getSession().setAttribute(ConstantesContexto.HORA_LOGIN, DataUtil.getDataAtual());
+			this.getSession().setAttribute(ConstantesContexto.USUARIO_SESSAO, usuarioAtual);
 		}
 	}
 
@@ -404,7 +406,7 @@ public class BaseAction extends DispatchAction {
 	 */
 	protected Usuario getUser() throws Exception {
 		this.doUsuario(false);
-		return (Usuario) this.getSession().getAttribute(DadosContexto.USUARIO_SESSAO);
+		return (Usuario) this.getSession().getAttribute(ConstantesContexto.USUARIO_SESSAO);
 	}
 
 	/**

@@ -19,7 +19,7 @@ public interface TarefaDAO extends BaseDAO<Tarefa, Integer> {
 	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(4);
 
 	/**
-	 * Retorna um {@link List} de {@link Tarefa} a partir do nome e/ou descrição
+	 * Retorna um {@link List} de {@link Tarefa} a partir do nome, descrição e usuário
 	 * 
 	 * @param nome parte do nome da tarefa
 	 * @param descricao parte da descrição da tarefa
@@ -38,7 +38,7 @@ public interface TarefaDAO extends BaseDAO<Tarefa, Integer> {
 	 * @param descricao parte da descrição da atividade
 	 * @param usuario Usuário responsável pela tarefa
 	 * @param idAtividade identificador da atividade
-	 * @return número do total de registros
+	 * @return total de registros encontrados
 	 */
 	Integer getTotalRegistros(String nome, String descricao, Integer usuario, Integer idAtividade);
 

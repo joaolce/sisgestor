@@ -9,6 +9,8 @@ import br.com.ucb.sisgestor.negocio.CampoBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.CampoDAO;
 import br.com.ucb.sisgestor.persistencia.impl.CampoDAOImpl;
+import br.com.ucb.sisgestor.util.dto.PesquisaCampoDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.util.List;
 import org.hibernate.Transaction;
@@ -95,5 +97,20 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 			HibernateUtil.rollback(transaction);
 			this.verificaExcecao(e);
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<Campo> getByNomeTipo(String nome, Integer idTipo, Integer paginaAtual) {
+		return this.dao.getByNomeTipo(nome, idTipo, paginaAtual);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
+		PesquisaCampoDTO dto = (PesquisaCampoDTO) parametros;
+		return this.dao.getTotalRegistros(dto.getNome(), dto.getTipo());
 	}
 }

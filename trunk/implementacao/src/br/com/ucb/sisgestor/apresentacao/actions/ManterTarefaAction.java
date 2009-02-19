@@ -53,7 +53,7 @@ public class ManterTarefaAction extends BaseAction {
 
 		tarefaBO.atualizar(tarefa);
 
-		this.addMessageKey("mensagem.alterar", "Tarefa");
+		this.addMessageKey("mensagem.alterar.a", "Tarefa");
 		return this.sendAJAXResponse(true);
 	}
 
@@ -93,7 +93,7 @@ public class ManterTarefaAction extends BaseAction {
 
 		tarefaBO.excluir(tarefa);
 
-		this.addMessageKey("mensagem.excluir", "Tarefa");
+		this.addMessageKey("mensagem.excluir.a", "Tarefa");
 		return this.sendAJAXResponse(true);
 	}
 
@@ -143,7 +143,7 @@ public class ManterTarefaAction extends BaseAction {
 
 		tarefaBO.salvar(tarefa);
 
-		this.addMessageKey("mensagem.salvar", "Tarefa");
+		this.addMessageKey("mensagem.salvar.a", "Tarefa");
 		return this.sendAJAXResponse(true);
 	}
 }

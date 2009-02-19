@@ -8,7 +8,7 @@ import br.com.ucb.sisgestor.apresentacao.actions.BaseAction;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
-import br.com.ucb.sisgestor.util.constantes.DadosContexto;
+import br.com.ucb.sisgestor.util.constantes.ConstantesContexto;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -240,7 +240,7 @@ public class BaseValidator {
 	 * @return o usuário logado no sistema
 	 */
 	protected Usuario getUser() {
-		return (Usuario) this.getSession().getAttribute(DadosContexto.USUARIO_SESSAO);
+		return (Usuario) this.getSession().getAttribute(ConstantesContexto.USUARIO_SESSAO);
 	}
 
 	/**

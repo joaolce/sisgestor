@@ -27,9 +27,9 @@ public class PesquisaTarefaDTO extends PesquisaPaginadaDTO {
 	}
 
 	/**
-	 * Recupera o valor de idAtividade
+	 * Recupera o código identificador da atividade
 	 * 
-	 * @return idAtividade
+	 * @return código identificador da atividade
 	 */
 	public Integer getIdAtividade() {
 		return this.idAtividade;
@@ -43,6 +43,7 @@ public class PesquisaTarefaDTO extends PesquisaPaginadaDTO {
 	public String getNome() {
 		return this.nome;
 	}
+
 
 	/**
 	 * Recupera o identificador do usuário para pesquisa.
@@ -63,9 +64,9 @@ public class PesquisaTarefaDTO extends PesquisaPaginadaDTO {
 	}
 
 	/**
-	 * Atribui idAtividade
+	 * Atribui o código identificador da atividade
 	 * 
-	 * @param idAtividade o valor a ajustar em idAtividade
+	 * @param idAtividade o código identificador da atividade
 	 */
 	public void setIdAtividade(Integer idAtividade) {
 		this.idAtividade = idAtividade;

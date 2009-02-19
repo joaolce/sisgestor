@@ -32,7 +32,7 @@ public class ManterDepartamentoActionForm extends BaseForm {
 	}
 
 	/**
-	 * Recupera o email do departamento.
+	 * Recupera o e-mail do departamento.
 	 * 
 	 * @return email do departamento
 	 */
@@ -68,16 +68,16 @@ public class ManterDepartamentoActionForm extends BaseForm {
 	}
 
 	/**
-	 * Atribui o código do departamento superior.
+	 * Atribui o código identificador do departamento superior.
 	 * 
-	 * @param departamentoSuperior código do departamento superior
+	 * @param departamentoSuperior código identificador do departamento superior
 	 */
 	public void setDepartamentoSuperior(Integer departamentoSuperior) {
 		this.departamentoSuperior = departamentoSuperior;
 	}
 
 	/**
-	 * Atribui o email do departamento
+	 * Atribui o e-mail do departamento
 	 * 
 	 * @param email email do departamento
 	 */

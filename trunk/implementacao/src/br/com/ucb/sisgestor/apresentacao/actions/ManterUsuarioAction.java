@@ -47,8 +47,10 @@ public class ManterUsuarioAction extends BaseAction {
 	public ActionForward atualizar(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) actionForm;
-		Usuario usuario = usuarioBO.obter(form.getId());
+		
+		Usuario usuario = new Usuario();
 		this.copyProperties(usuario, form);
+		
 		usuario.setPermissoes(this.getPermissoes(form.getPermissoes()));
 
 		Usuario usuarioLogado = this.getUser();
@@ -63,10 +65,11 @@ public class ManterUsuarioAction extends BaseAction {
 
 		this.addMessageKey("mensagem.alterar", "Usuário");
 
-		/*Se usuário está atualizando os próprios dados e ele tem permissão para Manter Usuário, deverá
-		 *efetuar novo login para as alterações surtirem efeito.
+		/*
+		 * Se usuário está atualizando os próprios dados e ele tem permissão para Manter Usuário, deverá
+		 *	efetuar novo login para que as alterações sejam aplicadas.
 		 *
-		 *Essa mesma condição é verificada no manterUsuario.js
+		 *	Essa mesma condição é verificada no manterUsuario.js
 		 */
 		if (usuarioLogado.getId().equals(usuario.getId()) && temPermissao) {
 			this.addMessageKey("mensagem.novoLogin");
@@ -87,9 +90,9 @@ public class ManterUsuarioAction extends BaseAction {
 	 */
 	public ActionForward atualizarSenha(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) formulario;
-		Usuario usuario = super.getUser();
+		
+		Usuario usuario = this.getUser();
 		usuario.setSenha(form.getNovaSenha());
 
 		usuarioBO.atualizar(usuario);
@@ -128,6 +131,7 @@ public class ManterUsuarioAction extends BaseAction {
 
 		Usuario usuario = usuarioBO.obter(form.getId());
 
+		// Usuário não pode excluir ele mesmo
 		if (this.getUser().getId().equals(usuario.getId())) {
 			this.addMessageKey("erro.excluir.naoPermitido");
 			return this.sendAJAXResponse(false);

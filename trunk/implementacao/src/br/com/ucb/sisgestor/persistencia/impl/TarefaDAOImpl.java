@@ -71,11 +71,11 @@ public class TarefaDAOImpl extends BaseDAOImpl<Tarefa, Integer> implements Taref
 
 
 	/**
-	 * Monta os critérios para a paginação dos tarefas.
+	 * Monta os critérios para a paginação das tarefas.
 	 * 
-	 * @param nome parte do nome do tarefa
-	 * @param descricao parte da descrição do tarefa
-	 * @param idAtividade identificação do atividade
+	 * @param nome parte do nome da tarefa
+	 * @param descricao parte da descrição da tarefa
+	 * @param idAtividade identificação da atividade
 	 * @return {@link Criteria}
 	 */
 	private Criteria montarCriteriosPaginacao(String nome, String descricao, Integer usuario,

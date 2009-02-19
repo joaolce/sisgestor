@@ -2,7 +2,7 @@ package br.com.ucb.sisgestor.apresentacao.taglib;
 
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.util.Utils;
-import br.com.ucb.sisgestor.util.constantes.DadosContexto;
+import br.com.ucb.sisgestor.util.constantes.ConstantesContexto;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 
@@ -117,7 +117,7 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 	 */
 	private boolean usuarioTemPermissao() {
 		HttpServletRequest request = (HttpServletRequest) this.pageContext.getRequest();
-		Usuario usuario = (Usuario) request.getSession().getAttribute(DadosContexto.USUARIO_SESSAO);
+		Usuario usuario = (Usuario) request.getSession().getAttribute(ConstantesContexto.USUARIO_SESSAO);
 		return Utils.usuarioTemPermissao(usuario, this.roles);
 	}
 }
