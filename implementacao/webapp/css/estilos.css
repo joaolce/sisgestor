@@ -346,15 +346,6 @@ input[type="text"].data {
 	color: #003366;
 }
 
-.clBar {
-	position: static;
-	background-color: #EFEFEF;
-	width: 90%;
-	color: #003366;
-	border-bottom: 1px solid;
-	visibility: hidden;
-}
-
 .botaoMarcar {
 	font-weight: bold;
 	font-size: 8px;
