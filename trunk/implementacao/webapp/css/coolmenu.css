@@ -18,7 +18,7 @@
 /* CoolMenus 4 - default styles - end */
 .clBar {
 	position: static;
-	background-color: #EFEFEF;
+	background: #9CC2C9 url(../imagens/menu/fundo_botao_menu.png) repeat scroll 0 0;
 	width: 100%;
 	color: #003366;
 	border-bottom: 1px solid;
