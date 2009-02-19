@@ -21,7 +21,7 @@
 LOCK TABLES "dpr_departamento" WRITE;
 /*!40000 ALTER TABLE "dpr_departamento" DISABLE KEYS;*/
 INSERT INTO "dpr_departamento" ("DPR_ID", "DPR_EMAIL", "DPR_NOME", "DPR_SIGLA", "DPR_ID_SUPERIOR") VALUES
-	(1,'email@mail.com','Departamento','Departamento',NULL);
+	(1,'email@mail.com','Departamento','Dep',NULL);
 /*!40000 ALTER TABLE "dpr_departamento" ENABLE KEYS;*/
 UNLOCK TABLES;
 
@@ -50,14 +50,10 @@ UNLOCK TABLES;
 
 LOCK TABLES "upm_usuario_permissao" WRITE;
 /*!40000 ALTER TABLE "upm_usuario_permissao" DISABLE KEYS;*/
-INSERT INTO "upm_usuario_permissao" ("UUR_ID", "PRM_ID") VALUES
-	(1,2);
-INSERT INTO "upm_usuario_permissao" ("UUR_ID", "PRM_ID") VALUES
-	(1,1);
-INSERT INTO "upm_usuario_permissao" ("UUR_ID", "PRM_ID") VALUES
-	(1,3);
-	INSERT INTO "upm_usuario_permissao" ("UUR_ID", "PRM_ID") VALUES
-	(1,4);
+INSERT INTO "upm_usuario_permissao" ("UUR_ID", "PRM_ID") VALUES	(1,2);
+INSERT INTO "upm_usuario_permissao" ("UUR_ID", "PRM_ID") VALUES	(1,1);
+INSERT INTO "upm_usuario_permissao" ("UUR_ID", "PRM_ID") VALUES	(1,3);
+INSERT INTO "upm_usuario_permissao" ("UUR_ID", "PRM_ID") VALUES	(1,4);
 /*!40000 ALTER TABLE "upm_usuario_permissao" ENABLE KEYS;*/
 UNLOCK TABLES;
 
@@ -72,5 +68,21 @@ INSERT INTO "uur_usuario" ("UUR_ID", "UUR_CHEFE", "UUR_EMAIL", "UUR_LOGIN", "UUR
 	(1,'0','','admin','1','1',1);
 /*!40000 ALTER TABLE "uur_usuario" ENABLE KEYS;*/
 UNLOCK TABLES;
+
+
+#
+# Dumping data for table 'tip_tipo'
+#
+
+LOCK TABLES "tip_tipo" WRITE;
+/*!40000 ALTER TABLE "tip_tipo" DISABLE KEYS;*/
+INSERT INTO "tip_tipo" ("TIP_ID", "TIP_DESCRICAO") VALUES	(1,'Texto');
+INSERT INTO "tip_tipo" ("TIP_ID", "TIP_DESCRICAO") VALUES	(2,'Data');
+INSERT INTO "tip_tipo" ("TIP_ID", "TIP_DESCRICAO") VALUES	(3,'Hora');
+INSERT INTO "tip_tipo" ("TIP_ID", "TIP_DESCRICAO") VALUES	(4,'Múltipla Escolha');
+INSERT INTO "tip_tipo" ("TIP_ID", "TIP_DESCRICAO") VALUES	(5,'Lista de Opções');
+/*!40000 ALTER TABLE "tip_tipo" ENABLE KEYS;*/
+UNLOCK TABLES;
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE;*/
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;*/
