@@ -42,7 +42,7 @@ public interface UsuarioDAO extends BaseDAO<Usuario, Integer> {
 	 * @param login parte do login do usuário
 	 * @param nome parte do nome do usuário
 	 * @param departamento identificador do departamento do usuário
-	 * @return total de registros
+	 * @return total de registros encontrados
 	 */
 	Integer getTotalRegistros(String login, String nome, Integer departamento);
 
@@ -52,5 +52,5 @@ public interface UsuarioDAO extends BaseDAO<Usuario, Integer> {
 	 * @param login login do usuário
 	 * @return usuário encontrado
 	 */
-	Usuario recuperarPorLogin(String login);
+	Usuario getByLogin(String login);
 }

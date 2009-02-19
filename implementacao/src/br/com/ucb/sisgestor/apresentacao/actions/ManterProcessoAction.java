@@ -100,7 +100,6 @@ public class ManterProcessoAction extends BaseAction {
 	 */
 	public ActionForward salvar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
 		ManterProcessoActionForm form = (ManterProcessoActionForm) formulario;
 
 		Processo processo = new Processo();

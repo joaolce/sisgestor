@@ -30,7 +30,7 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	void atualizar(T obj) throws NegocioException;
 
 	/**
-	 * Apaga um objeto na base de dados.
+	 * Apaga um objeto da base de dados.
 	 * 
 	 * @param obj objeto persistente a apagar
 	 * @throws NegocioException caso uma regra de negócio seja violada
@@ -41,7 +41,7 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * Retorna o total de registros retornados pela consulta paginada.
 	 * 
 	 * @param parametros dto de parâmetros
-	 * @return número total de registros da consulta
+	 * @return total de registros encontrados
 	 */
 	Integer getTotalPesquisa(PesquisaPaginadaDTO parametros);
 
@@ -64,7 +64,7 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	/**
 	 * Salva (incluí) um objeto na base de dados.
 	 * 
-	 * @param obj objeto persistente a salvar
+	 * @param obj objeto persistente a ser salvo
 	 * @throws NegocioException caso uma regra de negócio seja violada
 	 */
 	void salvar(T obj) throws NegocioException;

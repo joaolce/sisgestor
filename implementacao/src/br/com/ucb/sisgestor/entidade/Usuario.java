@@ -96,8 +96,8 @@ public class Usuario extends ObjetoPersistente {
 	 * @return permissoes permissões do usuário no sistema
 	 */
 	@ManyToMany(targetEntity = Permissao.class)
-	@JoinTable(name = "UPM_USUARIO_PERMISSAO", //XXX: inserir primary key na mão da ddl
-	joinColumns = @JoinColumn(name = "UUR_ID", referencedColumnName = "UUR_ID", nullable = false), //
+	@JoinTable(name = "UPM_USUARIO_PERMISSAO",
+	joinColumns = @JoinColumn(name = "UUR_ID", referencedColumnName = "UUR_ID", nullable = false),
 	inverseJoinColumns = @JoinColumn(name = "PRM_ID", referencedColumnName = "PRM_ID", nullable = false))
 	@ForeignKey(name = "IR_UUR_UPM")
 	public List<Permissao> getPermissoes() {

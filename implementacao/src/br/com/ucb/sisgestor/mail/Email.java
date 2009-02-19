@@ -90,9 +90,9 @@ public class Email {
 	}
 
 	/**
-	 * Recupera o assunto do email.
+	 * Recupera o assunto do e-mail.
 	 * 
-	 * @return assunto do email
+	 * @return assunto do e-mail
 	 * @throws MessagingException caso ocorra exceção ao recuperar o assunto
 	 */
 	public String getAssunto() throws MessagingException {
@@ -100,10 +100,10 @@ public class Email {
 	}
 
 	/**
-	 * Recupera o corpo do email.
+	 * Recupera o corpo do e-mail.
 	 * 
-	 * @return corpo do email
-	 * @throws MessagingException caso ocorra exceção ao recuperar o conteúdo do email
+	 * @return corpo do e-mail
+	 * @throws MessagingException caso ocorra exceção ao recuperar o conteúdo do e-mail
 	 */
 	public String getCorpo() throws MessagingException {
 		BodyPart bodyPart = this.msg.getBodyPart(0);
@@ -115,9 +115,9 @@ public class Email {
 	}
 
 	/**
-	 * Recupera todos os destinatários do email.
+	 * Recupera todos os destinatários do e-mail.
 	 * 
-	 * @return destinatários do email separados por ';'
+	 * @return destinatários do e-mail separados por ';'
 	 * @throws Exception caso ocorra exceção ao recuperar destinatários
 	 */
 	public String getDestinatarios() throws Exception {
@@ -147,9 +147,9 @@ public class Email {
 	}
 
 	/**
-	 * Recupera o remetente do email.
+	 * Recupera o remetente do e-mail.
 	 * 
-	 * @return remetente do email
+	 * @return remetente do e-mail
 	 * @throws Exception caso ocorra exceção ao recuperar o remetente
 	 */
 	public String getRemetente() throws Exception {
@@ -157,9 +157,9 @@ public class Email {
 	}
 
 	/**
-	 * Atribui o assunto do email.
+	 * Atribui o assunto do e-mail.
 	 * 
-	 * @param assunto assunto do email
+	 * @param assunto assunto do e-mail
 	 */
 	public void setAssunto(String assunto) {
 		try {
@@ -170,9 +170,9 @@ public class Email {
 	}
 
 	/**
-	 * Atribui o corpo do email.
+	 * Atribui o corpo do e-mail.
 	 * 
-	 * @param corpo corpo do email
+	 * @param corpo corpo do e-mail
 	 */
 	public void setCorpo(String corpo) {
 		BodyPart txt = new MimeBodyPart();
@@ -185,9 +185,9 @@ public class Email {
 	}
 
 	/**
-	 * Atribui o remetente do email.
+	 * Atribui o remetente do e-mail.
 	 * 
-	 * @param remetente remetente do email
+	 * @param remetente remetente do e-mail
 	 */
 	public void setRemetente(String remetente) {
 		try {

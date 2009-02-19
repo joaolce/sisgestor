@@ -10,7 +10,7 @@ package br.com.ucb.sisgestor.util.constantes;
  * @author João Lúcio
  * @since 25/10/2008
  */
-public final class DadosContexto {
+public final class ConstantesContexto {
 
 	/** Data do último login */
 	public static final String	DATA_LOGIN		= "dataLogin";

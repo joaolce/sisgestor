@@ -88,7 +88,7 @@ public class EmailSender {
 		try {
 			Transport.send(message);
 		} catch (Exception e) {
-			LOG.error("Alguma coisa deu errado no envio de email.", e);
+			LOG.error("Alguma coisa deu errado no envio de e-mail.", e);
 			throw e;
 		}
 	}

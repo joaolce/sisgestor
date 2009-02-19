@@ -41,6 +41,7 @@ public class ManterDepartamentoAction extends BaseAction {
 	public ActionForward atualizar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm form = (ManterDepartamentoActionForm) formulario;
+		
 		Departamento departamento = new Departamento();
 		this.copyProperties(departamento, form);
 
@@ -57,6 +58,7 @@ public class ManterDepartamentoAction extends BaseAction {
 	public ActionForward entrada(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm form = (ManterDepartamentoActionForm) actionForm;
+		
 		form.setListaDepartamentos(departamentoBO.obterTodos());
 
 		return this.findForward(FWD_ENTRADA);
@@ -75,6 +77,7 @@ public class ManterDepartamentoAction extends BaseAction {
 	public ActionForward excluir(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm form = (ManterDepartamentoActionForm) formulario;
+		
 		Departamento departamento = departamentoBO.obter(form.getId());
 
 		departamentoBO.excluir(departamento);
@@ -115,6 +118,7 @@ public class ManterDepartamentoAction extends BaseAction {
 	public ActionForward salvar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm form = (ManterDepartamentoActionForm) formulario;
+		
 		Departamento departamento = new Departamento();
 		this.copyProperties(departamento, form);
 

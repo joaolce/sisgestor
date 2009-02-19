@@ -23,18 +23,18 @@ public class ManterAtividadeActionForm extends BaseForm {
 	private List<Departamento>	listaDepartamentos;
 
 	/**
-	 * Recupera o valor de departamento
+	 * Recupera o código identificador do departamento
 	 * 
-	 * @return departamento
+	 * @return código identificadór do departamento
 	 */
 	public Integer getDepartamento() {
 		return this.departamento;
 	}
 
 	/**
-	 * Recupera o valor de descricao
+	 * Recupera a descrição da atividade
 	 * 
-	 * @return descricao
+	 * @return descrição da atividade
 	 */
 	public String getDescricao() {
 		return this.descricao;
@@ -42,9 +42,9 @@ public class ManterAtividadeActionForm extends BaseForm {
 
 
 	/**
-	 * Recupera o valor de listaDepartamentos
+	 * Recupera um {@link List} de departamentos cadastrados.
 	 * 
-	 * @return listaDepartamentos
+	 * @return lista de departamentos cadastrados.
 	 */
 	public List<Departamento> getListaDepartamentos() {
 		return this.listaDepartamentos;
@@ -52,9 +52,9 @@ public class ManterAtividadeActionForm extends BaseForm {
 
 
 	/**
-	 * Recupera o valor de nome
+	 * Recupera o nome da atividade
 	 * 
-	 * @return nome
+	 * @return nome da atividade
 	 */
 	public String getNome() {
 		return this.nome;
@@ -62,9 +62,9 @@ public class ManterAtividadeActionForm extends BaseForm {
 
 
 	/**
-	 * Recupera o identificador do processo.
+	 * Recupera o código identificador do processo.
 	 * 
-	 * @return identificador do processo
+	 * @return código identificador do processo
 	 */
 	public Integer getProcesso() {
 		return this.processo;
@@ -72,9 +72,9 @@ public class ManterAtividadeActionForm extends BaseForm {
 
 
 	/**
-	 * Atribui departamento
+	 * Atribui o departamento responsável pela atividade
 	 * 
-	 * @param departamento o valor a ajustar em departamento
+	 * @param departamento departamento responsável pela atividade
 	 */
 	public void setDepartamento(Integer departamento) {
 		this.departamento = departamento;
@@ -82,9 +82,9 @@ public class ManterAtividadeActionForm extends BaseForm {
 
 
 	/**
-	 * Atribui descricao
+	 * Atribui a descrição da atividade
 	 * 
-	 * @param descricao o valor a ajustar em descricao
+	 * @param descricao descrição da atividade
 	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
@@ -92,9 +92,9 @@ public class ManterAtividadeActionForm extends BaseForm {
 
 
 	/**
-	 * Atribui listaDepartamentos
+	 * Atribui a lista de departamentos disponíveis para a atividade
 	 * 
-	 * @param listaDepartamentos o valor a ajustar em listaDepartamentos
+	 * @param listaDepartamentos lista de departamentos
 	 */
 	public void setListaDepartamentos(List<Departamento> listaDepartamentos) {
 		this.listaDepartamentos = listaDepartamentos;
@@ -102,9 +102,9 @@ public class ManterAtividadeActionForm extends BaseForm {
 
 
 	/**
-	 * Atribui nome
+	 * Atribui o nome da atividade
 	 * 
-	 * @param nome o valor a ajustar em nome
+	 * @param nome nome da atividade
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
@@ -112,9 +112,9 @@ public class ManterAtividadeActionForm extends BaseForm {
 
 
 	/**
-	 * Atribui o identificador do processo.
+	 * Atribui o código identificador do processo.
 	 * 
-	 * @param processo identificador do processo
+	 * @param processo código identificador do processo
 	 */
 	public void setProcesso(Integer processo) {
 		this.processo = processo;

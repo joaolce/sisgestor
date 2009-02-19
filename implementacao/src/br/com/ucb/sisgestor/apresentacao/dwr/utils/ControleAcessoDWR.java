@@ -4,7 +4,7 @@
  */
 package br.com.ucb.sisgestor.apresentacao.dwr.utils;
 
-import br.com.ucb.sisgestor.util.constantes.DadosContexto;
+import br.com.ucb.sisgestor.util.constantes.ConstantesContexto;
 import javax.servlet.http.HttpServletRequest;
 import org.directwebremoting.WebContextFactory;
 import org.directwebremoting.impl.DefaultAccessControl;
@@ -26,7 +26,7 @@ public class ControleAcessoDWR extends DefaultAccessControl {
 	@Override
 	protected void assertIsExecutable(String scriptName, String methodName) throws SecurityException {
 		HttpServletRequest req = WebContextFactory.get().getHttpServletRequest();
-		if (req.getSession().getAttribute(DadosContexto.USUARIO_SESSAO) == null) {
+		if (req.getSession().getAttribute(ConstantesContexto.USUARIO_SESSAO) == null) {
 			throw new SessionExpiredException("mensagem.naologado");
 		}
 		super.assertIsExecutable(scriptName, methodName);

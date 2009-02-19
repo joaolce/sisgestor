@@ -42,7 +42,16 @@ public class ManterCampoDWR extends BaseDWR {
 	 * @return {@link List} de {@link Campo}
 	 */
 	public ListaResultadoDTO<Campo> pesquisar(PesquisaCampoDTO parametros) {
-		//TODO Implemente-me
-		return null;
+		String nome = parametros.getNome();
+		Integer idTipo = parametros.getTipo();
+		Integer paginaAtual = parametros.getPaginaAtual();
+
+		List<Campo> lista = campoBO.getByNomeTipo(nome, idTipo, paginaAtual);
+
+		ListaResultadoDTO<Campo> resultado = new ListaResultadoDTO<Campo>();
+		resultado.setColecaoParcial(lista);
+
+		this.setTotalPesquisa(parametros, resultado, campoBO);
+		return resultado;
 	}
 }

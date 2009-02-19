@@ -30,7 +30,7 @@ public interface DepartamentoDAO extends BaseDAO<Departamento, Integer> {
 	 * 
 	 * @param sigla parte da sigla do departamento
 	 * @param nome parte do nome do departamento
-	 * @return totalRegistros total de registros encontrados
+	 * @return total de registros encontrados
 	 */
 	Integer getTotalRegistros(String sigla, String nome);
 }

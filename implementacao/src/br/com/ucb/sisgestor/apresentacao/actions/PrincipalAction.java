@@ -4,7 +4,7 @@
  */
 package br.com.ucb.sisgestor.apresentacao.actions;
 
-import br.com.ucb.sisgestor.util.constantes.DadosContexto;
+import br.com.ucb.sisgestor.util.constantes.ConstantesContexto;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -32,8 +32,8 @@ public class PrincipalAction extends BaseAction {
 	 */
 	public ActionForward erro(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		request.setAttribute(DadosContexto.ERRO_CONTAINER, Boolean.TRUE);
-		return mapping.findForward("erro");
+		request.setAttribute(ConstantesContexto.ERRO_CONTAINER, Boolean.TRUE);
+		return mapping.findForward(FWD_ERRO);
 	}
 
 	/**

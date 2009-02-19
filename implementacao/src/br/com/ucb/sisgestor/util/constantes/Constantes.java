@@ -19,4 +19,7 @@ public final class Constantes {
 
 	/** Data da versão atual do sistema. */
 	public static final String	VERSAO_DATA	= DataUtil.utilDateToString(DataUtil.getDate(21, 1, 2009));
+	
+	/** Assunto do e-mail enviado no lembrete de senha */
+	public static final String LEMBRETE_EMAIL_ASSUNTO = "SisGestor - Lembrete de senha";
 }

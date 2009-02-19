@@ -4,15 +4,17 @@
  */
 package br.com.ucb.sisgestor.apresentacao.actions;
 
-import br.com.ucb.sisgestor.apresentacao.forms.ManterCampoActionForm;
-import br.com.ucb.sisgestor.entidade.Campo;
-import br.com.ucb.sisgestor.negocio.CampoBO;
-import br.com.ucb.sisgestor.negocio.impl.CampoBOImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import br.com.ucb.sisgestor.apresentacao.forms.ManterCampoActionForm;
+import br.com.ucb.sisgestor.entidade.Campo;
+import br.com.ucb.sisgestor.negocio.CampoBO;
+import br.com.ucb.sisgestor.negocio.TipoBO;
+import br.com.ucb.sisgestor.negocio.impl.CampoBOImpl;
+import br.com.ucb.sisgestor.negocio.impl.TipoBOImpl;
 
 /**
  * Action para manutenções em {@link Campo}.
@@ -43,13 +45,26 @@ public class ManterCampoAction extends BaseAction {
 		ManterCampoActionForm form = (ManterCampoActionForm) actionForm;
 
 		Campo campo = new Campo();
-
 		this.copyProperties(campo, form);
 
 		campoBO.atualizar(campo);
 
 		this.addMessageKey("mensagem.alterar", "Campo");
 		return this.sendAJAXResponse(true);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public ActionForward entrada(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ManterCampoActionForm form = (ManterCampoActionForm) formulario;
+
+		TipoBO tipoBO = TipoBOImpl.getInstancia();
+
+		form.setListaTipos(tipoBO.obterTodos());
+
+		return this.findForward(FWD_ENTRADA);
 	}
 
 	/**
@@ -86,6 +101,11 @@ public class ManterCampoAction extends BaseAction {
 	 */
 	public ActionForward popupNovoCampo(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ManterCampoActionForm form = (ManterCampoActionForm) formulario;
+
+		TipoBO tipoBO = TipoBOImpl.getInstancia();
+		form.setListaTipos(tipoBO.obterTodos());
+
 		return this.findForward("popupNovoCampo");
 	}
 
@@ -101,8 +121,8 @@ public class ManterCampoAction extends BaseAction {
 	 */
 	public ActionForward salvar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
 		ManterCampoActionForm form = (ManterCampoActionForm) formulario;
+
 		Campo campo = new Campo();
 		this.copyProperties(campo, form);
 

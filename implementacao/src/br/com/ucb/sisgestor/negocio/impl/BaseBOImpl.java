@@ -83,9 +83,8 @@ public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Seriali
 	protected void verificaExcecao(Exception excecao) throws NegocioException {
 		if (excecao instanceof NegocioException) {
 			throw NegocioException.class.cast(excecao);
-		} else {
-			throw new NegocioException(excecao);
 		}
+		throw new NegocioException(excecao);
 	}
 
 	/**

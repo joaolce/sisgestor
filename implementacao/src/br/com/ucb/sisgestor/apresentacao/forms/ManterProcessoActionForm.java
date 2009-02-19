@@ -19,18 +19,18 @@ public class ManterProcessoActionForm extends BaseForm {
 	private Integer	workflow;
 
 	/**
-	 * Recupera o valor de descricao
+	 * Recupera a descrição do processo
 	 * 
-	 * @return descricao
+	 * @return descrição do processo
 	 */
 	public String getDescricao() {
 		return this.descricao;
 	}
 
 	/**
-	 * Recupera o valor de nome
+	 * Recupera o nome do processo
 	 * 
-	 * @return nome
+	 * @return nome do processo
 	 */
 	public String getNome() {
 		return this.nome;
@@ -38,9 +38,9 @@ public class ManterProcessoActionForm extends BaseForm {
 
 
 	/**
-	 * Recupera o identificador do workflow.
+	 * Recupera o código identificador do workflow.
 	 * 
-	 * @return identificador do workflow
+	 * @return código identificador do workflow
 	 */
 	public Integer getWorkflow() {
 		return this.workflow;
@@ -48,9 +48,9 @@ public class ManterProcessoActionForm extends BaseForm {
 
 
 	/**
-	 * Atribui descricao
+	 * Atribui a descrição do processo
 	 * 
-	 * @param descricao o valor a ajustar em descricao
+	 * @param descricao descrição do processo
 	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
@@ -58,9 +58,9 @@ public class ManterProcessoActionForm extends BaseForm {
 
 
 	/**
-	 * Atribui nome
+	 * Atribui o nome do processo
 	 * 
-	 * @param nome o valor a ajustar em nome
+	 * @param nome nome do processo
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
@@ -68,9 +68,9 @@ public class ManterProcessoActionForm extends BaseForm {
 
 
 	/**
-	 * Atribui o identificador do workflow.
+	 * Atribui o código identificador do workflow.
 	 * 
-	 * @param workflow identificador do workflow
+	 * @param workflow código identificador do workflow
 	 */
 	public void setWorkflow(Integer workflow) {
 		this.workflow = workflow;

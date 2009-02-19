@@ -63,6 +63,7 @@ ManterTarefa.prototype = {
 		   dwr.util.setValue($("formSalvarTarefa").id, idTarefa);
 		   dwr.util.setValue("nomeTarefa", tarefa.nome);
 		   dwr.util.setValue("descricaoTarefa", tarefa.descricao);
+		   dwr.util.setValue("usuario", tarefa.usuario.id);
 		   this.contaChar(false);
 	   }).bind(this));
    },
@@ -75,7 +76,7 @@ ManterTarefa.prototype = {
 	   var dto = {
 	      nome :dwr.util.getValue("nomePesquisaTarefa"),
 	      descricao :dwr.util.getValue("descricaoPesquisaTarefa"),
-	      usuario :dwr.util.getValue("usuario"),
+	      usuario :dwr.util.getValue("usuarioPesquisa"),
 	      idAtividade :dwr.util.getValue("atividade")
 	   };
 
@@ -161,7 +162,7 @@ ManterTarefa.prototype = {
 	 */
    popupNovaTarefa : function() {
 	   var url = "manterTarefa.do?method=popupNovaTarefa";
-	   createWindow(255, 375, 280, 40, "Nova Tarefa", "divNovaTarefa", url, (function(){
+	   createWindow(285, 375, 280, 40, "Nova Tarefa", "divNovaTarefa", url, (function(){
 		   dwr.util.setValue("idAtividade",$F("atividade"));
 	   }));
    },

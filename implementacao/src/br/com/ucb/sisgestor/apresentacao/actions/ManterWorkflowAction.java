@@ -42,7 +42,7 @@ public class ManterWorkflowAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterWorkflowActionForm form = (ManterWorkflowActionForm) actionForm;
 
-		Workflow workflow = workflowBO.obter(form.getId());
+		Workflow workflow = new Workflow();
 		this.copyProperties(workflow, form);
 
 		workflowBO.atualizar(workflow);
@@ -89,7 +89,7 @@ public class ManterWorkflowAction extends BaseAction {
 	}
 
 	/**
-	 * Salva um novo workflow.
+	 * Salva (inclui) um novo workflow.
 	 * 
 	 * @param mapping objeto mapping da action
 	 * @param formulario objeto form da action

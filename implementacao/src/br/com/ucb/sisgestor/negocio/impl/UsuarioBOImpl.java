@@ -12,6 +12,7 @@ import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsuarioDAO;
 import br.com.ucb.sisgestor.persistencia.impl.UsuarioDAOImpl;
+import br.com.ucb.sisgestor.util.constantes.Constantes;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaUsuarioDTO;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
@@ -69,13 +70,13 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	 * {@inheritDoc}
 	 */
 	public boolean enviarLembreteDeSenha(String login) throws NegocioException {
-		Usuario usuario = this.dao.recuperarPorLogin(login);
+		Usuario usuario = this.dao.getByLogin(login);
 		if ((usuario != null) && StringUtils.isNotBlank(usuario.getEmail())) {
 			try {
 				Email email = new Email();
-				email.setAssunto("SisGestor - Lembrete de senha");
-				email.addDestinatariosTO(usuario.getEmail());
-				email.setRemetente("sisgestor");
+				email.setAssunto(Constantes.LEMBRETE_EMAIL_ASSUNTO);
+				email.addDestinatariosTO(usuario.getEmail().trim());
+				email.setRemetente("SisGestor");
 				email.setCorpo(usuario.getSenha());
 				EmailSender.getInstancia().send(email);
 				return true;
@@ -110,6 +111,17 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	/**
 	 * {@inheritDoc}
 	 */
+	public Usuario getByLogin(String login) throws NegocioException {
+		Usuario usuario = this.dao.getByLogin(login);
+		if (usuario == null) {
+			throw new NegocioException("erro.usuarioNaoEncontrado");
+		}
+		return usuario;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
 			Integer paginaAtual) {
 		return this.dao.getByLoginNomeDepartamento(login, nome, departamento, paginaAtual);
@@ -136,17 +148,6 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	 */
 	public List<Usuario> obterTodos() {
 		return this.dao.obterTodos();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Usuario recuperarPorLogin(String login) throws NegocioException {
-		Usuario usuario = this.dao.recuperarPorLogin(login);
-		if (usuario == null) {
-			throw new NegocioException("erro.usuarioNaoEncontrado");
-		}
-		return usuario;
 	}
 
 	/**

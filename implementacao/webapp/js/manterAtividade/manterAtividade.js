@@ -174,8 +174,8 @@ ManterAtividade.prototype = {
    popupGerenciarTarefas :function(){
 	   var idAtividade = dwr.util.getValue($("formSalvarAtividade").id);
 	   var url = "manterTarefa.do?method=entrada&atividade="+idAtividade;
-	   createWindow(536, 985, 280, 10, "Gerenciar Tarefas", "divGerenciarTarefas", url, (function(){
-		   this.pesquisar();
+	   createWindow(496, 985, 280, 50, "Gerenciar Tarefas", "divGerenciarTarefas", url, (function(){
+		   tarefa.pesquisar();
 	   }));
    }, 
    

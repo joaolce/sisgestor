@@ -94,7 +94,7 @@
 		</action>
 		
 		<!-- Manter Tarefa -->
-		<action path="/manterTafera" 
+		<action path="/manterTarefa" 
 			type="br.com.ucb.sisgestor.apresentacao.actions.ManterTarefaAction"
 			name="manterTarefaForm"
 			validate="false" 
@@ -114,7 +114,6 @@
 			<forward name="entrada" path="definicaoManterCampo" />
 			<forward name="popupNovoCampo" path="popupNovoCampo" />
 		</action>
-		
 	</action-mappings>
 
 

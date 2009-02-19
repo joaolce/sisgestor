@@ -55,7 +55,6 @@ public final class LoginServlet extends HttpServlet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
 		String param;
@@ -86,7 +85,6 @@ public final class LoginServlet extends HttpServlet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
 		if (request.getParameter(LOGIN_ERROR) == null) {
@@ -111,7 +109,7 @@ public final class LoginServlet extends HttpServlet {
 	}
 
 	/**
-	 * Envia a senha do usuário para o seu email.
+	 * Envia a senha do usuário para o seu e-mail.
 	 * 
 	 * @param request request atual
 	 * @param response response atual

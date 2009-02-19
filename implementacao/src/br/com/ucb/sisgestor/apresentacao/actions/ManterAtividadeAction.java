@@ -4,17 +4,17 @@
  */
 package br.com.ucb.sisgestor.apresentacao.actions;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import br.com.ucb.sisgestor.apresentacao.forms.ManterAtividadeActionForm;
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.negocio.DepartamentoBO;
 import br.com.ucb.sisgestor.negocio.impl.AtividadeBOImpl;
 import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 
 /**
  * Action para manutenções em {@link Atividade}.
@@ -56,7 +56,6 @@ public class ManterAtividadeAction extends BaseAction {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public ActionForward entrada(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterAtividadeActionForm form = (ManterAtividadeActionForm) formulario;
@@ -103,6 +102,7 @@ public class ManterAtividadeAction extends BaseAction {
 	public ActionForward popupNovaAtividade(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ManterAtividadeActionForm form = (ManterAtividadeActionForm) formulario;
+
 		DepartamentoBO departamentoBO = DepartamentoBOImpl.getInstancia();
 
 		//Recupera os departamentos disponíveis para uma nova atividade
@@ -112,7 +112,7 @@ public class ManterAtividadeAction extends BaseAction {
 	}
 
 	/**
-	 * Salva uma atividade.
+	 * Salva (inclui) uma atividade.
 	 * 
 	 * @param mapping objeto mapping da action
 	 * @param formulario objeto form da action
@@ -123,8 +123,8 @@ public class ManterAtividadeAction extends BaseAction {
 	 */
 	public ActionForward salvar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
 		ManterAtividadeActionForm form = (ManterAtividadeActionForm) formulario;
+
 		Atividade atividade = new Atividade();
 		this.copyProperties(atividade, form);
 

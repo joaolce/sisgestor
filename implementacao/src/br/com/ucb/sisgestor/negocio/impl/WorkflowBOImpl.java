@@ -78,7 +78,6 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaWorkflowDTO dto = (PesquisaWorkflowDTO) parametros;
 		return this.dao.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getAtivo());

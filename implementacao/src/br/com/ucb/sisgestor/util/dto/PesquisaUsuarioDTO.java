@@ -17,9 +17,9 @@ public class PesquisaUsuarioDTO extends PesquisaPaginadaDTO {
 	private Integer	departamento;
 
 	/**
-	 * Recupera o código do departamento da pesquisa.
+	 * Recupera o código identificador do departamento da pesquisa.
 	 * 
-	 * @return código do departamento da pesquisa
+	 * @return código identificador do departamento da pesquisa
 	 */
 	public Integer getDepartamento() {
 		return this.departamento;

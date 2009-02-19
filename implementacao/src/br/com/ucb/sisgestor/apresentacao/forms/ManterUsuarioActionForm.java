@@ -48,9 +48,9 @@ public class ManterUsuarioActionForm extends BaseForm {
 	}
 
 	/**
-	 * Recupera o código do departamento.
+	 * Recupera o código identificador do departamento.
 	 * 
-	 * @return código do departamento
+	 * @return código identificador do departamento
 	 */
 	public Integer getDepartamento() {
 		return this.departamento;
@@ -147,9 +147,9 @@ public class ManterUsuarioActionForm extends BaseForm {
 	}
 
 	/**
-	 * Atribui o código do departamento.
+	 * Atribui o código identificador do departamento.
 	 * 
-	 * @param departamento código do departamento
+	 * @param departamento código identificador do departamento
 	 */
 	public void setDepartamento(Integer departamento) {
 		this.departamento = departamento;

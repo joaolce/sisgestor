@@ -82,6 +82,7 @@ public class Workflow extends BaseWorkflow {
 		this.dataHoraExclusao = dataHoraExclusao;
 	}
 
+
 	/**
 	 * Atribui processos do workflow.
 	 * 

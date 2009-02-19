@@ -18,10 +18,11 @@ import java.util.List;
 public interface UsuarioBO extends BaseBO<Usuario, Integer> {
 
 	/**
-	 * Envia um email para o {@link Usuario} para lembrar a sua senha.
+	 * Envia um e-mail para o {@link Usuario} com o lembrete da sua senha.
 	 * 
 	 * @param login login do usuário
-	 * @return <code>true</code> caso foi enviada com sucesso, <code>false</code> em caso de insucesso
+	 * @return <code>true</code>, se o e-mail foi enviado com sucesso;<br>
+	 *         <code>false</code>, se não foi.
 	 * @throws NegocioException caso uma regra de negócio seja violada
 	 */
 	boolean enviarLembreteDeSenha(String login) throws NegocioException;
@@ -35,6 +36,15 @@ public interface UsuarioBO extends BaseBO<Usuario, Integer> {
 	List<Usuario> getByDepartamento(Departamento departamento);
 
 	/**
+	 * Recupera um usuário a partir do seu login.
+	 * 
+	 * @param login login do usuário
+	 * @return usuário encontrado
+	 * @throws NegocioException caso uma regra de negócio seja violada
+	 */
+	Usuario getByLogin(String login) throws NegocioException;
+
+	/**
 	 * Retorna um {@link List} de {@link Usuario} a partir dos parâmetros informados.
 	 * 
 	 * @param login parte do login do usuário
@@ -45,13 +55,4 @@ public interface UsuarioBO extends BaseBO<Usuario, Integer> {
 	 */
 	List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
 			Integer paginaAtual);
-
-	/**
-	 * Recupera um usuário a partir do seu login.
-	 * 
-	 * @param login login do usuário
-	 * @return usuário encontrado
-	 * @throws NegocioException caso uma regra de negócio seja violada
-	 */
-	Usuario recuperarPorLogin(String login) throws NegocioException;
 }

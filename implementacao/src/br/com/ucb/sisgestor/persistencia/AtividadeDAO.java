@@ -19,7 +19,7 @@ public interface AtividadeDAO extends BaseDAO<Atividade, Integer> {
 	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(4);
 
 	/**
-	 * Retorna um {@link List} de {@link Atividade} a partir do nome e/ou descrição
+	 * Retorna um {@link List} de {@link Atividade} a partir do nome, descrição e/ou departamento
 	 * 
 	 * @param nome parte do nome da atividade
 	 * @param descricao parte da descrição da atividade
@@ -38,7 +38,7 @@ public interface AtividadeDAO extends BaseDAO<Atividade, Integer> {
 	 * @param descricao parte da descrição da atividade
 	 * @param departamento Departamento responsável pela atividade
 	 * @param idProcesso identificador do processo
-	 * @return número do total de registros
+	 * @return total de registros encontrados
 	 */
 	Integer getTotalRegistros(String nome, String descricao, Integer departamento, Integer idProcesso);
 

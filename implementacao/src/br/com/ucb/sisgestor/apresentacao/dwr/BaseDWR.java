@@ -7,7 +7,7 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.BaseBO;
 import br.com.ucb.sisgestor.util.Utils;
-import br.com.ucb.sisgestor.util.constantes.DadosContexto;
+import br.com.ucb.sisgestor.util.constantes.ConstantesContexto;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
@@ -70,7 +70,7 @@ public class BaseDWR {
 	 * @return usuário logado
 	 */
 	protected Usuario getUser() {
-		return (Usuario) this.getSessionAttribute(DadosContexto.USUARIO_SESSAO);
+		return (Usuario) this.getSessionAttribute(ConstantesContexto.USUARIO_SESSAO);
 	}
 
 	/**
@@ -96,10 +96,10 @@ public class BaseDWR {
 		List<?> lista = resultado.getColecaoParcial();
 		if ((dto.getPaginaAtual() == null) && !lista.isEmpty()) {
 			Integer total = bo.getTotalPesquisa(dto);
-			this.setSessionAttribute(DadosContexto.TOTAL_PESQUISA, total);
+			this.setSessionAttribute(ConstantesContexto.TOTAL_PESQUISA, total);
 			resultado.setTotalRegistros(total);
 		} else {
-			resultado.setTotalRegistros((Integer) this.getSessionAttribute(DadosContexto.TOTAL_PESQUISA));
+			resultado.setTotalRegistros((Integer) this.getSessionAttribute(ConstantesContexto.TOTAL_PESQUISA));
 		}
 	}
 }

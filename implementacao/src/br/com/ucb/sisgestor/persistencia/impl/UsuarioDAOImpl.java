@@ -74,7 +74,7 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario, Integer> implements Usu
 	/**
 	 * {@inheritDoc}
 	 */
-	public Usuario recuperarPorLogin(String login) {
+	public Usuario getByLogin(String login) {
 		Criteria criteria = this.createCriteria(Usuario.class);
 		criteria.add(Restrictions.eq("login", login).ignoreCase());
 		return (Usuario) criteria.uniqueResult();

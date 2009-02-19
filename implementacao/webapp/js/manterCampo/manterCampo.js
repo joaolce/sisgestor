@@ -61,6 +61,8 @@ ManterCampo.prototype = {
 	   }
 	   ManterCampoDWR.getById(idCampo, ( function(campo) {
 		   Effect.Appear("formSalvarCampo");
+		   dwr.util.setValue("nome", campo.nome);
+		   dwr.util.setValue("tipo", campo.tipo.id);
 	   }).bind(this));
    },
 
@@ -70,13 +72,15 @@ ManterCampo.prototype = {
    pesquisar : function() {
 	   Effect.Fade("formSalvarCampo");
 	   var dto = {
+		  nome :dwr.util.getValue("nomePesquisaCampo"),
+		  tipo :dwr.util.getValue("tipoPesquisa")
 	   };
 
 	   if (this.tabelaTelaPrincipal == null) {
 		   var chamadaRemota = ManterCampoDWR.pesquisar.bind(ManterCampoDWR);
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
 		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
-		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA_PROCESSO);
+		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA);
 	   }
 	   this.tabelaTelaPrincipal.setParametros(dto);
 	   this.tabelaTelaPrincipal.executarChamadaRemota();
@@ -103,7 +107,7 @@ ManterCampo.prototype = {
 			   return campo.nome;
 		   });
 		   cellfuncs.push( function(campo) {
-			   return campo.descricao;
+			   return campo.tipo.descricao;
 		   });
 		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
 		   this.tabelaTelaPrincipal.setOnClick(this.visualizar.bind(this));

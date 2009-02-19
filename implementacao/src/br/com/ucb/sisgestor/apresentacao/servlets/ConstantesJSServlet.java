@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ConstantesJSServlet extends HttpServlet {
 
+	/** Mapa de constantes utilizadas nos JavaScripts*/
 	private static Map<String, Object>	constantes	= new HashMap<String, Object>();
 	private static String					javascript;
 

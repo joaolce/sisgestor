@@ -32,7 +32,7 @@ public interface WorkflowDAO extends BaseDAO<Workflow, Integer> {
 	 * @param nome parte do nome do workflow
 	 * @param descricao parte da descrição do workflow
 	 * @param ativo indica se o workflow está ativo ou não
-	 * @return número do total de registros
+	 * @return total de registros encontrados
 	 */
 	Integer getTotalRegistros(String nome, String descricao, Boolean ativo);
 }

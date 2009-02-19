@@ -35,8 +35,8 @@ public interface ProcessoDAO extends BaseDAO<Processo, Integer> {
 	 * 
 	 * @param nome parte do nome do processo
 	 * @param descricao parte da descrição do processo
-	 * @param idWorkflow identificador eo workflow
-	 * @return número do total de registros
+	 * @param idWorkflow identificador do workflow
+	 * @return total de registros encontrados
 	 */
 	Integer getTotalRegistros(String nome, String descricao, Integer idWorkflow);
 }

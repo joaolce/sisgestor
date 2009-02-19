@@ -20,9 +20,9 @@ public class BaseForm extends ActionForm {
 	private Integer	id;
 
 	/**
-	 * Recupera o identificador do objeto.
+	 * Recupera o código identificador do objeto.
 	 * 
-	 * @return identificador do objeto
+	 * @return código identificador do objeto
 	 */
 	public Integer getId() {
 		return this.id;
@@ -37,9 +37,9 @@ public class BaseForm extends ActionForm {
 	}
 
 	/**
-	 * Atribui o identificador do objeto.
+	 * Atribui o código identificador do objeto.
 	 * 
-	 * @param id identificador do objeto
+	 * @param id código identificador do objeto
 	 */
 	public void setId(Integer id) {
 		this.id = id;

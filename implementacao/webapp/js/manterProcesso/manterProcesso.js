@@ -163,8 +163,7 @@ ManterProcesso.prototype = {
    popupGerenciarAtividades : function() {
 	   var idProcesso = dwr.util.getValue($("formAtualizarProcesso").id);
 	   var url = "manterAtividade.do?method=entrada&processo=" + idProcesso;
-	   createWindow(516, 985, 280, 30, "Gerenciar Atividades", "divGerenciarAtividades", url,
-	      ( function() {
+	   createWindow(516, 985, 280, 30, "Gerenciar Atividades", "divGerenciarAtividades", url, ( function() {
 		      atividade.pesquisar();
 	      }));
    },

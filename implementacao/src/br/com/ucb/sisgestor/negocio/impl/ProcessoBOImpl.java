@@ -1,6 +1,6 @@
 /*
  * Projeto: sisgestor
- * Criação: 11/02/2008 por Thiago
+ * Criação: 11/02/2009 por Thiago
  */
 package br.com.ucb.sisgestor.negocio.impl;
 

@@ -16,7 +16,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 /**
- * Implementação da interface de acesso a dados de {@link Processo}.
+ * Implementação da interface de acesso aos dados de {@link Processo}.
  * 
  * @author Thiago
  * @since 11/02/2009
@@ -65,7 +65,6 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	protected Order getOrdemLista() {
 		return Order.asc("nome").ignoreCase();
 	}

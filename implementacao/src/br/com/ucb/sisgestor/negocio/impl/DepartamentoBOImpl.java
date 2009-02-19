@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.negocio.impl;
 
+import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.negocio.DepartamentoBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
@@ -13,6 +14,7 @@ import br.com.ucb.sisgestor.util.dto.PesquisaDepartamentoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -75,13 +77,42 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 			if ((departamento.getUsuarios() != null) && !departamento.getUsuarios().isEmpty()) {
 				throw new NegocioException("erro.departamento.usuarios");
 			}
-			//TODO Acrescentar aqui verificação se o departamento está sendo referenciado para outras tabelas.
+			if(this.isDepartamentoResponsavelAtividade(departamento)){
+				throw new NegocioException("erro.departamento.responsavel");
+			}
+			
 			this.dao.excluir(departamento);
 			HibernateUtil.commit(transaction);
 		} catch (Exception e) {
 			HibernateUtil.rollback(transaction);
 			this.verificaExcecao(e);
 		}
+	}
+
+	/**
+	 * Verifica se o departamento está responsável por alguma atividade
+	 * 
+	 * @param departamento Departamento a ser verificado
+	 * @return <code>true</code>, se está;<br><code>false</code>, se não.
+	 */
+	private boolean isDepartamentoResponsavelAtividade(Departamento departamento) {
+		return departamentoTemAtividades(departamento);
+	}
+	
+	/**
+	 * Verifica se o departamento possui alguma atividade subordinada.
+	 *
+	 * @param departamento Departamento a ser verificado
+	 * @return <code>true</code>, se tiver;<br><code>false</code>, se não.
+	 */
+	private boolean departamentoTemAtividades(Departamento departamento){
+		Hibernate.initialize(departamento.getAtividades());
+		List<Atividade> listaAtividades = departamento.getAtividades();
+		
+		if(listaAtividades != null && !listaAtividades.isEmpty()){
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -94,7 +125,6 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaDepartamentoDTO dto = (PesquisaDepartamentoDTO) parametros;
 		return this.dao.getTotalRegistros(dto.getSigla(), dto.getNome());
