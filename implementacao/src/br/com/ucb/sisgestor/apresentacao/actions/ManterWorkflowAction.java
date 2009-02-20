@@ -7,12 +7,12 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 import br.com.ucb.sisgestor.apresentacao.forms.ManterWorkflowActionForm;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.WorkflowBO;
-import br.com.ucb.sisgestor.negocio.impl.WorkflowBOImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Action para manutenções em {@link Workflow}.
@@ -22,11 +22,7 @@ import org.apache.struts.action.ActionMapping;
  */
 public class ManterWorkflowAction extends BaseAction {
 
-	private static WorkflowBO	workflowBO;
-
-	static {
-		workflowBO = WorkflowBOImpl.getInstancia();
-	}
+	private WorkflowBO	workflowBO;
 
 	/**
 	 * Atualiza um workflow.
@@ -45,7 +41,7 @@ public class ManterWorkflowAction extends BaseAction {
 		Workflow workflow = new Workflow();
 		this.copyProperties(workflow, form);
 
-		workflowBO.atualizar(workflow);
+		this.workflowBO.atualizar(workflow);
 
 		this.addMessageKey("mensagem.alterar", "Workflow");
 		return this.sendAJAXResponse(true);
@@ -65,9 +61,9 @@ public class ManterWorkflowAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterWorkflowActionForm form = (ManterWorkflowActionForm) formulario;
 
-		Workflow workflow = workflowBO.obter(form.getId());
+		Workflow workflow = this.workflowBO.obter(form.getId());
 
-		workflowBO.excluir(workflow);
+		this.workflowBO.excluir(workflow);
 
 		this.addMessageKey("mensagem.excluir", "Workflow");
 		return this.sendAJAXResponse(true);
@@ -105,9 +101,19 @@ public class ManterWorkflowAction extends BaseAction {
 		Workflow workflow = new Workflow();
 		this.copyProperties(workflow, form);
 
-		workflowBO.salvar(workflow);
+		this.workflowBO.salvar(workflow);
 
 		this.addMessageKey("mensagem.salvar", "Workflow");
 		return this.sendAJAXResponse(true);
+	}
+
+	/**
+	 * Atribui o BO de {@link Workflow}.
+	 * 
+	 * @param workflowBO BO de {@link Workflow}
+	 */
+	@Autowired
+	public void setWorkflowBO(WorkflowBO workflowBO) {
+		this.workflowBO = workflowBO;
 	}
 }

@@ -7,12 +7,12 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 import br.com.ucb.sisgestor.apresentacao.forms.ManterDepartamentoActionForm;
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.negocio.DepartamentoBO;
-import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Action para manutenções em {@link Departamento}.
@@ -22,11 +22,7 @@ import org.apache.struts.action.ActionMapping;
  */
 public class ManterDepartamentoAction extends BaseAction {
 
-	private static DepartamentoBO	departamentoBO;
-
-	static {
-		departamentoBO = DepartamentoBOImpl.getInstancia();
-	}
+	private DepartamentoBO	departamentoBO;
 
 	/**
 	 * Atualiza um departamento.
@@ -41,11 +37,11 @@ public class ManterDepartamentoAction extends BaseAction {
 	public ActionForward atualizar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm form = (ManterDepartamentoActionForm) formulario;
-		
+
 		Departamento departamento = new Departamento();
 		this.copyProperties(departamento, form);
 
-		departamentoBO.atualizar(departamento);
+		this.departamentoBO.atualizar(departamento);
 
 		this.addMessageKey("mensagem.alterar", "Departamento");
 		return this.sendAJAXResponse(true);
@@ -58,8 +54,8 @@ public class ManterDepartamentoAction extends BaseAction {
 	public ActionForward entrada(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm form = (ManterDepartamentoActionForm) actionForm;
-		
-		form.setListaDepartamentos(departamentoBO.obterTodos());
+
+		form.setListaDepartamentos(this.departamentoBO.obterTodos());
 
 		return this.findForward(FWD_ENTRADA);
 	}
@@ -77,10 +73,10 @@ public class ManterDepartamentoAction extends BaseAction {
 	public ActionForward excluir(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm form = (ManterDepartamentoActionForm) formulario;
-		
-		Departamento departamento = departamentoBO.obter(form.getId());
 
-		departamentoBO.excluir(departamento);
+		Departamento departamento = this.departamentoBO.obter(form.getId());
+
+		this.departamentoBO.excluir(departamento);
 
 		this.addMessageKey("mensagem.excluir", "Departamento");
 		return this.sendAJAXResponse(true);
@@ -100,7 +96,7 @@ public class ManterDepartamentoAction extends BaseAction {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm frm = (ManterDepartamentoActionForm) form;
 
-		frm.setListaDepartamentos(departamentoBO.obterTodos());
+		frm.setListaDepartamentos(this.departamentoBO.obterTodos());
 
 		return this.findForward("popupNovoDepartamento");
 	}
@@ -118,13 +114,23 @@ public class ManterDepartamentoAction extends BaseAction {
 	public ActionForward salvar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm form = (ManterDepartamentoActionForm) formulario;
-		
+
 		Departamento departamento = new Departamento();
 		this.copyProperties(departamento, form);
 
-		departamentoBO.salvar(departamento);
+		this.departamentoBO.salvar(departamento);
 
 		this.addMessageKey("mensagem.salvar", "Departamento");
 		return this.sendAJAXResponse(true);
+	}
+
+	/**
+	 * Atribui o BO de {@link Departamento}.
+	 * 
+	 * @param departamentoBO BO de {@link Departamento}
+	 */
+	@Autowired
+	public void setDepartamentoBO(DepartamentoBO departamentoBO) {
+		this.departamentoBO = departamentoBO;
 	}
 }

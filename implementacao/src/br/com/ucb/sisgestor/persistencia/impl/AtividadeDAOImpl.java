@@ -14,6 +14,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
 /**
  * Implementação da interface de acesso a dados de {@link Atividade}.
@@ -21,24 +22,14 @@ import org.hibernate.criterion.Restrictions;
  * @author Thiago
  * @since 16/02/2009
  */
+@Repository("atividadeDAO")
 public class AtividadeDAOImpl extends BaseDAOImpl<Atividade, Integer> implements AtividadeDAO {
-
-	private static final AtividadeDAO	instancia	= new AtividadeDAOImpl();
 
 	/**
 	 * Cria uma nova instância do tipo {@link AtividadeDAOImpl}
 	 */
-	private AtividadeDAOImpl() {
+	public AtividadeDAOImpl() {
 		super(Atividade.class);
-	}
-
-	/**
-	 * Recupera a instância de {@link AtividadeDAO}. pattern singleton.
-	 * 
-	 * @return {@link AtividadeDAO}
-	 */
-	public static AtividadeDAO getInstancia() {
-		return instancia;
 	}
 
 	/**

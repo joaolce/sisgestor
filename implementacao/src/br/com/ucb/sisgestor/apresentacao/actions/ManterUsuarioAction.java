@@ -5,12 +5,11 @@
 package br.com.ucb.sisgestor.apresentacao.actions;
 
 import br.com.ucb.sisgestor.apresentacao.forms.ManterUsuarioActionForm;
+import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.entidade.Usuario;
-import br.com.ucb.sisgestor.negocio.UsuarioBO;
-import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
-import br.com.ucb.sisgestor.negocio.impl.PermissaoBOImpl;
-import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
+import br.com.ucb.sisgestor.negocio.DepartamentoBO;
+import br.com.ucb.sisgestor.negocio.PermissaoBO;
 import br.com.ucb.sisgestor.util.constantes.ConstantesRoles;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Action para manutenções em {@link Usuario}.
@@ -28,11 +28,8 @@ import org.apache.struts.action.ActionMapping;
  */
 public class ManterUsuarioAction extends BaseAction {
 
-	private static UsuarioBO	usuarioBO;
-
-	static {
-		usuarioBO = UsuarioBOImpl.getInstancia();
-	}
+	private DepartamentoBO	departamentoBO;
+	private PermissaoBO		permissaoBO;
 
 	/**
 	 * Atualiza um usuário.
@@ -47,10 +44,10 @@ public class ManterUsuarioAction extends BaseAction {
 	public ActionForward atualizar(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) actionForm;
-		
+
 		Usuario usuario = new Usuario();
 		this.copyProperties(usuario, form);
-		
+
 		usuario.setPermissoes(this.getPermissoes(form.getPermissoes()));
 
 		Usuario usuarioLogado = this.getUser();
@@ -61,7 +58,7 @@ public class ManterUsuarioAction extends BaseAction {
 			this.addMessageKey("erro.acessoNegado");
 			return this.sendAJAXResponse(false);
 		}
-		usuarioBO.atualizar(usuario);
+		this.usuarioBO.atualizar(usuario);
 
 		this.addMessageKey("mensagem.alterar", "Usuário");
 
@@ -91,11 +88,11 @@ public class ManterUsuarioAction extends BaseAction {
 	public ActionForward atualizarSenha(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) formulario;
-		
+
 		Usuario usuario = this.getUser();
 		usuario.setSenha(form.getNovaSenha());
 
-		usuarioBO.atualizar(usuario);
+		this.usuarioBO.atualizar(usuario);
 		this.doUsuario(true);
 
 		this.addMessageKey("mensagem.usuario.senha");
@@ -110,7 +107,7 @@ public class ManterUsuarioAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) actionForm;
 
-		form.setListaDepartamentos(DepartamentoBOImpl.getInstancia().obterTodos());
+		form.setListaDepartamentos(this.departamentoBO.obterTodos());
 
 		return this.findForward(FWD_ENTRADA);
 	}
@@ -129,7 +126,7 @@ public class ManterUsuarioAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) formulario;
 
-		Usuario usuario = usuarioBO.obter(form.getId());
+		Usuario usuario = this.usuarioBO.obter(form.getId());
 
 		// Usuário não pode excluir ele mesmo
 		if (this.getUser().getId().equals(usuario.getId())) {
@@ -137,7 +134,7 @@ public class ManterUsuarioAction extends BaseAction {
 			return this.sendAJAXResponse(false);
 		}
 
-		usuarioBO.excluir(usuario);
+		this.usuarioBO.excluir(usuario);
 
 		this.addMessageKey("mensagem.excluir", "Usuário");
 		return this.sendAJAXResponse(true);
@@ -172,12 +169,11 @@ public class ManterUsuarioAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterUsuarioActionForm frm = (ManterUsuarioActionForm) form;
 
-		frm.setListaDepartamentos(DepartamentoBOImpl.getInstancia().obterTodos());
-		frm.setPermissoesDisponiveis(PermissaoBOImpl.getInstancia().obterTodos());
+		frm.setListaDepartamentos(this.departamentoBO.obterTodos());
+		frm.setPermissoesDisponiveis(this.permissaoBO.obterTodos());
 
 		return this.findForward("popupNovoUsuario");
 	}
-
 
 	/**
 	 * Salva um usuário.
@@ -198,10 +194,30 @@ public class ManterUsuarioAction extends BaseAction {
 
 		usuario.setPermissoes(this.getPermissoes(form.getPermissoes()));
 
-		usuarioBO.salvar(usuario);
+		this.usuarioBO.salvar(usuario);
 
 		this.addMessageKey("mensagem.salvar", "Usuário");
 		return this.sendAJAXResponse(true);
+	}
+
+	/**
+	 * Atribui BO de {@link Departamento}.
+	 * 
+	 * @param departamentoBO BO de {@link Departamento}
+	 */
+	@Autowired
+	public void setDepartamentoBO(DepartamentoBO departamentoBO) {
+		this.departamentoBO = departamentoBO;
+	}
+
+	/**
+	 * Atribui o BO de {@link Permissao}.
+	 * 
+	 * @param permissaoBO BO de {@link Permissao}
+	 */
+	@Autowired
+	public void setPermissaoBO(PermissaoBO permissaoBO) {
+		this.permissaoBO = permissaoBO;
 	}
 
 	/**

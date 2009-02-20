@@ -14,6 +14,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
 /**
  * Implementação da interface de acesso aos dados de {@link Processo}.
@@ -21,24 +22,14 @@ import org.hibernate.criterion.Restrictions;
  * @author Thiago
  * @since 11/02/2009
  */
+@Repository("processoDAO")
 public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements ProcessoDAO {
-
-	private static final ProcessoDAO	instancia	= new ProcessoDAOImpl();
 
 	/**
 	 * Cria uma nova instância do tipo {@link ProcessoDAOImpl}
 	 */
-	private ProcessoDAOImpl() {
+	public ProcessoDAOImpl() {
 		super(Processo.class);
-	}
-
-	/**
-	 * Recupera a instância de {@link ProcessoDAO}. pattern singleton.
-	 * 
-	 * @return {@link ProcessoDAO}
-	 */
-	public static ProcessoDAO getInstancia() {
-		return instancia;
 	}
 
 	/**
@@ -65,6 +56,7 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected Order getOrdemLista() {
 		return Order.asc("nome").ignoreCase();
 	}

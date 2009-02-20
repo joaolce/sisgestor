@@ -8,8 +8,9 @@ import br.com.ucb.sisgestor.entidade.Tipo;
 import br.com.ucb.sisgestor.negocio.TipoBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.TipoDAO;
-import br.com.ucb.sisgestor.persistencia.impl.TipoDAOImpl;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Objeto de negócio para {@link Tipo}.
@@ -17,27 +18,10 @@ import java.util.List;
  * @author Thiago
  * @since 18/02/2009
  */
+@Service("tipoBO")
 public class TipoBOImpl extends BaseBOImpl<Tipo, Integer> implements TipoBO {
 
-	private static final TipoBO	instancia	= new TipoBOImpl();
-	private TipoDAO					dao;
-
-	/**
-	 * Cria uma nova instância do tipo {@link TipoBOImpl}.
-	 */
-	private TipoBOImpl() {
-		this.dao = TipoDAOImpl.getInstancia();
-	}
-
-	/**
-	 * Recupera a instância de {@link TipoBO}. <br />
-	 * pattern singleton.
-	 * 
-	 * @return {@link TipoBO}
-	 */
-	public static TipoBO getInstancia() {
-		return instancia;
-	}
+	private TipoDAO	tipoDAO;
 
 	/**
 	 * {@inheritDoc}
@@ -57,14 +41,14 @@ public class TipoBOImpl extends BaseBOImpl<Tipo, Integer> implements TipoBO {
 	 * {@inheritDoc}
 	 */
 	public Tipo obter(Integer pk) {
-		return this.dao.obter(pk);
+		return this.tipoDAO.obter(pk);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public List<Tipo> obterTodos() {
-		return this.dao.obterTodos();
+		return this.tipoDAO.obterTodos();
 	}
 
 	/**
@@ -72,5 +56,15 @@ public class TipoBOImpl extends BaseBOImpl<Tipo, Integer> implements TipoBO {
 	 */
 	public void salvar(Tipo tipo) throws NegocioException {
 		throw new UnsupportedOperationException("erro.operacaoNaoSuportada");
+	}
+
+	/**
+	 * Atribui o DAO de {@link Tipo}.
+	 * 
+	 * @param tipoDAO DAO de {@link Tipo}
+	 */
+	@Autowired
+	public void setTipoDAO(TipoDAO tipoDAO) {
+		this.tipoDAO = tipoDAO;
 	}
 }

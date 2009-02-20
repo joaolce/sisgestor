@@ -8,8 +8,9 @@ import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.negocio.PermissaoBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.PermissaoDAO;
-import br.com.ucb.sisgestor.persistencia.impl.PermissaoDAOImpl;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Objeto de negócio para {@link Permissao}.
@@ -17,27 +18,10 @@ import java.util.List;
  * @author João Lúcio
  * @since 19/01/2009
  */
+@Service("permissaoBO")
 public class PermissaoBOImpl extends BaseBOImpl<Permissao, Integer> implements PermissaoBO {
 
-	private static final PermissaoBO	instancia	= new PermissaoBOImpl();
-	private PermissaoDAO					dao;
-
-	/**
-	 * Cria uma nova instância do tipo {@link UsuarioBOImpl}.
-	 */
-	private PermissaoBOImpl() {
-		this.dao = PermissaoDAOImpl.getInstancia();
-	}
-
-	/**
-	 * Recupera a instância de {@link PermissaoBO}. <br />
-	 * pattern singleton.
-	 * 
-	 * @return {@link PermissaoBO}
-	 */
-	public static PermissaoBO getInstancia() {
-		return instancia;
-	}
+	private PermissaoDAO	permissaoDAO;
 
 	/**
 	 * {@inheritDoc}
@@ -57,14 +41,14 @@ public class PermissaoBOImpl extends BaseBOImpl<Permissao, Integer> implements P
 	 * {@inheritDoc}
 	 */
 	public Permissao obter(Integer pk) {
-		return this.dao.obter(pk);
+		return this.permissaoDAO.obter(pk);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public List<Permissao> obterTodos() {
-		return this.dao.obterTodos();
+		return this.permissaoDAO.obterTodos();
 	}
 
 	/**
@@ -72,5 +56,15 @@ public class PermissaoBOImpl extends BaseBOImpl<Permissao, Integer> implements P
 	 */
 	public void salvar(Permissao obj) throws NegocioException {
 		throw new UnsupportedOperationException("erro.operacaoNaoSuportada");
+	}
+
+	/**
+	 * Atribui o DAO de {@link Permissao}.
+	 * 
+	 * @param permissaoDAO DAO de {@link Permissao}
+	 */
+	@Autowired
+	public void setPermissaoDAO(PermissaoDAO permissaoDAO) {
+		this.permissaoDAO = permissaoDAO;
 	}
 }

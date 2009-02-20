@@ -7,12 +7,12 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 import br.com.ucb.sisgestor.apresentacao.forms.ManterProcessoActionForm;
 import br.com.ucb.sisgestor.entidade.Processo;
 import br.com.ucb.sisgestor.negocio.ProcessoBO;
-import br.com.ucb.sisgestor.negocio.impl.ProcessoBOImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Action para manutenções em {@link Processo}.
@@ -22,11 +22,7 @@ import org.apache.struts.action.ActionMapping;
  */
 public class ManterProcessoAction extends BaseAction {
 
-	private static ProcessoBO	processoBO;
-
-	static {
-		processoBO = ProcessoBOImpl.getInstancia();
-	}
+	private ProcessoBO	processoBO;
 
 	/**
 	 * Atualiza um processo.
@@ -45,7 +41,7 @@ public class ManterProcessoAction extends BaseAction {
 		Processo processo = new Processo();
 		this.copyProperties(processo, form);
 
-		processoBO.atualizar(processo);
+		this.processoBO.atualizar(processo);
 
 		this.addMessageKey("mensagem.alterar", "Processo");
 		return this.sendAJAXResponse(true);
@@ -65,9 +61,9 @@ public class ManterProcessoAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterProcessoActionForm form = (ManterProcessoActionForm) formulario;
 
-		Processo processo = processoBO.obter(form.getId());
+		Processo processo = this.processoBO.obter(form.getId());
 
-		processoBO.excluir(processo);
+		this.processoBO.excluir(processo);
 
 		this.addMessageKey("mensagem.excluir", "Processo");
 		return this.sendAJAXResponse(true);
@@ -105,9 +101,19 @@ public class ManterProcessoAction extends BaseAction {
 		Processo processo = new Processo();
 		this.copyProperties(processo, form);
 
-		processoBO.salvar(processo);
+		this.processoBO.salvar(processo);
 
 		this.addMessageKey("mensagem.salvar", "Processo");
 		return this.sendAJAXResponse(true);
+	}
+
+	/**
+	 * Atribui o BO de {@link Processo}.
+	 * 
+	 * @param processoBO BO de {@link Processo}
+	 */
+	@Autowired
+	public void setProcessoBO(ProcessoBO processoBO) {
+		this.processoBO = processoBO;
 	}
 }

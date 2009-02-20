@@ -4,6 +4,9 @@
  */
 package br.com.ucb.sisgestor.persistencia.impl;
 
+import br.com.ucb.sisgestor.entidade.Campo;
+import br.com.ucb.sisgestor.persistencia.CampoDAO;
+import br.com.ucb.sisgestor.util.GenericsUtil;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
@@ -11,9 +14,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import br.com.ucb.sisgestor.entidade.Campo;
-import br.com.ucb.sisgestor.persistencia.CampoDAO;
-import br.com.ucb.sisgestor.util.GenericsUtil;
+import org.springframework.stereotype.Repository;
 
 /**
  * Implementação da interface de acesso a dados de {@link Campo}.
@@ -21,33 +22,14 @@ import br.com.ucb.sisgestor.util.GenericsUtil;
  * @author Thiago
  * @since 17/02/2009
  */
+@Repository("campoDAO")
 public class CampoDAOImpl extends BaseDAOImpl<Campo, Integer> implements CampoDAO {
-
-	private static final CampoDAO	instancia	= new CampoDAOImpl();
 
 	/**
 	 * Cria uma nova instância do tipo {@link CampoDAOImpl}
 	 */
-	private CampoDAOImpl() {
+	public CampoDAOImpl() {
 		super(Campo.class);
-	}
-
-	/**
-	 * Recupera a instância de {@link CampoDAO}. pattern singleton.
-	 * 
-	 * @return {@link CampoDAO}
-	 */
-	public static CampoDAO getInstancia() {
-		return instancia;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Integer getTotalRegistros(String nome, Integer idTipo) {
-		Criteria criteria = this.montarCriteriosPaginacao(nome, idTipo);
-		criteria.setProjection(Projections.rowCount());
-		return (Integer) criteria.uniqueResult();
 	}
 
 	/**
@@ -63,6 +45,16 @@ public class CampoDAOImpl extends BaseDAOImpl<Campo, Integer> implements CampoDA
 	/**
 	 * {@inheritDoc}
 	 */
+	public Integer getTotalRegistros(String nome, Integer idTipo) {
+		Criteria criteria = this.montarCriteriosPaginacao(nome, idTipo);
+		criteria.setProjection(Projections.rowCount());
+		return (Integer) criteria.uniqueResult();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	protected Order getOrdemLista() {
 		return Order.asc("nome").ignoreCase();
 	}
@@ -81,7 +73,7 @@ public class CampoDAOImpl extends BaseDAOImpl<Campo, Integer> implements CampoDA
 		if (StringUtils.isNotBlank(nome)) {
 			criteria.add(Restrictions.like("nome", nome, MatchMode.ANYWHERE).ignoreCase());
 		}
-		if(idTipo != null){
+		if (idTipo != null) {
 			criteria.createAlias("this.tipo", "tipo");
 			criteria.add(Restrictions.eq("tipo.id", idTipo));
 		}

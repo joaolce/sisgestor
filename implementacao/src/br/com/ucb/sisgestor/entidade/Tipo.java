@@ -4,12 +4,12 @@
  */
 package br.com.ucb.sisgestor.entidade;
 
+import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
-import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 
 /**
- * Classe para representar tipo de de campo.
+ * Classe para representar tipo de campo.
  * 
  * @author Thiago
  * @since 18/02/2009
@@ -33,7 +33,7 @@ public class Tipo extends ObjetoPersistente {
 	 * */
 	@Column(name = "TIP_DESCRICAO", nullable = false, length = ConstantesDB.NOME)
 	public String getDescricao() {
-		return descricao;
+		return this.descricao;
 	}
 
 	/**

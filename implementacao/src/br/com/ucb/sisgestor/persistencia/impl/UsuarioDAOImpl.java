@@ -14,6 +14,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
 /**
  * Implementação da interface de acesso a dados de {@link Usuario}.
@@ -21,24 +22,14 @@ import org.hibernate.criterion.Restrictions;
  * @author João Lúcio
  * @since 01/01/2009
  */
+@Repository("usuarioDAO")
 public class UsuarioDAOImpl extends BaseDAOImpl<Usuario, Integer> implements UsuarioDAO {
 
-	private static final UsuarioDAO	instancia	= new UsuarioDAOImpl();
-
 	/**
-	 * Cria uma nova instância do tipo {@link UsuarioDAOImpl}
+	 * Cria uma nova instância do tipo {@link UsuarioDAOImpl}.
 	 */
-	private UsuarioDAOImpl() {
+	public UsuarioDAOImpl() {
 		super(Usuario.class);
-	}
-
-	/**
-	 * Recupera a instância de {@link UsuarioDAO}. pattern singleton.
-	 * 
-	 * @return {@link UsuarioDAO}
-	 */
-	public static UsuarioDAO getInstancia() {
-		return instancia;
 	}
 
 	/**
@@ -49,6 +40,15 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario, Integer> implements Usu
 		criteria.createAlias("this.departamento", "departamento");
 		criteria.add(Restrictions.eq("departamento.id", departamento));
 		return GenericsUtil.checkedList(criteria.list(), Usuario.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Usuario getByLogin(String login) {
+		Criteria criteria = this.createCriteria(Usuario.class);
+		criteria.add(Restrictions.eq("login", login).ignoreCase());
+		return (Usuario) criteria.uniqueResult();
 	}
 
 	/**
@@ -69,15 +69,6 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario, Integer> implements Usu
 		Criteria criteria = this.montarCriteriosPaginacao(login, nome, departamento);
 		criteria.setProjection(Projections.rowCount());
 		return (Integer) criteria.uniqueResult();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Usuario getByLogin(String login) {
-		Criteria criteria = this.createCriteria(Usuario.class);
-		criteria.add(Restrictions.eq("login", login).ignoreCase());
-		return (Usuario) criteria.uniqueResult();
 	}
 
 	/**

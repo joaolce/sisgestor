@@ -6,10 +6,10 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 
 import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.negocio.CampoBO;
-import br.com.ucb.sisgestor.negocio.impl.CampoBOImpl;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaCampoDTO;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Objeto DWR de manter campo do projeto.
@@ -19,11 +19,7 @@ import java.util.List;
  */
 public class ManterCampoDWR extends BaseDWR {
 
-	private static CampoBO	campoBO;
-
-	static {
-		campoBO = CampoBOImpl.getInstancia();
-	}
+	private CampoBO	campoBO;
 
 	/**
 	 * Pesquisa o {@link Campo} pelo id.
@@ -32,7 +28,7 @@ public class ManterCampoDWR extends BaseDWR {
 	 * @return campo encontrado
 	 */
 	public Campo getById(Integer id) {
-		return campoBO.obter(id);
+		return this.campoBO.obter(id);
 	}
 
 	/**
@@ -46,12 +42,22 @@ public class ManterCampoDWR extends BaseDWR {
 		Integer idTipo = parametros.getTipo();
 		Integer paginaAtual = parametros.getPaginaAtual();
 
-		List<Campo> lista = campoBO.getByNomeTipo(nome, idTipo, paginaAtual);
+		List<Campo> lista = this.campoBO.getByNomeTipo(nome, idTipo, paginaAtual);
 
 		ListaResultadoDTO<Campo> resultado = new ListaResultadoDTO<Campo>();
 		resultado.setColecaoParcial(lista);
 
-		this.setTotalPesquisa(parametros, resultado, campoBO);
+		this.setTotalPesquisa(parametros, resultado, this.campoBO);
 		return resultado;
+	}
+
+	/**
+	 * Atribui o BO de {@link Campo}.
+	 * 
+	 * @param campoBO BO de {@link Campo}
+	 */
+	@Autowired
+	public void setCampoBO(CampoBO campoBO) {
+		this.campoBO = campoBO;
 	}
 }

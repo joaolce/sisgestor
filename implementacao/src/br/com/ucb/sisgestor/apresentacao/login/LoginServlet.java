@@ -4,8 +4,9 @@
  */
 package br.com.ucb.sisgestor.apresentacao.login;
 
+import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
-import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
+import br.com.ucb.sisgestor.util.Utils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -27,15 +28,17 @@ import org.apache.commons.logging.LogFactory;
 public final class LoginServlet extends HttpServlet {
 
 	private static final String	CHARSET			= "ISO-8859-1";
-	private static final String	ERROR				= "error";
 	private static final String	HTML_MIME_TYPE	= "text/html";
-	private static final Log		LOG				= LogFactory.getLog(LoginServlet.class);
+	private static final String	ERROR				= "error";
 	private static final String	LOGIN_ERROR		= "loginerror";
 	private static final String	LOGOUT			= "logout";
+	private static final Log		LOG				= LogFactory.getLog(LoginServlet.class);
 
 	private LoginBundle				loginBundle;
 	private LoginHelper				loginHelper;
 	private ResourceBundle			properties;
+
+	private UsuarioBO					usuarioBO;
 
 	/**
 	 * {@inheritDoc}
@@ -50,11 +53,13 @@ public final class LoginServlet extends HttpServlet {
 		} catch (Exception e) {
 			LOG.warn("Erro ao capturar properties", e);
 		}
+		this.usuarioBO = (UsuarioBO) Utils.getBean("usuarioBO", this.getServletContext());
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
 		String param;
@@ -85,6 +90,7 @@ public final class LoginServlet extends HttpServlet {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
 		if (request.getParameter(LOGIN_ERROR) == null) {
@@ -119,7 +125,7 @@ public final class LoginServlet extends HttpServlet {
 			throws IOException {
 		String login = this.getEncodedParamValue(request, "login", 15);
 		try {
-			boolean ok = UsuarioBOImpl.getInstancia().enviarLembreteDeSenha(login);
+			boolean ok = this.usuarioBO.enviarLembreteDeSenha(login);
 			if (ok) {
 				this.escrevePagina(response, this.loginBundle.getSenhaPage(this
 						.getMensagem("mensagem.senhaEnviada")));

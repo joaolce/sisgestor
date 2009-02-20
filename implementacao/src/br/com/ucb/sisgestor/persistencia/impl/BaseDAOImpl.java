@@ -7,12 +7,13 @@ package br.com.ucb.sisgestor.persistencia.impl;
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.persistencia.BaseDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
-import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Order;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Implementação da interface que representa um DAO (Data Access Object).
@@ -26,7 +27,8 @@ import org.hibernate.criterion.Order;
 public abstract class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serializable> implements
 		BaseDAO<T, PK> {
 
-	private Class<T>	classePersistente;
+	private SessionFactory	sessionFactory;
+	private Class<T>			classePersistente;
 
 	/**
 	 * Cria uma nova instância do tipo {@link BaseDAOImpl}.
@@ -78,6 +80,16 @@ public abstract class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serial
 	}
 
 	/**
+	 * Atribui a fábrica de sessões do hibernate.
+	 * 
+	 * @param sessionFactory fábrica de sessões do hibernate
+	 */
+	@Autowired
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
+	/**
 	 * Adiciona paginação a consulta.
 	 * 
 	 * @param criteria criteria da consulta
@@ -116,6 +128,6 @@ public abstract class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serial
 	 * @return session sessão atual
 	 */
 	protected Session getSession() {
-		return HibernateUtil.getSession();
+		return this.sessionFactory.getCurrentSession();
 	}
 }

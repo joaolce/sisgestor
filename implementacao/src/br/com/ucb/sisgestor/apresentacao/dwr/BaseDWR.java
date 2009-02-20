@@ -24,6 +24,13 @@ import org.directwebremoting.WebContextFactory;
 public class BaseDWR {
 
 	/**
+	 * Cria uma nova instância do tipo {@link BaseDWR}.
+	 */
+	public BaseDWR() {
+		Utils.injectionAutowired(this, WebContextFactory.get().getServletContext());
+	}
+
+	/**
 	 * Recupera a mensagem no properties.
 	 * 
 	 * @param key chave da mensagem

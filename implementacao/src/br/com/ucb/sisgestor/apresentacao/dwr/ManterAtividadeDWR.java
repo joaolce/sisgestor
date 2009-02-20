@@ -6,10 +6,10 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
-import br.com.ucb.sisgestor.negocio.impl.AtividadeBOImpl;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaAtividadeDTO;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Objeto DWR de manter atividade do projeto.
@@ -19,11 +19,7 @@ import java.util.List;
  */
 public class ManterAtividadeDWR extends BaseDWR {
 
-	private static AtividadeBO	atividadeBO;
-
-	static {
-		atividadeBO = AtividadeBOImpl.getInstancia();
-	}
+	private AtividadeBO	atividadeBO;
 
 	/**
 	 * Pesquisa a {@link Atividade} pelo id.
@@ -32,7 +28,7 @@ public class ManterAtividadeDWR extends BaseDWR {
 	 * @return atividade encontrada
 	 */
 	public Atividade getById(Integer id) {
-		return atividadeBO.obter(id);
+		return this.atividadeBO.obter(id);
 	}
 
 	/**
@@ -49,13 +45,23 @@ public class ManterAtividadeDWR extends BaseDWR {
 		Integer paginaAtual = parametros.getPaginaAtual();
 
 		List<Atividade> lista =
-				atividadeBO
-						.getByNomeDescricaoDepartamento(nome, descricao, departamento, idProcesso, paginaAtual);
+				this.atividadeBO.getByNomeDescricaoDepartamento(nome, descricao, departamento, idProcesso,
+						paginaAtual);
 
 		ListaResultadoDTO<Atividade> resultado = new ListaResultadoDTO<Atividade>();
 		resultado.setColecaoParcial(lista);
 
-		this.setTotalPesquisa(parametros, resultado, atividadeBO);
+		this.setTotalPesquisa(parametros, resultado, this.atividadeBO);
 		return resultado;
+	}
+
+	/**
+	 * Atribui o BO de {@link Atividade}.
+	 * 
+	 * @param atividadeBO BO de {@link Atividade}
+	 */
+	@Autowired
+	public void setAtividadeBO(AtividadeBO atividadeBO) {
+		this.atividadeBO = atividadeBO;
 	}
 }

@@ -6,10 +6,10 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 
 import br.com.ucb.sisgestor.entidade.Processo;
 import br.com.ucb.sisgestor.negocio.ProcessoBO;
-import br.com.ucb.sisgestor.negocio.impl.ProcessoBOImpl;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaProcessoDTO;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Objeto DWR de manter processo do projeto.
@@ -19,11 +19,7 @@ import java.util.List;
  */
 public class ManterProcessoDWR extends BaseDWR {
 
-	private static ProcessoBO	processoBO;
-
-	static {
-		processoBO = ProcessoBOImpl.getInstancia();
-	}
+	private ProcessoBO	processoBO;
 
 	/**
 	 * Pesquisa o {@link Processo} pelo id.
@@ -32,7 +28,7 @@ public class ManterProcessoDWR extends BaseDWR {
 	 * @return processo encontrado
 	 */
 	public Processo getById(Integer id) {
-		return processoBO.obter(id);
+		return this.processoBO.obter(id);
 	}
 
 	/**
@@ -48,12 +44,22 @@ public class ManterProcessoDWR extends BaseDWR {
 		Integer paginaAtual = parametros.getPaginaAtual();
 
 
-		List<Processo> lista = processoBO.getByNomeDescricao(nome, descricao, idWorkflow, paginaAtual);
+		List<Processo> lista = this.processoBO.getByNomeDescricao(nome, descricao, idWorkflow, paginaAtual);
 
 		ListaResultadoDTO<Processo> resultado = new ListaResultadoDTO<Processo>();
 		resultado.setColecaoParcial(lista);
 
-		this.setTotalPesquisa(parametros, resultado, processoBO);
+		this.setTotalPesquisa(parametros, resultado, this.processoBO);
 		return resultado;
+	}
+
+	/**
+	 * Atribui o BO de {@link Processo}.
+	 * 
+	 * @param processoBO BO de {@link Processo}
+	 */
+	@Autowired
+	public void setProcessoBO(ProcessoBO processoBO) {
+		this.processoBO = processoBO;
 	}
 }

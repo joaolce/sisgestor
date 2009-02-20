@@ -8,12 +8,13 @@ import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.negocio.CampoBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.CampoDAO;
-import br.com.ucb.sisgestor.persistencia.impl.CampoDAOImpl;
 import br.com.ucb.sisgestor.util.dto.PesquisaCampoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
-import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.util.List;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Objeto de negócio para {@link Campo}.
@@ -21,96 +22,72 @@ import org.hibernate.Transaction;
  * @author Thiago
  * @since 17/02/2009
  */
+@Service("campoBO")
 public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 
-	private static final CampoBO	instancia	= new CampoBOImpl();
-	private CampoDAO					dao;
-
-	/**
-	 * Cria uma nova instância do tipo {@link CampoBOImpl}.
-	 */
-	private CampoBOImpl() {
-		this.dao = CampoDAOImpl.getInstancia();
-	}
-
-	/**
-	 * Recupera a instância de {@link CampoBO}. <br />
-	 * pattern singleton.
-	 * 
-	 * @return {@link CampoBO}
-	 */
-	public static CampoBO getInstancia() {
-		return instancia;
-	}
+	private CampoDAO	campoDAO;
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizar(Campo campo) throws NegocioException {
-		Transaction transaction = this.beginTransaction();
-		try {
-			this.dao.atualizar(campo);
-			HibernateUtil.commit(transaction);
-		} catch (Exception e) {
-			HibernateUtil.rollback(transaction);
-			this.verificaExcecao(e);
-		}
+		this.campoDAO.atualizar(campo);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void excluir(Campo campo) throws NegocioException {
-		Transaction transaction = this.beginTransaction();
-		try {
-			this.dao.excluir(campo);
-			HibernateUtil.commit(transaction);
-		} catch (Exception e) {
-			HibernateUtil.rollback(transaction);
-			this.verificaExcecao(e);
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Campo obter(Integer pk) {
-		return this.dao.obter(pk);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public List<Campo> obterTodos() {
-		return this.dao.obterTodos();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void salvar(Campo campo) throws NegocioException {
-		Transaction transaction = this.beginTransaction();
-		try {
-			this.dao.salvar(campo);
-			HibernateUtil.commit(transaction);
-		} catch (Exception e) {
-			HibernateUtil.rollback(transaction);
-			this.verificaExcecao(e);
-		}
+		this.campoDAO.excluir(campo);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public List<Campo> getByNomeTipo(String nome, Integer idTipo, Integer paginaAtual) {
-		return this.dao.getByNomeTipo(nome, idTipo, paginaAtual);
+		return this.campoDAO.getByNomeTipo(nome, idTipo, paginaAtual);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaCampoDTO dto = (PesquisaCampoDTO) parametros;
-		return this.dao.getTotalRegistros(dto.getNome(), dto.getTipo());
+		return this.campoDAO.getTotalRegistros(dto.getNome(), dto.getTipo());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Campo obter(Integer pk) {
+		return this.campoDAO.obter(pk);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<Campo> obterTodos() {
+		return this.campoDAO.obterTodos();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	public void salvar(Campo campo) throws NegocioException {
+		this.campoDAO.salvar(campo);
+	}
+
+	/**
+	 * Atribui o DAO de {@link Campo}.
+	 * 
+	 * @param campoDAO DAO de {@link Campo}
+	 */
+	@Autowired
+	public void setCampoDAO(CampoDAO campoDAO) {
+		this.campoDAO = campoDAO;
 	}
 }

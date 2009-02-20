@@ -4,17 +4,17 @@
  */
 package br.com.ucb.sisgestor.apresentacao.actions;
 
+import br.com.ucb.sisgestor.apresentacao.forms.ManterAtividadeActionForm;
+import br.com.ucb.sisgestor.entidade.Atividade;
+import br.com.ucb.sisgestor.entidade.Departamento;
+import br.com.ucb.sisgestor.negocio.AtividadeBO;
+import br.com.ucb.sisgestor.negocio.DepartamentoBO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import br.com.ucb.sisgestor.apresentacao.forms.ManterAtividadeActionForm;
-import br.com.ucb.sisgestor.entidade.Atividade;
-import br.com.ucb.sisgestor.negocio.AtividadeBO;
-import br.com.ucb.sisgestor.negocio.DepartamentoBO;
-import br.com.ucb.sisgestor.negocio.impl.AtividadeBOImpl;
-import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Action para manutenções em {@link Atividade}.
@@ -24,11 +24,8 @@ import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
  */
 public class ManterAtividadeAction extends BaseAction {
 
-	private static AtividadeBO	atividadeBO;
-
-	static {
-		atividadeBO = AtividadeBOImpl.getInstancia();
-	}
+	private AtividadeBO		atividadeBO;
+	private DepartamentoBO	departamentoBO;
 
 	/**
 	 * Atualiza uma atividade.
@@ -47,7 +44,7 @@ public class ManterAtividadeAction extends BaseAction {
 		Atividade atividade = new Atividade();
 		this.copyProperties(atividade, form);
 
-		atividadeBO.atualizar(atividade);
+		this.atividadeBO.atualizar(atividade);
 
 		this.addMessageKey("mensagem.alterar.a", "Atividade");
 		return this.sendAJAXResponse(true);
@@ -56,13 +53,12 @@ public class ManterAtividadeAction extends BaseAction {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public ActionForward entrada(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterAtividadeActionForm form = (ManterAtividadeActionForm) formulario;
 
-		DepartamentoBO departamentoBO = DepartamentoBOImpl.getInstancia();
-
-		form.setListaDepartamentos(departamentoBO.obterTodos());
+		form.setListaDepartamentos(this.departamentoBO.obterTodos());
 
 		return this.findForward(FWD_ENTRADA);
 	}
@@ -81,9 +77,9 @@ public class ManterAtividadeAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterAtividadeActionForm form = (ManterAtividadeActionForm) formulario;
 
-		Atividade atividade = atividadeBO.obter(form.getId());
+		Atividade atividade = this.atividadeBO.obter(form.getId());
 
-		atividadeBO.excluir(atividade);
+		this.atividadeBO.excluir(atividade);
 
 		this.addMessageKey("mensagem.excluir.a", "Atividade");
 		return this.sendAJAXResponse(true);
@@ -103,10 +99,8 @@ public class ManterAtividadeAction extends BaseAction {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ManterAtividadeActionForm form = (ManterAtividadeActionForm) formulario;
 
-		DepartamentoBO departamentoBO = DepartamentoBOImpl.getInstancia();
-
 		//Recupera os departamentos disponíveis para uma nova atividade
-		form.setListaDepartamentos(departamentoBO.obterTodos());
+		form.setListaDepartamentos(this.departamentoBO.obterTodos());
 
 		return this.findForward("popupNovaAtividade");
 	}
@@ -128,9 +122,29 @@ public class ManterAtividadeAction extends BaseAction {
 		Atividade atividade = new Atividade();
 		this.copyProperties(atividade, form);
 
-		atividadeBO.salvar(atividade);
+		this.atividadeBO.salvar(atividade);
 
 		this.addMessageKey("mensagem.salvar.a", "Atividade");
 		return this.sendAJAXResponse(true);
+	}
+
+	/**
+	 * Atribui o BO de {@link Atividade}.
+	 * 
+	 * @param atividadeBO BO de {@link Atividade}
+	 */
+	@Autowired
+	public void setAtividadeBO(AtividadeBO atividadeBO) {
+		this.atividadeBO = atividadeBO;
+	}
+
+	/**
+	 * Atribui o BO de {@link Departamento}.
+	 * 
+	 * @param departamentoBO BO de {@link Departamento}
+	 */
+	@Autowired
+	public void setDepartamentoBO(DepartamentoBO departamentoBO) {
+		this.departamentoBO = departamentoBO;
 	}
 }

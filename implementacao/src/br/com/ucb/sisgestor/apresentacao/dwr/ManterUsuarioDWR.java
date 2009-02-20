@@ -6,13 +6,13 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 
 import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.entidade.Usuario;
+import br.com.ucb.sisgestor.negocio.PermissaoBO;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
-import br.com.ucb.sisgestor.negocio.impl.PermissaoBOImpl;
-import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaUsuarioDTO;
 import java.util.List;
 import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Objeto DWR de manter usuário do projeto.
@@ -22,11 +22,8 @@ import org.hibernate.Hibernate;
  */
 public class ManterUsuarioDWR extends BaseDWR {
 
-	private static UsuarioBO	usuarioBO;
-
-	static {
-		usuarioBO = UsuarioBOImpl.getInstancia();
-	}
+	private UsuarioBO		usuarioBO;
+	private PermissaoBO	permissaoBO;
 
 	/**
 	 * Pesquisa o {@link Usuario} pelo id.
@@ -35,7 +32,7 @@ public class ManterUsuarioDWR extends BaseDWR {
 	 * @return usuario encontrado
 	 */
 	public Usuario getById(Integer id) {
-		Usuario usuario = usuarioBO.obter(id);
+		Usuario usuario = this.usuarioBO.obter(id);
 		Hibernate.initialize(usuario.getPermissoes());
 		return usuario;
 	}
@@ -46,7 +43,7 @@ public class ManterUsuarioDWR extends BaseDWR {
 	 * @return {@link List} de {@link Permissao}
 	 */
 	public List<Permissao> getTodasPermissoes() {
-		return PermissaoBOImpl.getInstancia().obterTodos();
+		return this.permissaoBO.obterTodos();
 	}
 
 	/**
@@ -61,12 +58,32 @@ public class ManterUsuarioDWR extends BaseDWR {
 		Integer departamento = parametros.getDepartamento();
 		Integer paginaAtual = parametros.getPaginaAtual();
 
-		List<Usuario> lista = usuarioBO.getByLoginNomeDepartamento(login, nome, departamento, paginaAtual);
+		List<Usuario> lista = this.usuarioBO.getByLoginNomeDepartamento(login, nome, departamento, paginaAtual);
 
 		ListaResultadoDTO<Usuario> resultado = new ListaResultadoDTO<Usuario>();
 		resultado.setColecaoParcial(lista);
 
-		this.setTotalPesquisa(parametros, resultado, usuarioBO);
+		this.setTotalPesquisa(parametros, resultado, this.usuarioBO);
 		return resultado;
+	}
+
+	/**
+	 * Atribui o BO de {@link Permissao}.
+	 * 
+	 * @param permissaoBO BO de {@link Permissao}
+	 */
+	@Autowired
+	public void setPermissaoBO(PermissaoBO permissaoBO) {
+		this.permissaoBO = permissaoBO;
+	}
+
+	/**
+	 * Atribui o BO de {@link Usuario}.
+	 * 
+	 * @param usuarioBO BO de {@link Usuario}
+	 */
+	@Autowired
+	public void setUsuarioBO(UsuarioBO usuarioBO) {
+		this.usuarioBO = usuarioBO;
 	}
 }
