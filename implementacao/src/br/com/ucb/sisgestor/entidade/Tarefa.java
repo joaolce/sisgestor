@@ -48,7 +48,7 @@ public class Tarefa extends BaseWorkflow {
 	 * @return usuário da tarefa
 	 */
 	@ManyToOne
-	@JoinColumn(name = "UUR_ID", nullable = false)
+	@JoinColumn(name = "UUR_ID", nullable = true)
 	@ForeignKey(name = "IR_URR_TAR")
 	public Usuario getUsuario() {
 		return this.usuario;

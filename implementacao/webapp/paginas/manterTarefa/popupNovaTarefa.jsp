@@ -3,7 +3,7 @@
 
 <html:form action="/manterTarefa.do?method=salvar" onsubmit="tarefa.salvar(this); return false;" styleId="manterTarefaForm">
 	<fieldset style="margin: 5pt auto; padding: 10px;">
-		<html:hidden property="atividade" styleId="idAtividade"/>
+	<html:hidden property="atividade" styleId="atividadeNovaTarefa" />
 		<label style="float: left; margin-top: 15px;">
 			<b>
 				<bean:message key="label.nome"/>
@@ -12,11 +12,11 @@
 			<br />
 			<html:text property="nome" size="51" maxlength="100" />
 		</label> 
-		<label>
+		<label style="float: left; margin-top: 15px;">
 			<b>
 				<bean:message key="label.usuario.responsavel"/>
 			</b>
-			<html:select property="usuario" styleId="usuario">
+			<html:select property="usuario" styleId="usuario" style="width: 150px;">
 				<html:option value="" />
 				<html:optionsCollection name="manterTarefaForm" property="listaUsuarios" label="nome" value="id" />
 			</html:select>
