@@ -6,10 +6,10 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
-import br.com.ucb.sisgestor.negocio.impl.TarefaBOImpl;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaTarefaDTO;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Objeto DWR de manter tarefa do projeto.
@@ -19,11 +19,7 @@ import java.util.List;
  */
 public class ManterTarefaDWR extends BaseDWR {
 
-	private static TarefaBO	tarefaBO;
-
-	static {
-		tarefaBO = TarefaBOImpl.getInstancia();
-	}
+	private TarefaBO	tarefaBO;
 
 	/**
 	 * Pesquisa a {@link Tarefa} pelo id.
@@ -32,7 +28,7 @@ public class ManterTarefaDWR extends BaseDWR {
 	 * @return tarefa encontrada
 	 */
 	public Tarefa getById(Integer id) {
-		return tarefaBO.obter(id);
+		return this.tarefaBO.obter(id);
 	}
 
 	/**
@@ -50,12 +46,22 @@ public class ManterTarefaDWR extends BaseDWR {
 
 
 		List<Tarefa> lista =
-				tarefaBO.getByNomeDescricaoUsuario(nome, descricao, usuario, idAtividade, paginaAtual);
+				this.tarefaBO.getByNomeDescricaoUsuario(nome, descricao, usuario, idAtividade, paginaAtual);
 
 		ListaResultadoDTO<Tarefa> resultado = new ListaResultadoDTO<Tarefa>();
 		resultado.setColecaoParcial(lista);
 
-		this.setTotalPesquisa(parametros, resultado, tarefaBO);
+		this.setTotalPesquisa(parametros, resultado, this.tarefaBO);
 		return resultado;
+	}
+
+	/**
+	 * Atribui o BO de {@link Tarefa}.
+	 * 
+	 * @param tarefaBO BO de {@link Tarefa}
+	 */
+	@Autowired
+	public void setTarefaBO(TarefaBO tarefaBO) {
+		this.tarefaBO = tarefaBO;
 	}
 }

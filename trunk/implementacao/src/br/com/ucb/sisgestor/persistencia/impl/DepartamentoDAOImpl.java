@@ -14,6 +14,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
 /**
  * Implementação da interface de acesso a dados de {@link Departamento}.
@@ -21,25 +22,14 @@ import org.hibernate.criterion.Restrictions;
  * @author João Lúcio
  * @since 05/01/2009
  */
+@Repository("departamentoDAO")
 public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento, Integer> implements DepartamentoDAO {
-
-	private static final DepartamentoDAO	instancia	= new DepartamentoDAOImpl();
-
 
 	/**
 	 * Cria uma nova instância do tipo {@link DepartamentoDAOImpl}.
 	 */
-	private DepartamentoDAOImpl() {
+	public DepartamentoDAOImpl() {
 		super(Departamento.class);
-	}
-
-	/**
-	 * Recupera a instância de {@link DepartamentoDAO}. pattern singleton.
-	 * 
-	 * @return {@link DepartamentoDAO}
-	 */
-	public static DepartamentoDAO getInstancia() {
-		return instancia;
 	}
 
 	/**

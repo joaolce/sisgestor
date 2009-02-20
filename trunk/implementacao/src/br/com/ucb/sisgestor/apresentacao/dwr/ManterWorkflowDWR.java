@@ -6,10 +6,10 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.WorkflowBO;
-import br.com.ucb.sisgestor.negocio.impl.WorkflowBOImpl;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaWorkflowDTO;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Objeto DWR de manter workflow do projeto.
@@ -19,11 +19,7 @@ import java.util.List;
  */
 public class ManterWorkflowDWR extends BaseDWR {
 
-	private static WorkflowBO	workflowBO;
-
-	static {
-		workflowBO = WorkflowBOImpl.getInstancia();
-	}
+	private WorkflowBO	workflowBO;
 
 	/**
 	 * Pesquisa o {@link Workflow} pelo id.
@@ -32,7 +28,7 @@ public class ManterWorkflowDWR extends BaseDWR {
 	 * @return workflow encontrado
 	 */
 	public Workflow getById(Integer id) {
-		return workflowBO.obter(id);
+		return this.workflowBO.obter(id);
 	}
 
 	/**
@@ -47,12 +43,22 @@ public class ManterWorkflowDWR extends BaseDWR {
 		Boolean ativo = parametros.getAtivo();
 		Integer paginaAtual = parametros.getPaginaAtual();
 
-		List<Workflow> lista = workflowBO.getByNomeDescricaoAtivo(nome, descricao, ativo, paginaAtual);
+		List<Workflow> lista = this.workflowBO.getByNomeDescricaoAtivo(nome, descricao, ativo, paginaAtual);
 
 		ListaResultadoDTO<Workflow> resultado = new ListaResultadoDTO<Workflow>();
 		resultado.setColecaoParcial(lista);
 
-		this.setTotalPesquisa(parametros, resultado, workflowBO);
+		this.setTotalPesquisa(parametros, resultado, this.workflowBO);
 		return resultado;
+	}
+
+	/**
+	 * Atribui o BO de {@link Workflow}.
+	 * 
+	 * @param workflowBO BO de {@link Workflow}
+	 */
+	@Autowired
+	public void setWorkflowBO(WorkflowBO workflowBO) {
+		this.workflowBO = workflowBO;
 	}
 }

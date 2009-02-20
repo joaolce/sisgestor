@@ -6,12 +6,11 @@ package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.negocio.BaseBO;
-import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
-import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.io.Serializable;
-import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Implementação da interface que representa um objeto de negócio (Business Object).
@@ -24,6 +23,8 @@ import org.hibernate.classic.Session;
  */
 public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Serializable> implements
 		BaseBO<T, PK> {
+
+	private SessionFactory	sessionFactory;
 
 	/**
 	 * Cria uma nova instância do tipo {@link BaseBOImpl}.
@@ -40,12 +41,13 @@ public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Seriali
 	}
 
 	/**
-	 * Inicia a transação da sessão para a thread em execução.
+	 * Atribui a fábrica de sessões do hibernate.
 	 * 
-	 * @return transação da sessão
+	 * @param sessionFactory fábrica de sessões do hibernate
 	 */
-	protected Transaction beginTransaction() {
-		return this.getSession().beginTransaction();
+	@Autowired
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 
 	/**
@@ -65,34 +67,20 @@ public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Seriali
 	}
 
 	/**
+	 * Retorna a sessão de hibernate associada a thread atual.
+	 * 
+	 * @return sessão atual do hibernate
+	 */
+	protected Session getSession() {
+		return this.sessionFactory.getCurrentSession();
+	}
+
+	/**
 	 * Dá um refresh no objeto na sessão do hibernate.
 	 * 
 	 * @param objeto objeto a dar o refresh
 	 */
 	protected void refresh(T objeto) {
 		this.getSession().refresh(objeto);
-	}
-
-	/**
-	 * Verifica a exceção lançada, caso não seja {@link NegocioException}, lança uma nova
-	 * {@link NegocioException} e a exceção original como causa.
-	 * 
-	 * @param excecao exceção lançada
-	 * @throws NegocioException nova exceção ou a exceção lançada
-	 */
-	protected void verificaExcecao(Exception excecao) throws NegocioException {
-		if (excecao instanceof NegocioException) {
-			throw NegocioException.class.cast(excecao);
-		}
-		throw new NegocioException(excecao);
-	}
-
-	/**
-	 * Retorna a sessão de hibernate associada a thread atual.
-	 * 
-	 * @return sessão atual do hibernate
-	 */
-	private Session getSession() {
-		return HibernateUtil.getSession();
 	}
 }

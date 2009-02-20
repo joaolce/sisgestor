@@ -13,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.sql.Blob;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
@@ -22,6 +23,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -34,9 +36,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.util.MessageResources;
 import org.apache.struts.util.PropertyMessageResourcesFactory;
 import org.directwebremoting.util.LocalUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
- * Utilitários da aplicação
+ * Utilitários da aplicação.
  * 
  * @author João Lúcio
  * @since 27/10/2008
@@ -374,6 +379,18 @@ public final class Utils {
 	}
 
 	/**
+	 * Recupera um bean do spring.
+	 * 
+	 * @param bean nome do bean
+	 * @param servletContext contexto da servlet
+	 * @return bean do spring
+	 */
+	public static Object getBean(String bean, ServletContext servletContext) {
+		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+		return context.getBean(bean);
+	}
+
+	/**
 	 * Pegar uma mensagem do properties pelo key
 	 * 
 	 * @param key chave no arquivo properties
@@ -390,6 +407,25 @@ public final class Utils {
 			}
 		}
 		return resources.getMessage(key, args);
+	}
+
+	/**
+	 * Faz o injection dos beans no objeto informado.
+	 * 
+	 * @param obj objeto a setar dependências
+	 * @param context contexto da servlet
+	 */
+	public static void injectionAutowired(Object obj, ServletContext context) {
+		for (Method metodo : obj.getClass().getMethods()) {
+			if (metodo.isAnnotationPresent(Autowired.class)) {
+				String bean = StringUtils.uncapitalize(metodo.getName().substring(3));
+				try {
+					metodo.invoke(obj, getBean(bean, context));
+				} catch (Exception e) {
+					LOG.error("Erro ao inserir bean " + bean + " na action" + obj.getClass().getSimpleName(), e);
+				}
+			}
+		}
 	}
 
 	/**

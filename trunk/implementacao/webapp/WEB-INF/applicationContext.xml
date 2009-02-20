@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+  <description>Configurações gerais - spring framework</description>
+
+  <!-- transação delimitada por anotações -->
+  <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+
+  <!-- IoC com anotações -->
+  <context:annotation-config />
+  <context:component-scan base-package="br.com.ucb.sisgestor" />
+
+  <!-- JTA -->
+  <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" />
+
+  <bean id="sisgestorDS" class="org.springframework.jndi.JndiObjectFactoryBean">
+    <property name="jndiName" value="java:SisGestorDB" />
+  </bean>
+
+  <!-- Lista de classes mapeadas (anotadas) para o Hibernate -->
+  <bean id="entidadesAnotadas" class="br.com.ucb.sisgestor.util.hibernate.ClassesAnotadas" factory-method="getClassesAnotadas" />
+
+  <!-- HIBERNATE -->
+  <bean id="hbnSessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+    <property name="dataSource" ref="sisgestorDS" />
+    <property name="annotatedClasses" ref="entidadesAnotadas" />
+    <property name="hibernateProperties">
+      <props merge="true">
+        <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+        <prop key="hibernate.default_schema">sisgestor</prop>
+        <prop key="hibernate.show_sql">true</prop>
+        <prop key="hibernate.hbm2ddl.auto">validate</prop>
+        <prop key="hibernate.connection.pool_size">10</prop>
+        <prop key="hibernate.connection.isolation">2</prop>
+        <prop key="hibernate.connection.autocommit">false</prop>
+        <prop key="hibernate.order_updates">true</prop>
+        <prop key="hibernate.use_identifier_rollback">true</prop>
+        <prop key="hibernate.bytecode.use_reflection_optimizer">false</prop>
+        <prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</prop>
+        <prop key="hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</prop>
+      	<prop key="jta.UserTransaction">java:comp/UserTransaction</prop>
+      </props>
+    </property>
+  </bean>
+</beans>

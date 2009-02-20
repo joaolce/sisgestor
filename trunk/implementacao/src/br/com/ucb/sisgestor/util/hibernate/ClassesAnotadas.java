@@ -4,9 +4,6 @@
  */
 package br.com.ucb.sisgestor.util.hibernate;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.entidade.Departamento;
@@ -16,6 +13,9 @@ import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.Tipo;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.entidade.Workflow;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Armazena as classes anotadas para o hibernate.

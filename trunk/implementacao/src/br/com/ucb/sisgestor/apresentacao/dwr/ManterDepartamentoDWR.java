@@ -6,10 +6,10 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.negocio.DepartamentoBO;
-import br.com.ucb.sisgestor.negocio.impl.DepartamentoBOImpl;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaDepartamentoDTO;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Objeto DWR de manter departamento do projeto.
@@ -19,11 +19,7 @@ import java.util.List;
  */
 public class ManterDepartamentoDWR extends BaseDWR {
 
-	private static DepartamentoBO	departamentoBO;
-
-	static {
-		departamentoBO = DepartamentoBOImpl.getInstancia();
-	}
+	private DepartamentoBO	departamentoBO;
 
 	/**
 	 * Pesquisa o {@link Departamento} pelo id.
@@ -32,7 +28,7 @@ public class ManterDepartamentoDWR extends BaseDWR {
 	 * @return Departamento
 	 */
 	public Departamento getById(Integer id) {
-		return departamentoBO.obter(id);
+		return this.departamentoBO.obter(id);
 	}
 
 	/**
@@ -41,7 +37,7 @@ public class ManterDepartamentoDWR extends BaseDWR {
 	 * @return um {@link List} de {@link Departamento}
 	 */
 	public List<Departamento> obterTodos() {
-		return departamentoBO.obterTodos();
+		return this.departamentoBO.obterTodos();
 	}
 
 	/**
@@ -55,12 +51,22 @@ public class ManterDepartamentoDWR extends BaseDWR {
 		String nome = parametros.getNome();
 		Integer paginaAtual = parametros.getPaginaAtual();
 
-		List<Departamento> lista = departamentoBO.getBySiglaNome(sigla, nome, paginaAtual);
+		List<Departamento> lista = this.departamentoBO.getBySiglaNome(sigla, nome, paginaAtual);
 
 		ListaResultadoDTO<Departamento> resultado = new ListaResultadoDTO<Departamento>();
 		resultado.setColecaoParcial(lista);
 
-		this.setTotalPesquisa(parametros, resultado, departamentoBO);
+		this.setTotalPesquisa(parametros, resultado, this.departamentoBO);
 		return resultado;
+	}
+
+	/**
+	 * Atribui o BO de {@link Departamento}.
+	 * 
+	 * @param departamentoBO BO de {@link Departamento}
+	 */
+	@Autowired
+	public void setDepartamentoBO(DepartamentoBO departamentoBO) {
+		this.departamentoBO = departamentoBO;
 	}
 }

@@ -37,10 +37,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.util.MessageResources;
 import org.apache.struts.util.RequestUtils;
 import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.struts.DispatchActionSupport;
 
 /**
  * Action base para o projeto.
@@ -48,7 +49,7 @@ import org.hibernate.Hibernate;
  * @author João Lúcio
  * @since 27/10/2008
  */
-public class BaseAction extends DispatchAction {
+public class BaseAction extends DispatchActionSupport {
 
 	/** forward de erro genérico */
 	protected static final String					FWD_ERRO					= "erro";
@@ -60,6 +61,8 @@ public class BaseAction extends DispatchAction {
 	protected static final String					FWD_NEGADO				= "acessoNegado";
 	private static final Log						LOG						= LogFactory.getLog(BaseAction.class);
 
+	/** BO de {@link Usuario}. */
+	protected UsuarioBO								usuarioBO;
 	private ThreadLocal<ActionErrors>			actionErrorsThread	= new ThreadLocal<ActionErrors>();
 	private ThreadLocal<ActionForm>				formThread				= new ThreadLocal<ActionForm>();
 	private ThreadLocal<ActionMapping>			mappingThread			= new ThreadLocal<ActionMapping>();
@@ -191,6 +194,16 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
+	 * Atribui o BO de {@link Usuario}.
+	 * 
+	 * @param usuarioBO BO de {@link Usuario}
+	 */
+	@Autowired
+	public void setUsuarioBO(UsuarioBOImpl usuarioBO) {
+		this.usuarioBO = usuarioBO;
+	}
+
+	/**
 	 * Adiciona uma mensagem.
 	 * 
 	 * @param mensagem {@link String} com a mensagem
@@ -249,9 +262,7 @@ public class BaseAction extends DispatchAction {
 		if ((usuarioAtual == null) || !name.equalsIgnoreCase(usuarioAtual.getLogin().trim()) || ignoraSessao) {
 			LOG.debug("completando o processo de login");
 
-			UsuarioBO bo = UsuarioBOImpl.getInstancia();
-
-			usuarioAtual = bo.getByLogin(name);
+			usuarioAtual = this.usuarioBO.getByLogin(name);
 			Hibernate.initialize(usuarioAtual.getPermissoes());
 
 			this.getSession().setAttribute(ConstantesContexto.DATA_LOGIN, DataUtil.getStringDataAtualCompleta());
@@ -447,6 +458,15 @@ public class BaseAction extends DispatchAction {
 	 */
 	protected boolean isAJAXRequest() {
 		return this.getRequest().getHeader("X-Requested-With") != null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void onInit() {
+		super.onInit();
+		Utils.injectionAutowired(this, this.getServletContext());
 	}
 
 	/**

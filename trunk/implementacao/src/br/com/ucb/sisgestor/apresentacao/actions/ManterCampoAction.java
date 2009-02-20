@@ -4,17 +4,17 @@
  */
 package br.com.ucb.sisgestor.apresentacao.actions;
 
+import br.com.ucb.sisgestor.apresentacao.forms.ManterCampoActionForm;
+import br.com.ucb.sisgestor.entidade.Campo;
+import br.com.ucb.sisgestor.entidade.Tipo;
+import br.com.ucb.sisgestor.negocio.CampoBO;
+import br.com.ucb.sisgestor.negocio.TipoBO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import br.com.ucb.sisgestor.apresentacao.forms.ManterCampoActionForm;
-import br.com.ucb.sisgestor.entidade.Campo;
-import br.com.ucb.sisgestor.negocio.CampoBO;
-import br.com.ucb.sisgestor.negocio.TipoBO;
-import br.com.ucb.sisgestor.negocio.impl.CampoBOImpl;
-import br.com.ucb.sisgestor.negocio.impl.TipoBOImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Action para manutenções em {@link Campo}.
@@ -24,11 +24,8 @@ import br.com.ucb.sisgestor.negocio.impl.TipoBOImpl;
  */
 public class ManterCampoAction extends BaseAction {
 
-	private static CampoBO	campoBO;
-
-	static {
-		campoBO = CampoBOImpl.getInstancia();
-	}
+	private CampoBO	campoBO;
+	private TipoBO		tipoBO;
 
 	/**
 	 * Atualiza um campo.
@@ -47,7 +44,7 @@ public class ManterCampoAction extends BaseAction {
 		Campo campo = new Campo();
 		this.copyProperties(campo, form);
 
-		campoBO.atualizar(campo);
+		this.campoBO.atualizar(campo);
 
 		this.addMessageKey("mensagem.alterar", "Campo");
 		return this.sendAJAXResponse(true);
@@ -56,13 +53,12 @@ public class ManterCampoAction extends BaseAction {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public ActionForward entrada(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ManterCampoActionForm form = (ManterCampoActionForm) formulario;
 
-		TipoBO tipoBO = TipoBOImpl.getInstancia();
-
-		form.setListaTipos(tipoBO.obterTodos());
+		form.setListaTipos(this.tipoBO.obterTodos());
 
 		return this.findForward(FWD_ENTRADA);
 	}
@@ -81,9 +77,9 @@ public class ManterCampoAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterCampoActionForm form = (ManterCampoActionForm) formulario;
 
-		Campo campo = campoBO.obter(form.getId());
+		Campo campo = this.campoBO.obter(form.getId());
 
-		campoBO.excluir(campo);
+		this.campoBO.excluir(campo);
 
 		this.addMessageKey("mensagem.excluir", "Campo");
 		return this.sendAJAXResponse(true);
@@ -103,8 +99,7 @@ public class ManterCampoAction extends BaseAction {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ManterCampoActionForm form = (ManterCampoActionForm) formulario;
 
-		TipoBO tipoBO = TipoBOImpl.getInstancia();
-		form.setListaTipos(tipoBO.obterTodos());
+		form.setListaTipos(this.tipoBO.obterTodos());
 
 		return this.findForward("popupNovoCampo");
 	}
@@ -126,9 +121,29 @@ public class ManterCampoAction extends BaseAction {
 		Campo campo = new Campo();
 		this.copyProperties(campo, form);
 
-		campoBO.salvar(campo);
+		this.campoBO.salvar(campo);
 
 		this.addMessageKey("mensagem.salvar", "Campo");
 		return this.sendAJAXResponse(true);
+	}
+
+	/**
+	 * Atribui o BO de {@link Campo}.
+	 * 
+	 * @param campoBO BO de {@link Campo}
+	 */
+	@Autowired
+	public void setCampoBO(CampoBO campoBO) {
+		this.campoBO = campoBO;
+	}
+
+	/**
+	 * Atribui o BO de {@link Tipo}.
+	 * 
+	 * @param tipoBO BO de {@link Tipo}
+	 */
+	@Autowired
+	public void setTipoBO(TipoBO tipoBO) {
+		this.tipoBO = tipoBO;
 	}
 }

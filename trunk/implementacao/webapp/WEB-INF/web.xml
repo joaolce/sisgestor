@@ -11,23 +11,40 @@
 	</welcome-file-list>
 	
 	<listener>
-		<listener-class>br.com.ucb.sisgestor.util.hibernate.HibernateListener</listener-class>
-	</listener>
+    	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  	</listener>
 	
 	<filter>
-		<filter-name>hibernateFilter</filter-name>
-		<filter-class>br.com.ucb.sisgestor.util.hibernate.HibernateFilter</filter-class>
+		<filter-name>springOSIV</filter-name>
+		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+		<init-param>
+      		<param-name>sessionFactoryBeanName</param-name>
+     		<param-value>hbnSessionFactory</param-value>
+		</init-param>
 	</filter>
 	
+	<context-param>
+    	<param-name>contextConfigLocation</param-name>
+    	<param-value>WEB-INF/applicationContext.xml</param-value>
+	</context-param>
+	
 	<filter-mapping>
-		<filter-name>hibernateFilter</filter-name>
+		<filter-name>springOSIV</filter-name>
 		<servlet-name>dwr-invoker</servlet-name>
 	</filter-mapping>
 	<filter-mapping>
-		<filter-name>hibernateFilter</filter-name>
+		<filter-name>springOSIV</filter-name>
 		<servlet-name>action</servlet-name>
 	</filter-mapping>
-
+	<filter-mapping>
+		<filter-name>springOSIV</filter-name>
+		<servlet-name>LoginServlet</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>springOSIV</filter-name>
+		<servlet-name>ConstantesJSServlet</servlet-name>
+	</filter-mapping>
+	
 	<servlet>
 		<servlet-name>action</servlet-name>
 		<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
@@ -128,6 +145,7 @@
 			<description>Autenticação SisGestor</description>
 			<url-pattern>*.do</url-pattern>
 			<url-pattern>/dwr/*</url-pattern>
+			<url-pattern>/constantesJS</url-pattern>
 			<url-pattern>/index.jsp</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>

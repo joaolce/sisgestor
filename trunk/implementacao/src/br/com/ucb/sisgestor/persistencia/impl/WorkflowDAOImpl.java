@@ -14,6 +14,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
 /**
  * Implementação da interface de acesso a dados de {@link Workflow}.
@@ -21,24 +22,14 @@ import org.hibernate.criterion.Restrictions;
  * @author Thiago
  * @since 04/02/2009
  */
+@Repository("workflowDAO")
 public class WorkflowDAOImpl extends BaseDAOImpl<Workflow, Integer> implements WorkflowDAO {
-
-	private static final WorkflowDAO	instancia	= new WorkflowDAOImpl();
 
 	/**
 	 * Cria uma nova instância do tipo {@link WorkflowDAOImpl}
 	 */
-	private WorkflowDAOImpl() {
+	public WorkflowDAOImpl() {
 		super(Workflow.class);
-	}
-
-	/**
-	 * Recupera a instância de {@link WorkflowDAO}. pattern singleton.
-	 * 
-	 * @return {@link WorkflowDAO}
-	 */
-	public static WorkflowDAO getInstancia() {
-		return instancia;
 	}
 
 	/**

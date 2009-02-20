@@ -14,6 +14,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
 /**
  * Implementação da interface de acesso a dados de {@link Tarefa}.
@@ -21,24 +22,14 @@ import org.hibernate.criterion.Restrictions;
  * @author Thiago
  * @since 16/02/2009
  */
+@Repository("tarefaDAO")
 public class TarefaDAOImpl extends BaseDAOImpl<Tarefa, Integer> implements TarefaDAO {
-
-	private static final TarefaDAO	instancia	= new TarefaDAOImpl();
 
 	/**
 	 * Cria uma nova instância do tipo {@link TarefaDAOImpl}
 	 */
-	private TarefaDAOImpl() {
+	public TarefaDAOImpl() {
 		super(Tarefa.class);
-	}
-
-	/**
-	 * Recupera a instância de {@link TarefaDAO}. pattern singleton.
-	 * 
-	 * @return {@link TarefaDAO}
-	 */
-	public static TarefaDAO getInstancia() {
-		return instancia;
 	}
 
 	/**

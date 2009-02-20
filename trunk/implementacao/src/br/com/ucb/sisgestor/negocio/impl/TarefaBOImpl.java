@@ -8,12 +8,13 @@ import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.TarefaDAO;
-import br.com.ucb.sisgestor.persistencia.impl.TarefaDAOImpl;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaTarefaDTO;
-import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.util.List;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Objeto de negócio para {@link Tarefa}.
@@ -21,54 +22,25 @@ import org.hibernate.Transaction;
  * @author Thiago
  * @since 16/02/2009
  */
+@Service("tarefaBO")
 public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaBO {
 
-	private static final TarefaBO	instancia	= new TarefaBOImpl();
-	private TarefaDAO					dao;
-
-	/**
-	 * Cria uma nova instância do tipo {@link TarefaBOImpl}.
-	 */
-	private TarefaBOImpl() {
-		this.dao = TarefaDAOImpl.getInstancia();
-	}
-
-	/**
-	 * Recupera a instância de {@link TarefaBO}. <br />
-	 * pattern singleton.
-	 * 
-	 * @return {@link TarefaBO}
-	 */
-	public static TarefaBO getInstancia() {
-		return instancia;
-	}
+	private TarefaDAO	tarefaDAO;
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizar(Tarefa tarefa) throws NegocioException {
-		Transaction transaction = this.beginTransaction();
-		try {
-			this.dao.atualizar(tarefa);
-			HibernateUtil.commit(transaction);
-		} catch (Exception e) {
-			HibernateUtil.rollback(transaction);
-			this.verificaExcecao(e);
-		}
+		this.tarefaDAO.atualizar(tarefa);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void excluir(Tarefa tarefa) throws NegocioException {
-		Transaction transaction = this.beginTransaction();
-		try {
-			this.dao.excluir(tarefa);
-			HibernateUtil.commit(transaction);
-		} catch (Exception e) {
-			HibernateUtil.rollback(transaction);
-			this.verificaExcecao(e);
-		}
+		this.tarefaDAO.excluir(tarefa);
 	}
 
 	/**
@@ -76,7 +48,7 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	 */
 	public List<Tarefa> getByNomeDescricaoUsuario(String nome, String descricao, Integer usuario,
 			Integer idAtividade, Integer paginaAtual) {
-		return this.dao.getByNomeDescricaoUsuario(nome, descricao, usuario, idAtividade, paginaAtual);
+		return this.tarefaDAO.getByNomeDescricaoUsuario(nome, descricao, usuario, idAtividade, paginaAtual);
 	}
 
 	/**
@@ -85,7 +57,7 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	@Override
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaTarefaDTO dto = (PesquisaTarefaDTO) parametros;
-		return this.dao.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getUsuario(), dto
+		return this.tarefaDAO.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getUsuario(), dto
 				.getIdAtividade());
 	}
 
@@ -93,27 +65,31 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	 * {@inheritDoc}
 	 */
 	public Tarefa obter(Integer pk) {
-		return this.dao.obter(pk);
+		return this.tarefaDAO.obter(pk);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public List<Tarefa> obterTodos() {
-		return this.dao.obterTodos();
+		return this.tarefaDAO.obterTodos();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void salvar(Tarefa tarefa) throws NegocioException {
-		Transaction transaction = this.beginTransaction();
-		try {
-			this.dao.salvar(tarefa);
-			HibernateUtil.commit(transaction);
-		} catch (Exception e) {
-			HibernateUtil.rollback(transaction);
-			this.verificaExcecao(e);
-		}
+		this.tarefaDAO.salvar(tarefa);
+	}
+
+	/**
+	 * Atribui o DAO de {@link Tarefa}.
+	 * 
+	 * @param tarefaDAO DAO de {@link Tarefa}
+	 */
+	@Autowired
+	public void setTarefaDAO(TarefaDAO tarefaDAO) {
+		this.tarefaDAO = tarefaDAO;
 	}
 }
