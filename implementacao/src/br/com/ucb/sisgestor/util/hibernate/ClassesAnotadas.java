@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import br.com.ucb.sisgestor.entidade.Atividade;
+import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.entidade.Processo;
@@ -32,6 +33,7 @@ public class ClassesAnotadas {
 	 */
 	static {
 		classes.add(Atividade.class);
+		classes.add(Campo.class);
 		classes.add(Departamento.class);
 		classes.add(Permissao.class);
 		classes.add(Processo.class);

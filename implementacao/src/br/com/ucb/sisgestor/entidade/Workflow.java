@@ -10,9 +10,13 @@ import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * Classe para representar um workflow.
@@ -32,6 +36,7 @@ public class Workflow extends BaseWorkflow {
 	private Boolean			ativo;
 	private Timestamp			dataHoraExclusao;
 	private List<Processo>	processos;
+	private List<Campo>		campos;
 
 	/**
 	 * Recupera o indicador se o workflow está ativo.
@@ -41,6 +46,18 @@ public class Workflow extends BaseWorkflow {
 	@Column(name = "WOR_ATIVO", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_BOOLEAN)
 	public Boolean getAtivo() {
 		return this.ativo;
+	}
+
+	/**
+	 * Recupera o indicador se o workflow está ativo.
+	 * 
+	 * @return indicador se o workflow está ativo
+	 */
+	@ManyToMany(targetEntity = Campo.class)
+	@JoinTable(name = "WCP_WORKFLOW_CAMPO", joinColumns = @JoinColumn(name = "WOR_ID", referencedColumnName = "WOR_ID", nullable = false), inverseJoinColumns = @JoinColumn(name = "CAM_ID", referencedColumnName = "CAM_ID", nullable = false))
+	@ForeignKey(name = "IR_WOR_WCP")
+	public List<Campo> getCampos() {
+		return this.campos;
 	}
 
 	/**
@@ -72,6 +89,17 @@ public class Workflow extends BaseWorkflow {
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
+
+
+	/**
+	 * Atribui campos
+	 * 
+	 * @param campos o valor a ajustar em campos
+	 */
+	public void setCampos(List<Campo> campos) {
+		this.campos = campos;
+	}
+
 
 	/**
 	 * Atribui a data/hora de exclusão do workflow.

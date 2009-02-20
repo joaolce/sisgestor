@@ -53,6 +53,7 @@
 		<convert match="br.com.ucb.sisgestor.entidade.Permissao"	converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Processo"		converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Tarefa"		converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Tipo"			converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Usuario" 		converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Workflow"		converter="hibernate3" />
 	</allow>

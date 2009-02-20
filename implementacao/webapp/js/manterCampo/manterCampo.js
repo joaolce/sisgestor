@@ -61,7 +61,7 @@ ManterCampo.prototype = {
 	   }
 	   ManterCampoDWR.getById(idCampo, ( function(campo) {
 		   Effect.Appear("formSalvarCampo");
-		   dwr.util.setValue("nome", campo.nome);
+		   dwr.util.setValue("nomeCampo", campo.nome);
 		   dwr.util.setValue("tipo", campo.tipo.id);
 	   }).bind(this));
    },
