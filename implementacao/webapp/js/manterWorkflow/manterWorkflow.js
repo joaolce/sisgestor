@@ -174,9 +174,10 @@ ManterWorkflow.prototype = {
 	 */
    popupGerenciarProcessos : function() {
 	   var idWorkflow = dwr.util.getValue($("formAtualizarWorkflow").id);
+	   var nomeWorkflow = dwr.util.getValue($("formAtualizarWorkflow").nomeWorkflow);
 	   var url = "manterProcesso.do?method=entrada&workflow=" + idWorkflow;
-	   createWindow(536, 985, 280, 10, "Gerenciar Processos", "divGerenciarProcessos", url,
-	      ( function() {
+	   createWindow(536, 985, 280, 10, "Gerenciar Processos - " + nomeWorkflow,
+	      "divGerenciarProcessos", url, ( function() {
 		      processo.pesquisar();
 	      }));
    },
@@ -185,10 +186,12 @@ ManterWorkflow.prototype = {
 	 * Abre janela para gerenciar os campos.
 	 */
    popupGerenciarCampos : function() {
-   	var idWorkflow = dwr.util.getValue($("formAtualizarWorkflow").id);
+	   var idWorkflow = dwr.util.getValue($("formAtualizarWorkflow").id);
+	   var nomeWorkflow = dwr.util.getValue($("formAtualizarWorkflow").nomeWorkflow);
 	   var url = "manterCampo.do?method=entrada&workflow=" + idWorkflow;
-	   createWindow(536, 985, 280, 10, "Gerenciar Campos", "divGerenciarCampos", url, ( function() {
-	   // campo.pesquisar();
+	   createWindow(536, 985, 280, 10, "Gerenciar Campos - " + nomeWorkflow, "divGerenciarCampos",
+	      url, ( function() {
+		      campo.pesquisar();
 	      }));
    },
 

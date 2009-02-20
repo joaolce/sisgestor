@@ -61,10 +61,9 @@
 	
 	<!-- FIELDSET PARA DADOS DA ATIVIDADE -->
 	<html:form action="/manterAtividade.do?method=atualizar" onsubmit="atividade.atualizar(this); return false;" styleId="formSalvarAtividade" style="display: none; margin-top: 10px;">
-		<html:hidden property="processo" styleId="processo"/>
+		<html:hidden property="processo" styleId="processoAtividade"/>
 		<html:hidden property="id"/>
 		<fieldset style="padding: 10px; width: 70%; margin: 5 auto;">
-			
 			<legend>
 				<bean:message key="label.dados.atividade"/>
 			</legend>
@@ -75,7 +74,7 @@
 							<bean:message key="label.nome"/>
 							<span class="obrigatorio">*</span>
 						</b>
-						<html:text property="nome" size="51" maxlength="100" styleId="nomeAtividade"/>
+						<html:text property="nome" styleId="nomeAtividade" size="51" maxlength="100" />
 					</label> 
 				</div>
 				<label style="margin-left: 40px;">
@@ -83,7 +82,7 @@
 						<bean:message key="label.departamento.responsavel"/>
 						<span class="obrigatorio">*</span>
 					</b>
-					<html:select property="departamento" styleId="departamento">
+					<html:select property="departamento" styleId="departamentoAtividade">
 						<html:option value="" />
 						<html:optionsCollection name="manterAtividadeForm" property="listaDepartamentos" label="sigla" value="id" />
 					</html:select>
