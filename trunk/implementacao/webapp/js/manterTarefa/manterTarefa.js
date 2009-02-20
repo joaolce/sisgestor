@@ -63,7 +63,12 @@ ManterTarefa.prototype = {
 		   dwr.util.setValue($("formSalvarTarefa").id, idTarefa);
 		   dwr.util.setValue("nomeTarefa", tarefa.nome);
 		   dwr.util.setValue("descricaoTarefa", tarefa.descricao);
-		   dwr.util.setValue("usuario", tarefa.usuario.id);
+		   if(tarefa.usuario == null ){
+			   dwr.util.setValue("usuario", "");
+		   }else{
+			   dwr.util.setValue("usuario", tarefa.usuario.id); 
+		   }
+		   
 		   this.contaChar(false);
 	   }).bind(this));
    },
@@ -161,9 +166,10 @@ ManterTarefa.prototype = {
 	 * Abre a janela para nova tarefa.
 	 */
    popupNovaTarefa : function() {
-	   var url = "manterTarefa.do?method=popupNovaTarefa";
+	   var idAtividade = dwr.util.getValue($("formSalvarAtividade").id);
+	   var url = "manterTarefa.do?method=popupNovaTarefa&atividade="+idAtividade;
 	   createWindow(285, 375, 280, 40, "Nova Tarefa", "divNovaTarefa", url, (function(){
-		   dwr.util.setValue("idAtividade",$F("atividade"));
+		   dwr.util.setValue("atividadeNovaTarefa", $F("atividadeTarefa"));
 	   }));
    },
    

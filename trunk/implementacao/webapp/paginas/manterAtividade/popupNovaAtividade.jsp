@@ -12,9 +12,10 @@
 			<br />
 			<html:text property="nome" styleId="nomeNovaAtividade" size="51" maxlength="100" />
 		</label> 
-		<label>
+		<label style="float: left; margin-top: 15px;">
 			<b>
 				<bean:message key="label.departamento.responsavel"/>
+				<span class="obrigatorio">*</span>
 			</b>
 			<html:select property="departamento" styleId="departamentoNovaAtividade">
 				<html:option value="" />
