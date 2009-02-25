@@ -160,9 +160,10 @@
 				</div>
 			</div>
 			<div style="clear: both; padding: 5px;" align="center" id="divBotoes">
-				<htmlSGR:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar" roles="3">
+				<!-- Não bloqueando o botão, pois usuário pode se atualizar -->
+				<html:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar">
 					<bean:message key="botao.atualizar"/>
-				</htmlSGR:submit>
+				</html:submit>
 				<htmlSGR:button property="excluir" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="usuario.excluir();" roles="3">
 					<bean:message key="botao.excluir"/>
 				</htmlSGR:button>

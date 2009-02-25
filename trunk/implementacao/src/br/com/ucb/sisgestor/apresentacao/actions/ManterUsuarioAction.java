@@ -45,7 +45,8 @@ public class ManterUsuarioAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) actionForm;
 
-		Usuario usuario = new Usuario();
+		Usuario usuario = this.usuarioBO.obter(form.getId());
+		//atualizando os dados do usuário
 		this.copyProperties(usuario, form);
 
 		usuario.setPermissoes(this.getPermissoes(form.getPermissoes()));
