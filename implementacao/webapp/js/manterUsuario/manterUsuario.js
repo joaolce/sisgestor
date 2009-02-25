@@ -34,7 +34,7 @@ ManterUsuario.prototype = {
 	 * 
 	 * @param possui <code>true</code> se possui, <code>false</code> se não
 	 */
-   setPpermissaoManterUsuario : function(possui) {
+   setPermissaoManterUsuario : function(possui) {
 	   this.permissaoManterUsuario = possui;
    },
 
@@ -215,7 +215,7 @@ ManterUsuario.prototype = {
 	 */
    popupNovoUsuario : function() {
 	   var url = "manterUsuario.do?method=popupNovoUsuario";
-	   createWindow(430, 550, 280, 40, "Novo Usuario", "divNovoUsuario", url);
+	   createWindow(430, 550, 280, 40, "Novo Usuário", "divNovoUsuario", url);
    },
 
    /**
