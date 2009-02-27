@@ -4,14 +4,15 @@
  */
 package br.com.ucb.sisgestor.entidade;
 
-import java.util.List;
+import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
+import br.com.ucb.sisgestor.util.hibernate.HibernateUserTypeConstants;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import org.hibernate.annotations.ForeignKey;
-import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
 
 /**
  * Classe para representar um campo utilizado no workflow.
@@ -26,8 +27,8 @@ import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 public class Campo extends ObjetoPersistente {
 
 	private String				nome;
-	private Tipo				tipo;
-	private List<Workflow>	workflows;
+	private TipoCampoEnum	tipo;
+	private Workflow			workflow;
 
 	/**
 	 * Recupera o nome do campo.
@@ -44,24 +45,23 @@ public class Campo extends ObjetoPersistente {
 	 * 
 	 * @return tipo do campo
 	 */
-	@ManyToOne
-	@JoinColumn(name = "TIP_ID", nullable = false)
-	@ForeignKey(name = "IR_TIP_CAM")
-	public Tipo getTipo() {
+	@Column(name = "CAM_TIPO", nullable = false)
+	@Type(type = HibernateUserTypeConstants.CODIGO_INTEGER, parameters = @Parameter(name = "className", value = HibernateUserTypeConstants.TIPO_CAMPO_ENUM))
+	public TipoCampoEnum getTipo() {
 		return this.tipo;
 	}
 
 	/**
-	 * Recupera o valor de workflows
+	 * Recupera o workflow do campo.
 	 * 
-	 * @return workflows
+	 * @return workflow do campo
 	 */
-	@ManyToMany(targetEntity = Workflow.class, mappedBy = "campos")
-	@ForeignKey(name = "IR_CAM_WCP")
-	public List<Workflow> getWorkflows() {
-		return this.workflows;
+	@ManyToOne
+	@JoinColumn(name = "WOR_ID", nullable = false)
+	@ForeignKey(name = "IR_WOR_CAM")
+	public Workflow getWorkflow() {
+		return this.workflow;
 	}
-
 
 	/**
 	 * Atribui o nome do campo.
@@ -72,23 +72,21 @@ public class Campo extends ObjetoPersistente {
 		this.nome = nome;
 	}
 
-
 	/**
 	 * Atribui o tipo do campo.
 	 * 
 	 * @param tipo tipo do campo
 	 */
-	public void setTipo(Tipo tipo) {
+	public void setTipo(TipoCampoEnum tipo) {
 		this.tipo = tipo;
 	}
 
-
 	/**
-	 * Atribui workflows pertencentes ao campo
+	 * Atribui o workflow do campo.
 	 * 
-	 * @param workflows workflows pertencentes ao campo
+	 * @param workflow workflow do campo
 	 */
-	public void setWorkflows(List<Workflow> workflows) {
-		this.workflows = workflows;
+	public void setWorkflow(Workflow workflow) {
+		this.workflow = workflow;
 	}
 }

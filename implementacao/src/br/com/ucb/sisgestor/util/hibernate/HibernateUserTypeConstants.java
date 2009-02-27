@@ -15,5 +15,8 @@ public final class HibernateUserTypeConstants {
 	/**
 	 * Classe com o Hibernate user type para enumerações que implementam a interface
 	 */
-	public static final String	CODIGO_INTEGER	= "br.com.ucb.sisgestor.util.hibernate.IntegerUserType";
+	public static final String	CODIGO_INTEGER		= "br.com.ucb.sisgestor.util.hibernate.IntegerUserType";
+
+	/** Enum que implementa o user type. */
+	public static final String	TIPO_CAMPO_ENUM	= "br.com.ucb.sisgestor.entidade.TipoCampoEnum";
 }

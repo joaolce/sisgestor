@@ -10,7 +10,6 @@ import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.entidade.Processo;
 import br.com.ucb.sisgestor.entidade.Tarefa;
-import br.com.ucb.sisgestor.entidade.Tipo;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import java.io.Serializable;
@@ -38,7 +37,6 @@ public class ClassesAnotadas {
 		classes.add(Permissao.class);
 		classes.add(Processo.class);
 		classes.add(Tarefa.class);
-		classes.add(Tipo.class);
 		classes.add(Usuario.class);
 		classes.add(Workflow.class);
 	}
