@@ -4,9 +4,9 @@
  */
 package br.com.ucb.sisgestor.apresentacao.forms;
 
-import java.util.List;
 import br.com.ucb.sisgestor.apresentacao.actions.ManterCampoAction;
-import br.com.ucb.sisgestor.entidade.Tipo;
+import br.com.ucb.sisgestor.entidade.TipoCampoEnum;
+import java.util.List;
 
 /**
  * Form para a action {@link ManterCampoAction}.
@@ -15,64 +15,62 @@ import br.com.ucb.sisgestor.entidade.Tipo;
  * @since 17/02/2009
  */
 public class ManterCampoActionForm extends BaseForm {
-	
-	private String nome;
-	private Integer tipo;
-	private List<Tipo> listaTipos;
-	
+
+	private String						nome;
+	private Integer					tipo;
+	private List<TipoCampoEnum>	tipos;
+
 	/**
 	 * Recupera o nome do campo
-	 *
+	 * 
 	 * @return nome do campo
 	 */
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
-	
+
 	/**
 	 * Recupera o tipo do campo
-	 *
+	 * 
 	 * @return tipo do campo
 	 */
 	public Integer getTipo() {
-		return tipo;
+		return this.tipo;
 	}
-	
+
 	/**
-	 * Recupera um {@link List} de tipos  de campos disponíveis
-	 *
-	 * @return lista de tipos
+	 * Recupera os tipos de campos disponíveis.
+	 * 
+	 * @return tipos de campos disponíveis
 	 */
-	public List<Tipo> getListaTipos() {
-		return listaTipos;
+	public List<TipoCampoEnum> getTipos() {
+		return this.tipos;
 	}
-	
+
 	/**
 	 * Atribui o nome do campo
-	 *
+	 * 
 	 * @param nome nome do campo
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	/**
 	 * Atribui o tipo do campo
-	 *
+	 * 
 	 * @param tipo tipo do campo
 	 */
 	public void setTipo(Integer tipo) {
 		this.tipo = tipo;
 	}
-	
+
 	/**
-	 * Atribui a lista de tipos de campo
-	 *
-	 * @param listaTipos lista de tipos de campo
+	 * Atribui os tipos de campos disponíveis.
+	 * 
+	 * @param tipos tipos de campos disponíveis
 	 */
-	public void setListaTipos(List<Tipo> listaTipos) {
-		this.listaTipos = listaTipos;
+	public void setTipos(List<TipoCampoEnum> tipos) {
+		this.tipos = tipos;
 	}
-	
-	
 }

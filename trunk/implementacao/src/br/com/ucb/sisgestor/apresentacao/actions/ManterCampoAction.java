@@ -6,9 +6,9 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 
 import br.com.ucb.sisgestor.apresentacao.forms.ManterCampoActionForm;
 import br.com.ucb.sisgestor.entidade.Campo;
-import br.com.ucb.sisgestor.entidade.Tipo;
+import br.com.ucb.sisgestor.entidade.TipoCampoEnum;
 import br.com.ucb.sisgestor.negocio.CampoBO;
-import br.com.ucb.sisgestor.negocio.TipoBO;
+import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -25,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ManterCampoAction extends BaseAction {
 
 	private CampoBO	campoBO;
-	private TipoBO		tipoBO;
 
 	/**
 	 * Atualiza um campo.
@@ -41,7 +40,7 @@ public class ManterCampoAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterCampoActionForm form = (ManterCampoActionForm) actionForm;
 
-		Campo campo = new Campo();
+		Campo campo = this.campoBO.obter(form.getId());
 		this.copyProperties(campo, form);
 
 		this.campoBO.atualizar(campo);
@@ -58,7 +57,7 @@ public class ManterCampoAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterCampoActionForm form = (ManterCampoActionForm) formulario;
 
-		form.setListaTipos(this.tipoBO.obterTodos());
+		form.setTipos(Arrays.asList(TipoCampoEnum.values()));
 
 		return this.findForward(FWD_ENTRADA);
 	}
@@ -99,7 +98,7 @@ public class ManterCampoAction extends BaseAction {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ManterCampoActionForm form = (ManterCampoActionForm) formulario;
 
-		form.setListaTipos(this.tipoBO.obterTodos());
+		form.setTipos(Arrays.asList(TipoCampoEnum.values()));
 
 		return this.findForward("popupNovoCampo");
 	}
@@ -135,15 +134,5 @@ public class ManterCampoAction extends BaseAction {
 	@Autowired
 	public void setCampoBO(CampoBO campoBO) {
 		this.campoBO = campoBO;
-	}
-
-	/**
-	 * Atribui o BO de {@link Tipo}.
-	 * 
-	 * @param tipoBO BO de {@link Tipo}
-	 */
-	@Autowired
-	public void setTipoBO(TipoBO tipoBO) {
-		this.tipoBO = tipoBO;
 	}
 }

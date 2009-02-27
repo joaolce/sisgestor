@@ -98,7 +98,7 @@ public class IntegerUserType<E extends Enum<E>> implements UserType, Parameteriz
 			st.setNull(index, Types.INTEGER);
 		} else {
 			this.codigoDescricao = (CodigoDescricao) value;
-			st.setInt(index, this.codigoDescricao.getCodigo());
+			st.setInt(index, this.codigoDescricao.getId());
 		}
 	}
 
@@ -149,7 +149,7 @@ public class IntegerUserType<E extends Enum<E>> implements UserType, Parameteriz
 		Class<? extends Enum<E>> enumClass = this.returnedClass();
 		Enum<E>[] enums = enumClass.getEnumConstants();
 		for (Enum<E> enum1 : enums) {
-			if (((CodigoDescricao) enum1).getCodigo() == codigo) {
+			if (((CodigoDescricao) enum1).getId() == codigo) {
 				return (CodigoDescricao) enum1;
 			}
 		}

@@ -25,7 +25,7 @@
 					<br />
 					<html:select property="tipo" styleId="tipoPesquisa">
 						<html:option value="" key="label.todos" />
-						<html:optionsCollection name="manterCampoForm" property="listaTipos" label="descricao" value="id" />
+						<html:optionsCollection name="manterCampoForm" property="tipos" label="descricao" value="id" />
 					</html:select>
 				</label>
 			</div>
@@ -75,7 +75,7 @@
 					<br />
 					<html:select property="tipo" styleId="tipo">
 						<html:option value="" />
-						<html:optionsCollection name="manterCampoForm" property="listaTipos" label="descricao" value="id" />
+						<html:optionsCollection name="manterCampoForm" property="tipos" label="descricao" value="id" />
 					</html:select>
 				</label>
 			</div>
