@@ -18,10 +18,12 @@ public class ManterCampoActionForm extends BaseForm {
 
 	private String						nome;
 	private Integer					tipo;
+	private Boolean					obrigatorio;
+	private Integer					workflow;
 	private List<TipoCampoEnum>	tipos;
 
 	/**
-	 * Recupera o nome do campo
+	 * Recupera o nome do campo.
 	 * 
 	 * @return nome do campo
 	 */
@@ -30,7 +32,16 @@ public class ManterCampoActionForm extends BaseForm {
 	}
 
 	/**
-	 * Recupera o tipo do campo
+	 * Recupera se o campo é obrigatório.
+	 * 
+	 * @return se o campo é obrigatório
+	 */
+	public Boolean getObrigatorio() {
+		return this.obrigatorio;
+	}
+
+	/**
+	 * Recupera o tipo do campo.
 	 * 
 	 * @return tipo do campo
 	 */
@@ -48,7 +59,16 @@ public class ManterCampoActionForm extends BaseForm {
 	}
 
 	/**
-	 * Atribui o nome do campo
+	 * Recupera o identificador do workflow.
+	 * 
+	 * @return identificador do workflow
+	 */
+	public Integer getWorkflow() {
+		return this.workflow;
+	}
+
+	/**
+	 * Atribui o nome do campo.
 	 * 
 	 * @param nome nome do campo
 	 */
@@ -57,7 +77,16 @@ public class ManterCampoActionForm extends BaseForm {
 	}
 
 	/**
-	 * Atribui o tipo do campo
+	 * Atribui se o campo é obrigatório.
+	 * 
+	 * @param obrigatorio se o campo é obrigatório
+	 */
+	public void setObrigatorio(Boolean obrigatorio) {
+		this.obrigatorio = obrigatorio;
+	}
+
+	/**
+	 * Atribui o tipo do campo.
 	 * 
 	 * @param tipo tipo do campo
 	 */
@@ -72,5 +101,14 @@ public class ManterCampoActionForm extends BaseForm {
 	 */
 	public void setTipos(List<TipoCampoEnum> tipos) {
 		this.tipos = tipos;
+	}
+
+	/**
+	 * Atribui o identificador do workflow.
+	 * 
+	 * @param workflow identificador do workflow
+	 */
+	public void setWorkflow(Integer workflow) {
+		this.workflow = workflow;
 	}
 }

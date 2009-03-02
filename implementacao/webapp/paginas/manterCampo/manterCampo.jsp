@@ -23,7 +23,7 @@
 				<label style="float: left; margin-left: 20px;">
 					<bean:message key="label.tipo" />
 					<br />
-					<html:select property="tipo" styleId="tipoPesquisa">
+					<html:select property="tipo" styleId="tipoPesquisaCampo">
 						<html:option value="" key="label.todos" />
 						<html:optionsCollection name="manterCampoForm" property="tipos" label="descricao" value="id" />
 					</html:select>
@@ -43,6 +43,7 @@
 				<tr>
 					<th>&nbsp;</th>
 					<th><bean:message key="label.nome" /></th>
+					<th><bean:message key="label.obrigatorio" /></th>
 					<th><bean:message key="label.tipo" /></th>
 				</tr>
 			</thead>
@@ -51,7 +52,8 @@
 	</div>
 	
 	<!-- FIELDSET PARA DADOS DO CAMPO -->
-	<html:form action="/manterCampo.do?method=atualizar" onsubmit="campo.atualizar(this); return false;" styleId="formSalvarCampo" style="display: none; margin-top: 10px;">
+	<html:form action="/manterCampo.do?method=atualizar" onsubmit="campo.atualizar(this); return false;" styleId="formAtualizarCampo" style="display: none; margin-top: 10px;">
+		<html:hidden property="workflow" styleId="workflowCampo" />
 		<html:hidden property="id"/>
 		<fieldset style="padding: 10px; width: 70%; margin: 5 auto;">
 			<legend>
@@ -64,7 +66,7 @@
 							<bean:message key="label.nome"/>
 							<span class="obrigatorio">*</span>
 						</b>
-						<html:text property="nome" size="51" maxlength="100" styleId="nomeCampo"/>
+						<html:text property="nome" styleId="nomeCampo" size="51" maxlength="100" />
 					</label> 
 				</div>
 				<label style="float: left; margin-left: 20px;">
@@ -73,7 +75,7 @@
 						<span class="obrigatorio">*</span>
 					</b>
 					<br />
-					<html:select property="tipo" styleId="tipo">
+					<html:select property="tipo" styleId="tipoCampo">
 						<html:option value="" />
 						<html:optionsCollection name="manterCampoForm" property="tipos" label="descricao" value="id" />
 					</html:select>

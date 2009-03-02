@@ -4,15 +4,27 @@
  * @author Thiago
  * @since 17/02/2009
  */
-
 var ManterCampo = Class.create();
 ManterCampo.prototype = {
+
+   /**
+	 * Tabela com os dados da pesquisa.
+	 */
+   tabelaTelaPrincipal :null,
+
+   /**
+	 * Tipos de campo.
+	 */
+   tiposCampo :null,
+
    /**
 	 * @constructor
 	 */
-   initialize : function() {},
-
-   tabelaTelaPrincipal :null,
+   initialize : function() {
+	   ManterCampoDWR.getTipos(( function(tipos) {
+		   this.setTiposCampo(tipos);
+	   }).bind(this));
+   },
 
    /**
 	 * Retorna a tabela da tela inicial do caso de uso
@@ -21,15 +33,6 @@ ManterCampo.prototype = {
 	 */
    getTBodyTelaPrincipal : function() {
 	   return $("corpoManterCampo");
-   },
-
-   /**
-	 * Recupera o form manterCampoForm.
-	 * 
-	 * @return form do manter campo
-	 */
-   getForm : function() {
-	   return $("manterCampoForm");
    },
 
    /**
@@ -54,15 +57,15 @@ ManterCampo.prototype = {
 	 * Preenche os campos do campo selecionado.
 	 */
    visualizar : function() {
-	   Element.hide("formSalvarCampo");
+	   Element.hide("formAtualizarCampo");
 	   var idCampo = this.getIdSelecionado();
 	   if (isNaN(idCampo)) {
 		   return;
 	   }
 	   ManterCampoDWR.getById(idCampo, ( function(campo) {
-		   Effect.Appear("formSalvarCampo");
+		   Effect.Appear("formAtualizarCampo");
 		   dwr.util.setValue("nomeCampo", campo.nome);
-		   dwr.util.setValue("tipo", campo.tipo.id);
+		   dwr.util.setValue("tipoCampo", this.getTipoCampo(campo)[0]);
 	   }).bind(this));
    },
 
@@ -70,10 +73,11 @@ ManterCampo.prototype = {
 	 * Faz a pesquisa dos campos pelos parâmetros informados.
 	 */
    pesquisar : function() {
-	   Effect.Fade("formSalvarCampo");
+	   Effect.Fade("formAtualizarCampo");
 	   var dto = {
-		  nome :dwr.util.getValue("nomePesquisaCampo"),
-		  tipo :dwr.util.getValue("tipoPesquisa")
+	      nome :dwr.util.getValue("nomePesquisaCampo"),
+	      tipo :dwr.util.getValue("tipoPesquisaCampo"),
+	      idWorkflow :dwr.util.getValue("workflow")
 	   };
 
 	   if (this.tabelaTelaPrincipal == null) {
@@ -107,7 +111,13 @@ ManterCampo.prototype = {
 			   return campo.nome;
 		   });
 		   cellfuncs.push( function(campo) {
-			   return campo.tipo.descricao;
+		   	if(campo.obrigatorio) {
+		   		return "Sim";
+		   	}
+			   return "Não";
+		   });
+		   cellfuncs.push( function(campoObj) {
+			   return campo.getTipoCampo(campoObj)[2];
 		   });
 		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
 		   this.tabelaTelaPrincipal.setOnClick(this.visualizar.bind(this));
@@ -123,7 +133,7 @@ ManterCampo.prototype = {
 	 */
    atualizar : function(form) {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o campo selecionado?", ( function() {
-		   requestUtils.submitForm(form, null, ( function() {
+		   requestUtils.submitForm(form, ( function() {
 			   if (requestUtils.status) {
 				   this.pesquisar();
 			   }
@@ -138,13 +148,12 @@ ManterCampo.prototype = {
 	 */
    excluir : function() {
 	   JanelasComuns.showConfirmDialog("Deseja excluir o campo selecionado?", ( function() {
-		   var idCampo = dwr.util.getValue($("formSalvarCampo").id);
-		   requestUtils.simpleRequest("manterCampo.do?method=excluir&id=" + idCampo,
-		      ( function() {
-			      if (requestUtils.status) {
-				      this.pesquisar();
-			      }
-		      }).bind(this));
+		   var idCampo = dwr.util.getValue($("formAtualizarCampo").id);
+		   requestUtils.simpleRequest("manterCampo.do?method=excluir&id=" + idCampo, ( function() {
+			   if (requestUtils.status) {
+				   this.pesquisar();
+			   }
+		   }).bind(this));
 	   }).bind(this));
    },
 
@@ -153,9 +162,11 @@ ManterCampo.prototype = {
 	 */
    popupNovoCampo : function() {
 	   var url = "manterCampo.do?method=popupNovoCampo";
-	   createWindow(255, 375, 280, 40, "Novo Campo", "divNovoCampo", url );
+	   createWindow(255, 375, 280, 40, "Novo Campo", "divNovoCampo", url, ( function() {
+		   dwr.util.setValue("workflowNovoCampo", $F("workflowCampo"));
+	   }));
    },
-   
+
    /**
 	 * Envia ao action a ação de salvar os dados do campo.
 	 * 
@@ -168,7 +179,35 @@ ManterCampo.prototype = {
 			   this.pesquisar();
 		   }
 	   }).bind(this));
-   }   
+   },
+
+   /**
+	 * Recupera o tipo do campo a ser visualizado. <br />
+	 * obs: método feito pois o tipo é uma enum, e o DWR não converte da forma esperada.
+	 * 
+	 * @param campo campo a recuperar o tipo
+	 * @return array com o tipo do campo, onde: [0] - id do tipo, [1] - name do tipo, [2] - descrição
+	 *         do tipo
+	 */
+   getTipoCampo : function(campo) {
+	   var tipoCampo;
+	   this.tiposCampo.each(( function(tipo) {
+		   if (tipo[1] == campo.tipo) { // verifica pelo name da enum
+			   tipoCampo = tipo;
+			   throw $break;
+		   }
+	   }));
+	   return tipoCampo;
+   },
+
+   /**
+	 * Armazena os tipos de campo.
+	 * 
+	 * @param tipos tipos de campo
+	 */
+   setTiposCampo : function(tipos) {
+	   this.tiposCampo = tipos;
+   }
 };
 
 var campo = new ManterCampo();

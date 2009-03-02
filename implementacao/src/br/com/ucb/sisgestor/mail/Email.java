@@ -1,15 +1,20 @@
 package br.com.ucb.sisgestor.mail;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.naming.InitialContext;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,16 +27,31 @@ import org.apache.commons.logging.LogFactory;
  */
 public class Email {
 
-	private static final Log	LOG	= LogFactory.getLog(Email.class);
+	private static final Properties	configuracao	= new Properties();
+	private static final String		properties		= "settings.properties";
+	private static Session				session;
+	private static final Log			LOG				= LogFactory.getLog(Email.class);
 
-	private MimeMessage			message;
-	private Multipart				msg;
+	private MimeMessage					message;
+	private Multipart						msg;
+
+	static {
+		InputStream resourceAsStream = Email.class.getResourceAsStream(properties);
+		try {
+			configuracao.load(resourceAsStream);
+			//utilizando session a partir do jndi do jboss
+			session = Session.class.cast(new InitialContext().lookup("java:/Mail"));
+			//		session = Session.getDefaultInstance(configuracao);
+		} catch (Exception e) {
+			LOG.error(e); //NOPMD by João Lúcio - apenas para logar
+		}
+	}
 
 	/**
-	 * Cria uma nova instância do tipo {@link Email}
+	 * Cria uma nova instância do tipo {@link Email}.
 	 */
 	public Email() {
-		this.message = new MimeMessage(EmailSender.getInstancia().getSession());
+		this.message = new MimeMessage(session);
 		this.msg = new MimeMultipart();
 	}
 
@@ -133,20 +153,6 @@ public class Email {
 	}
 
 	/**
-	 * Recupera a mensagem a ser enviada.
-	 * 
-	 * @return mensagem a ser enviada
-	 */
-	public MimeMessage getMessage() {
-		try {
-			this.message.setContent(this.msg);
-		} catch (Exception e) {
-			LOG.error(e.getMessage(), e);
-		}
-		return this.message;
-	}
-
-	/**
 	 * Recupera o remetente do e-mail.
 	 * 
 	 * @return remetente do e-mail
@@ -154,6 +160,20 @@ public class Email {
 	 */
 	public String getRemetente() throws Exception {
 		return this.message.getFrom()[0].toString();
+	}
+
+	/**
+	 * Envia o {@link Email}.
+	 * 
+	 * @throws Exception caso ocorra algum erro no envio do email
+	 */
+	public void send() throws Exception {
+		try {
+			Transport.send(this.getMessage());
+		} catch (Exception e) {
+			LOG.error("Alguma coisa deu errado no envio de e-mail.", e);
+			throw e;
+		}
 	}
 
 	/**
@@ -177,7 +197,7 @@ public class Email {
 	public void setCorpo(String corpo) {
 		BodyPart txt = new MimeBodyPart();
 		try {
-			txt.setContent(corpo, EmailSender.getMimeType());
+			txt.setContent(corpo, configuracao.getProperty("mime_type"));
 			this.msg.addBodyPart(txt);
 		} catch (MessagingException e) {
 			LOG.error(e.getMessage(), e);
@@ -195,5 +215,19 @@ public class Email {
 		} catch (MessagingException e) {
 			LOG.error(e.getMessage(), e);
 		}
+	}
+
+	/**
+	 * Recupera a mensagem a ser enviada.
+	 * 
+	 * @return mensagem a ser enviada
+	 */
+	private MimeMessage getMessage() {
+		try {
+			this.message.setContent(this.msg);
+		} catch (Exception e) {
+			LOG.error(e.getMessage(), e);
+		}
+		return this.message;
 	}
 }

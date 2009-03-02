@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.util;
 
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.entidade.Permissao;
+import br.com.ucb.sisgestor.entidade.TipoCampoEnum;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import java.beans.PropertyDescriptor;
 import java.io.ByteArrayInputStream;
@@ -183,29 +184,28 @@ public final class Utils {
 						//CONVERSOR DATE
 						PropertyUtils.setProperty(destino, descriptor.getName(), DataUtil.stringToUtilDate(valor));
 					}
+					continue;
 				} else if (eUmaString && Date.class.isInstance(valorOrigem)) {
 					Date valor = (Date) PropertyUtils.getProperty(origem, descriptorOrigem.getName());
 					PropertyUtils.setProperty(destino, descriptor.getName(), DataUtil.utilDateToString(valor));
+					continue;
 				}
 
 				// ================== ASSOCIAÇÕES ================== 
-				boolean eUmObjetoPersistente = false;
+				boolean ehUmObjetoPersistente = false;
 				//verificar se o tipo da propriedade é um ObjetoPersistente
 				Class<?> superclass = propertyType;
 				while (superclass != null) {
 					if (superclass.getName().equals(ObjetoPersistente.class.getName())) {
-						eUmObjetoPersistente = true;
+						ehUmObjetoPersistente = true;
 						break;
 					}
 					superclass = superclass.getSuperclass();
 				}
-				if (eUmObjetoPersistente) {
+				if (ehUmObjetoPersistente) {
 					Object valor = PropertyUtils.getProperty(origem, descriptor.getName());
 					//se o valor é nulo ou igual a zero pula
-					if (valor == null) {
-						continue;
-					}
-					if ((valor instanceof Number) && (((Number) valor).intValue() == 0)) {
+					if ((valor == null) || ((valor instanceof Number) && (((Number) valor).intValue() == 0))) {
 						continue;
 					}
 					Object property = propertyType.newInstance();
@@ -226,6 +226,13 @@ public final class Utils {
 						continue;
 					}
 					PropertyUtils.setProperty(destino, descriptor.getName(), valor);
+				} else if (TipoCampoEnum.class.isAssignableFrom(propertyType)) {
+					for (TipoCampoEnum tipo : TipoCampoEnum.values()) {
+						if (tipo.getId().equals(valorOrigem)) {
+							PropertyUtils.setProperty(destino, descriptor.getName(), tipo);
+							break;
+						}
+					}
 				}
 			}
 		}

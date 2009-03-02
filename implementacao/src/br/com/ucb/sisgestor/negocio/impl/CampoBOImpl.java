@@ -46,8 +46,8 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Campo> getByNomeTipo(String nome, Integer idTipo, Integer paginaAtual) {
-		return this.campoDAO.getByNomeTipo(nome, idTipo, paginaAtual);
+	public List<Campo> getByNomeTipo(String nome, Integer idTipo, Integer idWorkflow, Integer paginaAtual) {
+		return this.campoDAO.getByNomeTipo(nome, idTipo, idWorkflow, paginaAtual);
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 	@Override
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaCampoDTO dto = (PesquisaCampoDTO) parametros;
-		return this.campoDAO.getTotalRegistros(dto.getNome(), dto.getTipo());
+		return this.campoDAO.getTotalRegistros(dto.getNome(), dto.getTipo(), dto.getIdWorkflow());
 	}
 
 	/**

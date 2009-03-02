@@ -28,6 +28,7 @@ public class Campo extends ObjetoPersistente {
 
 	private String				nome;
 	private TipoCampoEnum	tipo;
+	private Boolean			obrigatorio;
 	private Workflow			workflow;
 
 	/**
@@ -38,6 +39,16 @@ public class Campo extends ObjetoPersistente {
 	@Column(name = "CAM_NOME", nullable = false, length = ConstantesDB.NOME)
 	public String getNome() {
 		return this.nome;
+	}
+
+	/**
+	 * Recupera se o campo é obrigatório.
+	 * 
+	 * @return se o campo é obrigatório
+	 */
+	@Column(name = "CAM_OBRIGATORIO", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_BOOLEAN)
+	public Boolean getObrigatorio() {
+		return this.obrigatorio;
 	}
 
 	/**
@@ -70,6 +81,15 @@ public class Campo extends ObjetoPersistente {
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	/**
+	 * Atribui se o campo é obrigatório.
+	 * 
+	 * @param obrigatorio se o campo é obrigatório
+	 */
+	public void setObrigatorio(Boolean obrigatorio) {
+		this.obrigatorio = obrigatorio;
 	}
 
 	/**
