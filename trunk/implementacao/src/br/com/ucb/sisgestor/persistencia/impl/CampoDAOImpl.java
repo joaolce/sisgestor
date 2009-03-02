@@ -35,8 +35,8 @@ public class CampoDAOImpl extends BaseDAOImpl<Campo, Integer> implements CampoDA
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Campo> getByNomeTipo(String nome, Integer idTipo, Integer paginaAtual) {
-		Criteria criteria = this.montarCriteriosPaginacao(nome, idTipo);
+	public List<Campo> getByNomeTipo(String nome, Integer idTipo, Integer idWorkflow, Integer paginaAtual) {
+		Criteria criteria = this.montarCriteriosPaginacao(nome, idTipo, idWorkflow);
 		this.adicionarPaginacao(criteria, paginaAtual, QTD_REGISTROS_PAGINA);
 		criteria.addOrder(Order.asc("nome"));
 		return GenericsUtil.checkedList(criteria.list(), Campo.class);
@@ -45,8 +45,8 @@ public class CampoDAOImpl extends BaseDAOImpl<Campo, Integer> implements CampoDA
 	/**
 	 * {@inheritDoc}
 	 */
-	public Integer getTotalRegistros(String nome, Integer idTipo) {
-		Criteria criteria = this.montarCriteriosPaginacao(nome, idTipo);
+	public Integer getTotalRegistros(String nome, Integer idTipo, Integer idWorkflow) {
+		Criteria criteria = this.montarCriteriosPaginacao(nome, idTipo, idWorkflow);
 		criteria.setProjection(Projections.rowCount());
 		return (Integer) criteria.uniqueResult();
 	}
@@ -66,9 +66,10 @@ public class CampoDAOImpl extends BaseDAOImpl<Campo, Integer> implements CampoDA
 	 * @param nome parte do nome da atividade
 	 * @param descricao parte da descrição da atividade
 	 * @param idTipo identificação do processo
+	 * @param idWorkflow identificador do workflow
 	 * @return {@link Criteria}
 	 */
-	private Criteria montarCriteriosPaginacao(String nome, Integer idTipo) {
+	private Criteria montarCriteriosPaginacao(String nome, Integer idTipo, Integer idWorkflow) {
 		Criteria criteria = this.getSession().createCriteria(Campo.class);
 		if (StringUtils.isNotBlank(nome)) {
 			criteria.add(Restrictions.like("nome", nome, MatchMode.ANYWHERE).ignoreCase());
@@ -77,6 +78,7 @@ public class CampoDAOImpl extends BaseDAOImpl<Campo, Integer> implements CampoDA
 			criteria.createAlias("this.tipo", "tipo");
 			criteria.add(Restrictions.eq("tipo.id", idTipo));
 		}
+		criteria.add(Restrictions.eq("this.workflow.id", idWorkflow));
 		return criteria;
 	}
 }

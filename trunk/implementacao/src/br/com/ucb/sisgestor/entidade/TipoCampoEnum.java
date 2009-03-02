@@ -42,14 +42,14 @@ public enum TipoCampoEnum implements CodigoDescricao {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Integer getId() {
-		return this.chave;
+	public String getDescricao() {
+		return this.descricao;
 	}
 
 	/**
-	 *{@inheritDoc}
+	 * {@inheritDoc}
 	 */
-	public String getDescricao() {
-		return this.descricao;
+	public Integer getId() {
+		return this.chave;
 	}
 }

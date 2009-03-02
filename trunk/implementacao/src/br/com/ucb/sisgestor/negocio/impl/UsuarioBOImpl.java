@@ -7,7 +7,6 @@ package br.com.ucb.sisgestor.negocio.impl;
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.mail.Email;
-import br.com.ucb.sisgestor.mail.EmailSender;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsuarioDAO;
@@ -57,7 +56,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 				email.addDestinatariosTO(usuario.getEmail().trim());
 				email.setRemetente("SisGestor");
 				email.setCorpo(usuario.getSenha());
-				EmailSender.getInstancia().send(email);
+				email.send();
 				return true;
 			} catch (Exception e) {
 				return false;

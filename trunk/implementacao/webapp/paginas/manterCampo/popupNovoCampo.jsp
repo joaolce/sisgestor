@@ -3,21 +3,33 @@
 
 <html:form action="/manterCampo.do?method=salvar" onsubmit="campo.salvar(this); return false;" styleId="manterCampoForm">
 	<fieldset style="margin: 5pt auto; padding: 10px;">
+		<html:hidden property="workflow" styleId="workflowNovoCampo" />
 		<label style="float: left; margin-top: 15px;">
 			<b>
 				<bean:message key="label.nome"/>
 				<span class="obrigatorio">*</span>
 			</b>
 			<br />
-			<html:text property="nome" size="51" maxlength="100" />
-		</label> 
+			<html:text property="nome" styleId="nomeNovoCampo" size="51" maxlength="100" />
+		</label>
+		<label style="float: left; margin-top: 15px;">
+			<b>
+				<bean:message key="label.obrigatorio"/>
+				<span class="obrigatorio">*</span>
+			</b>
+			<br />
+			<html:select property="obrigatorio" styleId="obrigatorioNovoCampo">
+				<html:option value="0" key="label.nao" />
+				<html:option value="1" key="label.sim" />
+			</html:select>
+		</label>
 		<label style="float: left; margin-top: 15px;">
 			<b>
 				<bean:message key="label.tipo" />
 				<span class="obrigatorio">*</span>
 			</b>
 			<br />
-			<html:select property="tipo" styleId="tipo">
+			<html:select property="tipo" styleId="tipoNovoCampo">
 				<html:option value="" />
 				<html:optionsCollection name="manterCampoForm" property="tipos" label="descricao" value="id" />
 			</html:select>

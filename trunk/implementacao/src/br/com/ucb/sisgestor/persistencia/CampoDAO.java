@@ -4,8 +4,8 @@
  */
 package br.com.ucb.sisgestor.persistencia;
 
-import java.util.List;
 import br.com.ucb.sisgestor.entidade.Campo;
+import java.util.List;
 
 /**
  * Interface para acesso aos dados de {@link Campo}.
@@ -20,17 +20,19 @@ public interface CampoDAO extends BaseDAO<Campo, Integer> {
 	 * 
 	 * @param nome parte do nome do campo
 	 * @param idTipo identificação do tipo
+	 * @param idWorkflow identificador do workflow
 	 * @param paginaAtual página atual da pesquisa
 	 * @return {@link List} de {@link Campo}
 	 */
-	List<Campo> getByNomeTipo(String nome, Integer idTipo, Integer paginaAtual);
+	List<Campo> getByNomeTipo(String nome, Integer idTipo, Integer idWorkflow, Integer paginaAtual);
 
 	/**
 	 * Recupera o total de registros retornados pela consulta.
 	 * 
 	 * @param nome parte do nome do campo
 	 * @param tipo identificador do tipo
+	 * @param idWorkflow identificador do workflow
 	 * @return total de registros encontrados
 	 */
-	Integer getTotalRegistros(String nome, Integer tipo);
+	Integer getTotalRegistros(String nome, Integer tipo, Integer idWorkflow);
 }
