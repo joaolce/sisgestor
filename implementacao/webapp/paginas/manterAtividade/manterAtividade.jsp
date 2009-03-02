@@ -60,7 +60,7 @@
 	</div>
 	
 	<!-- FIELDSET PARA DADOS DA ATIVIDADE -->
-	<html:form action="/manterAtividade.do?method=atualizar" onsubmit="atividade.atualizar(this); return false;" styleId="formSalvarAtividade" style="display: none; margin-top: 10px;">
+	<html:form action="/manterAtividade.do?method=atualizar" onsubmit="atividade.atualizar(this); return false;" styleId="formAtualizarAtividade" style="display: none; margin-top: 10px;">
 		<html:hidden property="processo" styleId="processoAtividade"/>
 		<html:hidden property="id"/>
 		<fieldset style="padding: 10px; width: 70%; margin: 5 auto;">
