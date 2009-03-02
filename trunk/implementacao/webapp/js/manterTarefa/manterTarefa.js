@@ -53,14 +53,14 @@ ManterTarefa.prototype = {
 	 * Preenche os campos da tarefa selecionada.
 	 */
    visualizar : function() {
-	   Element.hide("formSalvarTarefa");
+	   Element.hide("formAtualizarTarefa");
 	   var idTarefa = this.getIdSelecionado();
 	   if (isNaN(idTarefa)) {
 		   return;
 	   }
 	   ManterTarefaDWR.getById(idTarefa, ( function(tarefa) {
-		   Effect.Appear("formSalvarTarefa");
-		   dwr.util.setValue($("formSalvarTarefa").id, idTarefa);
+		   Effect.Appear("formAtualizarTarefa");
+		   dwr.util.setValue($("formAtualizarTarefa").id, idTarefa);
 		   dwr.util.setValue("nomeTarefa", tarefa.nome);
 		   dwr.util.setValue("descricaoTarefa", tarefa.descricao);
 		   if(tarefa.usuario == null ){
@@ -77,7 +77,7 @@ ManterTarefa.prototype = {
 	 * Faz a pesquisa dos tarefas pelos parâmetros informados.
 	 */
    pesquisar : function() {
-	   Effect.Fade("formSalvarTarefa");
+	   Effect.Fade("formAtualizarTarefa");
 	   var dto = {
 	      nome :dwr.util.getValue("nomePesquisaTarefa"),
 	      descricao :dwr.util.getValue("descricaoPesquisaTarefa"),
@@ -153,7 +153,7 @@ ManterTarefa.prototype = {
 	 */
    excluir : function() {
 	   JanelasComuns.showConfirmDialog("Deseja excluir a tarefa selecionada?", ( function() {
-		   var idTarefa = dwr.util.getValue($("formSalvarTarefa").id);
+		   var idTarefa = dwr.util.getValue($("formAtualizarTarefa").id);
 		   requestUtils.simpleRequest("manterTarefa.do?method=excluir&id=" + idTarefa, ( function() {
 			      if (requestUtils.status) {
 				      this.pesquisar();
@@ -166,7 +166,7 @@ ManterTarefa.prototype = {
 	 * Abre a janela para nova tarefa.
 	 */
    popupNovaTarefa : function() {
-	   var idAtividade = dwr.util.getValue($("formSalvarAtividade").id);
+	   var idAtividade = dwr.util.getValue($("formAtualizarAtividade").id);
 	   var url = "manterTarefa.do?method=popupNovaTarefa&atividade="+idAtividade;
 	   createWindow(285, 375, 280, 40, "Nova Tarefa", "divNovaTarefa", url, (function(){
 		   dwr.util.setValue("atividadeNovaTarefa", $F("atividadeTarefa"));

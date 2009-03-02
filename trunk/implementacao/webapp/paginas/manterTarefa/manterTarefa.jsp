@@ -58,7 +58,7 @@
 	
 	<!-- FIELDSET PARA DADOS DA TAREFA -->
 	<html:form action="/manterTarefa.do?method=atualizar" onsubmit="tarefa.atualizar(this); return false;" 
-			  styleId="formSalvarTarefa" style="display: none; margin-top: 10px;">
+			  styleId="formAtualizarTarefa" style="display: none; margin-top: 10px;">
 	    <html:hidden property="atividade" styleId="atividadeTarefa" />
 		<html:hidden property="id"/>
 		<fieldset style="padding: 10px; width: 70%; margin: 5 auto;">
