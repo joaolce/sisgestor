@@ -40,6 +40,21 @@ public enum TipoCampoEnum implements CodigoDescricao {
 	}
 
 	/**
+	 * Recupera o tipo a partir do id.
+	 * 
+	 * @param id identificador do tipo
+	 * @return {@link TipoCampoEnum} encontrado, ou <code>null</code>
+	 */
+	public static TipoCampoEnum getTipo(Integer id) {
+		for (TipoCampoEnum tipo : values()) {
+			if (tipo.getId().equals(id)) {
+				return tipo;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public String getDescricao() {

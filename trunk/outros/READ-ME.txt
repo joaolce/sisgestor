@@ -7,5 +7,10 @@
  ** Informação Geral:
 ------------------------------------------------------------------------------------------------------
 Siga os passos abaixo para configurar o ambiente de desenvolvimento:
+
+
+	1) Baixe e instale o jboss 4.2.3.GA, e configure a variável de ambiente JBOSS_HOME.
+
+	2) Execute o arquivo configuracao.bat, para atualizar as bibliotecas e arquivos necessários para o jboss.
 	
-	1)Após iniciar o Servidor pelo Eclipse, execute o script sql para carregar o banco.
+	3) Após iniciar o servidor, execute o script sql para carregar o banco.

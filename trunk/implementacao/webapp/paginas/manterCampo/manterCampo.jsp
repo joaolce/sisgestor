@@ -37,7 +37,7 @@
 		</html:form>
 	</fieldset>
 
-	<div id="divCampos" style="clear: left; height: 240px; overflow: auto; border: 1px solid gray; margin-top: 10px;">
+	<div id="divCampos" style="clear: left; height: 180px; overflow: auto; border: 1px solid gray; margin-top: 10px;">
 		<table style="width: 99.9%">
 			<thead>
 				<tr>

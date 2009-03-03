@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.persistencia.impl;
 
 import br.com.ucb.sisgestor.entidade.Campo;
+import br.com.ucb.sisgestor.entidade.TipoCampoEnum;
 import br.com.ucb.sisgestor.persistencia.CampoDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
 import java.util.List;
@@ -37,7 +38,7 @@ public class CampoDAOImpl extends BaseDAOImpl<Campo, Integer> implements CampoDA
 	 */
 	public List<Campo> getByNomeTipo(String nome, Integer idTipo, Integer idWorkflow, Integer paginaAtual) {
 		Criteria criteria = this.montarCriteriosPaginacao(nome, idTipo, idWorkflow);
-		this.adicionarPaginacao(criteria, paginaAtual, QTD_REGISTROS_PAGINA);
+		this.adicionarPaginacao(criteria, paginaAtual, CampoDAO.QTD_REGISTROS_PAGINA);
 		criteria.addOrder(Order.asc("nome"));
 		return GenericsUtil.checkedList(criteria.list(), Campo.class);
 	}
@@ -75,7 +76,7 @@ public class CampoDAOImpl extends BaseDAOImpl<Campo, Integer> implements CampoDA
 			criteria.add(Restrictions.like("nome", nome, MatchMode.ANYWHERE).ignoreCase());
 		}
 		if (idTipo != null) {
-			criteria.add(Restrictions.eq("this.tipo", idTipo));
+			criteria.add(Restrictions.eq("this.tipo", TipoCampoEnum.getTipo(idTipo)));
 		}
 		criteria.add(Restrictions.eq("this.workflow.id", idWorkflow));
 		return criteria;
