@@ -17,10 +17,20 @@ import java.util.List;
 public class ManterCampoActionForm extends BaseForm {
 
 	private String						nome;
+	private String						descricao;
 	private Integer					tipo;
 	private Boolean					obrigatorio;
 	private Integer					workflow;
 	private List<TipoCampoEnum>	tipos;
+
+	/**
+	 * Recupera a descrição do campo.
+	 * 
+	 * @return descrição do campo
+	 */
+	public String getDescricao() {
+		return this.descricao;
+	}
 
 	/**
 	 * Recupera o nome do campo.
@@ -65,6 +75,15 @@ public class ManterCampoActionForm extends BaseForm {
 	 */
 	public Integer getWorkflow() {
 		return this.workflow;
+	}
+
+	/**
+	 * Atribui a descrição do campo.
+	 * 
+	 * @param descricao descrição do campo
+	 */
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 	/**

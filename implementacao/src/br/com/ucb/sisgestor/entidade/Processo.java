@@ -35,7 +35,8 @@ public class Processo extends BaseWorkflow {
 	private Workflow						workflow;
 	private Boolean						processoInicial;
 	private Boolean						processoFinal;
-	private List<TransacaoProcesso>	transacoes;
+	private List<TransacaoProcesso>	transacoesAnteriores;
+	private List<TransacaoProcesso>	transacoesPosteriores;
 
 	/**
 	 * Recupera as atividades do workflow.
@@ -69,16 +70,26 @@ public class Processo extends BaseWorkflow {
 	}
 
 	/**
-	 * Recupera o valor de transacoes
+	 * Recupera as transações anteriores diretas deste processo.
 	 * 
-	 * @return transacoes
+	 * @return transações anteriores diretas deste processo
 	 */
-	@OneToMany(targetEntity = TransacaoProcesso.class, mappedBy = "processo")
+	@OneToMany(targetEntity = TransacaoProcesso.class, mappedBy = "posterior")
 	@Cascade(CascadeType.DELETE)
-	public List<TransacaoProcesso> getTransacoes() {
-		return this.transacoes;
+	public List<TransacaoProcesso> getTransacoesAnteriores() {
+		return this.transacoesAnteriores;
 	}
 
+	/**
+	 * Recupera as transações posterioes diretas deste processo.
+	 * 
+	 * @return transações posterioes diretas deste processo
+	 */
+	@OneToMany(targetEntity = TransacaoProcesso.class, mappedBy = "anterior")
+	@Cascade(CascadeType.DELETE)
+	public List<TransacaoProcesso> getTransacoesPosteriores() {
+		return this.transacoesPosteriores;
+	}
 
 	/**
 	 * Recupera o workflow do processo.
@@ -92,7 +103,6 @@ public class Processo extends BaseWorkflow {
 		return this.workflow;
 	}
 
-
 	/**
 	 * Atribui as atividades do workflow.
 	 * 
@@ -101,7 +111,6 @@ public class Processo extends BaseWorkflow {
 	public void setAtividades(List<Atividade> atividades) {
 		this.atividades = atividades;
 	}
-
 
 	/**
 	 * Indica se este processo é final
@@ -112,7 +121,6 @@ public class Processo extends BaseWorkflow {
 		this.processoFinal = processoFinal;
 	}
 
-
 	/**
 	 * Indica se este processo é inicial
 	 * 
@@ -122,16 +130,23 @@ public class Processo extends BaseWorkflow {
 		this.processoInicial = processoInicial;
 	}
 
-
 	/**
-	 * Atribui as transações do processo
+	 * Atribui as transações anteriores diretas deste processo.
 	 * 
-	 * @param transacoes o valor a ajustar em transacoes
+	 * @param transacoesAnteriores transações anteriores diretas deste processo
 	 */
-	public void setTransacoes(List<TransacaoProcesso> transacoes) {
-		this.transacoes = transacoes;
+	public void setTransacoesAnteriores(List<TransacaoProcesso> transacoesAnteriores) {
+		this.transacoesAnteriores = transacoesAnteriores;
 	}
 
+	/**
+	 * Atribui as transações posterioes diretas deste processo.
+	 * 
+	 * @param transacoesPosteriores transações posterioes diretas deste processo
+	 */
+	public void setTransacoesPosteriores(List<TransacaoProcesso> transacoesPosteriores) {
+		this.transacoesPosteriores = transacoesPosteriores;
+	}
 
 	/**
 	 * Atribui o workflow do processo.

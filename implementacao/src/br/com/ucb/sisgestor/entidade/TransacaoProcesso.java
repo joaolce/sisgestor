@@ -8,88 +8,62 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import org.hibernate.annotations.ForeignKey;
 
-
 /**
- * Classe para mapeamento das transações do processo
+ * Classe para mapeamento das transações do processo.
  * 
  * @author Thiago
  * @since 28/02/2009
  */
 @javax.persistence.Entity
-@javax.persistence.Table(name = "TRA_PROCESSO")
-@org.hibernate.annotations.Table(appliesTo = "TRA_PROCESSO")
-@AttributeOverride(name = "id", column = @Column(name = "TRA_ID", nullable = false))
+@javax.persistence.Table(name = "TRP_TRANSACAO_PROCESSO")
+@org.hibernate.annotations.Table(appliesTo = "TRP_TRANSACAO_PROCESSO")
+@AttributeOverride(name = "id", column = @Column(name = "TRP_ID", nullable = false))
 public class TransacaoProcesso extends ObjetoPersistente {
 
-	private Processo	processo;
-	private Processo	processoAnterior;
-	private Processo	processoPosterior;
+	private Processo	anterior;
+	private Processo	posterior;
 
 	/**
-	 * Recupera o processo desta transação
-	 * 
-	 * @return processo desta transação
-	 */
-	@ManyToOne
-	@JoinColumn(name = "PRO_ID", nullable = false)
-	@ForeignKey(name = "IR_PRO_TRA")
-	public Processo getProcesso() {
-		return this.processo;
-	}
-
-	/**
-	 * Recupera o processo anterior da transação
+	 * Recupera o processo anterior da transação.
 	 * 
 	 * @return processoAnterior processo anterior da transação
 	 */
-	@OneToOne
-	@JoinColumn(name = "PRO_ANT_ID", nullable = true)
-	@ForeignKey(name = "FK_PRO_ANT")
-	public Processo getProcessoAnterior() {
-		return this.processoAnterior;
+	@ManyToOne
+	@JoinColumn(name = "PRO_ID_ANTERIOR", nullable = true)
+	@ForeignKey(name = "IR_PRO_TRP1")
+	public Processo getAnterior() {
+		return this.anterior;
 	}
 
 	/**
-	 * Recupera o processo posterior da transação
+	 * Recupera o processo posterior da transação.
 	 * 
 	 * @return processoPosterior processo posterior da transação
 	 */
-	@OneToOne
-	@JoinColumn(name = "PRO_POS_ID", nullable = true)
-	@ForeignKey(name = "FK_PRO_POS")
-	public Processo getProcessoPosterior() {
-		return this.processoPosterior;
+	@ManyToOne
+	@JoinColumn(name = "PRO_ID_POSTERIOR", nullable = true)
+	@ForeignKey(name = "IR_PRO_TRP2")
+	public Processo getPosterior() {
+		return this.posterior;
 	}
 
 	/**
-	 * Atribui processo referente a esta transação
+	 * Atribui o processo anterior da transação.
 	 * 
-	 * @param processo o processo referente a esta transação
+	 * @param anterior processo anterior da transação
 	 */
-	public void setProcesso(Processo processo) {
-		this.processo = processo;
+	public void setAnterior(Processo anterior) {
+		this.anterior = anterior;
 	}
 
-
 	/**
-	 * Atribui processoAnterior
+	 * Atribui o processo posterior da transação.
 	 * 
-	 * @param processoAnterior o valor a ajustar em processoAnterior
+	 * @param posterior processo posterior da transação
 	 */
-	public void setProcessoAnterior(Processo processoAnterior) {
-		this.processoAnterior = processoAnterior;
-	}
-
-
-	/**
-	 * Atribui processoPosterior
-	 * 
-	 * @param processoPosterior o valor a ajustar em processoPosterior
-	 */
-	public void setProcessoPosterior(Processo processoPosterior) {
-		this.processoPosterior = processoPosterior;
+	public void setPosterior(Processo posterior) {
+		this.posterior = posterior;
 	}
 }
