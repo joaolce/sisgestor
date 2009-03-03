@@ -75,8 +75,7 @@ public class CampoDAOImpl extends BaseDAOImpl<Campo, Integer> implements CampoDA
 			criteria.add(Restrictions.like("nome", nome, MatchMode.ANYWHERE).ignoreCase());
 		}
 		if (idTipo != null) {
-			criteria.createAlias("this.tipo", "tipo");
-			criteria.add(Restrictions.eq("tipo.id", idTipo));
+			criteria.add(Restrictions.eq("this.tipo", idTipo));
 		}
 		criteria.add(Restrictions.eq("this.workflow.id", idWorkflow));
 		return criteria;

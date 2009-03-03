@@ -23,7 +23,7 @@
 				<html:option value="1" key="label.sim" />
 			</html:select>
 		</label>
-		<label style="float: left; margin-top: 15px;">
+		<label style="float: left; margin-left: 15px; margin-top: 15px;">
 			<b>
 				<bean:message key="label.tipo" />
 				<span class="obrigatorio">*</span>

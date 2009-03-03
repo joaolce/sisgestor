@@ -38,9 +38,9 @@ public class ClassesAnotadas {
 		classes.add(Permissao.class);
 		classes.add(Processo.class);
 		classes.add(Tarefa.class);
+		classes.add(TransacaoProcesso.class);
 		classes.add(Usuario.class);
 		classes.add(Workflow.class);
-		classes.add(TransacaoProcesso.class);
 	}
 
 	/**

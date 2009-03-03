@@ -27,9 +27,20 @@ import org.hibernate.annotations.Type;
 public class Campo extends ObjetoPersistente {
 
 	private String				nome;
+	private String				descricao;
 	private TipoCampoEnum	tipo;
 	private Boolean			obrigatorio;
 	private Workflow			workflow;
+
+	/**
+	 * Recupera a descrição do campo.
+	 * 
+	 * @return descrição do campo
+	 */
+	@Column(name = "CAM_DESCRICAO", nullable = true, length = ConstantesDB.DESCRICAO)
+	public String getDescricao() {
+		return this.descricao;
+	}
 
 	/**
 	 * Recupera o nome do campo.
@@ -72,6 +83,15 @@ public class Campo extends ObjetoPersistente {
 	@ForeignKey(name = "IR_WOR_CAM")
 	public Workflow getWorkflow() {
 		return this.workflow;
+	}
+
+	/**
+	 * Atribui a descrição do campo.
+	 * 
+	 * @param descricao descrição do campo
+	 */
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 	/**
