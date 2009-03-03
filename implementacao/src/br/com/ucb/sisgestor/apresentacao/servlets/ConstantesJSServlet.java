@@ -2,6 +2,7 @@ package br.com.ucb.sisgestor.apresentacao.servlets;
 
 import br.com.ucb.sisgestor.persistencia.AtividadeDAO;
 import br.com.ucb.sisgestor.persistencia.BaseDAO;
+import br.com.ucb.sisgestor.persistencia.CampoDAO;
 import br.com.ucb.sisgestor.persistencia.ProcessoDAO;
 import br.com.ucb.sisgestor.persistencia.TarefaDAO;
 import br.com.ucb.sisgestor.util.constantes.ConstantesRoles;
@@ -22,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ConstantesJSServlet extends HttpServlet {
 
-	/** Mapa de constantes utilizadas nos JavaScripts*/
+	/** Mapa de constantes utilizadas nos JavaScripts */
 	private static Map<String, Object>	constantes	= new HashMap<String, Object>();
 	private static String					javascript;
 
@@ -32,6 +33,7 @@ public class ConstantesJSServlet extends HttpServlet {
 		constantes.put("MANTER_USUARIO", ConstantesRoles.MANTER_USUARIO);
 		constantes.put("MANTER_WORKFLOW", ConstantesRoles.MANTER_WORKFLOW);
 		constantes.put("QTD_REGISTROS_PAGINA", BaseDAO.QTD_REGISTROS_PAGINA);
+		constantes.put("QTD_REGISTROS_PAGINA_CAMPO", CampoDAO.QTD_REGISTROS_PAGINA);
 		constantes.put("QTD_REGISTROS_PAGINA_PROCESSO", ProcessoDAO.QTD_REGISTROS_PAGINA);
 		constantes.put("QTD_REGISTROS_PAGINA_ATIVIDADE", AtividadeDAO.QTD_REGISTROS_PAGINA);
 		constantes.put("QTD_REGISTROS_PAGINA_TAREFA", TarefaDAO.QTD_REGISTROS_PAGINA);

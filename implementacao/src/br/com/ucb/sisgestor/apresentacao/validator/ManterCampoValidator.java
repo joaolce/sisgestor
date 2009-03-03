@@ -30,5 +30,6 @@ public class ManterCampoValidator extends BaseValidator {
 			this.validaTamanhoMaximo("label.nome", "nome", ConstantesDB.NOME);
 		}
 		this.validaRequerido("label.tipo", "tipo");
+		this.validaRequerido("label.obrigatorio", "obrigatorio");
 	}
 }

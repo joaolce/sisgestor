@@ -227,12 +227,8 @@ public final class Utils {
 					}
 					PropertyUtils.setProperty(destino, descriptor.getName(), valor);
 				} else if (TipoCampoEnum.class.isAssignableFrom(propertyType)) {
-					for (TipoCampoEnum tipo : TipoCampoEnum.values()) {
-						if (tipo.getId().equals(valorOrigem)) {
-							PropertyUtils.setProperty(destino, descriptor.getName(), tipo);
-							break;
-						}
-					}
+					PropertyUtils.setProperty(destino, descriptor.getName(), TipoCampoEnum.getTipo(Integer.class
+							.cast(valorOrigem)));
 				}
 			}
 		}

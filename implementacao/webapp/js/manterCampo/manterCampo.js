@@ -84,7 +84,7 @@ ManterCampo.prototype = {
 		   var chamadaRemota = ManterCampoDWR.pesquisar.bind(ManterCampoDWR);
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
 		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
-		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA);
+		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA_CAMPO);
 	   }
 	   this.tabelaTelaPrincipal.setParametros(dto);
 	   this.tabelaTelaPrincipal.executarChamadaRemota();
@@ -162,7 +162,7 @@ ManterCampo.prototype = {
 	 */
    popupNovoCampo : function() {
 	   var url = "manterCampo.do?method=popupNovoCampo";
-	   createWindow(255, 375, 280, 40, "Novo Campo", "divNovoCampo", url, ( function() {
+	   createWindow(255, 445, 280, 40, "Novo Campo", "divNovoCampo", url, ( function() {
 		   dwr.util.setValue("workflowNovoCampo", $F("workflowCampo"));
 	   }));
    },
@@ -207,6 +207,19 @@ ManterCampo.prototype = {
 	 */
    setTiposCampo : function(tipos) {
 	   this.tiposCampo = tipos;
+   },
+   
+   /**
+	 * Limita a quantidade de caracteres do campo descrição.
+	 * 
+	 * @param (Boolean) novo se for novo campo
+	 */
+   contaChar : function(novo) {
+	   if (novo) {
+		   contaChar($("descricaoNovoCampo"), 200, "contagemNovoCampo");
+	   } else {
+		   contaChar($("descricaoCampo"), 200, "contagemCampo");
+	   }
    }
 };
 
