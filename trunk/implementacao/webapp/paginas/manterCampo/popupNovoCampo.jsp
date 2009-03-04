@@ -19,7 +19,7 @@
 					<span class="obrigatorio">*</span>
 				</b>
 				<br />
-				<html:select property="tipo" styleId="tipoNovoCampo">
+				<html:select property="tipo" styleId="tipoNovoCampo" onchange="campo.gerenciarPreDefinidos();">
 					<html:option value="" />
 					<html:optionsCollection name="manterCampoForm" property="tipos" label="descricao" value="id" />
 				</html:select>

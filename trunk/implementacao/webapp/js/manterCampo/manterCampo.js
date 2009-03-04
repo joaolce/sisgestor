@@ -18,6 +18,11 @@ ManterCampo.prototype = {
    tiposCampo :null,
 
    /**
+	 * Janela auxiliar de popup para gerenciar os valores pré-definidos.
+	 */
+   janelaValoresPreDefinidos :null,
+
+   /**
 	 * @constructor
 	 */
    initialize : function() {
@@ -66,6 +71,9 @@ ManterCampo.prototype = {
 		   Effect.Appear("formAtualizarCampo");
 		   dwr.util.setValue("nomeCampo", campo.nome);
 		   dwr.util.setValue("tipoCampo", this.getTipoCampo(campo)[0]);
+		   dwr.util.setValue("descricaoCampo", campo.descricao);
+		   dwr.util.setValue("obrigatorioCampo", campo.obrigatorio);
+		   this.contaChar(false);
 	   }).bind(this));
    },
 
@@ -111,9 +119,9 @@ ManterCampo.prototype = {
 			   return campo.nome;
 		   });
 		   cellfuncs.push( function(campo) {
-		   	if(campo.obrigatorio) {
-		   		return "Sim";
-		   	}
+			   if (campo.obrigatorio) {
+				   return "Sim";
+			   }
 			   return "Não";
 		   });
 		   cellfuncs.push( function(campoObj) {
@@ -208,7 +216,7 @@ ManterCampo.prototype = {
    setTiposCampo : function(tipos) {
 	   this.tiposCampo = tipos;
    },
-   
+
    /**
 	 * Limita a quantidade de caracteres do campo descrição.
 	 * 
@@ -219,6 +227,21 @@ ManterCampo.prototype = {
 		   contaChar($("descricaoNovoCampo"), 200, "contagemNovoCampo");
 	   } else {
 		   contaChar($("descricaoCampo"), 200, "contagemCampo");
+	   }
+   },
+
+   /**
+	 * Abre popup para gerenciar os valores pré-definidos do campo.
+	 */
+   gerenciarPreDefinidos : function() {
+	   if (this.janelaValoresPreDefinidos == null) {
+		   var url = "manterCampo.do?method=popupGerenciarPreDefinidos&workflow=" + $F("workflowCampo");
+		   this.janelaValoresPreDefinidos = createWindow(255, 445, 280, 295, "Valores Pré-Definidos",
+		      "divValoresPreDefinidos", url);
+		   this.janelaValoresPreDefinidos.undoModal();
+	   } else {
+		   this.janelaValoresPreDefinidos.fecharJanela();
+		   this.janelaValoresPreDefinidos = null;
 	   }
    }
 };

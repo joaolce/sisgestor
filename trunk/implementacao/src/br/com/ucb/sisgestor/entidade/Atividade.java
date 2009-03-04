@@ -31,9 +31,11 @@ import org.hibernate.annotations.ForeignKey;
 		@AttributeOverride(name = "descricao", column = @Column(name = "ATI_DESCRICAO", nullable = false, length = ConstantesDB.DESCRICAO))})
 public class Atividade extends BaseWorkflow {
 
-	private Departamento	departamento;
-	private Processo		processo;
-	private List<Tarefa>	tarefas;
+	private Departamento					departamento;
+	private Processo						processo;
+	private List<Tarefa>					tarefas;
+	private List<TransacaoAtividade>	transacoesAnteriores;
+	private List<TransacaoAtividade>	transacoesPosteriores;
 
 	/**
 	 * Recupera o departamento da atividade.
@@ -71,6 +73,28 @@ public class Atividade extends BaseWorkflow {
 	}
 
 	/**
+	 * Recupera as transações anteriores diretas da atividade.
+	 * 
+	 * @return transações anteriores diretas da atividade
+	 */
+	@OneToMany(targetEntity = TransacaoAtividade.class, mappedBy = "posterior")
+	@Cascade(CascadeType.DELETE)
+	public List<TransacaoAtividade> getTransacoesAnteriores() {
+		return this.transacoesAnteriores;
+	}
+
+	/**
+	 * Recupera as transações posterioes diretas da atividade.
+	 * 
+	 * @return transações posterioes diretas da atividade
+	 */
+	@OneToMany(targetEntity = TransacaoAtividade.class, mappedBy = "anterior")
+	@Cascade(CascadeType.DELETE)
+	public List<TransacaoAtividade> getTransacoesPosteriores() {
+		return this.transacoesPosteriores;
+	}
+
+	/**
 	 * Atribui o departamento da atividade.
 	 * 
 	 * @param departamento departamento da atividade
@@ -95,5 +119,23 @@ public class Atividade extends BaseWorkflow {
 	 */
 	public void setTarefas(List<Tarefa> tarefas) {
 		this.tarefas = tarefas;
+	}
+
+	/**
+	 * Atribui as transações anteriores diretas da atividade.
+	 * 
+	 * @param transacoesAnteriores transações anteriores diretas da atividade
+	 */
+	public void setTransacoesAnteriores(List<TransacaoAtividade> transacoesAnteriores) {
+		this.transacoesAnteriores = transacoesAnteriores;
+	}
+
+	/**
+	 * Atribui as transações posterioes diretas da atividade.
+	 * 
+	 * @param transacoesPosteriores transações posterioes diretas da atividade
+	 */
+	public void setTransacoesPosteriores(List<TransacaoAtividade> transacoesPosteriores) {
+		this.transacoesPosteriores = transacoesPosteriores;
 	}
 }

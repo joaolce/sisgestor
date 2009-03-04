@@ -7,10 +7,13 @@ package br.com.ucb.sisgestor.util.hibernate;
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.entidade.Departamento;
+import br.com.ucb.sisgestor.entidade.OpcaoCampo;
 import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.entidade.Processo;
 import br.com.ucb.sisgestor.entidade.Tarefa;
+import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
 import br.com.ucb.sisgestor.entidade.TransacaoProcesso;
+import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import java.io.Serializable;
@@ -35,10 +38,13 @@ public class ClassesAnotadas {
 		classes.add(Atividade.class);
 		classes.add(Campo.class);
 		classes.add(Departamento.class);
+		classes.add(OpcaoCampo.class);
 		classes.add(Permissao.class);
 		classes.add(Processo.class);
 		classes.add(Tarefa.class);
+		classes.add(TransacaoAtividade.class);
 		classes.add(TransacaoProcesso.class);
+		classes.add(TransacaoTarefa.class);
 		classes.add(Usuario.class);
 		classes.add(Workflow.class);
 	}

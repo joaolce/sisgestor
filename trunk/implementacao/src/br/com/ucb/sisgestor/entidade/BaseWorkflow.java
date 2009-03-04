@@ -4,7 +4,10 @@
  */
 package br.com.ucb.sisgestor.entidade;
 
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
+import org.hibernate.annotations.Index;
 
 /**
  * Objeto base para os dados de workflow.
@@ -13,6 +16,7 @@ import javax.persistence.MappedSuperclass;
  * @since 04/02/2009
  */
 @MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class BaseWorkflow extends ObjetoPersistente {
 
 	private String	descricao;
@@ -23,6 +27,7 @@ public class BaseWorkflow extends ObjetoPersistente {
 	 * 
 	 * @return descricao
 	 */
+	@Index(name = "IX_DESCRICAO")
 	public String getDescricao() {
 		return this.descricao;
 	}
@@ -32,6 +37,7 @@ public class BaseWorkflow extends ObjetoPersistente {
 	 * 
 	 * @return nome
 	 */
+	@Index(name = "IX_NOME")
 	public String getNome() {
 		return this.nome;
 	}

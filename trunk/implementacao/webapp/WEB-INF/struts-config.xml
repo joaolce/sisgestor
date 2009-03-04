@@ -4,6 +4,8 @@
           "http://jakarta.apache.org/struts/dtds/struts-config_1_3.dtd">
 
 <struts-config>
+	<description>Configurações gerais - struts framework</description>
+	
 	<form-beans>
 		<form-bean name="manterDepartamentoForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterDepartamentoActionForm" />
 		<form-bean name="manterUsuarioForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterUsuarioActionForm" />
@@ -113,6 +115,7 @@
 			parameter="method">
 			<forward name="entrada" path="definicaoManterCampo" />
 			<forward name="popupNovoCampo" path="popupNovoCampo" />
+			<forward name="popupGerenciarPreDefinidos" path="popupGerenciarPreDefinidos" />
 		</action>
 	</action-mappings>
 

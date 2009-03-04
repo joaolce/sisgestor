@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.ForeignKey;
 
 /**
- * Classe para mapeamento das transações do processo.
+ * Classe que mapeia uma transação do {@link Processo}.
  * 
  * @author Thiago
  * @since 28/02/2009
@@ -31,7 +31,7 @@ public class TransacaoProcesso extends ObjetoPersistente {
 	 * @return processoAnterior processo anterior da transação
 	 */
 	@ManyToOne
-	@JoinColumn(name = "PRO_ID_ANTERIOR", nullable = true)
+	@JoinColumn(name = "PRO_ID_ANTERIOR", nullable = false)
 	@ForeignKey(name = "IR_PRO_TRP1")
 	public Processo getAnterior() {
 		return this.anterior;
@@ -43,7 +43,7 @@ public class TransacaoProcesso extends ObjetoPersistente {
 	 * @return processoPosterior processo posterior da transação
 	 */
 	@ManyToOne
-	@JoinColumn(name = "PRO_ID_POSTERIOR", nullable = true)
+	@JoinColumn(name = "PRO_ID_POSTERIOR", nullable = false)
 	@ForeignKey(name = "IR_PRO_TRP2")
 	public Processo getPosterior() {
 		return this.posterior;

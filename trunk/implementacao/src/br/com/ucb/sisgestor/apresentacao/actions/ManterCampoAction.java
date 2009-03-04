@@ -85,6 +85,21 @@ public class ManterCampoAction extends BaseAction {
 	}
 
 	/**
+	 * Abre o popup para gerenciar os valores pré-definidos do campo.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward do popup
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward popupGerenciarPreDefinidos(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return this.findForward("popupGerenciarPreDefinidos");
+	}
+
+	/**
 	 * Abre o popup para incluir um novo campo.
 	 * 
 	 * @param mapping objeto mapping da action
