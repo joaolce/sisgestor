@@ -6,10 +6,14 @@ package br.com.ucb.sisgestor.entidade;
 
 import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUserTypeConstants;
+import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
@@ -26,11 +30,12 @@ import org.hibernate.annotations.Type;
 @AttributeOverride(name = "id", column = @Column(name = "CAM_ID", nullable = false))
 public class Campo extends ObjetoPersistente {
 
-	private String				nome;
-	private String				descricao;
-	private TipoCampoEnum	tipo;
-	private Boolean			obrigatorio;
-	private Workflow			workflow;
+	private String					nome;
+	private String					descricao;
+	private TipoCampoEnum		tipo;
+	private Boolean				obrigatorio;
+	private Workflow				workflow;
+	private List<OpcaoCampo>	opcoes;
 
 	/**
 	 * Recupera a descrição do campo.
@@ -60,6 +65,17 @@ public class Campo extends ObjetoPersistente {
 	@Column(name = "CAM_OBRIGATORIO", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_BOOLEAN)
 	public Boolean getObrigatorio() {
 		return this.obrigatorio;
+	}
+
+	/**
+	 * Recupera as opções do campo.
+	 * 
+	 * @return opções do campo
+	 */
+	@OneToMany(targetEntity = OpcaoCampo.class, mappedBy = "campo")
+	@Cascade(CascadeType.DELETE)
+	public List<OpcaoCampo> getOpcoes() {
+		return this.opcoes;
 	}
 
 	/**
@@ -110,6 +126,15 @@ public class Campo extends ObjetoPersistente {
 	 */
 	public void setObrigatorio(Boolean obrigatorio) {
 		this.obrigatorio = obrigatorio;
+	}
+
+	/**
+	 * Atribui as opções do campo.
+	 * 
+	 * @param opcoes opções do campo
+	 */
+	public void setOpcoes(List<OpcaoCampo> opcoes) {
+		this.opcoes = opcoes;
 	}
 
 	/**

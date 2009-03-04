@@ -67,19 +67,39 @@
 							<span class="obrigatorio">*</span>
 						</b>
 						<html:text property="nome" styleId="nomeCampo" size="51" maxlength="100" />
+					</label>
+					<label style="float: left; margin-left: 10px;">
+						<b>
+							<bean:message key="label.tipo" />
+							<span class="obrigatorio">*</span>
+						</b>
+						<html:select property="tipo" styleId="tipoCampo">
+							<html:option value="" />
+							<html:optionsCollection name="manterCampoForm" property="tipos" label="descricao" value="id" />
+						</html:select>
+					</label>
+					<label style="float: left; margin-left: 10px;">
+						<b>
+							<bean:message key="label.obrigatorio"/>
+							<span class="obrigatorio">*</span>
+						</b>
+						<html:select property="obrigatorio" styleId="obrigatorioCampo">
+							<html:option value="0" key="label.nao" />
+							<html:option value="1" key="label.sim" />
+						</html:select>
 					</label> 
 				</div>
-				<label style="float: left; margin-left: 20px;">
-					<b>
-						<bean:message key="label.tipo" />
-						<span class="obrigatorio">*</span>
-					</b>
-					<br />
-					<html:select property="tipo" styleId="tipoCampo">
-						<html:option value="" />
-						<html:optionsCollection name="manterCampoForm" property="tipos" label="descricao" value="id" />
-					</html:select>
-				</label>
+				<div style="float: left; margin-top: 10px;">
+					<label style="float: left;">
+						<b style="vertical-align: top;">
+							<bean:message key="label.descricao"/>
+						</b>
+						<html:textarea property="descricao" styleId="descricaoCampo" rows="4" cols="50" onkeypress="campo.contaChar(false);" onkeydown="campo.contaChar(false);" onkeyup="campo.contaChar(false);" />
+						<br />
+						<bean:message key="label.maximoCaracteres" arg0="200"/>:
+						<span id="contagemCampo" style="color: red;"></span>
+					</label>
+				</div>
 			</div>
 			<div style="clear: both; padding: 5px;" align="center" id="divBotoes">
 				<htmlSGR:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar" roles="4">

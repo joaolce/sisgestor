@@ -5,11 +5,15 @@
 package br.com.ucb.sisgestor.entidade;
 
 import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
+import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
 
 /**
@@ -27,8 +31,10 @@ import org.hibernate.annotations.ForeignKey;
 		@AttributeOverride(name = "descricao", column = @Column(name = "TAR_DESCRICAO", nullable = false, length = ConstantesDB.DESCRICAO))})
 public class Tarefa extends BaseWorkflow {
 
-	private Atividade	atividade;
-	private Usuario	usuario;
+	private Atividade					atividade;
+	private Usuario					usuario;
+	private List<TransacaoTarefa>	transacoesAnteriores;
+	private List<TransacaoTarefa>	transacoesPosteriores;
 
 	/**
 	 * Recupera a atividade da tarefa.
@@ -40,6 +46,28 @@ public class Tarefa extends BaseWorkflow {
 	@ForeignKey(name = "IR_ATI_TAR")
 	public Atividade getAtividade() {
 		return this.atividade;
+	}
+
+	/**
+	 * Recupera as transações anteriores diretas da tarefa.
+	 * 
+	 * @return transações anteriores diretas da tarefa
+	 */
+	@OneToMany(targetEntity = TransacaoTarefa.class, mappedBy = "posterior")
+	@Cascade(CascadeType.DELETE)
+	public List<TransacaoTarefa> getTransacoesAnteriores() {
+		return this.transacoesAnteriores;
+	}
+
+	/**
+	 * Recupera as transações posteriores diretas da tarefa.
+	 * 
+	 * @return transações posteriores diretas da tarefa
+	 */
+	@OneToMany(targetEntity = TransacaoTarefa.class, mappedBy = "anterior")
+	@Cascade(CascadeType.DELETE)
+	public List<TransacaoTarefa> getTransacoesPosteriores() {
+		return this.transacoesPosteriores;
 	}
 
 	/**
@@ -61,6 +89,24 @@ public class Tarefa extends BaseWorkflow {
 	 */
 	public void setAtividade(Atividade atividade) {
 		this.atividade = atividade;
+	}
+
+	/**
+	 * Atribui as transações anteriores diretas da tarefa.
+	 * 
+	 * @param transacoesAnteriores transações anteriores diretas da tarefa
+	 */
+	public void setTransacoesAnteriores(List<TransacaoTarefa> transacoesAnteriores) {
+		this.transacoesAnteriores = transacoesAnteriores;
+	}
+
+	/**
+	 * Atribui as transações posteriores diretas da tarefa.
+	 * 
+	 * @param transacoesPosteriores transações posteriores diretas da tarefa
+	 */
+	public void setTransacoesPosteriores(List<TransacaoTarefa> transacoesPosteriores) {
+		this.transacoesPosteriores = transacoesPosteriores;
 	}
 
 	/**
