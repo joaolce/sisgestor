@@ -33,8 +33,6 @@ public class Processo extends BaseWorkflow {
 
 	private List<Atividade>				atividades;
 	private Workflow						workflow;
-	private Boolean						processoInicial;
-	private Boolean						processoFinal;
 	private List<TransacaoProcesso>	transacoesAnteriores;
 	private List<TransacaoProcesso>	transacoesPosteriores;
 
@@ -44,29 +42,9 @@ public class Processo extends BaseWorkflow {
 	 * @return atividades do workflow
 	 */
 	@OneToMany(targetEntity = Atividade.class, mappedBy = "processo")
-	@Cascade(CascadeType.DELETE)
+	@Cascade(CascadeType.DELETE_ORPHAN)
 	public List<Atividade> getAtividades() {
 		return this.atividades;
-	}
-
-	/**
-	 * Recupera o indicador se o processo é final
-	 * 
-	 * @return processoFinal indicador se o processo é final
-	 */
-	@Column(name = "PRO_FINAL", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_BOOLEAN)
-	public Boolean getProcessoFinal() {
-		return this.processoFinal;
-	}
-
-	/**
-	 * Recupera o indicador se o processo é inicial
-	 * 
-	 * @return processoInicial indicador se o processo é inicial
-	 */
-	@Column(name = "PRO_INICIAL", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_BOOLEAN)
-	public Boolean getProcessoInicial() {
-		return this.processoInicial;
 	}
 
 	/**
@@ -75,7 +53,7 @@ public class Processo extends BaseWorkflow {
 	 * @return transações anteriores diretas deste processo
 	 */
 	@OneToMany(targetEntity = TransacaoProcesso.class, mappedBy = "posterior")
-	@Cascade(CascadeType.DELETE)
+	@Cascade(CascadeType.DELETE_ORPHAN)
 	public List<TransacaoProcesso> getTransacoesAnteriores() {
 		return this.transacoesAnteriores;
 	}
@@ -86,7 +64,7 @@ public class Processo extends BaseWorkflow {
 	 * @return transações posterioes diretas deste processo
 	 */
 	@OneToMany(targetEntity = TransacaoProcesso.class, mappedBy = "anterior")
-	@Cascade(CascadeType.DELETE)
+	@Cascade(CascadeType.DELETE_ORPHAN)
 	public List<TransacaoProcesso> getTransacoesPosteriores() {
 		return this.transacoesPosteriores;
 	}
@@ -110,24 +88,6 @@ public class Processo extends BaseWorkflow {
 	 */
 	public void setAtividades(List<Atividade> atividades) {
 		this.atividades = atividades;
-	}
-
-	/**
-	 * Indica se este processo é final
-	 * 
-	 * @param processoFinal Indicador para estabelecer se este processo é final
-	 */
-	public void setProcessoFinal(Boolean processoFinal) {
-		this.processoFinal = processoFinal;
-	}
-
-	/**
-	 * Indica se este processo é inicial
-	 * 
-	 * @param processoInicial Indicador para estabelecer se este processo é inicial
-	 */
-	public void setProcessoInicial(Boolean processoInicial) {
-		this.processoInicial = processoInicial;
 	}
 
 	/**

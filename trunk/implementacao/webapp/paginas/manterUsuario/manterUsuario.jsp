@@ -52,7 +52,7 @@
 		<table style="width: 99.9%">
 			<thead>
 				<tr>
-					<th>&nbsp;</th>
+					<th style="display: none;">&nbsp;</th>
 					<th><bean:message key="label.login" /></th>
 					<th><bean:message key="label.nome" /></th>
 					<th><bean:message key="label.email" /></th>
