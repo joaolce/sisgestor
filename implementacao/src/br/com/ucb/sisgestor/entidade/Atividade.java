@@ -67,7 +67,7 @@ public class Atividade extends BaseWorkflow {
 	 * @return tarefas da atividade
 	 */
 	@OneToMany(targetEntity = Tarefa.class, mappedBy = "atividade")
-	@Cascade(CascadeType.DELETE)
+	@Cascade(CascadeType.DELETE_ORPHAN)
 	public List<Tarefa> getTarefas() {
 		return this.tarefas;
 	}
@@ -78,7 +78,7 @@ public class Atividade extends BaseWorkflow {
 	 * @return transações anteriores diretas da atividade
 	 */
 	@OneToMany(targetEntity = TransacaoAtividade.class, mappedBy = "posterior")
-	@Cascade(CascadeType.DELETE)
+	@Cascade(CascadeType.DELETE_ORPHAN)
 	public List<TransacaoAtividade> getTransacoesAnteriores() {
 		return this.transacoesAnteriores;
 	}
@@ -89,7 +89,7 @@ public class Atividade extends BaseWorkflow {
 	 * @return transações posterioes diretas da atividade
 	 */
 	@OneToMany(targetEntity = TransacaoAtividade.class, mappedBy = "anterior")
-	@Cascade(CascadeType.DELETE)
+	@Cascade(CascadeType.DELETE_ORPHAN)
 	public List<TransacaoAtividade> getTransacoesPosteriores() {
 		return this.transacoesPosteriores;
 	}

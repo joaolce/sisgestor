@@ -50,7 +50,7 @@ public class Workflow extends BaseWorkflow {
 	 * @return campos do workflow
 	 */
 	@OneToMany(targetEntity = Campo.class, mappedBy = "workflow")
-	@Cascade(CascadeType.DELETE)
+	@Cascade(CascadeType.DELETE_ORPHAN)
 	public List<Campo> getCampos() {
 		return this.campos;
 	}
@@ -71,7 +71,7 @@ public class Workflow extends BaseWorkflow {
 	 * @return processos do workflow
 	 */
 	@OneToMany(targetEntity = Processo.class, mappedBy = "workflow")
-	@Cascade(CascadeType.DELETE)
+	@Cascade(CascadeType.DELETE_ORPHAN)
 	public List<Processo> getProcessos() {
 		return this.processos;
 	}

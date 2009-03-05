@@ -73,7 +73,7 @@ public class Campo extends ObjetoPersistente {
 	 * @return opções do campo
 	 */
 	@OneToMany(targetEntity = OpcaoCampo.class, mappedBy = "campo")
-	@Cascade(CascadeType.DELETE)
+	@Cascade(CascadeType.DELETE_ORPHAN)
 	public List<OpcaoCampo> getOpcoes() {
 		return this.opcoes;
 	}

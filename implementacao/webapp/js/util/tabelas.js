@@ -468,7 +468,15 @@ Tabela.prototype = {
 	   if (colecao != undefined) {
 		   this.colecaoParcial = colecao;
 	   }
-	   dwr.util.addRows(this._tabela, this.colecaoParcial, cellfuncs);
+	   dwr.util.addRows(this._tabela, this.colecaoParcial, cellfuncs, {
+		   cellCreator : function(options) {
+			   var td = document.createElement("td");
+			   if (options.cellNum == 0) {
+				   td.style.display = "none";
+			   }
+			   return td;
+		   }
+	   });
    },
    /**
 	 * Remover as linhas da tabela
@@ -756,10 +764,23 @@ FactoryTabelas = {
 	   tabela.setRemoteCall(chamadaRemota);
 	   tabela.setCallBack(callback);
 
+	   if (!(idTabela instanceof String)) {
+		   idTabela = idTabela.id;
+	   }
 	   this.tabelas.set(idTabela, tabela);
 	   return tabela;
    },
+
+   /**
+	 * Recuperar uma tabela criada pelo id da mesma. <br />
+	 * pode ser passado o identificador da tabela ou a própria
+	 * 
+	 * @param {HTMLElement} idTabela
+	 */
    getTabelaById : function(idTabela) {
+	   if (!(idTabela instanceof String)) {
+		   idTabela = idTabela.id;
+	   }
 	   return this.tabelas.get(idTabela);
    }
 };
