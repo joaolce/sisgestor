@@ -18,11 +18,6 @@ ManterCampo.prototype = {
    tiposCampo :null,
 
    /**
-	 * Janela auxiliar de popup para gerenciar os valores pré-definidos.
-	 */
-   janelaValoresPreDefinidos :null,
-
-   /**
 	 * @constructor
 	 */
    initialize : function() {
@@ -231,17 +226,21 @@ ManterCampo.prototype = {
    },
 
    /**
-	 * Abre popup para gerenciar os valores pré-definidos do campo.
+	 * Abre div para editar valores pré-definidos do campo.
 	 */
-   gerenciarPreDefinidos : function() {
-	   if (this.janelaValoresPreDefinidos == null) {
-		   var url = "manterCampo.do?method=popupGerenciarPreDefinidos&workflow=" + $F("workflowCampo");
-		   this.janelaValoresPreDefinidos = createWindow(255, 445, 280, 295, "Valores Pré-Definidos",
-		      "divValoresPreDefinidos", url);
-		   this.janelaValoresPreDefinidos.undoModal();
+   gerenciarPreDefinidos: function(){
+	   var campo = $F("tipoNovoCampo");
+	   if(campo == 3 || campo == 4){
+		   $("fieldCampo").morph("height: 345px;");
+		   $($("divNovoCampo").parentNode).morph("height: 435px;");
+		   var fechado = $("divOpcoes").style.display == "none";
+		   if(fechado){
+			   Effect.BlindDown("divOpcoes");
+		   }
 	   } else {
-		   this.janelaValoresPreDefinidos.fecharJanela();
-		   this.janelaValoresPreDefinidos = null;
+		   $("fieldCampo").morph("height: 160px;");
+		   $($("divNovoCampo").parentNode).morph("height: 255px;");
+		   Effect.BlindUp("divOpcoes");
 	   }
    }
 };

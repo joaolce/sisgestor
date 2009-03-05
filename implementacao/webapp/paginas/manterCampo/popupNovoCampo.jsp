@@ -2,7 +2,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 
 <html:form action="/manterCampo.do?method=salvar" onsubmit="campo.salvar(this); return false;" styleId="manterCampoForm">
-	<fieldset style="margin: 5pt auto; padding: 10px;">
+	<fieldset id="fieldCampo" style="margin: 5pt auto; padding: 10px;">
 		<html:hidden property="workflow" styleId="workflowNovoCampo" />
 		<div style="float: left;">
 			<label style="float: left; margin-top: 15px;">
@@ -24,6 +24,8 @@
 					<html:optionsCollection name="manterCampoForm" property="tipos" label="descricao" value="id" />
 				</html:select>
 			</label>
+		</div>
+		<div id="divOpcoes" style="float:left; display: none; width: 400px; height: 170px; margin-top: 10px;" class="bordas">
 		</div>
 		<div style="float: left;">
 			<label style="float: left; margin-top: 15px;">
