@@ -2,7 +2,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 
 <html:form action="/manterCampo.do?method=salvar" onsubmit="campo.salvar(this); return false;" styleId="manterCampoForm">
-	<fieldset id="fieldCampo" style="margin: 5pt auto; padding: 10px;">
+	<fieldset style="margin: 5pt auto; padding: 10px;">
 		<html:hidden property="workflow" styleId="workflowNovoCampo" />
 		<div style="float: left;">
 			<label style="float: left; margin-top: 15px;">
@@ -19,13 +19,40 @@
 					<span class="obrigatorio">*</span>
 				</b>
 				<br />
-				<html:select property="tipo" styleId="tipoNovoCampo" onchange="campo.gerenciarPreDefinidos();">
+				<html:select property="tipo" styleId="tipoNovoCampo" onchange="campo.gerenciarPreDefinidos(true);">
 					<html:option value="" />
 					<html:optionsCollection name="manterCampoForm" property="tipos" label="descricao" value="id" />
 				</html:select>
 			</label>
 		</div>
-		<div id="divOpcoes" style="float:left; display: none; width: 400px; height: 170px; margin-top: 10px;" class="bordas">
+		<div id="divOpcoesNovoCampo" style="float:left; display: none; width: 380px; margin-top: 10px; padding: 10px;" class="bordas">
+			<div style="float: left; margin-left: 10px;">
+				<label>
+					<b><bean:message key="label.opcao" /></b>
+					<br />
+					<input type="text" size="21" maxlength="20" />
+				</label>
+				<br /> <br />
+				<html:button property="adicionarOpcao" titleKey="dica.campo.adicionarOpcao" styleClass="botaoOkCancelar">
+					<bean:message key="botao.adicionar"/>
+				</html:button>
+				<br /> <br />
+				<html:button property="removerOpcao" titleKey="dica.campo.removerOpcao" styleClass="botaoOkCancelar">
+					<bean:message key="botao.remover"/>
+				</html:button>
+			</div>
+			<div style="float: left; margin-left: 30px;">
+				<label>
+					<b>
+						<bean:message key="label.opcoes" />
+						<span class="obrigatorio">*</span>
+					</b>
+					<br />
+					<select size="8" style="width: 165px;">
+						<option>12345678901234567890</option>
+					</select>
+				</label>
+			</div>
 		</div>
 		<div style="float: left;">
 			<label style="float: left; margin-top: 15px;">

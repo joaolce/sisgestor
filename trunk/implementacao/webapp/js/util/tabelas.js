@@ -716,6 +716,7 @@ Tabela.prototype = {
 	   }
 	   return true;
    },
+
    /**
 	 * habilitar a seleção do elemento usada internamente para não permitir que o usuário selecione
 	 * um texto da tabela
@@ -724,6 +725,16 @@ Tabela.prototype = {
 	 */
    _disable : function() {
 	   return true;
+   },
+
+   /**
+	 * Recupera o elemento tabela.
+	 *
+	 * @return o elemento tabela associado com o wrapper
+	 * @type HTMLTableSectionElement
+	 */
+   getTabela : function() {
+	   return this._tabela;
    }
 };
 

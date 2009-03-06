@@ -83,7 +83,8 @@ ManterCampo.prototype = {
 	      idWorkflow :dwr.util.getValue("workflow")
 	   };
 
-	   if (this.tabelaTelaPrincipal == null) {
+	   if ((this.tabelaTelaPrincipal == null)
+	      || (this.tabelaTelaPrincipal.getTabela() != this.getTBodyTelaPrincipal())) {
 		   var chamadaRemota = ManterCampoDWR.pesquisar.bind(ManterCampoDWR);
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
 		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
@@ -227,21 +228,32 @@ ManterCampo.prototype = {
 
    /**
 	 * Abre div para editar valores pré-definidos do campo.
+	 * 
+	 * @param {Boolean} novo se é novo campo
 	 */
-   gerenciarPreDefinidos: function(){
-	   var campo = $F("tipoNovoCampo");
-	   if(campo == 3 || campo == 4){
-		   $("fieldCampo").morph("height: 345px;");
-		   $($("divNovoCampo").parentNode).morph("height: 435px;");
-		   var fechado = $("divOpcoes").style.display == "none";
-		   if(fechado){
-			   Effect.BlindDown("divOpcoes");
+   gerenciarPreDefinidos : function(novo) {
+	   if (this.ehCampoComOpcoes(novo)) {
+		   $($("divNovoCampo").parentNode).morph("height: 400px;");
+		   if (!$("divOpcoesNovoCampo").visible()) {
+			   Effect.BlindDown("divOpcoesNovoCampo");
 		   }
 	   } else {
-		   $("fieldCampo").morph("height: 160px;");
+		   if ($("divOpcoesNovoCampo").visible()) {
+			   Effect.BlindUp("divOpcoesNovoCampo");
+		   }
 		   $($("divNovoCampo").parentNode).morph("height: 255px;");
-		   Effect.BlindUp("divOpcoes");
 	   }
+   },
+
+   /**
+	 * Verifica se o tipo de campo atual possui opções.
+	 * 
+	 * @param {Boolean} novo se é novo campo
+	 * @return {Boolean} <code>true</code> caso possua, <code>false</code> caso contrário
+	 */
+   ehCampoComOpcoes : function(novo) {
+	   var tipo = $F(novo ? "tipoNovoCampo" : "tipoCampo");
+	   return ((tipo == LISTA_DE_OPCOES) || (tipo == MULTIPLA_ESCOLHA));
    }
 };
 
