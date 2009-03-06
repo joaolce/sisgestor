@@ -32,7 +32,7 @@ ManterProcesso.prototype = {
 	 * @return linha selecionada
 	 */
    getTR : function() {
-	   return FactoryTabelas.getTabelaById(processo.getTBodyTelaPrincipal()).getSelectedTR();
+	   return FactoryTabelas.getTabelaById(this.getTBodyTelaPrincipal()).getSelectedTR();
    },
 
    /**
@@ -41,7 +41,7 @@ ManterProcesso.prototype = {
 	 * @return id do processo selecionado
 	 */
    getIdSelecionado : function() {
-	   return processo.getTR().select("input[type=\"hidden\"]")[0].value;
+	   return this.getTR().select("input[type=\"hidden\"]")[0].value;
    },
 
    /**
@@ -49,7 +49,7 @@ ManterProcesso.prototype = {
 	 */
    visualizar : function() {
 	   Element.hide("formAtualizarProcesso");
-	   var idProcesso = processo.getIdSelecionado();
+	   var idProcesso = this.getIdSelecionado();
 	   if (isNaN(idProcesso)) {
 		   return;
 	   }
@@ -68,14 +68,15 @@ ManterProcesso.prototype = {
 	 */
    pesquisar : function() {
 	   Effect.Fade("formAtualizarProcesso");
-	   processo.habilitarLinks(false);
+	   this.habilitarLinks(false);
 	   var dto = {
 	      nome :dwr.util.getValue("nomePesquisaProcesso"),
 	      descricao :dwr.util.getValue("descricaoPesquisaProcesso"),
 	      idWorkflow :dwr.util.getValue("workflow")
 	   };
 
-	   if (this.tabelaTelaPrincipal == null) {
+	   if ((this.tabelaTelaPrincipal == null)
+	      || (this.tabelaTelaPrincipal.getTabela() != this.getTBodyTelaPrincipal())) {
 		   var chamadaRemota = ManterProcessoDWR.pesquisar.bind(ManterProcessoDWR);
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
 		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
@@ -124,7 +125,7 @@ ManterProcesso.prototype = {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o processo selecionado?", ( function() {
 		   requestUtils.submitForm(form, ( function() {
 			   if (requestUtils.status) {
-				   processo.pesquisar();
+				   this.pesquisar();
 			   }
 		   }).bind(this));
 	   }).bind(this));

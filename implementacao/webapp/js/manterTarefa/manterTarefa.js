@@ -63,12 +63,12 @@ ManterTarefa.prototype = {
 		   dwr.util.setValue($("formAtualizarTarefa").id, idTarefa);
 		   dwr.util.setValue("nomeTarefa", tarefa.nome);
 		   dwr.util.setValue("descricaoTarefa", tarefa.descricao);
-		   if(tarefa.usuario == null ){
+		   if (tarefa.usuario == null) {
 			   dwr.util.setValue("usuario", "");
-		   }else{
-			   dwr.util.setValue("usuario", tarefa.usuario.id); 
+		   } else {
+			   dwr.util.setValue("usuario", tarefa.usuario.id);
 		   }
-		   
+
 		   this.contaChar(false);
 	   }).bind(this));
    },
@@ -85,7 +85,8 @@ ManterTarefa.prototype = {
 	      idAtividade :dwr.util.getValue("atividade")
 	   };
 
-	   if (this.tabelaTelaPrincipal == null) {
+	   if ((this.tabelaTelaPrincipal == null)
+	      || (this.tabelaTelaPrincipal.getTabela() != this.getTBodyTelaPrincipal())) {
 		   var chamadaRemota = ManterTarefaDWR.pesquisar.bind(ManterTarefaDWR);
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
 		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
@@ -119,7 +120,7 @@ ManterTarefa.prototype = {
 			   return tarefa.descricao;
 		   });
 		   cellfuncs.push( function(tarefa) {
-			   if(tarefa.usuario == null){
+			   if (tarefa.usuario == null) {
 				   return "";
 			   }
 			   return tarefa.usuario.nome;
@@ -155,10 +156,10 @@ ManterTarefa.prototype = {
 	   JanelasComuns.showConfirmDialog("Deseja excluir a tarefa selecionada?", ( function() {
 		   var idTarefa = dwr.util.getValue($("formAtualizarTarefa").id);
 		   requestUtils.simpleRequest("manterTarefa.do?method=excluir&id=" + idTarefa, ( function() {
-			      if (requestUtils.status) {
-				      this.pesquisar();
-			      }
-		      }).bind(this));
+			   if (requestUtils.status) {
+				   this.pesquisar();
+			   }
+		   }).bind(this));
 	   }).bind(this));
    },
 
@@ -167,12 +168,12 @@ ManterTarefa.prototype = {
 	 */
    popupNovaTarefa : function() {
 	   var idAtividade = dwr.util.getValue($("formAtualizarAtividade").id);
-	   var url = "manterTarefa.do?method=popupNovaTarefa&atividade="+idAtividade;
-	   createWindow(285, 375, 280, 40, "Nova Tarefa", "divNovaTarefa", url, (function(){
+	   var url = "manterTarefa.do?method=popupNovaTarefa&atividade=" + idAtividade;
+	   createWindow(285, 375, 280, 40, "Nova Tarefa", "divNovaTarefa", url, ( function() {
 		   dwr.util.setValue("atividadeNovaTarefa", $F("atividadeTarefa"));
 	   }));
    },
-   
+
    /**
 	 * Envia ao action a ação de salvar os dados da tarefa.
 	 * 
@@ -186,17 +187,17 @@ ManterTarefa.prototype = {
 		   }
 	   }).bind(this));
    },
-   
+
    /**
-    * Limita a quantidade de caracteres do campo descrição.
-    */
-   contaChar: function(novo) {
-	   if(novo) {
+	 * Limita a quantidade de caracteres do campo descrição.
+	 */
+   contaChar : function(novo) {
+	   if (novo) {
 		   contaChar($("descricaoNovo"), 200, "contagemNovo");
 	   } else {
 		   contaChar($("descricaoTarefa"), 200, "contagemTarefa");
 	   }
-	}
+   }
 };
 
 var tarefa = new ManterTarefa();

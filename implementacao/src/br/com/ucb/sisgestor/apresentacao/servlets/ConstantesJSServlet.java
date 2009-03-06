@@ -1,5 +1,6 @@
 package br.com.ucb.sisgestor.apresentacao.servlets;
 
+import br.com.ucb.sisgestor.entidade.TipoCampoEnum;
 import br.com.ucb.sisgestor.persistencia.AtividadeDAO;
 import br.com.ucb.sisgestor.persistencia.BaseDAO;
 import br.com.ucb.sisgestor.persistencia.CampoDAO;
@@ -37,6 +38,8 @@ public class ConstantesJSServlet extends HttpServlet {
 		constantes.put("QTD_REGISTROS_PAGINA_PROCESSO", ProcessoDAO.QTD_REGISTROS_PAGINA);
 		constantes.put("QTD_REGISTROS_PAGINA_ATIVIDADE", AtividadeDAO.QTD_REGISTROS_PAGINA);
 		constantes.put("QTD_REGISTROS_PAGINA_TAREFA", TarefaDAO.QTD_REGISTROS_PAGINA);
+		constantes.put("LISTA_DE_OPCOES", TipoCampoEnum.LISTA_DE_OPCOES.getId());
+		constantes.put("MULTIPLA_ESCOLHA", TipoCampoEnum.MULTIPLA_ESCOLHA.getId());
 	}
 
 	/**

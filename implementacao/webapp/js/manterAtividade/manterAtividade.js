@@ -32,7 +32,7 @@ ManterAtividade.prototype = {
 	 * @return linha selecionada
 	 */
    getTR : function() {
-	   return FactoryTabelas.getTabelaById(atividade.getTBodyTelaPrincipal()).getSelectedTR();
+	   return FactoryTabelas.getTabelaById(this.getTBodyTelaPrincipal()).getSelectedTR();
    },
 
    /**
@@ -41,7 +41,7 @@ ManterAtividade.prototype = {
 	 * @return id da atividade selecionada
 	 */
    getIdSelecionado : function() {
-	   return atividade.getTR().select("input[type=\"hidden\"]")[0].value;
+	   return this.getTR().select("input[type=\"hidden\"]")[0].value;
    },
 
    /**
@@ -49,7 +49,7 @@ ManterAtividade.prototype = {
 	 */
    visualizar : function() {
 	   Element.hide("formAtualizarAtividade");
-	   var idAtividade = atividade.getIdSelecionado();
+	   var idAtividade = this.getIdSelecionado();
 	   if (isNaN(idAtividade)) {
 		   return;
 	   }
@@ -76,7 +76,8 @@ ManterAtividade.prototype = {
 	      idProcesso :dwr.util.getValue("processo")
 	   };
 
-	   if (this.tabelaTelaPrincipal == null) {
+	   if ((this.tabelaTelaPrincipal == null)
+	      || (this.tabelaTelaPrincipal.getTabela() != this.getTBodyTelaPrincipal())) {
 		   var chamadaRemota = ManterAtividadeDWR.pesquisar.bind(ManterAtividadeDWR);
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
 		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
@@ -183,7 +184,7 @@ ManterAtividade.prototype = {
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
 			   JanelaFactory.fecharJanela("divNovaAtividade");
-			   atividade.pesquisar();
+			   this.pesquisar();
 		   }
 	   }).bind(this));
    },

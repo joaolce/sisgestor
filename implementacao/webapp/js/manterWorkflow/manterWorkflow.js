@@ -39,7 +39,7 @@ ManterWorkflow.prototype = {
 	 * @return linha selecionada
 	 */
    getTR : function() {
-	   return FactoryTabelas.getTabelaById(workflow.getTBodyTelaPrincipal()).getSelectedTR();
+	   return FactoryTabelas.getTabelaById(this.getTBodyTelaPrincipal()).getSelectedTR();
    },
 
    /**
@@ -48,7 +48,7 @@ ManterWorkflow.prototype = {
 	 * @return id do workflow selecionado
 	 */
    getIdSelecionado : function() {
-	   return workflow.getTR().select("input[type=\"hidden\"]")[0].value;
+	   return this.getTR().select("input[type=\"hidden\"]")[0].value;
    },
 
    /**
@@ -76,7 +76,7 @@ ManterWorkflow.prototype = {
 	 */
    pesquisar : function() {
 	   Effect.Fade("formAtualizarWorkflow");
-	   workflow.habilitarLinks(false);
+	   this.habilitarLinks(false);
 	   var dto = {
 	      nome :dwr.util.getValue("nomePesquisaWorkflow"),
 	      descricao :dwr.util.getValue("descricaoPesquisaWorkflow"),
@@ -99,7 +99,7 @@ ManterWorkflow.prototype = {
 	 * @param listaWorkflow lista de workflows retornados
 	 */
    popularTabela : function(listaWorkflow) {
-	   workflow.tabelaTelaPrincipal.removerResultado();
+   	this.tabelaTelaPrincipal.removerResultado();
 
 	   if (listaWorkflow.length != 0) {
 		   var cellfuncs = new Array();
@@ -138,7 +138,7 @@ ManterWorkflow.prototype = {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o workflow selecionado?", ( function() {
 		   requestUtils.submitForm(form, ( function() {
 			   if (requestUtils.status) {
-				   workflow.pesquisar();
+			   	this.pesquisar();
 			   }
 		   }).bind(this));
 	   }).bind(this));
