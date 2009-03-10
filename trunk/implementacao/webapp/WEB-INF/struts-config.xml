@@ -115,7 +115,6 @@
 			parameter="method">
 			<forward name="entrada" path="definicaoManterCampo" />
 			<forward name="popupNovoCampo" path="popupNovoCampo" />
-			<forward name="popupGerenciarPreDefinidos" path="popupGerenciarPreDefinidos" />
 		</action>
 	</action-mappings>
 

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -49,8 +50,8 @@ public class Workflow extends BaseWorkflow {
 	 * 
 	 * @return campos do workflow
 	 */
-	@OneToMany(targetEntity = Campo.class, mappedBy = "workflow")
-	@Cascade(CascadeType.DELETE_ORPHAN)
+	@OneToMany(targetEntity = Campo.class, mappedBy = "workflow", fetch = FetchType.LAZY)
+	@Cascade( {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	public List<Campo> getCampos() {
 		return this.campos;
 	}
@@ -70,8 +71,8 @@ public class Workflow extends BaseWorkflow {
 	 * 
 	 * @return processos do workflow
 	 */
-	@OneToMany(targetEntity = Processo.class, mappedBy = "workflow")
-	@Cascade(CascadeType.DELETE_ORPHAN)
+	@OneToMany(targetEntity = Processo.class, mappedBy = "workflow", fetch = FetchType.LAZY)
+	@Cascade( {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	public List<Processo> getProcessos() {
 		return this.processos;
 	}

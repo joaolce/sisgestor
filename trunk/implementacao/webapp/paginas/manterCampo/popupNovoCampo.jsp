@@ -30,14 +30,14 @@
 				<label>
 					<b><bean:message key="label.opcao" /></b>
 					<br />
-					<input type="text" size="21" maxlength="20" />
+					<input type="text" name="opcao" id="opcaoNovoCampo" size="21" maxlength="20" />
 				</label>
 				<br /> <br />
-				<html:button property="adicionarOpcao" titleKey="dica.campo.adicionarOpcao" styleClass="botaoOkCancelar">
+				<html:button property="adicionarOpcao" titleKey="dica.campo.adicionarOpcao" onclick="campo.adicionaOpcao(true);" styleClass="botaoOkCancelar">
 					<bean:message key="botao.adicionar"/>
 				</html:button>
 				<br /> <br />
-				<html:button property="removerOpcao" titleKey="dica.campo.removerOpcao" styleClass="botaoOkCancelar">
+				<html:button property="removerOpcao" titleKey="dica.campo.removerOpcao" onclick="campo.removeOpcao(true);" styleClass="botaoOkCancelar">
 					<bean:message key="botao.remover"/>
 				</html:button>
 			</div>
@@ -48,8 +48,7 @@
 						<span class="obrigatorio">*</span>
 					</b>
 					<br />
-					<select size="8" style="width: 165px;">
-						<option>12345678901234567890</option>
+					<select name="opcoes" id="opcoesNovoCampo" size="8" style="width: 165px;">
 					</select>
 				</label>
 			</div>

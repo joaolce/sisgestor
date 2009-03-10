@@ -15,10 +15,10 @@ import br.com.ucb.sisgestor.util.DataUtil;
 public final class Constantes {
 
 	/** Versão atual do sistema. */
-	public static final String	VERSAO		= "0.2";
+	public static final String	VERSAO		= "0.2.1";
 
 	/** Data da versão atual do sistema. */
-	public static final String	VERSAO_DATA	= DataUtil.utilDateToString(DataUtil.getDate(21, 1, 2009));
+	public static final String	VERSAO_DATA	= DataUtil.utilDateToString(DataUtil.getDate(7, 3, 2009));
 	
 	/** Assunto do e-mail enviado no lembrete de senha */
 	public static final String LEMBRETE_EMAIL_ASSUNTO = "SisGestor - Lembrete de senha";

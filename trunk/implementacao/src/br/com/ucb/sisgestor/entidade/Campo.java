@@ -9,6 +9,7 @@ import br.com.ucb.sisgestor.util.hibernate.HibernateUserTypeConstants;
 import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -72,8 +73,8 @@ public class Campo extends ObjetoPersistente {
 	 * 
 	 * @return opções do campo
 	 */
-	@OneToMany(targetEntity = OpcaoCampo.class, mappedBy = "campo")
-	@Cascade(CascadeType.DELETE_ORPHAN)
+	@OneToMany(targetEntity = OpcaoCampo.class, mappedBy = "campo", fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
 	public List<OpcaoCampo> getOpcoes() {
 		return this.opcoes;
 	}

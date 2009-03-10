@@ -8,6 +8,7 @@ import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -119,7 +120,7 @@ public class Usuario extends ObjetoPersistente {
 	 * 
 	 * @return tarefas que são do usuário
 	 */
-	@OneToMany(targetEntity = Tarefa.class, mappedBy = "usuario")
+	@OneToMany(targetEntity = Tarefa.class, mappedBy = "usuario", fetch = FetchType.LAZY)
 	public List<Tarefa> getTarefas() {
 		return this.tarefas;
 	}

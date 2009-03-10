@@ -64,6 +64,7 @@ ManterCampo.prototype = {
 	   }
 	   ManterCampoDWR.getById(idCampo, ( function(campo) {
 		   Effect.Appear("formAtualizarCampo");
+		   dwr.util.setValue($("formAtualizarCampo").id, idCampo);
 		   dwr.util.setValue("nomeCampo", campo.nome);
 		   dwr.util.setValue("tipoCampo", this.getTipoCampo(campo)[0]);
 		   dwr.util.setValue("descricaoCampo", campo.descricao);
@@ -177,6 +178,7 @@ ManterCampo.prototype = {
 	 * @param form formulário submetido
 	 */
    salvar : function(form) {
+	   ComboFunctions.selecionaCombo("opcoesNovoCampo");
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
 			   JanelaFactory.fecharJanela("divNovoCampo");
@@ -233,15 +235,16 @@ ManterCampo.prototype = {
 	 */
    gerenciarPreDefinidos : function(novo) {
 	   if (this.ehCampoComOpcoes(novo)) {
-		   $($("divNovoCampo").parentNode).morph("height: 400px;");
 		   if (!$("divOpcoesNovoCampo").visible()) {
+			   $($("divNovoCampo").parentNode).morph("height: 400px;");
 			   Effect.BlindDown("divOpcoesNovoCampo");
 		   }
 	   } else {
 		   if ($("divOpcoesNovoCampo").visible()) {
 			   Effect.BlindUp("divOpcoesNovoCampo");
+			   dwr.util.removeAllOptions("opcoesNovoCampo");
+			   $($("divNovoCampo").parentNode).morph("height: 255px;");
 		   }
-		   $($("divNovoCampo").parentNode).morph("height: 255px;");
 	   }
    },
 
@@ -254,6 +257,29 @@ ManterCampo.prototype = {
    ehCampoComOpcoes : function(novo) {
 	   var tipo = $F(novo ? "tipoNovoCampo" : "tipoCampo");
 	   return ((tipo == LISTA_DE_OPCOES) || (tipo == MULTIPLA_ESCOLHA));
+   },
+
+   /**
+	 * Remove uma opção do campo.
+	 * 
+	 * @param {Boolean} novo se é novo campo
+	 */
+   removeOpcao : function(novo) {
+	   ComboFunctions.removeOption(novo ? "opcoesNovoCampo" : "opcoesCampo");
+   },
+
+   /**
+	 * Adiciona uma opção a lista de opções do campo
+	 * 
+	 * @param {Boolean} novo se é novo campo
+	 */
+   adicionaOpcao : function(novo) {
+	   var novaOpcao = novo ? "opcaoNovoCampo" : "opcaoCampo";
+	   var comboOpcoes = novo ? "opcoesNovoCampo" : "opcoesCampo";
+
+	   dwr.util.addOptions(comboOpcoes, [ dwr.util.getValue(novaOpcao) ]);
+	   ComboFunctions.ordenarOptions(comboOpcoes);
+	   $(novaOpcao).clear();
    }
 };
 
