@@ -54,7 +54,7 @@
 	<!-- FIELDSET PARA DADOS DO CAMPO -->
 	<html:form action="/manterCampo.do?method=atualizar" onsubmit="campo.atualizar(this); return false;" styleId="formAtualizarCampo" style="display: none; margin-top: 10px;">
 		<html:hidden property="workflow" styleId="workflowCampo" />
-		<html:hidden property="id"/>
+		<html:hidden property="id" styleId="idCampo" />
 		<fieldset style="padding: 10px; width: 70%; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.campo"/>

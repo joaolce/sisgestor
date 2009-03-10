@@ -59,6 +59,5 @@
 	<!--  MANTER CAMPO -->
 	<definition name="definicaoManterCampo" path="/paginas/manterCampo/manterCampo.jsp" />
 	<definition name="popupNovoCampo" path="/paginas/manterCampo/popupNovoCampo.jsp" />
-	<definition name="popupGerenciarPreDefinidos" path="/paginas/manterCampo/popupGerenciarPreDefinidos.jsp" />
 	
 </tiles-definitions>

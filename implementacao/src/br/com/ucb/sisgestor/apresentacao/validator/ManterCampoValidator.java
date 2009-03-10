@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.apresentacao.validator;
 
 import br.com.ucb.sisgestor.apresentacao.actions.ManterCampoAction;
+import br.com.ucb.sisgestor.entidade.TipoCampoEnum;
 import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 
 /**
@@ -29,7 +30,14 @@ public class ManterCampoValidator extends BaseValidator {
 		if (this.validaRequerido("label.nome", "nome")) {
 			this.validaTamanhoMaximo("label.nome", "nome", ConstantesDB.NOME);
 		}
-		this.validaRequerido("label.tipo", "tipo");
+		if (this.validaRequerido("label.tipo", "tipo")) {
+			int tipo = (Integer) this.getFormValue("tipo");
+			if ((tipo == TipoCampoEnum.LISTA_DE_OPCOES.getId())
+					|| (tipo == TipoCampoEnum.MULTIPLA_ESCOLHA.getId())) {
+				//tipo deve possuir valores pré-definidos
+				this.validaRequerido("label.opcoes", "opcoes");
+			}
+		}
 		this.validaRequerido("label.obrigatorio", "obrigatorio");
 	}
 }

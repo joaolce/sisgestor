@@ -8,6 +8,7 @@ import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -39,7 +40,7 @@ public class Departamento extends ObjetoPersistente {
 	 * 
 	 * @return atividades
 	 */
-	@OneToMany(targetEntity = Atividade.class, mappedBy = "departamento")
+	@OneToMany(targetEntity = Atividade.class, mappedBy = "departamento", fetch = FetchType.LAZY)
 	public List<Atividade> getAtividades() {
 		return this.atividades;
 	}
@@ -49,7 +50,7 @@ public class Departamento extends ObjetoPersistente {
 	 * 
 	 * @return departamentos filhos diretos do departamento
 	 */
-	@OneToMany(targetEntity = Departamento.class, mappedBy = "departamentoSuperior")
+	@OneToMany(targetEntity = Departamento.class, mappedBy = "departamentoSuperior", fetch = FetchType.LAZY)
 	public List<Departamento> getDepartamentosFilhos() {
 		return this.departamentosFilhos;
 	}
@@ -102,7 +103,7 @@ public class Departamento extends ObjetoPersistente {
 	 * 
 	 * @return usuários do departamento
 	 */
-	@OneToMany(targetEntity = Usuario.class, mappedBy = "departamento")
+	@OneToMany(targetEntity = Usuario.class, mappedBy = "departamento", fetch = FetchType.LAZY)
 	public List<Usuario> getUsuarios() {
 		return this.usuarios;
 	}

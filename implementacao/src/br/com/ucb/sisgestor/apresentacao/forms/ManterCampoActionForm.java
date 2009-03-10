@@ -21,6 +21,7 @@ public class ManterCampoActionForm extends BaseForm {
 	private Integer					tipo;
 	private Boolean					obrigatorio;
 	private Integer					workflow;
+	private String[]					opcoes;
 	private List<TipoCampoEnum>	tipos;
 
 	/**
@@ -48,6 +49,15 @@ public class ManterCampoActionForm extends BaseForm {
 	 */
 	public Boolean getObrigatorio() {
 		return this.obrigatorio;
+	}
+
+	/**
+	 * Recupera as opções pré-definidas.
+	 * 
+	 * @return opções pré-definidas
+	 */
+	public String[] getOpcoes() {
+		return this.opcoes;
 	}
 
 	/**
@@ -102,6 +112,15 @@ public class ManterCampoActionForm extends BaseForm {
 	 */
 	public void setObrigatorio(Boolean obrigatorio) {
 		this.obrigatorio = obrigatorio;
+	}
+
+	/**
+	 * Atribui as opções pré-definidas.
+	 * 
+	 * @param opcoes opções pré-definidas
+	 */
+	public void setOpcoes(String[] opcoes) {
+		this.opcoes = opcoes;
 	}
 
 	/**

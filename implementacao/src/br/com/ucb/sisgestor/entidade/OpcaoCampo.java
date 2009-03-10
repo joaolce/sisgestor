@@ -33,7 +33,7 @@ public class OpcaoCampo extends ObjetoPersistente {
 	 * @return campo da opção
 	 */
 	@ManyToOne
-	@JoinColumn(name = "CAM_ID", nullable = true)
+	@JoinColumn(name = "CAM_ID", nullable = false)
 	@ForeignKey(name = "IR_CAM_OPC")
 	public Campo getCampo() {
 		return this.campo;

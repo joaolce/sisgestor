@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -53,8 +54,8 @@ public class Tarefa extends BaseWorkflow {
 	 * 
 	 * @return transações anteriores diretas da tarefa
 	 */
-	@OneToMany(targetEntity = TransacaoTarefa.class, mappedBy = "posterior")
-	@Cascade(CascadeType.DELETE_ORPHAN)
+	@OneToMany(targetEntity = TransacaoTarefa.class, mappedBy = "posterior", fetch = FetchType.LAZY)
+	@Cascade( {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	public List<TransacaoTarefa> getTransacoesAnteriores() {
 		return this.transacoesAnteriores;
 	}
@@ -64,8 +65,8 @@ public class Tarefa extends BaseWorkflow {
 	 * 
 	 * @return transações posteriores diretas da tarefa
 	 */
-	@OneToMany(targetEntity = TransacaoTarefa.class, mappedBy = "anterior")
-	@Cascade(CascadeType.DELETE_ORPHAN)
+	@OneToMany(targetEntity = TransacaoTarefa.class, mappedBy = "anterior", fetch = FetchType.LAZY)
+	@Cascade( {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	public List<TransacaoTarefa> getTransacoesPosteriores() {
 		return this.transacoesPosteriores;
 	}

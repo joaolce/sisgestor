@@ -938,7 +938,7 @@ function getDataAtual() {
  * @return {String} data no formato dd/MM/yyyy
  */
 function getStringDate(data) {
-	if (!data instanceof Date || (data == undefined)) {
+	if (!(data instanceof Date) || (data == undefined)) {
 		return null;
 	}
 	return formatDate(data, "dd/MM/yyyy");

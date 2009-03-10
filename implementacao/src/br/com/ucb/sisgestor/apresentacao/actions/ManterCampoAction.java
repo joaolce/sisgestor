@@ -6,9 +6,12 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 
 import br.com.ucb.sisgestor.apresentacao.forms.ManterCampoActionForm;
 import br.com.ucb.sisgestor.entidade.Campo;
+import br.com.ucb.sisgestor.entidade.OpcaoCampo;
 import br.com.ucb.sisgestor.entidade.TipoCampoEnum;
 import br.com.ucb.sisgestor.negocio.CampoBO;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -42,6 +45,7 @@ public class ManterCampoAction extends BaseAction {
 
 		Campo campo = this.campoBO.obter(form.getId());
 		this.copyProperties(campo, form);
+		campo.setOpcoes(this.getOpcoes(campo, form.getOpcoes()));
 
 		this.campoBO.atualizar(campo);
 
@@ -85,21 +89,6 @@ public class ManterCampoAction extends BaseAction {
 	}
 
 	/**
-	 * Abre o popup para gerenciar os valores pré-definidos do campo.
-	 * 
-	 * @param mapping objeto mapping da action
-	 * @param formulario objeto form da action
-	 * @param request request atual
-	 * @param response response atual
-	 * @return forward do popup
-	 * @throws Exception caso exceção seja lançada
-	 */
-	public ActionForward popupGerenciarPreDefinidos(ActionMapping mapping, ActionForm formulario,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return this.findForward("popupGerenciarPreDefinidos");
-	}
-
-	/**
 	 * Abre o popup para incluir um novo campo.
 	 * 
 	 * @param mapping objeto mapping da action
@@ -134,6 +123,7 @@ public class ManterCampoAction extends BaseAction {
 
 		Campo campo = new Campo();
 		this.copyProperties(campo, form);
+		campo.setOpcoes(this.getOpcoes(campo, form.getOpcoes()));
 
 		this.campoBO.salvar(campo);
 
@@ -149,5 +139,28 @@ public class ManterCampoAction extends BaseAction {
 	@Autowired
 	public void setCampoBO(CampoBO campoBO) {
 		this.campoBO = campoBO;
+	}
+
+	/**
+	 * Recupera um {@link List} de {@link OpcaoCampo} a partir da descrição das opções.
+	 * 
+	 * @param opcoesForm descrições das opções
+	 * @return {@link List} de {@link OpcaoCampo}
+	 */
+	private List<OpcaoCampo> getOpcoes(Campo campo, String[] opcoesForm) {
+		List<OpcaoCampo> opcoes = null;
+
+		if (opcoesForm != null) {
+			opcoes = new ArrayList<OpcaoCampo>();
+			OpcaoCampo opcao;
+			for (int valorCampo = 0; valorCampo < opcoesForm.length; valorCampo++) {
+				opcao = new OpcaoCampo();
+				opcao.setValor(valorCampo);
+				opcao.setDescricao(opcoesForm[valorCampo]);
+				opcao.setCampo(campo);
+				opcoes.add(opcao);
+			}
+		}
+		return opcoes;
 	}
 }
