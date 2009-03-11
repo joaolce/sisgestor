@@ -150,7 +150,8 @@ public class ManterCampoAction extends BaseAction {
 	private List<OpcaoCampo> getOpcoes(Campo campo, String[] opcoesForm) {
 		List<OpcaoCampo> opcoes = null;
 
-		if (opcoesForm != null) {
+		if ((opcoesForm != null) && (campo.getTipo() != TipoCampoEnum.LISTA_DE_OPCOES)
+				&& (campo.getTipo() != TipoCampoEnum.MULTIPLA_ESCOLHA)) {
 			opcoes = new ArrayList<OpcaoCampo>();
 			OpcaoCampo opcao;
 			for (int valorCampo = 0; valorCampo < opcoesForm.length; valorCampo++) {

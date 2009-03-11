@@ -11,6 +11,7 @@ import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaCampoDTO;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -30,7 +31,9 @@ public class ManterCampoDWR extends BaseDWR {
 	 * @return campo encontrado
 	 */
 	public Campo getById(Integer id) {
-		return this.campoBO.obter(id);
+		Campo campo = this.campoBO.obter(id);
+		Hibernate.initialize(campo.getOpcoes());
+		return campo;
 	}
 
 	/**
