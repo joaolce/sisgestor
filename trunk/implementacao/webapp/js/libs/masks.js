@@ -1,5 +1,5 @@
 function _MaskAPI(){
-	this.version = "0.4a";
+	this.version = "0.4b";
 	this.instances = 0;
 	this.objects = {};
 }
@@ -252,7 +252,7 @@ Mask.prototype.setDate = function (_v){
 	// if year is abbreviated, guess at the year
 	if( String(yy).length < 3 ){
 		yy = 2000 + yy;
-		if( (new Date()).getFullYear()+20 < yy ) yy = yy - 100;
+		if( (new Date()).getFullYear()+5 < yy ) yy = yy - 100;
 	}
 
 	// create date object
@@ -375,8 +375,9 @@ Mask.prototype.setDateKeyPress = function (_v, _d){
 
 function qEvent(e){
 	// routine for NS, Opera, etc DOM browsers
-	if( window.navigator.appName == "Netscape" ){
+	if( window.Event ){
 		var isKeyPress = (e.type.substring(0,3) == "key");
+
 		this.keyCode = (isKeyPress) ? parseInt(e.which, 10) : 0;
 		this.button = (!isKeyPress) ? parseInt(e.which, 10) : 0;
 		this.srcElement = e.target;

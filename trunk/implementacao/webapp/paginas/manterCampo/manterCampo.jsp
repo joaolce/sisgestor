@@ -55,7 +55,7 @@
 	<html:form action="/manterCampo.do?method=atualizar" onsubmit="campo.atualizar(this); return false;" styleId="formAtualizarCampo" style="display: none; margin-top: 10px;">
 		<html:hidden property="workflow" styleId="workflowCampo" />
 		<html:hidden property="id" styleId="idCampo" />
-		<fieldset style="padding: 10px; width: 70%; margin: 5 auto;">
+		<fieldset id="fieldsetCampo" style="padding: 10px; width: 70%; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.campo"/>
 			</legend>
@@ -73,7 +73,7 @@
 							<bean:message key="label.tipo" />
 							<span class="obrigatorio">*</span>
 						</b>
-						<html:select property="tipo" styleId="tipoCampo">
+						<html:select property="tipo" styleId="tipoCampo" onchange="campo.gerenciarPreDefinidos(false);">
 							<html:option value="" />
 							<html:optionsCollection name="manterCampoForm" property="tipos" label="descricao" value="id" />
 						</html:select>
@@ -99,6 +99,33 @@
 						<bean:message key="label.maximoCaracteres" arg0="200"/>:
 						<span id="contagemCampo" style="color: red;"></span>
 					</label>
+				</div>
+				<div id="divOpcoesCampo" style="float:left; display: none; margin-left: 10px; margin-top: 10px; padding: 7px;" class="bordas">
+					<div style="float: left;">
+						<label>
+							<b><bean:message key="label.opcao" /></b>
+							<input type="text" name="opcao" id="opcaoCampo" size="21" maxlength="20" />
+						</label>
+						<br /> <br />
+						<div align="center">
+							<html:button property="adicionarOpcao" titleKey="dica.campo.adicionarOpcao" onclick="campo.adicionaOpcao(false);" styleClass="botaoOkCancelar">
+								<bean:message key="botao.adicionar"/>
+							</html:button>
+							<html:button property="removerOpcao" titleKey="dica.campo.removerOpcao" onclick="campo.removeOpcao(false);" styleClass="botaoOkCancelar">
+								<bean:message key="botao.remover"/>
+							</html:button>
+						</div>
+					</div>
+					<div style="float: left; margin-left: -25px;">
+						<label>
+							<b style="vertical-align: top;">
+								<bean:message key="label.opcoes" />
+								<span class="obrigatorio">*</span>
+							</b>
+							<select name="opcoes" id="opcoesCampo" size="6" style="width: 165px;">
+							</select>
+						</label>
+					</div>
 				</div>
 			</div>
 			<div style="clear: both; padding: 5px;" align="center" id="divBotoes">

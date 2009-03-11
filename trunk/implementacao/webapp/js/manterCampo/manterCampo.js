@@ -58,6 +58,7 @@ ManterCampo.prototype = {
 	 */
    visualizar : function() {
 	   Element.hide("formAtualizarCampo");
+	   Element.hide("divOpcoesCampo");
 	   var idCampo = this.getIdSelecionado();
 	   if (isNaN(idCampo)) {
 		   return;
@@ -69,6 +70,9 @@ ManterCampo.prototype = {
 		   dwr.util.setValue("tipoCampo", this.getTipoCampo(campo)[0]);
 		   dwr.util.setValue("descricaoCampo", campo.descricao);
 		   dwr.util.setValue("obrigatorioCampo", campo.obrigatorio);
+		   dwr.util.removeAllOptions("opcoesCampo");
+		   dwr.util.addOptions("opcoesCampo", campo.opcoes, "descricao", "descricao");
+		   this.gerenciarPreDefinidos(false);
 		   this.contaChar(false);
 	   }).bind(this));
    },
@@ -138,6 +142,7 @@ ManterCampo.prototype = {
 	 */
    atualizar : function(form) {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o campo selecionado?", ( function() {
+		   ComboFunctions.selecionaCombo("opcoesCampo");
 		   requestUtils.submitForm(form, ( function() {
 			   if (requestUtils.status) {
 				   this.pesquisar();
@@ -234,16 +239,29 @@ ManterCampo.prototype = {
 	 * @param {Boolean} novo se é novo campo
 	 */
    gerenciarPreDefinidos : function(novo) {
+	   var divOpcoes = novo ? "divOpcoesNovoCampo" : "divOpcoesCampo";
 	   if (this.ehCampoComOpcoes(novo)) {
-		   if (!$("divOpcoesNovoCampo").visible()) {
-			   $($("divNovoCampo").parentNode).morph("height: 400px;");
-			   Effect.BlindDown("divOpcoesNovoCampo");
+		   if (!$(divOpcoes).visible()) {
+			   if (novo) {
+				   $($("divNovoCampo").parentNode).morph("height: 400px;");
+				   Effect.BlindDown(divOpcoes);
+			   } else {
+				   $("fieldsetCampo").setStyle( {
+					   width :"780px"
+				   });
+				   $(divOpcoes).show();
+			   }
 		   }
 	   } else {
-		   if ($("divOpcoesNovoCampo").visible()) {
-			   Effect.BlindUp("divOpcoesNovoCampo");
-			   dwr.util.removeAllOptions("opcoesNovoCampo");
+		   dwr.util.removeAllOptions(novo ? "opcoesNovoCampo" : "opcoesCampo");
+		   if (novo) {
+			   Effect.BlindUp(divOpcoes);
 			   $($("divNovoCampo").parentNode).morph("height: 255px;");
+		   } else {
+			   $("fieldsetCampo").setStyle( {
+				   width :"70%"
+			   });
+			   $(divOpcoes).hide();
 		   }
 	   }
    },
@@ -277,9 +295,12 @@ ManterCampo.prototype = {
 	   var novaOpcao = novo ? "opcaoNovoCampo" : "opcaoCampo";
 	   var comboOpcoes = novo ? "opcoesNovoCampo" : "opcoesCampo";
 
-	   dwr.util.addOptions(comboOpcoes, [ dwr.util.getValue(novaOpcao) ]);
-	   ComboFunctions.ordenarOptions(comboOpcoes);
-	   $(novaOpcao).clear();
+	   var opcao = dwr.util.getValue(novaOpcao);
+	   if (!opcao.empty()) {
+		   dwr.util.addOptions(comboOpcoes, [ opcao ]);
+		   ComboFunctions.ordenarOptions(comboOpcoes);
+		   $(novaOpcao).clear();
+	   }
    }
 };
 
