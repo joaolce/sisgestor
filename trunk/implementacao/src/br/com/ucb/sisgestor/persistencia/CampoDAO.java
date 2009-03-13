@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.persistencia;
 
 import br.com.ucb.sisgestor.entidade.Campo;
+import br.com.ucb.sisgestor.entidade.OpcaoCampo;
 import java.util.List;
 
 /**
@@ -17,6 +18,13 @@ public interface CampoDAO extends BaseDAO<Campo, Integer> {
 
 	/** Quantidade de registros por paginação da tela de campos */
 	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(6);
+
+	/**
+	 * Exclui a opção de campo informada.
+	 * 
+	 * @param opcao a opção a excluir
+	 */
+	void excluirOpcao(OpcaoCampo opcao);
 
 	/**
 	 * Retorna um {@link List} de {@link Campo} a partir do nome e/ou tipo.

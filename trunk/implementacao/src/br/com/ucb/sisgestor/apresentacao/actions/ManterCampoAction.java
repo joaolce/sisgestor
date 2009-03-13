@@ -43,7 +43,7 @@ public class ManterCampoAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterCampoActionForm form = (ManterCampoActionForm) actionForm;
 
-		Campo campo = this.campoBO.obter(form.getId());
+		Campo campo = new Campo(); //feito por causa das opções
 		this.copyProperties(campo, form);
 		campo.setOpcoes(this.getOpcoes(campo, form.getOpcoes()));
 
@@ -150,8 +150,9 @@ public class ManterCampoAction extends BaseAction {
 	private List<OpcaoCampo> getOpcoes(Campo campo, String[] opcoesForm) {
 		List<OpcaoCampo> opcoes = null;
 
-		if ((opcoesForm != null) && (campo.getTipo() != TipoCampoEnum.LISTA_DE_OPCOES)
-				&& (campo.getTipo() != TipoCampoEnum.MULTIPLA_ESCOLHA)) {
+		TipoCampoEnum tipo = campo.getTipo();
+		if ((opcoesForm != null)
+				&& ((tipo == TipoCampoEnum.LISTA_DE_OPCOES) || (tipo == TipoCampoEnum.MULTIPLA_ESCOLHA))) {
 			opcoes = new ArrayList<OpcaoCampo>();
 			OpcaoCampo opcao;
 			for (int valorCampo = 0; valorCampo < opcoesForm.length; valorCampo++) {
