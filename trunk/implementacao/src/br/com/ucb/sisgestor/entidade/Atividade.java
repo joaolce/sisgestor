@@ -30,7 +30,7 @@ import org.hibernate.annotations.ForeignKey;
 		@AttributeOverride(name = "id", column = @Column(name = "ATI_ID", nullable = false)),
 		@AttributeOverride(name = "nome", column = @Column(name = "ATI_NOME", nullable = false, length = ConstantesDB.NOME)),
 		@AttributeOverride(name = "descricao", column = @Column(name = "ATI_DESCRICAO", nullable = false, length = ConstantesDB.DESCRICAO))})
-public class Atividade extends BaseWorkflow {
+public class Atividade extends BaseWorkflowDesenhavel {
 
 	private Departamento					departamento;
 	private Processo						processo;
