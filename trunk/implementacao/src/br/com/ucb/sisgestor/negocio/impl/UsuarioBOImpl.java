@@ -6,7 +6,6 @@ package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.entidade.Usuario;
-import br.com.ucb.sisgestor.mail.Email;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsuarioDAO;
@@ -14,7 +13,10 @@ import br.com.ucb.sisgestor.util.constantes.Constantes;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaUsuarioDTO;
 import java.util.List;
+import java.util.Random;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("usuarioBO")
 public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements UsuarioBO {
 
-	private UsuarioDAO	usuarioDAO;
+	private static final Log	LOG	= LogFactory.getLog(UsuarioBOImpl.class);
+	private UsuarioDAO			usuarioDAO;
 
 	/**
 	 * {@inheritDoc}
@@ -50,18 +53,12 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	public boolean enviarLembreteDeSenha(String login) throws NegocioException {
 		Usuario usuario = this.usuarioDAO.getByLogin(login);
 		if ((usuario != null) && StringUtils.isNotBlank(usuario.getEmail())) {
-			try {
-				Email email = new Email();
-				email.setAssunto(Constantes.LEMBRETE_EMAIL_ASSUNTO);
-				email.addDestinatariosTO(usuario.getEmail().trim());
-				email.setRemetente("SisGestor");
-				email.setCorpo(usuario.getSenha());
-				email.send();
-				return true;
-			} catch (Exception e) {
-				return false;
-			}
+			usuario.setSenha(this.gerarSenha());
+			this.usuarioDAO.atualizar(usuario);
+			return this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR,
+					Constantes.ASSUNTO_EMAIL_LEMBRETE_SENHA, usuario.getSenha(), usuario.getEmail());
 		}
+		LOG.info("Usuário: " + usuario.getLogin() + " sem email cadastrado, não enviado email de lembrete");
 		return false;
 	}
 
@@ -127,9 +124,12 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void salvar(Usuario usuario) throws NegocioException {
-		usuario.setSenha("123456");
+		usuario.setSenha(this.gerarSenha());
 		try {
 			this.usuarioDAO.salvar(usuario);
+			this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR, Constantes.ASSUNTO_EMAIL_NOVO_USUARIO,
+					"Seja bem vindo ao <b>SisGestor</b> <br/> <p>Sua senha é: " + usuario.getSenha() + "</p>",
+					usuario.getEmail());
 		} catch (ConstraintViolationException ce) {
 			throw new NegocioException("erro.usuario.login.repetido"); //NOPMD by João Lúcio - não é necessário ter causa exceção
 		}
@@ -143,5 +143,26 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	@Autowired
 	public void setUsuarioDAO(UsuarioDAO usuarioDAO) {
 		this.usuarioDAO = usuarioDAO;
+	}
+
+	/**
+	 * Gera uma senha para o usuário.
+	 * 
+	 * @return {@link String} da senha gerada
+	 */
+	private String gerarSenha() {
+		StringBuilder senha = new StringBuilder("");
+		char caracteres[] =
+				{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+						't', 'u', 'v', 'w', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+		Random random = new Random();
+		while (senha.length() < 6) {
+			if (random.nextBoolean()) { // caracter maiúsculo
+				senha.append(Character.toUpperCase(caracteres[random.nextInt(35)]));
+			} else {
+				senha.append(caracteres[random.nextInt(35)]);
+			}
+		}
+		return senha.toString();
 	}
 }

@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
+import br.com.ucb.sisgestor.mail.Email;
 import br.com.ucb.sisgestor.negocio.BaseBO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.io.Serializable;
@@ -48,6 +49,33 @@ public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Seriali
 	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	/**
+	 * Faz o envio de um email.
+	 * 
+	 * @param remetente remetente do email
+	 * @param assunto assunto do email
+	 * @param corpo corpo do email
+	 * @param destinatarios destinatários do email
+	 * @return <code>true</code> se email enviado, <code>false</code> caso contrário
+	 */
+	protected boolean enviaEmail(String remetente, String assunto, String corpo, String... destinatarios) {
+		try {
+			Email email = new Email();
+			email.setAssunto(assunto);
+			email.setRemetente(remetente);
+			email.setCorpo(corpo);
+
+			for (String destinatario : destinatarios) {
+				email.addDestinatariosTO(destinatario.trim());
+			}
+
+			email.send();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**

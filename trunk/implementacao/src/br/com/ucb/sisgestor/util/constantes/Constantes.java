@@ -21,5 +21,11 @@ public final class Constantes {
 	public static final String	VERSAO_DATA	= DataUtil.utilDateToString(DataUtil.getDate(7, 3, 2009));
 	
 	/** Assunto do e-mail enviado no lembrete de senha */
-	public static final String LEMBRETE_EMAIL_ASSUNTO = "SisGestor - Lembrete de senha";
+	public static final String ASSUNTO_EMAIL_LEMBRETE_SENHA = "SisGestor - Lembrete de senha";
+	
+	/** Remetente de emails do sisgestor.  */
+	public static final String REMETENTE_EMAIL_SISGESTOR = "SisGestor";
+
+	/** Assunto do email de novo usuário. */
+	public static final String	ASSUNTO_EMAIL_NOVO_USUARIO	= "SisGestor - Cadastro com sucesso";
 }
