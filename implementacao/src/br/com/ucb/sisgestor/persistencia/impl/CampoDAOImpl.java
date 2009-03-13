@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.persistencia.impl;
 
 import br.com.ucb.sisgestor.entidade.Campo;
+import br.com.ucb.sisgestor.entidade.OpcaoCampo;
 import br.com.ucb.sisgestor.entidade.TipoCampoEnum;
 import br.com.ucb.sisgestor.persistencia.CampoDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
@@ -36,6 +37,13 @@ public class CampoDAOImpl extends BaseDAOImpl<Campo, Integer> implements CampoDA
 	/**
 	 * {@inheritDoc}
 	 */
+	public void excluirOpcao(OpcaoCampo opcao) {
+		this.getSession().delete(opcao);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Campo> getByNomeTipo(String nome, Integer idTipo, Integer idWorkflow, Integer paginaAtual) {
 		Criteria criteria = this.montarCriteriosPaginacao(nome, idTipo, idWorkflow);
 		this.adicionarPaginacao(criteria, paginaAtual, CampoDAO.QTD_REGISTROS_PAGINA);
@@ -59,7 +67,6 @@ public class CampoDAOImpl extends BaseDAOImpl<Campo, Integer> implements CampoDA
 	protected Order getOrdemLista() {
 		return Order.asc("nome").ignoreCase();
 	}
-
 
 	/**
 	 * Monta os critérios para a paginação das atividades.

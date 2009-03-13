@@ -5,9 +5,11 @@
 package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Campo;
+import br.com.ucb.sisgestor.entidade.OpcaoCampo;
 import br.com.ucb.sisgestor.negocio.CampoBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.CampoDAO;
+import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.dto.PesquisaCampoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
@@ -32,7 +34,19 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizar(Campo campo) throws NegocioException {
-		this.campoDAO.atualizar(campo);
+		Campo campoAtual = this.obter(campo.getId());
+		if (campoAtual.getOpcoes() != null) { // excluindo as opções pois o cascade não suporta para atualizar
+			for (OpcaoCampo opcao : campoAtual.getOpcoes()) {
+				this.campoDAO.excluirOpcao(opcao);
+			}
+		}
+		try {
+			Utils.copyProperties(campoAtual, campo);
+			campoAtual.setOpcoes(campo.getOpcoes());
+		} catch (Exception e) {
+			throw new NegocioException(e);
+		}
+		this.campoDAO.atualizar(campoAtual);
 	}
 
 	/**
