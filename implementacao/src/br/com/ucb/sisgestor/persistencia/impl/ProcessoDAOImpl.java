@@ -46,7 +46,6 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public List<Processo> getByWorkflow(Integer idWorkflow) {
 		Criteria criteria = this.createCriteria(Processo.class);
 
@@ -64,7 +63,6 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 		criteria.setProjection(Projections.rowCount());
 		return (Integer) criteria.uniqueResult();
 	}
-
 
 	/**
 	 * {@inheritDoc}
