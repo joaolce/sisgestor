@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.entidade;
 
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 /**
  * Objeto base para objetos de workflow que tem fluxo.
@@ -23,6 +24,7 @@ public class BaseWorkflowDesenhavel extends BaseWorkflow {
 	 * 
 	 * @return left da posição na div
 	 */
+	@Transient
 	public Integer getLeft() {
 		return this.left;
 	}
@@ -32,6 +34,7 @@ public class BaseWorkflowDesenhavel extends BaseWorkflow {
 	 * 
 	 * @return top da posição na div
 	 */
+	@Transient
 	public Integer getTop() {
 		return this.top;
 	}
