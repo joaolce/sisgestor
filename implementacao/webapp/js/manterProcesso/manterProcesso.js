@@ -170,7 +170,7 @@ ManterProcesso.prototype = {
 		   ManterProcessoDWR.getByWorkflow(idWorkflow, (function(listaProcessos){
 			   fluxo.listaFluxos = new Array();
 			   listaProcessos.colecaoParcial.each(function(processo){
-				   fluxo.criarDiv("pro",processo.id, processo.nome, processo.descricao);
+				   fluxo.gerarRepresentacao("pro",processo.id, processo.nome, processo.descricao);
 			   });
 		   }));
 	   }));

@@ -18,14 +18,14 @@ DefinirFluxo.prototype = {
 	listaFluxos : null,
    
     /**
-     * Cria uma div para representar 
+     * Cria um circulo(div) para fazer representação na página 
      * 
      * @param prefixo Prefixo para identificar a div. Exempo: 'pro' , 'ati' ou 'tar'
-     * @param nome Nome
      * @param id Código identificador
+     * @param nome Nome
      * @param descricao Descrição
      * */
-     criarDiv : function(prefixo, id, nome, descricao){
+	gerarRepresentacao : function(prefixo, id, nome, descricao){
 		var pre = prefixo + "_" + id;
 		var div = $(Builder.node("div", {
 			   id: pre, 
