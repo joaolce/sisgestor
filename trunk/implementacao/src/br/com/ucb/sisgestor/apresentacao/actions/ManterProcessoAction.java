@@ -70,6 +70,21 @@ public class ManterProcessoAction extends BaseAction {
 	}
 
 	/**
+	 * Abre popup para definir fluxo dos processos.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward da inclusão
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward popupDefinirFluxo(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return this.findForward("popupDefinirFluxoProcessos");
+	}
+
+	/**
 	 * Abre o popup para incluir um novo processo.
 	 * 
 	 * @param mapping objeto mapping da action
@@ -104,6 +119,25 @@ public class ManterProcessoAction extends BaseAction {
 		this.processoBO.salvar(processo);
 
 		this.addMessageKey("mensagem.salvar", "Processo");
+		return this.sendAJAXResponse(true);
+	}
+
+	/**
+	 * Salva os fluxos dos processos.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward da inclusão
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward salvarFluxo(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		//TODO Desenvolver...
+
+		this.addMessageKey("mensagem.fluxo");
 		return this.sendAJAXResponse(true);
 	}
 

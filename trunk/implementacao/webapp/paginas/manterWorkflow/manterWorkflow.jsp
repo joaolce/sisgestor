@@ -2,17 +2,23 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://www.ucb.br/sisgestor/taglib" prefix="htmlSGR" %>
 
-<script type="text/javascript" src="dwr/interface/ManterWorkflowDWR.js"></script>
-<script type="text/javascript" src="dwr/interface/ManterProcessoDWR.js"></script>
-<script type="text/javascript" src="dwr/interface/ManterAtividadeDWR.js"></script>
-<script type="text/javascript" src="dwr/interface/ManterTarefaDWR.js"></script>
-<script type="text/javascript" src="dwr/interface/ManterCampoDWR.js"></script>
 
-<script type="text/javascript" src="js/manterWorkflow/manterWorkflow.js"></script>
-<script type="text/javascript" src="js/manterProcesso/manterProcesso.js"></script>
+<script type="text/javascript" src="dwr/interface/ManterAtividadeDWR.js"></script>
+<script type="text/javascript" src="dwr/interface/ManterCampoDWR.js"></script>
+<script type="text/javascript" src="dwr/interface/ManterProcessoDWR.js"></script>
+<script type="text/javascript" src="dwr/interface/ManterTarefaDWR.js"></script>
+<script type="text/javascript" src="dwr/interface/ManterWorkflowDWR.js"></script>
+
 <script type="text/javascript" src="js/manterAtividade/manterAtividade.js"></script>
-<script type="text/javascript" src="js/manterTarefa/manterTarefa.js"></script>
 <script type="text/javascript" src="js/manterCampo/manterCampo.js"></script>
+<script type="text/javascript" src="js/manterProcesso/manterProcesso.js"></script>
+<script type="text/javascript" src="js/manterTarefa/manterTarefa.js"></script>
+<script type="text/javascript" src="js/manterProcesso/manterProcesso.js"></script>
+<script type="text/javascript" src="js/manterWorkflow/manterWorkflow.js"></script>
+
+<script type="text/javascript" src="js/libs/dragdrop.js"></script>
+<script type="text/javascript" src="js/util/definirFluxo.js"></script>
+<script type="text/javascript" src="js/util/grafico.js"></script>
 
 
 <div class="bordas" id="BordaExterna">

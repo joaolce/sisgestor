@@ -25,4 +25,12 @@ public interface ProcessoBO extends BaseBO<Processo, Integer> {
 	 * @return Retorna os processos
 	 */
 	List<Processo> getByNomeDescricao(String nome, String descricao, Integer idWorkflow, Integer paginaAtual);
+
+	/**
+	 * Recupera todos os processos referenciados pelo workflow
+	 * 
+	 * @param workflow Id do workflow
+	 * @return Lista de processos
+	 */
+	List<Processo> getByWorkflow(Integer workflow);
 }

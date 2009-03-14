@@ -47,6 +47,7 @@
 	<!--  MANTER PROCESSO -->
 	<definition name="definicaoManterProcesso" path="/paginas/manterProcesso/manterProcesso.jsp" />
 	<definition name="popupNovoProcesso" path="/paginas/manterProcesso/popupNovoProcesso.jsp" />
+	<definition name="popupDefinirFluxoProcessos" path="/paginas/manterProcesso/popupDefinirFluxo.jsp" />
 	
 	<!--  MANTER ATIVIDADE -->
 	<definition name="definicaoManterAtividade" path="/paginas/manterAtividade/manterAtividade.jsp" />

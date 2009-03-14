@@ -60,6 +60,13 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	/**
 	 * {@inheritDoc}
 	 */
+	public List<Processo> getByWorkflow(Integer workflow) {
+		return this.processoDAO.getByWorkflow(workflow);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaProcessoDTO dto = (PesquisaProcessoDTO) parametros;

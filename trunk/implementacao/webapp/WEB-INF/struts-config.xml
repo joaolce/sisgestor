@@ -82,6 +82,7 @@
 			parameter="method">
 			<forward name="entrada" path="definicaoManterProcesso" />
 			<forward name="popupNovoProcesso" path="popupNovoProcesso" />
+			<forward name="popupDefinirFluxoProcessos" path="popupDefinirFluxoProcessos" />
 		</action>
 		
 		<!-- Manter Atividade -->
