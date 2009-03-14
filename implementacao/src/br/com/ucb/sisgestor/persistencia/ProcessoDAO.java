@@ -31,6 +31,14 @@ public interface ProcessoDAO extends BaseDAO<Processo, Integer> {
 	List<Processo> getByNomeDescricao(String nome, String descricao, Integer idWorkflow, Integer paginaAtual);
 
 	/**
+	 * Recupera todos os processos referenciados pelo workflow
+	 * 
+	 * @param workflow Id do workflow
+	 * @return Lista de processos
+	 */
+	List<Processo> getByWorkflow(Integer workflow);
+
+	/**
 	 * Recupera o total de registros retornados pela consulta.
 	 * 
 	 * @param nome parte do nome do processo

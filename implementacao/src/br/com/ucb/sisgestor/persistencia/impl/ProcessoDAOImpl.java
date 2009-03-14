@@ -39,7 +39,20 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 			Integer paginaAtual) {
 		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, idWorkflow);
 		this.adicionarPaginacao(criteria, paginaAtual, ProcessoDAO.QTD_REGISTROS_PAGINA);
-		criteria.addOrder(Order.asc("nome"));
+		criteria.addOrder(this.getOrdemLista());
+		return GenericsUtil.checkedList(criteria.list(), Processo.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<Processo> getByWorkflow(Integer idWorkflow) {
+		Criteria criteria = this.createCriteria(Processo.class);
+
+		criteria.createAlias("this.workflow", "workflow");
+		criteria.add(Restrictions.eq("workflow.id", idWorkflow));
+		criteria.addOrder(this.getOrdemLista());
 		return GenericsUtil.checkedList(criteria.list(), Processo.class);
 	}
 

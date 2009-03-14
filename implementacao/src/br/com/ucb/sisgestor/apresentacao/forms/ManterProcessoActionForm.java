@@ -46,7 +46,6 @@ public class ManterProcessoActionForm extends BaseForm {
 		return this.workflow;
 	}
 
-
 	/**
 	 * Atribui a descrição do processo
 	 * 
@@ -56,7 +55,6 @@ public class ManterProcessoActionForm extends BaseForm {
 		this.descricao = descricao;
 	}
 
-
 	/**
 	 * Atribui o nome do processo
 	 * 
@@ -65,7 +63,6 @@ public class ManterProcessoActionForm extends BaseForm {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
 
 	/**
 	 * Atribui o código identificador do workflow.

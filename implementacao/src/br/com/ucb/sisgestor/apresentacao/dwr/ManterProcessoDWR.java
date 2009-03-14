@@ -32,6 +32,20 @@ public class ManterProcessoDWR extends BaseDWR {
 	}
 
 	/**
+	 * Recupera todos os processos referenciados pelo workflow
+	 * 
+	 * @param idWorkflow Código identificador do workflow
+	 * @return {@link List} de {@link Processo}
+	 */
+	public ListaResultadoDTO<Processo> getByWorkflow(Integer idWorkflow) {
+		ListaResultadoDTO<Processo> resultado = new ListaResultadoDTO<Processo>();
+
+		resultado.setColecaoParcial(this.processoBO.getByWorkflow(idWorkflow));
+
+		return resultado;
+	}
+
+	/**
 	 * Pesquisa os processos com os parâmetros preenchidos.
 	 * 
 	 * @param parametros parâmetros da pesquisa
