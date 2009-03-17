@@ -16,7 +16,7 @@
 <script type="text/javascript" src="js/manterProcesso/manterProcesso.js"></script>
 <script type="text/javascript" src="js/manterWorkflow/manterWorkflow.js"></script>
 
-<script type="text/javascript" src="js/libs/dragdrop.js"></script>
+<script type="text/javascript" src="js/libs/wz_jsgraphics.js"></script>
 <script type="text/javascript" src="js/util/definirFluxo.js"></script>
 <script type="text/javascript" src="js/util/grafico.js"></script>
 
