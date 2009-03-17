@@ -4,6 +4,9 @@
  */
 package br.com.ucb.sisgestor.negocio.impl;
 
+import br.com.ucb.sisgestor.entidade.Atividade;
+import br.com.ucb.sisgestor.entidade.Processo;
+import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
@@ -33,6 +36,32 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizar(Workflow workflow) throws NegocioException {
+		Workflow atual = this.workflowDAO.obter(workflow.getId());
+
+		if (!atual.getAtivo() && workflow.getAtivo()) {
+			List<Processo> listaProcessos = atual.getProcessos();
+
+			if ((listaProcessos == null) || listaProcessos.isEmpty()) {
+				throw new NegocioException("erro.workflowNaoAtivado.processo");
+			}
+
+			for (Processo processo : listaProcessos) {
+				List<Atividade> listaAtividades = processo.getAtividades();
+
+				if ((listaAtividades == null) || listaAtividades.isEmpty()) {
+					throw new NegocioException("erro.workflowNaoAtivado.atividade", processo.getNome());
+				}
+
+				for (Atividade atividade : listaAtividades) {
+					List<Tarefa> listaTarefas = atividade.getTarefas();
+
+					if ((listaTarefas == null) || listaTarefas.isEmpty()) {
+						throw new NegocioException("erro.workflowNaoAtivado", atividade.getNome(), processo
+								.getNome());
+					}
+				}
+			}
+		}
 		this.workflowDAO.atualizar(workflow);
 	}
 
