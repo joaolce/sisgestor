@@ -17,6 +17,7 @@ public class ManterProcessoActionForm extends BaseForm {
 	private String		descricao;
 	private String		nome;
 	private Integer	workflow;
+	private String[]	fluxos;
 
 	/**
 	 * Recupera a descrição do processo
@@ -28,6 +29,15 @@ public class ManterProcessoActionForm extends BaseForm {
 	}
 
 	/**
+	 * Recupera os fluxos dos processos.
+	 * 
+	 * @return fluxos dos processos
+	 */
+	public String[] getFluxos() {
+		return this.fluxos;
+	}
+
+	/**
 	 * Recupera o nome do processo
 	 * 
 	 * @return nome do processo
@@ -35,7 +45,6 @@ public class ManterProcessoActionForm extends BaseForm {
 	public String getNome() {
 		return this.nome;
 	}
-
 
 	/**
 	 * Recupera o código identificador do workflow.
@@ -53,6 +62,15 @@ public class ManterProcessoActionForm extends BaseForm {
 	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	/**
+	 * Atribui os fluxos dos processos.
+	 * 
+	 * @param fluxos fluxos dos processos
+	 */
+	public void setFluxos(String[] fluxos) {
+		this.fluxos = fluxos;
 	}
 
 	/**

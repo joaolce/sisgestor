@@ -5,6 +5,8 @@
 package br.com.ucb.sisgestor.negocio;
 
 import br.com.ucb.sisgestor.entidade.Processo;
+import br.com.ucb.sisgestor.entidade.TransacaoProcesso;
+import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import java.util.List;
 
 /**
@@ -33,4 +35,12 @@ public interface ProcessoBO extends BaseBO<Processo, Integer> {
 	 * @return Lista de processos
 	 */
 	List<Processo> getByWorkflow(Integer workflow);
+
+	/**
+	 * Salva as transações dos processos informadas.
+	 * 
+	 * @param transacoes transações a armazenar
+	 * @throws NegocioException caso exceção de negócio seja lançada
+	 */
+	void salvarTransacoes(List<TransacaoProcesso> transacoes) throws NegocioException;
 }

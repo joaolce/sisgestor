@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Processo;
+import br.com.ucb.sisgestor.entidade.TransacaoProcesso;
 import br.com.ucb.sisgestor.negocio.ProcessoBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.ProcessoDAO;
@@ -93,6 +94,17 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void salvar(Processo processo) throws NegocioException {
 		this.processoDAO.salvar(processo);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	public void salvarTransacoes(List<TransacaoProcesso> transacoes) throws NegocioException {
+		//TODO Remover as transações existentes
+		for (TransacaoProcesso transacao : transacoes) {
+			this.processoDAO.salvarTransacao(transacao);
+		}
 	}
 
 	/**

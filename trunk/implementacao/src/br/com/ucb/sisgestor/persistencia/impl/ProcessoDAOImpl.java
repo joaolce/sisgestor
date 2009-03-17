@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.persistencia.impl;
 
 import br.com.ucb.sisgestor.entidade.Processo;
+import br.com.ucb.sisgestor.entidade.TransacaoProcesso;
 import br.com.ucb.sisgestor.persistencia.ProcessoDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
 import java.util.List;
@@ -62,6 +63,13 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, idWorkflow);
 		criteria.setProjection(Projections.rowCount());
 		return (Integer) criteria.uniqueResult();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void salvarTransacao(TransacaoProcesso transacao) {
+		this.getSession().save(transacao);
 	}
 
 	/**

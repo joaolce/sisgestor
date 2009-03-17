@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.persistencia;
 
 import br.com.ucb.sisgestor.entidade.Processo;
+import br.com.ucb.sisgestor.entidade.TransacaoProcesso;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import java.util.List;
 
@@ -47,4 +48,11 @@ public interface ProcessoDAO extends BaseDAO<Processo, Integer> {
 	 * @return total de registros encontrados
 	 */
 	Integer getTotalRegistros(String nome, String descricao, Integer idWorkflow);
+
+	/**
+	 * Salva a transação de {@link Processo} informada.
+	 * 
+	 * @param transacao transação a armazenar
+	 */
+	void salvarTransacao(TransacaoProcesso transacao);
 }

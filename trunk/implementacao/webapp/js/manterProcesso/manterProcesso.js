@@ -179,18 +179,18 @@ ManterProcesso.prototype = {
 
    /**
 	 * Envia ao action a ação de salvar o fluxo.
-	 * 
-	 * @param form formulário submetido
 	 */
-   salvarFluxo : function(form) {
-	   // TODO Recuperar o array de fluxos do javascript definirFluxo, ou chamar função
-	   // correspondente
-	   requestUtils.submitForm(form, ( function() {
-		   if (requestUtils.status) {
-			   JanelaFactory.fecharJanela("divFluxoProcesso");
-			   this.pesquisar();
-		   }
-	   }).bind(this));
+   salvarFluxo : function() {
+	   var form = getForm($("definirFluxoManterProcessoForm"));
+	   form.fluxos = fluxo.listaFluxos;
+	   JanelasComuns.showConfirmDialog("Deseja definir o fluxo criado?", ( function() {
+		   requestUtils.simpleRequest("manterProcesso.do?method=salvarFluxo&"
+		      + Object.toQueryString(form), ( function() {
+			   if (requestUtils.status) {
+				   JanelaFactory.fecharJanela("divFluxoProcesso");
+			   }
+		   }));
+	   }));
    },
    /**
 	 * Abre janela para gerenciar os processos.

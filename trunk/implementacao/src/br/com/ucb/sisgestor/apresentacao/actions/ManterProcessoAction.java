@@ -6,7 +6,10 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 
 import br.com.ucb.sisgestor.apresentacao.forms.ManterProcessoActionForm;
 import br.com.ucb.sisgestor.entidade.Processo;
+import br.com.ucb.sisgestor.entidade.TransacaoProcesso;
 import br.com.ucb.sisgestor.negocio.ProcessoBO;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -135,7 +138,11 @@ public class ManterProcessoAction extends BaseAction {
 	public ActionForward salvarFluxo(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
-		//TODO Desenvolver...
+		ManterProcessoActionForm form = (ManterProcessoActionForm) formulario;
+
+		List<TransacaoProcesso> lista = this.getTransacoes(form.getFluxos());
+
+		this.processoBO.salvarTransacoes(lista);
 
 		this.addMessageKey("mensagem.fluxo");
 		return this.sendAJAXResponse(true);
@@ -149,5 +156,34 @@ public class ManterProcessoAction extends BaseAction {
 	@Autowired
 	public void setProcessoBO(ProcessoBO processoBO) {
 		this.processoBO = processoBO;
+	}
+
+	/**
+	 * TODO DOCUMENT ME!
+	 * 
+	 * @param fluxos
+	 * @return
+	 */
+	private List<TransacaoProcesso> getTransacoes(String[] fluxos) {
+		List<TransacaoProcesso> lista = new ArrayList<TransacaoProcesso>();
+
+		TransacaoProcesso transacao;
+		Processo processoAnterior;
+		Processo processoPosterior;
+		for (String fluxo : fluxos) {
+			String[] processos = fluxo.split(","); //a direção vem no formato: pro_1,pro_2
+
+			transacao = new TransacaoProcesso();
+			processoAnterior = new Processo();
+			processoPosterior = new Processo();
+
+			processoAnterior.setId(Integer.parseInt(processos[0].substring(4))); //pega a partir do: pro_
+			processoPosterior.setId(Integer.parseInt(processos[1].substring(4)));
+
+			transacao.setAnterior(processoAnterior);
+			transacao.setPosterior(processoPosterior);
+			lista.add(transacao);
+		}
+		return lista;
 	}
 }
