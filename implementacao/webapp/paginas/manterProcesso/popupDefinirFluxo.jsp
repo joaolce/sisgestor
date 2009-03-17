@@ -1,7 +1,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 
-<html:form action="/manterProcesso.do?method=salvarFluxo" onsubmit="processo.salvarFluxo(this); return false;" styleId="manterProcessoForm">
+<html:form action="/manterProcesso.do?method=salvarFluxo" onsubmit="processo.salvarFluxo(); return false;" styleId="definirFluxoManterProcessoForm">
 	<html:hidden property="workflow" styleId="workflowFluxo" />
 	<div style="float: left; width: 600px;">
 		<label>
