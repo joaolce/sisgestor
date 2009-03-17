@@ -2,12 +2,10 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 
 <html:form action="/manterProcesso.do?method=salvarFluxo" onsubmit="processo.salvarFluxo(this); return false;" styleId="manterProcessoForm">
-	<html:hidden property="workflow" styleId="workflowProcesso" />
+	<html:hidden property="workflow" styleId="workflowFluxo" />
 	<div style="float: left; width: 600px;">
-		<label class="labelComboTransferencia">
-			<span>
-				<b><bean:message key="label.definicaoFluxo"/></b>
-			</span>
+		<label>
+			<b><bean:message key="label.definicaoFluxo"/></b>
 		</label>
 		<div id="divFluxos" style="float: left; width: 830px; height: 400px; overflow: scroll; text-align: center;" class="bordas">
 			

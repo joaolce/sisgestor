@@ -157,32 +157,34 @@ ManterProcesso.prototype = {
 		   dwr.util.setValue("workflowNovoProcesso", $F("workflowProcesso"));
 	   }));
    },
-   
+
    /**
 	 * Abre a janela para definir fluxo dos processos.
 	 */
    popupDefinirFluxoProcessos : function() {
 	   var url = "manterProcesso.do?method=popupDefinirFluxo";
-	   createWindow(486, 840, 280, 40, "Definir Fluxo dos Processos", "divFluxoProcesso", url, ( function() {
-		   var idWorkflow = $F("workflowProcesso");
-		   dwr.util.setValue("workflowNovoProcesso", idWorkflow);
-		   
-		   ManterProcessoDWR.getByWorkflow(idWorkflow, (function(listaProcessos){
-			   fluxo.listaFluxos = new Array();
-			   listaProcessos.colecaoParcial.each(function(processo){
-				   fluxo.gerarRepresentacao("pro",processo.id, processo.nome, processo.descricao);
-			   });
-		   }));
-	   }));
+	   createWindow(486, 840, 280, 40, "Definir Fluxo dos Processos", "divFluxoProcesso", url,
+	      ( function() {
+		      var idWorkflow = $F("workflowProcesso");
+		      dwr.util.setValue("workflowFluxo", idWorkflow);
+
+		      ManterProcessoDWR.getByWorkflow(idWorkflow, ( function(listaProcessos) {
+			      fluxo.listaFluxos = new Array();
+			      listaProcessos.colecaoParcial.each( function(processo) {
+				      fluxo.gerarRepresentacao("pro", processo.id, processo.nome, processo.descricao);
+			      });
+		      }));
+	      }));
    },
-   
+
    /**
 	 * Envia ao action a ação de salvar o fluxo.
 	 * 
 	 * @param form formulário submetido
 	 */
    salvarFluxo : function(form) {
-	   //TODO Recuperar o array de fluxos do javascript definirFluxo, ou chamar função correspondente
+	   // TODO Recuperar o array de fluxos do javascript definirFluxo, ou chamar função
+	   // correspondente
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
 			   JanelaFactory.fecharJanela("divFluxoProcesso");
