@@ -12,6 +12,7 @@ import java.io.Serializable;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implementação da interface que representa um objeto de negócio (Business Object).
@@ -38,7 +39,7 @@ public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Seriali
 	 * {@inheritDoc}
 	 */
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
-		return null;
+		return 0;
 	}
 
 	/**
@@ -57,9 +58,10 @@ public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Seriali
 	 * @param remetente remetente do email
 	 * @param assunto assunto do email
 	 * @param corpo corpo do email
-	 * @param destinatarios destinatários do email
+	 * @param destinatarios destinatários (TO) do email
 	 * @return <code>true</code> se email enviado, <code>false</code> caso contrário
 	 */
+	@Transactional(readOnly = true)
 	protected boolean enviaEmail(String remetente, String assunto, String corpo, String... destinatarios) {
 		try {
 			Email email = new Email();

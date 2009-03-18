@@ -142,7 +142,7 @@ public class ManterProcessoAction extends BaseAction {
 
 		List<TransacaoProcesso> lista = this.getTransacoes(form.getFluxos());
 
-		this.processoBO.salvarTransacoes(lista);
+		this.processoBO.atualizarTransacoes(form.getWorkflow(), lista);
 
 		this.addMessageKey("mensagem.fluxo");
 		return this.sendAJAXResponse(true);
@@ -159,30 +159,31 @@ public class ManterProcessoAction extends BaseAction {
 	}
 
 	/**
-	 * TODO DOCUMENT ME!
+	 * Recupera a lista de transações criadas para os processos.
 	 * 
-	 * @param fluxos
-	 * @return
+	 * @param fluxos fluxos definidos pelo usuário
+	 * @return {@link List} de {@link TransacaoProcesso}
 	 */
 	private List<TransacaoProcesso> getTransacoes(String[] fluxos) {
 		List<TransacaoProcesso> lista = new ArrayList<TransacaoProcesso>();
+		if (fluxos != null) {
+			TransacaoProcesso transacao;
+			Processo processoAnterior;
+			Processo processoPosterior;
+			for (String fluxo : fluxos) {
+				String[] processos = fluxo.split(","); //a direção vem no formato: 1,2 (origem, destino)
 
-		TransacaoProcesso transacao;
-		Processo processoAnterior;
-		Processo processoPosterior;
-		for (String fluxo : fluxos) {
-			String[] processos = fluxo.split(","); //a direção vem no formato: pro_1,pro_2
+				transacao = new TransacaoProcesso();
+				processoAnterior = new Processo();
+				processoPosterior = new Processo();
 
-			transacao = new TransacaoProcesso();
-			processoAnterior = new Processo();
-			processoPosterior = new Processo();
+				processoAnterior.setId(Integer.parseInt(processos[0]));
+				processoPosterior.setId(Integer.parseInt(processos[1]));
 
-			processoAnterior.setId(Integer.parseInt(processos[0].substring(4))); //pega a partir do: pro_
-			processoPosterior.setId(Integer.parseInt(processos[1].substring(4)));
-
-			transacao.setAnterior(processoAnterior);
-			transacao.setPosterior(processoPosterior);
-			lista.add(transacao);
+				transacao.setAnterior(processoAnterior);
+				transacao.setPosterior(processoPosterior);
+				lista.add(transacao);
+			}
 		}
 		return lista;
 	}

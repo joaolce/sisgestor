@@ -48,7 +48,7 @@ public interface BaseDAO<T extends ObjetoPersistente, PK extends Serializable> {
 	/**
 	 * Recupera todos os objetos.
 	 * 
-	 * @return um {@link List} de objeto
+	 * @return um {@link List} de {@link ObjetoPersistente}
 	 */
 	List<T> obterTodos();
 

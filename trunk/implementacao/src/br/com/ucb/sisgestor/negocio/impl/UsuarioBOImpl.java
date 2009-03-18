@@ -50,6 +50,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public boolean enviarLembreteDeSenha(String login) throws NegocioException {
 		Usuario usuario = this.usuarioDAO.getByLogin(login);
 		if ((usuario != null) && StringUtils.isNotBlank(usuario.getEmail())) {
@@ -73,6 +74,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Usuario> getByDepartamento(Departamento departamento) {
 		return this.usuarioDAO.getByDepartamento(departamento.getId());
 	}
@@ -80,6 +82,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public Usuario getByLogin(String login) throws NegocioException {
 		Usuario usuario = this.usuarioDAO.getByLogin(login);
 		if (usuario == null) {
@@ -91,6 +94,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
 			Integer paginaAtual) {
 		return this.usuarioDAO.getByLoginNomeDepartamento(login, nome, departamento, paginaAtual);
@@ -100,6 +104,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	 * {@inheritDoc}
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaUsuarioDTO dto = (PesquisaUsuarioDTO) parametros;
 		return this.usuarioDAO.getTotalRegistros(dto.getLogin(), dto.getNome(), dto.getDepartamento());
@@ -108,6 +113,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public Usuario obter(Integer pk) {
 		return this.usuarioDAO.obter(pk);
 	}
@@ -115,6 +121,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Usuario> obterTodos() {
 		return this.usuarioDAO.obterTodos();
 	}

@@ -52,6 +52,7 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Atividade> getByNomeDescricaoDepartamento(String nome, String descricao, Integer departamento,
 			Integer idProcesso, Integer paginaAtual) {
 		return this.atividadeDAO.getByNomeDescricaoDepartamento(nome, descricao, departamento, idProcesso,
@@ -62,6 +63,7 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 	 * {@inheritDoc}
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaAtividadeDTO dto = (PesquisaAtividadeDTO) parametros;
 		return this.atividadeDAO.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getDepartamento(),
@@ -71,6 +73,7 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public Atividade obter(Integer pk) {
 		return this.atividadeDAO.obter(pk);
 	}
@@ -78,6 +81,7 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Atividade> obterTodos() {
 		return this.atividadeDAO.obterTodos();
 	}

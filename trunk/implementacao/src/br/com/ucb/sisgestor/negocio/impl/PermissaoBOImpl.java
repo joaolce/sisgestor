@@ -11,6 +11,7 @@ import br.com.ucb.sisgestor.persistencia.PermissaoDAO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Objeto de negócio para {@link Permissao}.
@@ -40,6 +41,7 @@ public class PermissaoBOImpl extends BaseBOImpl<Permissao, Integer> implements P
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public Permissao obter(Integer pk) {
 		return this.permissaoDAO.obter(pk);
 	}
@@ -47,6 +49,7 @@ public class PermissaoBOImpl extends BaseBOImpl<Permissao, Integer> implements P
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Permissao> obterTodos() {
 		return this.permissaoDAO.obterTodos();
 	}

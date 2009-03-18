@@ -41,6 +41,26 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	public void atualizarTransacoes(Integer idWorkflow, List<TransacaoProcesso> transacoes)
+			throws NegocioException {
+		List<TransacaoProcesso> atual = this.processoDAO.recuperarTransacoesDoWorkflow(idWorkflow);
+		if (atual != null) {
+			//excluindo as transações atuais
+			for (TransacaoProcesso transacao : atual) {
+				this.processoDAO.excluirTransacao(transacao);
+			}
+			this.flush();
+		}
+		//inserindo as transações enviadas
+		for (TransacaoProcesso transacao : transacoes) {
+			this.processoDAO.salvarTransacao(transacao);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void excluir(Processo processo) throws NegocioException {
 		List<Atividade> lista = processo.getAtividades();
 		//Não permite excluir um processo que contém atividades
@@ -53,6 +73,7 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Processo> getByNomeDescricao(String nome, String descricao, Integer idWorkflow,
 			Integer paginaAtual) {
 		return this.processoDAO.getByNomeDescricao(nome, descricao, idWorkflow, paginaAtual);
@@ -61,6 +82,7 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Processo> getByWorkflow(Integer workflow) {
 		return this.processoDAO.getByWorkflow(workflow);
 	}
@@ -69,6 +91,7 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	 * {@inheritDoc}
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaProcessoDTO dto = (PesquisaProcessoDTO) parametros;
 		return this.processoDAO.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getIdWorkflow());
@@ -77,6 +100,7 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public Processo obter(Integer pk) {
 		return this.processoDAO.obter(pk);
 	}
@@ -84,6 +108,7 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Processo> obterTodos() {
 		return this.processoDAO.obterTodos();
 	}
@@ -94,17 +119,6 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void salvar(Processo processo) throws NegocioException {
 		this.processoDAO.salvar(processo);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-	public void salvarTransacoes(List<TransacaoProcesso> transacoes) throws NegocioException {
-		//TODO Remover as transações existentes
-		for (TransacaoProcesso transacao : transacoes) {
-			this.processoDAO.salvarTransacao(transacao);
-		}
 	}
 
 	/**

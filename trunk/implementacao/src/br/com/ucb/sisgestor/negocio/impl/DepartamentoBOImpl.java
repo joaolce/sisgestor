@@ -62,6 +62,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Departamento> getBySiglaNome(String sigla, String nome, Integer paginaAtual) {
 		return this.departamentoDAO.getBySiglaNome(sigla, nome, paginaAtual);
 	}
@@ -70,6 +71,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	 * {@inheritDoc}
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaDepartamentoDTO dto = (PesquisaDepartamentoDTO) parametros;
 		return this.departamentoDAO.getTotalRegistros(dto.getSigla(), dto.getNome());
@@ -78,6 +80,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public Departamento obter(Integer pk) {
 		return this.departamentoDAO.obter(pk);
 	}
@@ -85,6 +88,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Departamento> obterTodos() {
 		return this.departamentoDAO.obterTodos();
 	}

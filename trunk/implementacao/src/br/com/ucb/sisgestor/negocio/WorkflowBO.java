@@ -16,7 +16,8 @@ import java.util.List;
 public interface WorkflowBO extends BaseBO<Workflow, Integer> {
 
 	/**
-	 * Retorna um {@link List} de {@link Workflow} a partir dos parâmetros informados.
+	 * Retorna um {@link List} de {@link Workflow} a partir dos parâmetros informados. <br />
+	 * obs: recupera apenas os workflows não excluídos
 	 * 
 	 * @param nome parte do nome do workflow
 	 * @param descricao parte da descrição do workflow
