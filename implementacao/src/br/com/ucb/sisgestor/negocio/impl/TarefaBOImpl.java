@@ -46,6 +46,7 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Tarefa> getByNomeDescricaoUsuario(String nome, String descricao, Integer usuario,
 			Integer idAtividade, Integer paginaAtual) {
 		return this.tarefaDAO.getByNomeDescricaoUsuario(nome, descricao, usuario, idAtividade, paginaAtual);
@@ -55,6 +56,7 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	 * {@inheritDoc}
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaTarefaDTO dto = (PesquisaTarefaDTO) parametros;
 		return this.tarefaDAO.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getUsuario(), dto
@@ -64,6 +66,7 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public Tarefa obter(Integer pk) {
 		return this.tarefaDAO.obter(pk);
 	}
@@ -71,6 +74,7 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Tarefa> obterTodos() {
 		return this.tarefaDAO.obterTodos();
 	}

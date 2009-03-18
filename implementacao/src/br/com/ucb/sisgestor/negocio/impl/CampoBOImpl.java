@@ -60,6 +60,7 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Campo> getByNomeTipo(String nome, Integer idTipo, Integer idWorkflow, Integer paginaAtual) {
 		return this.campoDAO.getByNomeTipo(nome, idTipo, idWorkflow, paginaAtual);
 	}
@@ -68,6 +69,7 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaCampoDTO dto = (PesquisaCampoDTO) parametros;
 		return this.campoDAO.getTotalRegistros(dto.getNome(), dto.getTipo(), dto.getIdWorkflow());
@@ -76,6 +78,7 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public Campo obter(Integer pk) {
 		return this.campoDAO.obter(pk);
 	}
@@ -83,6 +86,7 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Campo> obterTodos() {
 		return this.campoDAO.obterTodos();
 	}

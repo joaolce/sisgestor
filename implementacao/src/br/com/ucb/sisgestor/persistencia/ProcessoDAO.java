@@ -21,6 +21,13 @@ public interface ProcessoDAO extends BaseDAO<Processo, Integer> {
 	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(6);
 
 	/**
+	 * Exclui uma {@link TransacaoProcesso} informada.
+	 * 
+	 * @param transacao transação a excluir
+	 */
+	void excluirTransacao(TransacaoProcesso transacao);
+
+	/**
 	 * Retorna um {@link List} de {@link Processo} a partir do nome e/ou descrição
 	 * 
 	 * @param nome parte do nome do processo
@@ -50,7 +57,15 @@ public interface ProcessoDAO extends BaseDAO<Processo, Integer> {
 	Integer getTotalRegistros(String nome, String descricao, Integer idWorkflow);
 
 	/**
-	 * Salva a transação de {@link Processo} informada.
+	 * Recupera as transações de processo do {@link Workflow}.
+	 * 
+	 * @param idWorkflow identificador do {@link Workflow}
+	 * @return {@link List} de {@link TransacaoProcesso}
+	 */
+	List<TransacaoProcesso> recuperarTransacoesDoWorkflow(Integer idWorkflow);
+
+	/**
+	 * Salva uma {@link TransacaoProcesso} informada.
 	 * 
 	 * @param transacao transação a armazenar
 	 */

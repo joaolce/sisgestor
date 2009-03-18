@@ -36,6 +36,13 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 	/**
 	 * {@inheritDoc}
 	 */
+	public void excluirTransacao(TransacaoProcesso transacao) {
+		this.getSession().delete(transacao);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Processo> getByNomeDescricao(String nome, String descricao, Integer idWorkflow,
 			Integer paginaAtual) {
 		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, idWorkflow);
@@ -63,6 +70,17 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, idWorkflow);
 		criteria.setProjection(Projections.rowCount());
 		return (Integer) criteria.uniqueResult();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<TransacaoProcesso> recuperarTransacoesDoWorkflow(Integer idWorkflow) {
+		Criteria criteria = this.createCriteria(TransacaoProcesso.class);
+		criteria.createAlias("this.anterior", "processoAnterior");
+		criteria.createAlias("processoAnterior.workflow", "workflow");
+		criteria.add(Restrictions.eq("workflow.id", idWorkflow));
+		return GenericsUtil.checkedList(criteria.list(), TransacaoProcesso.class);
 	}
 
 	/**

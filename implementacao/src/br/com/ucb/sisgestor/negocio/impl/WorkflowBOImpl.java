@@ -36,32 +36,7 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizar(Workflow workflow) throws NegocioException {
-		Workflow atual = this.workflowDAO.obter(workflow.getId());
-
-		if (!atual.getAtivo() && workflow.getAtivo()) {
-			List<Processo> listaProcessos = atual.getProcessos();
-
-			if ((listaProcessos == null) || listaProcessos.isEmpty()) {
-				throw new NegocioException("erro.workflowNaoAtivado.processo");
-			}
-
-			for (Processo processo : listaProcessos) {
-				List<Atividade> listaAtividades = processo.getAtividades();
-
-				if ((listaAtividades == null) || listaAtividades.isEmpty()) {
-					throw new NegocioException("erro.workflowNaoAtivado.atividade", processo.getNome());
-				}
-
-				for (Atividade atividade : listaAtividades) {
-					List<Tarefa> listaTarefas = atividade.getTarefas();
-
-					if ((listaTarefas == null) || listaTarefas.isEmpty()) {
-						throw new NegocioException("erro.workflowNaoAtivado", atividade.getNome(), processo
-								.getNome());
-					}
-				}
-			}
-		}
+		this.verificaAtividadeDoWorkflow(workflow);
 		this.workflowDAO.atualizar(workflow);
 	}
 
@@ -72,12 +47,13 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	public void excluir(Workflow workflow) throws NegocioException {
 		workflow.setAtivo(Boolean.FALSE);
 		workflow.setDataHoraExclusao(DataUtil.getDataHoraAtual());
-		this.atualizar(workflow);
+		this.workflowDAO.atualizar(workflow); //Exclusão lógica
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Workflow> getByNomeDescricaoAtivo(String nome, String descricao, Boolean ativo,
 			Integer paginaAtual) {
 		return this.workflowDAO.getByNomeDescricaoAtivo(nome, descricao, ativo, paginaAtual);
@@ -87,6 +63,7 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	 * {@inheritDoc}
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaWorkflowDTO dto = (PesquisaWorkflowDTO) parametros;
 		return this.workflowDAO.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getAtivo());
@@ -95,6 +72,7 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public Workflow obter(Integer pk) {
 		return this.workflowDAO.obter(pk);
 	}
@@ -102,6 +80,7 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Workflow> obterTodos() {
 		return this.workflowDAO.obterTodos();
 	}
@@ -111,6 +90,9 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void salvar(Workflow workflow) throws NegocioException {
+		if (workflow.getAtivo()) { //quando salva um workflow, ele ainda não contém processos
+			throw new NegocioException("erro.workflowNaoAtivado.processo");
+		}
 		this.workflowDAO.salvar(workflow);
 	}
 
@@ -122,5 +104,40 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	@Autowired
 	public void setWorkflowDAO(WorkflowDAO workflowDAO) {
 		this.workflowDAO = workflowDAO;
+	}
+
+	/**
+	 * Verifica se o workflow for ativado, deve possuir ao menos um processo com atividade com tarefa.
+	 * 
+	 * @param workflow {@link Workflow} a verificar
+	 * @throws NegocioException caso seja violada uma regra
+	 */
+	private void verificaAtividadeDoWorkflow(Workflow workflow) throws NegocioException {
+		if (!workflow.getAtivo()) { //se a atualização não for ativo, chuta logo daqui
+			return;
+		}
+		Workflow atual = this.workflowDAO.obter(workflow.getId());
+
+		List<Processo> listaProcessos = atual.getProcessos();
+
+		if ((listaProcessos == null) || listaProcessos.isEmpty()) {
+			throw new NegocioException("erro.workflowNaoAtivado.processo");
+		}
+
+		for (Processo processo : listaProcessos) {
+			List<Atividade> listaAtividades = processo.getAtividades();
+
+			if ((listaAtividades == null) || listaAtividades.isEmpty()) {
+				throw new NegocioException("erro.workflowNaoAtivado.atividade", processo.getNome());
+			}
+
+			for (Atividade atividade : listaAtividades) {
+				List<Tarefa> listaTarefas = atividade.getTarefas();
+
+				if ((listaTarefas == null) || listaTarefas.isEmpty()) {
+					throw new NegocioException("erro.workflowNaoAtivado", atividade.getNome(), processo.getNome());
+				}
+			}
+		}
 	}
 }

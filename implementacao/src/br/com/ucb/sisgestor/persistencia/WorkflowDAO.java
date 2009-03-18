@@ -16,7 +16,8 @@ import java.util.List;
 public interface WorkflowDAO extends BaseDAO<Workflow, Integer> {
 
 	/**
-	 * Retorna um {@link List} de {@link Workflow} a partir do nome, descrição e/ou ativo/inativo
+	 * Retorna um {@link List} de {@link Workflow} a partir do nome, descrição e/ou ativo/inativo. <br />
+	 * obs: recupera apenas os workflows não excluídos
 	 * 
 	 * @param nome parte do nome do workflow
 	 * @param descricao parte da descrição do workflow
@@ -27,7 +28,8 @@ public interface WorkflowDAO extends BaseDAO<Workflow, Integer> {
 	List<Workflow> getByNomeDescricaoAtivo(String nome, String descricao, Boolean ativo, Integer paginaAtual);
 
 	/**
-	 * Recupera o total de registros retornados pela consulta.
+	 * Recupera o total de registros retornados pela consulta. <br />
+	 * obs: recupera apenas dos workflows não excluídos
 	 * 
 	 * @param nome parte do nome do workflow
 	 * @param descricao parte da descrição do workflow
