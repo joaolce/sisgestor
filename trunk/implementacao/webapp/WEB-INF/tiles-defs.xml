@@ -44,6 +44,12 @@
 	</definition>
 	<definition name="popupNovoWorkflow" path="/paginas/manterWorkflow/popupNovoWorkflow.jsp" />
 	
+	<!--  USAR WORKFLOW -->
+	<definition name="definicaoUsarWorkflow" extends="definicaoPrincipal">
+		<put name="corpo">/paginas/usarWorkflow/usarWorkflow.jsp</put>
+		<put name="titulo">Usar Workflow</put>
+	</definition>
+	
 	<!--  MANTER PROCESSO -->
 	<definition name="definicaoManterProcesso" path="/paginas/manterProcesso/manterProcesso.jsp" />
 	<definition name="popupNovoProcesso" path="/paginas/manterProcesso/popupNovoProcesso.jsp" />

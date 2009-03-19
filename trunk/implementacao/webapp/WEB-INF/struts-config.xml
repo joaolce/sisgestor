@@ -73,6 +73,16 @@
 			<forward name="popupNovoWorkflow" path="popupNovoWorkflow" />
 		</action>
 		
+		<!-- Usar Workflow -->
+		<action path="/usarWorkflow" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.UsarWorkflowAction"
+			name="usarWorkflowForm"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoUsarWorkflow" />
+		</action>
+		
 		<!-- Manter Processo -->
 		<action path="/manterProcesso" 
 			type="br.com.ucb.sisgestor.apresentacao.actions.ManterProcessoAction"

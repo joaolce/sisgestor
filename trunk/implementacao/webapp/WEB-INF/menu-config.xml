@@ -38,7 +38,7 @@
 		<Menu name="MenuUsuario" title="menu.usuario" description="dica.usuario.atualizar" page="/manterUsuario.do?method=entrada" image="imagens/usuario.png" />
 		<Menu name="MenuWorkflow" title="menu.workflow" image="imagens/workflow.png">
 			<Item name="MenuWorkflowPesquisar" title="menu.workflow.pesquisar" width="110" page="/manterWorkflow.do?method=entrada" />
-			<Item name="MenuWorkflowUtilizar" title="menu.workflow.utilizar" width="110" page="#" />
+			<Item name="MenuWorkflowUsar" title="menu.workflow.usar" width="110" page="/usarWorkflow.do?method=entrada" />
 		</Menu>
 		<Menu name="MenuSair" title="menu.sair" description="dica.sair" page="/dologin?logout=true" image="imagens/sair.png"/>
 	</Menus>
