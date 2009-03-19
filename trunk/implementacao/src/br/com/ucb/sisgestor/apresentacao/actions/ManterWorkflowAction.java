@@ -38,7 +38,7 @@ public class ManterWorkflowAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterWorkflowActionForm form = (ManterWorkflowActionForm) actionForm;
 
-		Workflow workflow = new Workflow();
+		Workflow workflow = this.workflowBO.obter(form.getId());
 		this.copyProperties(workflow, form);
 
 		this.workflowBO.atualizar(workflow);

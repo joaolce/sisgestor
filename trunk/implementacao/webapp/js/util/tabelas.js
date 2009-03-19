@@ -29,7 +29,6 @@
  * 		tabela.setOnClick(function(){
  * 			alert("clicou uma vez");
  * 		});
-
  * </code>
  * 
  */
@@ -90,7 +89,7 @@ Tabela.prototype = {
 	 * 
 	 * @type Integer
 	 */
-   qtdPaginasExibidas :20,
+   qtdPaginasExibidas :15,
    /**
 	 * página atual
 	 * 
@@ -277,9 +276,9 @@ Tabela.prototype = {
 	 */
    toggleForwardButton : function(exibe) {
 	   if (exibe) {
-		   this._getForwardButton().style.visibility = "";
+		   this._getForwardButton().show();
 	   } else {
-		   this._getForwardButton().style.visibility = "hidden";
+		   this._getForwardButton().hide();
 	   }
    },
    /**
@@ -373,14 +372,14 @@ Tabela.prototype = {
 	   for (; index <= maximo; index++) {
 		   var numeracao = index.toString();
 
-		   if (index != this.totalPaginas) {
-			   numeracao = numeracao.concat(", ");
-		   }
 		   var ancora = null;
 		   if (index == this.paginaAtual + 1) {
-			   ancora = Builder.node("span", {
-				   style :"background-color: #EFEFEF; color: #0065FF; border: 1px solid #0065FF"
-			   }, [ document.createTextNode(numeracao) ]);
+			   ancora = Builder
+			      .node(
+			         "span",
+			         {
+				         style :"background-color: #EFEFEF; color: #0065FF; border: 1px solid #0065FF; font-weight: bold;padding: 0px 3px;"
+			         }, [ document.createTextNode(numeracao) ]);
 		   } else {
 			   ancora = Builder.node("a", {
 				   href :"#"
@@ -388,7 +387,20 @@ Tabela.prototype = {
 			   Event.observe(ancora, "click", this.gotoPage.bind(this, index - 1));
 		   }
 		   divNumeracao.appendChild(ancora);
+		   if (index != this.totalPaginas) {
+			   divNumeracao.appendChild(Builder.node("span", {
+				   style :"color: #0065FF;"
+			   }, [ document.createTextNode(", ") ]));
+		   }
 	   }
+	   var mensagemQtdRegistrosPagina = "Exibindo " + this.qtdRegistrosPagina
+	      + " registros por página em um total de " + this.totalPaginas + " página(s).";
+	   this.divPaginacao.appendChild(Builder.node("span", {
+	      title :mensagemQtdRegistrosPagina,
+	      className :"registrosPaginacao"
+	   }, [ document.createTextNode(" ("),
+	      Builder.node("b", [ document.createTextNode(this.totalRegistros) ]),
+	      document.createTextNode(" registros)") ]));
    },
    /**
 	 * @return true se primeira false se não
@@ -621,7 +633,7 @@ Tabela.prototype = {
 	 */
    _seleciona : function(tr) {
 	   this.selecionarTR(tr);
-	   if ((this.onClick != null) && this.onClick instanceof Function) {
+	   if ((this.onClick != null) && (this.onClick instanceof Function)) {
 		   this.onClick(tr);
 	   }
    },

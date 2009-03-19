@@ -90,6 +90,17 @@ THEAD TR {
 	border: solid 1px rgb(220, 220, 220);
 }
 
+.tituloTabela {
+	color: activeborder;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.bordaTabela {
+	border: solid 1px activeborder;
+	overflow: auto;
+}
+
 .cab {
 	background-color: #003366;
 	color: white;
@@ -278,7 +289,7 @@ input[type="text"].data {
 }
 
 .btDesativado img {
-	filter: alpha(opacity = 30);
+	filter: alpha(opacity =       30);
 	opacity: 0.3;
 }
 
@@ -344,6 +355,11 @@ input[type="text"].data {
 
 .mtaba:active {
 	color: #003366;
+}
+
+.registrosPaginacao {
+	color: olive;
+	cursor: help;
 }
 
 .botaoMarcar {

@@ -1,12 +1,12 @@
 /**
  * Request Utils
- * 
+ *
  * Funcionalidades de requisições de form e de url simples com tratamento do XML gerado
- * 
+ *
  * <b>(1) para submeter um form assíncronamente para o Struts:</b> <code>
  * 		<form name="exemplo" action="teste.do" onsubmit="requestUtils.submitForm(this); return false;">...</form>
  * </code>
- * 
+ *
  * <b>(2) para fazer uma requisição GET a uma url e receber o resultado dela:</b> <code>
  * 		var url = "paginaTeste.do";
  * 		var posFunction = function(){
@@ -15,7 +15,7 @@
  * 		requestUtils.simpleRequest(url, posFunction);
  * 		//o parâmetro posFunction é opcional
  * </code>
- * 
+ *
  */
 
 var RequestUtils = Class.create();
@@ -31,14 +31,14 @@ RequestUtils.prototype = {
    /**
 	 * status da requisição se true as mensagens aparecerão em verde, false as mensagens aparecerão
 	 * em vermelho
-	 * 
+	 *
 	 * @type Boolean
 	 */
    status :false,
 
    /**
 	 * de mensagens recebidas e processadas pelo Javascript
-	 * 
+	 *
 	 * @type Array
 	 */
    mensagens :null,
@@ -59,7 +59,7 @@ RequestUtils.prototype = {
    generatedId :null,
    /**
 	 * hashmap de valores {chave e valor} devolvidos pelo servidor
-	 * 
+	 *
 	 * @type Hash
 	 */
    valoresDevolvidos :null,
@@ -94,7 +94,7 @@ RequestUtils.prototype = {
    janelaAtual :null,
    /**
 	 * função que será executada quando o usuário clicar ok na janela de mensagens
-	 * 
+	 *
 	 * @type Function
 	 */
    posClickFunction :null,
@@ -105,7 +105,7 @@ RequestUtils.prototype = {
    /**
 	 * mostrar uma mensagem de erro quando o servidor cair ou ficar sem conexão de internet ou alguma
 	 * resposta diferente de 200 for recebida
-	 * 
+	 *
 	 * @param {XMLHttpRequest} request
 	 */
    showErrorDetail : function(request) {
@@ -124,7 +124,7 @@ RequestUtils.prototype = {
    /**
 	 * fazer uma requisição assíncrona simples utilizando o método GET a uma url que deverá responder
 	 * um XML para o javascript processar
-	 * 
+	 *
 	 * @param {String} url
 	 * @param {Function} posFunction função a ser executada quando a resposta for recebida (opcional)
 	 * @param {Function} posClickFunction função a ser executada quando o usuário clicar ok na janela
@@ -152,7 +152,7 @@ RequestUtils.prototype = {
    },
    /**
 	 * enviar um formulário assíncronamente, deverá ser chamado no evento onsubmit do form
-	 * 
+	 *
 	 * @param {HTMLFormElement} form
 	 * @param {Function} posFunction função a ser executada quando a resposta for recebida (opcional)
 	 * @param {Function} posClickFunction função a ser executada quando o usuário clicar ok na janela
@@ -208,7 +208,7 @@ RequestUtils.prototype = {
    },
    /**
 	 * processar a resposta do servidor
-	 * 
+	 *
 	 * @param {XMLHttpRequest} request
 	 */
    processarResposta : function(request) {
@@ -389,7 +389,7 @@ RequestUtils.prototype = {
    /**
 	 * quando o campo de focus retornado for um campo múltiplo ele virá no formato
 	 * nomeDoCampo[indice] e através do índice o componente saberá qual elemento focar
-	 * 
+	 *
 	 * @return {Integer}
 	 */
    getIndiceElementoFocus : function() {
@@ -401,7 +401,7 @@ RequestUtils.prototype = {
    },
    /**
 	 * retorna todos os elementos que deverão ser focalizado
-	 * 
+	 *
 	 * @return {Array} contendo os elementos de focus
 	 */
    getElementosFocus : function() {
@@ -426,7 +426,7 @@ RequestUtils.prototype = {
    },
    /**
 	 * procurar o elemento de focus na tela e ativar o destaque em cima dele
-	 * 
+	 *
 	 */
    processarFocusControl : function() {
 	   var elementFocus = this.getElementosFocus();
@@ -471,7 +471,7 @@ RequestUtils.prototype = {
 }
 },
 /**
- * 
+ *
  * @param {String} mens
  */
 setMensagens : function(mens) {

@@ -41,7 +41,7 @@ public class ManterAtividadeAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterAtividadeActionForm form = (ManterAtividadeActionForm) actionForm;
 
-		Atividade atividade = new Atividade();
+		Atividade atividade = this.atividadeBO.obter(form.getId());
 		this.copyProperties(atividade, form);
 
 		this.atividadeBO.atualizar(atividade);

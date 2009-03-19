@@ -7,6 +7,9 @@ package br.com.ucb.sisgestor.negocio.impl;
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Processo;
 import br.com.ucb.sisgestor.entidade.Tarefa;
+import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
+import br.com.ucb.sisgestor.entidade.TransacaoProcesso;
+import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
@@ -36,7 +39,10 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizar(Workflow workflow) throws NegocioException {
-		this.verificaAtividadeDoWorkflow(workflow);
+		if (workflow.getAtivo()) {
+			this.validaAtividadeDoWorkflow(workflow);
+			this.validaTransacoesDosProcessos(workflow);
+		}
 		this.workflowDAO.atualizar(workflow);
 	}
 
@@ -112,11 +118,8 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	 * @param workflow {@link Workflow} a verificar
 	 * @throws NegocioException caso seja violada uma regra
 	 */
-	private void verificaAtividadeDoWorkflow(Workflow workflow) throws NegocioException {
-		if (!workflow.getAtivo()) { //se a atualização não for ativo, chuta logo daqui
-			return;
-		}
-		Workflow atual = this.workflowDAO.obter(workflow.getId());
+	private void validaAtividadeDoWorkflow(Workflow workflow) throws NegocioException {
+		Workflow atual = this.workflowDAO.carregar(workflow.getId());
 
 		List<Processo> listaProcessos = atual.getProcessos();
 
@@ -138,6 +141,76 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 					throw new NegocioException("erro.workflowNaoAtivado", atividade.getNome(), processo.getNome());
 				}
 			}
+		}
+	}
+
+	/**
+	 * Verifica que todas as atividades e tarefas do workflow tenham fluxo, caso tenha apenas um, não é
+	 * verificado, pois ele já é inicial e final.
+	 * 
+	 * @param processo processo a validar
+	 * @throws NegocioException caso seja violada uma regra
+	 */
+	private void validaTransacoesDasAtividades(Processo processo) throws NegocioException {
+		List<Atividade> atividades = processo.getAtividades();
+		if (atividades.size() > 1) {
+			for (Atividade atividade : atividades) {
+				List<TransacaoAtividade> transacoesAnteriores = atividade.getTransacoesAnteriores();
+				List<TransacaoAtividade> transacoesPosteriores = atividade.getTransacoesPosteriores();
+				if (((transacoesAnteriores == null) || transacoesAnteriores.isEmpty())
+						&& ((transacoesPosteriores == null) || transacoesPosteriores.isEmpty())) {
+					throw new NegocioException("erro.workflowNaoAtivado.atividadeIsolada", atividade.getNome(),
+							processo.getNome());
+				}
+				this.validaTransacoesDasTarefas(atividade.getTarefas());
+			}
+		} else {
+			this.validaTransacoesDasTarefas(atividades.get(0).getTarefas());
+		}
+	}
+
+	/**
+	 * Verifica que todas as tarefas do workflow tenham fluxo, caso tenha apenas um, não é verificado, pois ele
+	 * já é inicial e final.
+	 * 
+	 * @param tarefas tarefas a validar
+	 * @throws NegocioException caso seja violada uma regra
+	 */
+	private void validaTransacoesDasTarefas(List<Tarefa> tarefas) throws NegocioException {
+		if (tarefas.size() > 1) {
+			for (Tarefa tarefa : tarefas) {
+				List<TransacaoTarefa> transacoesAnteriores = tarefa.getTransacoesAnteriores();
+				List<TransacaoTarefa> transacoesPosteriores = tarefa.getTransacoesPosteriores();
+				if (((transacoesAnteriores == null) || transacoesAnteriores.isEmpty())
+						&& ((transacoesPosteriores == null) || transacoesPosteriores.isEmpty())) {
+					throw new NegocioException("");
+				}
+			}
+		}
+	}
+
+	/**
+	 * Verifica que todos os processos, atividades, tarefas do workflow tenham fluxo, caso tenha apenas um, não
+	 * é verificado, pois ele já é inicial e final.
+	 * 
+	 * @param workflow workflow a validar
+	 * @throws NegocioException caso seja violada uma regra
+	 */
+	private void validaTransacoesDosProcessos(Workflow workflow) throws NegocioException {
+		Workflow atual = this.workflowDAO.carregar(workflow.getId());
+		List<Processo> processos = atual.getProcessos();
+		if (processos.size() > 1) {
+			for (Processo processo : processos) {
+				List<TransacaoProcesso> transacoesAnteriores = processo.getTransacoesAnteriores();
+				List<TransacaoProcesso> transacoesPosteriores = processo.getTransacoesPosteriores();
+				if (((transacoesAnteriores == null) || transacoesAnteriores.isEmpty())
+						&& ((transacoesPosteriores == null) || transacoesPosteriores.isEmpty())) {
+					throw new NegocioException("erro.workflowNaoAtivado.processoIsolado", processo.getNome());
+				}
+				this.validaTransacoesDasAtividades(processo);
+			}
+		} else {
+			this.validaTransacoesDasAtividades(processos.get(0));
 		}
 	}
 }

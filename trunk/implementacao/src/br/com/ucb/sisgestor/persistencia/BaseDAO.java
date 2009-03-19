@@ -30,6 +30,15 @@ public interface BaseDAO<T extends ObjetoPersistente, PK extends Serializable> {
 	void atualizar(T obj);
 
 	/**
+	 * Carrega um objeto no modo de leitura a partir da sua chave primária.
+	 * 
+	 * @param pk chave primária do objeto persistente
+	 * 
+	 * @return objeto recuperado
+	 */
+	T carregar(PK pk);
+
+	/**
 	 * Apaga um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a apagar

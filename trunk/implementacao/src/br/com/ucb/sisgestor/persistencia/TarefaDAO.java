@@ -16,7 +16,7 @@ import java.util.List;
 public interface TarefaDAO extends BaseDAO<Tarefa, Integer> {
 
 	/** Quantidade de registros por paginação da tela de Tarefas */
-	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(4);
+	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(5);
 
 	/**
 	 * Retorna um {@link List} de {@link Tarefa} a partir do nome, descrição e usuário

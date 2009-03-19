@@ -41,8 +41,7 @@ public class ManterTarefaAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterTarefaActionForm form = (ManterTarefaActionForm) actionForm;
 
-		Tarefa tarefa = new Tarefa();
-
+		Tarefa tarefa = this.tarefaBO.obter(form.getId());
 		this.copyProperties(tarefa, form);
 
 		this.tarefaBO.atualizar(tarefa);

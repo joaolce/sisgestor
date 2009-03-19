@@ -52,7 +52,7 @@ JanelasComuns = {
    },
    /**
 	 * mostrar mensagem de confirmação
-	 * 
+	 *
 	 * @param {String} mensagem
 	 * @param {Function} funcTrue função a ser executada caso o usuário clique ok
 	 * @param {Function} funcFalse função a ser executada caso o usuário clique cancelar (opcional)
@@ -153,7 +153,7 @@ JanelasComuns = {
    },
    /**
 	 * Exibir uma mensagem em vermelho ou verde de acordo com o status passado
-	 * 
+	 *
 	 * @param {String} message
 	 * @param {Boolean} status
 	 * @param {Function} posFunction função que será executada quando o usuário clicar ok na tela
@@ -184,7 +184,7 @@ JanelasComuns = {
 	      });
    },
    /**
-	 * 
+	 *
 	 * @param {String} mens
 	 */
    setMensagens : function(mens) {
@@ -194,7 +194,7 @@ JanelasComuns = {
 /**
  * cria uma janela dentro da tela atual de acordo com as especificações passadas e carrega a url
  * passada dentro dela
- * 
+ *
  * @param {Number} heightP altura em pixels
  * @param {Number} widthP largura em pixels
  * @param {Number} leftP posição x em pixels
@@ -203,7 +203,7 @@ JanelasComuns = {
  * @param {String} id id a ser atribuído ao div que será criado
  * @param {String} url necessário carregar nenhuma url passar esse parâmetro como null
  * @param {Function} posFunction função a ser executada após o conteúdo ser carregado
- * 
+ *
  * @return {Janela} instância do objeto janela criado
  */
 function createWindow(heightP, widthP, leftP, topP, titulo, id, url, posFunction) {
