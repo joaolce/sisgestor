@@ -18,7 +18,7 @@ HabilitaDesabilitaElementos.prototype = {
 	 * @param {String} tag elemento html que deverá ser desabilitado
 	 * @param {String} idelemento elemento pai, opcional, se não passado desabilitará todas as tags
 	 *        especificadas do documento
-	 */
+	 */ 
    initialize : function(tag, idelemento) {
 	   if (! [ "input", "select", "textarea" ].include(tag)) {
 		   throw new Error("somente input, select, textarea");
@@ -747,21 +747,22 @@ for (i = 0; i < ordenado.length; i++) {
  * 
  * datas: ##/##/#### ou ##/##/#### ##:## cpf: ###.###.###-## cnpj: ##.###.###/####-##
  * 
- * @param {String} id do campo que deverá conter a máscara
+ * @param {String} campo do campo que deverá conter a máscara
  * @param {String} mask máscara que o campo deverá obedecer
  */
-function MaskInput(id, mask) {
+function MaskInput(campo, mask) {
+	campo = $(campo);
 	// validar se for máscara de data
 	if (mask == "##/##/####") {
-		$(id).maxLength = 10;
-		Event.observe(id, "keyup", function(event) {
-			//Recupera o código da tecla pressionada
+		campo.maxLength = 10;
+		Event.observe(campo, "keyup", function(event) {
+			// Recupera o código da tecla pressionada
 			var key = event.keyCode;
 			if (ehNumero(key)) {
-				formataData(Event.element(event), key);
+				formatarData(Event.element(event), key);
 			}
 		});
-		Event.observe(id, "blur", function(event) {
+		Event.observe(campo, "blur", function(event) {
 			var elemento = Event.element(event);
 			if (!isBlankOrNull(elemento.value) && !isDate(elemento.value, "dd/MM/yyyy")) {
 				JanelasComuns.showMessage("A data informada não é válida!", false, function() {
@@ -771,9 +772,9 @@ function MaskInput(id, mask) {
 		});
 	} else {
 		var oStringMask = new Mask(mask);
-		oStringMask.attach($(id));
-		if (!isBlankOrNull($(id).value)) {
-			$(id).value = oStringMask.format($(id).value);
+		oStringMask.attach(campo);
+		if (!isBlankOrNull(campo.value)) {
+			campo.value = oStringMask.format(campo.value);
 		}
 	}
 }
@@ -1053,7 +1054,8 @@ function contaChar(txtArea, tamanho, contagem) {
 		dwr.util.setValue(txtArea, txtArea.value.substring(0, tamanho));
 		JanelasComuns.showMessage("É permitido somente " + tamanho + " caracteres.");
 	}
-	dwr.util.setValue((contagem == undefined) ? "contagem" : contagem, tamanho - txtArea.value.length);
+	dwr.util.setValue((contagem == undefined) ? "contagem" : contagem, tamanho
+	   - txtArea.value.length);
 }
 /**
  * pré carregar várias imagens
@@ -1192,7 +1194,7 @@ function formatarDocumento(documento) {
 	if (documento.length == 11) {
 		return documento.substr(0, 3) + '.' + documento.substr(3, 3) + '.' + documento.substr(6, 3)
 		   + '-' + documento.substr(9, 2);
-	} 
+	}
 	return documento.substr(0, 2) + '.' + documento.substr(2, 3) + '.' + documento.substr(5, 3)
 	   + '/' + documento.substr(8, 4) + '-' + documento.substr(12, 2);
 }
@@ -1201,90 +1203,94 @@ function formatarDocumento(documento) {
  * 
  * @param campo campo para formatação (data)
  * @param key código do caracter digitado
- * */
-function formatarData(campo,key){
+ */
+function formatarData(campo, key) {
 	var valor = campo.value;
 	var tam = valor.length;
-	
-	//valor digitado
+
+	// valor digitado
 	var vr = "";
-	
-	//recupera o valor digitado do teclado
-	if( (key >= 48) && (key <= 57)){
+
+	// recupera o valor digitado do teclado
+	if ((key >= 48) && (key <= 57)) {
 		vr = String.fromCharCode(key);
 	}
-	//recupera o valor digitado do numpad
-	if( (key >= 96)  && (key <= 105)){
+	// recupera o valor digitado do numpad
+	if ((key >= 96) && (key <= 105)) {
 		vr = getValor(key);
 	}
-	
-	if( !isBlankOrNull(vr) ){
+
+	if (!isBlankOrNull(vr)) {
 		var cursor = getPosicaoCursor(campo);
-		
-		if( cursor < tam ){
+
+		if (cursor < tam) {
 			// Se o cursor estiver antes do final do campo, está substituindo o valor
-			
-			if(valor.substr(cursor,1) == "/"){
-				//usuario tenta substituir o caracter '/' mas na verdade substitui o caracter posterior
-				
-				if(tam == 10){
-					campo.value = valor.substr(0,cursor) + '/' + vr + valor.substr(cursor + 2,tam - cursor);
+
+			if (valor.substr(cursor, 1) == "/") {
+				// usuario tenta substituir o caracter '/' mas na verdade substitui o caracter posterior
+
+				if (tam == 10) {
+					campo.value = valor.substr(0, cursor) + '/' + vr
+					   + valor.substr(cursor + 2, tam - cursor);
 					cursor++;
-				}else{
-					campo.value = valor.substr(0,cursor -1) + '/' + vr + valor.substr(cursor + 2,tam - cursor);
+				} else {
+					campo.value = valor.substr(0, cursor - 1) + '/' + vr
+					   + valor.substr(cursor + 2, tam - cursor);
 				}
-			}else{
-				//Efetua a substituição
-				
-				if(tam == 10){
-					//Campo preenchido totalmente
-					campo.value = valor.substr(0,cursor) + vr + valor.substr(cursor + 1, tam);
-				}else{
-					campo.value = valor.substr(0,cursor) + valor.substr(cursor + 1, tam - (cursor + 1));
+			} else {
+				// Efetua a substituição
+
+				if (tam == 10) {
+					// Campo preenchido totalmente
+					campo.value = valor.substr(0, cursor) + vr + valor.substr(cursor + 1, tam);
+				} else {
+					campo.value = valor.substr(0, cursor) + valor.substr(cursor + 1, tam - (cursor + 1));
 					cursor--;
 				}
 			}
-			//Posiciona o cursor após o valor informado
-			setPosicaoCursor(campo,cursor+1);
-		}else{
-			//Trecho executado apenas se o cursor estiver posicionado ao final do campo
-			
-			if((tam == 2) || (tam ==5) ){
-				//completa o valor com o caracter '/'
+			// Posiciona o cursor após o valor informado
+			setPosicaoCursor(campo, cursor + 1);
+		} else {
+			// Trecho executado apenas se o cursor estiver posicionado ao final do campo
+
+			if ((tam == 2) || (tam == 5)) {
+				// completa o valor com o caracter '/'
 				campo.value = valor + '/';
-			}else{
-				//Ao tentar substituir o caracter '/', o novo valor é adicionado após o '/'
-				
-				if((tam == 3) && (valor.substr(2,1) != "/")){
-		 			campo.value = valor.substr(0,2) + '/' + valor.substr(2,1);
-		 		}else{
-		 			if((tam ==6) && (valor.substr(5,1) != "/")){
-		 				campo.value = valor.substr(0,5) + '/' + valor.substr(5,1);
-		 			}
-		 		}
-			} 
+			} else {
+				// Ao tentar substituir o caracter '/', o novo valor é adicionado após o '/'
+
+				if ((tam == 3) && (valor.substr(2, 1) != "/")) {
+					campo.value = valor.substr(0, 2) + '/' + valor.substr(2, 1);
+				} else {
+					if ((tam == 6) && (valor.substr(5, 1) != "/")) {
+						campo.value = valor.substr(0, 5) + '/' + valor.substr(5, 1);
+					}
+				}
+			}
 		}
 		cursor = getPosicaoCursor(campo);
 		valor = campo.value;
-		
-		//posiciona o cursor após o caracter '/'
-		if(valor.substr(cursor,1) == "/"){
-			setPosicaoCursor(campo,cursor + 1);
+
+		// posiciona o cursor após o caracter '/'
+		if (valor.substr(cursor, 1) == "/") {
+			setPosicaoCursor(campo, cursor + 1);
 		}
-		if((tam ==10) && ((valor.substr(2,1) != "/") || (valor.substr(5,1) != "/"))){
- 			//Remove as barras do campo 
- 			valor = valor.replace(/\//g,"");
- 			campo.value = valor.substr( 0, 2 ) + '/' + valor.substr( 2, 2 ) + '/' + valor.substr( 4, 4 );
- 		}
+		if ((tam == 10) && ((valor.substr(2, 1) != "/") || (valor.substr(5, 1) != "/"))) {
+			// Remove as barras do campo
+			valor = valor.replace(/\//g, "");
+			campo.value = valor.substr(0, 2) + '/' + valor.substr(2, 2) + '/' + valor.substr(4, 4);
+		}
 	}
 }
 /**
  * Verifica se o caracter informado é número
- * @param key código do caracter
- * @return <code>true</code>, se for número;<br><code>false</code>, se não for.
- * */
-function ehNumero(key){
-	if( ((key >= 48) && (key <= 57)) || ((key >= 96)  && (key <= 105)) ){
+ * 
+ * @param {Number} key código do caracter
+ * @return <code>true</code>, se for número;<br>
+ *         <code>false</code>, se não for.
+ */
+function ehNumero(key) {
+	if (((key >= 48) && (key <= 57)) || ((key >= 96) && (key <= 105))) {
 		return true;
 	}
 	return false;
@@ -1294,27 +1300,27 @@ function ehNumero(key){
  * Recupera a posição do cursor.
  * 
  * @param campo
- * */
-function getPosicaoCursor(campo){
+ */
+function getPosicaoCursor(campo) {
 	var posicaoCursor = 0;
-	
-	//IE
-	if(document.selection){
-		var obj = document.activeElement;  
-		var cur = document.selection.createRange();  
-		if (obj && cur) {  
-			var textRange = obj.createTextRange();  
-			if (textRange) {  
-				while (cur.compareEndPoints("StartToStart", textRange) > 0) {  
-					textRange.moveStart("character", 1);  
-					posicaoCursor++;  
-				}  
-			}  
+
+	// IE
+	if (document.selection) {
+		var obj = document.activeElement;
+		var cur = document.selection.createRange();
+		if (obj && cur) {
+			var textRange = obj.createTextRange();
+			if (textRange) {
+				while (cur.compareEndPoints("StartToStart", textRange) > 0) {
+					textRange.moveStart("character", 1);
+					posicaoCursor++;
+				}
+			}
 		}
-	}else{
+	} else {
 		posicaoCursor = $(campo).selectionStart;
 	}
-	
+
 	return posicaoCursor;
 }
 
@@ -1323,32 +1329,33 @@ function getPosicaoCursor(campo){
  * 
  * @param campo
  * @param posicao
- * */
-function setPosicaoCursor(campo, posicao){
-	if(document.selection){
-		//IE
-		var obj = document.activeElement;  
-		if (obj) {  
-			var textRange = obj.createTextRange();  
-			if (textRange) {  
+ */
+function setPosicaoCursor(campo, posicao) {
+	if (document.selection) {
+		// IE
+		var obj = document.activeElement;
+		if (obj) {
+			var textRange = obj.createTextRange();
+			if (textRange) {
 				textRange.moveStart("character", posicao);
 				textRange.collapse(true);
 				textRange.select();
-			}  
+			}
 		}
-	}else{
+	} else {
 		campo.selectionStart = posicao;
-		campo.selectionEnd   = posicao;
+		campo.selectionEnd = posicao;
 	}
 }
 
 /**
  * Recupera o valor do caracter digitado.
+ * 
  * @param key codigo do caracter
- * */
-function getValor(key){
+ */
+function getValor(key) {
 	var retorno = "";
-	switch(key){
+	switch (key) {
 		case 96:
 			retorno = "0";
 			break;
@@ -1392,10 +1399,13 @@ function getValor(key){
 function confirmacaoSair(form) {
 	form = $(form);
 	var campoAlterado = function(event) {
-		shouldCoverDisplay = false;
-		window.onbeforeunload = function() {
-			return "Deseja sair sem salvar as alterações?";
-		};
+		if (event.propertyName != "disabled") {
+			var elemento = Event.element(event);
+			shouldCoverDisplay = false;
+			window.onbeforeunload = function() {
+				return "Deseja sair sem salvar as alterações?";
+			};
+		}
 	};
 	form.getElements().each( function(elemento) {
 		switch (elemento.nodeName.toLowerCase()) {
@@ -1430,12 +1440,11 @@ function confirmacaoSair(form) {
 
 function filtraCampo(campo) {
 	var s = "";
-	var cp = "";
 	vr = campo.value;
 	tam = vr.length;
-	for (i = 0; i < tam; i++) {
-		if ((vr.substring(i, i + 1) != "/") && (vr.substring(i, i + 1) != "-")
-		   && (vr.substring(i, i + 1) != ".") && (vr.substring(i, i + 1) != ",")) {
+	for ( var i = 0; i < tam; i++) {
+		if (vr.substring(i, i + 1) != "/" && vr.substring(i, i + 1) != "-"
+		   && vr.substring(i, i + 1) != "." && vr.substring(i, i + 1) != ",") {
 			s = s + vr.substring(i, i + 1);
 		}
 	}

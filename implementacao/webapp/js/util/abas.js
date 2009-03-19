@@ -1,8 +1,8 @@
 /**
  * ABAS
- * 
+ *
  * <b>Instruções de uso</b>
- * 
+ *
  * <code>
  *	 	<a href="#" id="tabRegistroAncora">
  *			Aba 1
@@ -16,14 +16,14 @@
  *		<div id="tabResultadoPesquisa">
  *			Conteúdo da tab2
  *		</div>
- * 
+ *
  * 		<script type="text/javascript">
  * 			Event.observe(window, "load", function(){
  * 				//lembrando que a ordem importa, tem que ser primeir o id do botão que vai ativar a tab depois o conteúdo dela
- *				FactoryAbas.getNewAba("tabRegistroAncora,tabRegistro;tabCidadaoAncora,tabCidadao"); 
+ *				FactoryAbas.getNewAba("tabRegistroAncora,tabRegistro;tabCidadaoAncora,tabCidadao");
  * 			});
  * 		</script>
- * 
+ *
  *	</code>
  */
 
@@ -32,21 +32,21 @@ var Aba = Class.create();
 Aba.prototype = {
    /**
 	 * estilo para o botão de aba ativa
-	 * 
+	 *
 	 * @type String
 	 */
    styleClassAtivo :"mtabi",
 
    /**
 	 * estilo para o botão de aba inativa
-	 * 
+	 *
 	 * @type String
 	 */
    styleClassInativo :"mtaba",
 
    /**
 	 * pares de abas (botão e div de conteúdo da aba)
-	 * 
+	 *
 	 * @type Hash
 	 */
    pares :null,
@@ -58,7 +58,7 @@ Aba.prototype = {
 
    /**
 	 * @constructor
-	 * 
+	 *
 	 * deverá ser passado os pares de botão/conteúdo como segue o exemplo
 	 * botao1,conteudo1;botao2,conteudo2;botao3,conteudo3
 	 * @param {String} conjuntos
@@ -112,7 +112,7 @@ Aba.prototype = {
    },
    /**
 	 * mostra a aba que contém o elemento passado
-	 * 
+	 *
 	 * @type HTMLElement
 	 */
    ativaTabPorElemento : function(elemento) {
@@ -134,7 +134,7 @@ Aba.prototype = {
    },
    /**
 	 * ativa a tab pelo id do elemento botão
-	 * 
+	 *
 	 * @param {String} idElemento
 	 */
    ativaTabPorId : function(idElemento) {
@@ -152,7 +152,7 @@ var FactoryAbas = Class.create();
 FactoryAbas = {
    /**
 	 * todas as abas ativas
-	 * 
+	 *
 	 * @type Array
 	 */
    abasAtivas :new Array(),
@@ -167,7 +167,7 @@ FactoryAbas = {
    },
    /**
 	 * procura o elemento passado em todos os conjuntos de abas e ativa a aba onde ele foi encontrado
-	 * 
+	 *
 	 * @param {Element}elemento
 	 */
    ativaAbaPorElemento : function(elemento) {
@@ -188,7 +188,7 @@ FactoryAbas = {
    },
    /**
 	 * Ativa a aba pelo id do botão da mesma
-	 * 
+	 *
 	 * @param {String} idBotaoAba
 	 */
    ativaAbaPorId : function(idBotaoAba) {

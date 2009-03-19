@@ -38,7 +38,7 @@ LoadingControl.prototype = {
    initialize : function() {},
    controle :0,
    /**
-	 * 
+	 *
 	 * @return {HTMLDivElement}
 	 */
    getLoading : function() {

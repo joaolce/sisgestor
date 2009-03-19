@@ -41,7 +41,7 @@ public class ManterProcessoAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterProcessoActionForm form = (ManterProcessoActionForm) actionForm;
 
-		Processo processo = new Processo();
+		Processo processo = this.processoBO.obter(form.getId());
 		this.copyProperties(processo, form);
 
 		this.processoBO.atualizar(processo);

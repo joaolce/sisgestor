@@ -14,7 +14,7 @@ Usuario = {
 
    /**
 	 * Recupera o usuário logado.
-	 * 
+	 *
 	 * @return usuário logado
 	 */
    getUsuario : function() {
@@ -23,7 +23,7 @@ Usuario = {
 
    /**
 	 * Armazena o usuário logado.
-	 * 
+	 *
 	 * @param usuario usuário a armazenar
 	 */
    setUsuario : function(usuario) {
@@ -32,7 +32,7 @@ Usuario = {
 
    /**
 	 * Verifica se o usuário logado possui a permissão informada.
-	 * 
+	 *
 	 * @param permissao código da permissão
 	 * @return <code>true</code> caso usuário possui permissão, <code>false</code> caso não
 	 *         possua

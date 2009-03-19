@@ -38,7 +38,7 @@ public class ManterDepartamentoAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm form = (ManterDepartamentoActionForm) formulario;
 
-		Departamento departamento = new Departamento();
+		Departamento departamento = this.departamentoBO.obter(form.getId());
 		this.copyProperties(departamento, form);
 
 		this.departamentoBO.atualizar(departamento);

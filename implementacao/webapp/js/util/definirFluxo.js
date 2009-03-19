@@ -1,6 +1,6 @@
 /**
  * Comportamentos para definição dos fluxos e comportamentos das divs
- * 
+ *
  * @author Thiago
  * @since 04/03/2009
  */
@@ -37,7 +37,7 @@ DefinirFluxo.prototype = {
 
    /**
 	 * Cria um circulo(div) para fazer representação na página
-	 * 
+	 *
 	 * @param id Código identificador
 	 * @param nome Nome
 	 * @param descricao Descrição
@@ -90,7 +90,7 @@ DefinirFluxo.prototype = {
 
    /**
 	 * Liga uma div a outra.
-	 * 
+	 *
 	 * @param id Identificador da div que recebeu duplo click.
 	 */
    ligar : function(id) {
@@ -119,8 +119,8 @@ DefinirFluxo.prototype = {
 
    /**
 	 * Verifica se o fluxo já foi definido.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param origem Identificador da div de origem
 	 * @param destino Identificador da div de destino
 	 * @return <code>true</code>, se o fluxo já foi definido;<br>
@@ -143,7 +143,7 @@ DefinirFluxo.prototype = {
 
    /**
 	 * Liga duas divs através de uma seta.
-	 * 
+	 *
 	 * @param origem Div de origem
 	 * @param destino Div de destino
 	 */
@@ -159,7 +159,7 @@ DefinirFluxo.prototype = {
 
    /**
 	 * Coloca em destaque(remove destaque) a div selecionada como origem do fluxo
-	 * 
+	 *
 	 * @param div Div a ser destacada ou removida o destaque
 	 */
    destacarDiv : function(div) {
@@ -172,9 +172,9 @@ DefinirFluxo.prototype = {
 
    /**
 	 * Tira o draggable das divs.
-	 * 
+	 *
 	 * @param id1 id da primeira div
-	 * @param id2 id da segunda 	div
+	 * @param id2 id da segunda div
 	 */
    tiraDraggable : function(id1, id2) {
 	   this.divProcessos.get(id1).destroy();
