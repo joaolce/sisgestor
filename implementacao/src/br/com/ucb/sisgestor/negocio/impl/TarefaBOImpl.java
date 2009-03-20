@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Tarefa;
+import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.TarefaDAO;
@@ -39,8 +40,37 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	public void atualizarTransacoes(Integer idAtividade, List<TransacaoTarefa> transacoes)
+			throws NegocioException {
+		List<TransacaoTarefa> atual = this.tarefaDAO.recuperarTransacoesDaAtividade(idAtividade);
+		if (atual != null) {
+			//excluindo as transações atuais
+			for (TransacaoTarefa transacao : atual) {
+				this.tarefaDAO.excluirTransacao(transacao);
+			}
+			this.flush();
+		}
+		//inserindo as transações enviadas
+		for (TransacaoTarefa transacao : transacoes) {
+			this.tarefaDAO.salvarTransacao(transacao);
+		}
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void excluir(Tarefa tarefa) throws NegocioException {
 		this.tarefaDAO.excluir(tarefa);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(readOnly = true)
+	public List<Tarefa> getByAtividade(Integer atividade) {
+		return this.tarefaDAO.getByAtividade(atividade);
 	}
 
 	/**

@@ -32,6 +32,20 @@ public class ManterAtividadeDWR extends BaseDWR {
 	}
 
 	/**
+	 * Recupera todas as atividades referenciadas pelo processo
+	 * 
+	 * @param idProcesso Código identificador do processo
+	 * @return {@link List} de {@link Atividade}
+	 */
+	public ListaResultadoDTO<Atividade> getByProcesso(Integer idProcesso) {
+		ListaResultadoDTO<Atividade> resultado = new ListaResultadoDTO<Atividade>();
+
+		resultado.setColecaoParcial(this.atividadeBO.getByProcesso(idProcesso));
+
+		return resultado;
+	}
+
+	/**
 	 * Pesquisa as atividades com os parâmetros preenchidos.
 	 * 
 	 * @param parametros parâmetros da pesquisa

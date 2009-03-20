@@ -169,7 +169,8 @@ ManterProcesso.prototype = {
 		   dwr.util.setValue("workflowFluxo", idWorkflow);
 		   
 		   ManterProcessoDWR.getByWorkflow(idWorkflow, ( function(listaProcessos){
-			   fluxo.initialize();
+			   fluxo = new DefinirFluxo();
+			   new Grafico();
 			   listaProcessos.colecaoParcial.each( function(processo){
 				   fluxo.gerarRepresentacao(processo.id, processo.nome, processo.descricao);
 			   });

@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.persistencia.impl;
 
 import br.com.ucb.sisgestor.entidade.Tarefa;
+import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
 import br.com.ucb.sisgestor.persistencia.TarefaDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
 import java.util.List;
@@ -35,6 +36,25 @@ public class TarefaDAOImpl extends BaseDAOImpl<Tarefa, Integer> implements Taref
 	/**
 	 * {@inheritDoc}
 	 */
+	public void excluirTransacao(TransacaoTarefa transacao) {
+		this.getSession().delete(transacao);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<Tarefa> getByAtividade(Integer idAtividade) {
+		Criteria criteria = this.createCriteria(Tarefa.class);
+
+		criteria.createAlias("this.atividade", "atividade");
+		criteria.add(Restrictions.eq("atividade.id", idAtividade));
+		criteria.addOrder(this.getOrdemLista());
+		return GenericsUtil.checkedList(criteria.list(), Tarefa.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Tarefa> getByNomeDescricaoUsuario(String nome, String descricao, Integer usuario,
 			Integer idAtividade, Integer paginaAtual) {
 		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, usuario, idAtividade);
@@ -50,6 +70,24 @@ public class TarefaDAOImpl extends BaseDAOImpl<Tarefa, Integer> implements Taref
 		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, usuario, idAtividade);
 		criteria.setProjection(Projections.rowCount());
 		return (Integer) criteria.uniqueResult();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<TransacaoTarefa> recuperarTransacoesDaAtividade(Integer idAtividade) {
+		Criteria criteria = this.createCriteria(TransacaoTarefa.class);
+		criteria.createAlias("this.anterior", "tarefaAnterior");
+		criteria.createAlias("tarefaAnterior.atividade", "atividade");
+		criteria.add(Restrictions.eq("atividade.id", idAtividade));
+		return GenericsUtil.checkedList(criteria.list(), TransacaoTarefa.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void salvarTransacao(TransacaoTarefa transacao) {
+		this.getSession().save(transacao);
 	}
 
 	/**

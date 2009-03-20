@@ -173,6 +173,42 @@ ManterTarefa.prototype = {
 		   dwr.util.setValue("atividadeNovaTarefa", $F("atividadeTarefa"));
 	   }));
    },
+   
+   /**
+    * Abre a janela para definir fluxo das atividades.
+    */
+   popupDefinirFluxoTarefas : function() {
+	   var url = "manterTarefa.do?method=popupDefinirFluxo";
+	   createWindow(486, 840, 280, 40, "Definir Fluxo das Tarefas", "divFluxoTarefa", url,
+			   ( function() {
+				   var idAtividade = $F("atividadeTarefa");
+				   dwr.util.setValue("atividadeFluxo", idAtividade);
+
+				   ManterTarefaDWR.getByAtividade(idAtividade, ( function(listaTarefas){
+					   fluxo = new DefinirFluxo();
+					   listaTarefas.colecaoParcial.each( function(tarefa){
+						   fluxo.gerarRepresentacao(tarefa.id, tarefa.nome, tarefa.descricao);
+					   });
+				   }));
+		}));
+   },
+
+   /**
+    * Envia ao action a ação de salvar o fluxo.
+    */
+   salvarFluxo : function() {
+	   var form = getForm($("definirFluxoManterTarefaForm"));
+	   form.fluxos = fluxo.listaFluxos;
+	   JanelasComuns.showConfirmDialog("Deseja definir o fluxo criado?", ( function() {
+		   requestUtils.simpleRequest("manterTarefa.do?method=salvarFluxo&"
+				   + Object.toQueryString(form), ( function() {
+					   if (requestUtils.status) {
+						   JanelaFactory.fecharJanela("divFluxoTarefa");
+					   }
+				   }));
+	   }));
+   },
+
 
    /**
 	 * Envia ao action a ação de salvar os dados da tarefa.

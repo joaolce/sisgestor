@@ -58,10 +58,12 @@
 	<!--  MANTER ATIVIDADE -->
 	<definition name="definicaoManterAtividade" path="/paginas/manterAtividade/manterAtividade.jsp" />
 	<definition name="popupNovaAtividade" path="/paginas/manterAtividade/popupNovaAtividade.jsp" />
+	<definition name="popupDefinirFluxoAtividades" path="/paginas/manterAtividade/popupDefinirFluxo.jsp" />
 	
 	<!--  MANTER TAREFA -->
 	<definition name="definicaoManterTarefa" path="/paginas/manterTarefa/manterTarefa.jsp" />
 	<definition name="popupNovaTarefa" path="/paginas/manterTarefa/popupNovaTarefa.jsp" />
+	<definition name="popupDefinirFluxoTarefas" path="/paginas/manterTarefa/popupDefinirFluxo.jsp" />
 	
 	<!--  MANTER CAMPO -->
 	<definition name="definicaoManterCampo" path="/paginas/manterCampo/manterCampo.jsp" />

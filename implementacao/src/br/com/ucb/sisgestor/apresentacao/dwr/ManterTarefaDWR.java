@@ -22,6 +22,20 @@ public class ManterTarefaDWR extends BaseDWR {
 	private TarefaBO	tarefaBO;
 
 	/**
+	 * Recupera todas as tarefas referenciadas pela atividade
+	 * 
+	 * @param idAtividade Código identificador da atividade
+	 * @return {@link List} de {@link Tarefa}
+	 */
+	public ListaResultadoDTO<Tarefa> getByAtividade(Integer idAtividade) {
+		ListaResultadoDTO<Tarefa> resultado = new ListaResultadoDTO<Tarefa>();
+
+		resultado.setColecaoParcial(this.tarefaBO.getByAtividade(idAtividade));
+
+		return resultado;
+	}
+
+	/**
 	 * Pesquisa a {@link Tarefa} pelo id.
 	 * 
 	 * @param id identificador da tarefa

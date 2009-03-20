@@ -5,6 +5,9 @@
 package br.com.ucb.sisgestor.negocio;
 
 import br.com.ucb.sisgestor.entidade.Atividade;
+import br.com.ucb.sisgestor.entidade.Processo;
+import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
+import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import java.util.List;
 
 /**
@@ -14,6 +17,15 @@ import java.util.List;
  * @since 16/02/2009
  */
 public interface AtividadeBO extends BaseBO<Atividade, Integer> {
+
+	/**
+	 * Atualiza as {@link TransacaoAtividade} informadas.
+	 * 
+	 * @param idProcesso identificador do {@link Processo}
+	 * @param transacoes transações a armazenar
+	 * @throws NegocioException caso exceção de negócio seja violada
+	 */
+	void atualizarTransacoes(Integer idProcesso, List<TransacaoAtividade> transacoes) throws NegocioException;
 
 	/**
 	 * Retorna um {@link List} de {@link Atividade} a partir dos parâmetros informados.
@@ -27,4 +39,12 @@ public interface AtividadeBO extends BaseBO<Atividade, Integer> {
 	 */
 	List<Atividade> getByNomeDescricaoDepartamento(String nome, String descricao, Integer departamento,
 			Integer idProcesso, Integer paginaAtual);
+
+	/**
+	 * Recupera todas as atividades referenciadas pelo processo
+	 * 
+	 * @param processo Id do processo
+	 * @return Lista de atividades
+	 */
+	List<Atividade> getByProcesso(Integer processo);
 }
