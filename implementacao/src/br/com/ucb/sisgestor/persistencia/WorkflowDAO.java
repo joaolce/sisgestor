@@ -23,9 +23,11 @@ public interface WorkflowDAO extends BaseDAO<Workflow, Integer> {
 	 * @param descricao parte da descrição do workflow
 	 * @param ativo indica se o workflow está ativo ou não
 	 * @param paginaAtual página atual da pesquisa
+	 * @param excluidos indica se deve apresentar os workflows excluidos
 	 * @return {@link List} de {@link Workflow}
 	 */
-	List<Workflow> getByNomeDescricaoAtivo(String nome, String descricao, Boolean ativo, Integer paginaAtual);
+	List<Workflow> getByNomeDescricaoAtivo(String nome, String descricao, Boolean ativo, Boolean excluidos,
+			Integer paginaAtual);
 
 	/**
 	 * Recupera o total de registros retornados pela consulta. <br />
@@ -34,7 +36,8 @@ public interface WorkflowDAO extends BaseDAO<Workflow, Integer> {
 	 * @param nome parte do nome do workflow
 	 * @param descricao parte da descrição do workflow
 	 * @param ativo indica se o workflow está ativo ou não
+	 * @param excluido indica se deve apresentar os workflows excluidos
 	 * @return total de registros encontrados
 	 */
-	Integer getTotalRegistros(String nome, String descricao, Boolean ativo);
+	Integer getTotalRegistros(String nome, String descricao, Boolean ativo, Boolean excluido);
 }

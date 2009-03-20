@@ -106,6 +106,15 @@ public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Seriali
 	}
 
 	/**
+	 * Dá um merge no objeto na sessão do hibernate.
+	 * 
+	 * @param objeto objeto a dar o merge
+	 */
+	protected void merge(T objeto) {
+		this.getSession().merge(objeto);
+	}
+
+	/**
 	 * Dá um refresh no objeto na sessão do hibernate.
 	 * 
 	 * @param objeto objeto a dar o refresh

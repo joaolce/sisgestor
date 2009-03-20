@@ -70,6 +70,12 @@
 				<html:submit styleClass="botaoOkCancelar">
 					<bean:message key="botao.pesquisar" />
 				</html:submit>
+				<html:link href="#" titleKey="dica.ativo" onclick="workflow.filtrarAtivos(false);">
+					<html:img srcKey="imagem.ativo" styleClass="imagemDestaque" styleId="imagemAtivo" />
+				</html:link>
+				<html:link href="#" titleKey="dica.inativo" onclick="workflow.filtrarAtivos(true);">
+					<html:img srcKey="imagem.todosRegistros" styleClass="imagemLadoLabel" styleId="imagemInativo" />
+				</html:link>
 			</div>
 		</html:form>
 	</fieldset>
@@ -82,6 +88,7 @@
 					<th><bean:message key="label.nome" /></th>
 					<th><bean:message key="label.descricao" /></th>
 					<th><bean:message key="label.ativo" /></th>
+					<th><bean:message key="label.dataHoraExclusao" /></th>
 				</tr>
 			</thead>
 			<tbody id="corpoManterWorkflow" class="corpoTabelaClicavel"/>

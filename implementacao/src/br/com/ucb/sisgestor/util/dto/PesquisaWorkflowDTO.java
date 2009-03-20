@@ -15,6 +15,7 @@ public class PesquisaWorkflowDTO extends PesquisaPaginadaDTO {
 	private String		nome;
 	private String		descricao;
 	private Boolean	ativo;
+	private Boolean	excluidos;
 
 	/**
 	 * Recupera indicador de ativo para a pesquisa.
@@ -32,6 +33,15 @@ public class PesquisaWorkflowDTO extends PesquisaPaginadaDTO {
 	 */
 	public String getDescricao() {
 		return this.descricao;
+	}
+
+	/**
+	 * Recupera se deve mostrar workflows excluidos.
+	 * 
+	 * @return se deve mostrar workflows excluidos
+	 */
+	public Boolean getExcluidos() {
+		return this.excluidos;
 	}
 
 	/**
@@ -62,6 +72,15 @@ public class PesquisaWorkflowDTO extends PesquisaPaginadaDTO {
 	}
 
 	/**
+	 * Atribui se deve mostrar workflows excluidos.
+	 * 
+	 * @param excluidos se deve mostrar workflows excluidos
+	 */
+	public void setExcluidos(Boolean excluidos) {
+		this.excluidos = excluidos;
+	}
+
+	/**
 	 * Atribui parte do nome para pesquisa.
 	 * 
 	 * @param nome parte do nome para pesquisa
@@ -69,6 +88,4 @@ public class PesquisaWorkflowDTO extends PesquisaPaginadaDTO {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-
 }

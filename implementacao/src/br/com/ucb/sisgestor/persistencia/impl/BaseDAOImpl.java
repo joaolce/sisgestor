@@ -10,7 +10,6 @@ import br.com.ucb.sisgestor.util.GenericsUtil;
 import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Criteria;
-import org.hibernate.LockMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Order;
@@ -45,13 +44,6 @@ public abstract class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serial
 	 */
 	public void atualizar(T obj) {
 		this.getSession().update(obj);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public T carregar(PK pk) {
-		return this.classePersistente.cast(this.getSession().load(this.classePersistente, pk, LockMode.NONE));
 	}
 
 	/**
