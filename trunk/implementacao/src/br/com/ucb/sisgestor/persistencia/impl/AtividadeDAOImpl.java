@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.persistencia.impl;
 
 import br.com.ucb.sisgestor.entidade.Atividade;
+import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
 import br.com.ucb.sisgestor.persistencia.AtividadeDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
 import java.util.List;
@@ -35,6 +36,13 @@ public class AtividadeDAOImpl extends BaseDAOImpl<Atividade, Integer> implements
 	/**
 	 * {@inheritDoc}
 	 */
+	public void excluirTransacao(TransacaoAtividade transacao) {
+		this.getSession().delete(transacao);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Atividade> getByNomeDescricaoDepartamento(String nome, String descricao, Integer departamento,
 			Integer idProcesso, Integer paginaAtual) {
 		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, departamento, idProcesso);
@@ -46,10 +54,40 @@ public class AtividadeDAOImpl extends BaseDAOImpl<Atividade, Integer> implements
 	/**
 	 * {@inheritDoc}
 	 */
+	public List<Atividade> getByProcesso(Integer idProcesso) {
+		Criteria criteria = this.createCriteria(Atividade.class);
+
+		criteria.createAlias("this.processo", "processo");
+		criteria.add(Restrictions.eq("processo.id", idProcesso));
+		criteria.addOrder(this.getOrdemLista());
+		return GenericsUtil.checkedList(criteria.list(), Atividade.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public Integer getTotalRegistros(String nome, String descricao, Integer departamento, Integer idProcesso) {
 		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, departamento, idProcesso);
 		criteria.setProjection(Projections.rowCount());
 		return (Integer) criteria.uniqueResult();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<TransacaoAtividade> recuperarTransacoesDoProcesso(Integer idProcesso) {
+		Criteria criteria = this.createCriteria(TransacaoAtividade.class);
+		criteria.createAlias("this.anterior", "atividadeAnterior");
+		criteria.createAlias("atividadeAnterior.processo", "processo");
+		criteria.add(Restrictions.eq("processo.id", idProcesso));
+		return GenericsUtil.checkedList(criteria.list(), TransacaoAtividade.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void salvarTransacao(TransacaoAtividade transacao) {
+		this.getSession().save(transacao);
 	}
 
 	/**

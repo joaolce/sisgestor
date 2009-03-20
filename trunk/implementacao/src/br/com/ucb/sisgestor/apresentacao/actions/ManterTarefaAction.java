@@ -7,8 +7,11 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 import br.com.ucb.sisgestor.apresentacao.forms.ManterTarefaActionForm;
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Tarefa;
+import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -88,6 +91,21 @@ public class ManterTarefaAction extends BaseAction {
 	}
 
 	/**
+	 * Abre popup para definir fluxo das tarefas.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward da inclusão
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward popupDefinirFluxo(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return this.findForward("popupDefinirFluxoTarefas");
+	}
+
+	/**
 	 * Abre o popup para incluir uma nova tarefa.
 	 * 
 	 * @param mapping objeto mapping da action
@@ -135,6 +153,29 @@ public class ManterTarefaAction extends BaseAction {
 	}
 
 	/**
+	 * Salva os fluxos das tarefas.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward da inclusão
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward salvarFluxo(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		ManterTarefaActionForm form = (ManterTarefaActionForm) formulario;
+
+		List<TransacaoTarefa> lista = this.getTransacoes(form.getFluxos());
+
+		this.tarefaBO.atualizarTransacoes(form.getAtividade(), lista);
+
+		this.addMessageKey("mensagem.fluxo");
+		return this.sendAJAXResponse(true);
+	}
+
+	/**
 	 * Atribui o BO de {@link Atividade}.
 	 * 
 	 * @param atividadeBO BO de {@link Atividade}
@@ -152,5 +193,35 @@ public class ManterTarefaAction extends BaseAction {
 	@Autowired
 	public void setTarefaBO(TarefaBO tarefaBO) {
 		this.tarefaBO = tarefaBO;
+	}
+
+	/**
+	 * Recupera a lista de transações criadas para as tarefa.
+	 * 
+	 * @param fluxos fluxos definidos pelo usuário
+	 * @return {@link List} de {@link TransacaoTarefa}
+	 */
+	private List<TransacaoTarefa> getTransacoes(String[] fluxos) {
+		List<TransacaoTarefa> lista = new ArrayList<TransacaoTarefa>();
+		if (fluxos != null) {
+			TransacaoTarefa transacao;
+			Tarefa tarefaAnterior;
+			Tarefa tarefaPosterior;
+			for (String fluxo : fluxos) {
+				String[] tarefas = fluxo.split(","); //a direção vem no formato: 1,2 (origem, destino)
+
+				transacao = new TransacaoTarefa();
+				tarefaAnterior = new Tarefa();
+				tarefaPosterior = new Tarefa();
+
+				tarefaAnterior.setId(Integer.parseInt(tarefas[0]));
+				tarefaPosterior.setId(Integer.parseInt(tarefas[1]));
+
+				transacao.setAnterior(tarefaAnterior);
+				transacao.setPosterior(tarefaPosterior);
+				lista.add(transacao);
+			}
+		}
+		return lista;
 	}
 }

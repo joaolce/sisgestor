@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Tarefa;
+import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.AtividadeDAO;
@@ -40,6 +41,26 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	public void atualizarTransacoes(Integer idProcesso, List<TransacaoAtividade> transacoes)
+			throws NegocioException {
+		List<TransacaoAtividade> atual = this.atividadeDAO.recuperarTransacoesDoProcesso(idProcesso);
+		if (atual != null) {
+			//excluindo as transações atuais
+			for (TransacaoAtividade transacao : atual) {
+				this.atividadeDAO.excluirTransacao(transacao);
+			}
+			this.flush();
+		}
+		//inserindo as transações enviadas
+		for (TransacaoAtividade transacao : transacoes) {
+			this.atividadeDAO.salvarTransacao(transacao);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void excluir(Atividade atividade) throws NegocioException {
 		List<Tarefa> lista = atividade.getTarefas();
 		//Não permite excluir uma atividade que contém tarefas
@@ -57,6 +78,14 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 			Integer idProcesso, Integer paginaAtual) {
 		return this.atividadeDAO.getByNomeDescricaoDepartamento(nome, descricao, departamento, idProcesso,
 				paginaAtual);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(readOnly = true)
+	public List<Atividade> getByProcesso(Integer processo) {
+		return this.atividadeDAO.getByProcesso(processo);
 	}
 
 	/**

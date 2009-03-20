@@ -104,6 +104,7 @@
 			parameter="method">
 			<forward name="entrada" path="definicaoManterAtividade" />
 			<forward name="popupNovaAtividade" path="popupNovaAtividade" />
+			<forward name="popupDefinirFluxoAtividades" path="popupDefinirFluxoAtividades" />
 		</action>
 		
 		<!-- Manter Tarefa -->
@@ -115,6 +116,7 @@
 			parameter="method">
 			<forward name="entrada" path="definicaoManterTarefa" />
 			<forward name="popupNovaTarefa" path="popupNovaTarefa" />
+			<forward name="popupDefinirFluxoTarefas" path="popupDefinirFluxoTarefas" />
 		</action>
 		
 		<!-- Manter Campo -->

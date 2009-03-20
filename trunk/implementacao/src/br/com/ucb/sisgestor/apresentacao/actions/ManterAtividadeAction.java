@@ -7,8 +7,11 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 import br.com.ucb.sisgestor.apresentacao.forms.ManterAtividadeActionForm;
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Departamento;
+import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.negocio.DepartamentoBO;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -86,6 +89,21 @@ public class ManterAtividadeAction extends BaseAction {
 	}
 
 	/**
+	 * Abre popup para definir fluxo das atividades.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward da inclusão
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward popupDefinirFluxo(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return this.findForward("popupDefinirFluxoAtividades");
+	}
+
+	/**
 	 * Abre o popup para incluir uma nova atividade.
 	 * 
 	 * @param mapping objeto mapping da action
@@ -129,6 +147,29 @@ public class ManterAtividadeAction extends BaseAction {
 	}
 
 	/**
+	 * Salva os fluxos das atividades.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward da inclusão
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward salvarFluxo(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		ManterAtividadeActionForm form = (ManterAtividadeActionForm) formulario;
+
+		List<TransacaoAtividade> lista = this.getTransacoes(form.getFluxos());
+
+		this.atividadeBO.atualizarTransacoes(form.getProcesso(), lista);
+
+		this.addMessageKey("mensagem.fluxo");
+		return this.sendAJAXResponse(true);
+	}
+
+	/**
 	 * Atribui o BO de {@link Atividade}.
 	 * 
 	 * @param atividadeBO BO de {@link Atividade}
@@ -146,5 +187,35 @@ public class ManterAtividadeAction extends BaseAction {
 	@Autowired
 	public void setDepartamentoBO(DepartamentoBO departamentoBO) {
 		this.departamentoBO = departamentoBO;
+	}
+
+	/**
+	 * Recupera a lista de transações criadas para as atividade.
+	 * 
+	 * @param fluxos fluxos definidos pelo usuário
+	 * @return {@link List} de {@link TransacaoAtividade}
+	 */
+	private List<TransacaoAtividade> getTransacoes(String[] fluxos) {
+		List<TransacaoAtividade> lista = new ArrayList<TransacaoAtividade>();
+		if (fluxos != null) {
+			TransacaoAtividade transacao;
+			Atividade atividadeAnterior;
+			Atividade atividadePosterior;
+			for (String fluxo : fluxos) {
+				String[] atividades = fluxo.split(","); //a direção vem no formato: 1,2 (origem, destino)
+
+				transacao = new TransacaoAtividade();
+				atividadeAnterior = new Atividade();
+				atividadePosterior = new Atividade();
+
+				atividadeAnterior.setId(Integer.parseInt(atividades[0]));
+				atividadePosterior.setId(Integer.parseInt(atividades[1]));
+
+				transacao.setAnterior(atividadeAnterior);
+				transacao.setPosterior(atividadePosterior);
+				lista.add(transacao);
+			}
+		}
+		return lista;
 	}
 }

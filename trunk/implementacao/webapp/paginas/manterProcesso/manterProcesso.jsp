@@ -7,7 +7,7 @@
 		<htmlSGR:link href="#gerenciarAtividades" titleKey="dica.atividade.gerenciar" linkName="gerenciarAtividades" styleId="linkGerenciarAtividades" styleClass="btDesativado" roles="4">
 			<html:img srcKey="imagem.atividade" width="20" height="19" />
 		</htmlSGR:link>
-		<htmlSGR:link href="#definirFluxo" titleKey="dica.definirFluxo" onclick="processo.popupDefinirFluxoProcessos();" linkName="definirFluxo" styleId="linkGerenciarAtividades" roles="4">
+		<htmlSGR:link href="#definirFluxoProcesso" titleKey="dica.definirFluxo" onclick="processo.popupDefinirFluxoProcessos();" linkName="definirFluxoProcesso" styleId="linkDefinirFluxoProcesso" roles="4">
 			<html:img srcKey="imagem.fluxo" width="20" height="19" />
 		</htmlSGR:link>
 		<htmlSGR:link href="#novoProcesso" titleKey="dica.processo.novo" onclick="processo.popupNovoProcesso();" linkName="novoProcesso" roles="4">
