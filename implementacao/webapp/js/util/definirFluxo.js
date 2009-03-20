@@ -1,6 +1,6 @@
 /**
  * Comportamentos para definição dos fluxos e comportamentos das divs
- *
+ * 
  * @author Thiago
  * @since 04/03/2009
  */
@@ -11,7 +11,7 @@ DefinirFluxo.prototype = {
 	 */
    initialize : function() {
 	   this.listaFluxos = new Array();
-	   this.divProcessos = new Hash();
+	   this.dives = new Hash();
 	   this.esquerda = 0;
 	   this.topo = 0;
 	   this.varTopo = -80;
@@ -23,8 +23,8 @@ DefinirFluxo.prototype = {
    /** Armazena os fluxos definidos na página. */
    listaFluxos :null,
 
-   /** Mapa com as divs de processo. */
-   divProcessos :null,
+   /** Mapa com as divs. */
+   dives :null,
 
    /** Posição horizontal da div. */
    esquerda :0,
@@ -37,7 +37,7 @@ DefinirFluxo.prototype = {
 
    /**
 	 * Cria um circulo(div) para fazer representação na página
-	 *
+	 * 
 	 * @param id Código identificador
 	 * @param nome Nome
 	 * @param descricao Descrição
@@ -65,9 +65,7 @@ DefinirFluxo.prototype = {
 	   });
 	   div.appendChild(divInterna);
 	   $("divFluxos").appendChild(div);
-	   this.divProcessos.set(id, new Draggable(div.id, {
-		   scroll :window
-	   }));
+	   this.dives.set(id, this.getDraggable(div.id));
 
 	   grafico.criarCirculo(div.id);
 
@@ -80,47 +78,67 @@ DefinirFluxo.prototype = {
    },
 
    /**
-	 * Limpa todos os fluxos criados na tela
+	 * Limpa todos os fluxos criados na tela, inclusive as setas.
 	 */
    limparFluxo : function() {
-	   this.initialize();
-	   // TODO Implementar função para limpar as linhas
-	JanelasComuns.showMessage("Implemente-me");
-},
+	   //Obs.: Os elementos draggables são criados novamente nesta função.
+	   var divCirculos = $("divFluxos").childNodes;
+	   var identificador;
+	   var drag;
+	   var draggables = this.dives;
+	   var totalDrags = this.dives.size();
+	   if (totalDrags > 0){
+		   this.initialize();
+		   /* Inicia-se a partir da referência 1 pois a referência 0(zero) diz
+		    * respeito ao texto "Definição do fluxo" presente no cabeçalho da div
+		    */ 
+		   for (var i = 0; i < totalDrags; i++) {
+			   identificador = divCirculos[i+1].id;
+			   drag = draggables.get(identificador);
+			   if (drag != null) {
+				   drag.destroy();
+			   }
+			   this.dives.set(identificador, this.getDraggable(identificador));
+		   }
+	   }
+	   grafico.limpar();
+   },
 
    /**
 	 * Liga uma div a outra.
-	 *
+	 * 
 	 * @param id Identificador da div que recebeu duplo click.
 	 */
    ligar : function(id) {
 	   if (this.origem == null) {
 		   this.origem = $(id);
-		   this.destacarDiv(this.origem);
+		   grafico.destacarDiv(this.origem);
 	   } else {
 		   if (this.origem.id != id) {
 			   if (!this.existeFluxoDefinido(this.origem.id, id)) {
 				   var destino = $(id);
 				   this.unirDivs(this.origem, destino);
-
 				   var fluxo = new Array(this.origem.id, id);
 				   this.listaFluxos.push(fluxo);
-				   this.destacarDiv(this.origem);
+				   grafico.removerDestaqueDiv(this.origem);
 				   this.tiraDraggable(this.origem.id, id);
 				   this.origem = null;
 			   } else {
 				   JanelasComuns.showMessage("Fluxo já foi definido.");
-				   this.destacarDiv(this.origem);
+				   grafico.removerDestaqueDiv(this.origem);
 				   this.origem = null;
 			   }
+		   } else {
+			   grafico.removerDestaqueDiv(this.origem);
+			   this.origem = null;
 		   }
 	   }
    },
 
    /**
 	 * Verifica se o fluxo já foi definido.
-	 *
-	 *
+	 * 
+	 * 
 	 * @param origem Identificador da div de origem
 	 * @param destino Identificador da div de destino
 	 * @return <code>true</code>, se o fluxo já foi definido;<br>
@@ -143,7 +161,7 @@ DefinirFluxo.prototype = {
 
    /**
 	 * Liga duas divs através de uma seta.
-	 *
+	 * 
 	 * @param origem Div de origem
 	 * @param destino Div de destino
 	 */
@@ -158,27 +176,24 @@ DefinirFluxo.prototype = {
    },
 
    /**
-	 * Coloca em destaque(remove destaque) a div selecionada como origem do fluxo
-	 *
-	 * @param div Div a ser destacada ou removida o destaque
-	 */
-   destacarDiv : function(div) {
-   // TODO Desenvolvendo...
-   // var divs = div.firstChild.childNodes;
-   // divs.each(function(element){
-   // var i = element;
-   // });
-   },
-
-   /**
 	 * Tira o draggable das divs.
-	 *
+	 * 
 	 * @param id1 id da primeira div
 	 * @param id2 id da segunda div
 	 */
    tiraDraggable : function(id1, id2) {
-	   this.divProcessos.get(id1).destroy();
-	   this.divProcessos.get(id2).destroy();
+	   this.dives.get(id1).destroy();
+	   this.dives.get(id2).destroy();
+   },
+   
+   /**
+     * Retorna um novo elemento draggable.
+     * 
+     * @param id Id da div
+     * @return Elemento draggable
+     */
+   getDraggable : function(id){
+	   return new Draggable(id, { scroll :window });
    }
 };
 
