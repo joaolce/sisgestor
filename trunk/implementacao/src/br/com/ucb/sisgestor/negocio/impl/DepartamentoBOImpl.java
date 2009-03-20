@@ -4,7 +4,6 @@
  */
 package br.com.ucb.sisgestor.negocio.impl;
 
-import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.negocio.DepartamentoBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
@@ -53,7 +52,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 		if ((departamento.getUsuarios() != null) && !departamento.getUsuarios().isEmpty()) {
 			throw new NegocioException("erro.departamento.usuarios");
 		}
-		if (this.isDepartamentoResponsavelAtividade(departamento)) {
+		if ((departamento.getAtividades() != null) && !departamento.getAtividades().isEmpty()) {
 			throw new NegocioException("erro.departamento.responsavel");
 		}
 		this.departamentoDAO.excluir(departamento);
@@ -114,33 +113,6 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	@Autowired
 	public void setDepartamentoDAO(DepartamentoDAO departamentoDAO) {
 		this.departamentoDAO = departamentoDAO;
-	}
-
-	/**
-	 * Verifica se o departamento possui alguma atividade subordinada.
-	 * 
-	 * @param departamento Departamento a ser verificado
-	 * @return <code>true</code>, se tiver;<br>
-	 *         <code>false</code>, se não.
-	 */
-	private boolean departamentoTemAtividades(Departamento departamento) {
-		List<Atividade> listaAtividades = departamento.getAtividades();
-
-		if ((listaAtividades != null) && !listaAtividades.isEmpty()) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Verifica se o departamento está responsável por alguma atividade
-	 * 
-	 * @param departamento Departamento a ser verificado
-	 * @return <code>true</code>, se está;<br>
-	 *         <code>false</code>, se não.
-	 */
-	private boolean isDepartamentoResponsavelAtividade(Departamento departamento) {
-		return this.departamentoTemAtividades(departamento);
 	}
 
 	/**

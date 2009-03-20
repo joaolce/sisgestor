@@ -22,8 +22,10 @@ public interface WorkflowBO extends BaseBO<Workflow, Integer> {
 	 * @param nome parte do nome do workflow
 	 * @param descricao parte da descrição do workflow
 	 * @param ativo indica se o workflow está ativo ou não
+	 * @param excluidos indica se deve apresentar os workflows excluidos
 	 * @param paginaAtual página atual da pesquisa
 	 * @return Retorna os workflows
 	 */
-	List<Workflow> getByNomeDescricaoAtivo(String nome, String descricao, Boolean ativo, Integer paginaAtual);
+	List<Workflow> getByNomeDescricaoAtivo(String nome, String descricao, Boolean ativo, Boolean excluidos,
+			Integer paginaAtual);
 }

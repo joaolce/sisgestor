@@ -36,8 +36,8 @@ public class WorkflowDAOImpl extends BaseDAOImpl<Workflow, Integer> implements W
 	 * {@inheritDoc}
 	 */
 	public List<Workflow> getByNomeDescricaoAtivo(String nome, String descricao, Boolean ativo,
-			Integer paginaAtual) {
-		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, ativo);
+			Boolean excluidos, Integer paginaAtual) {
+		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, ativo, excluidos);
 		this.adicionarPaginacao(criteria, paginaAtual, QTD_REGISTROS_PAGINA);
 		criteria.addOrder(Order.asc("nome"));
 		return GenericsUtil.checkedList(criteria.list(), Workflow.class);
@@ -46,8 +46,8 @@ public class WorkflowDAOImpl extends BaseDAOImpl<Workflow, Integer> implements W
 	/**
 	 * {@inheritDoc}
 	 */
-	public Integer getTotalRegistros(String nome, String descricao, Boolean ativo) {
-		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, ativo);
+	public Integer getTotalRegistros(String nome, String descricao, Boolean ativo, Boolean excluidos) {
+		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, ativo, excluidos);
 		criteria.setProjection(Projections.rowCount());
 		return (Integer) criteria.uniqueResult();
 	}
@@ -66,11 +66,11 @@ public class WorkflowDAOImpl extends BaseDAOImpl<Workflow, Integer> implements W
 	 * @param nome parte do nome do workflow
 	 * @param descricao parte da descrição do workflow
 	 * @param ativo indica se o workflow está ativo ou não
+	 * @param excluidos indica se deve apresentar os workflows excluidos
 	 * @return {@link Criteria}
 	 */
-	private Criteria montarCriteriosPaginacao(String nome, String descricao, Boolean ativo) {
+	private Criteria montarCriteriosPaginacao(String nome, String descricao, Boolean ativo, Boolean excluidos) {
 		Criteria criteria = this.createCriteria(Workflow.class);
-		criteria.add(Restrictions.isNull("dataHoraExclusao"));
 		if (StringUtils.isNotBlank(nome)) {
 			criteria.add(Restrictions.like("nome", nome, MatchMode.ANYWHERE).ignoreCase());
 		}
@@ -79,6 +79,9 @@ public class WorkflowDAOImpl extends BaseDAOImpl<Workflow, Integer> implements W
 		}
 		if (ativo != null) {
 			criteria.add(Restrictions.eq("ativo", ativo));
+		}
+		if (!excluidos) {
+			criteria.add(Restrictions.isNull("dataHoraExclusao"));
 		}
 		return criteria;
 	}

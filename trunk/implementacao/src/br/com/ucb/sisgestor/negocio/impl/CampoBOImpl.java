@@ -6,7 +6,9 @@ package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.entidade.OpcaoCampo;
+import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.CampoBO;
+import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.CampoDAO;
 import br.com.ucb.sisgestor.util.Utils;
@@ -27,14 +29,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("campoBO")
 public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 
-	private CampoDAO	campoDAO;
+	private CampoDAO		campoDAO;
+	private WorkflowBO	workflowBO;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizar(Campo campo) throws NegocioException {
-		Campo campoAtual = this.obter(campo.getId());
+		this.validarSeWorkflowAtivo(campo.getWorkflow());
+		Campo campoAtual = this.campoDAO.obter(campo.getId());
 		if (campoAtual.getOpcoes() != null) { // excluindo as opções pois o cascade não suporta para atualizar
 			for (OpcaoCampo opcao : campoAtual.getOpcoes()) {
 				this.campoDAO.excluirOpcao(opcao);
@@ -54,6 +58,7 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void excluir(Campo campo) throws NegocioException {
+		this.validarSeWorkflowAtivo(campo.getWorkflow());
 		this.campoDAO.excluir(campo);
 	}
 
@@ -96,6 +101,7 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void salvar(Campo campo) throws NegocioException {
+		this.validarSeWorkflowAtivo(campo.getWorkflow());
 		this.campoDAO.salvar(campo);
 	}
 
@@ -107,5 +113,28 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 	@Autowired
 	public void setCampoDAO(CampoDAO campoDAO) {
 		this.campoDAO = campoDAO;
+	}
+
+	/**
+	 * Atribui o BO de {@link Workflow}.
+	 * 
+	 * @param workflowBO BO de {@link Workflow}
+	 */
+	@Autowired
+	public void setWorkflowBO(WorkflowBO workflowBO) {
+		this.workflowBO = workflowBO;
+	}
+
+	/**
+	 * Verifica se o {@link Workflow} está ativo, caso esteja não pode ocorrer alteração nos processos.
+	 * 
+	 * @param workflow {@link Workflow} a verificar
+	 * @throws NegocioException caso o {@link Workflow} esteja ativo
+	 */
+	private void validarSeWorkflowAtivo(Workflow workflow) throws NegocioException {
+		Workflow workflowAtivo = this.workflowBO.obter(workflow.getId());
+		if (workflowAtivo.getAtivo()) {
+			throw new NegocioException("erro.workflowAtivo");
+		}
 	}
 }

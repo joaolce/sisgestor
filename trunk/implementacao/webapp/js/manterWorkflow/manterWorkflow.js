@@ -20,6 +20,11 @@ ManterWorkflow.prototype = {
    tabelaTelaPrincipal :null,
 
    /**
+	 * Se deve mostrar os workflows excluídos na pesquisa.
+	 */
+   excluidosPesquisa :false,
+
+   /**
 	 * @constructor
 	 */
    initialize : function() {},
@@ -80,7 +85,8 @@ ManterWorkflow.prototype = {
 	   var dto = {
 	      nome :dwr.util.getValue("nomePesquisaWorkflow"),
 	      descricao :dwr.util.getValue("descricaoPesquisaWorkflow"),
-	      ativo :dwr.util.getValue("ativoPesquisaWorkflow")
+	      ativo :dwr.util.getValue("ativoPesquisaWorkflow"),
+	      excluidos :this.excluidosPesquisa
 	   };
 
 	   if (this.tabelaTelaPrincipal == null) {
@@ -99,7 +105,7 @@ ManterWorkflow.prototype = {
 	 * @param listaWorkflow lista de workflows retornados
 	 */
    popularTabela : function(listaWorkflow) {
-   	this.tabelaTelaPrincipal.removerResultado();
+	   this.tabelaTelaPrincipal.removerResultado();
 
 	   if (listaWorkflow.length != 0) {
 		   var cellfuncs = new Array();
@@ -122,6 +128,12 @@ ManterWorkflow.prototype = {
 			   }
 			   return "Não";
 		   });
+		   cellfuncs.push( function(workflow) {
+			   if (workflow.dataHoraExclusao != null) {
+				   return getStringTimestamp(workflow.dataHoraExclusao);
+			   }
+			   return "&nbsp;";
+		   });
 		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
 		   this.tabelaTelaPrincipal.setOnClick(this.visualizar.bind(this));
 	   } else {
@@ -138,7 +150,7 @@ ManterWorkflow.prototype = {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o workflow selecionado?", ( function() {
 		   requestUtils.submitForm(form, ( function() {
 			   if (requestUtils.status) {
-			   	this.pesquisar();
+				   this.pesquisar();
 			   }
 		   }).bind(this));
 	   }).bind(this));
@@ -239,6 +251,17 @@ ManterWorkflow.prototype = {
 		   $("linkGerenciarCampos").className = "btDesativado";
 		   $("linkGerenciarCampos").onclick = "";
 	   }
+   },
+
+   /**
+	 * Filtra os workflows excluidos.
+	 * 
+	 * @param {Boolean} excluido se deve mostrar os workflows excluidos
+	 */
+   filtrarAtivos : function(excluido) {
+	   selecionarImagem("imagemInativo", "imagemAtivo", excluido);
+	   this.excluidosPesquisa = excluido;
+	   this.pesquisar();
    }
 };
 
