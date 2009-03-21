@@ -259,7 +259,7 @@ ManterWorkflow.prototype = {
 	 * @param {Boolean} excluido se deve mostrar os workflows excluidos
 	 */
    filtrarAtivos : function(excluido) {
-	   selecionarImagem("imagemInativo", "imagemAtivo", excluido);
+	   selecionarImagem("imagemAtivo", "imagemInativo", excluido);
 	   this.excluidosPesquisa = excluido;
 	   this.pesquisar();
    }

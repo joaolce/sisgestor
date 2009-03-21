@@ -51,6 +51,20 @@ IF EXIST %JBOSS_HOME%\server\default\lib\slf4j-simple-1.5.6.jar (
 	del "%JBOSS_HOME%"\server\default\lib\slf4j-simple-1.5.6.jar
 )
 
+echo removendo servicos do jboss desnecessarios
+
+IF EXIST %JBOSS_HOME%\server\default\deploy\quartz-ra.rar (
+	del "%JBOSS_HOME%"\server\default\deploy\quartz-ra.rar
+)
+
+IF EXIST %JBOSS_HOME%\server\default\deploy\schedule-manager-service.xml (
+	del "%JBOSS_HOME%"\server\default\deploy\schedule-manager-service.xml
+)
+
+IF EXIST %JBOSS_HOME%\server\default\deploy\scheduler-service.xml (
+	del "%JBOSS_HOME%"\server\default\deploy\scheduler-service.xml
+)
+
 echo Copiando arquivos de configuracoes
 
 copy configuracao\jboss\login-config.xml "%JBOSS_HOME%"\server\default\conf
