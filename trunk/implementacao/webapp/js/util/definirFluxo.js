@@ -1,21 +1,11 @@
 /**
- * Comportamentos para definição dos fluxos e comportamentos das divs
+ * Comportamentos para definição dos fluxos e comportamentos das divs.
  * 
  * @author Thiago
  * @since 04/03/2009
  */
 var DefinirFluxo = Class.create();
 DefinirFluxo.prototype = {
-   /**
-	 * @constructor
-	 */
-   initialize : function() {
-	   this.listaFluxos = new Array();
-	   this.dives = new Hash();
-	   this.esquerda = 0;
-	   this.topo = 0;
-	   this.varTopo = -80;
-   },
 
    /** Flag para saber a div de origem para ligação */
    origem :null,
@@ -36,11 +26,22 @@ DefinirFluxo.prototype = {
    varTopo :-80,
 
    /**
+	 * @constructor
+	 */
+   initialize : function() {
+	   this.listaFluxos = new Array();
+	   this.dives = new Hash();
+	   this.esquerda = 0;
+	   this.topo = 0;
+	   this.varTopo = -80;
+   },
+
+   /**
 	 * Cria um circulo(div) para fazer representação na página
 	 * 
-	 * @param id Código identificador
-	 * @param nome Nome
-	 * @param descricao Descrição
+	 * @param id Código identificador da div
+	 * @param nome nome que aparecerá dentro do círculo
+	 * @param descricao descrição title que aparecerá na div
 	 */
    gerarRepresentacao : function(id, nome, descricao) {
 	   var div = $(Builder.node("div", {
@@ -53,7 +54,8 @@ DefinirFluxo.prototype = {
 
 	   Element.setStyle(divInterna, {
 	      top :"30px",
-	      position :"relative"
+	      position :"relative",
+	      overflow: "hidden" 
 	   });
 
 	   Element.setStyle(div, {
@@ -69,8 +71,8 @@ DefinirFluxo.prototype = {
 
 	   grafico.criarCirculo(div.id);
 
-	   this.esquerda = this.esquerda + 100;
-	   this.topo = this.topo + this.varTopo;
+	   this.esquerda += 100;
+	   this.topo += this.varTopo;
 	   if (this.esquerda >= 800) {
 		   this.topo = this.topo - this.varTopo + 20;
 		   this.esquerda = 0;
@@ -81,27 +83,28 @@ DefinirFluxo.prototype = {
 	 * Limpa todos os fluxos criados na tela, inclusive as setas.
 	 */
    limparFluxo : function() {
-	   //Obs.: Os elementos draggables são criados novamente nesta função.
-	   var divCirculos = $("divFluxos").childNodes;
-	   var identificador;
-	   var drag;
-	   var draggables = this.dives;
-	   var totalDrags = this.dives.size();
-	   if (totalDrags > 0){
-		   this.initialize();
-		   /* Inicia-se a partir da referência 1 pois a referência 0(zero) diz
-		    * respeito ao texto "Definição do fluxo" presente no cabeçalho da div
-		    */ 
-		   for (var i = 0; i < totalDrags; i++) {
-			   identificador = divCirculos[i+1].id;
-			   drag = draggables.get(identificador);
-			   if (drag != null) {
-				   drag.destroy();
-			   }
-			   this.dives.set(identificador, this.getDraggable(identificador));
-		   }
-	   }
-	   grafico.limpar();
+	   // Obs.: Os elementos draggables são criados novamente nesta função.
+   	var divCirculos = $("divFluxos").childNodes;
+   	var identificador;
+   	var drag;
+   	var draggables = this.dives;
+   	var totalDrags = this.dives.size();
+   	if (totalDrags > 0) {
+   		this.initialize();
+   		/*
+   		 * Inicia-se a partir da referência 1 pois a referência 0(zero) diz respeito ao texto
+   		 * "Definição do fluxo" presente no cabeçalho da div
+   		 */
+   		for ( var i = 0; i < totalDrags; i++) {
+   			identificador = divCirculos[i + 1].id;
+   			drag = draggables.get(identificador);
+   			if (drag != null) {
+   				drag.destroy();
+   			}
+   			this.dives.set(identificador, this.getDraggable(identificador));
+   		}
+   	}
+	 	grafico.limpar();
    },
 
    /**
@@ -114,30 +117,29 @@ DefinirFluxo.prototype = {
 		   this.origem = $(id);
 		   grafico.destacarDiv(this.origem);
 	   } else {
-		   if (this.origem.id != id) {
-			   if (!this.existeFluxoDefinido(this.origem.id, id)) {
-				   var destino = $(id);
-				   this.unirDivs(this.origem, destino);
-				   var fluxo = new Array(this.origem.id, id);
-				   this.listaFluxos.push(fluxo);
-				   grafico.removerDestaqueDiv(this.origem);
-				   this.tiraDraggable(this.origem.id, id);
-				   this.origem = null;
-			   } else {
-				   JanelasComuns.showMessage("Fluxo já foi definido.");
-				   grafico.removerDestaqueDiv(this.origem);
-				   this.origem = null;
-			   }
+		   if (this.origem.id == id) {
+		   	grafico.removerDestaqueDiv(this.origem);
+		   	this.origem = null;
 		   } else {
-			   grafico.removerDestaqueDiv(this.origem);
-			   this.origem = null;
+		   	if (!this.existeFluxoDefinido(this.origem.id, id)) {
+		   		var destino = $(id);
+		   		this.unirDivs(this.origem, destino);
+		   		var fluxo = new Array(this.origem.id, id);
+		   		this.listaFluxos.push(fluxo);
+		   		grafico.removerDestaqueDiv(this.origem);
+		   		this.tiraDraggable(this.origem.id, id);
+		   		this.origem = null;
+		   	} else {
+		   		JanelasComuns.showMessage("Fluxo já foi definido.");
+		   		grafico.removerDestaqueDiv(this.origem);
+		   		this.origem = null;
+		   	}
 		   }
 	   }
    },
 
    /**
 	 * Verifica se o fluxo já foi definido.
-	 * 
 	 * 
 	 * @param origem Identificador da div de origem
 	 * @param destino Identificador da div de destino
@@ -185,15 +187,17 @@ DefinirFluxo.prototype = {
 	   this.dives.get(id1).destroy();
 	   this.dives.get(id2).destroy();
    },
-   
+
    /**
-     * Retorna um novo elemento draggable.
-     * 
-     * @param id Id da div
-     * @return Elemento draggable
-     */
-   getDraggable : function(id){
-	   return new Draggable(id, { scroll :window });
+	 * Retorna um novo elemento draggable.
+	 * 
+	 * @param id Id da div
+	 * @return Elemento draggable
+	 */
+   getDraggable : function(id) {
+	   return new Draggable(id, {
+		   scroll :window
+	   });
    }
 };
 

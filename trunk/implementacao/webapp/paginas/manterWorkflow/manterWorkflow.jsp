@@ -88,7 +88,7 @@
 					<th><bean:message key="label.nome" /></th>
 					<th><bean:message key="label.descricao" /></th>
 					<th><bean:message key="label.ativo" /></th>
-					<th><bean:message key="label.dataHoraExclusao" /></th>
+					<th id="thExcluidos"><bean:message key="label.dataHoraExclusao" /></th>
 				</tr>
 			</thead>
 			<tbody id="corpoManterWorkflow" class="corpoTabelaClicavel"/>
