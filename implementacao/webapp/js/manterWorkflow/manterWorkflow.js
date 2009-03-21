@@ -88,7 +88,7 @@ ManterWorkflow.prototype = {
 	      ativo :dwr.util.getValue("ativoPesquisaWorkflow"),
 	      excluidos :this.excluidosPesquisa
 	   };
-
+	   this.thDataExclusao();
 	   if (this.tabelaTelaPrincipal == null) {
 		   var chamadaRemota = ManterWorkflowDWR.pesquisar.bind(ManterWorkflowDWR);
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
@@ -128,12 +128,14 @@ ManterWorkflow.prototype = {
 			   }
 			   return "Não";
 		   });
-		   cellfuncs.push( function(workflow) {
-			   if (workflow.dataHoraExclusao != null) {
-				   return getStringTimestamp(workflow.dataHoraExclusao);
-			   }
-			   return "&nbsp;";
-		   });
+		   if (this.excluidosPesquisa) {
+			   cellfuncs.push( function(workflow) {
+				   if (workflow.dataHoraExclusao != null) {
+					   return getStringTimestamp(workflow.dataHoraExclusao);
+				   }
+				   return "&nbsp;";
+			   });
+		   }
 		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
 		   this.tabelaTelaPrincipal.setOnClick(this.visualizar.bind(this));
 	   } else {
@@ -262,6 +264,17 @@ ManterWorkflow.prototype = {
 	   selecionarImagem("imagemAtivo", "imagemInativo", excluido);
 	   this.excluidosPesquisa = excluido;
 	   this.pesquisar();
+   },
+
+   /**
+	 * Exibe/esconde a th da data de exclusão do workflow.
+	 */
+   thDataExclusao : function() {
+	   if (this.excluidosPesquisa) {
+		   $("thExcluidos").show();
+	   } else {
+		   $("thExcluidos").hide();
+	   }
    }
 };
 

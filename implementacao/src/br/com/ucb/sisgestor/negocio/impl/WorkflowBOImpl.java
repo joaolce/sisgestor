@@ -42,7 +42,7 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	public void atualizar(Workflow workflow) throws NegocioException {
 		Workflow workflowAtual = this.recuperarWorkflowDoBancoDeDados(workflow);
 		this.verificarWorkflowExcluido(workflowAtual);
-		if (workflow.getAtivo()) {
+		if (workflow.getAtivo()) { //ativando o workflow
 			this.validarAtividadeDoWorkflow(workflowAtual);
 			this.validarTransacoesDosProcessos(workflowAtual);
 			this.validarTarefasComResponsaveis(workflowAtual);
