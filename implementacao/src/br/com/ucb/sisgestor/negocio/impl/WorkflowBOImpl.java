@@ -18,7 +18,6 @@ import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaWorkflowDTO;
 import java.util.List;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -40,7 +39,7 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizar(Workflow workflow) throws NegocioException {
-		Workflow workflowAtual = this.recuperarWorkflowDoBancoDeDados(workflow);
+		Workflow workflowAtual = this.workflowDAO.obterAntigo(workflow.getId());
 		this.verificarWorkflowExcluido(workflowAtual);
 		if (workflow.getAtivo()) { //ativando o workflow
 			this.validarAtividadeDoWorkflow(workflowAtual);
@@ -118,33 +117,6 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	@Autowired
 	public void setWorkflowDAO(WorkflowDAO workflowDAO) {
 		this.workflowDAO = workflowDAO;
-	}
-
-	/**
-	 * Recupera um {@link Workflow} com os dados que estão no banco de dados. <br />
-	 * obs: método feito porque o hibernate só traz os objetos com os dados já alterados na sessão
-	 * 
-	 * @param workflow {@link Workflow} da sessão
-	 * @return {@link Workflow} com os dados do banco de dados
-	 */
-	private Workflow recuperarWorkflowDoBancoDeDados(Workflow workflow) {
-		this.evict(workflow);
-		Workflow workflowAtual = this.workflowDAO.obter(workflow.getId());
-		// inicializando o workflow
-		List<Processo> processos = workflowAtual.getProcessos();
-		if (processos != null) {
-			for (Processo processo : processos) {
-				List<Atividade> atividades = processo.getAtividades();
-				if (atividades != null) {
-					for (Atividade atividade : atividades) {
-						Hibernate.initialize(atividade.getTarefas());
-					}
-				}
-			}
-		}
-		this.evict(workflowAtual);
-		this.merge(workflow);
-		return workflowAtual;
 	}
 
 	/**

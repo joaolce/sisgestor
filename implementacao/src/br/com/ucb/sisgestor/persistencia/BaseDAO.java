@@ -46,6 +46,17 @@ public interface BaseDAO<T extends ObjetoPersistente, PK extends Serializable> {
 	T obter(PK pk);
 
 	/**
+	 * Recupera um objeto a partir da sua chave primária. <br />
+	 * obs: o objeto recuperado será a partir de uma sessão nova do hibernate, ignorando as alterações já
+	 * feitas no objeto da sessão atual
+	 * 
+	 * @param pk chave primária do objeto persistente
+	 * 
+	 * @return objeto recuperado
+	 */
+	T obterAntigo(PK pk);
+
+	/**
 	 * Recupera todos os objetos.
 	 * 
 	 * @return um {@link List} de {@link ObjetoPersistente}

@@ -16,7 +16,7 @@
 	
 	<filter>
 		<filter-name>springOSIV</filter-name>
-		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+		<filter-class>br.com.ucb.sisgestor.util.hibernate.HibernateFilter</filter-class>
 		<init-param>
       		<param-name>sessionFactoryBeanName</param-name>
      		<param-value>hbnSessionFactory</param-value>
