@@ -84,9 +84,7 @@ public class IntegerUserType<E extends Enum<E>> implements UserType, Parameteriz
 	public Object nullSafeGet(ResultSet rs, String[] names, Object owner) throws HibernateException,
 			SQLException {
 		Integer codigo = rs.getInt(names[0]);
-		CodigoDescricao object = null;
-		object = this.getObjeto(codigo);
-		return object;
+		return this.getObjeto(codigo);
 	}
 
 	/**

@@ -37,4 +37,8 @@
     <property name="annotatedClasses" ref="entidadesAnotadas" />
     <property name="hibernateProperties" ref="cfgHibernate" />
   </bean>
+  
+  <!-- Utilitário para hibernate -->
+  <bean id="hibernateUtil" class="br.com.ucb.sisgestor.util.hibernate.HibernateUtil" factory-method="getInstancia" />
+  
 </beans>

@@ -7,6 +7,7 @@ package br.com.ucb.sisgestor.persistencia.impl;
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.persistencia.BaseDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
+import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
 import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -29,6 +30,7 @@ public abstract class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serial
 
 	private SessionFactory	sessionFactory;
 	private Class<T>			classePersistente;
+	private HibernateUtil	hibernateUtil;
 
 	/**
 	 * Cria uma nova instância do tipo {@link BaseDAOImpl}.
@@ -63,6 +65,14 @@ public abstract class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serial
 	/**
 	 * {@inheritDoc}
 	 */
+	public T obterAntigo(PK pk) {
+		return this.classePersistente.cast(this.hibernateUtil.getSessionManual()
+				.get(this.classePersistente, pk));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<T> obterTodos() {
 		Criteria criteria = this.createCriteria(this.classePersistente);
 		Order order = this.getOrdemLista();
@@ -77,6 +87,16 @@ public abstract class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serial
 	 */
 	public void salvar(T obj) {
 		this.getSession().save(obj);
+	}
+
+	/**
+	 * Atribui o utilitário {@link HibernateUtil}.
+	 * 
+	 * @param hibernateUtil {@link HibernateUtil}
+	 */
+	@Autowired
+	public void setHibernateUtil(HibernateUtil hibernateUtil) {
+		this.hibernateUtil = hibernateUtil;
 	}
 
 	/**
