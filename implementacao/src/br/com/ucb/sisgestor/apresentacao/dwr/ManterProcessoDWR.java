@@ -76,4 +76,15 @@ public class ManterProcessoDWR extends BaseDWR {
 	public void setProcessoBO(ProcessoBO processoBO) {
 		this.processoBO = processoBO;
 	}
+
+	/**
+	 * Verifica se há fluxo definido para os processos do workflow informado.
+	 * 
+	 * @param idWorkflow Código identificador do workflow
+	 * @return <code>true</code>, se houver fluxo definido;<br>
+	 *         <code>false</code>, se não houver.
+	 */
+	public boolean temFluxoDefinido(Integer idWorkflow) {
+		return this.processoBO.temFluxoDefinido(idWorkflow);
+	}
 }
