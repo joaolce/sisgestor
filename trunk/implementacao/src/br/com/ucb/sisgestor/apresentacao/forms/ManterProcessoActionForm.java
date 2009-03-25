@@ -18,6 +18,7 @@ public class ManterProcessoActionForm extends BaseForm {
 	private String		nome;
 	private Integer	workflow;
 	private String[]	fluxos;
+	private String[]	posicoes;
 
 	/**
 	 * Recupera a descrição do processo
@@ -44,6 +45,15 @@ public class ManterProcessoActionForm extends BaseForm {
 	 */
 	public String getNome() {
 		return this.nome;
+	}
+
+	/**
+	 * Recupera as posições dos processos
+	 * 
+	 * @return posicoes dos processos
+	 */
+	public String[] getPosicoes() {
+		return this.posicoes;
 	}
 
 	/**
@@ -81,6 +91,17 @@ public class ManterProcessoActionForm extends BaseForm {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+
+	/**
+	 * Atribui as posições dos processos
+	 * 
+	 * @param posicoes posições dos processos
+	 */
+	public void setPosicoes(String[] posicoes) {
+		this.posicoes = posicoes;
+	}
+
 
 	/**
 	 * Atribui o código identificador do workflow.

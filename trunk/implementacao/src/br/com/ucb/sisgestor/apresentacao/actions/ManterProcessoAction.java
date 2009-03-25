@@ -6,10 +6,7 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 
 import br.com.ucb.sisgestor.apresentacao.forms.ManterProcessoActionForm;
 import br.com.ucb.sisgestor.entidade.Processo;
-import br.com.ucb.sisgestor.entidade.TransacaoProcesso;
 import br.com.ucb.sisgestor.negocio.ProcessoBO;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -140,9 +137,10 @@ public class ManterProcessoAction extends BaseAction {
 
 		ManterProcessoActionForm form = (ManterProcessoActionForm) formulario;
 
-		List<TransacaoProcesso> lista = this.getTransacoes(form.getFluxos());
+		String[] fluxos = form.getFluxos();
+		String[] posicoes = form.getPosicoes();
 
-		this.processoBO.atualizarTransacoes(form.getWorkflow(), lista);
+		this.processoBO.atualizarTransacoes(form.getWorkflow(), fluxos, posicoes);
 
 		this.addMessageKey("mensagem.fluxo");
 		return this.sendAJAXResponse(true);
@@ -156,35 +154,5 @@ public class ManterProcessoAction extends BaseAction {
 	@Autowired
 	public void setProcessoBO(ProcessoBO processoBO) {
 		this.processoBO = processoBO;
-	}
-
-	/**
-	 * Recupera a lista de transações criadas para os processos.
-	 * 
-	 * @param fluxos fluxos definidos pelo usuário
-	 * @return {@link List} de {@link TransacaoProcesso}
-	 */
-	private List<TransacaoProcesso> getTransacoes(String[] fluxos) {
-		List<TransacaoProcesso> lista = new ArrayList<TransacaoProcesso>();
-		if (fluxos != null) {
-			TransacaoProcesso transacao;
-			Processo processoAnterior;
-			Processo processoPosterior;
-			for (String fluxo : fluxos) {
-				String[] processos = fluxo.split(","); //a direção vem no formato: 1,2 (origem, destino)
-
-				transacao = new TransacaoProcesso();
-				processoAnterior = new Processo();
-				processoPosterior = new Processo();
-
-				processoAnterior.setId(Integer.parseInt(processos[0]));
-				processoPosterior.setId(Integer.parseInt(processos[1]));
-
-				transacao.setAnterior(processoAnterior);
-				transacao.setPosterior(processoPosterior);
-				lista.add(transacao);
-			}
-		}
-		return lista;
 	}
 }

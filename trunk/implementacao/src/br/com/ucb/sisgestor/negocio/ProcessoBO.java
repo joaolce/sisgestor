@@ -19,13 +19,14 @@ import java.util.List;
 public interface ProcessoBO extends BaseBO<Processo, Integer> {
 
 	/**
-	 * Atualiza as {@link TransacaoProcesso} informadas.
+	 * Atualiza as {@link TransacaoProcesso} informadas e as posições dos processos na página.
 	 * 
 	 * @param idWorkflow identificador do {@link Workflow}
-	 * @param transacoes transações a armazenar
+	 * @param fluxos Fluxos definidos pelo usuário
+	 * @param posicoes Posições dos processos na página
 	 * @throws NegocioException caso exceção de negócio seja violada
 	 */
-	void atualizarTransacoes(Integer idWorkflow, List<TransacaoProcesso> transacoes) throws NegocioException;
+	void atualizarTransacoes(Integer idWorkflow, String[] fluxos, String[] posicoes) throws NegocioException;
 
 	/**
 	 * Retorna um {@link List} de {@link Processo} a partir dos parâmetros informados.
@@ -45,4 +46,13 @@ public interface ProcessoBO extends BaseBO<Processo, Integer> {
 	 * @return Lista de processos
 	 */
 	List<Processo> getByWorkflow(Integer workflow);
+
+	/**
+	 * Verifica se há fluxo definido para os processos do workflow informado.
+	 * 
+	 * @param idWorkflow Código identificador do workflow
+	 * @return <code>true</code>, se houver fluxo definido;<br>
+	 *         <code>false</code>, se não houver.
+	 */
+	boolean temFluxoDefinido(Integer idWorkflow);
 }

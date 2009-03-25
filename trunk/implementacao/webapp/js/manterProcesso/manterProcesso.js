@@ -167,12 +167,26 @@ ManterProcesso.prototype = {
 	      ( function() {
 		      var idWorkflow = $F("workflowProcesso");
 		      dwr.util.setValue("workflowFluxo", idWorkflow);
-
-		      ManterProcessoDWR.getByWorkflow(idWorkflow, ( function(listaProcessos) {
-			      fluxo = new DefinirFluxo();
-			      listaProcessos.colecaoParcial.each( function(processo) {
-				      fluxo.gerarRepresentacao(processo.id, processo.nome);
-			      });
+		      var processosPosteriores;
+		      ManterProcessoDWR.temFluxoDefinido(idWorkflow, ( function(temFluxo) {
+		    	  fluxo = new DefinirFluxo();
+		    	  ManterProcessoDWR.getByWorkflow(idWorkflow, ( function(listaProcessos) {
+		    		  //Gera as reprensentações
+				      listaProcessos.colecaoParcial.each( function(processo) {
+				    	  fluxo.gerarRepresentacao(processo.id, processo.nome, processo.left, processo.top);
+				      });
+				      
+				      //Efetua as ligações
+				      listaProcessos.colecaoParcial.each( function(processo) {
+				    	  processosPosteriores = processo.transacoesPosteriores;
+				    	  if (temFluxo && (processosPosteriores != null) && (processosPosteriores.length > 0) ) {
+				    		  processosPosteriores.each( function(processoPosterior){
+				    			  fluxo.ligar(processo.id);
+				    			  fluxo.ligar(processoPosterior.posterior.id);
+				    		  });
+				    	  }
+				      });
+		    	  }));
 		      }));
 	      }));
    },
@@ -183,6 +197,7 @@ ManterProcesso.prototype = {
    salvarFluxo : function() {
 	   var form = getForm($("definirFluxoManterProcessoForm"));
 	   form.fluxos = fluxo.listaFluxos;
+	   form.posicoes = fluxo.obterPosicoes();
 	   JanelasComuns.showConfirmDialog("Deseja definir o fluxo criado?", ( function() {
 		   requestUtils.simpleRequest("manterProcesso.do?method=salvarFluxo&"
 		      + Object.toQueryString(form), ( function() {

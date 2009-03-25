@@ -40,9 +40,21 @@ DefinirFluxo.prototype = {
 	 * Cria um circulo(div) para fazer representação na página
 	 * 
 	 * @param id Código identificador da div
-	 * @param nome nome que aparecerá dentro do círculo
+	 * @param nome Nome que aparecerá dentro do círculo
+	 * @param esquerda Posicionamento do elemento à esquerda
+	 * @param topo Posicionamento do elemento ao topo
 	 */
-   gerarRepresentacao : function(id, nome) {
+   gerarRepresentacao : function(id, nome, esquerda, topo) {
+	   
+	   //TODO Ainda há falha na definição do topo
+	   if (topo != null) {
+		   this.topo += topo - 39;
+	   }
+	   
+	   if (esquerda != null) {
+		   this.esquerda = esquerda - 5;
+	   }
+	   
 	   var div = $(Builder.node("div", {
 	      id :id,
 	      ondblclick :"fluxo.ligar(\"" + id + "\");",
@@ -104,7 +116,32 @@ DefinirFluxo.prototype = {
 		}
 	}
 	grafico.limpar();
-},
+   },
+   
+   /**
+    * Obtém as posições absolutas dos elementos posicionados na tela.  
+    * 
+    */
+   obterPosicoes : function(){
+	   var posicoes = new Array();
+	   var circulos = $("divFluxos").childNodes;
+	   var topo;
+	   var esquerda;
+	   var id;
+	   var pos;
+	   
+	   for(var i = 1; i < circulos.length; ++i) {
+		   id = circulos[i].id;
+		   if(!isBlankOrNull(id)){
+			   esquerda = $(id).offsetLeft;
+			   topo = $(id).offsetTop;
+			   pos = new Array(id +","+ esquerda + "," + topo);
+			   posicoes.push(pos);
+		   }
+	   }
+	   
+	   return posicoes;
+   },
 
    /**
 	 * Liga uma div a outra.
@@ -112,6 +149,9 @@ DefinirFluxo.prototype = {
 	 * @param id Identificador da div que recebeu duplo click.
 	 */
    ligar : function(id) {
+	   if(typeof id == 'number'){
+		   id = id.toString();
+	   }
 	   if (this.origem == null) {
 		   this.origem = $(id);
 		   grafico.destacarDiv(this.origem);
