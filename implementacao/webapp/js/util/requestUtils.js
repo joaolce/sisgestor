@@ -224,7 +224,7 @@ RequestUtils.prototype = {
 		   alert("Erro: a resposta esperada era um XML");
 		   return;
 	   }
-
+	   this.valoresDevolvidos = new Hash();
 	   this.mensagens = new Array();
 	   this.redirecionar = null;
 	   var items = null;
@@ -252,7 +252,6 @@ RequestUtils.prototype = {
 			   this.generatedId = item.firstChild.nodeValue;
 		   }
 		   if (item.nodeName == this.valoresDevolvidosNode) {
-			   this.valoresDevolvidos = new Hash();
 			   var nodesJson = item.childNodes;
 			   for ( var index = 0; index < nodesJson.length; index++) {
 				   var nodeJson = nodesJson.item(index);

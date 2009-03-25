@@ -161,39 +161,45 @@ ManterAtividade.prototype = {
 		   dwr.util.setValue("processoNovaAtividade", $F("processoAtividade"));
 	   }));
    },
-   
+
    /**
-    * Abre a janela para definir fluxo das atividades.
-    */
+	 * Abre a janela para definir fluxo das atividades.
+	 */
    popupDefinirFluxoAtividades : function() {
 	   var url = "manterAtividade.do?method=popupDefinirFluxo";
 	   createWindow(486, 840, 280, 40, "Definir Fluxo das Atividades", "divFluxoAtividade", url,
-	   ( function() {
-		   var idProcesso = $F("processoAtividade");
-		   dwr.util.setValue("processoFluxo", idProcesso);
-		   
-		   ManterAtividadeDWR.getByProcesso(idProcesso, ( function(listaAtividades){
-			   fluxo = new DefinirFluxo();
-			   listaAtividades.colecaoParcial.each( function(atividade){
-				   fluxo.gerarRepresentacao(atividade.id, atividade.nome, atividade.descricao);
-			   });
-		   }));
-	   }));
+	      ( function() {
+		      var idProcesso = $F("processoAtividade");
+		      dwr.util.setValue("processoFluxo", idProcesso);
+
+		      ManterAtividadeDWR.getByProcesso(idProcesso, ( function(listaAtividades) {
+			      fluxo = new DefinirFluxo();
+			      listaAtividades.colecaoParcial.each( function(atividade) {
+				      fluxo.gerarRepresentacao(atividade.id, atividade.nome);
+			      });
+		      }));
+	      }));
    },
 
    /**
-    * Envia ao action a ação de salvar o fluxo.
-    */
+	 * Envia ao action a ação de salvar o fluxo.
+	 */
    salvarFluxo : function() {
 	   var form = getForm($("definirFluxoManterAtividadeForm"));
 	   form.fluxos = fluxo.listaFluxos;
 	   JanelasComuns.showConfirmDialog("Deseja definir o fluxo criado?", ( function() {
 		   requestUtils.simpleRequest("manterAtividade.do?method=salvarFluxo&"
-				   + Object.toQueryString(form), ( function() {
-					   if (requestUtils.status) {
-						   JanelaFactory.fecharJanela("divFluxoAtividade");
-					   }
+		      + Object.toQueryString(form), ( function() {
+			   if (requestUtils.status) {
+				   JanelaFactory.fecharJanela("divFluxoAtividade");
+			   }
+		   }), ( function() {
+			   if (!requestUtils.status) {
+				   requestUtils.valoresDevolvidos.each(( function(div) {
+					   Effect.Pulsate(div.value);
 				   }));
+			   }
+		   }));
 	   }));
    },
 

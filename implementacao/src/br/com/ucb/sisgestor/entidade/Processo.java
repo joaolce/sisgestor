@@ -29,7 +29,9 @@ import org.hibernate.annotations.ForeignKey;
 @AttributeOverrides( {
 		@AttributeOverride(name = "id", column = @Column(name = "PRO_ID", nullable = false)),
 		@AttributeOverride(name = "nome", column = @Column(name = "PRO_NOME", nullable = false, length = ConstantesDB.NOME)),
-		@AttributeOverride(name = "descricao", column = @Column(name = "PRO_DESCRICAO", nullable = false, length = ConstantesDB.DESCRICAO))})
+		@AttributeOverride(name = "descricao", column = @Column(name = "PRO_DESCRICAO", nullable = false, length = ConstantesDB.DESCRICAO)),
+		@AttributeOverride(name = "top", column = @Column(name = "PRO_TOP", nullable = true)),
+		@AttributeOverride(name = "left", column = @Column(name = "PRO_LEFT", nullable = true))})
 public class Processo extends BaseWorkflowDesenhavel {
 
 	private List<Atividade>				atividades;

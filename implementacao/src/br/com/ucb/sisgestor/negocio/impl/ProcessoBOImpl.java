@@ -16,6 +16,7 @@ import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaProcessoDTO;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -150,27 +151,21 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	}
 
 	/**
-	 * Realiza as validações das {@link TransacaoProcesso} informadas.
+	 * Inicializa os mapas para a validação.
 	 * 
-	 * @param transacoes Transações definidas pelo usuário
-	 * @param idWorkflow Código identificador do workflow
-	 * @throws NegocioException caso regra de negócio seja violada
+	 * @param transacoes transações de processo
+	 * @param mapAnteriores {@link Map} para armazenar as transações anteriores
+	 * @param mapPosteriores {@link Map} para armazenar as transações posteriores
+	 * @param listaProcessos {@link List} com os processos
+	 * @throws NegocioException caso não haja fluxo definido
 	 */
-	private void validarFluxo(List<TransacaoProcesso> transacoes, Integer idWorkflow) throws NegocioException {
-		boolean inicio = false;
-		boolean fim = false;
-		HashMap<Integer, Integer> mapAnteriores = new HashMap<Integer, Integer>();
-		HashMap<Integer, Integer> mapPosteriores = new HashMap<Integer, Integer>();
-		List<Processo> listaProcessos = this.processoDAO.getByWorkflow(idWorkflow);
-		int quantidadeProcessos = listaProcessos.size();
-
+	private void inicializaValidacaoFluxo(List<TransacaoProcesso> transacoes,
+			Map<Integer, Integer> mapAnteriores, Map<Integer, Integer> mapPosteriores,
+			List<Processo> listaProcessos) throws NegocioException {
 		//Valida para que haja definição de fluxos
-		if ((listaProcessos != null) && !listaProcessos.isEmpty() && transacoes.isEmpty()) {
+		if ((listaProcessos != null) && !listaProcessos.isEmpty()
+				&& ((transacoes != null) && transacoes.isEmpty())) {
 			throw new NegocioException("erro.fluxo.definicao.processo");
-		}
-		//Valida para que um processo, ou fluxo de processos, não fique isolado
-		if (transacoes.size() < (quantidadeProcessos - 1)) {
-			throw new NegocioException("erro.fluxo.isolado.processo");
 		}
 
 		for (Processo processo : listaProcessos) {
@@ -178,39 +173,63 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 			mapAnteriores.put(processo.getId(), null);
 		}
 
+		Integer anterior;
+		Integer posterior;
 		for (TransacaoProcesso transacaoProcesso : transacoes) {
-			mapAnteriores.remove(transacaoProcesso.getPosterior().getId());
-			mapAnteriores.put(transacaoProcesso.getPosterior().getId(), transacaoProcesso.getAnterior().getId());
+			anterior = transacaoProcesso.getAnterior().getId();
+			posterior = transacaoProcesso.getPosterior().getId();
 
-			mapPosteriores.remove(transacaoProcesso.getAnterior().getId());
-			mapPosteriores
-					.put(transacaoProcesso.getAnterior().getId(), transacaoProcesso.getPosterior().getId());
+			mapAnteriores.put(posterior, anterior);
+			mapPosteriores.put(anterior, posterior);
 		}
+	}
 
-		//Valida para que haja ao menos um processo final
+	/**
+	 * Realiza as validações das {@link TransacaoProcesso} informadas.
+	 * 
+	 * @param transacoes Transações definidas pelo usuário
+	 * @param idWorkflow Código identificador do workflow
+	 * @throws NegocioException caso regra de negócio seja violada
+	 */
+	private void validarFluxo(List<TransacaoProcesso> transacoes, Integer idWorkflow) throws NegocioException {
+		Map<Integer, Integer> mapAnteriores = new HashMap<Integer, Integer>();
+		Map<Integer, Integer> mapPosteriores = new HashMap<Integer, Integer>();
+		boolean inicio = false;
+		boolean fim = false;
+		List<Processo> listaProcessos = this.processoDAO.getByWorkflow(idWorkflow);
+
+		this.inicializaValidacaoFluxo(transacoes, mapAnteriores, mapPosteriores, listaProcessos);
+
+		//Valida para que haja ao menos um processo final, e exatamente um inicial
+		Integer id;
+		Integer processoAnterior;
+		Integer processoPosterior;
+		NegocioException exceptionInicial = new NegocioException("erro.fluxo.inicial.processo");
 		for (Processo processo : listaProcessos) {
-			if (mapPosteriores.get(processo.getId()) == null) {
-				fim = true;
-				break;
+			id = processo.getId();
+			processoAnterior = mapAnteriores.get(id);
+			processoPosterior = mapPosteriores.get(id);
+			if ((processoAnterior == null) && (processoPosterior == null)) {
+				NegocioException ex = new NegocioException("erro.fluxo.isolado.processo");
+				ex.putValorDevolvido("id", id.toString());
+				throw ex;
 			}
-		}
-
-		if (!fim) {
-			throw new NegocioException("erro.fluxo.final.processo");
-		}
-
-		//Valida para conter apenas um processo inicial
-		for (Processo processo : listaProcessos) {
-			if (mapAnteriores.get(processo.getId()) == null) {
+			if (processoPosterior == null) {
+				fim = true;
+			}
+			if (processoAnterior == null) {
+				exceptionInicial.putValorDevolvido("id" + id, id.toString());
 				if (inicio) {
-					throw new NegocioException("erro.fluxo.inicial.processo");
+					throw exceptionInicial;
 				}
 				inicio = true;
 			}
 		}
-		//Se...
-		if (!mapAnteriores.containsValue(null)) {
-			throw new NegocioException("erro.fluxo.inicial.processo");
+		if (!inicio) {
+			throw exceptionInicial;
+		}
+		if (!fim) {
+			throw new NegocioException("erro.fluxo.final.processo");
 		}
 	}
 

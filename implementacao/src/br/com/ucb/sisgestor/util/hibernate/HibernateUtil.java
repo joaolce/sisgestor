@@ -70,9 +70,9 @@ public class HibernateUtil {
 	}
 
 	/**
-	 * Atribui sessionFactory.
+	 * Atribui a fábrica de sessões do hibernate.
 	 * 
-	 * @param sessionFactory o valor a ajustar em sessionFactory
+	 * @param sessionFactory fábrica de sessões do hibernate
 	 */
 	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory) {

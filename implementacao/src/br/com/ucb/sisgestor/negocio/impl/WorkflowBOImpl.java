@@ -42,9 +42,8 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 		Workflow workflowAtual = this.workflowDAO.obterAntigo(workflow.getId());
 		this.verificarWorkflowExcluido(workflowAtual);
 		if (workflow.getAtivo()) { //ativando o workflow
-			this.validarAtividadeDoWorkflow(workflowAtual);
+			this.validarAtivacaoDoWorkflow(workflowAtual);
 			this.validarTransacoesDosProcessos(workflowAtual);
-			this.validarTarefasComResponsaveis(workflowAtual);
 		} else if (workflowAtual.getAtivo()) { //está desativando o workflow
 			throw new NegocioException("erro.workflowDestivar");
 		}
@@ -120,46 +119,30 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	}
 
 	/**
-	 * Verifica se o workflow for ativado, deve possuir ao menos um processo com atividade com tarefa.
+	 * Faz as validações para um {@link Workflow} seja ativado.
 	 * 
 	 * @param workflow {@link Workflow} a verificar
 	 * @throws NegocioException caso seja violada uma regra
 	 */
-	private void validarAtividadeDoWorkflow(Workflow workflow) throws NegocioException {
+	private void validarAtivacaoDoWorkflow(Workflow workflow) throws NegocioException {
+		//Workflow deve possuir ao menos um processo com atividade com tarefa.
 		List<Processo> listaProcessos = workflow.getProcessos();
-
 		if ((listaProcessos == null) || listaProcessos.isEmpty()) {
 			throw new NegocioException("erro.workflowNaoAtivado.processo");
 		}
-
 		for (Processo processo : listaProcessos) {
 			List<Atividade> listaAtividades = processo.getAtividades();
-
 			if ((listaAtividades == null) || listaAtividades.isEmpty()) {
 				throw new NegocioException("erro.workflowNaoAtivado.atividade", processo.getNome());
 			}
-
 			for (Atividade atividade : listaAtividades) {
 				List<Tarefa> listaTarefas = atividade.getTarefas();
-
 				if ((listaTarefas == null) || listaTarefas.isEmpty()) {
 					throw new NegocioException("erro.workflowNaoAtivado.tarefa", atividade.getNome(), processo
 							.getNome());
 				}
-			}
-		}
-	}
-
-	/**
-	 * Valida se todas as tarefas do workflow possuem um responsável por ela, caso não tenha é lançada exceção.
-	 * 
-	 * @param workflow {@link Workflow} a ser validado
-	 * @throws NegocioException caso haja alguma tarefa sem responsável
-	 */
-	private void validarTarefasComResponsaveis(Workflow workflow) throws NegocioException {
-		for (Processo processo : workflow.getProcessos()) {
-			for (Atividade atividade : processo.getAtividades()) {
-				for (Tarefa tarefa : atividade.getTarefas()) {
+				//Toda tarefa deve possuir um responsável por ela.
+				for (Tarefa tarefa : listaTarefas) {
 					if (tarefa.getUsuario() == null) {
 						throw new NegocioException("erro.atividadeSemTarefas", tarefa.getNome(), atividade
 								.getNome(), processo.getNome());

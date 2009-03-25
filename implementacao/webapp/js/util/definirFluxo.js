@@ -41,13 +41,12 @@ DefinirFluxo.prototype = {
 	 * 
 	 * @param id Código identificador da div
 	 * @param nome nome que aparecerá dentro do círculo
-	 * @param descricao descrição title que aparecerá na div
 	 */
-   gerarRepresentacao : function(id, nome, descricao) {
+   gerarRepresentacao : function(id, nome) {
 	   var div = $(Builder.node("div", {
 	      id :id,
 	      ondblclick :"fluxo.ligar(\"" + id + "\");",
-	      title :descricao
+	      title :nome
 	   }));
 
 	   var divInterna = $(Builder.node("div", [ document.createTextNode(nome) ]));
@@ -55,7 +54,7 @@ DefinirFluxo.prototype = {
 	   Element.setStyle(divInterna, {
 	      top :"30px",
 	      position :"relative",
-	      overflow: "hidden" 
+	      overflow :"hidden"
 	   });
 
 	   Element.setStyle(div, {
@@ -84,28 +83,28 @@ DefinirFluxo.prototype = {
 	 */
    limparFluxo : function() {
 	   // Obs.: Os elementos draggables são criados novamente nesta função.
-   	var divCirculos = $("divFluxos").childNodes;
-   	var identificador;
-   	var drag;
-   	var draggables = this.dives;
-   	var totalDrags = this.dives.size();
-   	if (totalDrags > 0) {
-   		this.initialize();
-   		/*
-   		 * Inicia-se a partir da referência 1 pois a referência 0(zero) diz respeito ao texto
-   		 * "Definição do fluxo" presente no cabeçalho da div
-   		 */
-   		for ( var i = 0; i < totalDrags; i++) {
-   			identificador = divCirculos[i + 1].id;
-   			drag = draggables.get(identificador);
-   			if (drag != null) {
-   				drag.destroy();
-   			}
-   			this.dives.set(identificador, this.getDraggable(identificador));
-   		}
-   	}
-	 	grafico.limpar();
-   },
+	var divCirculos = $("divFluxos").childNodes;
+	var identificador;
+	var drag;
+	var draggables = this.dives;
+	var totalDrags = this.dives.size();
+	if (totalDrags > 0) {
+		this.initialize();
+		/*
+		 * Inicia-se a partir da referência 1 pois a referência 0(zero) diz respeito ao texto
+		 * "Definição do fluxo" presente no cabeçalho da div
+		 */
+		for ( var i = 0; i < totalDrags; i++) {
+			identificador = divCirculos[i + 1].id;
+			drag = draggables.get(identificador);
+			if (drag != null) {
+				drag.destroy();
+			}
+			this.dives.set(identificador, this.getDraggable(identificador));
+		}
+	}
+	grafico.limpar();
+},
 
    /**
 	 * Liga uma div a outra.
@@ -117,24 +116,19 @@ DefinirFluxo.prototype = {
 		   this.origem = $(id);
 		   grafico.destacarDiv(this.origem);
 	   } else {
-		   if (this.origem.id == id) {
-		   	grafico.removerDestaqueDiv(this.origem);
-		   	this.origem = null;
-		   } else {
-		   	if (!this.existeFluxoDefinido(this.origem.id, id)) {
-		   		var destino = $(id);
-		   		this.unirDivs(this.origem, destino);
-		   		var fluxo = new Array(this.origem.id, id);
-		   		this.listaFluxos.push(fluxo);
-		   		grafico.removerDestaqueDiv(this.origem);
-		   		this.tiraDraggable(this.origem.id, id);
-		   		this.origem = null;
-		   	} else {
-		   		JanelasComuns.showMessage("Fluxo já foi definido.");
-		   		grafico.removerDestaqueDiv(this.origem);
-		   		this.origem = null;
-		   	}
+		   if (this.origem.id != id) {
+			   if (!this.existeFluxoDefinido(this.origem.id, id)) {
+				   var destino = $(id);
+				   this.unirDivs(this.origem, destino);
+				   var fluxo = new Array(this.origem.id, id);
+				   this.listaFluxos.push(fluxo);
+				   this.tiraDraggable(this.origem.id, id);
+			   } else {
+				   JanelasComuns.showMessage("Fluxo já foi definido.");
+			   }
 		   }
+		   grafico.removerDestaqueDiv(this.origem);
+		   this.origem = null;
 	   }
    },
 
