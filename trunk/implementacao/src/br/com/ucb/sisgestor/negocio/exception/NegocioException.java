@@ -4,6 +4,9 @@
  */
 package br.com.ucb.sisgestor.negocio.exception;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Exceção de negócio
  * 
@@ -12,7 +15,8 @@ package br.com.ucb.sisgestor.negocio.exception;
  */
 public class NegocioException extends Exception {
 
-	private String[]	args;
+	private String[]					args;
+	private Map<String, Object>	valoresDevolvidos;
 
 	/**
 	 * Construtor recebe uma mensagem que está no properties.
@@ -41,6 +45,28 @@ public class NegocioException extends Exception {
 	 */
 	public String[] getArgs() {
 		return this.args.clone();
+	}
+
+	/**
+	 * Recupera os valores devolvidos da mensagem.
+	 * 
+	 * @return valores devolvidos da mensagem
+	 */
+	public Map<String, Object> getValoresDevolvidos() {
+		return this.valoresDevolvidos;
+	}
+
+	/**
+	 * Adiciona o valor devolvido da mensagem.
+	 * 
+	 * @param chave chave do valor
+	 * @param valor valor devolvido
+	 */
+	public void putValorDevolvido(String chave, Object valor) {
+		if (this.valoresDevolvidos == null) {
+			this.valoresDevolvidos = new HashMap<String, Object>();
+		}
+		this.valoresDevolvidos.put(chave, valor);
 	}
 
 	/**

@@ -24,6 +24,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.Map;
 import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -179,7 +180,16 @@ public class BaseAction extends DispatchActionSupport {
 			}
 
 			if (this.isAJAXRequest()) {
-				return this.sendAJAXResponse(false);
+				AjaxResponse ajaxResponse = new AjaxResponse();
+				ajaxResponse.setStatus(false);
+
+				Map<String, Object> valoresDevolvidos = e.getValoresDevolvidos();
+				if ((valoresDevolvidos != null) && !valoresDevolvidos.isEmpty()) {
+					for (String chave : valoresDevolvidos.keySet()) {
+						ajaxResponse.putValorRetorno(chave, valoresDevolvidos.get(chave));
+					}
+				}
+				return this.sendAJAXResponse(ajaxResponse);
 			}
 			this.saveMessages(false);
 			return mapping.findForward(validator.getForwardErroValidacao());
@@ -628,7 +638,7 @@ public class BaseAction extends DispatchActionSupport {
 	}
 
 	/**
-	 * envia mensagens ou erros para o javascript que poderão aparecer em vermelho ou verde de acordo com
+	 * Envia mensagens ou erros para o javascript que poderão aparecer em vermelho ou verde de acordo com
 	 * parâmetro passado valor padrão: vermelho
 	 * 
 	 * @param estado true=verde, false=vermelho

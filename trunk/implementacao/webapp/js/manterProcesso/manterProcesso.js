@@ -157,25 +157,24 @@ ManterProcesso.prototype = {
 		   dwr.util.setValue("workflowNovoProcesso", $F("workflowProcesso"));
 	   }));
    },
-   
+
    /**
 	 * Abre a janela para definir fluxo dos processos.
 	 */
    popupDefinirFluxoProcessos : function() {
 	   var url = "manterProcesso.do?method=popupDefinirFluxo";
 	   createWindow(486, 840, 280, 40, "Definir Fluxo dos Processos", "divFluxoProcesso", url,
-	   ( function() {
-		   var idWorkflow = $F("workflowProcesso");
-		   dwr.util.setValue("workflowFluxo", idWorkflow);
-		   
-		   ManterProcessoDWR.getByWorkflow(idWorkflow, ( function(listaProcessos){
-			   fluxo = new DefinirFluxo();
-			   new Grafico();
-			   listaProcessos.colecaoParcial.each( function(processo){
-				   fluxo.gerarRepresentacao(processo.id, processo.nome, processo.descricao);
-			   });
-		   }));
-	   }));
+	      ( function() {
+		      var idWorkflow = $F("workflowProcesso");
+		      dwr.util.setValue("workflowFluxo", idWorkflow);
+
+		      ManterProcessoDWR.getByWorkflow(idWorkflow, ( function(listaProcessos) {
+			      fluxo = new DefinirFluxo();
+			      listaProcessos.colecaoParcial.each( function(processo) {
+				      fluxo.gerarRepresentacao(processo.id, processo.nome);
+			      });
+		      }));
+	      }));
    },
 
    /**
@@ -190,9 +189,16 @@ ManterProcesso.prototype = {
 			   if (requestUtils.status) {
 				   JanelaFactory.fecharJanela("divFluxoProcesso");
 			   }
+		   }), ( function() {
+			   if (!requestUtils.status) {
+				   requestUtils.valoresDevolvidos.each(( function(div) {
+					   Effect.Pulsate(div.value);
+				   }));
+			   }
 		   }));
 	   }));
    },
+
    /**
 	 * Abre janela para gerenciar os processos.
 	 */

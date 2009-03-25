@@ -18,14 +18,14 @@ Grafico.prototype = {
 	 * Altura do circulo
 	 * 
 	 * Obs.: Deverá ser de mesma altura da div que contém o circulo.
-	  */
+	 */
 	alturaCirculo: 80,
 	
 	/** 
 	 * Largura do circulo 
 	 * 
 	 * Obs.: Deverá ser de mesma largura da div que contém o circulo.
-	  */
+	 */
 	larguraCirculo: 80,
 	
 	/** Armazena as linhas dos fluxos */
@@ -110,7 +110,7 @@ Grafico.prototype = {
 	 * Coloca em destaque a div selecionada como origem do fluxo
 	 * 
 	 * @param div Div a ser destacada
-	 * */
+	 */
 	destacarDiv : function(div){
 		var divInterna = div.childNodes[1].childNodes;
 		for(var i=0; i < divInterna.length; i++){
@@ -124,7 +124,7 @@ Grafico.prototype = {
 	 * Remove o destaque da div selecionada como origem do fluxo
 	 * 
 	 * @param div Div a ter o destaque removido
-	 * */
+	 */
 	removerDestaqueDiv : function(div){
 		var divInterna = div.childNodes[1].childNodes;
 		for(var i=0; i < divInterna.length; i++){
