@@ -151,7 +151,7 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	}
 
 	/**
-	 * Inicializa os mapas para a validação.
+	 * Inicializa os mapas para a validação do fluxo.
 	 * 
 	 * @param transacoes transações de processo
 	 * @param mapAnteriores {@link Map} para armazenar as transações anteriores
@@ -159,7 +159,7 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	 * @param listaProcessos {@link List} com os processos
 	 * @throws NegocioException caso não haja fluxo definido
 	 */
-	private void inicializaValidacaoFluxo(List<TransacaoProcesso> transacoes,
+	private void inicializarValidacaoFluxo(List<TransacaoProcesso> transacoes,
 			Map<Integer, Integer> mapAnteriores, Map<Integer, Integer> mapPosteriores,
 			List<Processo> listaProcessos) throws NegocioException {
 		//Valida para que haja definição de fluxos
@@ -169,8 +169,8 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 		}
 
 		for (Processo processo : listaProcessos) {
-			mapPosteriores.put(processo.getId(), null);
 			mapAnteriores.put(processo.getId(), null);
+			mapPosteriores.put(processo.getId(), null);
 		}
 
 		Integer anterior;
@@ -187,8 +187,8 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	/**
 	 * Realiza as validações das {@link TransacaoProcesso} informadas.
 	 * 
-	 * @param transacoes Transações definidas pelo usuário
-	 * @param idWorkflow Código identificador do workflow
+	 * @param transacoes transações definidas pelo usuário
+	 * @param idWorkflow código identificador do workflow
 	 * @throws NegocioException caso regra de negócio seja violada
 	 */
 	private void validarFluxo(List<TransacaoProcesso> transacoes, Integer idWorkflow) throws NegocioException {
@@ -198,7 +198,7 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 		boolean fim = false;
 		List<Processo> listaProcessos = this.processoDAO.getByWorkflow(idWorkflow);
 
-		this.inicializaValidacaoFluxo(transacoes, mapAnteriores, mapPosteriores, listaProcessos);
+		this.inicializarValidacaoFluxo(transacoes, mapAnteriores, mapPosteriores, listaProcessos);
 
 		//Valida para que haja ao menos um processo final, e exatamente um inicial
 		Integer id;
@@ -211,18 +211,18 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 			processoPosterior = mapPosteriores.get(id);
 			if ((processoAnterior == null) && (processoPosterior == null)) {
 				NegocioException ex = new NegocioException("erro.fluxo.isolado.processo");
-				ex.putValorDevolvido("id", id.toString());
+				ex.putValorDevolvido("id", id);
 				throw ex;
 			}
-			if (processoPosterior == null) {
-				fim = true;
-			}
 			if (processoAnterior == null) {
-				exceptionInicial.putValorDevolvido("id" + id, id.toString());
+				exceptionInicial.putValorDevolvido("id" + id, id);
 				if (inicio) {
 					throw exceptionInicial;
 				}
 				inicio = true;
+			}
+			if (processoPosterior == null) {
+				fim = true;
 			}
 		}
 		if (!inicio) {

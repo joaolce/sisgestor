@@ -132,6 +132,17 @@ Grafico.prototype = {
 				background: this.corDefault
 			});
 		}
+	},
+	
+	/**
+	 * Processa a resposta de uma requisição de definição de fluxo.
+	 */
+	processarResposta : function() {
+		if (!requestUtils.status && (requestUtils.valoresDevolvidos != null)) {
+		   requestUtils.valoresDevolvidos.each(( function(div) {
+			   Effect.Pulsate(div.value);
+		   }));
+	   }
 	}
 };
 

@@ -41,9 +41,8 @@ public class HibernateUtil {
 		return instancia;
 	}
 
-
 	/**
-	 * Fecha a sessão criada na mão do hibernate.
+	 * Fecha a nova sessão criada do hibernate.
 	 */
 	public void closeSession() {
 		Session session = this.sessionThread.get();
@@ -54,11 +53,12 @@ public class HibernateUtil {
 	}
 
 	/**
-	 * Recupera a sessão criada na mão do hibernate.
+	 * Recupera uma nova sessão criada do hibernate. <br />
+	 * obs: esta {@link Session} não é a do OSIV.
 	 * 
 	 * @return sessão criada
 	 */
-	public Session getSessionManual() {
+	public Session getNewSession() {
 		//recupera o objeto session do threadLocal
 		Session session = this.sessionThread.get();
 		//abre uma nova sessão para a thread atual somente se a mesma estiver nula ou fechada

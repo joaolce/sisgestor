@@ -26,11 +26,7 @@ public final class ConfiguracaoHibernate {
 		propriedades.put(Environment.SHOW_SQL, "true");
 		propriedades.put(Environment.HBM2DDL_AUTO, "update");
 		propriedades.put(Environment.POOL_SIZE, "10");
-		propriedades.put(Environment.ISOLATION, "2");
-		propriedades.put(Environment.AUTOCOMMIT, "false");
-		propriedades.put(Environment.ORDER_UPDATES, "true");
-		propriedades.put(Environment.USE_IDENTIFIER_ROLLBACK, "true");
-		propriedades.put(Environment.USE_REFLECTION_OPTIMIZER, "false");
+		propriedades.put(Environment.USE_REFLECTION_OPTIMIZER, "true");
 		propriedades.put(Environment.TRANSACTION_STRATEGY, JTATransactionFactory.class.getName());
 		propriedades.put(Environment.TRANSACTION_MANAGER_STRATEGY, JBossTransactionManagerLookup.class
 				.getName());

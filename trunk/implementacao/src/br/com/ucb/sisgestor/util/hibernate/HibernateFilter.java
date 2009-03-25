@@ -39,7 +39,6 @@ public class HibernateFilter extends OpenSessionInViewFilter {
 		}
 	}
 
-
 	/**
 	 * Verifica se é uma url conhecida por não necessitar de criação de sessão do hibernate.
 	 * 
