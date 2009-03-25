@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Atividade;
+import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.entidade.Processo;
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
@@ -125,6 +126,10 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	 * @throws NegocioException caso seja violada uma regra
 	 */
 	private void validarAtivacaoDoWorkflow(Workflow workflow) throws NegocioException {
+		List<Campo> campos = workflow.getCampos();
+		if ((campos == null) || campos.isEmpty()) {
+			throw new NegocioException("erro.workflowNaoAtivado.campo");
+		}
 		//Workflow deve possuir ao menos um processo com atividade com tarefa.
 		List<Processo> listaProcessos = workflow.getProcessos();
 		if ((listaProcessos == null) || listaProcessos.isEmpty()) {
@@ -144,7 +149,7 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 				//Toda tarefa deve possuir um responsável por ela.
 				for (Tarefa tarefa : listaTarefas) {
 					if (tarefa.getUsuario() == null) {
-						throw new NegocioException("erro.atividadeSemTarefas", tarefa.getNome(), atividade
+						throw new NegocioException("erro.tarefaSemResponsavel", tarefa.getNome(), atividade
 								.getNome(), processo.getNome());
 					}
 				}

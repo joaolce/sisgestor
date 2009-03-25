@@ -173,23 +173,18 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	 * {@inheritDoc}
 	 */
 	public boolean temFluxoDefinido(Integer idWorkflow) {
-		List<Processo> listaProcessos = this.getByWorkflow(idWorkflow);
+		List<Processo> processos = this.getByWorkflow(idWorkflow);
 		List<TransacaoProcesso> anteriores;
 		List<TransacaoProcesso> posteriores;
-		for (Processo processo : listaProcessos) {
+		for (Processo processo : processos) {
 			anteriores = processo.getTransacoesAnteriores();
 			posteriores = processo.getTransacoesPosteriores();
-
-			if ((anteriores != null) && !anteriores.isEmpty()) {
-				return true;
-			}
-
-			if ((posteriores != null) && !posteriores.isEmpty()) {
-				return true;
+			if (((anteriores == null) || anteriores.isEmpty())
+					&& ((posteriores == null) || posteriores.isEmpty())) {
+				return false;
 			}
 		}
-
-		return false;
+		return true;
 	}
 
 	/**
