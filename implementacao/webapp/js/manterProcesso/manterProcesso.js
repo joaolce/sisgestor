@@ -189,13 +189,7 @@ ManterProcesso.prototype = {
 			   if (requestUtils.status) {
 				   JanelaFactory.fecharJanela("divFluxoProcesso");
 			   }
-		   }), ( function() {
-			   if (!requestUtils.status) {
-				   requestUtils.valoresDevolvidos.each(( function(div) {
-					   Effect.Pulsate(div.value);
-				   }));
-			   }
-		   }));
+		   }), grafico.processarResposta);
 	   }));
    },
 

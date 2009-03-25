@@ -46,6 +46,7 @@ public abstract class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serial
 	 */
 	public void atualizar(T obj) {
 		this.getSession().update(obj);
+		this.getSession().flush();
 	}
 
 	/**
@@ -53,6 +54,7 @@ public abstract class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serial
 	 */
 	public void excluir(T obj) {
 		this.getSession().delete(obj);
+		this.getSession().flush();
 	}
 
 	/**
@@ -66,8 +68,7 @@ public abstract class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serial
 	 * {@inheritDoc}
 	 */
 	public T obterAntigo(PK pk) {
-		return this.classePersistente.cast(this.hibernateUtil.getSessionManual()
-				.get(this.classePersistente, pk));
+		return this.classePersistente.cast(this.hibernateUtil.getNewSession().get(this.classePersistente, pk));
 	}
 
 	/**
@@ -87,6 +88,7 @@ public abstract class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serial
 	 */
 	public void salvar(T obj) {
 		this.getSession().save(obj);
+		this.getSession().flush();
 	}
 
 	/**

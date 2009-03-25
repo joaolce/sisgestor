@@ -15,7 +15,9 @@ import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.TarefaDAO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaTarefaDTO;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -50,6 +52,7 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizarTransacoes(Integer idAtividade, List<TransacaoTarefa> transacoes)
 			throws NegocioException {
+		this.validarFluxo(transacoes, idAtividade);
 		List<TransacaoTarefa> atual = this.tarefaDAO.recuperarTransacoesDaAtividade(idAtividade);
 		if (atual != null) {
 			//excluindo as transações atuais
@@ -63,7 +66,6 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 			this.tarefaDAO.salvarTransacao(transacao);
 		}
 	}
-
 
 	/**
 	 * {@inheritDoc}
@@ -156,6 +158,88 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	@Autowired
 	public void setWorkflowBO(WorkflowBO workflowBO) {
 		this.workflowBO = workflowBO;
+	}
+
+	/**
+	 * Inicializa os mapas para a validação do fluxo.
+	 * 
+	 * @param transacoes transações de tarefas
+	 * @param mapAnteriores {@link Map} para armazenar as transações anteriores
+	 * @param mapPosteriores {@link Map} para armazenar as transações posteriores
+	 * @param listaTarefas {@link List} com as tarefas
+	 * @throws NegocioException caso não haja fluxo definido
+	 */
+	private void inicializarValidacaoFluxo(List<TransacaoTarefa> transacoes,
+			Map<Integer, Integer> mapAnteriores, Map<Integer, Integer> mapPosteriores, List<Tarefa> listaTarefas)
+			throws NegocioException {
+		//Valida para que haja definição de fluxos
+		if ((listaTarefas != null) && !listaTarefas.isEmpty() && ((transacoes != null) && transacoes.isEmpty())) {
+			throw new NegocioException("erro.fluxo.definicao.tarefa");
+		}
+
+		for (Tarefa tarefa : listaTarefas) {
+			mapAnteriores.put(tarefa.getId(), null);
+			mapPosteriores.put(tarefa.getId(), null);
+		}
+
+		Integer anterior;
+		Integer posterior;
+		for (TransacaoTarefa transacaoTarefa : transacoes) {
+			anterior = transacaoTarefa.getAnterior().getId();
+			posterior = transacaoTarefa.getPosterior().getId();
+
+			mapAnteriores.put(posterior, anterior);
+			mapPosteriores.put(anterior, posterior);
+		}
+	}
+
+	/**
+	 * Realiza as validações das {@link TransacaoTarefa} informadas.
+	 * 
+	 * @param transacoes transações definidas pelo usuário
+	 * @param idAtividade código identificador da atividade
+	 * @throws NegocioException caso regra de negócio seja violada
+	 */
+	private void validarFluxo(List<TransacaoTarefa> transacoes, Integer idAtividade) throws NegocioException {
+		Map<Integer, Integer> mapAnteriores = new HashMap<Integer, Integer>();
+		Map<Integer, Integer> mapPosteriores = new HashMap<Integer, Integer>();
+		boolean inicio = false;
+		boolean fim = false;
+		List<Tarefa> listaTarefas = this.tarefaDAO.getByAtividade(idAtividade);
+
+		this.inicializarValidacaoFluxo(transacoes, mapAnteriores, mapPosteriores, listaTarefas);
+
+		//Valida para que haja ao menos um processo final, e exatamente um inicial
+		Integer id;
+		Integer tarefaAnterior;
+		Integer tarefaPosterior;
+		NegocioException exceptionInicial = new NegocioException("erro.fluxo.inicial.tarefa");
+		for (Tarefa tarefa : listaTarefas) {
+			id = tarefa.getId();
+			tarefaAnterior = mapAnteriores.get(id);
+			tarefaPosterior = mapPosteriores.get(id);
+			if ((tarefaAnterior == null) && (tarefaPosterior == null)) {
+				NegocioException ex = new NegocioException("erro.fluxo.isolado.tarefa");
+				ex.putValorDevolvido("id", id);
+				throw ex;
+			}
+			if (tarefaAnterior == null) {
+				exceptionInicial.putValorDevolvido("id" + id, id);
+				if (inicio) {
+					throw exceptionInicial;
+				}
+				inicio = true;
+			}
+			if (tarefaPosterior == null) {
+				fim = true;
+			}
+		}
+		if (!inicio) {
+			throw exceptionInicial;
+		}
+		if (!fim) {
+			throw new NegocioException("erro.fluxo.final.tarefa");
+		}
 	}
 
 	/**
