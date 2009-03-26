@@ -45,7 +45,7 @@ public class ManterTarefaAction extends BaseAction {
 		ManterTarefaActionForm form = (ManterTarefaActionForm) actionForm;
 
 		Tarefa tarefa = this.tarefaBO.obter(form.getId());
-		this.copyProperties(tarefa, form);
+		this.copyProperties(tarefa, form, "atividade");
 
 		this.tarefaBO.atualizar(tarefa);
 

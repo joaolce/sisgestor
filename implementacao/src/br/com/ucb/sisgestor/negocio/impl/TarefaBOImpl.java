@@ -10,7 +10,6 @@ import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
-import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.TarefaDAO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
@@ -33,7 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaBO {
 
 	private TarefaDAO		tarefaDAO;
-	private WorkflowBO	workflowBO;
 	private AtividadeBO	atividadeBO;
 
 	/**
@@ -41,8 +39,7 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizar(Tarefa tarefa) throws NegocioException {
-		Atividade atividade = this.atividadeBO.obter(tarefa.getAtividade().getId());
-		this.validarSeWorkflowAtivo(atividade.getProcesso().getWorkflow());
+		this.validarSeWorkflowAtivo(tarefa.getAtividade().getProcesso().getWorkflow());
 		this.tarefaDAO.atualizar(tarefa);
 	}
 
@@ -151,13 +148,25 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	}
 
 	/**
-	 * Atribui o BO de {@link Workflow}.
-	 * 
-	 * @param workflowBO BO de {@link Workflow}
+	 * {@inheritDoc}
 	 */
-	@Autowired
-	public void setWorkflowBO(WorkflowBO workflowBO) {
-		this.workflowBO = workflowBO;
+	@Transactional(readOnly = true)
+	public boolean temFluxoDefinido(Integer idAtividade) {
+		List<Tarefa> tarefas = this.getByAtividade(idAtividade);
+		List<TransacaoTarefa> anteriores;
+		List<TransacaoTarefa> posteriores;
+		//caso tenha apenas uma tarefa, ela já é inicial e final.
+		if ((tarefas != null) && (tarefas.size() > 1)) {
+			for (Tarefa tarefa : tarefas) {
+				anteriores = tarefa.getTransacoesAnteriores();
+				posteriores = tarefa.getTransacoesPosteriores();
+				if (((anteriores == null) || anteriores.isEmpty())
+						&& ((posteriores == null) || posteriores.isEmpty())) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -249,8 +258,7 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	 * @throws NegocioException caso o {@link Workflow} esteja ativo
 	 */
 	private void validarSeWorkflowAtivo(Workflow workflow) throws NegocioException {
-		Workflow workflowAtivo = this.workflowBO.obter(workflow.getId());
-		if (workflowAtivo.getAtivo()) {
+		if (workflow.getAtivo()) {
 			throw new NegocioException("erro.workflowAtivo");
 		}
 	}

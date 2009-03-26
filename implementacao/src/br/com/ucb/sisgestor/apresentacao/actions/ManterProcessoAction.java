@@ -39,7 +39,7 @@ public class ManterProcessoAction extends BaseAction {
 		ManterProcessoActionForm form = (ManterProcessoActionForm) actionForm;
 
 		Processo processo = this.processoBO.obter(form.getId());
-		this.copyProperties(processo, form);
+		this.copyProperties(processo, form, "workflow");
 
 		this.processoBO.atualizar(processo);
 
