@@ -45,7 +45,7 @@ public class ManterAtividadeAction extends BaseAction {
 		ManterAtividadeActionForm form = (ManterAtividadeActionForm) actionForm;
 
 		Atividade atividade = this.atividadeBO.obter(form.getId());
-		this.copyProperties(atividade, form);
+		this.copyProperties(atividade, form, "processo");
 
 		this.atividadeBO.atualizar(atividade);
 

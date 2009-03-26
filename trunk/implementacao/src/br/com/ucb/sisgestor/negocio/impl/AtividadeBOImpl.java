@@ -11,7 +11,6 @@ import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.negocio.ProcessoBO;
-import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.AtividadeDAO;
 import br.com.ucb.sisgestor.util.dto.PesquisaAtividadeDTO;
@@ -34,7 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements AtividadeBO {
 
 	private AtividadeDAO	atividadeDAO;
-	private WorkflowBO	workflowBO;
 	private ProcessoBO	processoBO;
 
 	/**
@@ -42,8 +40,7 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizar(Atividade atividade) throws NegocioException {
-		Processo processo = this.processoBO.obter(atividade.getProcesso().getId());
-		this.validarSeWorkflowAtivo(processo.getWorkflow());
+		this.validarSeWorkflowAtivo(atividade.getProcesso().getWorkflow());
 		this.atividadeDAO.atualizar(atividade);
 	}
 
@@ -158,13 +155,25 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 	}
 
 	/**
-	 * Atribui o BO de {@link Workflow}.
-	 * 
-	 * @param workflowBO BO de {@link Workflow}
+	 * {@inheritDoc}
 	 */
-	@Autowired
-	public void setWorkflowBO(WorkflowBO workflowBO) {
-		this.workflowBO = workflowBO;
+	@Transactional(readOnly = true)
+	public boolean temFluxoDefinido(Integer idProcesso) {
+		List<Atividade> atividades = this.getByProcesso(idProcesso);
+		List<TransacaoAtividade> anteriores;
+		List<TransacaoAtividade> posteriores;
+		//caso tenha apenas uma atividade, ela já é inicial e final.
+		if ((atividades != null) && (atividades.size() > 1)) {
+			for (Atividade atividade : atividades) {
+				anteriores = atividade.getTransacoesAnteriores();
+				posteriores = atividade.getTransacoesPosteriores();
+				if (((anteriores == null) || anteriores.isEmpty())
+						&& ((posteriores == null) || posteriores.isEmpty())) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -257,8 +266,7 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 	 * @throws NegocioException caso o {@link Workflow} esteja ativo
 	 */
 	private void validarSeWorkflowAtivo(Workflow workflow) throws NegocioException {
-		Workflow workflowAtivo = this.workflowBO.obter(workflow.getId());
-		if (workflowAtivo.getAtivo()) {
+		if (workflow.getAtivo()) {
 			throw new NegocioException("erro.workflowAtivo");
 		}
 	}

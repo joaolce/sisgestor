@@ -47,4 +47,13 @@ public interface AtividadeBO extends BaseBO<Atividade, Integer> {
 	 * @return Lista de atividades
 	 */
 	List<Atividade> getByProcesso(Integer processo);
+
+	/**
+	 * Verifica se há fluxo definido para as atividades do {@link Processo} informado.
+	 * 
+	 * @param idProcesso código identificador do {@link Processo}
+	 * @return <code>true</code>, se houver fluxo definido;<br>
+	 *         <code>false</code>, se não houver.
+	 */
+	boolean temFluxoDefinido(Integer idProcesso);
 }

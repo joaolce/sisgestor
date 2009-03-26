@@ -133,9 +133,10 @@ public final class Utils {
 	 * 
 	 * @param destino objeto de destino
 	 * @param origem objeto origem
+	 * @param exclusao propriedade a ignorar na cópia
 	 * @throws Exception caso ocorra erro na recuperação das propriedades
 	 */
-	public static void copyProperties(Object destino, Object origem) throws Exception { //NOPMD by João Lúcio - não dá para quebrar método
+	public static void copyProperties(Object destino, Object origem, String... exclusao) throws Exception { //NOPMD by João Lúcio - não dá para quebrar método
 		//pega os descritores
 		PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(destino);
 		//as propriedades que são do mesmo tipo serão copiadas por último
@@ -143,8 +144,21 @@ public final class Utils {
 
 		for (PropertyDescriptor descriptor : propertyDescriptors) {
 			PropertyDescriptor descriptorOrigem;
+			String nomePropriedade = descriptor.getName();
+			if (exclusao != null) {
+				boolean pula = false;
+				for (String exclui : exclusao) {
+					if (nomePropriedade.equals(exclui)) {
+						pula = true;
+						break;
+					}
+				}
+				if (pula) {
+					continue;
+				}
+			}
 			try {
-				descriptorOrigem = PropertyUtils.getPropertyDescriptor(origem, descriptor.getName());
+				descriptorOrigem = PropertyUtils.getPropertyDescriptor(origem, nomePropriedade);
 				//se o descritor é null então o objeto não existe no destino
 				if (descriptorOrigem == null) {
 					continue;
@@ -155,13 +169,13 @@ public final class Utils {
 			Class<?> propertyType = descriptor.getPropertyType();
 			Class<?> propertyTypeOrigem = descriptorOrigem.getPropertyType();
 			//se a propriedade origem não é legível e a destino não é gravável pula para o próximo
-			if (!PropertyUtils.isWriteable(destino, descriptor.getName())
-					|| !PropertyUtils.isReadable(origem, descriptor.getName())) {
+			if (!PropertyUtils.isWriteable(destino, nomePropriedade)
+					|| !PropertyUtils.isReadable(origem, nomePropriedade)) {
 				continue;
 			}
 			//se os tipos são o mesmo separa para transportar depois
 			if (propertyType.getName().equals(propertyTypeOrigem.getName())) {
-				propriedadesIguais.add(descriptor.getName());
+				propriedadesIguais.add(nomePropriedade);
 			} else {
 				//o valor de origem para ser copiado deverá estar preenchido
 				Object valorOrigem = PropertyUtils.getProperty(origem, descriptorOrigem.getName());
@@ -179,15 +193,15 @@ public final class Utils {
 					String valor = (String) PropertyUtils.getProperty(origem, descriptorOrigem.getName());
 					if (propertyType.getName().equals(Timestamp.class.getName())) {
 						//CONVERSOR TIMESTAMP
-						PropertyUtils.setProperty(destino, descriptor.getName(), DataUtil.stringToTimestamp(valor));
+						PropertyUtils.setProperty(destino, nomePropriedade, DataUtil.stringToTimestamp(valor));
 					} else {
 						//CONVERSOR DATE
-						PropertyUtils.setProperty(destino, descriptor.getName(), DataUtil.stringToUtilDate(valor));
+						PropertyUtils.setProperty(destino, nomePropriedade, DataUtil.stringToUtilDate(valor));
 					}
 					continue;
 				} else if (eUmaString && Date.class.isInstance(valorOrigem)) {
 					Date valor = (Date) PropertyUtils.getProperty(origem, descriptorOrigem.getName());
-					PropertyUtils.setProperty(destino, descriptor.getName(), DataUtil.utilDateToString(valor));
+					PropertyUtils.setProperty(destino, nomePropriedade, DataUtil.utilDateToString(valor));
 					continue;
 				}
 
@@ -203,7 +217,7 @@ public final class Utils {
 					superclass = superclass.getSuperclass();
 				}
 				if (ehUmObjetoPersistente) {
-					Object valor = PropertyUtils.getProperty(origem, descriptor.getName());
+					Object valor = PropertyUtils.getProperty(origem, nomePropriedade);
 					//se o valor é nulo ou igual a zero pula
 					if ((valor == null) || ((valor instanceof Number) && (((Number) valor).intValue() == 0))) {
 						continue;
@@ -214,9 +228,9 @@ public final class Utils {
 						continue;
 					}
 					PropertyUtils.setProperty(property, "id", valor);
-					PropertyUtils.setProperty(destino, descriptor.getName(), property);
+					PropertyUtils.setProperty(destino, nomePropriedade, property);
 				} else if (ObjetoPersistente.class.isInstance(valorOrigem)) {
-					Object property = PropertyUtils.getProperty(origem, descriptor.getName());
+					Object property = PropertyUtils.getProperty(origem, nomePropriedade);
 					//se o objeto estiver nulo pula
 					if (property == null) {
 						continue;
@@ -225,9 +239,9 @@ public final class Utils {
 					if (!descriptor.getPropertyType().getName().equals(valor.getClass().getName())) {
 						continue;
 					}
-					PropertyUtils.setProperty(destino, descriptor.getName(), valor);
+					PropertyUtils.setProperty(destino, nomePropriedade, valor);
 				} else if (TipoCampoEnum.class.isAssignableFrom(propertyType)) {
-					PropertyUtils.setProperty(destino, descriptor.getName(), TipoCampoEnum.getTipo(Integer.class
+					PropertyUtils.setProperty(destino, nomePropriedade, TipoCampoEnum.getTipo(Integer.class
 							.cast(valorOrigem)));
 				}
 			}

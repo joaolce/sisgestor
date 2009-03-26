@@ -9,7 +9,6 @@ import br.com.ucb.sisgestor.entidade.Processo;
 import br.com.ucb.sisgestor.entidade.TransacaoProcesso;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.ProcessoBO;
-import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.ProcessoDAO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
@@ -33,7 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements ProcessoBO {
 
 	private ProcessoDAO	processoDAO;
-	private WorkflowBO	workflowBO;
 
 	/**
 	 * {@inheritDoc}
@@ -160,28 +158,22 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	}
 
 	/**
-	 * Atribui o BO de {@link Workflow}.
-	 * 
-	 * @param workflowBO BO de {@link Workflow}
-	 */
-	@Autowired
-	public void setWorkflowBO(WorkflowBO workflowBO) {
-		this.workflowBO = workflowBO;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public boolean temFluxoDefinido(Integer idWorkflow) {
 		List<Processo> processos = this.getByWorkflow(idWorkflow);
 		List<TransacaoProcesso> anteriores;
 		List<TransacaoProcesso> posteriores;
-		for (Processo processo : processos) {
-			anteriores = processo.getTransacoesAnteriores();
-			posteriores = processo.getTransacoesPosteriores();
-			if (((anteriores == null) || anteriores.isEmpty())
-					&& ((posteriores == null) || posteriores.isEmpty())) {
-				return false;
+		//caso tenha apenas um processo, ele já é inicial e final.
+		if ((processos != null) && (processos.size() > 1)) {
+			for (Processo processo : processos) {
+				anteriores = processo.getTransacoesAnteriores();
+				posteriores = processo.getTransacoesPosteriores();
+				if (((anteriores == null) || anteriores.isEmpty())
+						&& ((posteriores == null) || posteriores.isEmpty())) {
+					return false;
+				}
 			}
 		}
 		return true;
@@ -347,8 +339,7 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	 * @throws NegocioException caso o {@link Workflow} esteja ativo
 	 */
 	private void validarSeWorkflowAtivo(Workflow workflow) throws NegocioException {
-		Workflow workflowAtivo = this.workflowBO.obter(workflow.getId());
-		if (workflowAtivo.getAtivo()) {
+		if (workflow.getAtivo()) {
 			throw new NegocioException("erro.workflowAtivo");
 		}
 	}

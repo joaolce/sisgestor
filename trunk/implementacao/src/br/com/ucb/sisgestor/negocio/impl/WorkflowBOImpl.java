@@ -8,10 +8,10 @@ import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.entidade.Processo;
 import br.com.ucb.sisgestor.entidade.Tarefa;
-import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
-import br.com.ucb.sisgestor.entidade.TransacaoProcesso;
-import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
 import br.com.ucb.sisgestor.entidade.Workflow;
+import br.com.ucb.sisgestor.negocio.AtividadeBO;
+import br.com.ucb.sisgestor.negocio.ProcessoBO;
+import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.WorkflowDAO;
@@ -34,6 +34,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements WorkflowBO {
 
 	private WorkflowDAO	workflowDAO;
+	private ProcessoBO	processoBO;
+	private AtividadeBO	atividadeBO;
+	private TarefaBO		tarefaBO;
 
 	/**
 	 * {@inheritDoc}
@@ -110,6 +113,36 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	}
 
 	/**
+	 * Atribui o BO de {@link Atividade}.
+	 * 
+	 * @param atividadeBO BO de {@link Atividade}
+	 */
+	@Autowired
+	public void setAtividadeBO(AtividadeBO atividadeBO) {
+		this.atividadeBO = atividadeBO;
+	}
+
+	/**
+	 * Atribui o BO de {@link Processo}.
+	 * 
+	 * @param processoBO BO de {@link Processo}
+	 */
+	@Autowired
+	public void setProcessoBO(ProcessoBO processoBO) {
+		this.processoBO = processoBO;
+	}
+
+	/**
+	 * Atribui o BO de {@link Tarefa}.
+	 * 
+	 * @param tarefaBO BO de {@link Tarefa}
+	 */
+	@Autowired
+	public void setTarefaBO(TarefaBO tarefaBO) {
+		this.tarefaBO = tarefaBO;
+	}
+
+	/**
 	 * Atribui o DAO de {@link Workflow}.
 	 * 
 	 * @param workflowDAO DAO de {@link Workflow}
@@ -165,20 +198,13 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	 * @throws NegocioException caso seja violada uma regra
 	 */
 	private void validarTransacoesDasAtividades(Processo processo) throws NegocioException {
-		List<Atividade> atividades = processo.getAtividades();
-		if (atividades.size() > 1) {
+		if (this.atividadeBO.temFluxoDefinido(processo.getId())) {
+			List<Atividade> atividades = processo.getAtividades();
 			for (Atividade atividade : atividades) {
-				List<TransacaoAtividade> transacoesAnteriores = atividade.getTransacoesAnteriores();
-				List<TransacaoAtividade> transacoesPosteriores = atividade.getTransacoesPosteriores();
-				if (((transacoesAnteriores == null) || transacoesAnteriores.isEmpty())
-						&& ((transacoesPosteriores == null) || transacoesPosteriores.isEmpty())) {
-					throw new NegocioException("erro.workflowNaoAtivado.atividadeIsolada", atividade.getNome(),
-							processo.getNome());
-				}
-				this.validarTransacoesDasTarefas(atividade.getTarefas());
+				this.validarTransacoesDasTarefas(atividade);
 			}
 		} else {
-			this.validarTransacoesDasTarefas(atividades.get(0).getTarefas());
+			throw new NegocioException("erro.workflowNaoAtivado.atividade.isolada", processo.getNome());
 		}
 	}
 
@@ -189,16 +215,9 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	 * @param tarefas tarefas a validar
 	 * @throws NegocioException caso seja violada uma regra
 	 */
-	private void validarTransacoesDasTarefas(List<Tarefa> tarefas) throws NegocioException {
-		if (tarefas.size() > 1) {
-			for (Tarefa tarefa : tarefas) {
-				List<TransacaoTarefa> transacoesAnteriores = tarefa.getTransacoesAnteriores();
-				List<TransacaoTarefa> transacoesPosteriores = tarefa.getTransacoesPosteriores();
-				if (((transacoesAnteriores == null) || transacoesAnteriores.isEmpty())
-						&& ((transacoesPosteriores == null) || transacoesPosteriores.isEmpty())) {
-					throw new NegocioException("");
-				}
-			}
+	private void validarTransacoesDasTarefas(Atividade atividade) throws NegocioException {
+		if (!this.tarefaBO.temFluxoDefinido(atividade.getId())) {
+			throw new NegocioException("erro.workflowNaoAtivado.tarefa.isolada", atividade.getNome());
 		}
 	}
 
@@ -210,19 +229,13 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	 * @throws NegocioException caso seja violada uma regra
 	 */
 	private void validarTransacoesDosProcessos(Workflow workflow) throws NegocioException {
-		List<Processo> processos = workflow.getProcessos();
-		if (processos.size() > 1) {
+		if (this.processoBO.temFluxoDefinido(workflow.getId())) {
+			List<Processo> processos = workflow.getProcessos();
 			for (Processo processo : processos) {
-				List<TransacaoProcesso> transacoesAnteriores = processo.getTransacoesAnteriores();
-				List<TransacaoProcesso> transacoesPosteriores = processo.getTransacoesPosteriores();
-				if (((transacoesAnteriores == null) || transacoesAnteriores.isEmpty())
-						&& ((transacoesPosteriores == null) || transacoesPosteriores.isEmpty())) {
-					throw new NegocioException("erro.workflowNaoAtivado.processoIsolado", processo.getNome());
-				}
 				this.validarTransacoesDasAtividades(processo);
 			}
 		} else {
-			this.validarTransacoesDasAtividades(processos.get(0));
+			throw new NegocioException("erro.workflowNaoAtivado.processo.isolado");
 		}
 	}
 

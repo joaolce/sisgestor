@@ -47,4 +47,13 @@ public interface TarefaBO extends BaseBO<Tarefa, Integer> {
 	 */
 	List<Tarefa> getByNomeDescricaoUsuario(String nome, String descricao, Integer usuario,
 			Integer idAtividade, Integer paginaAtual);
+
+	/**
+	 * Verifica se há fluxo definido para as tarefas da {@link Atividade} informada.
+	 * 
+	 * @param idAtividade código identificador da {@link Atividade}
+	 * @return <code>true</code>, se houver fluxo definido;<br>
+	 *         <code>false</code>, se não houver.
+	 */
+	boolean temFluxoDefinido(Integer idAtividade);
 }

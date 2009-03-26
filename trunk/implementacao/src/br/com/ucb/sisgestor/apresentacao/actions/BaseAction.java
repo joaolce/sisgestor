@@ -245,14 +245,15 @@ public class BaseAction extends DispatchActionSupport {
 	/**
 	 * Copia propriedades de um form para uma entidade ou vice versa.
 	 * 
-	 * @see Utils#copyProperties(Object, Object)
+	 * @see Utils#copyProperties(Object, Object, String...)
 	 * 
 	 * @param dest objeto de destino
 	 * @param orig objeto de origem
+	 * @param exclusao propriedade a ignorar na cópia
 	 * @throws Exception caso ocorra erro na recuperação das propriedades
 	 */
-	protected void copyProperties(Object dest, Object orig) throws Exception {
-		Utils.copyProperties(dest, orig);
+	protected void copyProperties(Object dest, Object orig, String... exclusao) throws Exception {
+		Utils.copyProperties(dest, orig, exclusao);
 	}
 
 	/**
