@@ -7,7 +7,7 @@
 		<label>
 			<b><bean:message key="label.definicaoFluxo"/></b>
 		</label>
-		<div id="divFluxos" style="float: left; width: 830px; height: 400px; overflow: scroll; text-align: center;" class="bordas">
+		<div id="divFluxos" style="float: left; width: 830px; height: 400px; overflow: hidden; text-align: center;" class="bordas">
 			
 		</div>
 	</div>

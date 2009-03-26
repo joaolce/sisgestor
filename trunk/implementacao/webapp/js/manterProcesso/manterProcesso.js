@@ -181,8 +181,7 @@ ManterProcesso.prototype = {
 				    	  processosPosteriores = processo.transacoesPosteriores;
 				    	  if (temFluxo && (processosPosteriores != null) && (processosPosteriores.length > 0) ) {
 				    		  processosPosteriores.each( function(processoPosterior){
-				    			  fluxo.ligar(processo.id);
-				    			  fluxo.ligar(processoPosterior.posterior.id);
+				    			  fluxo.ligar(processo.id, processoPosterior.posterior.id);
 				    		  });
 				    	  }
 				      });
