@@ -9,6 +9,7 @@ import br.com.ucb.sisgestor.negocio.ProcessoBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaProcessoDTO;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -40,7 +41,13 @@ public class ManterProcessoDWR extends BaseDWR {
 	public ListaResultadoDTO<Processo> getByWorkflow(Integer idWorkflow) {
 		ListaResultadoDTO<Processo> resultado = new ListaResultadoDTO<Processo>();
 
-		resultado.setColecaoParcial(this.processoBO.getByWorkflow(idWorkflow));
+		List<Processo> listaProcessos = this.processoBO.getByWorkflow(idWorkflow);
+		for (Processo processo : listaProcessos) {
+			Hibernate.initialize(processo.getTransacoesAnteriores());
+			Hibernate.initialize(processo.getTransacoesPosteriores());
+		}
+
+		resultado.setColecaoParcial(listaProcessos);
 
 		return resultado;
 	}

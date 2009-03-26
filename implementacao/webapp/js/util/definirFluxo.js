@@ -26,6 +26,12 @@ DefinirFluxo.prototype = {
    varTopo :-80,
 
    /**
+    * Variável que armazena o total de círculos desenhados
+    * na tela para utilização ao gerar representação de um fluxo já definido.
+    */
+   totalCirculos : 0,
+
+   /**
 	 * @constructor
 	 */
    initialize : function() {
@@ -48,7 +54,8 @@ DefinirFluxo.prototype = {
 	   
 	   //TODO Ainda há falha na definição do topo
 	   if (topo != null) {
-		   this.topo += topo - 39;
+		   var novoTopo = this.totalCirculos * this.varTopo + topo - 39;
+		   this.topo = novoTopo;
 	   }
 	   
 	   if (esquerda != null) {
@@ -88,6 +95,7 @@ DefinirFluxo.prototype = {
 		   this.topo = this.topo - this.varTopo + 20;
 		   this.esquerda = 0;
 	   }
+	   this.totalCirculos ++;
    },
 
    /**
@@ -146,12 +154,9 @@ DefinirFluxo.prototype = {
    /**
 	 * Liga uma div a outra.
 	 * 
-	 * @param id Identificador da div que recebeu duplo click.
+	 * @param id Identificador da div que recebeu duplo clique.
 	 */
    ligar : function(id) {
-	   if(typeof id == 'number'){
-		   id = id.toString();
-	   }
 	   if (this.origem == null) {
 		   this.origem = $(id);
 		   grafico.destacarDiv(this.origem);
@@ -170,6 +175,25 @@ DefinirFluxo.prototype = {
 		   grafico.removerDestaqueDiv(this.origem);
 		   this.origem = null;
 	   }
+   },
+   
+   /**
+    * Liga duas divs.
+    * 
+    * @param idInicio Código identificador da div inicial
+    * @param idFim Código identificador da div final
+    * 
+    */
+   ligar : function(idInicio, idFim){
+	   //Parse para string pois as posições recebidas são do tipo number
+	   idInicio = "" + idInicio;
+	   idFim = "" + idFim;
+	   var origem = $(idInicio);
+	   var destino = $(idFim);
+	   this.unirDivs(origem, destino);
+	   var fluxo = new Array(idInicio, idFim);
+	   this.listaFluxos.push(fluxo);
+	   this.tiraDraggable(idInicio, idFim);
    },
 
    /**
