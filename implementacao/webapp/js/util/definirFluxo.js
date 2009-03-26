@@ -40,6 +40,7 @@ DefinirFluxo.prototype = {
 	   this.esquerda = 0;
 	   this.topo = 0;
 	   this.varTopo = -80;
+	   this.totalCirculos = 0;
    },
 
    /**
@@ -54,8 +55,7 @@ DefinirFluxo.prototype = {
 	   
 	   //TODO Ainda há falha na definição do topo
 	   if (topo != null) {
-		   var novoTopo = this.totalCirculos * this.varTopo + topo - 39;
-		   this.topo = novoTopo;
+	   	this.topo  = this.totalCirculos * this.varTopo + topo - 39;
 	   }
 	   
 	   if (esquerda != null) {
@@ -64,7 +64,7 @@ DefinirFluxo.prototype = {
 	   
 	   var div = $(Builder.node("div", {
 	      id :id,
-	      ondblclick :"fluxo.ligar(\"" + id + "\");",
+	      ondblclick :"fluxo.ligar(" + id + ");",
 	      title :nome
 	   }));
 
@@ -95,7 +95,7 @@ DefinirFluxo.prototype = {
 		   this.topo = this.topo - this.varTopo + 20;
 		   this.esquerda = 0;
 	   }
-	   this.totalCirculos ++;
+	   this.totalCirculos++;
    },
 
    /**
@@ -103,32 +103,34 @@ DefinirFluxo.prototype = {
 	 */
    limparFluxo : function() {
 	   // Obs.: Os elementos draggables são criados novamente nesta função.
-	var divCirculos = $("divFluxos").childNodes;
-	var identificador;
-	var drag;
-	var draggables = this.dives;
-	var totalDrags = this.dives.size();
-	if (totalDrags > 0) {
-		this.initialize();
-		/*
-		 * Inicia-se a partir da referência 1 pois a referência 0(zero) diz respeito ao texto
-		 * "Definição do fluxo" presente no cabeçalho da div
-		 */
-		for ( var i = 0; i < totalDrags; i++) {
-			identificador = divCirculos[i + 1].id;
-			drag = draggables.get(identificador);
-			if (drag != null) {
-				drag.destroy();
-			}
-			this.dives.set(identificador, this.getDraggable(identificador));
-		}
-	}
-	grafico.limpar();
+   	var divCirculos = $("divFluxos").childNodes;
+   	var identificador;
+   	var drag;
+   	var draggables = this.dives;
+   	var totalDrags = this.dives.size();
+   	if (totalDrags > 0) {
+   		this.initialize();
+   		/*
+   		 * Inicia-se a partir da referência 1 pois a referência 0(zero) diz respeito ao texto
+   		 * "Definição do fluxo" presente no cabeçalho da div
+   		 */
+   		for ( var i = 0; i < totalDrags; i++) {
+   			identificador = divCirculos[i + 1].id;
+   			drag = draggables.get(identificador);
+   			if (drag != null) {
+   				drag.destroy();
+   			}
+   			this.dives.set(identificador, this.getDraggable(identificador));
+   		}
+   	}
+   	grafico.limpar();
    },
    
    /**
-    * Obtém as posições absolutas dos elementos posicionados na tela.  
+    * Obtém as posições absolutas dos elementos posicionados na tela. <br />
+    * obs: cada linha contém a seguinte formatação: &lt;id&gt;,&lt;left&gt,&lt;top&gt
     * 
+    * @return {Array} com as posições das divs
     */
    obterPosicoes : function(){
 	   var posicoes = new Array();
@@ -147,27 +149,34 @@ DefinirFluxo.prototype = {
 			   posicoes.push(pos);
 		   }
 	   }
-	   
 	   return posicoes;
    },
 
    /**
 	 * Liga uma div a outra.
 	 * 
-	 * @param id Identificador da div que recebeu duplo clique.
+	 * @param {Number} id1 Identificador da div para ligar
+	 * @param {Number} id2 Identificador da div de destino para ligar
 	 */
-   ligar : function(id) {
+   ligar : function(id1, id2) {
+   	//Parse para string pois as posições recebidas são do tipo number
+   	id1 = id1.toString();
+   	if(id2 != undefined) { //caso já esteja passando a div de destino, não precisa dar destaque a de início.
+      	id2 = id2.toString();
+      	if (!this.existeFluxoDefinido(id1, id2)){
+      		this.adicionaLigacao(id1, id2);
+      		this.tiraDraggable(id1, id2);
+      	}
+   		return;
+   	}
 	   if (this.origem == null) {
-		   this.origem = $(id);
+		   this.origem = $(id1);
 		   grafico.destacarDiv(this.origem);
 	   } else {
-		   if (this.origem.id != id) {
-			   if (!this.existeFluxoDefinido(this.origem.id, id)) {
-				   var destino = $(id);
-				   this.unirDivs(this.origem, destino);
-				   var fluxo = new Array(this.origem.id, id);
-				   this.listaFluxos.push(fluxo);
-				   this.tiraDraggable(this.origem.id, id);
+		   if (this.origem.id != id1) {
+			   if (!this.existeFluxoDefinido(this.origem.id, id1)) {
+			   	this.adicionaLigacao(this.origem.id, id1);
+				   this.tiraDraggable(this.origem.id, id1);
 			   } else {
 				   JanelasComuns.showMessage("Fluxo já foi definido.");
 			   }
@@ -178,29 +187,10 @@ DefinirFluxo.prototype = {
    },
    
    /**
-    * Liga duas divs.
-    * 
-    * @param idInicio Código identificador da div inicial
-    * @param idFim Código identificador da div final
-    * 
-    */
-   ligar : function(idInicio, idFim){
-	   //Parse para string pois as posições recebidas são do tipo number
-	   idInicio = "" + idInicio;
-	   idFim = "" + idFim;
-	   var origem = $(idInicio);
-	   var destino = $(idFim);
-	   this.unirDivs(origem, destino);
-	   var fluxo = new Array(idInicio, idFim);
-	   this.listaFluxos.push(fluxo);
-	   this.tiraDraggable(idInicio, idFim);
-   },
-
-   /**
 	 * Verifica se o fluxo já foi definido.
 	 * 
-	 * @param origem Identificador da div de origem
-	 * @param destino Identificador da div de destino
+	 * @param {String} origem Identificador da div de origem
+	 * @param {String} destino Identificador da div de destino
 	 * @return <code>true</code>, se o fluxo já foi definido;<br>
 	 *         <code>false</code>, se ainda não existe o fluxo definido.
 	 */
@@ -215,7 +205,6 @@ DefinirFluxo.prototype = {
 			   return true;
 		   }
 	   }
-
 	   return false;
    },
 
@@ -256,6 +245,18 @@ DefinirFluxo.prototype = {
 	   return new Draggable(id, {
 		   scroll :window
 	   });
+   },
+   
+   /**
+    * Adiciona a lista de fluxos a ligação informada.
+    * 
+    * @param {String} idInicio identificador da div de origem
+    * @param {String} idFim identificador da div de destino
+    */
+   adicionaLigacao: function(idInicio, idFim){
+   	this.unirDivs($(idInicio), $(idFim));
+	   var fluxo = new Array(idInicio, idFim);
+	   this.listaFluxos.push(fluxo);
    }
 };
 
