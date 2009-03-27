@@ -41,7 +41,7 @@ public abstract class BaseWorkflowBOImpl<T extends BaseWorkflow, PK extends Seri
 	 * @param mapPosteriores Mapa de fluxos posteriores
 	 * @throws NegocioException Exceção a ser lançada
 	 */
-	protected void finalizarValidacaoFluxos(List<?> lista, NegocioException exceptionIsolado,
+	protected void validarFluxos(List<?> lista, NegocioException exceptionIsolado,
 			NegocioException exceptionInicial, NegocioException exceptionFinal,
 			Map<Integer, Integer> mapAnteriores, Map<Integer, Integer> mapPosteriores) throws NegocioException {
 
@@ -55,8 +55,8 @@ public abstract class BaseWorkflowBOImpl<T extends BaseWorkflow, PK extends Seri
 		Integer elementoPosterior;
 		ObjetoPersistente elemento;
 
-		for (Object object : lista) {
-			elemento = (ObjetoPersistente) object;
+		for (Object objeto : lista) {
+			elemento = (ObjetoPersistente) objeto;
 
 			id = elemento.getId();
 			elementoAnterior = mapAnteriores.get(id);
@@ -64,7 +64,7 @@ public abstract class BaseWorkflowBOImpl<T extends BaseWorkflow, PK extends Seri
 
 			if ((elementoAnterior == null) && (elementoPosterior == null)) {
 				temTarefasIsoladas = true;
-				exceptionIsolado.putValorDevolvido("id" + id, id.toString());
+				exceptionIsolado.putValorDevolvido("id" + id, id);
 			}
 			if (elementoPosterior == null) {
 				temFim = true;

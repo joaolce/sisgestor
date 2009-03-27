@@ -267,6 +267,9 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo, Integer> implem
 	private void validarFluxo(List<TransacaoProcesso> transacoes, Integer idWorkflow) throws NegocioException {
 		List<Processo> lista = this.processoDAO.getByWorkflow(idWorkflow);
 
+		if ((lista == null) || lista.isEmpty()) {
+			throw new NegocioException("erro.fluxo.definicao.processo.vazio");
+		}
 		if (lista.size() == 1) {
 			return;
 		}
@@ -279,7 +282,7 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo, Integer> implem
 
 		this.inicializarValidacaoFluxo(transacoes, mapAnteriores, mapPosteriores, lista);
 
-		this.finalizarValidacaoFluxos(lista, exceptionIsolado, exceptionInicial, exceptionFinal, mapAnteriores,
+		this.validarFluxos(lista, exceptionIsolado, exceptionInicial, exceptionFinal, mapAnteriores,
 				mapPosteriores);
 	}
 
