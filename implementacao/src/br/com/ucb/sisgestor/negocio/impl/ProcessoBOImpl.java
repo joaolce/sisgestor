@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 11/02/2009
  */
 @Service("processoBO")
-public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements ProcessoBO {
+public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo, Integer> implements ProcessoBO {
 
 	private ProcessoDAO	processoDAO;
 	private WorkflowDAO	workflowDAO;
