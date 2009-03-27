@@ -8,9 +8,9 @@ import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.entidade.OpcaoCampo;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.CampoBO;
-import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.CampoDAO;
+import br.com.ucb.sisgestor.persistencia.WorkflowDAO;
 import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.dto.PesquisaCampoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
@@ -30,14 +30,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 
 	private CampoDAO		campoDAO;
-	private WorkflowBO	workflowBO;
+	private WorkflowDAO	workflowDAO;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizar(Campo campo) throws NegocioException {
-		this.validarSeWorkflowAtivo(campo.getWorkflow());
+		Workflow workflow = this.workflowDAO.obter(campo.getWorkflow().getId());
+		this.validarSePodeAlterarWorkflow(workflow);
 		Campo campoAtual = this.campoDAO.obter(campo.getId());
 		if (campoAtual.getOpcoes() != null) { // excluindo as opções pois o cascade não suporta para atualizar
 			for (OpcaoCampo opcao : campoAtual.getOpcoes()) {
@@ -58,7 +59,7 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void excluir(Campo campo) throws NegocioException {
-		this.validarSeWorkflowAtivo(campo.getWorkflow());
+		this.validarSePodeAlterarWorkflow(campo.getWorkflow());
 		this.campoDAO.excluir(campo);
 	}
 
@@ -101,7 +102,8 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void salvar(Campo campo) throws NegocioException {
-		this.validarSeWorkflowAtivo(campo.getWorkflow());
+		Workflow workflow = this.workflowDAO.obter(campo.getWorkflow().getId());
+		this.validarSePodeAlterarWorkflow(workflow);
 		this.campoDAO.salvar(campo);
 	}
 
@@ -116,25 +118,24 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 	}
 
 	/**
-	 * Atribui o BO de {@link Workflow}.
+	 * Atribui o DAO de {@link Workflow}.
 	 * 
-	 * @param workflowBO BO de {@link Workflow}
+	 * @param workflowDAO DAO de {@link Workflow}
 	 */
 	@Autowired
-	public void setWorkflowBO(WorkflowBO workflowBO) {
-		this.workflowBO = workflowBO;
+	public void setWorkflowDAO(WorkflowDAO workflowDAO) {
+		this.workflowDAO = workflowDAO;
 	}
 
 	/**
-	 * Verifica se o {@link Workflow} está ativo, caso esteja não pode ocorrer alteração nos processos.
+	 * Verifica se o {@link Workflow} pode ser alterado, para não poder ocorrer alteração nos campos.
 	 * 
 	 * @param workflow {@link Workflow} a verificar
-	 * @throws NegocioException caso o {@link Workflow} esteja ativo
+	 * @throws NegocioException caso o {@link Workflow} não possa ser alterado
 	 */
-	private void validarSeWorkflowAtivo(Workflow workflow) throws NegocioException {
-		Workflow workflowAtivo = this.workflowBO.obter(workflow.getId());
-		if (workflowAtivo.getAtivo()) {
-			throw new NegocioException("erro.workflowAtivo");
+	private void validarSePodeAlterarWorkflow(Workflow workflow) throws NegocioException {
+		if (workflow.getAtivo() || (workflow.getDataHoraExclusao() != null)) {
+			throw new NegocioException("erro.workflow.alterar");
 		}
 	}
 }
