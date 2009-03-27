@@ -184,11 +184,25 @@ ManterTarefa.prototype = {
 		      var idAtividade = $F("atividadeTarefa");
 		      dwr.util.setValue("atividadeFluxo", idAtividade);
 
-		      ManterTarefaDWR.getByAtividade(idAtividade, ( function(listaTarefas) {
-			      fluxo = new DefinirFluxo();
-			      listaTarefas.colecaoParcial.each( function(tarefa) {
-				      fluxo.gerarRepresentacao(tarefa.id, tarefa.nome);
-			      });
+		      var tarefasPosteriores;
+		      ManterTarefaDWR.temFluxoDefinido(idAtividade, ( function(temFluxo) {
+		    	  fluxo = new DefinirFluxo();
+		    	  ManterTarefaDWR.getByAtividade(idAtividade, ( function(listaTarefas) {
+		    		  //Gera as reprensentações
+		    		  listaTarefas.colecaoParcial.each( function(tarefa) {
+				    	  fluxo.gerarRepresentacao(tarefa.id, tarefa.nome, tarefa.left, tarefa.top);
+				      });
+				      
+				      //Efetua as ligações
+		    		  listaTarefas.colecaoParcial.each( function(tarefa) {
+		    			  tarefasPosteriores = tarefa.transacoesPosteriores;
+				    	  if (temFluxo && (tarefasPosteriores != null) && (tarefasPosteriores.length > 0) ) {
+				    		  tarefasPosteriores.each( function(tarefaPosterior){
+				    			  fluxo.ligar(tarefa.id, tarefaPosterior.posterior.id);
+				    		  });
+				    	  }
+				      });
+		    	  }));
 		      }));
 	      }));
    },
@@ -199,6 +213,7 @@ ManterTarefa.prototype = {
    salvarFluxo : function() {
 	   var form = getForm($("definirFluxoManterTarefaForm"));
 	   form.fluxos = fluxo.listaFluxos;
+	   form.posicoes = fluxo.obterPosicoes();
 	   JanelasComuns.showConfirmDialog("Deseja definir o fluxo criado?", ( function() {
 		   requestUtils.simpleRequest("manterTarefa.do?method=salvarFluxo&"
 		      + Object.toQueryString(form), ( function() {

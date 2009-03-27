@@ -7,11 +7,8 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 import br.com.ucb.sisgestor.apresentacao.forms.ManterTarefaActionForm;
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Tarefa;
-import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -167,9 +164,10 @@ public class ManterTarefaAction extends BaseAction {
 
 		ManterTarefaActionForm form = (ManterTarefaActionForm) formulario;
 
-		List<TransacaoTarefa> lista = this.getTransacoes(form.getFluxos());
+		String[] fluxos = form.getFluxos();
+		String[] posicoes = form.getPosicoes();
 
-		this.tarefaBO.atualizarTransacoes(form.getAtividade(), lista);
+		this.tarefaBO.atualizarTransacoes(form.getAtividade(), fluxos, posicoes);
 
 		this.addMessageKey("mensagem.fluxo");
 		return this.sendAJAXResponse(true);
@@ -193,35 +191,5 @@ public class ManterTarefaAction extends BaseAction {
 	@Autowired
 	public void setTarefaBO(TarefaBO tarefaBO) {
 		this.tarefaBO = tarefaBO;
-	}
-
-	/**
-	 * Recupera a lista de transações criadas para as tarefa.
-	 * 
-	 * @param fluxos fluxos definidos pelo usuário
-	 * @return {@link List} de {@link TransacaoTarefa}
-	 */
-	private List<TransacaoTarefa> getTransacoes(String[] fluxos) {
-		List<TransacaoTarefa> lista = new ArrayList<TransacaoTarefa>();
-		if (fluxos != null) {
-			TransacaoTarefa transacao;
-			Tarefa tarefaAnterior;
-			Tarefa tarefaPosterior;
-			for (String fluxo : fluxos) {
-				String[] tarefas = fluxo.split(","); //a direção vem no formato: 1,2 (origem, destino)
-
-				transacao = new TransacaoTarefa();
-				tarefaAnterior = new Tarefa();
-				tarefaPosterior = new Tarefa();
-
-				tarefaAnterior.setId(Integer.parseInt(tarefas[0]));
-				tarefaPosterior.setId(Integer.parseInt(tarefas[1]));
-
-				transacao.setAnterior(tarefaAnterior);
-				transacao.setPosterior(tarefaPosterior);
-				lista.add(transacao);
-			}
-		}
-		return lista;
 	}
 }

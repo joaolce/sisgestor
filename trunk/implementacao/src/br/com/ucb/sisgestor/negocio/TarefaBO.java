@@ -19,13 +19,14 @@ import java.util.List;
 public interface TarefaBO extends BaseBO<Tarefa, Integer> {
 
 	/**
-	 * Atualiza as {@link TransacaoTarefa} informadas.
+	 * Atualiza as {@link TransacaoTarefa} informadas e as posições das tarefas na página.
 	 * 
-	 * @param idAtividade identificador do {@link Atividade}
-	 * @param transacoes transações a armazenar
+	 * @param idAtividade identificador da {@link Atividade}
+	 * @param fluxos Fluxos definidos pelo usuário
+	 * @param posicoes Posições das tarefas na página
 	 * @throws NegocioException caso exceção de negócio seja violada
 	 */
-	void atualizarTransacoes(Integer idAtividade, List<TransacaoTarefa> transacoes) throws NegocioException;
+	void atualizarTransacoes(Integer idAtividade, String[] fluxos, String[] posicoes) throws NegocioException;
 
 	/**
 	 * Recupera todas as tarefas referenciadas pela atividade

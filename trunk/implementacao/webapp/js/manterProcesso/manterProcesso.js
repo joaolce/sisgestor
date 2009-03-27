@@ -167,6 +167,7 @@ ManterProcesso.prototype = {
 	      ( function() {
 		      var idWorkflow = $F("workflowProcesso");
 		      dwr.util.setValue("workflowFluxo", idWorkflow);
+		      
 		      var processosPosteriores;
 		      ManterProcessoDWR.temFluxoDefinido(idWorkflow, ( function(temFluxo) {
 		    	  fluxo = new DefinirFluxo();

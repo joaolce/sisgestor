@@ -22,6 +22,7 @@ public class ManterTarefaActionForm extends BaseForm {
 	private String				nome;
 	private Integer			usuario;
 	private String[]			fluxos;
+	private String[]			posicoes;
 
 	/**
 	 * Recupera o código identificador da atividade.
@@ -69,6 +70,15 @@ public class ManterTarefaActionForm extends BaseForm {
 	}
 
 	/**
+	 * Recupera as posições das tarefas
+	 * 
+	 * @return posicoes das tarefas
+	 */
+	public String[] getPosicoes() {
+		return this.posicoes;
+	}
+
+	/**
 	 * Recupera o usuário responsável pela tarefa
 	 * 
 	 * @return usuário responsavel
@@ -76,7 +86,6 @@ public class ManterTarefaActionForm extends BaseForm {
 	public Integer getUsuario() {
 		return this.usuario;
 	}
-
 
 	/**
 	 * Atribui o código identificador da atividade.
@@ -125,6 +134,16 @@ public class ManterTarefaActionForm extends BaseForm {
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+
+	/**
+	 * Atribui as posições das tarefas
+	 * 
+	 * @param posicoes posições das tarefas
+	 */
+	public void setPosicoes(String[] posicoes) {
+		this.posicoes = posicoes;
 	}
 
 

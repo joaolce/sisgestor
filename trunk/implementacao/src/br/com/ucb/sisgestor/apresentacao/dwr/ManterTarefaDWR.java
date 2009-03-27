@@ -9,6 +9,7 @@ import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaTarefaDTO;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -30,7 +31,13 @@ public class ManterTarefaDWR extends BaseDWR {
 	public ListaResultadoDTO<Tarefa> getByAtividade(Integer idAtividade) {
 		ListaResultadoDTO<Tarefa> resultado = new ListaResultadoDTO<Tarefa>();
 
-		resultado.setColecaoParcial(this.tarefaBO.getByAtividade(idAtividade));
+		List<Tarefa> listaTarefas = this.tarefaBO.getByAtividade(idAtividade);
+		for (Tarefa tarefa : listaTarefas) {
+			Hibernate.initialize(tarefa.getTransacoesAnteriores());
+			Hibernate.initialize(tarefa.getTransacoesPosteriores());
+		}
+
+		resultado.setColecaoParcial(listaTarefas);
 
 		return resultado;
 	}
@@ -77,5 +84,16 @@ public class ManterTarefaDWR extends BaseDWR {
 	@Autowired
 	public void setTarefaBO(TarefaBO tarefaBO) {
 		this.tarefaBO = tarefaBO;
+	}
+
+	/**
+	 * Verifica se há fluxo definido para as tarefas da atividade informada.
+	 * 
+	 * @param idAtividade Código identificador da atividade
+	 * @return <code>true</code>, se houver fluxo definido;<br>
+	 *         <code>false</code>, se não houver.
+	 */
+	public boolean temFluxoDefinido(Integer idAtividade) {
+		return this.tarefaBO.temFluxoDefinido(idAtividade);
 	}
 }

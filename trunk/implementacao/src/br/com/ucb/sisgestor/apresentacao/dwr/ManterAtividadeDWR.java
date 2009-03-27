@@ -9,6 +9,7 @@ import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaAtividadeDTO;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -40,7 +41,13 @@ public class ManterAtividadeDWR extends BaseDWR {
 	public ListaResultadoDTO<Atividade> getByProcesso(Integer idProcesso) {
 		ListaResultadoDTO<Atividade> resultado = new ListaResultadoDTO<Atividade>();
 
-		resultado.setColecaoParcial(this.atividadeBO.getByProcesso(idProcesso));
+		List<Atividade> listaAtividades = this.atividadeBO.getByProcesso(idProcesso);
+		for (Atividade atividade : listaAtividades) {
+			Hibernate.initialize(atividade.getTransacoesAnteriores());
+			Hibernate.initialize(atividade.getTransacoesPosteriores());
+		}
+
+		resultado.setColecaoParcial(listaAtividades);
 
 		return resultado;
 	}
@@ -77,5 +84,16 @@ public class ManterAtividadeDWR extends BaseDWR {
 	@Autowired
 	public void setAtividadeBO(AtividadeBO atividadeBO) {
 		this.atividadeBO = atividadeBO;
+	}
+
+	/**
+	 * Verifica se há fluxo definido para as atividades do processo informado.
+	 * 
+	 * @param idProcesso Código identificador do processo
+	 * @return <code>true</code>, se houver fluxo definido;<br>
+	 *         <code>false</code>, se não houver.
+	 */
+	public boolean temFluxoDefinido(Integer idProcesso) {
+		return this.atividadeBO.temFluxoDefinido(idProcesso);
 	}
 }
