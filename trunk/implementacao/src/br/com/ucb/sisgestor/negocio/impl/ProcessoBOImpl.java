@@ -11,6 +11,7 @@ import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.ProcessoBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.ProcessoDAO;
+import br.com.ucb.sisgestor.persistencia.WorkflowDAO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaProcessoDTO;
 import java.util.ArrayList;
@@ -32,13 +33,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements ProcessoBO {
 
 	private ProcessoDAO	processoDAO;
+	private WorkflowDAO	workflowDAO;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizar(Processo processo) throws NegocioException {
-		this.validarSeWorkflowAtivo(processo.getWorkflow());
+		this.validarSePodeAlterarWorkflow(processo.getWorkflow());
 		this.processoDAO.atualizar(processo);
 	}
 
@@ -86,7 +88,7 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void excluir(Processo processo) throws NegocioException {
-		this.validarSeWorkflowAtivo(processo.getWorkflow());
+		this.validarSePodeAlterarWorkflow(processo.getWorkflow());
 		List<Atividade> lista = processo.getAtividades();
 		//Não permite excluir um processo que contém atividades
 		if ((lista != null) && !lista.isEmpty()) {
@@ -143,7 +145,8 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void salvar(Processo processo) throws NegocioException {
-		this.validarSeWorkflowAtivo(processo.getWorkflow());
+		Workflow workflow = this.workflowDAO.obter(processo.getWorkflow().getId());
+		this.validarSePodeAlterarWorkflow(workflow);
 		this.processoDAO.salvar(processo);
 	}
 
@@ -155,6 +158,16 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	@Autowired
 	public void setProcessoDAO(ProcessoDAO processoDAO) {
 		this.processoDAO = processoDAO;
+	}
+
+	/**
+	 * Atribui o DAO de {@link Workflow}.
+	 * 
+	 * @param workflowDAO DAO de {@link Workflow}
+	 */
+	@Autowired
+	public void setWorkflowDAO(WorkflowDAO workflowDAO) {
+		this.workflowDAO = workflowDAO;
 	}
 
 	/**
@@ -333,14 +346,14 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	}
 
 	/**
-	 * Verifica se o {@link Workflow} está ativo, caso esteja não pode ocorrer alteração nos processos.
+	 * Verifica se o {@link Workflow} pode ser alterado, para não poder ocorrer alteração nos processos.
 	 * 
 	 * @param workflow {@link Workflow} a verificar
-	 * @throws NegocioException caso o {@link Workflow} esteja ativo
+	 * @throws NegocioException caso o {@link Workflow} não possa ser alterado
 	 */
-	private void validarSeWorkflowAtivo(Workflow workflow) throws NegocioException {
-		if (workflow.getAtivo()) {
-			throw new NegocioException("erro.workflowAtivo");
+	private void validarSePodeAlterarWorkflow(Workflow workflow) throws NegocioException {
+		if (workflow.getAtivo() || (workflow.getDataHoraExclusao() != null)) {
+			throw new NegocioException("erro.workflow.alterar");
 		}
 	}
 }

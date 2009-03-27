@@ -10,9 +10,9 @@ import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
-import br.com.ucb.sisgestor.negocio.ProcessoBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.AtividadeDAO;
+import br.com.ucb.sisgestor.persistencia.ProcessoDAO;
 import br.com.ucb.sisgestor.util.dto.PesquisaAtividadeDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.HashMap;
@@ -33,14 +33,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements AtividadeBO {
 
 	private AtividadeDAO	atividadeDAO;
-	private ProcessoBO	processoBO;
+	private ProcessoDAO	processoDAO;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizar(Atividade atividade) throws NegocioException {
-		this.validarSeWorkflowAtivo(atividade.getProcesso().getWorkflow());
+		this.validarSePodeAlterarWorkflow(atividade.getProcesso().getWorkflow());
 		this.atividadeDAO.atualizar(atividade);
 	}
 
@@ -70,7 +70,7 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void excluir(Atividade atividade) throws NegocioException {
-		this.validarSeWorkflowAtivo(atividade.getProcesso().getWorkflow());
+		this.validarSePodeAlterarWorkflow(atividade.getProcesso().getWorkflow());
 		List<Tarefa> lista = atividade.getTarefas();
 		//Não permite excluir uma atividade que contém tarefas
 		if ((lista != null) && !lista.isEmpty()) {
@@ -129,8 +129,8 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void salvar(Atividade atividade) throws NegocioException {
-		Processo processo = this.processoBO.obter(atividade.getProcesso().getId());
-		this.validarSeWorkflowAtivo(processo.getWorkflow());
+		Processo processo = this.processoDAO.obter(atividade.getProcesso().getId());
+		this.validarSePodeAlterarWorkflow(processo.getWorkflow());
 		this.atividadeDAO.salvar(atividade);
 	}
 
@@ -145,13 +145,13 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 	}
 
 	/**
-	 * Atribui o BO de {@link Processo}.
+	 * Atribui o DAO de {@link Processo}.
 	 * 
-	 * @param processoBO BO de {@link Processo}
+	 * @param processoDAO DAO de {@link Processo}
 	 */
 	@Autowired
-	public void setProcessoBO(ProcessoBO processoBO) {
-		this.processoBO = processoBO;
+	public void setProcessoDAO(ProcessoDAO processoDAO) {
+		this.processoDAO = processoDAO;
 	}
 
 	/**
@@ -260,14 +260,14 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 	}
 
 	/**
-	 * Verifica se o {@link Workflow} está ativo, caso esteja não pode ocorrer alteração nos processos.
+	 * Verifica se o {@link Workflow} pode ser alterado, para não poder ocorrer alteração nas atividades.
 	 * 
 	 * @param workflow {@link Workflow} a verificar
-	 * @throws NegocioException caso o {@link Workflow} esteja ativo
+	 * @throws NegocioException caso o {@link Workflow} não possa ser alterado
 	 */
-	private void validarSeWorkflowAtivo(Workflow workflow) throws NegocioException {
-		if (workflow.getAtivo()) {
-			throw new NegocioException("erro.workflowAtivo");
+	private void validarSePodeAlterarWorkflow(Workflow workflow) throws NegocioException {
+		if (workflow.getAtivo() || (workflow.getDataHoraExclusao() != null)) {
+			throw new NegocioException("erro.workflow.alterar");
 		}
 	}
 }
