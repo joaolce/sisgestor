@@ -51,9 +51,10 @@ public class AtividadeBOImpl extends BaseBOImpl<Atividade, Integer> implements A
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizarTransacoes(Integer idProcesso, String[] fluxos, String[] posicoes)
 			throws NegocioException {
+		Workflow workflow = this.processoDAO.obter(idProcesso).getWorkflow();
+		this.validarSePodeAlterarWorkflow(workflow);
 
 		List<TransacaoAtividade> transacoes = this.getTransacoes(fluxos);
-
 		this.validarFluxo(transacoes, idProcesso);
 
 		List<TransacaoAtividade> atual = this.atividadeDAO.recuperarTransacoesDoProcesso(idProcesso);

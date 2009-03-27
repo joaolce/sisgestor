@@ -50,9 +50,10 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizarTransacoes(Integer idAtividade, String[] fluxos, String[] posicoes)
 			throws NegocioException {
+		Workflow workflow = this.atividadeDAO.obter(idAtividade).getProcesso().getWorkflow();
+		this.validarSePodeAlterarWorkflow(workflow);
 
 		List<TransacaoTarefa> transacoes = this.getTransacoes(fluxos);
-
 		this.validarFluxo(transacoes, idAtividade);
 
 		List<TransacaoTarefa> atual = this.tarefaDAO.recuperarTransacoesDaAtividade(idAtividade);
