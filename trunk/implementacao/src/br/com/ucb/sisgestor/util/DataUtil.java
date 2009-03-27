@@ -2,7 +2,7 @@
  * Projeto: SisGestor
  * Criação: 27/10/2008 por João Lúcio
  */
-package br.com.ucb.sisgestor.util; //NOPMD by João Lúcio - classe utilitária
+package br.com.ucb.sisgestor.util;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
