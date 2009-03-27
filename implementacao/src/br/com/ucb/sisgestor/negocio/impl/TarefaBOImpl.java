@@ -190,41 +190,6 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	}
 
 	/**
-	 * Finaliza a validação do fluxo e lança exceção se fluxo for inválido
-	 * 
-	 * @param temTarefasIsolados {@link boolean} Indicador para ocorrência de tarefas isoladas
-	 * @param temInicio {@link boolean} Indicador para haver tarefa inicial
-	 * @param temMaisDeUmInicio {@link boolean} Indicador para a ocorrência de mais de uma tarefa inicial
-	 * @param temFim {@link boolean} Indicador para a ocorrência de pelo menos uma tarefa final
-	 * @param exceptionIsolado Exceção para o indicador de tarefas isoladas
-	 * @param exceptionInicial Exceção para o indicador de tarefas iniciais
-	 * @throws NegocioException Exceção a ser lançada
-	 */
-	private void finalizarValidacaoFluxos(boolean temTarefasIsoladas, boolean temInicio,
-			boolean temMaisDeUmInicio, boolean temFim, NegocioException exceptionIsolado,
-			NegocioException exceptionInicial) throws NegocioException {
-
-		//Não permite tarefas isoladas
-		if (temTarefasIsoladas) {
-			throw exceptionIsolado;
-		}
-		//Não permite a inexistência de um início
-		if (!temInicio) {
-			throw exceptionInicial;
-		}
-
-		//Não permite que se tenha mais de um início
-		if (temMaisDeUmInicio) {
-			throw exceptionInicial;
-		}
-
-		//Não permite a inexistência de pelo menos um final
-		if (!temFim) {
-			throw new NegocioException("erro.fluxo.final.tarefa");
-		}
-	}
-
-	/**
 	 * Recupera a lista de transações criadas para os tarefas.
 	 * 
 	 * @param fluxos fluxos definidos pelo usuário
@@ -295,52 +260,22 @@ public class TarefaBOImpl extends BaseBOImpl<Tarefa, Integer> implements TarefaB
 	 * @throws NegocioException caso regra de negócio seja violada
 	 */
 	private void validarFluxo(List<TransacaoTarefa> transacoes, Integer idAtividade) throws NegocioException {
-		List<Tarefa> listaTarefas = this.tarefaDAO.getByAtividade(idAtividade);
+		List<Tarefa> lista = this.tarefaDAO.getByAtividade(idAtividade);
 
-		if (listaTarefas.size() == 1) {
+		if (lista.size() == 1) {
 			return;
 		}
 
 		NegocioException exceptionInicial = new NegocioException("erro.fluxo.inicial.tarefa");
 		NegocioException exceptionIsolado = new NegocioException("erro.fluxo.isolado.tarefa");
+		NegocioException exceptionFinal = new NegocioException("erro.fluxo.final.tarefa");
 		Map<Integer, Integer> mapAnteriores = new HashMap<Integer, Integer>();
 		Map<Integer, Integer> mapPosteriores = new HashMap<Integer, Integer>();
-		boolean temInicio = false;
-		boolean temMaisDeUmInicio = false;
-		boolean temFim = false;
-		boolean temTarefasIsolados = false;
-		Integer id;
-		Integer tarefaAnterior;
-		Integer tarefaPosterior;
 
+		this.inicializarValidacaoFluxo(transacoes, mapAnteriores, mapPosteriores, lista);
 
-		this.inicializarValidacaoFluxo(transacoes, mapAnteriores, mapPosteriores, listaTarefas);
-
-		for (Tarefa tarefa : listaTarefas) {
-			id = tarefa.getId();
-			tarefaAnterior = mapAnteriores.get(id);
-			tarefaPosterior = mapPosteriores.get(id);
-			if ((tarefaAnterior == null) && (tarefaPosterior == null)) {
-				temTarefasIsolados = true;
-				exceptionIsolado.putValorDevolvido("id" + id, id.toString());
-			}
-			if (tarefaPosterior == null) {
-				temFim = true;
-			}
-			if (tarefaAnterior == null) {
-				exceptionInicial.putValorDevolvido("id" + id, id);
-				if (temInicio) {
-					temMaisDeUmInicio = true;
-				}
-				temInicio = true;
-			}
-			if (tarefaPosterior == null) {
-				temFim = true;
-			}
-		}
-
-		this.finalizarValidacaoFluxos(temTarefasIsolados, temInicio, temMaisDeUmInicio, temFim,
-				exceptionIsolado, exceptionInicial);
+		this.finalizarValidacaoFluxos(lista, exceptionIsolado, exceptionInicial, exceptionFinal, mapAnteriores,
+				mapPosteriores);
 	}
 
 	/**

@@ -194,41 +194,6 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	}
 
 	/**
-	 * Finaliza a validação do fluxo e lança exceção se fluxo for inválido
-	 * 
-	 * @param temProcessosIsolados {@link boolean} Indicador para ocorrência de processos isolados
-	 * @param temInicio {@link boolean} Indicador para haver processo inicial
-	 * @param temMaisDeUmInicio {@link boolean} Indicador para a ocorrência de mais de um processo inicial
-	 * @param temFim {@link boolean} Indicador para a ocorrência de pelo menos um processo final
-	 * @param exceptionIsolado Exceção para o indicador de processos isolados
-	 * @param exceptionInicial Exceção para o indicador de processos iniciais
-	 * @throws NegocioException Exceção a ser lançada
-	 */
-	private void finalizarValidacaoFluxos(boolean temProcessosIsolados, boolean temInicio,
-			boolean temMaisDeUmInicio, boolean temFim, NegocioException exceptionIsolado,
-			NegocioException exceptionInicial) throws NegocioException {
-
-		//Não permite processos isolados
-		if (temProcessosIsolados) {
-			throw exceptionIsolado;
-		}
-		//Não permite a inexistência de um início
-		if (!temInicio) {
-			throw exceptionInicial;
-		}
-
-		//Não permite que se tenha mais de um início
-		if (temMaisDeUmInicio) {
-			throw exceptionInicial;
-		}
-
-		//Não permite a inexistência de pelo menos um final
-		if (!temFim) {
-			throw new NegocioException("erro.fluxo.final.processo");
-		}
-	}
-
-	/**
 	 * Recupera a lista de transações criadas para os processos.
 	 * 
 	 * @param fluxos fluxos definidos pelo usuário
@@ -300,51 +265,22 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	 * @throws NegocioException caso regra de negócio seja violada
 	 */
 	private void validarFluxo(List<TransacaoProcesso> transacoes, Integer idWorkflow) throws NegocioException {
-		List<Processo> listaProcessos = this.processoDAO.getByWorkflow(idWorkflow);
+		List<Processo> lista = this.processoDAO.getByWorkflow(idWorkflow);
 
-		if (listaProcessos.size() == 1) {
+		if (lista.size() == 1) {
 			return;
 		}
 
 		NegocioException exceptionInicial = new NegocioException("erro.fluxo.inicial.processo");
 		NegocioException exceptionIsolado = new NegocioException("erro.fluxo.isolado.processo");
+		NegocioException exceptionFinal = new NegocioException("erro.fluxo.final.processo");
 		Map<Integer, Integer> mapAnteriores = new HashMap<Integer, Integer>();
 		Map<Integer, Integer> mapPosteriores = new HashMap<Integer, Integer>();
-		boolean temInicio = false;
-		boolean temMaisDeUmInicio = false;
-		boolean temFim = false;
-		boolean temProcessosIsolados = false;
-		Integer id;
-		Integer processoAnterior;
-		Integer processoPosterior;
 
-		this.inicializarValidacaoFluxo(transacoes, mapAnteriores, mapPosteriores, listaProcessos);
+		this.inicializarValidacaoFluxo(transacoes, mapAnteriores, mapPosteriores, lista);
 
-		for (Processo processo : listaProcessos) {
-			id = processo.getId();
-			processoAnterior = mapAnteriores.get(id);
-			processoPosterior = mapPosteriores.get(id);
-			if ((processoAnterior == null) && (processoPosterior == null)) {
-				temProcessosIsolados = true;
-				exceptionIsolado.putValorDevolvido("id" + id, id.toString());
-			}
-			if (processoPosterior == null) {
-				temFim = true;
-			}
-			if (processoAnterior == null) {
-				exceptionInicial.putValorDevolvido("id" + id, id);
-				if (temInicio) {
-					temMaisDeUmInicio = true;
-				}
-				temInicio = true;
-			}
-			if (processoPosterior == null) {
-				temFim = true;
-			}
-		}
-
-		this.finalizarValidacaoFluxos(temProcessosIsolados, temInicio, temMaisDeUmInicio, temFim,
-				exceptionIsolado, exceptionInicial);
+		this.finalizarValidacaoFluxos(lista, exceptionIsolado, exceptionInicial, exceptionFinal, mapAnteriores,
+				mapPosteriores);
 	}
 
 	/**

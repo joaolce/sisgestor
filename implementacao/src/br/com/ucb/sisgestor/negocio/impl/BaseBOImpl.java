@@ -7,8 +7,11 @@ package br.com.ucb.sisgestor.negocio.impl;
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.mail.Email;
 import br.com.ucb.sisgestor.negocio.BaseBO;
+import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +90,77 @@ public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Seriali
 	 */
 	protected void evict(ObjetoPersistente objeto) {
 		this.getSession().evict(objeto);
+	}
+
+	/**
+	 * Efetua a validação final do fluxo definido.
+	 * 
+	 * @param lista Lista de elementos armazenados no banco
+	 * @param exceptionIsolado Exceção a ser lançada caso encontre elemento isolado
+	 * @param exceptionInicial Exceção a ser lançada caso não encontre elemento inicial ou mais de um inicial
+	 * @param exceptionFinal Exceção a ser lançada caso não encontre elemento final
+	 * @param mapAnteriores Mapa de fluxos anteriores
+	 * @param mapPosteriores Mapa de fluxos posteriores
+	 * @throws NegocioException Exceção a ser lançada
+	 */
+	protected void finalizarValidacaoFluxos(List<?> lista, NegocioException exceptionIsolado,
+			NegocioException exceptionInicial, NegocioException exceptionFinal,
+			Map<Integer, Integer> mapAnteriores, Map<Integer, Integer> mapPosteriores) throws NegocioException {
+
+		boolean temInicio = false;
+		boolean temMaisDeUmInicio = false;
+		boolean temFim = false;
+		boolean temTarefasIsoladas = false;
+
+		Integer id;
+		Integer elementoAnterior;
+		Integer elementoPosterior;
+		ObjetoPersistente elemento;
+
+		for (Object object : lista) {
+			elemento = (ObjetoPersistente) object;
+
+			id = elemento.getId();
+			elementoAnterior = mapAnteriores.get(id);
+			elementoPosterior = mapPosteriores.get(id);
+
+			if ((elementoAnterior == null) && (elementoPosterior == null)) {
+				temTarefasIsoladas = true;
+				exceptionIsolado.putValorDevolvido("id" + id, id.toString());
+			}
+			if (elementoPosterior == null) {
+				temFim = true;
+			}
+			if (elementoAnterior == null) {
+				exceptionInicial.putValorDevolvido("id" + id, id);
+				if (temInicio) {
+					temMaisDeUmInicio = true;
+				}
+				temInicio = true;
+			}
+			if (elementoPosterior == null) {
+				temFim = true;
+			}
+		}
+
+		//Não permite tarefas isoladas
+		if (temTarefasIsoladas) {
+			throw exceptionIsolado;
+		}
+		//Não permite a inexistência de um início
+		if (!temInicio) {
+			throw exceptionInicial;
+		}
+
+		//Não permite que se tenha mais de um início
+		if (temMaisDeUmInicio) {
+			throw exceptionInicial;
+		}
+
+		//Não permite a inexistência de pelo menos um final
+		if (!temFim) {
+			throw exceptionFinal;
+		}
 	}
 
 	/**
