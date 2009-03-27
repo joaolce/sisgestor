@@ -153,41 +153,59 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	}
 
 	/**
-	 * Faz as validações para um {@link Workflow} seja ativado.
+	 * Faz as validações para as {@link Atividade}s para a ativação do {@link Workflow}.
 	 * 
-	 * @param workflow {@link Workflow} a verificar
+	 * @param processo {@link Processo} a validar
 	 * @throws NegocioException caso seja violada uma regra
 	 */
-	private void validarAtivacaoDoWorkflow(Workflow workflow) throws NegocioException {
+	private void validaAtividadesParaAtivacao(Processo processo) throws NegocioException {
+		List<Atividade> listaAtividades = processo.getAtividades();
+		if ((listaAtividades == null) || listaAtividades.isEmpty()) {
+			throw new NegocioException("erro.workflowNaoAtivado.atividade", processo.getNome());
+		}
+		for (Atividade atividade : listaAtividades) {
+			this.validaTarefasParaAtivacao(atividade);
+		}
+	}
+
+	/**
+	 * Faz as validações para os {@link Campo}s para a ativação do {@link Workflow}.
+	 * 
+	 * @param workflow {@link Workflow} a validar
+	 * @throws NegocioException caso seja violada uma regra
+	 */
+	private void validaCamposParaAtivacao(Workflow workflow) throws NegocioException {
 		List<Campo> campos = workflow.getCampos();
 		if ((campos == null) || campos.isEmpty()) {
 			throw new NegocioException("erro.workflowNaoAtivado.campo");
 		}
-		//Workflow deve possuir ao menos um processo com atividade com tarefa.
+	}
+
+	/**
+	 * Faz as validações para os {@link Processo}s para a ativação do {@link Workflow}.
+	 * 
+	 * @param workflow {@link Workflow} a validar
+	 * @throws NegocioException caso seja violada uma regra
+	 */
+	private void validaProcessosParaAtivacao(Workflow workflow) throws NegocioException {
 		List<Processo> listaProcessos = workflow.getProcessos();
 		if ((listaProcessos == null) || listaProcessos.isEmpty()) {
 			throw new NegocioException("erro.workflowNaoAtivado.processo");
 		}
 		for (Processo processo : listaProcessos) {
-			List<Atividade> listaAtividades = processo.getAtividades();
-			if ((listaAtividades == null) || listaAtividades.isEmpty()) {
-				throw new NegocioException("erro.workflowNaoAtivado.atividade", processo.getNome());
-			}
-			for (Atividade atividade : listaAtividades) {
-				List<Tarefa> listaTarefas = atividade.getTarefas();
-				if ((listaTarefas == null) || listaTarefas.isEmpty()) {
-					throw new NegocioException("erro.workflowNaoAtivado.tarefa", atividade.getNome(), processo
-							.getNome());
-				}
-				//Toda tarefa deve possuir um responsável por ela.
-				for (Tarefa tarefa : listaTarefas) {
-					if (tarefa.getUsuario() == null) {
-						throw new NegocioException("erro.tarefaSemResponsavel", tarefa.getNome(), atividade
-								.getNome(), processo.getNome());
-					}
-				}
-			}
+			this.validaAtividadesParaAtivacao(processo);
 		}
+	}
+
+	/**
+	 * Faz as validações para que um {@link Workflow} seja ativado.
+	 * 
+	 * @param workflow {@link Workflow} a verificar
+	 * @throws NegocioException caso seja violada uma regra
+	 */
+	private void validarAtivacaoDoWorkflow(Workflow workflow) throws NegocioException {
+		this.validaCamposParaAtivacao(workflow);
+		this.validaProcessosParaAtivacao(workflow);
 	}
 
 	/**
@@ -236,6 +254,27 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 			}
 		} else {
 			throw new NegocioException("erro.workflowNaoAtivado.processo.isolado");
+		}
+	}
+
+	/**
+	 * Faz as validações para as {@link Tarefa}s para a ativação do {@link Workflow}.
+	 * 
+	 * @param atividade {@link Atividade} a validar
+	 * @throws NegocioException caso seja violada uma regra
+	 */
+	private void validaTarefasParaAtivacao(Atividade atividade) throws NegocioException {
+		List<Tarefa> listaTarefas = atividade.getTarefas();
+		if ((listaTarefas == null) || listaTarefas.isEmpty()) {
+			throw new NegocioException("erro.workflowNaoAtivado.tarefa", atividade.getNome(), atividade
+					.getProcesso().getNome());
+		}
+		//Toda tarefa deve possuir um responsável por ela.
+		for (Tarefa tarefa : listaTarefas) {
+			if (tarefa.getUsuario() == null) {
+				throw new NegocioException("erro.tarefaSemResponsavel", tarefa.getNome(), atividade.getNome(),
+						atividade.getProcesso().getNome());
+			}
 		}
 	}
 

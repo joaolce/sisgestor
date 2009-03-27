@@ -50,7 +50,8 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizarTransacoes(Integer idWorkflow, String[] fluxos, String[] posicoes)
 			throws NegocioException {
-
+		Workflow workflow = this.workflowDAO.obter(idWorkflow);
+		this.validarSePodeAlterarWorkflow(workflow);
 		List<TransacaoProcesso> transacoes = this.getTransacoes(fluxos);
 
 		this.validarFluxo(transacoes, idWorkflow);
