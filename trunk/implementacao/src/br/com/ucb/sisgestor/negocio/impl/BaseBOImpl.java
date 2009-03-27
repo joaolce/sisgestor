@@ -143,24 +143,8 @@ public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Seriali
 			}
 		}
 
-		//Não permite tarefas isoladas
-		if (temTarefasIsoladas) {
-			throw exceptionIsolado;
-		}
-		//Não permite a inexistência de um início
-		if (!temInicio) {
-			throw exceptionInicial;
-		}
-
-		//Não permite que se tenha mais de um início
-		if (temMaisDeUmInicio) {
-			throw exceptionInicial;
-		}
-
-		//Não permite a inexistência de pelo menos um final
-		if (!temFim) {
-			throw exceptionFinal;
-		}
+		this.lancarExcecaoFluxo(exceptionIsolado, exceptionInicial, exceptionFinal, temInicio,
+				temMaisDeUmInicio, temFim, temTarefasIsoladas);
 	}
 
 	/**
@@ -195,5 +179,40 @@ public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Seriali
 	 */
 	protected void refresh(T objeto) {
 		this.getSession().refresh(objeto);
+	}
+
+	/**
+	 * Lança exceção do fluxo se alguma regra for violada baseada nos parâmetros informados.
+	 * 
+	 * @param exceptionIsolado Exceção a ser lançada caso encontre elemento isolado
+	 * @param exceptionInicial Exceção a ser lançada caso não encontre elemento inicial ou mais de um inicial
+	 * @param exceptionFinal Exceção a ser lançada caso não encontre elemento final
+	 * @param temInicio Indicador para ocorrência de elemento inicial
+	 * @param temMaisDeUmInicio Indicador para ocorrência de mais de um elemento inicial
+	 * @param temFim Indicador para ocorrência de nenhum elemento final
+	 * @param temTarefasIsoladas Indicador para ocorrência de elemento isolado
+	 * @throws NegocioException Exceção a ser lançada na ocorrência de regra violada
+	 */
+	private void lancarExcecaoFluxo(NegocioException exceptionIsolado, NegocioException exceptionInicial,
+			NegocioException exceptionFinal, boolean temInicio, boolean temMaisDeUmInicio, boolean temFim,
+			boolean temTarefasIsoladas) throws NegocioException {
+		//Não permite tarefas isoladas
+		if (temTarefasIsoladas) {
+			throw exceptionIsolado;
+		}
+		//Não permite a inexistência de um início
+		if (!temInicio) {
+			throw exceptionInicial;
+		}
+
+		//Não permite que se tenha mais de um início
+		if (temMaisDeUmInicio) {
+			throw exceptionInicial;
+		}
+
+		//Não permite a inexistência de pelo menos um final
+		if (!temFim) {
+			throw exceptionFinal;
+		}
 	}
 }
