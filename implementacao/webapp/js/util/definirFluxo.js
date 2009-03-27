@@ -71,7 +71,9 @@ DefinirFluxo.prototype = {
 	   var divInterna = $(Builder.node("div", [ document.createTextNode(nome) ]));
 
 	   Element.setStyle(divInterna, {
-	      top :"30px",
+	      top :"25px",
+	      height :"30px",
+	      width :"80px",
 	      position :"relative",
 	      overflow :"hidden"
 	   });
