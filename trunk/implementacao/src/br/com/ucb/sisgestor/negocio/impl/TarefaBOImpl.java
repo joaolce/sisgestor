@@ -262,6 +262,9 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa, Integer> implements
 	private void validarFluxo(List<TransacaoTarefa> transacoes, Integer idAtividade) throws NegocioException {
 		List<Tarefa> lista = this.tarefaDAO.getByAtividade(idAtividade);
 
+		if ((lista == null) || lista.isEmpty()) {
+			throw new NegocioException("erro.fluxo.definicao.tarefa.vazia");
+		}
 		if (lista.size() == 1) {
 			return;
 		}
@@ -274,7 +277,7 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa, Integer> implements
 
 		this.inicializarValidacaoFluxo(transacoes, mapAnteriores, mapPosteriores, lista);
 
-		this.finalizarValidacaoFluxos(lista, exceptionIsolado, exceptionInicial, exceptionFinal, mapAnteriores,
+		this.validarFluxos(lista, exceptionIsolado, exceptionInicial, exceptionFinal, mapAnteriores,
 				mapPosteriores);
 	}
 

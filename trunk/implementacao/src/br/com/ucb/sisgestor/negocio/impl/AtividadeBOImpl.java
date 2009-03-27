@@ -270,6 +270,9 @@ public class AtividadeBOImpl extends BaseWorkflowBOImpl<Atividade, Integer> impl
 	private void validarFluxo(List<TransacaoAtividade> transacoes, Integer idProcesso) throws NegocioException {
 		List<Atividade> lista = this.atividadeDAO.getByProcesso(idProcesso);
 
+		if ((lista == null) || lista.isEmpty()) {
+			throw new NegocioException("erro.fluxo.definicao.atividade.vazia");
+		}
 		if (lista.size() == 1) {
 			return;
 		}
@@ -282,7 +285,7 @@ public class AtividadeBOImpl extends BaseWorkflowBOImpl<Atividade, Integer> impl
 
 		this.inicializarValidacaoFluxo(transacoes, mapAnteriores, mapPosteriores, lista);
 
-		this.finalizarValidacaoFluxos(lista, exceptionIsolado, exceptionInicial, exceptionFinal, mapAnteriores,
+		this.validarFluxos(lista, exceptionIsolado, exceptionInicial, exceptionFinal, mapAnteriores,
 				mapPosteriores);
 	}
 
