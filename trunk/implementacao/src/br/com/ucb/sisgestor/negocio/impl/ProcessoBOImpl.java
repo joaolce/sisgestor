@@ -52,8 +52,8 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 			throws NegocioException {
 		Workflow workflow = this.workflowDAO.obter(idWorkflow);
 		this.validarSePodeAlterarWorkflow(workflow);
-		List<TransacaoProcesso> transacoes = this.getTransacoes(fluxos);
 
+		List<TransacaoProcesso> transacoes = this.getTransacoes(fluxos);
 		this.validarFluxo(transacoes, idWorkflow);
 
 		List<TransacaoProcesso> atual = this.processoDAO.recuperarTransacoesDoWorkflow(idWorkflow);
