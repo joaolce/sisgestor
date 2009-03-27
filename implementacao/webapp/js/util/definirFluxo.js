@@ -103,31 +103,30 @@ DefinirFluxo.prototype = {
    /**
 	 * Limpa todos os fluxos criados na tela, inclusive as setas.
 	 */
-   limparFluxo : function() {
+   	limparFluxo : function() {
 	   // Obs.: Os elementos draggables são criados novamente nesta função.
-   	var divCirculos = $("divFluxos").childNodes;
-   	var identificador;
-   	var drag;
-   	var draggables = this.dives;
-   	var totalDrags = this.dives.size();
-   	if (totalDrags > 0) {
-   		this.initialize();
-   		/*
-   		 * Inicia-se a partir da referência 1 pois a referência 0(zero) diz respeito ao texto
-   		 * "Definição do fluxo" presente no cabeçalho da div
-   		 */
-   		for ( var i = 0; i < totalDrags; i++) {
-   			identificador = divCirculos[i + 1].id;
-   			drag = draggables.get(identificador);
-   			if (drag != null) {
-   				drag.destroy();
-   			}
-   			this.dives.set(identificador, this.getDraggable(identificador));
-   		}
-   	}
-   	grafico.limpar();
-   },
-   
+	   var divCirculos = $("divFluxos").childNodes;
+	   var identificador;
+	   var drag;
+	   var draggables = this.dives;
+	   var totalDrags = this.dives.size();
+	   if (totalDrags > 0) {
+	   	this.initialize();
+	   	/*
+	   	 * Inicia-se a partir da referência 1 pois a referência 0(zero) diz respeito ao texto
+	     * "Definição do fluxo" presente no cabeçalho da div
+	   	 */
+	   	for ( var i = 0; i < totalDrags; i++) {
+	   		identificador = divCirculos[i + 1].id;
+	   		drag = draggables.get(identificador);
+	   		if (drag != null) {
+	   			drag.destroy();
+	   		}
+	   		this.dives.set(identificador, this.getDraggable(identificador));
+	   	}
+	   }
+	   grafico.limpar();
+   },   
    /**
     * Obtém as posições absolutas dos elementos posicionados na tela. <br />
     * obs: cada linha contém a seguinte formatação: &lt;id&gt;,&lt;left&gt,&lt;top&gt
@@ -155,22 +154,22 @@ DefinirFluxo.prototype = {
    },
 
    /**
-	 * Liga uma div a outra.
-	 * 
-	 * @param {Number} id1 Identificador da div para ligar
-	 * @param {Number} id2 Identificador da div de destino para ligar
-	 */
+	* Liga uma div a outra.
+	* 
+	* @param {Number} id1 Identificador da div para ligar
+	* @param {Number} id2 Identificador da div de destino para ligar
+	*/
    ligar : function(id1, id2) {
-   	//Parse para string pois as posições recebidas são do tipo number
-   	id1 = id1.toString();
-   	if(id2 != undefined) { //caso já esteja passando a div de destino, não precisa dar destaque a de início.
-      	id2 = id2.toString();
-      	if (!this.existeFluxoDefinido(id1, id2)){
-      		this.adicionaLigacao(id1, id2);
-      		this.tiraDraggable(id1, id2);
-      	}
-   		return;
-   	}
+	   //Parse para string pois as posições recebidas são do tipo number
+	   id1 = id1.toString();
+	   if(id2 != undefined) { //caso já esteja passando a div de destino, não precisa dar destaque a de início.
+	     	id2 = id2.toString();
+	     	if (!this.existeFluxoDefinido(id1, id2)){
+	     		this.adicionaLigacao(id1, id2);
+	     		this.tiraDraggable(id1, id2);
+	     	}
+	   	return;
+	   }
 	   if (this.origem == null) {
 		   this.origem = $(id1);
 		   grafico.destacarDiv(this.origem);
@@ -211,12 +210,12 @@ DefinirFluxo.prototype = {
    },
 
    /**
-	 * Liga duas divs através de uma seta.
-	 * 
-	 * @param origem Div de origem
-	 * @param destino Div de destino
-	 */
-   unirDivs : function(origem, destino) {
+	* Liga duas divs através de uma seta.
+	* 
+	* @param origem Div de origem
+	* @param destino Div de destino
+	*/
+    unirDivs : function(origem, destino) {
 	   var origemX = parseInt((origem.offsetWidth) / 2) + origem.offsetLeft;
 	   var origemY = (origem.offsetTop) + ((origem.offsetHeight) / 2);
 

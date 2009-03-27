@@ -299,6 +299,12 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 	 * @throws NegocioException caso regra de negócio seja violada
 	 */
 	private void validarFluxo(List<TransacaoProcesso> transacoes, Integer idWorkflow) throws NegocioException {
+		List<Processo> listaProcessos = this.processoDAO.getByWorkflow(idWorkflow);
+
+		if (listaProcessos.size() == 1) {
+			return;
+		}
+
 		NegocioException exceptionInicial = new NegocioException("erro.fluxo.inicial.processo");
 		NegocioException exceptionIsolado = new NegocioException("erro.fluxo.isolado.processo");
 		Map<Integer, Integer> mapAnteriores = new HashMap<Integer, Integer>();
@@ -311,8 +317,6 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 		Integer processoAnterior;
 		Integer processoPosterior;
 
-		List<Processo> listaProcessos = this.processoDAO.getByWorkflow(idWorkflow);
-
 		this.inicializarValidacaoFluxo(transacoes, mapAnteriores, mapPosteriores, listaProcessos);
 
 		for (Processo processo : listaProcessos) {
@@ -322,9 +326,6 @@ public class ProcessoBOImpl extends BaseBOImpl<Processo, Integer> implements Pro
 			if ((processoAnterior == null) && (processoPosterior == null)) {
 				temProcessosIsolados = true;
 				exceptionIsolado.putValorDevolvido("id" + id, id.toString());
-				NegocioException ex = new NegocioException("erro.fluxo.isolado.processo");
-				ex.putValorDevolvido("id", id);
-				throw ex;
 			}
 			if (processoPosterior == null) {
 				temFim = true;

@@ -22,6 +22,7 @@ public class ManterAtividadeActionForm extends BaseForm {
 	private Integer				departamento;
 	private List<Departamento>	listaDepartamentos;
 	private String[]				fluxos;
+	private String[]				posicoes;
 
 	/**
 	 * Recupera o código identificador do departamento
@@ -68,6 +69,14 @@ public class ManterAtividadeActionForm extends BaseForm {
 		return this.nome;
 	}
 
+	/**
+	 * Recupera as posições das atividades
+	 * 
+	 * @return posicoes das atividades
+	 */
+	public String[] getPosicoes() {
+		return this.posicoes;
+	}
 
 	/**
 	 * Recupera o código identificador do processo.
@@ -126,6 +135,16 @@ public class ManterAtividadeActionForm extends BaseForm {
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+
+	/**
+	 * Atribui as posições das atividades
+	 * 
+	 * @param posicoes posições das atividades
+	 */
+	public void setPosicoes(String[] posicoes) {
+		this.posicoes = posicoes;
 	}
 
 

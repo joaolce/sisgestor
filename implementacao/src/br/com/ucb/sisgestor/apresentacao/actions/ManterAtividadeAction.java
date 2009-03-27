@@ -7,11 +7,8 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 import br.com.ucb.sisgestor.apresentacao.forms.ManterAtividadeActionForm;
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Departamento;
-import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.negocio.DepartamentoBO;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -161,9 +158,10 @@ public class ManterAtividadeAction extends BaseAction {
 
 		ManterAtividadeActionForm form = (ManterAtividadeActionForm) formulario;
 
-		List<TransacaoAtividade> lista = this.getTransacoes(form.getFluxos());
+		String[] fluxos = form.getFluxos();
+		String[] posicoes = form.getPosicoes();
 
-		this.atividadeBO.atualizarTransacoes(form.getProcesso(), lista);
+		this.atividadeBO.atualizarTransacoes(form.getProcesso(), fluxos, posicoes);
 
 		this.addMessageKey("mensagem.fluxo");
 		return this.sendAJAXResponse(true);
@@ -187,35 +185,5 @@ public class ManterAtividadeAction extends BaseAction {
 	@Autowired
 	public void setDepartamentoBO(DepartamentoBO departamentoBO) {
 		this.departamentoBO = departamentoBO;
-	}
-
-	/**
-	 * Recupera a lista de transações criadas para as atividade.
-	 * 
-	 * @param fluxos fluxos definidos pelo usuário
-	 * @return {@link List} de {@link TransacaoAtividade}
-	 */
-	private List<TransacaoAtividade> getTransacoes(String[] fluxos) {
-		List<TransacaoAtividade> lista = new ArrayList<TransacaoAtividade>();
-		if (fluxos != null) {
-			TransacaoAtividade transacao;
-			Atividade atividadeAnterior;
-			Atividade atividadePosterior;
-			for (String fluxo : fluxos) {
-				String[] atividades = fluxo.split(","); //a direção vem no formato: 1,2 (origem, destino)
-
-				transacao = new TransacaoAtividade();
-				atividadeAnterior = new Atividade();
-				atividadePosterior = new Atividade();
-
-				atividadeAnterior.setId(Integer.parseInt(atividades[0]));
-				atividadePosterior.setId(Integer.parseInt(atividades[1]));
-
-				transacao.setAnterior(atividadeAnterior);
-				transacao.setPosterior(atividadePosterior);
-				lista.add(transacao);
-			}
-		}
-		return lista;
 	}
 }

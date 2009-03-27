@@ -19,13 +19,14 @@ import java.util.List;
 public interface AtividadeBO extends BaseBO<Atividade, Integer> {
 
 	/**
-	 * Atualiza as {@link TransacaoAtividade} informadas.
+	 * Atualiza as {@link TransacaoAtividade} informadas e as posições das atividades na página.
 	 * 
 	 * @param idProcesso identificador do {@link Processo}
-	 * @param transacoes transações a armazenar
+	 * @param fluxos Fluxos definidos pelo usuário
+	 * @param posicoes Posições das atividades na página
 	 * @throws NegocioException caso exceção de negócio seja violada
 	 */
-	void atualizarTransacoes(Integer idProcesso, List<TransacaoAtividade> transacoes) throws NegocioException;
+	void atualizarTransacoes(Integer idProcesso, String[] fluxos, String[] posicoes) throws NegocioException;
 
 	/**
 	 * Retorna um {@link List} de {@link Atividade} a partir dos parâmetros informados.
