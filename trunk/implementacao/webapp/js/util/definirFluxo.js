@@ -23,7 +23,7 @@ DefinirFluxo.prototype = {
    topo :0,
 
    /** Variável para ajustar posição vertical(topo) */
-   varTopo :-80,
+   varTopo : null,
 
    /**
     * Variável que armazena o total de círculos desenhados
@@ -39,7 +39,7 @@ DefinirFluxo.prototype = {
 	   this.dives = new Hash();
 	   this.esquerda = 0;
 	   this.topo = 0;
-	   this.varTopo = -80;
+	   this.varTopo = ((-2) * (grafico.raio));
 	   this.totalCirculos = 0;
    },
 
@@ -73,7 +73,7 @@ DefinirFluxo.prototype = {
 	   Element.setStyle(divInterna, {
 	      top :"25px",
 	      height :"30px",
-	      width :"80px",
+	      width : (2 * grafico.raio) + "px",
 	      position :"relative",
 	      overflow :"hidden"
 	   });
@@ -81,8 +81,8 @@ DefinirFluxo.prototype = {
 	   Element.setStyle(div, {
 	      left :this.esquerda + "px",
 	      top :this.topo + "px",
-	      height :"80px",
-	      width :"80px",
+	      height : (2 * grafico.raio) + "px",
+	      width : (2 * grafico.raio) + "px",
 	      cursor :"move"
 	   });
 	   div.appendChild(divInterna);
@@ -168,7 +168,7 @@ DefinirFluxo.prototype = {
 	     		this.adicionaLigacao(id1, id2);
 	     		this.tiraDraggable(id1, id2);
 	     	}
-	   	return;
+	     	return;
 	   }
 	   if (this.origem == null) {
 		   this.origem = $(id1);
@@ -176,10 +176,13 @@ DefinirFluxo.prototype = {
 	   } else {
 		   if (this.origem.id != id1) {
 			   if (!this.existeFluxoDefinido(this.origem.id, id1)) {
-			   	this.adicionaLigacao(this.origem.id, id1);
-				   this.tiraDraggable(this.origem.id, id1);
+			   		if (this.adicionaLigacao(this.origem.id, id1)) {
+			   			this.tiraDraggable(this.origem.id, id1);
+			   		} else {
+			   			JanelasComuns.showMessage("Aumente a distância entre os elementos para liga-los");
+			   		}
 			   } else {
-				   JanelasComuns.showMessage("Fluxo já foi definido.");
+				   	JanelasComuns.showMessage("Fluxo já foi definido.");
 			   }
 		   }
 		   grafico.removerDestaqueDiv(this.origem);
@@ -221,8 +224,13 @@ DefinirFluxo.prototype = {
 
 	   var destinoX = parseInt((destino.offsetWidth) / 2) + destino.offsetLeft;
 	   var destinoY = (destino.offsetTop) + ((destino.offsetHeight) / 2);
-
-	   grafico.criarSeta(origemX, origemY, destinoX, destinoY);
+	   
+	   var ligar = grafico.distanciaMinimaAtingida(origemX, origemY, destinoX, destinoY);
+	   
+	   if (ligar){
+		   grafico.criarSeta(origemX, origemY, destinoX, destinoY);
+	   }
+	   return ligar;
    },
 
    /**
@@ -255,9 +263,12 @@ DefinirFluxo.prototype = {
     * @param {String} idFim identificador da div de destino
     */
    adicionaLigacao: function(idInicio, idFim){
-   	this.unirDivs($(idInicio), $(idFim));
-	   var fluxo = new Array(idInicio, idFim);
-	   this.listaFluxos.push(fluxo);
+	   	var ligar = this.unirDivs($(idInicio), $(idFim)); 
+   		if (ligar) {
+   			var fluxo = new Array(idInicio, idFim);
+   			this.listaFluxos.push(fluxo);
+   		}
+   		return ligar;
    }
 };
 

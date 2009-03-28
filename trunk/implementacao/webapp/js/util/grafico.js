@@ -14,19 +14,8 @@ Grafico.prototype = {
 	/** Cor da div circular quando destacada */
 	corDestaque: "red",
 	
-	/** 
-	 * Altura do circulo
-	 * 
-	 * Obs.: Deverá ser de mesma altura da div que contém o circulo.
-	 */
-	alturaCirculo: 80,
-	
-	/** 
-	 * Largura do circulo 
-	 * 
-	 * Obs.: Deverá ser de mesma largura da div que contém o circulo.
-	 */
-	larguraCirculo: 80,
+	/** Raio do circulo */
+	raio: 40,
 	
 	/** Armazena as linhas dos fluxos */
 	linhas: null,
@@ -51,7 +40,7 @@ Grafico.prototype = {
 		var circle = new jsGraphics(id);
 
 		circle.setColor(this.corDefault); 
-		circle.drawEllipse(0, 0, this.larguraCirculo, this.alturaCirculo);
+		circle.drawEllipse(0, 0, this.raio * 2, this.raio * 2);
 		circle.paint();
 	},
 	
@@ -63,11 +52,9 @@ Grafico.prototype = {
 		var jg = new jsGraphics(dive);
 		jg.setColor(this.corLinha);
 		
-		//TODO Em testes...
-//		var pontos = this.formatarPosicaoPontos(origemX, origemY, destinoX, destinoY);
+		var pontos = this.obterPontos(origemX, origemY, destinoX, destinoY);
 		
-//		jg.drawLine(pontos[0], pontos[1], pontos[2], pontos[3]);
-		jg.drawLine(origemX, origemY, destinoX, destinoY);
+		jg.drawLine(pontos[0], pontos[1], pontos[2], pontos[3]);
 		jg.paint();
 		
 		this.linhas.set(this.totalLinhas,jg);
@@ -82,28 +69,6 @@ Grafico.prototype = {
 			this.linhas.get(i).clear();
 		}
 		this.initialize();
-	},
-	
-	
-	// Em testes...
-	formatarPosicaoPontos: function(origemX, origemY, destinoX, destinoY){
-		if(origemX < destinoX ){
-			origemX += 20;//this.larguraCirculo/2;
-			destinoX -= 20;//this.larguraCirculo/2;
-		} else {
-			origemX -= 20;//this.larguraCirculo/2;
-			destinoX += 20;//this.larguraCirculo/2;
-		}
-		
-		if(origemY < destinoY){
-			origemY += 20;//this.alturaCirculo/2;
-			destinoY -= 20;//this.alturaCirculo/2;
-		} else{
-			origemY -= 20;//this.alturaCirculo/2;
-			destinoY += 20;//this.alturaCirculo/2;
-		}
-		
-		return new Array(origemX, origemY, destinoX, destinoY);
 	},
 	
 	/** 
@@ -143,6 +108,144 @@ Grafico.prototype = {
 			   Effect.Pulsate(div.value);
 		   }));
 	   }
+	},
+	
+	/**
+	 * Obtém os novos pontos de ligação que pertencem às circunferências.
+	 * 
+	 * @return novos pontos <novaOrigemX><novaOrigemY><novoDestinoX><novoDestinoY> 
+	 */
+	obterPontos : function(origemX, origemY, destinoX, destinoY){
+		var novosPontos = new Array();
+		var xO;
+		var yO;
+		var xD;
+		var yD;
+		
+		if ((origemY == destinoY) || (origemX == destinoX)) {
+			if ( origemY == destinoY) {
+				yO = origemY;
+				yD = destinoY;
+				if ( origemX < destinoX) {
+					xO = origemX + this.raio;
+					xD = destinoX - this.raio;
+				} else {
+					xO = origemX - this.raio;
+					xD = destinoX + this.raio;
+				}
+			} else { // origemX == destinoX
+				xO = origemX;
+				xD = destinoX;
+				if (origemY < destinoY) {
+					yO = origemY + this.raio;
+					yD = destinoY - this.raio;
+				} else {
+					yO = origemY - this.raio;
+					yD = destinoY + this.raio;
+				}
+			}
+		} else {
+			//Armazena os dois novos valores de X, no formado <origem><destino>
+			var novoX;
+			if (origemY < destinoY) {
+				if (origemX < destinoX) {
+					novoX = this.getValorX(origemX, origemY, destinoX, destinoY);
+				  	yO = this.getValorY(origemX, origemY, destinoX, destinoY, novoX[0]);
+				  	yD = this.getValorY(origemX, origemY, destinoX, destinoY, novoX[1]);
+				} else {
+					//Parâmetros foram invertidos propositalmente para efetuar cálculo
+					novoX = this.getValorX(destinoX, destinoY, origemX, origemY);
+					yO = this.getValorY(origemX, origemY, destinoX, destinoY, novoX[0]);
+				  	yD = this.getValorY(origemX, origemY, destinoX, destinoY, novoX[1]);
+				}
+			} else {
+				if (origemX < destinoX) {
+					novoX = this.getValorX(origemX, origemY, destinoX, destinoY);
+					yO = this.getValorY(origemX, origemY, destinoX, destinoY, novoX[0]);
+					yD = this.getValorY(origemX, origemY, destinoX, destinoY, novoX[1]);
+					
+				} else {
+					//Parâmetros foram invertidos propositalmente para efetuar cálculo
+					novoX = this.getValorX(destinoX, destinoY, origemX, origemY);
+					yO = this.getValorY(origemX, origemY, destinoX, destinoY, novoX[0]);
+					yD = this.getValorY(origemX, origemY, destinoX, destinoY, novoX[1]);
+				}
+			}
+			xO = novoX[0];
+			xD = novoX[1];
+		}
+		
+		novosPontos.push(xO);
+		novosPontos.push(yO);
+		novosPontos.push(xD);
+		novosPontos.push(yD);
+
+		return novosPontos;
+	},
+
+	/**
+	 * Recupera o valor do eixo Y para o valor X informado de acordo com os pontos determinantes da reta.
+	 */
+	getValorY : function(origemX, origemY, destinoX, destinoY, valorX){
+		/*
+		 * Monta a equação geral da reta que passa pelos dois pontos para encontrar
+		 * os novos pontos adjacentes à circunferência
+		 */ 
+		var divisor = (origemX - destinoX);
+		var a = (-(destinoY - origemY)) / divisor;
+		var b = ((origemX * destinoY) - (destinoX * origemY)) / divisor;
+		
+		return ( ( (a) * (valorX) ) + (b) );
+	},
+
+	/**
+	 * Recupera novas posições do eixo X para origem e destino.  
+	 */
+	getValorX : function (origemX, origemY, destinoX, destinoY){
+		var valoresX = new Array();
+		
+		var distancia = this.getDistanciaEntrePontos(origemX, origemY, destinoX, destinoY);
+		
+		var parcial = (this.raio * (destinoX - origemX)) / distancia;
+		
+		var origem  = origemX + parcial;
+		var destino = destinoX - parcial;
+		
+		valoresX.push(origem);
+		valoresX.push(destino);
+		
+		return valoresX;
+	},
+
+	/**
+	 * Retorna a distância entre dois pontos (Origem X Destino)
+	 *
+	 */
+	getDistanciaEntrePontos : function(origemX, origemY, destinoX, destinoY){
+		//Fórmula: Distancia(pontoA,pontoB) = Raiz[ ( Ax - Bx )² + (Ay - By)²]
+		var par1 = origemX - destinoX;
+		var par2 = origemY - destinoY;
+		
+		par1 = par1 * par1;
+		par2 = par2 * par2;
+		
+		return Math.sqrt(par1 + par2);
+	}, 
+
+	/**
+	 * Verifica se os elementos estão a uma distância mínima para serem ligados.
+	 * 
+	 * @return <code>true</code>, se distância mínima atingida;<br><code>false</code>, se não.
+	 */
+	distanciaMinimaAtingida : function(origemX, origemY, destinoX, destinoY){
+
+		var distancia = this.getDistanciaEntrePontos(origemX, origemY, destinoX, destinoY);
+		
+		if ( distancia < (this.raio * 2 + 20)) {
+			return false;
+		}
+		
+		return true;
 	}
 };
 
