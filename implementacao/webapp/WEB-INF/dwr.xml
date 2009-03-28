@@ -28,6 +28,9 @@
 		<create javascript="ManterWorkflowDWR" creator="new">
 			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterWorkflowDWR" />
 		</create>
+		<create javascript="UsarWorkflowDWR" creator="new">
+			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.UsarWorkflowDWR" />
+		</create>
 		<create javascript="UtilDWR" creator="new">
 			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.UtilDWR" />
 		</create>

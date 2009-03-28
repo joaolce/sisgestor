@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.apresentacao.actions;
 
+import br.com.ucb.sisgestor.entidade.Workflow;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -11,10 +12,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 /**
- * TODO DOCUMENT ME!
+ * Action para ultilizar um {@link Workflow}.
  * 
  * @author Gustavo
- * @since 18/03/2009
+ * @since 27/03/2009
  */
 public class UsarWorkflowAction extends BaseAction {
 
