@@ -14,6 +14,7 @@
 		<form-bean name="manterAtividadeForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterAtividadeActionForm" />
 		<form-bean name="manterTarefaForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterTarefaActionForm" />
 		<form-bean name="manterCampoForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterCampoActionForm" />
+		<form-bean name="usarWorkflowForm" type="br.com.ucb.sisgestor.apresentacao.forms.UsarWorkflowActionForm" />
 	</form-beans>
 
 	<global-exceptions>
