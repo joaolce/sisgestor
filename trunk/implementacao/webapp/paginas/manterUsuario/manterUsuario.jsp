@@ -53,11 +53,11 @@
 			<thead>
 				<tr>
 					<th style="display: none;">&nbsp;</th>
-					<th><bean:message key="label.login" /></th>
+					<th width="13%"><bean:message key="label.login" /></th>
 					<th><bean:message key="label.nome" /></th>
 					<th><bean:message key="label.email" /></th>
-					<th><bean:message key="label.departamento" /></th>
-					<th><bean:message key="label.chefe" /></th>
+					<th width="13%"><bean:message key="label.departamento" /></th>
+					<th width="7%"><bean:message key="label.chefe" /></th>
 				</tr>
 			</thead>
 			<tbody id="corpoManterUsuario" class="corpoTabelaClicavel"></tbody>
