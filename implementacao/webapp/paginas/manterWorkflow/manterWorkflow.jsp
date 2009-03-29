@@ -70,10 +70,10 @@
 				<html:submit styleClass="botaoOkCancelar">
 					<bean:message key="botao.pesquisar" />
 				</html:submit>
-				<html:link href="#" titleKey="dica.ativo" onclick="workflow.filtrarAtivos(false);">
+				<html:link href="#" titleKey="dica.workflow.naoExcluidos" onclick="workflow.filtrarAtivos(false);">
 					<html:img srcKey="imagem.ativo" styleClass="imagemDestaque" styleId="imagemAtivo" />
 				</html:link>
-				<html:link href="#" titleKey="dica.inativo" onclick="workflow.filtrarAtivos(true);">
+				<html:link href="#" titleKey="dica.workflow.todos" onclick="workflow.filtrarAtivos(true);">
 					<html:img srcKey="imagem.todosRegistros" styleClass="imagemLadoLabel" styleId="imagemInativo" />
 				</html:link>
 			</div>
@@ -85,10 +85,10 @@
 			<thead>
 				<tr>
 					<th style="display: none;">&nbsp;</th>
-					<th><bean:message key="label.nome" /></th>
+					<th width="40%"><bean:message key="label.nome" /></th>
 					<th><bean:message key="label.descricao" /></th>
-					<th><bean:message key="label.ativo" /></th>
-					<th id="thExcluidos"><bean:message key="label.dataHoraExclusao" /></th>
+					<th width="10%"><bean:message key="label.ativo" /></th>
+					<th id="thExcluidos" width="15%"><bean:message key="label.dataHoraExclusao" /></th>
 				</tr>
 			</thead>
 			<tbody id="corpoManterWorkflow" class="corpoTabelaClicavel"/>
