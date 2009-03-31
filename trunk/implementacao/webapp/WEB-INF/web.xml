@@ -176,6 +176,11 @@
 		<role-name>4</role-name>
 	</security-role>
 	
+	<security-role>
+		<description>Usar Workflow</description>
+		<role-name>5</role-name>
+	</security-role>
+	
 	<resource-ref>
 		<description>SisGestorDB</description>
 		<res-ref-name>jdbc/SisGestorDB</res-ref-name>

@@ -16,6 +16,9 @@ public final class ConstantesDB {
 	 * ATENÇÃO: Se fizer mudança aqui, altere também no validator e nas jsp´s.
 	 */
 
+	/** Tamanho do campo content type do anexo. */
+	public static final int		CONTENT_TYPE					= 50;
+
 	/** Tamanho do campo Descrição */
 	public static final int		DESCRICAO						= 200;
 

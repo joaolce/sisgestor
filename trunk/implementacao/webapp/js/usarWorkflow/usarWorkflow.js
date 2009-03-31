@@ -2,7 +2,7 @@
  * Ação a ser realizada ao iniciar a página
  */
 Event.observe(window, "load", function() {
-	workflow.pesquisar();
+	usarWorkflow.pesquisar();
 });
 
 /**
@@ -79,7 +79,7 @@ UsarWorkflow.prototype = {
 	      nome :dwr.util.getValue("nomePesquisaWorkflow"),
 	      descricao :dwr.util.getValue("descricaoPesquisaWorkflow"),
 	      ativo :dwr.util.getValue("ativoPesquisaWorkflow"),
-	      excluidos: false
+	      excluidos :false
 	   };
 
 	   if (this.tabelaTelaPrincipal == null) {
@@ -126,8 +126,7 @@ UsarWorkflow.prototype = {
 	   } else {
 		   this.tabelaTelaPrincipal.semRegistros("Não foram encontrados workflows");
 	   }
-   },
-
+   }
 };
 
-var workflow = new UsarWorkflow();
+var usarWorkflow = new UsarWorkflow();
