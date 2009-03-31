@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * Anexo de {@link UsoWorkflow}.
@@ -66,6 +67,7 @@ public class Anexo extends ObjetoPersistente {
 	 */
 	@ManyToOne
 	@JoinColumn(name = "UWR_ID", nullable = false)
+	@ForeignKey(name = "IR_UWR_ANX")
 	public UsoWorkflow getUsoWorkflow() {
 		return this.usoWorkflow;
 	}
