@@ -6,11 +6,8 @@ package br.com.ucb.sisgestor.entidade;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 /**
  * Histórico de uso do {@link Workflow}.
@@ -33,7 +30,6 @@ public class HistoricoUsoWorkflow implements Serializable {
 	 * @return data/hora que houve a atualização
 	 */
 	@Id
-	@Column(name = "HUWR_DATA_HORA", nullable = false)
 	public Timestamp getDataHora() {
 		return this.dataHora;
 	}
@@ -44,8 +40,6 @@ public class HistoricoUsoWorkflow implements Serializable {
 	 * @return utilização do {@link Workflow} do histórico
 	 */
 	@Id
-	@ManyToOne
-	@JoinColumn(name = "UWR_ID", nullable = false)
 	public UsoWorkflow getUsoWorkflow() {
 		return this.usoWorkflow;
 	}

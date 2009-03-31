@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * Chave primária da classe {@link HistoricoUsoWorkflow}.
@@ -54,6 +55,7 @@ public class HistoricoUsoWorkflowPK implements Serializable {
 	 */
 	@ManyToOne
 	@JoinColumn(name = "UWR_ID", nullable = false)
+	@ForeignKey(name = "IR_UWR_HUWR")
 	public UsoWorkflow getUsoWorkflow() {
 		return this.usoWorkflow;
 	}
