@@ -449,7 +449,7 @@ public final class Utils {
 	}
 
 	/**
-	 * Faz o injection dos beans no objeto informado.
+	 * Faz o injection dos beans do spring no objeto informado.
 	 * 
 	 * @param obj objeto a setar dependências
 	 */
