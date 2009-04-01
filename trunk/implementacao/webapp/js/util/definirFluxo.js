@@ -23,13 +23,23 @@ DefinirFluxo.prototype = {
    topo :0,
 
    /** Variável para ajustar posição vertical(topo) */
-   varTopo : null,
+   varTopo :null,
 
    /**
-    * Variável que armazena o total de círculos desenhados
-    * na tela para utilização ao gerar representação de um fluxo já definido.
-    */
-   totalCirculos : 0,
+	 * Variável que armazena o total de círculos desenhados na tela para utilização ao gerar
+	 * representação de um fluxo já definido.
+	 */
+   totalCirculos :0,
+
+   /**
+	 * Distância LEFT da div com as representações para a janela de definição de fluxo.
+	 */
+   DISTANCIA_LEFT_JANELA_FLUXO :5,
+
+   /**
+	 * Distância TOP da div com as representações para a janela de definição de fluxo.
+	 */
+   DISTANCIA_TOP_JANELA_FLUXO :39,
 
    /**
 	 * @constructor
@@ -55,13 +65,13 @@ DefinirFluxo.prototype = {
 	   
 	   //TODO Ainda há falha na definição do topo
 	   if (topo != null) {
-	   	this.topo  = this.totalCirculos * this.varTopo + topo - 39;
+		   this.topo = this.totalCirculos * this.varTopo + topo;
 	   }
-	   
+
 	   if (esquerda != null) {
-		   this.esquerda = esquerda - 5;
+		   this.esquerda = esquerda;
 	   }
-	   
+
 	   var div = $(Builder.node("div", {
 	      id :id,
 	      ondblclick :"fluxo.ligar(" + id + ");",
@@ -73,7 +83,7 @@ DefinirFluxo.prototype = {
 	   Element.setStyle(divInterna, {
 	      top :"25px",
 	      height :"30px",
-	      width : (2 * grafico.raio) + "px",
+	      width :(2 * grafico.raio) + "px",
 	      position :"relative",
 	      overflow :"hidden"
 	   });
@@ -81,8 +91,8 @@ DefinirFluxo.prototype = {
 	   Element.setStyle(div, {
 	      left :this.esquerda + "px",
 	      top :this.topo + "px",
-	      height : (2 * grafico.raio) + "px",
-	      width : (2 * grafico.raio) + "px",
+	      height :(2 * grafico.raio) + "px",
+	      width :(2 * grafico.raio) + "px",
 	      cursor :"move"
 	   });
 	   div.appendChild(divInterna);
@@ -103,50 +113,51 @@ DefinirFluxo.prototype = {
    /**
 	 * Limpa todos os fluxos criados na tela, inclusive as setas.
 	 */
-   	limparFluxo : function() {
+   limparFluxo : function() {
 	   // Obs.: Os elementos draggables são criados novamente nesta função.
-	   var divCirculos = $("divFluxos").childNodes;
-	   var identificador;
-	   var drag;
-	   var draggables = this.dives;
-	   var totalDrags = this.dives.size();
-	   if (totalDrags > 0) {
-	   	this.initialize();
-	   	/*
-	   	 * Inicia-se a partir da referência 1 pois a referência 0(zero) diz respeito ao texto
-	     * "Definição do fluxo" presente no cabeçalho da div
-	   	 */
-	   	for ( var i = 0; i < totalDrags; i++) {
-	   		identificador = divCirculos[i + 1].id;
-	   		drag = draggables.get(identificador);
-	   		if (drag != null) {
-	   			drag.destroy();
-	   		}
-	   		this.dives.set(identificador, this.getDraggable(identificador));
-	   	}
-	   }
-	   grafico.limpar();
-   },   
+	var divCirculos = $("divFluxos").childNodes;
+	var identificador;
+	var drag;
+	var draggables = this.dives;
+	var totalDrags = this.dives.size();
+	if (totalDrags > 0) {
+		this.initialize();
+		/*
+		 * Inicia-se a partir da referência 1 pois a referência 0(zero) diz respeito ao texto
+		 * "Definição do fluxo" presente no cabeçalho da div
+		 */
+		for ( var i = 0; i < totalDrags; i++) {
+			identificador = divCirculos[i + 1].id;
+			drag = draggables.get(identificador);
+			if (drag != null) {
+				drag.destroy();
+			}
+			this.dives.set(identificador, this.getDraggable(identificador));
+		}
+	}
+	grafico.limpar();
+},
    /**
-    * Obtém as posições absolutas dos elementos posicionados na tela. <br />
-    * obs: cada linha contém a seguinte formatação: &lt;id&gt;,&lt;left&gt,&lt;top&gt
-    * 
-    * @return {Array} com as posições das divs
-    */
-   obterPosicoes : function(){
+	 * Obtém as posições absolutas dos elementos posicionados na tela. <br />
+	 * obs: cada linha contém a seguinte formatação: &lt;id&gt;,&lt;left&gt,&lt;top&gt
+	 * 
+	 * @return {Array} com as posições das divs
+	 */
+   obterPosicoes : function() {
 	   var posicoes = new Array();
 	   var circulos = $("divFluxos").childNodes;
 	   var topo;
 	   var esquerda;
 	   var id;
 	   var pos;
-	   
-	   for(var i = 1; i < circulos.length; ++i) {
+
+	   for ( var i = 1; i < circulos.length; ++i) {
 		   id = circulos[i].id;
-		   if(!isBlankOrNull(id)){
-			   esquerda = $(id).offsetLeft;
-			   topo = $(id).offsetTop;
-			   pos = new Array(id +","+ esquerda + "," + topo);
+		   if (!isBlankOrNull(id)) {
+			   var posicao = $(id).positionedOffset();
+			   esquerda = posicao[0] - this.DISTANCIA_LEFT_JANELA_FLUXO;
+			   topo = posicao[1] - this.DISTANCIA_TOP_JANELA_FLUXO;
+			   pos = new Array(id + "," + esquerda + "," + topo);
 			   posicoes.push(pos);
 		   }
 	   }
@@ -154,42 +165,44 @@ DefinirFluxo.prototype = {
    },
 
    /**
-	* Liga uma div a outra.
-	* 
-	* @param {Number} id1 Identificador da div para ligar
-	* @param {Number} id2 Identificador da div de destino para ligar
-	*/
+	 * Liga uma div a outra.
+	 * 
+	 * @param {Number} id1 Identificador da div para ligar
+	 * @param {Number} id2 Identificador da div de destino para ligar
+	 */
    ligar : function(id1, id2) {
-	   //Parse para string pois as posições recebidas são do tipo number
-	   id1 = id1.toString();
-	   if(id2 != undefined) { //caso já esteja passando a div de destino, não precisa dar destaque a de início.
-	     	id2 = id2.toString();
-	     	if (!this.existeFluxoDefinido(id1, id2)){
-	     		this.adicionaLigacao(id1, id2);
-	     		this.tiraDraggable(id1, id2);
-	     	}
-	     	return;
-	   }
-	   if (this.origem == null) {
-		   this.origem = $(id1);
-		   grafico.destacarDiv(this.origem);
-	   } else {
-		   if (this.origem.id != id1) {
-			   if (!this.existeFluxoDefinido(this.origem.id, id1)) {
-			   		if (this.adicionaLigacao(this.origem.id, id1)) {
-			   			this.tiraDraggable(this.origem.id, id1);
-			   		} else {
-			   			JanelasComuns.showMessage("Aumente a distância entre os elementos para liga-los");
-			   		}
-			   } else {
-				   	JanelasComuns.showMessage("Fluxo já foi definido.");
-			   }
-		   }
-		   grafico.removerDestaqueDiv(this.origem);
-		   this.origem = null;
-	   }
-   },
-   
+	   // Parse para string pois as posições recebidas são do tipo number
+	id1 = id1.toString();
+	if (!Object.isUndefined(id2)) { // caso já esteja passando a div de destino, não precisa dar
+		// destaque a
+		// de início.
+		id2 = id2.toString();
+		if (!this.existeFluxoDefinido(id1, id2)) {
+			this.adicionaLigacao(id1, id2);
+			this.tiraDraggable(id1, id2);
+		}
+		return;
+	}
+	if (this.origem == null) {
+		this.origem = $(id1);
+		grafico.destacarDiv(this.origem);
+	} else {
+		if (this.origem.id != id1) {
+			if (!this.existeFluxoDefinido(this.origem.id, id1)) {
+				if (this.adicionaLigacao(this.origem.id, id1)) {
+					this.tiraDraggable(this.origem.id, id1);
+				} else {
+					JanelasComuns.showMessage("Aumente a distância entre os elementos para liga-los");
+				}
+			} else {
+				JanelasComuns.showMessage("Fluxo já foi definido.");
+			}
+		}
+		grafico.removerDestaqueDiv(this.origem);
+		this.origem = null;
+	}
+},
+
    /**
 	 * Verifica se o fluxo já foi definido.
 	 * 
@@ -213,21 +226,21 @@ DefinirFluxo.prototype = {
    },
 
    /**
-	* Liga duas divs através de uma seta.
-	* 
-	* @param origem Div de origem
-	* @param destino Div de destino
-	*/
-    unirDivs : function(origem, destino) {
+	 * Liga duas divs através de uma seta.
+	 * 
+	 * @param origem Div de origem
+	 * @param destino Div de destino
+	 */
+   unirDivs : function(origem, destino) {
 	   var origemX = parseInt((origem.offsetWidth) / 2) + origem.offsetLeft;
 	   var origemY = (origem.offsetTop) + ((origem.offsetHeight) / 2);
 
 	   var destinoX = parseInt((destino.offsetWidth) / 2) + destino.offsetLeft;
 	   var destinoY = (destino.offsetTop) + ((destino.offsetHeight) / 2);
-	   
+
 	   var ligar = grafico.distanciaMinimaAtingida(origemX, origemY, destinoX, destinoY);
-	   
-	   if (ligar){
+
+	   if (ligar) {
 		   grafico.criarSeta(origemX, origemY, destinoX, destinoY);
 	   }
 	   return ligar;
@@ -255,20 +268,20 @@ DefinirFluxo.prototype = {
 		   scroll :window
 	   });
    },
-   
+
    /**
-    * Adiciona a lista de fluxos a ligação informada.
-    * 
-    * @param {String} idInicio identificador da div de origem
-    * @param {String} idFim identificador da div de destino
-    */
-   adicionaLigacao: function(idInicio, idFim){
-	   	var ligar = this.unirDivs($(idInicio), $(idFim)); 
-   		if (ligar) {
-   			var fluxo = new Array(idInicio, idFim);
-   			this.listaFluxos.push(fluxo);
-   		}
-   		return ligar;
+	 * Adiciona a lista de fluxos a ligação informada.
+	 * 
+	 * @param {String} idInicio identificador da div de origem
+	 * @param {String} idFim identificador da div de destino
+	 */
+   adicionaLigacao : function(idInicio, idFim) {
+	   var ligar = this.unirDivs($(idInicio), $(idFim));
+	   if (ligar) {
+		   var fluxo = new Array(idInicio, idFim);
+		   this.listaFluxos.push(fluxo);
+	   }
+	   return ligar;
    }
 };
 
