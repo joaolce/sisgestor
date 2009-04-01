@@ -279,6 +279,7 @@ public class BaseAction extends DispatchActionSupport {
 			this.getSession().setAttribute(ConstantesContexto.DATA_LOGIN, DataUtil.getStringDataAtualCompleta());
 			this.getSession().setAttribute(ConstantesContexto.HORA_LOGIN, DataUtil.getDataAtual());
 			this.getSession().setAttribute(ConstantesContexto.USUARIO_SESSAO, usuarioAtual);
+			Utils.setUsuario(usuarioAtual);
 		}
 	}
 
@@ -428,7 +429,7 @@ public class BaseAction extends DispatchActionSupport {
 	 */
 	protected Usuario getUser() throws Exception {
 		this.doUsuario(false);
-		return (Usuario) this.getSession().getAttribute(ConstantesContexto.USUARIO_SESSAO);
+		return Utils.getUsuario();
 	}
 
 	/**

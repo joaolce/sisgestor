@@ -1,34 +1,34 @@
 /**
  * Oreaculous JS
- *
+ * 
  * API Para criação de janelas div dinâmicas
  */
 var Janela = Class.create();
 Janela.prototype = {
    /**
 	 * altura da janela
-	 *
+	 * 
 	 * @type Integer
 	 */
    height :null,
 
    /**
 	 * largura da janela
-	 *
+	 * 
 	 * @type Integer
 	 */
    width :null,
 
    /**
 	 * posição Y em relação ao elemento que contém a janelaDiv
-	 *
+	 * 
 	 * @type Integer
 	 */
    top :0,
 
    /**
 	 * posição X em relação ao elemento que contém a janelaDiv
-	 *
+	 * 
 	 * @type Integer
 	 */
    left :0,
@@ -36,14 +36,14 @@ Janela.prototype = {
    /**
 	 * Indicar se a janela está modal ou não, ao chamar undoModal se ele for chamado novamente não
 	 * poderá fazer nada se o valor do modal for false
-	 *
+	 * 
 	 * @type Boolean
 	 */
    modal :true,
 
    /**
 	 * Título da janela
-	 *
+	 * 
 	 * @type String
 	 */
    titulo :null,
@@ -56,21 +56,21 @@ Janela.prototype = {
 
    /**
 	 * Objeto de arraste da janela, coisa do scriptaculous
-	 *
+	 * 
 	 * @type Draggable
 	 */
    draggable :null,
 
    /**
 	 * Elemento div que representa a janela toda
-	 *
+	 * 
 	 * @type HTMLDivElement
 	 */
    janelaDiv :null,
 
    /**
 	 * Janela anterior que está por trás da atual
-	 *
+	 * 
 	 * @type Janela
 	 */
    janelaAnterior :null,
@@ -78,7 +78,7 @@ Janela.prototype = {
    /**
 	 * Botão fechar da janela, quando o botão é removido ele vem pra cá para depois poder ser
 	 * recolado
-	 *
+	 * 
 	 * @type HTMLDivElement
 	 */
    botaoFechar :null,
@@ -86,7 +86,7 @@ Janela.prototype = {
    /**
 	 * Manipulador de evento que é acionado ao fechar a janela. Para que a janela não seja fechada
 	 * basta retornar false no manipulador do evento
-	 *
+	 * 
 	 * @type Function
 	 */
    onClose :null,
@@ -94,21 +94,21 @@ Janela.prototype = {
    /**
 	 * Manipulador de evento que deverá ser acionado quando o conteúdo de uma URL tiver sido
 	 * carregado dentro da div de conteúdo
-	 *
+	 * 
 	 * @type Function
 	 */
    onCompletePosFunction :null,
 
    /**
 	 * Endereço URL que deverá fornecer um conteúdo HTML para a DIV
-	 *
+	 * 
 	 * @type String
 	 */
    url :null,
 
    /**
 	 * Método HTTP utilizado para realizar a requisição
-	 *
+	 * 
 	 * @type String
 	 */
    httpMethod :"get",
@@ -116,35 +116,35 @@ Janela.prototype = {
    /**
 	 * Se o método de requisição é POST, aqui conterá a querystring que deverá ir no corpo da
 	 * requisição POST
-	 *
+	 * 
 	 * @type String
 	 */
    postBody :null,
 
    /**
 	 * Avaliar scripts dentro do HTML recebido da resposta
-	 *
+	 * 
 	 * @type Boolean
 	 */
    evalScripts :true,
 
    /**
 	 * id do elemento que cobre a tela anterior
-	 *
+	 * 
 	 * @type String
 	 */
    idElementoCobertor :"elementoCobertor",
 
    /**
 	 * Índice de visualização da janela (mesma propriedade do estilo)
-	 *
+	 * 
 	 * @type Integer
 	 */
    zIndex :null,
 
    /**
 	 * objeto utilizado na requisição
-	 *
+	 * 
 	 * @type XMLHttpRequest
 	 */
    transportRequest :null,
@@ -155,7 +155,7 @@ Janela.prototype = {
    ajaxOptions :null,
    /**
 	 * @constructor
-	 *
+	 * 
 	 * @param {Integer} height altura da janela
 	 * @param {Integer} width largura da janela
 	 * @param {Integer} left quantidade de pixels a partir da esquerda do elemento contedor
@@ -266,7 +266,7 @@ Janela.prototype = {
 
    /**
 	 * retorna o div contendo o botão fechar da janela
-	 *
+	 * 
 	 * @return {HTMLDivElement}
 	 */
    getBotaoFechar : function() {
@@ -275,7 +275,7 @@ Janela.prototype = {
 
    /**
 	 * remove o botão fechar da janela
-	 *
+	 * 
 	 * @return {HTMLAnchorElement}
 	 */
    removerBotaoFechar : function() {
@@ -294,7 +294,7 @@ Janela.prototype = {
 
    /**
 	 * retorna o elemento onde as janelas serão acrescentadas (appendadas)
-	 *
+	 * 
 	 * @return{Element}
 	 */
    getPrincipal : function() {
@@ -307,7 +307,7 @@ Janela.prototype = {
    /**
 	 * retorna o estilo personalizado pelo usuário com o estilo de configuração padrão da barra da
 	 * janela
-	 *
+	 * 
 	 * @return {String}
 	 */
    getEstiloBarra : function() {
@@ -318,7 +318,7 @@ Janela.prototype = {
    /**
 	 * retorna o estilo personalizado pelo usuário com o estilo de configuração padrão da barra de
 	 * janela
-	 *
+	 * 
 	 * @return {String}
 	 */
    getEstiloBarraTitulo : function() {
@@ -327,7 +327,7 @@ Janela.prototype = {
 
    /**
 	 * retorna o estilo da janela
-	 *
+	 * 
 	 * @return {String}
 	 */
    getEstiloJanela : function() {
@@ -336,7 +336,7 @@ Janela.prototype = {
 
    /**
 	 * estilo do conteúdo modificável da janela
-	 *
+	 * 
 	 * @return {String}
 	 */
    getEstiloConteudo : function() {
@@ -351,7 +351,7 @@ Janela.prototype = {
    },
    /**
 	 * retorna o div de conteúdo da janela
-	 *
+	 * 
 	 * @return {HTMLDivElement}
 	 */
    getConteudo : function() {
@@ -363,7 +363,7 @@ Janela.prototype = {
    },
    /**
 	 * estilo da div que contém o botão fechar com o estilo personalizado pelo usuário
-	 *
+	 * 
 	 * @return {String}
 	 */
    getEstiloDivFechar : function() {
@@ -381,12 +381,22 @@ Janela.prototype = {
    removerConteudo : function() {
 	   this.getConteudo().innerHTML = "";
    },
+
    /**
 	 * Centraliza a posição x da janela
 	 */
    centralizarX : function() {
 	   var largura = this.getPrincipal().clientWidth;
-	   var inicioAreaUtil = window.pageXOffset;
+	   var inicioAreaUtil;
+	   if (Prototype.Browser.IE) {
+		   if (document.documentElement.scrollLeft) { //IE < 7
+			   inicioAreaUtil = document.documentElement.scrollLeft;
+		   } else {
+			   inicioAreaUtil = document.body.scrollLeft;
+		   }
+	   } else {
+		   inicioAreaUtil = window.pageXOffset;
+	   }
 	   this.janelaDiv.setStyle( {
 		   left :(((largura / 2) - (this.janelaDiv.getWidth() / 2)) + inicioAreaUtil / 2) + "px"
 	   });
@@ -394,7 +404,7 @@ Janela.prototype = {
 
    /**
 	 * coordenada X da janela
-	 *
+	 * 
 	 * @param {Number} position
 	 */
    setX : function(position) {
@@ -404,7 +414,7 @@ Janela.prototype = {
    },
    /**
 	 * coordenada Y da janela
-	 *
+	 * 
 	 * @param {Number} position
 	 */
    setY : function(position) {
@@ -439,7 +449,7 @@ Janela.prototype = {
    /**
 	 * adiciona um manipulador de evento ao evento fechar janela, se a função passada retornar false
 	 * a janela não é fechada
-	 *
+	 * 
 	 * @param {Function} oncloseFunction
 	 */
    setOnClose : function(oncloseFunction) {
@@ -447,7 +457,7 @@ Janela.prototype = {
    },
    /**
 	 * retorna o manipulador de evento ao fechar janela
-	 *
+	 * 
 	 * @return{Function}
 	 */
    getOnClose : function() {
@@ -590,7 +600,7 @@ Janela.prototype = {
 
    /**
 	 * seta o postBody da requisição POST
-	 *
+	 * 
 	 * @param {String} postBody
 	 */
    setPostBody : function(postBody) {
@@ -645,7 +655,7 @@ Janela.prototype = {
 
    /**
 	 * carrega o conteúdo html da url passada dentro do conteúdo da div
-	 *
+	 * 
 	 * @param {String} url
 	 */
    carregarUrl : function(url) {
@@ -674,7 +684,7 @@ Janela.prototype = {
    },
    /**
 	 * manipulador de evento
-	 *
+	 * 
 	 * @param {Ajax.Request} ajaxRequest
 	 * @param {Object} json
 	 */
@@ -687,7 +697,7 @@ Janela.prototype = {
 
    /**
 	 * manipulador de eventos
-	 *
+	 * 
 	 * @param {Ajax.Request} ajaxRequest
 	 * @param {Object} json
 	 */
@@ -698,7 +708,7 @@ Janela.prototype = {
 
    /**
 	 * manipulador de eventos
-	 *
+	 * 
 	 * @param {Ajax.Request} ajaxRequest
 	 * @param {Object} json
 	 */
@@ -710,7 +720,7 @@ Janela.prototype = {
    },
    /**
 	 * manipulador de eventos
-	 *
+	 * 
 	 * @param {Ajax.Request} ajaxRequest
 	 */
    onException : function(request) {
@@ -719,7 +729,7 @@ Janela.prototype = {
    /**
 	 * set posfunction que deverá ser executada quando o conteúdo HTML estiver preenchido dentro da
 	 * div
-	 *
+	 * 
 	 * @param {Function} posFunction
 	 */
    addOnComplete : function(posFunction) {
@@ -769,27 +779,27 @@ Janela.prototype = {
 };
 /**
  * Factory de janelas
- *
+ * 
  * toda janela deverá ser fabricada a partir do getInstance desta classe
  */
 var JanelaFactory = Class.create();
 JanelaFactory = {
    /**
 	 * de Janela
-	 *
+	 * 
 	 * @type Array
 	 */
    janelasAbertas :new Array(),
    /**
 	 * Instancia uma nova Janela, registra e retorna o objeto
-	 *
+	 * 
 	 * @param {Integer} height
 	 * @param {Integer} width
 	 * @param {Integer} left
 	 * @param {Integer} top
 	 * @param {String} titulo
 	 * @param {String} idConteudo
-	 *
+	 * 
 	 * @return instancia da janela com os parâmetros passados
 	 * @type Janela
 	 */
@@ -817,7 +827,7 @@ JanelaFactory = {
    },
    /**
 	 * fecha a janela pelo id da mesma
-	 *
+	 * 
 	 * @param {String} idJanela
 	 */
    fecharJanela : function(idJanela) {
@@ -828,9 +838,9 @@ JanelaFactory = {
    },
    /**
 	 * retorna uma instância aberta da janela pelo id da mesma
-	 *
+	 * 
 	 * @param {String} idJanela
-	 *
+	 * 
 	 * @return janela criada
 	 * @type Janela
 	 */
@@ -845,9 +855,9 @@ JanelaFactory = {
    },
    /**
 	 * retorna uma janela aberta onde o XHR é igual ao xhr passado
-	 *
+	 * 
 	 * @param {XMLHttpRequest} transportRequest
-	 *
+	 * 
 	 * @return instância da janela
 	 * @type Janela
 	 */

@@ -49,8 +49,9 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  */
 public final class Utils {
 
-	private static MessageResources	resources;
-	private static final Log			LOG	= LogFactory.getLog(Utils.class);
+	private static MessageResources				resources;
+	private static final ThreadLocal<Usuario>	usuario	= new ThreadLocal<Usuario>();
+	private static final Log						LOG		= LogFactory.getLog(Utils.class);
 
 	/**
 	 * Construtor privado (classe utilitária).
@@ -427,6 +428,15 @@ public final class Utils {
 	}
 
 	/**
+	 * Recupera o usuário logado no sistema.
+	 * 
+	 * @return usuário logado no sistema
+	 */
+	public static Usuario getUsuario() {
+		return usuario.get();
+	}
+
+	/**
 	 * Faz o injection dos beans no objeto informado.
 	 * 
 	 * @param obj objeto a setar dependências
@@ -773,6 +783,15 @@ public final class Utils {
 		} catch (Exception e) {
 			LOG.warn(e.getMessage(), e);
 		}
+	}
+
+	/**
+	 * Armazena o usuário logado no sistema.
+	 * 
+	 * @param usuario usuário logado
+	 */
+	public static void setUsuario(Usuario usuario) {
+		Utils.usuario.set(usuario);
 	}
 
 	/**

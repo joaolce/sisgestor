@@ -48,10 +48,10 @@
 			<thead>
 				<tr>
 					<th style="display: none;">&nbsp;</th>
-					<th><bean:message key="label.sigla" /></th>
-					<th><bean:message key="label.nome" /></th>
-					<th><bean:message key="label.email" /></th>
-					<th><bean:message key="label.departamentoSuperior" /></th>
+					<th width="10%"><bean:message key="label.sigla" /></th>
+					<th width="40%"><bean:message key="label.nome" /></th>
+					<th width="30%"><bean:message key="label.email" /></th>
+					<th width="20%"><bean:message key="label.departamentoSuperior" /></th>
 				</tr>
 			</thead>
 			<tbody id="corpoManterDepartamento" class="corpoTabelaClicavel"></tbody>

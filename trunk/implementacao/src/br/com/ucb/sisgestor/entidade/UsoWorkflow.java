@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import org.hibernate.annotations.ForeignKey;
 
 /**
@@ -28,7 +29,9 @@ public class UsoWorkflow extends ObjetoPersistente {
 
 	private Workflow							workflow;
 	private Timestamp							dataHoraInicio;
+	private Timestamp							dataHoraFim;
 	private List<HistoricoUsoWorkflow>	historico;
+	private Tarefa								tarefa;
 	private List<Anexo>						anexos;
 
 	/**
@@ -42,9 +45,19 @@ public class UsoWorkflow extends ObjetoPersistente {
 	}
 
 	/**
-	 * Recupera a data/hora de inicio de uso do {@link Workflow}.
+	 * Recupera a data/hora de fim de uso da {@link Tarefa}.
 	 * 
-	 * @return data/hora de inicio de uso do {@link Workflow}
+	 * @return data/hora de fim de uso da {@link Tarefa}
+	 */
+	@Column(name = "UWR_DATA_HORA_FIM", nullable = true)
+	public Timestamp getDataHoraFim() {
+		return this.dataHoraFim;
+	}
+
+	/**
+	 * Recupera a data/hora de inicio de uso da {@link Tarefa}.
+	 * 
+	 * @return data/hora de inicio de uso da {@link Tarefa}
 	 */
 	@Column(name = "UWR_DATA_HORA_INICIO", nullable = false)
 	public Timestamp getDataHoraInicio() {
@@ -57,8 +70,21 @@ public class UsoWorkflow extends ObjetoPersistente {
 	 * @return histórico do uso do {@link Workflow}
 	 */
 	@OneToMany(targetEntity = HistoricoUsoWorkflow.class, mappedBy = "usoWorkflow", fetch = FetchType.LAZY)
+	@OrderBy("dataHora DESC")
 	public List<HistoricoUsoWorkflow> getHistorico() {
 		return this.historico;
+	}
+
+	/**
+	 * Recupera a {@link Tarefa} que está sendo executada.
+	 * 
+	 * @return {@link Tarefa} que está sendo executada
+	 */
+	@ManyToOne
+	@JoinColumn(name = "TAR_ID", nullable = false)
+	@ForeignKey(name = "IR_TAR_UWR")
+	public Tarefa getTarefa() {
+		return this.tarefa;
 	}
 
 	/**
@@ -83,9 +109,18 @@ public class UsoWorkflow extends ObjetoPersistente {
 	}
 
 	/**
-	 * Atribui a data/hora de inicio de uso do {@link Workflow}.
+	 * Atribui a data/hora de fim de uso da {@link Tarefa}.
 	 * 
-	 * @param dataHoraInicio data/hora de inicio de uso do {@link Workflow}
+	 * @param dataHoraFim data/hora de fim de uso da {@link Tarefa}
+	 */
+	public void setDataHoraFim(Timestamp dataHoraFim) {
+		this.dataHoraFim = dataHoraFim;
+	}
+
+	/**
+	 * Atribui a data/hora de inicio de uso da {@link Tarefa}.
+	 * 
+	 * @param dataHoraInicio data/hora de inicio de uso da {@link Tarefa}
 	 */
 	public void setDataHoraInicio(Timestamp dataHoraInicio) {
 		this.dataHoraInicio = dataHoraInicio;
@@ -98,6 +133,15 @@ public class UsoWorkflow extends ObjetoPersistente {
 	 */
 	public void setHistorico(List<HistoricoUsoWorkflow> historico) {
 		this.historico = historico;
+	}
+
+	/**
+	 * Atribui a {@link Tarefa} que está sendo executada.
+	 * 
+	 * @param tarefa {@link Tarefa} que está sendo executada
+	 */
+	public void setTarefa(Tarefa tarefa) {
+		this.tarefa = tarefa;
 	}
 
 	/**
