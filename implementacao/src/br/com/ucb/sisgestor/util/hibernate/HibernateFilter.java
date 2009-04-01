@@ -4,6 +4,9 @@
  */
 package br.com.ucb.sisgestor.util.hibernate;
 
+import br.com.ucb.sisgestor.entidade.Usuario;
+import br.com.ucb.sisgestor.util.Utils;
+import br.com.ucb.sisgestor.util.constantes.ConstantesContexto;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -25,14 +28,8 @@ public class HibernateFilter extends OpenSessionInViewFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
-
-		// Caso não seja necessário usar uma sessão do Hibernate, executa apenas os filtros restantes da cadeia
-		if (this.isNoSessionRequired(request)) {
-			chain.doFilter(request, response);
-			return;
-		}
-
 		try {
+			this.armazenaUsuarioNaSessao(request);
 			super.doFilterInternal(request, response, chain);
 		} finally {
 			HibernateUtil.getInstancia().closeSession();
@@ -40,14 +37,25 @@ public class HibernateFilter extends OpenSessionInViewFilter {
 	}
 
 	/**
-	 * Verifica se é uma url conhecida por não necessitar de criação de sessão do hibernate.
-	 * 
-	 * @param request objeto de request HTTP
-	 * @return <code>true</code> caso não necessite, <code>false</code> caso contrário
+	 * {@inheritDoc}
 	 */
-	private boolean isNoSessionRequired(HttpServletRequest request) {
+	@Override
+	protected boolean shouldNotFilter(HttpServletRequest request) {
 		String url = request.getRequestURI();
 		return (url.contains("/css/") || url.contains("/imagens/") || url.contains("/js/")
 				|| url.contains("/paginas/") || url.contains("/relatorios/"));
+	}
+
+	/**
+	 * Armazena o usuário logado na sessão.
+	 * 
+	 * @param request {@link HttpServletRequest} atual
+	 */
+	private void armazenaUsuarioNaSessao(HttpServletRequest request) {
+		String url = request.getRequestURI();
+		if (url.contains(".do") || url.contains("/dwr/")) {
+			Usuario usuario = (Usuario) request.getSession().getAttribute(ConstantesContexto.USUARIO_SESSAO);
+			Utils.setUsuario(usuario);
+		}
 	}
 }

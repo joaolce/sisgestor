@@ -35,8 +35,10 @@ public class HibernateUtil {
 	 * @return {@link HibernateUtil}
 	 */
 	public static HibernateUtil getInstancia() {
-		if (instancia == null) { //NOPMD by João Lúcio - primeira invocação será do spring
-			instancia = new HibernateUtil();
+		synchronized (HibernateUtil.class) {
+			if (instancia == null) {
+				instancia = new HibernateUtil();
+			}
 		}
 		return instancia;
 	}

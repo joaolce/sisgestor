@@ -77,7 +77,7 @@ public class BaseDWR {
 	 * @return usuário logado
 	 */
 	protected Usuario getUser() {
-		return (Usuario) this.getSessionAttribute(ConstantesContexto.USUARIO_SESSAO);
+		return Utils.getUsuario();
 	}
 
 	/**
