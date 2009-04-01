@@ -40,6 +40,15 @@ public class HibernateFilter extends OpenSessionInViewFilter {
 	 * {@inheritDoc}
 	 */
 	@Override
+	protected void initFilterBean() throws ServletException {
+		super.initFilterBean();
+		Utils.setContexto(this.getServletContext());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) {
 		String url = request.getRequestURI();
 		return (url.contains("/css/") || url.contains("/imagens/") || url.contains("/js/")
@@ -47,15 +56,12 @@ public class HibernateFilter extends OpenSessionInViewFilter {
 	}
 
 	/**
-	 * Armazena o usuário logado na sessão.
+	 * Armazena o usuário logado na sessão web.
 	 * 
 	 * @param request {@link HttpServletRequest} atual
 	 */
 	private void armazenaUsuarioNaSessao(HttpServletRequest request) {
-		String url = request.getRequestURI();
-		if (url.contains(".do") || url.contains("/dwr/")) {
-			Usuario usuario = (Usuario) request.getSession().getAttribute(ConstantesContexto.USUARIO_SESSAO);
-			Utils.setUsuario(usuario);
-		}
+		Usuario usuario = (Usuario) request.getSession().getAttribute(ConstantesContexto.USUARIO_SESSAO);
+		Utils.setUsuario(usuario);
 	}
 }

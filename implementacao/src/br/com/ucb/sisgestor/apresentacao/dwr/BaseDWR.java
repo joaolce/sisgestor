@@ -27,7 +27,7 @@ public class BaseDWR {
 	 * Cria uma nova instância do tipo {@link BaseDWR}.
 	 */
 	public BaseDWR() {
-		Utils.injectionAutowired(this, WebContextFactory.get().getServletContext());
+		Utils.injectionAutowired(this);
 	}
 
 	/**

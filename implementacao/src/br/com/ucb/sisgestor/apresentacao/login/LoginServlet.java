@@ -53,7 +53,7 @@ public final class LoginServlet extends HttpServlet {
 		} catch (Exception e) {
 			LOG.warn("Erro ao capturar properties", e);
 		}
-		this.usuarioBO = (UsuarioBO) Utils.getBean("usuarioBO", this.getServletContext());
+		this.usuarioBO = Utils.getBean(UsuarioBO.class);
 	}
 
 	/**

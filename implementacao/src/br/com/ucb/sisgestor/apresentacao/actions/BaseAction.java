@@ -11,7 +11,6 @@ import br.com.ucb.sisgestor.apresentacao.validator.utils.ValidatorReader;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
-import br.com.ucb.sisgestor.negocio.impl.UsuarioBOImpl;
 import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.GenericsUtil;
 import br.com.ucb.sisgestor.util.ParametrosURL;
@@ -209,7 +208,7 @@ public class BaseAction extends DispatchActionSupport {
 	 * @param usuarioBO BO de {@link Usuario}
 	 */
 	@Autowired
-	public void setUsuarioBO(UsuarioBOImpl usuarioBO) {
+	public void setUsuarioBO(UsuarioBO usuarioBO) {
 		this.usuarioBO = usuarioBO;
 	}
 
@@ -478,7 +477,7 @@ public class BaseAction extends DispatchActionSupport {
 	@Override
 	protected void onInit() {
 		super.onInit();
-		Utils.injectionAutowired(this, this.getServletContext());
+		Utils.injectionAutowired(this);
 	}
 
 	/**
