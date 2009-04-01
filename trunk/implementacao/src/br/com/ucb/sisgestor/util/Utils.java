@@ -50,6 +50,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 public final class Utils {
 
 	private static MessageResources				resources;
+	private static ServletContext					contexto;
 	private static final ThreadLocal<Usuario>	usuario	= new ThreadLocal<Usuario>();
 	private static final Log						LOG		= LogFactory.getLog(Utils.class);
 
@@ -399,13 +400,24 @@ public final class Utils {
 	/**
 	 * Recupera um bean do spring.
 	 * 
-	 * @param bean nome do bean
-	 * @param servletContext contexto da servlet
+	 * @param <T> tipo do bean
+	 * @param clazz classe do bean
 	 * @return bean do spring
 	 */
-	public static Object getBean(String bean, ServletContext servletContext) {
-		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-		return context.getBean(bean);
+	@SuppressWarnings("unchecked")
+	public static <T>T getBean(Class<T> clazz) {
+		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getContexto());
+		String nomeBean = StringUtils.uncapitalize(clazz.getSimpleName());
+		return (T) context.getBean(nomeBean);
+	}
+
+	/**
+	 * Recupera o {@link ServletContext} da aplicação.
+	 * 
+	 * @return {@link ServletContext} da aplicação
+	 */
+	public static ServletContext getContexto() {
+		return contexto;
 	}
 
 	/**
@@ -440,16 +452,16 @@ public final class Utils {
 	 * Faz o injection dos beans no objeto informado.
 	 * 
 	 * @param obj objeto a setar dependências
-	 * @param context contexto da servlet
 	 */
-	public static void injectionAutowired(Object obj, ServletContext context) {
+	public static void injectionAutowired(Object obj) {
 		for (Method metodo : obj.getClass().getMethods()) {
 			if (metodo.isAnnotationPresent(Autowired.class)) {
-				String bean = StringUtils.uncapitalize(metodo.getName().substring(3));
+				Class<?> bean = null;
 				try {
-					metodo.invoke(obj, getBean(bean, context));
+					bean = metodo.getParameterTypes()[0];
+					metodo.invoke(obj, getBean(bean));
 				} catch (Exception e) {
-					LOG.error("Erro ao inserir bean " + bean + " na action" + obj.getClass().getSimpleName(), e);
+					LOG.error("Erro ao inserir bean " + bean + " na action " + obj.getClass().getSimpleName(), e);
 				}
 			}
 		}
@@ -783,6 +795,15 @@ public final class Utils {
 		} catch (Exception e) {
 			LOG.warn(e.getMessage(), e);
 		}
+	}
+
+	/**
+	 * Armazena o {@link ServletContext} da aplicação.
+	 * 
+	 * @param contexto {@link ServletContext} da aplicação
+	 */
+	public static void setContexto(ServletContext contexto) {
+		Utils.contexto = contexto;
 	}
 
 	/**
