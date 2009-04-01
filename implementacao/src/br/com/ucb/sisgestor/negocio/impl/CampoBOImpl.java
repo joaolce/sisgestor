@@ -8,9 +8,9 @@ import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.entidade.OpcaoCampo;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.CampoBO;
+import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.CampoDAO;
-import br.com.ucb.sisgestor.persistencia.WorkflowDAO;
 import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.dto.PesquisaCampoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
@@ -29,15 +29,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("campoBO")
 public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 
+	private WorkflowBO	workflowBO;
 	private CampoDAO		campoDAO;
-	private WorkflowDAO	workflowDAO;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizar(Campo campo) throws NegocioException {
-		Workflow workflow = this.workflowDAO.obter(campo.getWorkflow().getId());
+		Workflow workflow = this.getWorkflowBO().obter(campo.getWorkflow().getId());
 		this.validarSePodeAlterarWorkflow(workflow);
 		Campo campoAtual = this.campoDAO.obter(campo.getId());
 		if (campoAtual.getOpcoes() != null) { // excluindo as opções pois o cascade não suporta para atualizar
@@ -102,7 +102,7 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void salvar(Campo campo) throws NegocioException {
-		Workflow workflow = this.workflowDAO.obter(campo.getWorkflow().getId());
+		Workflow workflow = this.getWorkflowBO().obter(campo.getWorkflow().getId());
 		this.validarSePodeAlterarWorkflow(workflow);
 		this.campoDAO.salvar(campo);
 	}
@@ -118,13 +118,15 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 	}
 
 	/**
-	 * Atribui o DAO de {@link Workflow}.
+	 * Recupera o BO de {@link Workflow}.
 	 * 
-	 * @param workflowDAO DAO de {@link Workflow}
+	 * @return BO de {@link Workflow}
 	 */
-	@Autowired
-	public void setWorkflowDAO(WorkflowDAO workflowDAO) {
-		this.workflowDAO = workflowDAO;
+	private WorkflowBO getWorkflowBO() {
+		if (this.workflowBO == null) {
+			this.workflowBO = Utils.getBean(WorkflowBO.class);
+		}
+		return this.workflowBO;
 	}
 
 	/**

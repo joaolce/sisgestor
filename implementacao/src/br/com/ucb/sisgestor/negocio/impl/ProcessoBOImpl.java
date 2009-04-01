@@ -9,9 +9,10 @@ import br.com.ucb.sisgestor.entidade.Processo;
 import br.com.ucb.sisgestor.entidade.TransacaoProcesso;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.ProcessoBO;
+import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.ProcessoDAO;
-import br.com.ucb.sisgestor.persistencia.WorkflowDAO;
+import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaProcessoDTO;
 import java.util.ArrayList;
@@ -32,8 +33,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("processoBO")
 public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo, Integer> implements ProcessoBO {
 
+	private WorkflowBO	workflowBO;
 	private ProcessoDAO	processoDAO;
-	private WorkflowDAO	workflowDAO;
 
 	/**
 	 * {@inheritDoc}
@@ -50,7 +51,7 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo, Integer> implem
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizarTransacoes(Integer idWorkflow, String[] fluxos, String[] posicoes)
 			throws NegocioException {
-		Workflow workflow = this.workflowDAO.obter(idWorkflow);
+		Workflow workflow = this.getWorkflowBO().obter(idWorkflow);
 		this.validarSePodeAlterarWorkflow(workflow);
 
 		List<TransacaoProcesso> transacoes = this.getTransacoes(fluxos);
@@ -146,7 +147,7 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo, Integer> implem
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void salvar(Processo processo) throws NegocioException {
-		Workflow workflow = this.workflowDAO.obter(processo.getWorkflow().getId());
+		Workflow workflow = this.getWorkflowBO().obter(processo.getWorkflow().getId());
 		this.validarSePodeAlterarWorkflow(workflow);
 		this.processoDAO.salvar(processo);
 	}
@@ -159,16 +160,6 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo, Integer> implem
 	@Autowired
 	public void setProcessoDAO(ProcessoDAO processoDAO) {
 		this.processoDAO = processoDAO;
-	}
-
-	/**
-	 * Atribui o DAO de {@link Workflow}.
-	 * 
-	 * @param workflowDAO DAO de {@link Workflow}
-	 */
-	@Autowired
-	public void setWorkflowDAO(WorkflowDAO workflowDAO) {
-		this.workflowDAO = workflowDAO;
 	}
 
 	/**
@@ -221,6 +212,18 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo, Integer> implem
 			}
 		}
 		return lista;
+	}
+
+	/**
+	 * Recupera o BO de {@link Workflow}.
+	 * 
+	 * @return BO de {@link Workflow}
+	 */
+	private WorkflowBO getWorkflowBO() {
+		if (this.workflowBO == null) {
+			this.workflowBO = Utils.getBean(WorkflowBO.class);
+		}
+		return this.workflowBO;
 	}
 
 	/**
