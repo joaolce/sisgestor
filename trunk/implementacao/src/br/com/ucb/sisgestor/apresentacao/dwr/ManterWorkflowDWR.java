@@ -7,7 +7,7 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
-import br.com.ucb.sisgestor.util.dto.PesquisaWorkflowDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaManterWorkflowDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,7 +37,7 @@ public class ManterWorkflowDWR extends BaseDWR {
 	 * @param parametros parâmetros da pesquisa
 	 * @return {@link List} de {@link Workflow}
 	 */
-	public ListaResultadoDTO<Workflow> pesquisar(PesquisaWorkflowDTO parametros) {
+	public ListaResultadoDTO<Workflow> pesquisar(PesquisaManterWorkflowDTO parametros) {
 		String nome = parametros.getNome();
 		String descricao = parametros.getDescricao();
 		Boolean ativo = parametros.getAtivo();

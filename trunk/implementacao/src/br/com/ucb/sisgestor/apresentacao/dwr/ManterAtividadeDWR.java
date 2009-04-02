@@ -7,7 +7,7 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
-import br.com.ucb.sisgestor.util.dto.PesquisaAtividadeDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaManterAtividadeDTO;
 import java.util.List;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +58,7 @@ public class ManterAtividadeDWR extends BaseDWR {
 	 * @param parametros parâmetros da pesquisa
 	 * @return {@link List} de {@link Atividade}
 	 */
-	public ListaResultadoDTO<Atividade> pesquisar(PesquisaAtividadeDTO parametros) {
+	public ListaResultadoDTO<Atividade> pesquisar(PesquisaManterAtividadeDTO parametros) {
 		String nome = parametros.getNome();
 		String descricao = parametros.getDescricao();
 		Integer departamento = parametros.getDepartamento();

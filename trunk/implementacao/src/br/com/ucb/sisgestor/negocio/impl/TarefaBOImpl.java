@@ -13,7 +13,7 @@ import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.AtividadeDAO;
 import br.com.ucb.sisgestor.persistencia.TarefaDAO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
-import br.com.ucb.sisgestor.util.dto.PesquisaTarefaDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaManterTarefaDTO;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -116,7 +116,7 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa, Integer> implements
 	@Override
 	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
-		PesquisaTarefaDTO dto = (PesquisaTarefaDTO) parametros;
+		PesquisaManterTarefaDTO dto = (PesquisaManterTarefaDTO) parametros;
 		return this.tarefaDAO.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getUsuario(), dto
 				.getIdAtividade());
 	}

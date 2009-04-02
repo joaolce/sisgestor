@@ -62,10 +62,8 @@ DefinirFluxo.prototype = {
 	 * @param topo Posicionamento do elemento ao topo
 	 */
    gerarRepresentacao : function(id, nome, esquerda, topo) {
-
-	   // TODO Ainda há falha na definição do topo
    	if (topo != null) {
-   		this.topo = this.totalCirculos * this.varTopo + topo;
+   		this.topo = (this.totalCirculos * this.varTopo) + topo;
    	}
 
    	if (esquerda != null) {
@@ -104,7 +102,7 @@ DefinirFluxo.prototype = {
 		this.esquerda += 100;
 		this.topo += this.varTopo;
 		if (this.esquerda >= 800) {
-			this.topo = this.topo - this.varTopo + 20;
+			this.topo -= (this.varTopo + 20);
 			this.esquerda = 0;
 		}
 		this.totalCirculos++;

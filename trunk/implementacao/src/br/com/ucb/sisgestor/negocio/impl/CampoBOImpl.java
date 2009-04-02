@@ -12,7 +12,7 @@ import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.CampoDAO;
 import br.com.ucb.sisgestor.util.Utils;
-import br.com.ucb.sisgestor.util.dto.PesquisaCampoDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaManterCampoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +77,7 @@ public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
 	@Override
 	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
-		PesquisaCampoDTO dto = (PesquisaCampoDTO) parametros;
+		PesquisaManterCampoDTO dto = (PesquisaManterCampoDTO) parametros;
 		return this.campoDAO.getTotalRegistros(dto.getNome(), dto.getTipo(), dto.getIdWorkflow());
 	}
 

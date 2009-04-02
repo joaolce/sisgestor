@@ -7,7 +7,7 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 import br.com.ucb.sisgestor.entidade.Processo;
 import br.com.ucb.sisgestor.negocio.ProcessoBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
-import br.com.ucb.sisgestor.util.dto.PesquisaProcessoDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaManterProcessoDTO;
 import java.util.List;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +58,7 @@ public class ManterProcessoDWR extends BaseDWR {
 	 * @param parametros parâmetros da pesquisa
 	 * @return {@link List} de {@link Processo}
 	 */
-	public ListaResultadoDTO<Processo> pesquisar(PesquisaProcessoDTO parametros) {
+	public ListaResultadoDTO<Processo> pesquisar(PesquisaManterProcessoDTO parametros) {
 		String nome = parametros.getNome();
 		String descricao = parametros.getDescricao();
 		Integer idWorkflow = parametros.getIdWorkflow();

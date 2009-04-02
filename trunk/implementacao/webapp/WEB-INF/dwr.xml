@@ -41,13 +41,14 @@
 		
 		<!-- Convertendo Forms e DTO -->
 		<convert match="br.com.ucb.sisgestor.util.dto.ListaResultadoDTO" converter="bean" />
-		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaAtividadeDTO" converter="bean" />
-		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaCampoDTO" converter="bean" />
-		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaDepartamentoDTO" converter="bean" />
-		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaProcessoDTO" converter="bean" />
-		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaTarefaDTO" converter="bean" />
-		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaUsuarioDTO" converter="bean" />
-		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaWorkflowDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaManterAtividadeDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaManterCampoDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaManterDepartamentoDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaManterProcessoDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaManterTarefaDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaManterUsuarioDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaManterWorkflowDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaUsarWorkflowDTO" converter="bean" />
 		
 		<!-- Convertendo Entidades -->
 		<convert match="br.com.ucb.sisgestor.entidade.Atividade"		 	converter="hibernate3" />

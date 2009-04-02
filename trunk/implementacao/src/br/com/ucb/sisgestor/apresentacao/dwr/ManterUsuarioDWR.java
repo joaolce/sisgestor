@@ -9,7 +9,7 @@ import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.PermissaoBO;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
-import br.com.ucb.sisgestor.util.dto.PesquisaUsuarioDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaManterUsuarioDTO;
 import java.util.List;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class ManterUsuarioDWR extends BaseDWR {
 	 * @param parametros parâmetros da pesquisa
 	 * @return {@link List} de {@link Usuario}
 	 */
-	public ListaResultadoDTO<Usuario> pesquisar(PesquisaUsuarioDTO parametros) {
+	public ListaResultadoDTO<Usuario> pesquisar(PesquisaManterUsuarioDTO parametros) {
 		String login = parametros.getLogin();
 		String nome = parametros.getNome();
 		Integer departamento = parametros.getDepartamento();

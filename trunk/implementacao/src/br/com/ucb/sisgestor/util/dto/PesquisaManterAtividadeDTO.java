@@ -5,12 +5,12 @@
 package br.com.ucb.sisgestor.util.dto;
 
 /**
- * DTO para pesquisas de atividade.
+ * DTO para pesquisas de manter atividade.
  * 
  * @author Thiago
  * @since 16/02/2009
  */
-public class PesquisaAtividadeDTO extends PesquisaPaginadaDTO {
+public class PesquisaManterAtividadeDTO extends PesquisaPaginadaDTO {
 
 	private Integer	idProcesso;
 	private String		nome;

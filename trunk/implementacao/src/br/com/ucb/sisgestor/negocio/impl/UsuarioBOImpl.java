@@ -11,7 +11,7 @@ import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsuarioDAO;
 import br.com.ucb.sisgestor.util.constantes.Constantes;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
-import br.com.ucb.sisgestor.util.dto.PesquisaUsuarioDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaManterUsuarioDTO;
 import java.util.List;
 import java.util.Random;
 import org.apache.commons.lang.StringUtils;
@@ -106,7 +106,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements Usuar
 	@Override
 	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
-		PesquisaUsuarioDTO dto = (PesquisaUsuarioDTO) parametros;
+		PesquisaManterUsuarioDTO dto = (PesquisaManterUsuarioDTO) parametros;
 		return this.usuarioDAO.getTotalRegistros(dto.getLogin(), dto.getNome(), dto.getDepartamento());
 	}
 

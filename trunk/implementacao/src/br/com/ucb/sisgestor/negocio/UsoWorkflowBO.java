@@ -7,7 +7,6 @@ package br.com.ucb.sisgestor.negocio;
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Usuario;
-import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import java.util.List;
 
 /**
@@ -21,8 +20,8 @@ public interface UsoWorkflowBO extends BaseBO<UsoWorkflow, Integer> {
 	/**
 	 * Recupera a lista de workflows em uso com {@link Tarefa} pendente do {@link Usuario} atual.
 	 * 
+	 * @param paginaAtual página atual da pesquisa
 	 * @return {@link List} com {@link UsoWorkflow}
-	 * @throws NegocioException caso regra de negócio seja violada
 	 */
-	List<UsoWorkflow> recuperarPendentesUsuarioAtual() throws NegocioException;
+	List<UsoWorkflow> recuperarPendentesUsuarioAtual(Integer paginaAtual);
 }
