@@ -71,7 +71,7 @@
 			<legend>
 				<bean:message key="label.dados.usuario"/>
 			</legend>
-			<div style="float: left;">
+			<div style="float: left; width: 40%;">
 				<label style="float: left;">
 					<b>
 						<bean:message key="label.login"/>

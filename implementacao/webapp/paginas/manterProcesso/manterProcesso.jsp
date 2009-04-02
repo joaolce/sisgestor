@@ -15,7 +15,7 @@
 		</htmlSGR:link>
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE PROCESSOS -->
-	<fieldset style="padding: 10px; width: 70%; margin: 5 auto;">
+	<fieldset style="float: left; padding: 10px; width: 70%; margin: 5 auto;">
 		<legend>
 			<bean:message key="label.criterioPesquisa" />
 		</legend>
@@ -57,7 +57,7 @@
 	<html:form action="/manterProcesso.do?method=atualizar" onsubmit="processo.atualizar(this); return false;" styleId="formAtualizarProcesso" style="display: none; margin-top: 10px;">
 		<html:hidden property="workflow" styleId="workflowProcesso" />
 		<html:hidden property="id" />
-		<fieldset style="padding: 10px; width: 50%; margin: 5 auto;">
+		<fieldset style="float: left; padding: 10px; width: 50%; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.processo"/>
 			</legend>
