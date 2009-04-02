@@ -12,7 +12,7 @@
 		</htmlSGR:link>
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE TAREFAS -->
-	<fieldset style="padding: 10px; width: 80%; margin: 5 auto;">
+	<fieldset style="float:left; padding: 10px; width: 80%; margin: 5 auto;">
 		<legend>
 			<bean:message key="label.criterioPesquisa" />
 		</legend>
@@ -64,7 +64,7 @@
 			  styleId="formAtualizarTarefa" style="display: none; margin-top: 10px;">
 	    <html:hidden property="atividade" styleId="atividadeTarefa" />
 		<html:hidden property="id"/>
-		<fieldset style="padding: 10px; width: 70%; margin: 5 auto;">
+		<fieldset style="float:left; padding: 10px; width: 70%; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.tarefa"/>
 			</legend>

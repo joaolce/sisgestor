@@ -15,7 +15,7 @@
 		</htmlSGR:link>
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE ATIVIDADES -->
-	<fieldset style="padding: 10px; width: 80%; margin: 5 auto;">
+	<fieldset style="float:left; padding: 10px; width: 80%; margin: 5 auto;">
 		<legend>
 			<bean:message key="label.criterioPesquisa" />
 		</legend>
@@ -66,7 +66,7 @@
 	<html:form action="/manterAtividade.do?method=atualizar" onsubmit="atividade.atualizar(this); return false;" styleId="formAtualizarAtividade" style="display: none; margin-top: 10px;">
 		<html:hidden property="processo" styleId="processoAtividade"/>
 		<html:hidden property="id"/>
-		<fieldset style="padding: 10px; width: 70%; margin: 5 auto;">
+		<fieldset style="float:left; padding: 10px; width: 70%; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.atividade"/>
 			</legend>
