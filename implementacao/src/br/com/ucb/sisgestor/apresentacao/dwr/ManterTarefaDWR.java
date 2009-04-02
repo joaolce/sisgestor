@@ -85,15 +85,4 @@ public class ManterTarefaDWR extends BaseDWR {
 	public void setTarefaBO(TarefaBO tarefaBO) {
 		this.tarefaBO = tarefaBO;
 	}
-
-	/**
-	 * Verifica se há fluxo definido para as tarefas da atividade informada.
-	 * 
-	 * @param idAtividade Código identificador da atividade
-	 * @return <code>true</code>, se houver fluxo definido;<br>
-	 *         <code>false</code>, se não houver.
-	 */
-	public boolean temFluxoDefinido(Integer idAtividade) {
-		return this.tarefaBO.temFluxoDefinido(idAtividade);
-	}
 }

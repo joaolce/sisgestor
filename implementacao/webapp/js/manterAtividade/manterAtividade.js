@@ -172,25 +172,9 @@ ManterAtividade.prototype = {
 		      var idProcesso = $F("processoAtividade");
 		      dwr.util.setValue("processoFluxo", idProcesso);
 
-		      var atividadesPosteriores;
-		      ManterAtividadeDWR.temFluxoDefinido(idProcesso, ( function(temFluxo) {
-		    	  fluxo = new DefinirFluxo();
-		    	  ManterAtividadeDWR.getByProcesso(idProcesso, ( function(listaAtividades) {
-		    		  //Gera as reprensentações
-		    		  listaAtividades.colecaoParcial.each( function(atividade) {
-				    	  fluxo.gerarRepresentacao(atividade.id, atividade.nome, atividade.left, atividade.top);
-				      });
-				      
-				      //Efetua as ligações
-		    		  listaAtividades.colecaoParcial.each( function(atividade) {
-		    			  atividadesPosteriores = atividade.transacoesPosteriores;
-				    	  if (temFluxo && (atividadesPosteriores != null) && (atividadesPosteriores.length > 0) ) {
-				    		  atividadesPosteriores.each( function(atividadePosterior){
-				    			  fluxo.ligar(atividade.id, atividadePosterior.posterior.id);
-				    		  });
-				    	  }
-				      });
-		    	  }));
+		      fluxo = new DefinirFluxo();
+		      ManterAtividadeDWR.getByProcesso(idProcesso, ( function(listaAtividades) {
+			      fluxo.defineFluxoDefinido(listaAtividades);
 		      }));
 	      }));
    },
