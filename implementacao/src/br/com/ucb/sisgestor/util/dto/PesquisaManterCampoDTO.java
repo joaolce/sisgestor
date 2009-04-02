@@ -5,12 +5,12 @@
 package br.com.ucb.sisgestor.util.dto;
 
 /**
- * DTO para pesquisa de campos.
+ * DTO para pesquisa de manter campo.
  * 
  * @author Thiago
  * @since 17/02/2009
  */
-public class PesquisaCampoDTO extends PesquisaPaginadaDTO {
+public class PesquisaManterCampoDTO extends PesquisaPaginadaDTO {
 
 	private String		nome;
 	private Integer	tipo;

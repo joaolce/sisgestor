@@ -8,7 +8,7 @@ import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.negocio.DepartamentoBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.DepartamentoDAO;
-import br.com.ucb.sisgestor.util.dto.PesquisaDepartamentoDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaManterDepartamentoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
 import org.hibernate.exception.ConstraintViolationException;
@@ -72,7 +72,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implem
 	@Override
 	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
-		PesquisaDepartamentoDTO dto = (PesquisaDepartamentoDTO) parametros;
+		PesquisaManterDepartamentoDTO dto = (PesquisaManterDepartamentoDTO) parametros;
 		return this.departamentoDAO.getTotalRegistros(dto.getSigla(), dto.getNome());
 	}
 

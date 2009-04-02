@@ -8,7 +8,7 @@ import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.entidade.TipoCampoEnum;
 import br.com.ucb.sisgestor.negocio.CampoBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
-import br.com.ucb.sisgestor.util.dto.PesquisaCampoDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaManterCampoDTO;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Hibernate;
@@ -57,7 +57,7 @@ public class ManterCampoDWR extends BaseDWR {
 	 * @param parametros parâmetros da pesquisa
 	 * @return {@link List} de {@link Campo}
 	 */
-	public ListaResultadoDTO<Campo> pesquisar(PesquisaCampoDTO parametros) {
+	public ListaResultadoDTO<Campo> pesquisar(PesquisaManterCampoDTO parametros) {
 		String nome = parametros.getNome();
 		Integer idTipo = parametros.getTipo();
 		Integer paginaAtual = parametros.getPaginaAtual();

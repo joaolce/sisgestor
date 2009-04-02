@@ -5,12 +5,12 @@
 package br.com.ucb.sisgestor.util.dto;
 
 /**
- * DTO para pesquisas de workflow.
+ * DTO para pesquisas de manter processo.
  * 
  * @author Thiago
  * @since 11/02/2009
  */
-public class PesquisaProcessoDTO extends PesquisaPaginadaDTO {
+public class PesquisaManterProcessoDTO extends PesquisaPaginadaDTO {
 
 	private String		nome;
 	private String		descricao;

@@ -5,12 +5,12 @@
 package br.com.ucb.sisgestor.util.dto;
 
 /**
- * DTO para pesquisa de departamentos.
+ * DTO para pesquisa de manter departamento.
  * 
  * @author João Lúcio
  * @since 28/01/2009
  */
-public class PesquisaDepartamentoDTO extends PesquisaPaginadaDTO {
+public class PesquisaManterDepartamentoDTO extends PesquisaPaginadaDTO {
 
 	private String	sigla;
 	private String	nome;

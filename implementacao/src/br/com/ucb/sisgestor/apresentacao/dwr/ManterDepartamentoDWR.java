@@ -7,7 +7,7 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.negocio.DepartamentoBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
-import br.com.ucb.sisgestor.util.dto.PesquisaDepartamentoDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaManterDepartamentoDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -46,7 +46,7 @@ public class ManterDepartamentoDWR extends BaseDWR {
 	 * @param parametros parâmetros da pesquisa
 	 * @return {@link List} de {@link Departamento}
 	 */
-	public ListaResultadoDTO<Departamento> pesquisar(PesquisaDepartamentoDTO parametros) {
+	public ListaResultadoDTO<Departamento> pesquisar(PesquisaManterDepartamentoDTO parametros) {
 		String sigla = parametros.getSigla();
 		String nome = parametros.getNome();
 		Integer paginaAtual = parametros.getPaginaAtual();

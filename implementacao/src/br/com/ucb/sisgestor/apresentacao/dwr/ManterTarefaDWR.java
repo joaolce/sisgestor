@@ -7,7 +7,7 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
-import br.com.ucb.sisgestor.util.dto.PesquisaTarefaDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaManterTarefaDTO;
 import java.util.List;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +58,7 @@ public class ManterTarefaDWR extends BaseDWR {
 	 * @param parametros parâmetros da pesquisa
 	 * @return {@link List} de {@link Tarefa}
 	 */
-	public ListaResultadoDTO<Tarefa> pesquisar(PesquisaTarefaDTO parametros) {
+	public ListaResultadoDTO<Tarefa> pesquisar(PesquisaManterTarefaDTO parametros) {
 		String nome = parametros.getNome();
 		String descricao = parametros.getDescricao();
 		Integer usuario = parametros.getUsuario();

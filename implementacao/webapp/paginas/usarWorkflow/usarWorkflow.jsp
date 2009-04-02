@@ -3,51 +3,9 @@
 <%@ taglib uri="http://www.ucb.br/sisgestor/taglib" prefix="htmlSGR" %>
 
 <script type="text/javascript" src="dwr/interface/UsarWorkflowDWR.js"></script>
-
 <script type="text/javascript" src="js/usarWorkflow/usarWorkflow.js"></script>
 
-
 <div class="bordas" id="BordaExterna">
-	<!-- FIELDSET PARA PESQUISA DE Workflow -->
-	<fieldset style="padding: 10px; width: 70%; margin: 5 auto;">
-		<legend>
-			<bean:message key="label.criterioPesquisa" />
-		</legend>
-		<html:form action="/usarWorkflow.do" onsubmit="workflow.pesquisar(); return false;" styleId="manterWorkflowForm">
-			<div style="float: left;">
-				<label style="float: left;">
-					<bean:message key="label.nome" />
-					<br />
-					<input type="text" name="nomePesquisaWorkflow" id="nomePesquisaWorkflow" size="51" maxlength="100" />
-				</label>
-				<label style="float: left; margin-left: 20px;">
-					<bean:message key="label.descricao" />
-					<br />
-					<input type="text" name="descricaoPesquisaWorkflow" id="descricaoPesquisaWorkflow" size="51" maxlength="200" />
-				</label>
-				<label style="float: left; margin-left: 20px;">
-					<bean:message key="label.ativo" />
-					<br />
-					<select name="ativoPesquisaWorkflow" id="ativoPesquisaWorkflow">
-						<option value="">
-							<bean:message key="label.todos" />
-						</option>
-						<option value="true">
-							<bean:message key="label.sim" />
-						</option>
-						<option value="false">
-							<bean:message key="label.nao" />
-						</option>
-					</select>
-				</label>
-			</div>
-			<div style="padding-top: 14px; clear: both;">
-				<html:submit styleClass="botaoOkCancelar">
-					<bean:message key="botao.pesquisar" />
-				</html:submit>
-			</div>
-		</html:form>
-	</fieldset>
 
 	<div id="divWorkflows" style="clear: left; height: 240px; overflow: auto; border: 1px solid gray; margin-top: 10px;">
 		<table style="width: 99.9%">

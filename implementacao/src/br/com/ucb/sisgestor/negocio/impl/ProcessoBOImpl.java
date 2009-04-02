@@ -14,7 +14,7 @@ import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.ProcessoDAO;
 import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
-import br.com.ucb.sisgestor.util.dto.PesquisaProcessoDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaManterProcessoDTO;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -122,7 +122,7 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo, Integer> implem
 	@Override
 	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
-		PesquisaProcessoDTO dto = (PesquisaProcessoDTO) parametros;
+		PesquisaManterProcessoDTO dto = (PesquisaManterProcessoDTO) parametros;
 		return this.processoDAO.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getIdWorkflow());
 	}
 

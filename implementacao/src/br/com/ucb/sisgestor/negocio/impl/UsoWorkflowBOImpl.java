@@ -9,6 +9,7 @@ import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
 import br.com.ucb.sisgestor.util.Utils;
+import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,14 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
+	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
+		return this.usoWorkflowDAO.getTotalRegistros(Utils.getUsuario());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Transactional(readOnly = true)
 	public UsoWorkflow obter(Integer pk) {
 		return null;
@@ -62,8 +71,8 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	 * {@inheritDoc}
 	 */
 	@Transactional(readOnly = true)
-	public List<UsoWorkflow> recuperarPendentesUsuarioAtual() throws NegocioException {
-		return this.usoWorkflowDAO.recuperarPendentesUsuario(Utils.getUsuario());
+	public List<UsoWorkflow> recuperarPendentesUsuarioAtual(Integer paginaAtual) {
+		return this.usoWorkflowDAO.recuperarPendentesUsuario(Utils.getUsuario(), paginaAtual);
 	}
 
 	/**

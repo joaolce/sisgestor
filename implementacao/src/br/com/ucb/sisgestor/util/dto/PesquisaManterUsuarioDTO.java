@@ -5,12 +5,12 @@
 package br.com.ucb.sisgestor.util.dto;
 
 /**
- * DTO para pesquisas de usuários.
+ * DTO para pesquisas de manter usuário.
  * 
  * @author João Lúcio
  * @since 28/01/2009
  */
-public class PesquisaUsuarioDTO extends PesquisaPaginadaDTO {
+public class PesquisaManterUsuarioDTO extends PesquisaPaginadaDTO {
 
 	private String		login;
 	private String		nome;

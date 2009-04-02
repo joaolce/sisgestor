@@ -4,10 +4,10 @@
  */
 package br.com.ucb.sisgestor.apresentacao.dwr;
 
-import br.com.ucb.sisgestor.entidade.Workflow;
-import br.com.ucb.sisgestor.negocio.WorkflowBO;
+import br.com.ucb.sisgestor.entidade.UsoWorkflow;
+import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
-import br.com.ucb.sisgestor.util.dto.PesquisaWorkflowDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaUsarWorkflowDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,48 +19,33 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class UsarWorkflowDWR extends BaseDWR {
 
-	private WorkflowBO workflowBO;
-
-	/**
-	 * Pesquisa o {@link Workflow} pelo id.
-	 * 
-	 * @param id identificador do workflow
-	 * @return workflow encontrado
-	 */
-	public Workflow getById(Integer id) {
-		return this.workflowBO.obter(id);
-	}
+	private UsoWorkflowBO	usoWorkflowBO;
 
 	/**
 	 * Pesquisa os workflows com os parâmetros preenchidos.
 	 * 
 	 * @param parametros parâmetros da pesquisa
-	 * @return {@link List} de {@link Workflow}
+	 * @return {@link List} de {@link UsoWorkflow}
 	 */
-	public ListaResultadoDTO<Workflow> pesquisar(PesquisaWorkflowDTO parametros) {
-		String nome = parametros.getNome();
-		String descricao = parametros.getDescricao();
-		Boolean ativo = parametros.getAtivo();
-		Boolean excluidos = parametros.getExcluidos();
+	public ListaResultadoDTO<UsoWorkflow> pesquisar(PesquisaUsarWorkflowDTO parametros) {
 		Integer paginaAtual = parametros.getPaginaAtual();
 
-		List<Workflow> lista =
-				this.workflowBO.getByNomeDescricaoAtivo(nome, descricao, ativo, excluidos, paginaAtual);
+		List<UsoWorkflow> lista = this.usoWorkflowBO.recuperarPendentesUsuarioAtual(paginaAtual);
 
-		ListaResultadoDTO<Workflow> resultado = new ListaResultadoDTO<Workflow>();
+		ListaResultadoDTO<UsoWorkflow> resultado = new ListaResultadoDTO<UsoWorkflow>();
 		resultado.setColecaoParcial(lista);
 
-		this.setTotalPesquisa(parametros, resultado, this.workflowBO);
+		this.setTotalPesquisa(parametros, resultado, this.usoWorkflowBO);
 		return resultado;
 	}
 
 	/**
-	 * Atribui o BO de {@link Workflow}.
+	 * Atribui o BO de {@link UsoWorkflowBO}.
 	 * 
-	 * @param workflowBO BO de {@link Workflow}
+	 * @param usoWorkflowBO BO de {@link UsoWorkflowBO}
 	 */
 	@Autowired
-	public void setWorkflowBO(WorkflowBO workflowBO) {
-		this.workflowBO = workflowBO;
+	public void setUsoWorkflowBO(UsoWorkflowBO usoWorkflowBO) {
+		this.usoWorkflowBO = usoWorkflowBO;
 	}
 }

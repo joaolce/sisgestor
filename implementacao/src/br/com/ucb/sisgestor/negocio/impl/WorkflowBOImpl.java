@@ -17,7 +17,7 @@ import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.WorkflowDAO;
 import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
-import br.com.ucb.sisgestor.util.dto.PesquisaWorkflowDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaManterWorkflowDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,7 +80,7 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	@Override
 	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
-		PesquisaWorkflowDTO dto = (PesquisaWorkflowDTO) parametros;
+		PesquisaManterWorkflowDTO dto = (PesquisaManterWorkflowDTO) parametros;
 		return this.workflowDAO.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getAtivo(), dto
 				.getExcluidos());
 	}

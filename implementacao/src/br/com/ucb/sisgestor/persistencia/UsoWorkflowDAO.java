@@ -18,10 +18,19 @@ public interface UsoWorkflowDAO extends BaseDAO<UsoWorkflow, Integer> {
 
 
 	/**
+	 * Recupera o total de registros retornados pela consulta. <br />
+	 * 
+	 * @param usuario usuário com tarefas pendentes
+	 * @return total de registros encontrados
+	 */
+	Integer getTotalRegistros(Usuario usuario);
+
+	/**
 	 * Recupera todos os workflows que estão sendo usados, dependendo de tarefa do usuário.
 	 * 
 	 * @param usuario usuário com tarefas pendentes
+	 * @param paginaAtual página atual da pesquisa
 	 * @return {@link List} de {@link UsoWorkflow}
 	 */
-	List<UsoWorkflow> recuperarPendentesUsuario(Usuario usuario);
+	List<UsoWorkflow> recuperarPendentesUsuario(Usuario usuario, Integer paginaAtual);
 }

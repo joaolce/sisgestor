@@ -75,20 +75,13 @@ UsarWorkflow.prototype = {
 	 */
    pesquisar : function() {
 	   Effect.Fade("formAtualizarWorkflow");
-	   var dto = {
-	      nome :dwr.util.getValue("nomePesquisaWorkflow"),
-	      descricao :dwr.util.getValue("descricaoPesquisaWorkflow"),
-	      ativo :dwr.util.getValue("ativoPesquisaWorkflow"),
-	      excluidos :false
-	   };
-
 	   if (this.tabelaTelaPrincipal == null) {
 		   var chamadaRemota = UsarWorkflowDWR.pesquisar.bind(UsarWorkflowDWR);
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
 		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
 		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA);
 	   }
-	   this.tabelaTelaPrincipal.setParametros(dto);
+	   this.tabelaTelaPrincipal.setParametros({});
 	   this.tabelaTelaPrincipal.executarChamadaRemota();
    },
 
