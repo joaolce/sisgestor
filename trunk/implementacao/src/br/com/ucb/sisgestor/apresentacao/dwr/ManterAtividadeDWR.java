@@ -85,15 +85,4 @@ public class ManterAtividadeDWR extends BaseDWR {
 	public void setAtividadeBO(AtividadeBO atividadeBO) {
 		this.atividadeBO = atividadeBO;
 	}
-
-	/**
-	 * Verifica se há fluxo definido para as atividades do processo informado.
-	 * 
-	 * @param idProcesso Código identificador do processo
-	 * @return <code>true</code>, se houver fluxo definido;<br>
-	 *         <code>false</code>, se não houver.
-	 */
-	public boolean temFluxoDefinido(Integer idProcesso) {
-		return this.atividadeBO.temFluxoDefinido(idProcesso);
-	}
 }
