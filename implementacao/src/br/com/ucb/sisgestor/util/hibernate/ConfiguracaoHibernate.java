@@ -5,8 +5,10 @@
 package br.com.ucb.sisgestor.util.hibernate;
 
 import java.util.Properties;
+import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.dialect.MySQL5InnoDBDialect;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.hibernate.transaction.JBossTransactionManagerLookup;
 import org.hibernate.transaction.JTATransactionFactory;
 
@@ -31,6 +33,25 @@ public final class ConfiguracaoHibernate {
 		propriedades.put(Environment.TRANSACTION_MANAGER_STRATEGY, JBossTransactionManagerLookup.class
 				.getName());
 		propriedades.put(Environment.USER_TRANSACTION, "java:comp/UserTransaction");
+	}
+
+	/**
+	 * Gera a DDL do banco de dados.
+	 */
+	public static void gerarDDL() {
+		AnnotationConfiguration cfg = new AnnotationConfiguration();
+		for (Class<?> obj : ClassesAnotadas.getClassesAnotadas()) {
+			cfg.addAnnotatedClass(obj);
+		}
+		cfg.setProperties(propriedades);
+		cfg.setProperty(Environment.DATASOURCE, "java:/SisGestorDB");
+
+		SchemaExport export = new SchemaExport(cfg);
+		export.setOutputFile(".\\sisgestor-DDL.sql");
+		export.setDelimiter(";");
+		export.setFormat(true);
+		export.drop(false, true);
+		export.create(false, true);
 	}
 
 	/**
