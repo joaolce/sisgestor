@@ -21,14 +21,14 @@ GraficoFluxo.prototype = {
 	 * Distância entre o ponto destino(fim da seta) e o segmento de reta que define a seta
 	 * 
 	 * Obs.: Chamado de 'd' nos cálculos
-	 * */
+	 */
 	distanciaSeta: 10,
 
 	/**
 	 *  Ângulo da seta, em graus 
 	 * 
 	 * Obs.: Chamado de 'alfa' nos cálculos
-	 * */
+	 */
 	anguloSeta: 45,
 	
 	/**
@@ -221,7 +221,7 @@ GraficoFluxo.prototype = {
 		} else {
 			/* 
 			 * Casos:
-			 * 	   _        _            
+			 * 	 _        _            
 			 * 1)  /|   2) |\     3)   /   4) \  
 			 *    /          \       |/_      _\| 
 			 * 
@@ -264,7 +264,7 @@ GraficoFluxo.prototype = {
 				 * Tem o objetivo de deixar o ângulo sempre positivo, ou seja,
 				 * é o módulo de matemática /expressao/ 
 				 */ 
-				anguloZ = anguloZ * (-1);
+				anguloZ *= (-1);
 			}
 			
 			setX1 = this.getValorXSeta(xD, anguloZ, soma);
@@ -323,7 +323,7 @@ GraficoFluxo.prototype = {
 		 * 
 		 * Sendo que a equação da reta pode ser obtida pelo cálculo do determinante:
 		 * 
-		 *  |            |
+		 * |            |
 		 *	| Ax  Ay  1  |
 		 *	|            |
 		 *	| Bx  By  1  | = 0
@@ -478,7 +478,7 @@ GraficoFluxo.prototype = {
 		 * 
 		 * Sendo que a equação da reta pode ser obtida pelo cálculo do determinante:
 		 * 
-		 *  |            |
+		 * |            |
 		 *	| Ax  Ay  1  |
 		 *	|            |
 		 *	| Bx  By  1  | = 0
@@ -549,11 +549,11 @@ GraficoFluxo.prototype = {
 		var deltaX = destinoX - origemX;
 		
 		if (deltaY < 0) {
-			deltaY = deltaY * (-1);
+			deltaY *= (-1);
 		}
 		
 		if (deltaX < 0) {
-			deltaX = deltaX * (-1);
+			deltaX *= (-1);
 		}
 		
 		return Math.atan(deltaY / deltaX);
