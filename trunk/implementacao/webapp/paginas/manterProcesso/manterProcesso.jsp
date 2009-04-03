@@ -15,7 +15,7 @@
 		</htmlSGR:link>
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE PROCESSOS -->
-	<fieldset style="float: left; padding: 10px; width: 70%; margin: 5 auto;">
+	<fieldset style="float: left; padding: 10px; width: 70%; margin: 5 auto; margin-bottom: 10px;">
 		<legend>
 			<bean:message key="label.criterioPesquisa" />
 		</legend>

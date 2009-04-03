@@ -12,7 +12,7 @@
 		</htmlSGR:link>
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE TAREFAS -->
-	<fieldset style="float:left; padding: 10px; width: 80%; margin: 5 auto;">
+	<fieldset style="float:left; padding: 10px; width: 80%; margin: 5 auto; margin-bottom: 10px;">
 		<legend>
 			<bean:message key="label.criterioPesquisa" />
 		</legend>
