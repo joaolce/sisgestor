@@ -1001,9 +1001,17 @@ text both horizontally (e.g. right) and vertically within that rectangle */
 	{
 		if(cnv)
 		{
-			if(typeof(cnv) == "string"){this.cont = document.all? (this.wnd.document.all[cnv] || null)
-				: document.getElementById? (this.wnd.document.getElementById(cnv) || null)
-				: null;}else if(cnv == window.document){this.cont = document.getElementsByTagName("body")[0];} else {this.cont = cnv;}
+			if(typeof(cnv) == "string"){
+				this.cont = $(cnv);
+				// Correção feita por causa do IE - não sabemos o pq
+				// this.cont = document.all? (this.wnd.document.all[cnv] || null)
+				//	: document.getElementById? (this.wnd.document.getElementById(cnv) || null)
+				//	: null;
+			} else if(cnv == window.document) {
+				this.cont = document.getElementsByTagName("body")[0];
+			} else {
+				this.cont = cnv;
+			}
 			// Create new canvas inside container DIV. Thus the drawing and clearing
 			// methods won't interfere with the container's inner html.
 			// Solution suggested by Vladimir.
