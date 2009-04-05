@@ -4,6 +4,8 @@
  */
 package br.com.ucb.sisgestor.entidade;
 
+import br.com.ucb.sisgestor.util.DataUtil;
+import br.com.ucb.sisgestor.util.Utils;
 import java.sql.Timestamp;
 import java.util.List;
 import javax.persistence.AttributeOverride;
@@ -13,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.Transient;
 import org.hibernate.annotations.ForeignKey;
 
 /**
@@ -73,6 +76,23 @@ public class UsoWorkflow extends ObjetoPersistente {
 	@OrderBy("dataHora DESC")
 	public List<HistoricoUsoWorkflow> getHistorico() {
 		return this.historico;
+	}
+
+	/**
+	 * Recupera o número do registro formatado
+	 * 
+	 * @return número do registro no formato &lt;ano&gt;/&lt;registro&gt;
+	 */
+	@Transient
+	public String getNumeroRegistro() {
+		if (this.historico != null) {
+			//Recupera o primeiro registo do histórico pois é inicialização do workflow
+			HistoricoUsoWorkflow usoWorkflow = this.historico.get(this.historico.size() - 1);
+			Integer ano = DataUtil.getAno(usoWorkflow.getDataHora());
+			String registro = Utils.completaComZero(String.valueOf(this.getId()), 6);
+			return ano + "/" + registro;
+		}
+		return "";
 	}
 
 	/**

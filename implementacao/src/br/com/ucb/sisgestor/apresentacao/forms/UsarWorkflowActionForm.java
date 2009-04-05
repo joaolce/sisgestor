@@ -5,6 +5,8 @@
 package br.com.ucb.sisgestor.apresentacao.forms;
 
 import br.com.ucb.sisgestor.apresentacao.actions.UsarWorkflowAction;
+import br.com.ucb.sisgestor.entidade.Workflow;
+import java.util.List;
 
 /**
  * Form para a action {@link UsarWorkflowAction}.
@@ -14,9 +16,11 @@ import br.com.ucb.sisgestor.apresentacao.actions.UsarWorkflowAction;
  */
 public class UsarWorkflowActionForm extends BaseForm {
 
-	private Boolean ativo;
-	private String descricao;
-	private String nome;
+	private Boolean			ativo;
+	private String				descricao;
+	private String				nome;
+	private List<Workflow>	listaWorkflows;
+	private Integer			workflow;
 
 	/**
 	 * Recupera o indicador de ativo do workflow.
@@ -37,12 +41,30 @@ public class UsarWorkflowActionForm extends BaseForm {
 	}
 
 	/**
+	 * Recupera a lista de workflows disponíveis para serem iniciados
+	 * 
+	 * @return lista de workflows
+	 */
+	public List<Workflow> getListaWorkflows() {
+		return this.listaWorkflows;
+	}
+
+	/**
 	 * Recupera o nome do workflow.
 	 * 
 	 * @return nome do workflow
 	 */
 	public String getNome() {
 		return this.nome;
+	}
+
+	/**
+	 * Recupera o workflow selecionado
+	 * 
+	 * @return workflow selecionado
+	 */
+	public Integer getWorkflow() {
+		return this.workflow;
 	}
 
 	/**
@@ -63,6 +85,17 @@ public class UsarWorkflowActionForm extends BaseForm {
 		this.descricao = descricao;
 	}
 
+
+	/**
+	 * Atribui a lista de workflows
+	 * 
+	 * @param listaWorkflows {@link List} de {@link Workflow}
+	 */
+	public void setListaWorkflows(List<Workflow> listaWorkflows) {
+		this.listaWorkflows = listaWorkflows;
+	}
+
+
 	/**
 	 * Atribui o nome do workflow.
 	 * 
@@ -70,5 +103,15 @@ public class UsarWorkflowActionForm extends BaseForm {
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+
+	/**
+	 * Atribui o workflow a ser iniciado
+	 * 
+	 * @param workflow workflow a ser iniciado
+	 */
+	public void setWorkflow(Integer workflow) {
+		this.workflow = workflow;
 	}
 }

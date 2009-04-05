@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.persistencia.impl;
 
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Usuario;
+import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
 import java.util.List;
@@ -43,9 +44,17 @@ public class UsoWorkflowDAOImpl extends BaseDAOImpl<UsoWorkflow, Integer> implem
 	/**
 	 * {@inheritDoc}
 	 */
+	public List<Workflow> recuperarPendentesIniciar(Usuario usuario) {
+		//TODO Implemetar query para recupera os pendentes de serem inicializados
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<UsoWorkflow> recuperarPendentesUsuario(Usuario usuario, Integer paginaAtual) {
 		Criteria criteria = this.montarCriteriosPaginacao(usuario);
-		this.adicionarPaginacao(criteria, paginaAtual, QTD_REGISTROS_PAGINA);
+		this.adicionarPaginacao(criteria, paginaAtual, UsoWorkflowDAO.QTD_REGISTROS_PAGINA);
 		criteria.addOrder(Order.asc("dataHoraInicio"));
 		return GenericsUtil.checkedList(criteria.list(), UsoWorkflow.class);
 	}

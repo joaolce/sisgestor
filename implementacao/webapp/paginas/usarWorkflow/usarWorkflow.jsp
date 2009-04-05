@@ -6,69 +6,31 @@
 <script type="text/javascript" src="js/usarWorkflow/usarWorkflow.js"></script>
 
 <div class="bordas" id="BordaExterna">
-
-	<div id="divWorkflows" style="clear: left; height: 240px; overflow: auto; border: 1px solid gray; margin-top: 10px;">
+	<div id="divMenuOpcoes">
+		<htmlSGR:link href="#iniciarWorkflow" titleKey="dica.workflow.iniciar" onclick="usarWorkflow.popupIniciarWorkflow();" linkName="iniciarWorkflow" roles="5">
+			<html:img srcKey="imagem.iniciarWorkflow" width="20" height="19" />
+		</htmlSGR:link>
+	</div>
+	<div id="divWorkflows" style="clear: left; height: 420px; overflow: auto; border: 1px solid gray; margin-top: 50px;">
 		<table style="width: 99.9%">
 			<thead>
 				<tr>
 					<th style="display: none;">&nbsp;</th>
-					<th><bean:message key="label.nome" /></th>
-					<th><bean:message key="label.descricao" /></th>
-					<th><bean:message key="label.ativo" /></th>
+					<th width="10%"><bean:message key="label.registro" /></th>
+					<th><bean:message key="label.workflow" /></th>
+					<th><bean:message key="label.processo" /></th>
+					<th><bean:message key="label.atividade" /></th>
+					<th><bean:message key="label.tarefa" /></th>
+					<th width="15%"><bean:message key="label.dataInicio" /></th>
 				</tr>
 			</thead>
 			<tbody id="corpoUsarWorkflow" class="corpoTabelaClicavel"/>
 		</table>
 	</div>
 	
-	<!-- FIELDSET PARA DADOS DO WORKFLOW -->
-	<html:form action="/usarWorkflow.do?method=atualizar" onsubmit="workflow.atualizar(this); return false;" styleId="formAtualizarWorkflow" style="display: none; margin-top: 10px;">
-		<html:hidden property="id"/>
-		<fieldset style="padding: 10px; width: 50%; margin: 5 auto;">
-			<legend>
-				<bean:message key="label.dados.workflow"/>
-			</legend>
-			<div style="float: left;">
-				<div style="float: left;">
-					<label style="float: left;">
-						<b>
-							<bean:message key="label.nome"/>
-							<span class="obrigatorio">*</span>
-						</b>
-						<html:text property="nome" styleId="nomeWorkflow" size="51" maxlength="100" />
-					</label> 
-					<label style="float: left; margin-left: 10px;">
-						<b>
-							<bean:message key="label.ativo"/>
-							<span class="obrigatorio">*</span>
-						</b>
-						<html:select property="ativo" styleId="ativoWorkflow">
-							<html:option value="0" key="label.nao" />
-							<html:option value="1" key="label.sim" />
-						</html:select>
-					</label> 
-				</div>
-				<br />
-				<label style="float: left; margin-top: 3px;">
-					<b style="vertical-align: top;">
-						<bean:message key="label.descricao" />
-						<span class="obrigatorio">*</span>
-					</b>
-					<html:textarea property="descricao" styleId="descricaoWorkflow" rows="4" cols="50" onkeypress="workflow.contaChar(false);" onkeydown="workflow.contaChar(false);" onkeyup="workflow.contaChar(false);" />
-					<br />
-					<bean:message key="label.maximoCaracteres" arg0="200"/>:
-					<span id="contagemWorkflow" style="color: red;"></span>
-				</label> 
-				<br />
-			</div>
-			<div style="clear: both; padding: 5px;" align="center" id="divBotoes">
-				<htmlSGR:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar" roles="4">
-					<bean:message key="botao.atualizar"/>
-				</htmlSGR:submit>
-				<htmlSGR:button property="excluir" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="workflow.excluir();" roles="4">
-					<bean:message key="botao.excluir"/>
-				</htmlSGR:button>
-			</div>
-		</fieldset>
-	</html:form>
+	<div class="bordas" style="margin-top: 10px; height: 30px; text-align: center; padding: 10px;">
+		<label>
+			<bean:message key="mensagem.acessoTarefa" />
+		</label>
+	</div>
 </div>
