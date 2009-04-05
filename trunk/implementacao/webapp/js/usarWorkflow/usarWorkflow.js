@@ -23,6 +23,14 @@ UsarWorkflow.prototype = {
 	 * @constructor
 	 */
    initialize : function() {},
+   
+   /**
+    * Inicia o workflow selecionado no combo 
+    */
+   popupIniciarWorkflow : function(){
+	   var url = "usarWorkflow.do?method=popupIniciarWorkflow";
+	   createWindow(285, 375, 280, 40, "Iniciar Workflow", "divIniciarWorkflow", url);
+   },
 
    /**
 	 * Retorna a tabela da tela inicial do caso de uso.
@@ -52,72 +60,61 @@ UsarWorkflow.prototype = {
    },
 
    /**
-	 * Preenche os campos do workflow selecionado.
-	 */
-   visualizar : function() {
-	   Element.hide("formAtualizarWorkflow");
-	   var idWorkflow = this.getIdSelecionado();
-	   if (isNaN(idWorkflow)) {
-		   return;
-	   }
-	   UsarWorkflowDWR.getById(idWorkflow, ( function(workflow) {
-		   Effect.Appear("formAtualizarWorkflow");
-		   dwr.util.setValue($("formAtualizarWorkflow").id, idWorkflow);
-		   dwr.util.setValue("nomeWorkflow", workflow.nome);
-		   dwr.util.setValue("descricaoWorkflow", workflow.descricao);
-		   dwr.util.setValue("ativoWorkflow", workflow.ativo);
-		   this.contaChar(false);
-	   }).bind(this));
-   },
-
-   /**
 	 * Faz a pesquisa dos workflows pelos parâmetros informados.
 	 */
    pesquisar : function() {
-	   Effect.Fade("formAtualizarWorkflow");
 	   if (this.tabelaTelaPrincipal == null) {
 		   var chamadaRemota = UsarWorkflowDWR.pesquisar.bind(UsarWorkflowDWR);
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
 		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
-		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA);
+		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA_USO_WORKFLOW);
 	   }
 	   this.tabelaTelaPrincipal.setParametros({});
 	   this.tabelaTelaPrincipal.executarChamadaRemota();
    },
 
    /**
-	 * Popula a tabela principal com a lista de workflows.
+	 * Popula a tabela principal com a lista de uso de workflows.
 	 * 
-	 * @param listaWorkflow lista de workflows retornados
+	 * @param listaUsoWorkflow lista de uso de workflows retornados
 	 */
-   popularTabela : function(listaWorkflow) {
+   popularTabela : function(listaUsoWorkflow) {
 	   this.tabelaTelaPrincipal.removerResultado();
 
-	   if (listaWorkflow.length != 0) {
+	   if (listaUsoWorkflow.length != 0) {
 		   var cellfuncs = new Array();
-		   cellfuncs.push( function(workflow) {
+		   cellfuncs.push( function(usoWorkflow) {
 			   return Builder.node("input", {
 			      type :"hidden",
 			      name :"id",
-			      value :workflow.id
+			      value :usoWorkflow.id
 			   });
 		   });
-		   cellfuncs.push( function(workflow) {
-			   return workflow.nome;
+		   cellfuncs.push( function(usoWorkflow) {
+			   return usoWorkflow.numeroRegistro;
 		   });
-		   cellfuncs.push( function(workflow) {
-			   return workflow.descricao;
+		   cellfuncs.push( function(usoWorkflow) {
+			   return usoWorkflow.tarefa.atividade.processo.workflow.nome;
 		   });
-		   cellfuncs.push( function(workflow) {
-			   if (workflow.ativo) {
-				   return "Sim";
+		   cellfuncs.push( function(usoWorkflow) {
+			   return usoWorkflow.tarefa.atividade.processo.nome;
+		   });
+		   cellfuncs.push( function(usoWorkflow) {
+			   return usoWorkflow.tarefa.atividade.nome;
+		   });
+		   cellfuncs.push( function(usoWorkflow) {
+			   return usoWorkflow.tarefa.nome;
+		   });
+		   cellfuncs.push( function(usoWorkflow) {
+			   if (usoWorkflow.dataHoraInicio != null) {
+				   return getStringTimestamp(usoWorkflow.dataHoraInicio);
 			   }
-			   return "Não";
+			   return "&nbsp;";
 		   });
 		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
-		   this.tabelaTelaPrincipal.setOnClick(this.visualizar.bind(this));
+		   this.tabelaTelaPrincipal.setOnDblClick(function(){alert('Implemente-me');});
 	   } else {
-		   this.tabelaTelaPrincipal.semRegistros("Não foram encontrados workflows");
+		   this.tabelaTelaPrincipal.semRegistros("Não foram encontradas tarefas pendentes de sua responsabilidade");
 	   }
    }
 };

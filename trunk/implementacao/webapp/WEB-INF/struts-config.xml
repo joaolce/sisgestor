@@ -82,6 +82,7 @@
 			scope="request"
 			parameter="method">
 			<forward name="entrada" path="definicaoUsarWorkflow" />
+			<forward name="popupIniciarWorkflow" path="popupIniciarWorkflow" />
 		</action>
 		
 		<!-- Manter Processo -->

@@ -6,6 +6,7 @@ import br.com.ucb.sisgestor.persistencia.BaseDAO;
 import br.com.ucb.sisgestor.persistencia.CampoDAO;
 import br.com.ucb.sisgestor.persistencia.ProcessoDAO;
 import br.com.ucb.sisgestor.persistencia.TarefaDAO;
+import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
 import br.com.ucb.sisgestor.util.constantes.ConstantesRoles;
 import java.io.IOException;
 import java.util.HashMap;
@@ -38,6 +39,7 @@ public class ConstantesJSServlet extends HttpServlet {
 		constantes.put("QTD_REGISTROS_PAGINA_PROCESSO", ProcessoDAO.QTD_REGISTROS_PAGINA);
 		constantes.put("QTD_REGISTROS_PAGINA_ATIVIDADE", AtividadeDAO.QTD_REGISTROS_PAGINA);
 		constantes.put("QTD_REGISTROS_PAGINA_TAREFA", TarefaDAO.QTD_REGISTROS_PAGINA);
+		constantes.put("QTD_REGISTROS_PAGINA_USO_WORKFLOW", UsoWorkflowDAO.QTD_REGISTROS_PAGINA);
 		constantes.put("LISTA_DE_OPCOES", TipoCampoEnum.LISTA_DE_OPCOES.getId());
 		constantes.put("MULTIPLA_ESCOLHA", TipoCampoEnum.MULTIPLA_ESCOLHA.getId());
 	}

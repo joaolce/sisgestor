@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.persistencia;
 
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Usuario;
+import br.com.ucb.sisgestor.entidade.Workflow;
 import java.util.List;
 
 /**
@@ -16,6 +17,8 @@ import java.util.List;
  */
 public interface UsoWorkflowDAO extends BaseDAO<UsoWorkflow, Integer> {
 
+	/** Quantidade de registros por paginação */
+	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(17);
 
 	/**
 	 * Recupera o total de registros retornados pela consulta. <br />
@@ -24,6 +27,14 @@ public interface UsoWorkflowDAO extends BaseDAO<UsoWorkflow, Integer> {
 	 * @return total de registros encontrados
 	 */
 	Integer getTotalRegistros(Usuario usuario);
+
+	/**
+	 * Recupera uma lista de workflows pendentes de serem inicializados pelo usuário logado.
+	 * 
+	 * @param usuario Usuário responsável por iniciar workflow
+	 * @return {@link List} com {@link UsoWorkflow}
+	 */
+	List<Workflow> recuperarPendentesIniciar(Usuario usuario);
 
 	/**
 	 * Recupera todos os workflows que estão sendo usados, dependendo de tarefa do usuário.
