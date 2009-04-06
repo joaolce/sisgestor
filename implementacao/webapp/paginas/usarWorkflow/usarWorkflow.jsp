@@ -28,7 +28,7 @@
 		</table>
 	</div>
 	
-	<div class="bordas" style="margin-top: 10px; height: 30px; text-align: center; padding: 10px;">
+	<div class="bordas" style="margin-top: 10px; height: 25px; text-align: center; padding: 10px;">
 		<label>
 			<bean:message key="mensagem.acessoTarefa" />
 		</label>

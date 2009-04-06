@@ -7,6 +7,7 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 import br.com.ucb.sisgestor.apresentacao.forms.UsarWorkflowActionForm;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
+import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -23,16 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UsarWorkflowAction extends BaseAction {
 
 	private UsoWorkflowBO	usoWorkflowBO;
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ActionForward entrada(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-
-		return this.findForward(FWD_ENTRADA);
-	}
+	private WorkflowBO		workflowBO;
 
 	/**
 	 * Abre popup para iniciar um workflow
@@ -49,7 +41,7 @@ public class UsarWorkflowAction extends BaseAction {
 
 		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
 
-		//		form.setListaWorkflows();
+		form.setListaWorkflows(this.workflowBO.recuperarPendentesIniciar());
 
 		return this.findForward("popupIniciarWorkflow");
 	}
@@ -62,5 +54,15 @@ public class UsarWorkflowAction extends BaseAction {
 	@Autowired
 	public void setUsoWorkflowBO(UsoWorkflowBO usoWorkflowBO) {
 		this.usoWorkflowBO = usoWorkflowBO;
+	}
+
+	/**
+	 * Atribui o BO de {@link Workflow}.
+	 * 
+	 * @param workflowBO BO de {@link Workflow}
+	 */
+	@Autowired
+	public void setWorkflowBO(WorkflowBO workflowBO) {
+		this.workflowBO = workflowBO;
 	}
 }

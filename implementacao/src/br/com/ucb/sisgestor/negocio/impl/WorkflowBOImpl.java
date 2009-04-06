@@ -16,8 +16,9 @@ import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.WorkflowDAO;
 import br.com.ucb.sisgestor.util.DataUtil;
-import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
+import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.dto.PesquisaManterWorkflowDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -99,6 +100,14 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow, Integer> implements Wor
 	@Transactional(readOnly = true)
 	public List<Workflow> obterTodos() {
 		return this.workflowDAO.obterTodos();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(readOnly = true)
+	public List<Workflow> recuperarPendentesIniciar() {
+		return this.workflowDAO.recuperarPendentesIniciar(Utils.getUsuario());
 	}
 
 	/**

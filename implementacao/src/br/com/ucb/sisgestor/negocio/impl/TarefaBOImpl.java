@@ -8,12 +8,13 @@ import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
 import br.com.ucb.sisgestor.entidade.Workflow;
+import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
-import br.com.ucb.sisgestor.persistencia.AtividadeDAO;
 import br.com.ucb.sisgestor.persistencia.TarefaDAO;
-import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
+import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.dto.PesquisaManterTarefaDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +33,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("tarefaBO")
 public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa, Integer> implements TarefaBO {
 
+	private AtividadeBO	atividadeBO;
 	private TarefaDAO		tarefaDAO;
-	private AtividadeDAO	atividadeDAO;
 
 	/**
 	 * {@inheritDoc}
@@ -50,7 +51,7 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa, Integer> implements
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizarTransacoes(Integer idAtividade, String[] fluxos, String[] posicoes)
 			throws NegocioException {
-		Workflow workflow = this.atividadeDAO.obter(idAtividade).getProcesso().getWorkflow();
+		Workflow workflow = this.getAtividadeBO().obter(idAtividade).getProcesso().getWorkflow();
 		this.validarSePodeAlterarWorkflow(workflow);
 
 		List<TransacaoTarefa> transacoes = this.getTransacoes(fluxos);
@@ -142,19 +143,9 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa, Integer> implements
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void salvar(Tarefa tarefa) throws NegocioException {
-		Atividade atividade = this.atividadeDAO.obter(tarefa.getAtividade().getId());
+		Atividade atividade = this.getAtividadeBO().obter(tarefa.getAtividade().getId());
 		this.validarSePodeAlterarWorkflow(atividade.getProcesso().getWorkflow());
 		this.tarefaDAO.salvar(tarefa);
-	}
-
-	/**
-	 * Atribui o DAO de {@link Atividade}.
-	 * 
-	 * @param atividadeDAO DAO de {@link Atividade}
-	 */
-	@Autowired
-	public void setAtividadeDAO(AtividadeDAO atividadeDAO) {
-		this.atividadeDAO = atividadeDAO;
 	}
 
 	/**
@@ -187,6 +178,18 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa, Integer> implements
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Recupera o BO de {@link Atividade}.
+	 * 
+	 * @return BO de {@link Atividade}
+	 */
+	private AtividadeBO getAtividadeBO() {
+		if (this.atividadeBO == null) {
+			this.atividadeBO = Utils.getBean(AtividadeBO.class);
+		}
+		return this.atividadeBO;
 	}
 
 	/**

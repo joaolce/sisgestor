@@ -1002,8 +1002,9 @@ text both horizontally (e.g. right) and vertically within that rectangle */
 		if(cnv)
 		{
 			if(typeof(cnv) == "string"){
-				this.cont = $(cnv);
 				// Correção feita por causa do IE - não sabemos o pq
+				// XXX Utilizando o prototype
+				this.cont = $(cnv);
 				// this.cont = document.all? (this.wnd.document.all[cnv] || null)
 				//	: document.getElementById? (this.wnd.document.getElementById(cnv) || null)
 				//	: null;
