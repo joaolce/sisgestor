@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.persistencia;
 
+import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import java.util.List;
 
@@ -38,4 +39,12 @@ public interface WorkflowDAO extends BaseDAO<Workflow, Integer> {
 	 * @return total de registros encontrados
 	 */
 	Integer getTotalRegistros(String nome, String descricao, Boolean ativo, Boolean excluido);
+
+	/**
+	 * Recupera uma lista de workflows pendentes de serem inicializados pelo usuário logado.
+	 * 
+	 * @param usuario Usuário responsável por iniciar workflow
+	 * @return {@link List} com {@link Workflow}
+	 */
+	List<Workflow> recuperarPendentesIniciar(Usuario usuario);
 }

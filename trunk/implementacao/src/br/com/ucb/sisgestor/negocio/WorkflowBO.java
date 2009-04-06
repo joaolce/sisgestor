@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.negocio;
 
+import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import java.util.List;
 
@@ -17,7 +18,6 @@ public interface WorkflowBO extends BaseBO<Workflow, Integer> {
 
 	/**
 	 * Retorna um {@link List} de {@link Workflow} a partir dos parâmetros informados. <br />
-	 * obs: recupera apenas os workflows não excluídos
 	 * 
 	 * @param nome parte do nome do workflow
 	 * @param descricao parte da descrição do workflow
@@ -28,4 +28,11 @@ public interface WorkflowBO extends BaseBO<Workflow, Integer> {
 	 */
 	List<Workflow> getByNomeDescricaoAtivo(String nome, String descricao, Boolean ativo, Boolean excluidos,
 			Integer paginaAtual);
+
+	/**
+	 * Recupera a lista de workflows pendentes de serem inicializados.
+	 * 
+	 * @return {@link List} com {@link UsoWorkflow}
+	 */
+	List<Workflow> recuperarPendentesIniciar();
 }

@@ -5,7 +5,6 @@
 package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
-import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
@@ -66,14 +65,6 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	@Transactional(readOnly = true)
 	public List<UsoWorkflow> obterTodos() {
 		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Transactional(readOnly = true)
-	public List<Workflow> recuperarPendentesIniciar() {
-		return this.usoWorkflowDAO.recuperarPendentesIniciar(Utils.getUsuario());
 	}
 
 	/**

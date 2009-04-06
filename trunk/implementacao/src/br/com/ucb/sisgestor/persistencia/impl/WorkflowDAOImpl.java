@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.persistencia.impl;
 
+import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.persistencia.WorkflowDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
@@ -50,6 +51,26 @@ public class WorkflowDAOImpl extends BaseDAOImpl<Workflow, Integer> implements W
 		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, ativo, excluidos);
 		criteria.setProjection(Projections.rowCount());
 		return (Integer) criteria.uniqueResult();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<Workflow> recuperarPendentesIniciar(Usuario usuario) {
+		Criteria criteria = this.createCriteria(Workflow.class);
+		criteria.add(Restrictions.eq("this.ativo", Boolean.TRUE));
+
+		criteria.createAlias("this.processos", "processo");
+		criteria.add(Restrictions.isEmpty("processo.transacoesAnteriores"));
+
+		criteria.createAlias("processo.atividades", "atividade");
+		criteria.add(Restrictions.isEmpty("atividade.transacoesAnteriores"));
+
+		criteria.createAlias("atividade.tarefas", "tarefa");
+		criteria.add(Restrictions.isEmpty("tarefa.transacoesAnteriores"));
+		criteria.add(Restrictions.eq("tarefa.usuario", usuario));
+
+		return GenericsUtil.checkedList(criteria.list(), Workflow.class);
 	}
 
 	/**
