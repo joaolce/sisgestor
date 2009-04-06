@@ -22,6 +22,9 @@ IF EXIST %JBOSS_HOME%\server\default\deploy\jboss-web.deployer\server.xml (
 	del "%JBOSS_HOME%"\server\default\deploy\jboss-web.deployer\server.xml
 )
 
+IF EXIST %JBOSS_HOME%\client\hibernate-annotations.jar (
+	del "%JBOSS_HOME%"\client\hibernate-annotations.jar
+)
 
 IF EXIST %JBOSS_HOME%\server\default\lib\hibernate-annotations.jar (
 	del "%JBOSS_HOME%"\server\default\lib\hibernate-annotations.jar
@@ -75,6 +78,7 @@ copy configuracao\jboss\server.xml "%JBOSS_HOME%"\server\default\deploy\jboss-we
 
 echo Copiando libs necessarias
 
+copy libs\hibernate-annotations.jar "%JBOSS_HOME%"\client
 copy libs\hibernate-annotations.jar "%JBOSS_HOME%"\server\default\lib
 copy libs\hibernate-commons-annotations-3.1.0.GA.jar "%JBOSS_HOME%"\server\default\lib
 copy libs\hibernate3.jar "%JBOSS_HOME%"\server\default\lib
