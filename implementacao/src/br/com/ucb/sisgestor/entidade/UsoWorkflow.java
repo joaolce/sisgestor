@@ -62,7 +62,7 @@ public class UsoWorkflow extends ObjetoPersistente {
 	 * 
 	 * @return data/hora de inicio de uso da {@link Tarefa}
 	 */
-	@Column(name = "UWR_DATA_HORA_INICIO", nullable = false)
+	@Column(name = "UWR_DATA_HORA_INICIO", nullable = true)
 	public Timestamp getDataHoraInicio() {
 		return this.dataHoraInicio;
 	}

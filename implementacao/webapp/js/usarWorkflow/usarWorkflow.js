@@ -29,7 +29,7 @@ UsarWorkflow.prototype = {
     */
    popupIniciarWorkflow : function(){
 	   var url = "usarWorkflow.do?method=popupIniciarWorkflow";
-	   createWindow(285, 375, 280, 40, "Iniciar Workflow", "divIniciarWorkflow", url);
+	   createWindow(115, 375, 280, 70, "Iniciar Workflow", "divIniciarWorkflow", url);
    },
 
    /**
@@ -116,6 +116,13 @@ UsarWorkflow.prototype = {
 	   } else {
 		   this.tabelaTelaPrincipal.semRegistros("Não foram encontradas tarefas pendentes de sua responsabilidade");
 	   }
+   },
+   
+   /**
+    * Inicializa um uso do workflow.
+    */
+   iniciarWorkflow : function() {
+	   return true;
    }
 };
 
