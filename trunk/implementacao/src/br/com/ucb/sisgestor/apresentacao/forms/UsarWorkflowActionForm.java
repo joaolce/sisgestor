@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.apresentacao.forms;
 
 import br.com.ucb.sisgestor.apresentacao.actions.UsarWorkflowAction;
+import br.com.ucb.sisgestor.entidade.Anexo;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import java.util.List;
 
@@ -16,11 +17,24 @@ import java.util.List;
  */
 public class UsarWorkflowActionForm extends BaseForm {
 
+	private Integer[]			anexosSelecionados;
 	private Boolean			ativo;
 	private String				descricao;
 	private String				nome;
 	private List<Workflow>	listaWorkflows;
+	private List<Anexo>		listaAnexos;
+	private String				nomeAnexo;
+	private Integer			idAnexo;
 	private Integer			workflow;
+
+	/**
+	 * Recupera os anexos selecionados
+	 * 
+	 * @return anexos selecionados
+	 */
+	public Integer[] getAnexosSelecionados() {
+		return this.anexosSelecionados;
+	}
 
 	/**
 	 * Recupera o indicador de ativo do workflow.
@@ -41,6 +55,24 @@ public class UsarWorkflowActionForm extends BaseForm {
 	}
 
 	/**
+	 * Recupera o id do anexo
+	 * 
+	 * @return id do anexo
+	 */
+	public Integer getIdAnexo() {
+		return this.idAnexo;
+	}
+
+	/**
+	 * Recupera uma lista de anexos
+	 * 
+	 * @return lista de anexos
+	 */
+	public List<Anexo> getListaAnexos() {
+		return this.listaAnexos;
+	}
+
+	/**
 	 * Recupera a lista de workflows disponíveis para serem iniciados
 	 * 
 	 * @return lista de workflows
@@ -58,6 +90,17 @@ public class UsarWorkflowActionForm extends BaseForm {
 		return this.nome;
 	}
 
+
+	/**
+	 * Recupera o nome do anexo
+	 * 
+	 * @return nome do anexo
+	 */
+	public String getNomeAnexo() {
+		return this.nomeAnexo;
+	}
+
+
 	/**
 	 * Recupera o workflow selecionado
 	 * 
@@ -66,6 +109,17 @@ public class UsarWorkflowActionForm extends BaseForm {
 	public Integer getWorkflow() {
 		return this.workflow;
 	}
+
+
+	/**
+	 * Atribui os anexos selecionados
+	 * 
+	 * @param anexosSelecionados Anexos selecionados na página
+	 */
+	public void setAnexosSelecionados(Integer[] anexosSelecionados) {
+		this.anexosSelecionados = anexosSelecionados;
+	}
+
 
 	/**
 	 * Atribui o indicador de ativo do workflow.
@@ -76,6 +130,7 @@ public class UsarWorkflowActionForm extends BaseForm {
 		this.ativo = ativo;
 	}
 
+
 	/**
 	 * Atribui a descrição do workflow.
 	 * 
@@ -83,6 +138,26 @@ public class UsarWorkflowActionForm extends BaseForm {
 	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+
+	/**
+	 * Atribui o id do anexo
+	 * 
+	 * @param idAnexo id do anexo
+	 */
+	public void setIdAnexo(Integer idAnexo) {
+		this.idAnexo = idAnexo;
+	}
+
+
+	/**
+	 * Atribui a lista de anexos
+	 * 
+	 * @param listaAnexos Lista de anexos
+	 */
+	public void setListaAnexos(List<Anexo> listaAnexos) {
+		this.listaAnexos = listaAnexos;
 	}
 
 
@@ -103,6 +178,16 @@ public class UsarWorkflowActionForm extends BaseForm {
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+
+	/**
+	 * Atribui o nome do anexo
+	 * 
+	 * @param nomeAnexo O nome do anexo
+	 */
+	public void setNomeAnexo(String nomeAnexo) {
+		this.nomeAnexo = nomeAnexo;
 	}
 
 

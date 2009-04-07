@@ -25,11 +25,35 @@ UsarWorkflow.prototype = {
    initialize : function() {},
    
    /**
+    * Inclui um novo anexo. Envia requisição para o servidor. 
+    */
+   incluirAnexo : function() {
+	   //TODO Implementar
+   },
+   
+   /**
+    * Exclui o(s) anexo(s) selecionado(s) 
+    */
+   excluirAnexo : function() {
+	   //TODO Implementar
+   },
+   
+   /**
     * Inicia o workflow selecionado no combo 
     */
    popupIniciarWorkflow : function(){
 	   var url = "usarWorkflow.do?method=popupIniciarWorkflow";
 	   createWindow(115, 375, 280, 70, "Iniciar Workflow", "divIniciarWorkflow", url);
+   },
+   
+   /**
+    * Abre popup para visualizar os anexos. 
+    */
+   popupVisualizarAnexos : function() {
+	   //Teste
+	   var idUsoWorkflow = 1;
+	   var url = "usarWorkflow.do?method=popupVisualizarAnexos&id="+idUsoWorkflow;
+	   createWindow(285, 375, 280, 40, "Visualizar Anexos", "divVisualizarAnexos", url);
    },
 
    /**
@@ -57,6 +81,15 @@ UsarWorkflow.prototype = {
 	 */
    getIdSelecionado : function() {
 	   return this.getTR().select("input[type=\"hidden\"]")[0].value;
+   },
+   
+   /**
+    * Marca/ desmarca os anexos apresentados na página 
+    * 
+    */
+   marcarDesmarcarTodos : function() {
+	   CheckboxFunctions.marcarTodos();
+	   //TODO Implementar
    },
 
    /**

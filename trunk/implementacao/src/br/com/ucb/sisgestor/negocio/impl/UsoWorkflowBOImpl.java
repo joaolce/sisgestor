@@ -47,13 +47,20 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	public void excluirAnexos(Integer[] anexosSelecionados, Integer id) throws NegocioException {
+		// TODO Implementar
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Transactional(readOnly = true)
 	public List<Anexo> getAnexos(Integer idUsoWorkflow) throws NegocioException {
 
 		return null;
 	}
-
-
 
 	/**
 	 * {@inheritDoc}
