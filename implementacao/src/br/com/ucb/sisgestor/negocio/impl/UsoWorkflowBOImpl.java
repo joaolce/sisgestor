@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.negocio.impl;
 
+import br.com.ucb.sisgestor.entidade.Anexo;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
@@ -42,6 +43,17 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	public void excluir(UsoWorkflow obj) throws NegocioException {
 		throw new UnsupportedOperationException("erro.operacaoNaoSuportada");
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(readOnly = true)
+	public List<Anexo> getAnexos(Integer idUsoWorkflow) throws NegocioException {
+
+		return null;
+	}
+
+
 
 	/**
 	 * {@inheritDoc}
