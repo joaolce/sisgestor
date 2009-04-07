@@ -23,6 +23,7 @@ public class UsarWorkflowActionForm extends BaseForm {
 	private String				nome;
 	private List<Workflow>	listaWorkflows;
 	private List<Anexo>		listaAnexos;
+	private String				enderecoArquivo;
 	private String				nomeAnexo;
 	private Integer			idAnexo;
 	private Integer			workflow;
@@ -55,6 +56,15 @@ public class UsarWorkflowActionForm extends BaseForm {
 	}
 
 	/**
+	 * Recupera o endereco do arquivo
+	 * 
+	 * @return endereco do arquivo
+	 */
+	public String getEnderecoArquivo() {
+		return this.enderecoArquivo;
+	}
+
+	/**
 	 * Recupera o id do anexo
 	 * 
 	 * @return id do anexo
@@ -80,6 +90,7 @@ public class UsarWorkflowActionForm extends BaseForm {
 	public List<Workflow> getListaWorkflows() {
 		return this.listaWorkflows;
 	}
+
 
 	/**
 	 * Recupera o nome do workflow.
@@ -138,6 +149,16 @@ public class UsarWorkflowActionForm extends BaseForm {
 	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+
+	/**
+	 * Atribui o endereco do arquivo
+	 * 
+	 * @param enderecoArquivo endereco do arquivo
+	 */
+	public void setEnderecoArquivo(String enderecoArquivo) {
+		this.enderecoArquivo = enderecoArquivo;
 	}
 
 

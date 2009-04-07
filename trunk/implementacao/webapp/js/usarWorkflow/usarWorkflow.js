@@ -53,7 +53,7 @@ UsarWorkflow.prototype = {
 	   // Teste
 	   var idUsoWorkflow = 1;
 	   var url = "usarWorkflow.do?method=popupVisualizarAnexos&id=" + idUsoWorkflow;
-	   createWindow(285, 375, 280, 40, "Visualizar Anexos", "divVisualizarAnexos", url);
+	   createWindow(355, 550, 300, 40, "Visualizar Anexos", "divVisualizarAnexos", url);
    },
 
    /**
@@ -84,7 +84,7 @@ UsarWorkflow.prototype = {
    },
 
    /**
-	 * Marca/ desmarca os anexos apresentados na página
+	 * Marca/desmarca os anexos apresentados na página
 	 * 
 	 */
    marcarDesmarcarTodos : function() {

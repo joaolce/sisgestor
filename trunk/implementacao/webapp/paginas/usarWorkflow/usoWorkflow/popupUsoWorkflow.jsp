@@ -5,9 +5,9 @@
 
 <fieldset style="margin: 5pt auto; padding: 10px;">
 	<div id="divMenuOpcoes">
-		<html:link href="#anexos" titleKey="dica.anexo" onclick="alert('implemente-me');" linkName="anexos">
+		<htmlSGR:link href="#anexos" titleKey="dica.anexo" onclick="usarWorkflow.popupVisualizarAnexos();" linkName="anexos" roles="6">
 			<html:img srcKey="imagem.anexos" width="20" height="19"/>
-		</html:link>
+		</htmlSGR:link>
 	</div>
 	
 	<div style="height: 60px;">
