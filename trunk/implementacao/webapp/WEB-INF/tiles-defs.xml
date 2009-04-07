@@ -51,6 +51,9 @@
 	</definition>
 	<definition name="popupIniciarWorkflow" path="/paginas/usarWorkflow/popupIniciarWorkflow.jsp"/>
 	<definition name="popupVisualizarAnexos" path="/paginas/usarWorkflow/popupVisualizarAnexos.jsp"/>
+	<definition name="popupUsoWorkflow" path="/paginas/usarWorkflow/usoWorkflow/popupUsoWorkflow.jsp"/>
+	<definition name="includeTabCamposWorkflow" path="/paginas/usarWorkflow/usoWorkflow/tabCamposWorkflow.jsp"/>
+	<definition name="includeTabHistoricoWorkflow" path="/paginas/usarWorkflow/usoWorkflow/tabHistoricoWorkflow.jsp"/>
 	
 	<!--  MANTER PROCESSO -->
 	<definition name="definicaoManterProcesso" path="/paginas/manterProcesso/manterProcesso.jsp" />

@@ -49,7 +49,22 @@ public class UsarWorkflowAction extends BaseAction {
 	}
 
 	/**
-	 * Abre popup para iniciar um workflow
+	 * Dá o início de uso de um {@link Workflow}.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward da atualização
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward iniciarWorkflow(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return this.findForward(FWD_ENTRADA);
+	}
+
+	/**
+	 * Abre popup para iniciar um {@link Workflow}.
 	 * 
 	 * @param mapping objeto mapping da action
 	 * @param formulario objeto form da action
@@ -60,12 +75,26 @@ public class UsarWorkflowAction extends BaseAction {
 	 */
 	public ActionForward popupIniciarWorkflow(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
 
 		form.setListaWorkflows(this.workflowBO.recuperarPendentesIniciar());
 
 		return this.findForward("popupIniciarWorkflow");
+	}
+
+	/**
+	 * Abre o popup de um uso do {@link Workflow}.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward da atualização
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward popupUsoWorkflow(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return this.findForward("popupUsoWorkflow");
 	}
 
 	/**
@@ -80,7 +109,6 @@ public class UsarWorkflowAction extends BaseAction {
 	 */
 	public ActionForward popupVisualizarAnexos(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
 
 		form.setListaAnexos(this.usoWorkflowBO.getAnexos(form.getId()));

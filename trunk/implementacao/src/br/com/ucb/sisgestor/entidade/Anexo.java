@@ -111,7 +111,6 @@ public class Anexo extends ObjetoPersistente {
 		this.dataCriacao = dataCriacao;
 	}
 
-
 	/**
 	 * Atribui o nome do arquivo.
 	 * 
@@ -120,7 +119,6 @@ public class Anexo extends ObjetoPersistente {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
 
 	/**
 	 * Atribui a utilização do {@link Workflow} do anexo.
