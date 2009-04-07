@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
+import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.annotations.ForeignKey;
 
 /**
@@ -30,9 +31,9 @@ import org.hibernate.annotations.ForeignKey;
 @AttributeOverride(name = "id", column = @Column(name = "UWR_ID", nullable = false))
 public class UsoWorkflow extends ObjetoPersistente {
 
+	private Integer							numero;
 	private Workflow							workflow;
 	private Timestamp							dataHoraInicio;
-	private Timestamp							dataHoraFim;
 	private List<HistoricoUsoWorkflow>	historico;
 	private Tarefa								tarefa;
 	private List<Anexo>						anexos;
@@ -45,16 +46,6 @@ public class UsoWorkflow extends ObjetoPersistente {
 	@OneToMany(targetEntity = Anexo.class, mappedBy = "usoWorkflow", fetch = FetchType.LAZY)
 	public List<Anexo> getAnexos() {
 		return this.anexos;
-	}
-
-	/**
-	 * Recupera a data/hora de fim de uso da {@link Tarefa}.
-	 * 
-	 * @return data/hora de fim de uso da {@link Tarefa}
-	 */
-	@Column(name = "UWR_DATA_HORA_FIM", nullable = true)
-	public Timestamp getDataHoraFim() {
-		return this.dataHoraFim;
 	}
 
 	/**
@@ -79,18 +70,28 @@ public class UsoWorkflow extends ObjetoPersistente {
 	}
 
 	/**
+	 * Recupera o número sequencial de uso no ano.
+	 * 
+	 * @return número sequencial de uso no ano
+	 */
+	@Column(name = "UWR_NUMERO", nullable = false)
+	public Integer getNumero() {
+		return this.numero;
+	}
+
+	/**
 	 * Recupera o número do registro formatado
 	 * 
-	 * @return número do registro no formato &lt;ano&gt;/&lt;registro&gt;
+	 * @return número do registro no formato &lt;ano&gt;/&lt;numero&gt;
 	 */
 	@Transient
 	public String getNumeroRegistro() {
-		if (this.historico != null) {
+		if (CollectionUtils.isNotEmpty(this.historico)) {
 			//Recupera o primeiro registo do histórico pois é inicialização do workflow
 			HistoricoUsoWorkflow usoWorkflow = this.historico.get(this.historico.size() - 1);
 			Integer ano = DataUtil.getAno(usoWorkflow.getDataHora());
-			String registro = Utils.completaComZero(String.valueOf(this.getId()), 6);
-			return ano + "/" + registro;
+			String numero = Utils.completaComZero(String.valueOf(this.numero), 6);
+			return ano + "/" + numero;
 		}
 		return "";
 	}
@@ -129,15 +130,6 @@ public class UsoWorkflow extends ObjetoPersistente {
 	}
 
 	/**
-	 * Atribui a data/hora de fim de uso da {@link Tarefa}.
-	 * 
-	 * @param dataHoraFim data/hora de fim de uso da {@link Tarefa}
-	 */
-	public void setDataHoraFim(Timestamp dataHoraFim) {
-		this.dataHoraFim = dataHoraFim;
-	}
-
-	/**
 	 * Atribui a data/hora de inicio de uso da {@link Tarefa}.
 	 * 
 	 * @param dataHoraInicio data/hora de inicio de uso da {@link Tarefa}
@@ -153,6 +145,15 @@ public class UsoWorkflow extends ObjetoPersistente {
 	 */
 	public void setHistorico(List<HistoricoUsoWorkflow> historico) {
 		this.historico = historico;
+	}
+
+	/**
+	 * Atribui o número sequencial de uso no ano.
+	 * 
+	 * @param numero número sequencial de uso no ano
+	 */
+	public void setNumero(Integer numero) {
+		this.numero = numero;
 	}
 
 	/**
