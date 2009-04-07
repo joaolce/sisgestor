@@ -83,6 +83,7 @@
 			parameter="method">
 			<forward name="entrada" path="definicaoUsarWorkflow" />
 			<forward name="popupIniciarWorkflow" path="popupIniciarWorkflow" />
+			<forward name="popupVisualizarAnexos" path="popupVisualizarAnexos" />
 		</action>
 		
 		<!-- Manter Processo -->
