@@ -23,36 +23,36 @@ UsarWorkflow.prototype = {
 	 * @constructor
 	 */
    initialize : function() {},
-   
+
    /**
-    * Inclui um novo anexo. Envia requisição para o servidor. 
-    */
+	 * Inclui um novo anexo. Envia requisição para o servidor.
+	 */
    incluirAnexo : function() {
-	   //TODO Implementar
+   // TODO Implementar
    },
-   
+
    /**
-    * Exclui o(s) anexo(s) selecionado(s) 
-    */
+	 * Exclui o(s) anexo(s) selecionado(s)
+	 */
    excluirAnexo : function() {
-	   //TODO Implementar
+   // TODO Implementar
    },
-   
+
    /**
-    * Inicia o workflow selecionado no combo 
-    */
-   popupIniciarWorkflow : function(){
+	 * Inicia o workflow selecionado no combo
+	 */
+   popupIniciarWorkflow : function() {
 	   var url = "usarWorkflow.do?method=popupIniciarWorkflow";
 	   createWindow(115, 375, 280, 70, "Iniciar Workflow", "divIniciarWorkflow", url);
    },
-   
+
    /**
-    * Abre popup para visualizar os anexos. 
-    */
+	 * Abre popup para visualizar os anexos.
+	 */
    popupVisualizarAnexos : function() {
-	   //Teste
+	   // Teste
 	   var idUsoWorkflow = 1;
-	   var url = "usarWorkflow.do?method=popupVisualizarAnexos&id="+idUsoWorkflow;
+	   var url = "usarWorkflow.do?method=popupVisualizarAnexos&id=" + idUsoWorkflow;
 	   createWindow(285, 375, 280, 40, "Visualizar Anexos", "divVisualizarAnexos", url);
    },
 
@@ -82,14 +82,14 @@ UsarWorkflow.prototype = {
    getIdSelecionado : function() {
 	   return this.getTR().select("input[type=\"hidden\"]")[0].value;
    },
-   
+
    /**
-    * Marca/ desmarca os anexos apresentados na página 
-    * 
-    */
+	 * Marca/ desmarca os anexos apresentados na página
+	 * 
+	 */
    marcarDesmarcarTodos : function() {
 	   CheckboxFunctions.marcarTodos();
-	   //TODO Implementar
+	   // TODO Implementar
    },
 
    /**
@@ -102,7 +102,7 @@ UsarWorkflow.prototype = {
 		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
 		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA_USO_WORKFLOW);
 	   }
-	   this.tabelaTelaPrincipal.setParametros({});
+	   this.tabelaTelaPrincipal.setParametros( {});
 	   this.tabelaTelaPrincipal.executarChamadaRemota();
    },
 
@@ -145,18 +145,38 @@ UsarWorkflow.prototype = {
 			   return "&nbsp;";
 		   });
 		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
-		   this.tabelaTelaPrincipal.setOnDblClick(function(){alert('Implemente-me');});
+		   this.tabelaTelaPrincipal.setOnDblClick(this.popupUsoDeWorkflow);
 	   } else {
-		   this.tabelaTelaPrincipal.semRegistros("Não foram encontradas tarefas pendentes de sua responsabilidade");
+		   this.tabelaTelaPrincipal
+		      .semRegistros("Não foram encontradas tarefas pendentes de sua responsabilidade");
 	   }
    },
-   
+
    /**
-    * Inicializa um uso do workflow.
-    */
+	 * Inicializa um uso do workflow.
+	 */
    iniciarWorkflow : function() {
-	   return true;
-   }
+	   return true; // APOS SELECIONAR O WORKFLOW NA INICIALIZACAO
+},
+
+/**
+ * Abre o popup de uso do workflow.
+ */
+popupUsoDeWorkflow : function() {
+	var url = "usarWorkflow.do?method=popupUsoWorkflow";
+	createWindow(536, 985, 280, 10, "Workflow", "divUsoWorkflow", url, ( function() {
+		FactoryAbas.getNewAba("tabCamposAncora,tabCampos;tabHistoricoAncora,tabHistorico");
+	}));
+},
+
+/**
+ * Envia a requisição para submeter o uso do workflow.
+ * 
+ * @param form formulário submetido
+ */
+confirmar : function(form) {
+
+}
 };
 
 var usarWorkflow = new UsarWorkflow();
