@@ -8,6 +8,7 @@ import br.com.ucb.sisgestor.apresentacao.actions.UsarWorkflowAction;
 import br.com.ucb.sisgestor.entidade.Anexo;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import java.util.List;
+import org.apache.struts.upload.FormFile;
 
 /**
  * Form para a action {@link UsarWorkflowAction}.
@@ -23,8 +24,7 @@ public class UsarWorkflowActionForm extends BaseForm {
 	private String				nome;
 	private List<Workflow>	listaWorkflows;
 	private List<Anexo>		listaAnexos;
-	private String				enderecoArquivo;
-	private String				nomeAnexo;
+	private FormFile			arquivo;
 	private Integer			idAnexo;
 	private Integer			workflow;
 
@@ -35,6 +35,15 @@ public class UsarWorkflowActionForm extends BaseForm {
 	 */
 	public Integer[] getAnexosSelecionados() {
 		return this.anexosSelecionados;
+	}
+
+	/**
+	 * Recupera o arquivo
+	 * 
+	 * @return arquivo
+	 */
+	public FormFile getArquivo() {
+		return this.arquivo;
 	}
 
 	/**
@@ -53,15 +62,6 @@ public class UsarWorkflowActionForm extends BaseForm {
 	 */
 	public String getDescricao() {
 		return this.descricao;
-	}
-
-	/**
-	 * Recupera o endereco do arquivo
-	 * 
-	 * @return endereco do arquivo
-	 */
-	public String getEnderecoArquivo() {
-		return this.enderecoArquivo;
 	}
 
 	/**
@@ -91,7 +91,6 @@ public class UsarWorkflowActionForm extends BaseForm {
 		return this.listaWorkflows;
 	}
 
-
 	/**
 	 * Recupera o nome do workflow.
 	 * 
@@ -100,17 +99,6 @@ public class UsarWorkflowActionForm extends BaseForm {
 	public String getNome() {
 		return this.nome;
 	}
-
-
-	/**
-	 * Recupera o nome do anexo
-	 * 
-	 * @return nome do anexo
-	 */
-	public String getNomeAnexo() {
-		return this.nomeAnexo;
-	}
-
 
 	/**
 	 * Recupera o workflow selecionado
@@ -121,7 +109,6 @@ public class UsarWorkflowActionForm extends BaseForm {
 		return this.workflow;
 	}
 
-
 	/**
 	 * Atribui os anexos selecionados
 	 * 
@@ -131,6 +118,14 @@ public class UsarWorkflowActionForm extends BaseForm {
 		this.anexosSelecionados = anexosSelecionados;
 	}
 
+	/**
+	 * Atribui o arquivo
+	 * 
+	 * @param arquivo o arquivo a ser carregado
+	 */
+	public void setArquivo(FormFile arquivo) {
+		this.arquivo = arquivo;
+	}
 
 	/**
 	 * Atribui o indicador de ativo do workflow.
@@ -151,17 +146,6 @@ public class UsarWorkflowActionForm extends BaseForm {
 		this.descricao = descricao;
 	}
 
-
-	/**
-	 * Atribui o endereco do arquivo
-	 * 
-	 * @param enderecoArquivo endereco do arquivo
-	 */
-	public void setEnderecoArquivo(String enderecoArquivo) {
-		this.enderecoArquivo = enderecoArquivo;
-	}
-
-
 	/**
 	 * Atribui o id do anexo
 	 * 
@@ -170,7 +154,6 @@ public class UsarWorkflowActionForm extends BaseForm {
 	public void setIdAnexo(Integer idAnexo) {
 		this.idAnexo = idAnexo;
 	}
-
 
 	/**
 	 * Atribui a lista de anexos
@@ -181,7 +164,6 @@ public class UsarWorkflowActionForm extends BaseForm {
 		this.listaAnexos = listaAnexos;
 	}
 
-
 	/**
 	 * Atribui a lista de workflows
 	 * 
@@ -191,7 +173,6 @@ public class UsarWorkflowActionForm extends BaseForm {
 		this.listaWorkflows = listaWorkflows;
 	}
 
-
 	/**
 	 * Atribui o nome do workflow.
 	 * 
@@ -200,17 +181,6 @@ public class UsarWorkflowActionForm extends BaseForm {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-
-	/**
-	 * Atribui o nome do anexo
-	 * 
-	 * @param nomeAnexo O nome do anexo
-	 */
-	public void setNomeAnexo(String nomeAnexo) {
-		this.nomeAnexo = nomeAnexo;
-	}
-
 
 	/**
 	 * Atribui o workflow a ser iniciado

@@ -28,7 +28,11 @@ UsarWorkflow.prototype = {
 	 * Inclui um novo anexo. Envia requisição para o servidor.
 	 */
    incluirAnexo : function() {
-   // TODO Implementar
+	   requestUtils.submitForm(form, ( function() {
+		   if (requestUtils.status) {
+			   this.pesquisar();
+		   }
+	   }).bind(this));
    },
 
    /**
@@ -53,7 +57,11 @@ UsarWorkflow.prototype = {
 	   // Teste
 	   var idUsoWorkflow = 1;
 	   var url = "usarWorkflow.do?method=popupVisualizarAnexos&id=" + idUsoWorkflow;
-	   createWindow(355, 550, 300, 40, "Visualizar Anexos", "divVisualizarAnexos", url);
+	   createWindow(355, 550, 300, 40, "Visualizar Anexos", "divVisualizarAnexos", url, 
+			   (function (){
+				   this.pesquisarAnexos();
+		   	   }.bind(this))
+	   );
    },
 
    /**
@@ -63,6 +71,15 @@ UsarWorkflow.prototype = {
 	 */
    getTBodyTelaPrincipal : function() {
 	   return $("corpoUsarWorkflow");
+   },
+   
+   /**
+	 * Retorna a tabela da tela de anexo.
+	 * 
+	 * @return {HTMLTableSectionElement}
+	 */
+   getTBodyTelaAnexo : function() {
+	   return $("corpoAnexos");
    },
 
    /**
@@ -101,6 +118,20 @@ UsarWorkflow.prototype = {
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
 		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
 		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA_USO_WORKFLOW);
+	   }
+	   this.tabelaTelaPrincipal.setParametros( {});
+	   this.tabelaTelaPrincipal.executarChamadaRemota();
+   },
+   
+   /**
+    * Faz a pesquisa dos anexos do workflow 
+    */
+   pesquisarAnexos : function(){
+	   //Desenvolvendo
+	   if (this.tabelaTelaPrincipal == null) {
+		   var chamadaRemota = UsarWorkflowDWR.pesquisarAnexos.bind(UsarWorkflowDWR);
+		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
+		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabelaAnexos.bind(this));
 	   }
 	   this.tabelaTelaPrincipal.setParametros( {});
 	   this.tabelaTelaPrincipal.executarChamadaRemota();
@@ -151,32 +182,63 @@ UsarWorkflow.prototype = {
 		      .semRegistros("Não foram encontradas tarefas pendentes de sua responsabilidade");
 	   }
    },
+   
+   /**
+    * Popula a tabela de anexos com os anexos do workflow
+    * 
+    * @param listaAnexos lista de anexos
+    */
+   popularTabelaAnexos : function(listaAnexos) {
+	   this.tabelaTelaPrincipal.removerResultado();
+	   
+	   if (listaUsoWorkflow.length != 0) {
+		   var cellfuncs = new Array();
+		   cellfuncs.push( function(usoWorkflow) {
+			   return Builder.node("input", {
+				   type :"hidden",
+				   name :"id",
+				   value :usoWorkflow.id
+			   });
+		   });
+		   cellfuncs.push( function(usoWorkflow) {
+			   return usoWorkflow.numeroRegistro;
+		   });
+		   cellfuncs.push( function(usoWorkflow) {
+			   return usoWorkflow.tarefa.atividade.processo.workflow.nome;
+		   });
+		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
+		   this.tabelaTelaPrincipal.setOnDblClick(this.popupUsoDeWorkflow);
+	   } else {
+		   this.tabelaTelaPrincipal
+		   .semRegistros("Não foram encontrados anexos");
+	   }
+   },
 
    /**
 	 * Inicializa um uso do workflow.
 	 */
    iniciarWorkflow : function() {
 	   return true; // APOS SELECIONAR O WORKFLOW NA INICIALIZACAO
-},
+   },
 
-/**
- * Abre o popup de uso do workflow.
- */
-popupUsoDeWorkflow : function() {
-	var url = "usarWorkflow.do?method=popupUsoWorkflow";
-	createWindow(536, 985, 280, 10, "Workflow", "divUsoWorkflow", url, ( function() {
-		FactoryAbas.getNewAba("tabCamposAncora,tabCampos;tabHistoricoAncora,tabHistorico");
-	}));
-},
-
-/**
- * Envia a requisição para submeter o uso do workflow.
- * 
- * @param form formulário submetido
- */
-confirmar : function(form) {
-
-}
+	/**
+	 * Abre o popup de uso do workflow.
+	 */
+	popupUsoDeWorkflow : function() {
+		var url = "usarWorkflow.do?method=popupUsoWorkflow";
+		createWindow(536, 985, 280, 10, "Workflow", "divUsoWorkflow", url, ( function() {
+			FactoryAbas.getNewAba("tabCamposAncora,tabCampos;tabHistoricoAncora,tabHistorico");
+		}));
+	},
+	
+	/**
+	 * Envia a requisição para submeter o uso do workflow.
+	 * 
+	 * @param form formulário submetido
+	 */
+	confirmar : function(form) {
+	
+	}
 };
 
 var usarWorkflow = new UsarWorkflow();
