@@ -27,6 +27,25 @@ public class UsarWorkflowAction extends BaseAction {
 	private WorkflowBO		workflowBO;
 
 	/**
+	 * Exclui o(s) anexo(s) selecionado(s)
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward da atualização
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward excluirAnexo(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		//TODO Implementar
+
+		this.addMessageKey("mensagem.excluir", "Anexo");
+		return this.sendAJAXResponse(true);
+	}
+
+	/**
 	 * Abre popup para iniciar um workflow
 	 * 
 	 * @param mapping objeto mapping da action
@@ -44,6 +63,26 @@ public class UsarWorkflowAction extends BaseAction {
 		form.setListaWorkflows(this.workflowBO.recuperarPendentesIniciar());
 
 		return this.findForward("popupIniciarWorkflow");
+	}
+
+	/**
+	 * Abre popup para visualizar os anexos
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward da atualização
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward popupVisualizarAnexos(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
+
+		form.setListaAnexos(this.usoWorkflowBO.getAnexos(form.getId()));
+
+		return this.findForward("popupVisualizarAnexos");
 	}
 
 	/**

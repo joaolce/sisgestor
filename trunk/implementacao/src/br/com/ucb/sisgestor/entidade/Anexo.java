@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.entidade;
 
 import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
+import java.sql.Timestamp;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
@@ -27,6 +28,7 @@ public class Anexo extends ObjetoPersistente {
 	private String			nome;
 	private String			contentType;
 	private byte[]			dados;
+	private Timestamp		dataCriacao;
 	private UsoWorkflow	usoWorkflow;
 
 	/**
@@ -48,6 +50,16 @@ public class Anexo extends ObjetoPersistente {
 	@Column(name = "ANX_DADOS", nullable = false)
 	public byte[] getDados() {
 		return this.dados;
+	}
+
+	/**
+	 * Recupera a data de criação do anexo
+	 * 
+	 * @return data de criação do anexo
+	 */
+	@Column(name = "ANX_DATA_HORA_CRIACAO", nullable = false)
+	public Timestamp getDataCriacao() {
+		return this.dataCriacao;
 	}
 
 	/**
@@ -91,6 +103,16 @@ public class Anexo extends ObjetoPersistente {
 	}
 
 	/**
+	 * Atribui a data de criação do anexo
+	 * 
+	 * @param dataCriacao data de criação do anexo
+	 */
+	public void setDataCriacao(Timestamp dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+
+
+	/**
 	 * Atribui o nome do arquivo.
 	 * 
 	 * @param nome nome do arquivo
@@ -98,6 +120,7 @@ public class Anexo extends ObjetoPersistente {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 
 	/**
 	 * Atribui a utilização do {@link Workflow} do anexo.
