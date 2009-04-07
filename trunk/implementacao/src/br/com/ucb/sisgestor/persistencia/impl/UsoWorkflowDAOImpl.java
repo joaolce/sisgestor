@@ -8,6 +8,7 @@ import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
+import br.com.ucb.sisgestor.util.hibernate.criterions.RestrictionsSGR;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
@@ -51,6 +52,19 @@ public class UsoWorkflowDAOImpl extends BaseDAOImpl<UsoWorkflow, Integer> implem
 	}
 
 	/**
+	 *{@inheritDoc}
+	 */
+	public Integer recuperarUltimoNumeroDoAno(Integer ano) {
+		Criteria criteria = this.createCriteria(UsoWorkflow.class);
+		criteria.setProjection(Projections.property("this.numero"));
+		criteria.setMaxResults(1);
+
+		criteria.add(RestrictionsSGR.eqWithTransform("this.dataHoraInicio", "YEAR", ano));
+		criteria.addOrder(Order.desc("this.numero"));
+		return (Integer) criteria.uniqueResult();
+	}
+
+	/**
 	 * Monta os critérios para a paginação dos workflows.
 	 * 
 	 * @return {@link Criteria}
@@ -59,7 +73,6 @@ public class UsoWorkflowDAOImpl extends BaseDAOImpl<UsoWorkflow, Integer> implem
 		Criteria criteria = this.createCriteria(UsoWorkflow.class);
 		criteria.createAlias("this.tarefa", "tarefa");
 		criteria.add(Restrictions.eq("tarefa.usuario", usuario));
-		criteria.add(Restrictions.isNull("this.dataHoraFim"));
 		criteria.addOrder(Order.desc("this.dataHoraInicio"));
 		return criteria;
 	}

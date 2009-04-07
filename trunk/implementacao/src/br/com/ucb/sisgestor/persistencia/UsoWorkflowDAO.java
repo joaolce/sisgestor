@@ -35,4 +35,12 @@ public interface UsoWorkflowDAO extends BaseDAO<UsoWorkflow, Integer> {
 	 * @return {@link List} de {@link UsoWorkflow}
 	 */
 	List<UsoWorkflow> recuperarPendentesUsuario(Usuario usuario, Integer paginaAtual);
+
+	/**
+	 * Recupera o último número de {@link UsoWorkflow} iniciado no ano da data informada.
+	 * 
+	 * @param ano ano da data informada
+	 * @return número mais recente do ano
+	 */
+	Integer recuperarUltimoNumeroDoAno(Integer ano);
 }

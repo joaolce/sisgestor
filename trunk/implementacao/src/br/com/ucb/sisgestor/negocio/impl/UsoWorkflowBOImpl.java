@@ -9,6 +9,7 @@ import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
+import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
@@ -32,8 +33,9 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-	public void atualizar(UsoWorkflow obj) throws NegocioException {
-		// TODO Auto-generated method stub
+	public void atualizar(UsoWorkflow usoWorkflow) throws NegocioException {
+		this.usoWorkflowDAO.atualizar(usoWorkflow);
+		this.gerarHistorico(usoWorkflow);
 	}
 
 	/**
@@ -50,7 +52,6 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void excluirAnexos(Integer[] anexosSelecionados, Integer id) throws NegocioException {
 		// TODO Implementar
-
 	}
 
 	/**
@@ -98,8 +99,11 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-	public void salvar(UsoWorkflow obj) throws NegocioException {
-		// TODO Auto-generated method stub
+	public void salvar(UsoWorkflow usoWorkflow) throws NegocioException {
+		usoWorkflow.setDataHoraInicio(DataUtil.getDataHoraAtual());
+		this.gerarNumeroDoRegistro(usoWorkflow);
+		this.usoWorkflowDAO.salvar(usoWorkflow);
+		this.gerarHistorico(usoWorkflow);
 	}
 
 	/**
@@ -110,5 +114,30 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	@Autowired
 	public void setUsoWorkflowDAO(UsoWorkflowDAO usoWorkflowDAO) {
 		this.usoWorkflowDAO = usoWorkflowDAO;
+	}
+
+	/**
+	 * Gera um registro de histórico para o {@link UsoWorkflow}.
+	 * 
+	 * @param usoWorkflow {@link UsoWorkflow} a gerar histórico
+	 */
+	private void gerarHistorico(UsoWorkflow usoWorkflow) {
+		//TODO GERAR HISTORICO
+	}
+
+	/**
+	 * Gera um número de registro para o {@link UsoWorkflow} a ser iniciado.
+	 * 
+	 * @param usoWorkflow {@link UsoWorkflow} a ser iniciado
+	 */
+	private void gerarNumeroDoRegistro(UsoWorkflow usoWorkflow) {
+		int ano = DataUtil.getAno(usoWorkflow.getDataHoraInicio());
+		Integer ultimoNumero = this.usoWorkflowDAO.recuperarUltimoNumeroDoAno(ano);
+		if (ultimoNumero == null) {
+			ultimoNumero = 1;
+		} else {
+			ultimoNumero++;
+		}
+		usoWorkflow.setNumero(ultimoNumero);
 	}
 }
