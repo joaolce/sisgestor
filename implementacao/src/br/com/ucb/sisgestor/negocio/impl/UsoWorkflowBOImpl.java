@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Anexo;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
+import br.com.ucb.sisgestor.negocio.AnexoBO;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
@@ -13,6 +14,8 @@ import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
+import org.apache.commons.validator.GenericValidator;
+import org.apache.struts.upload.FormFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -28,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implements UsoWorkflowBO {
 
 	private UsoWorkflowDAO	usoWorkflowDAO;
+	private AnexoBO			anexoBO;
 
 	/**
 	 * {@inheritDoc}
@@ -59,8 +63,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	 */
 	@Transactional(readOnly = true)
 	public List<Anexo> getAnexos(Integer idUsoWorkflow) throws NegocioException {
-
-		return null;
+		return this.anexoBO.getAnexosByUsoWorkflow(idUsoWorkflow);
 	}
 
 	/**
@@ -69,6 +72,36 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	@Override
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		return this.usoWorkflowDAO.getTotalRegistros(Utils.getUsuario());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	public void incluirAnexo(FormFile arquivo, Integer idUsoWorkflow) throws NegocioException {
+
+		String nomeArquivo = arquivo.getFileName();
+
+		if (GenericValidator.isBlankOrNull(nomeArquivo)) {
+			throw new NegocioException("erro.arquivoNomeVazio");
+		}
+
+		Anexo anexo = new Anexo();
+		//Teste
+		UsoWorkflow usoWorkflow = new UsoWorkflow();
+		usoWorkflow.setId(Integer.valueOf(1));
+
+		anexo.setUsoWorkflow(usoWorkflow);
+		anexo.setNome(nomeArquivo);
+		anexo.setContentType(arquivo.getContentType());
+		anexo.setDataCriacao(DataUtil.getDataHoraAtual());
+		try {
+			anexo.setDados(arquivo.getFileData());
+		} catch (Exception e) {
+			throw new NegocioException("erro.arquivoNaoEncontrado"); //NOPMD
+		}
+
+		this.anexoBO.salvar(anexo);
 	}
 
 	/**
@@ -105,6 +138,17 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 		this.usoWorkflowDAO.salvar(usoWorkflow);
 		this.gerarHistorico(usoWorkflow);
 	}
+
+	/**
+	 * Atribui o BO de {@link Anexo}.
+	 * 
+	 * @param anexoBO BO de {@link Anexo}
+	 */
+	@Autowired
+	public void setAnexoBO(AnexoBO anexoBO) {
+		this.anexoBO = anexoBO;
+	}
+
 
 	/**
 	 * Atribui o DAO de {@link UsoWorkflow}.

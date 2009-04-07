@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -45,6 +46,28 @@ public class UsarWorkflowAction extends BaseAction {
 		this.usoWorkflowBO.excluirAnexos(anexosSelecionados, form.getId());
 
 		this.addMessageKey("mensagem.excluir", "Anexo");
+		return this.sendAJAXResponse(true);
+	}
+
+	/**
+	 * Inclui o anexo ao uso workflow
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward da atualização
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward incluirAnexo(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
+		FormFile arquivo = form.getArquivo();
+
+		this.usoWorkflowBO.incluirAnexo(arquivo, form.getId());
+
+		this.addMessageKey("mensagem.salvar", "Anexo");
 		return this.sendAJAXResponse(true);
 	}
 

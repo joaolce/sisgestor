@@ -10,6 +10,7 @@ import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import java.util.List;
+import org.apache.struts.upload.FormFile;
 
 /**
  * Interface para um objeto de negócio de {@link UsoWorkflow}.
@@ -36,6 +37,15 @@ public interface UsoWorkflowBO extends BaseBO<UsoWorkflow, Integer> {
 	 * @throws NegocioException NegocioException caso exceção de negócio seja violada
 	 */
 	List<Anexo> getAnexos(Integer idUsoWorkflow) throws NegocioException;
+
+	/**
+	 * Inclui um anexo associado ao uso workflow informado
+	 * 
+	 * @param arquivo Arquivo a ser anexado
+	 * @param idUsoWorkflow Código identificador do uso workflow
+	 * @throws NegocioException NegocioException caso exceção de negócio seja violada
+	 */
+	void incluirAnexo(FormFile arquivo, Integer idUsoWorkflow) throws NegocioException;
 
 	/**
 	 * Recupera a lista de workflows em uso com {@link Tarefa} pendente do {@link Usuario} atual.
