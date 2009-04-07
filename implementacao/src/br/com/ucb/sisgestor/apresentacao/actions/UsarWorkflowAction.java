@@ -39,7 +39,10 @@ public class UsarWorkflowAction extends BaseAction {
 	public ActionForward excluirAnexo(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		//TODO Implementar
+		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
+
+		Integer[] anexosSelecionados = form.getAnexosSelecionados();
+		this.usoWorkflowBO.excluirAnexos(anexosSelecionados, form.getId());
 
 		this.addMessageKey("mensagem.excluir", "Anexo");
 		return this.sendAJAXResponse(true);

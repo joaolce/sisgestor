@@ -20,6 +20,15 @@ import java.util.List;
 public interface UsoWorkflowBO extends BaseBO<UsoWorkflow, Integer> {
 
 	/**
+	 * Exclui os anexos selecionados
+	 * 
+	 * @param anexosSelecionados Seleção dos anexos
+	 * @param id Código identificador do uso workflow
+	 * @throws NegocioException NegocioException caso exceção de negócio seja violada
+	 */
+	public void excluirAnexos(Integer[] anexosSelecionados, Integer id) throws NegocioException;
+
+	/**
 	 * Recupera uma lista de anexos do {@link UsoWorkflow}
 	 * 
 	 * @param idUsoWorkflow Código identificador do uso workflow
