@@ -24,19 +24,17 @@ public interface UsoWorkflowBO extends BaseBO<UsoWorkflow, Integer> {
 	 * Exclui os anexos selecionados
 	 * 
 	 * @param anexosSelecionados Seleção dos anexos
-	 * @param id Código identificador do uso workflow
 	 * @throws NegocioException NegocioException caso exceção de negócio seja violada
 	 */
-	void excluirAnexos(Integer[] anexosSelecionados, Integer id) throws NegocioException;
+	void excluirAnexos(Integer[] anexosSelecionados) throws NegocioException;
 
 	/**
 	 * Recupera uma lista de anexos do {@link UsoWorkflow}
 	 * 
 	 * @param idUsoWorkflow Código identificador do uso workflow
 	 * @return lista de anexos
-	 * @throws NegocioException NegocioException caso exceção de negócio seja violada
 	 */
-	List<Anexo> getAnexos(Integer idUsoWorkflow) throws NegocioException;
+	List<Anexo> getAnexos(Integer idUsoWorkflow);
 
 	/**
 	 * Inclui um anexo associado ao uso workflow informado

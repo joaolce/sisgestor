@@ -34,6 +34,7 @@
 	</div>
 	
 	<html:form action="/usarWorkflow.do?method=confirmar" onsubmit="usarWorkflow.confirmar(this); return false;" styleId="usoWorkflowForm">
+		<html:hidden property="id" styleId="idUsoWorkflow" />
 		<div class="bordas">
 			<div id="tabCampos" style="margin: 5px; height: 355px;">
 				<tiles:insert definition="includeTabCamposWorkflow"/>
