@@ -12,9 +12,10 @@ import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
 import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
+import br.com.ucb.sisgestor.util.constantes.Constantes;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
-import org.apache.commons.validator.GenericValidator;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,15 +55,19 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-	public void excluirAnexos(Integer[] anexosSelecionados, Integer id) throws NegocioException {
-		// TODO Implementar
+	public void excluirAnexos(Integer[] anexosSelecionados) throws NegocioException {
+		Anexo anexo;
+		for (Integer idAnexo : anexosSelecionados) {
+			anexo = this.anexoBO.obter(idAnexo);
+			this.anexoBO.excluir(anexo);
+		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Transactional(readOnly = true)
-	public List<Anexo> getAnexos(Integer idUsoWorkflow) throws NegocioException {
+	public List<Anexo> getAnexos(Integer idUsoWorkflow) {
 		return this.anexoBO.getAnexosByUsoWorkflow(idUsoWorkflow);
 	}
 
@@ -80,11 +85,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void incluirAnexo(FormFile arquivo, Integer idUsoWorkflow) throws NegocioException {
 
-		String nomeArquivo = arquivo.getFileName();
-
-		if (GenericValidator.isBlankOrNull(nomeArquivo)) {
-			throw new NegocioException("erro.arquivoNomeVazio");
-		}
+		this.validarArquivo(arquivo);
 
 		Anexo anexo = new Anexo();
 		//Teste
@@ -92,13 +93,13 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 		usoWorkflow.setId(Integer.valueOf(1));
 
 		anexo.setUsoWorkflow(usoWorkflow);
-		anexo.setNome(nomeArquivo);
+		anexo.setNome(arquivo.getFileName());
 		anexo.setContentType(arquivo.getContentType());
 		anexo.setDataCriacao(DataUtil.getDataHoraAtual());
 		try {
 			anexo.setDados(arquivo.getFileData());
 		} catch (Exception e) {
-			throw new NegocioException("erro.arquivoNaoEncontrado"); //NOPMD
+			throw new NegocioException("erro.arquivo.naoEncontrado"); //NOPMD
 		}
 
 		this.anexoBO.salvar(anexo);
@@ -149,7 +150,6 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 		this.anexoBO = anexoBO;
 	}
 
-
 	/**
 	 * Atribui o DAO de {@link UsoWorkflow}.
 	 * 
@@ -159,6 +159,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	public void setUsoWorkflowDAO(UsoWorkflowDAO usoWorkflowDAO) {
 		this.usoWorkflowDAO = usoWorkflowDAO;
 	}
+
 
 	/**
 	 * Gera um registro de histórico para o {@link UsoWorkflow}.
@@ -183,5 +184,19 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 			ultimoNumero++;
 		}
 		usoWorkflow.setNumero(ultimoNumero);
+	}
+
+	/**
+	 * Efetua verificações para saber se o arquivo é válido.
+	 */
+	private void validarArquivo(FormFile arquivo) throws NegocioException {
+		if (StringUtils.isBlank(arquivo.getFileName())) {
+			throw new NegocioException("erro.arquivo.nomeVazio");
+		}
+
+		if (arquivo.getFileSize() > Constantes.TAMANHO_MAX_ANEXO_PERMITIDO) {
+			throw new NegocioException("erro.arquivo.tamanhoMaximoExcedido", String
+					.valueOf(((Constantes.TAMANHO_MAX_ANEXO_PERMITIDO / 1024) / 1204)));
+		}
 	}
 }

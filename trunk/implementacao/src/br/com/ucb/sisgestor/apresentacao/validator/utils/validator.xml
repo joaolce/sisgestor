@@ -31,4 +31,7 @@
 		<validacao action="br.com.ucb.sisgestor.apresentacao.actions.ManterCampoAction" 
 		validator="br.com.ucb.sisgestor.apresentacao.validator.ManterCampoValidator" />
 		
+		<validacao action="br.com.ucb.sisgestor.apresentacao.actions.UsarWorkflowAction" 
+		validator="br.com.ucb.sisgestor.apresentacao.validator.UsarWorkflowValidator" />
+		
 </validate-mapping>

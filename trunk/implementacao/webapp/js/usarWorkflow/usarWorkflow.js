@@ -18,6 +18,11 @@ UsarWorkflow.prototype = {
 	 * Tabela com os dados da pesquisa.
 	 */
    tabelaTelaPrincipal :null,
+   
+   /**
+     * Tabela com os anexos 
+     */
+   tabelaTelaAnexo : null,
 
    /**
 	 * @constructor
@@ -30,7 +35,7 @@ UsarWorkflow.prototype = {
    incluirAnexo : function() {
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
-			   this.pesquisar();
+			   usarWorkflow.pesquisarAnexos();
 		   }
 	   }).bind(this));
    },
@@ -39,7 +44,13 @@ UsarWorkflow.prototype = {
 	 * Exclui o(s) anexo(s) selecionado(s)
 	 */
    excluirAnexo : function() {
-   // TODO Implementar
+	   var anexosSelecionados = dwr.util.getValue("anexosSelecionados");
+	   requestUtils.simpleRequest("usarWorkflow.do?method=excluirAnexo&anexosSelecionados="
+			   + anexosSelecionados,( function() {
+		   if (requestUtils.status) {
+			   usarWorkflow.pesquisarAnexos();
+		   }
+	   }).bind(this));
    },
 
    /**
@@ -54,15 +65,25 @@ UsarWorkflow.prototype = {
 	 * Abre popup para visualizar os anexos.
 	 */
    popupVisualizarAnexos : function() {
-	   // Teste
-	   var idUsoWorkflow = 1;
+	   var idUsoWorkflow = dwr.util.getValue("idUsoWorkflow");
 	   var url = "usarWorkflow.do?method=popupVisualizarAnexos&id=" + idUsoWorkflow;
 	   createWindow(355, 550, 300, 40, "Visualizar Anexos", "divVisualizarAnexos", url, 
 			   (function (){
-				   this.pesquisarAnexos();
-		   	   }.bind(this))
+				   usarWorkflow.pesquisarAnexos();
+		   	   })
 	   );
    },
+   
+	/**
+	 * Abre o popup de uso do workflow.
+	 */
+	popupUsoDeWorkflow : function() {
+		var url = "usarWorkflow.do?method=popupUsoWorkflow";
+		createWindow(536, 985, 280, 10, "Workflow", "divUsoWorkflow", url, ( function() {
+			FactoryAbas.getNewAba("tabCamposAncora,tabCampos;tabHistoricoAncora,tabHistorico");
+			dwr.util.setValue("idUsoWorkflow",usarWorkflow.getIdSelecionado());
+		}));
+	},
 
    /**
 	 * Retorna a tabela da tela inicial do caso de uso.
@@ -101,15 +122,6 @@ UsarWorkflow.prototype = {
    },
 
    /**
-	 * Marca/desmarca os anexos apresentados na página
-	 * 
-	 */
-   marcarDesmarcarTodos : function() {
-	   CheckboxFunctions.marcarTodos();
-	   // TODO Implementar
-   },
-
-   /**
 	 * Faz a pesquisa dos workflows pelos parâmetros informados.
 	 */
    pesquisar : function() {
@@ -127,14 +139,17 @@ UsarWorkflow.prototype = {
     * Faz a pesquisa dos anexos do workflow 
     */
    pesquisarAnexos : function(){
-	   //Desenvolvendo
-	   if (this.tabelaTelaPrincipal == null) {
+	   if (this.tabelaTelaAnexo == null) {
 		   var chamadaRemota = UsarWorkflowDWR.pesquisarAnexos.bind(UsarWorkflowDWR);
-		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
-		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabelaAnexos.bind(this));
+		   this.tabelaTelaAnexo = FactoryTabelas.getNewTabela(this.getTBodyTelaAnexo());
+		   this.tabelaTelaAnexo.setRemoteCall(chamadaRemota);
+		   this.tabelaTelaAnexo.setCallBack(this.popularTabelaAnexos.bind(this));
 	   }
-	   this.tabelaTelaPrincipal.setParametros( {});
-	   this.tabelaTelaPrincipal.executarChamadaRemota();
+	   var parametro = {
+			      idUsoWorkflow :dwr.util.getValue("idUsoWorkflow")
+			   }; 
+	   this.tabelaTelaAnexo.setParametros(parametro);
+	   this.tabelaTelaAnexo.executarChamadaRemota();
    },
 
    /**
@@ -189,28 +204,33 @@ UsarWorkflow.prototype = {
     * @param listaAnexos lista de anexos
     */
    popularTabelaAnexos : function(listaAnexos) {
-	   this.tabelaTelaPrincipal.removerResultado();
+	   this.tabelaTelaAnexo.removerResultado();
 	   
-	   if (listaUsoWorkflow.length != 0) {
+	   if (listaAnexos.length != 0) {
 		   var cellfuncs = new Array();
-		   cellfuncs.push( function(usoWorkflow) {
+		   cellfuncs.push( function(anexo) {
 			   return Builder.node("input", {
 				   type :"hidden",
 				   name :"id",
-				   value :usoWorkflow.id
+				   value :anexo.id
 			   });
 		   });
-		   cellfuncs.push( function(usoWorkflow) {
-			   return usoWorkflow.numeroRegistro;
+		   cellfuncs.push( function(anexo) {
+			   return Builder.node("input", {
+				   type :"checkbox",
+				   name :"anexosSelecionados",
+				   value :anexo.id
+			   });
 		   });
-		   cellfuncs.push( function(usoWorkflow) {
-			   return usoWorkflow.tarefa.atividade.processo.workflow.nome;
+		   cellfuncs.push( function(anexo) {
+			   return getStringTimestamp(anexo.dataCriacao);
 		   });
-		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
-		   this.tabelaTelaPrincipal.setOnDblClick(this.popupUsoDeWorkflow);
+		   cellfuncs.push( function(anexo) {
+			   return anexo.nome;
+		   });
+		   this.tabelaTelaAnexo.adicionarResultadoTabela(cellfuncs);
 	   } else {
-		   this.tabelaTelaPrincipal
-		   .semRegistros("Não foram encontrados anexos");
+		   this.tabelaTelaAnexo.semRegistros("Não foram encontrados anexos");
 	   }
    },
 
@@ -221,17 +241,7 @@ UsarWorkflow.prototype = {
 	   return true; // APOS SELECIONAR O WORKFLOW NA INICIALIZACAO
    },
 
-	/**
-	 * Abre o popup de uso do workflow.
-	 */
-	popupUsoDeWorkflow : function() {
-		var url = "usarWorkflow.do?method=popupUsoWorkflow";
-		createWindow(536, 985, 280, 10, "Workflow", "divUsoWorkflow", url, ( function() {
-			FactoryAbas.getNewAba("tabCamposAncora,tabCampos;tabHistoricoAncora,tabHistorico");
-		}));
-	},
-	
-	/**
+   /**
 	 * Envia a requisição para submeter o uso do workflow.
 	 * 
 	 * @param form formulário submetido

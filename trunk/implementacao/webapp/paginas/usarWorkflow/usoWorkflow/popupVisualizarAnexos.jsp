@@ -4,7 +4,6 @@
 <%@ taglib uri="http://www.ucb.br/sisgestor/taglib" prefix="htmlSGR" %>
 
 <html:form styleId="formIncluirAnexo" action="/usarWorkflow.do?method=incluirAnexo" onsubmit="usarWorkflow.incluirAnexo(this); return false;" method="POST" enctype="multipart/form-data">
-	<html:hidden property="id" styleId="idUsoWorkflow" />
 	<div id="divInserirArquivoAnexo" style="padding: 20px;">
 		<label>
 			<bean:message key="label.enderecoArquivo"/>
@@ -20,7 +19,10 @@
 		<table style="width: 99.9%">
 			<thead>
 				<tr>
-					<th width="2%" >&nbsp;</th>
+					<th style="display: none;">&nbsp;</th>
+					<th width="2%" >
+						<input type="checkbox" onclick="CheckboxFunctions.marcar(this.checked, 'anexosSelecionados');" />
+					</th>
 					<th width="30%"><bean:message key="label.dataCriacao" /></th>
 					<th><bean:message key="label.nomeArquivo" /></th>
 				</tr>
@@ -30,9 +32,9 @@
 	</div>
 	
 	<div style="margin-top: 10px; margin-right: 1px;">
-		<html:button property="excluir" style="width: 110px;" onclick="usarWorflow.excluirAnexo(); return false;" titleKey="dica.excluir">
+		<htmlSGR:button property="excluir" style="width: 110px;" onclick="usarWorkflow.excluirAnexo(); return false;" titleKey="dica.excluir" roles="6">
 				<bean:message key="botao.excluir"/>
-		</html:button>
+		</htmlSGR:button>
 		<html:button property="cancelar" titleKey="dica.cancelar" onclick="JanelaFactory.fecharJanelaAtiva();" styleClass="botaoOkCancelar">
 			<bean:message key="botao.cancelar"/>
 		</html:button>

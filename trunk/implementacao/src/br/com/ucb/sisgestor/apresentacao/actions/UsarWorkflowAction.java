@@ -43,7 +43,7 @@ public class UsarWorkflowAction extends BaseAction {
 		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
 
 		Integer[] anexosSelecionados = form.getAnexosSelecionados();
-		this.usoWorkflowBO.excluirAnexos(anexosSelecionados, form.getId());
+		this.usoWorkflowBO.excluirAnexos(anexosSelecionados);
 
 		this.addMessageKey("mensagem.excluir", "Anexo");
 		return this.sendAJAXResponse(true);

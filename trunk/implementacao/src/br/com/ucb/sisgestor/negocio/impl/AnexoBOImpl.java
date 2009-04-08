@@ -29,18 +29,16 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo, Integer> implements AnexoBO {
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-	public void atualizar(Anexo obj) throws NegocioException {
-		// TODO Auto-generated method stub
-
+	public void atualizar(Anexo anexo) throws NegocioException {
+		this.anexoDAO.atualizar(anexo);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-	public void excluir(Anexo obj) throws NegocioException {
-		// TODO Auto-generated method stub
-
+	public void excluir(Anexo anexo) throws NegocioException {
+		this.anexoDAO.excluir(anexo);
 	}
 
 	/**
@@ -56,8 +54,7 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo, Integer> implements AnexoBO {
 	 */
 	@Transactional(readOnly = true)
 	public Anexo obter(Integer pk) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.anexoDAO.obter(pk);
 	}
 
 	/**
@@ -65,8 +62,7 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo, Integer> implements AnexoBO {
 	 */
 	@Transactional(readOnly = true)
 	public List<Anexo> obterTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.anexoDAO.obterTodos();
 	}
 
 	/**
@@ -75,7 +71,6 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo, Integer> implements AnexoBO {
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void salvar(Anexo anexo) throws NegocioException {
 		this.anexoDAO.salvar(anexo);
-
 	}
 
 	/**
