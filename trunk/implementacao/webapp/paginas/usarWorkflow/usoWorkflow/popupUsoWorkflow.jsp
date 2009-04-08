@@ -10,18 +10,25 @@
 		</htmlSGR:link>
 	</div>
 	
-	<div class="bordas" style="width: 50%; padding: 5px; overflow: scroll;">
-		<label>
-			<b><bean:message key="label.dataInicio" /></b>: DATA INICIO
-		</label>
-		<br />
-		<label style="margin-top: 5px;">
-			<b><bean:message key="label.tarefa" /></b>: TAREFAAAA
-		</label>
-		<br />
-		<label style="margin-top: 5px;">
-			<b><bean:message key="label.tarefa" /></b>: TAREFAAAA
-		</label>
+	<div class="bordas" style="width: 50%; padding: 5px; overflow: auto;">
+		<div>
+			<label style="white-space: nowrap;">
+				<b><bean:message key="label.dataInicio" /></b>: 
+				<span id="dataHoraInicioTarefa"></span>
+			</label>
+		</div>
+		<div style="margin-top: 5px;">
+			<label style="white-space: nowrap;">
+				<b><bean:message key="label.tarefa" /></b>: 
+				<span id="nomeTarefa"></span>
+			</label>
+		</div>
+		<div style="margin-top: 5px;">
+			<label style="white-space: nowrap;">
+				<b><bean:message key="label.descricao" /></b>:
+				<span id="descricaoTarefa"></span>
+			</label>
+		</div>
 	</div>
 	
 	<div class="divAba">
@@ -36,10 +43,10 @@
 	<html:form action="/usarWorkflow.do?method=confirmar" onsubmit="usarWorkflow.confirmar(this); return false;" styleId="usoWorkflowForm">
 		<html:hidden property="id" styleId="idUsoWorkflow" />
 		<div class="bordas">
-			<div id="tabCampos" style="margin: 5px; height: 355px;">
+			<div id="tabCampos" style="margin: 5px; height: 350px; overflow: scroll;">
 				<tiles:insert definition="includeTabCamposWorkflow"/>
 			</div>
-			<div id="tabHistorico" style="margin: 5px; height: 355px;">
+			<div id="tabHistorico" style="margin: 5px; height: 350px; overflow: scroll;">
 				<tiles:insert definition="includeTabHistoricoWorkflow"/>
 			</div>
 		</div>
