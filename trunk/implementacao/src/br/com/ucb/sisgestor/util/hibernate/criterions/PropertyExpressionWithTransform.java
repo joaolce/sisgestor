@@ -50,9 +50,6 @@ public class PropertyExpressionWithTransform implements Criterion {
 	 */
 	protected PropertyExpressionWithTransform(String primeiraPropriedade, String segundaPropriedade,
 			String op, String primeiraFuncao, String segundaFuncao) {
-		if ((primeiraPropriedade == null) || (segundaPropriedade == null)) {
-			throw new IllegalArgumentException("Propriedades não podem ser null.");
-		}
 		this.primeiraPropriedade = primeiraPropriedade;
 		this.segundaPropriedade = segundaPropriedade;
 		this.primeiraFuncao = primeiraFuncao;
@@ -75,13 +72,13 @@ public class PropertyExpressionWithTransform implements Criterion {
 		String[] xcols = criteriaQuery.getColumnsUsingProjection(criteria, this.primeiraPropriedade);
 		if (this.primeiraFuncao != null) {
 			for (int i = 0; i < xcols.length; i++) {
-				xcols[i] = this.primeiraFuncao + "(" + xcols[i] + ")"; //NOPMD by João Lúcio - mais legível
+				xcols[i] = this.primeiraFuncao + '(' + xcols[i] + ')'; //NOPMD by João Lúcio - mais legível
 			}
 		}
 		String[] ycols = criteriaQuery.getColumnsUsingProjection(criteria, this.segundaPropriedade);
 		if (this.segundaFuncao != null) {
 			for (int i = 0; i < ycols.length; i++) {
-				ycols[i] = this.segundaFuncao + "(" + ycols[i] + ")"; //NOPMD by João Lúcio - mais legível
+				ycols[i] = this.segundaFuncao + '(' + ycols[i] + ')'; //NOPMD by João Lúcio - mais legível
 			}
 		}
 		StringBuffer result =
@@ -101,13 +98,14 @@ public class PropertyExpressionWithTransform implements Criterion {
 		if ((this.primeiraFuncao == null) && (this.segundaFuncao == null)) {
 			return this.primeiraPropriedade + this.op + this.segundaPropriedade;
 		}
-		if (this.primeiraFuncao != null) {
-			return this.primeiraFuncao + "(" + this.primeiraPropriedade + ")" + this.op
+		if (this.segundaFuncao == null) {
+			return this.primeiraFuncao + '(' + this.primeiraPropriedade + ')' + this.op
 					+ this.segundaPropriedade;
 		}
-		if (this.segundaFuncao != null) {
-			return this.primeiraPropriedade + this.op + this.segundaFuncao + "(" + this.segundaPropriedade + ")";
+		if (this.primeiraFuncao == null) {
+			return this.primeiraPropriedade + this.op + this.segundaFuncao + '(' + this.segundaPropriedade + ')';
 		}
-		return null;
+		return this.primeiraFuncao + '(' + this.primeiraPropriedade + ')' + this.op + this.segundaFuncao + '('
+				+ this.segundaPropriedade + ')';
 	}
 }

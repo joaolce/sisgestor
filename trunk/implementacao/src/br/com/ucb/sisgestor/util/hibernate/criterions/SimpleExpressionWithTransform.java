@@ -64,12 +64,16 @@ public class SimpleExpressionWithTransform implements Criterion {
 	public TypedValue[] getTypedValues(Criteria criteria, CriteriaQuery criteriaQuery)
 			throws HibernateException {
 		Type type = null;
+		Object icvalue = this.valor;
 		if ("".equals(this.funcao)) { //não tem função
 			type = criteriaQuery.getType(criteria, this.propriedade);
+			if (this.ignoreCase) {
+				icvalue = this.valor.toString().toLowerCase();
+			}
 		} else {
 			type = new IntegerType();
 		}
-		TypedValue typedValue = new TypedValue(type, this.valor, EntityMode.POJO);
+		TypedValue typedValue = new TypedValue(type, icvalue, EntityMode.POJO);
 		return new TypedValue[] {typedValue};
 	}
 

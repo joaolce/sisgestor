@@ -10,17 +10,25 @@
 		</htmlSGR:link>
 	</div>
 	
-	<div style="height: 60px;">
+	<div class="bordas" style="width: 50%; padding: 5px; overflow: scroll;">
 		<label>
-			<bean:message key="label.tarefa" />
+			<b><bean:message key="label.dataInicio" /></b>: DATA INICIO
+		</label>
+		<br />
+		<label style="margin-top: 5px;">
+			<b><bean:message key="label.tarefa" /></b>: TAREFAAAA
+		</label>
+		<br />
+		<label style="margin-top: 5px;">
+			<b><bean:message key="label.tarefa" /></b>: TAREFAAAA
 		</label>
 	</div>
 	
 	<div class="divAba">
-		<a href="#" id="tabCamposAncora" accesskey="c" title="IE: Alt + c, Enter / Firefox: Alt + Shift + c">
+		<a href="#" id="tabCamposAncora" accesskey="c" title="IE: Alt + c, Enter / Firefox: Alt + Shift + c" style="font-size: 11pt;">
 			<bean:message key="aba.campos" />
 		</a>
-		<a href="#" id="tabHistoricoAncora" accesskey="h" title="IE: Alt + h, Enter / Firefox: Alt + Shift + h">
+		<a href="#" id="tabHistoricoAncora" accesskey="h" title="IE: Alt + h, Enter / Firefox: Alt + Shift + h" style="font-size: 11pt;">
 			<bean:message key="aba.historico" />
 		</a>
 	</div>
