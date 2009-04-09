@@ -19,14 +19,11 @@ import org.apache.struts.upload.FormFile;
 public class UsarWorkflowActionForm extends BaseForm {
 
 	private Integer[]			anexosSelecionados;
-	private Boolean			ativo;
-	private String				descricao;
-	private String				nome;
 	private List<Workflow>	listaWorkflows;
 	private List<Anexo>		listaAnexos;
 	private FormFile			arquivo;
-	private Integer			idAnexo;
 	private Integer			workflow;
+	private Integer			usoWorkflow;
 
 	/**
 	 * Recupera os anexos selecionados
@@ -44,33 +41,6 @@ public class UsarWorkflowActionForm extends BaseForm {
 	 */
 	public FormFile getArquivo() {
 		return this.arquivo;
-	}
-
-	/**
-	 * Recupera o indicador de ativo do workflow.
-	 * 
-	 * @return indicador de ativo do workflow
-	 */
-	public Boolean getAtivo() {
-		return this.ativo;
-	}
-
-	/**
-	 * Recupera a descrição do workflow.
-	 * 
-	 * @return descrição do workflow
-	 */
-	public String getDescricao() {
-		return this.descricao;
-	}
-
-	/**
-	 * Recupera o id do anexo
-	 * 
-	 * @return id do anexo
-	 */
-	public Integer getIdAnexo() {
-		return this.idAnexo;
 	}
 
 	/**
@@ -92,12 +62,13 @@ public class UsarWorkflowActionForm extends BaseForm {
 	}
 
 	/**
-	 * Recupera o nome do workflow.
+	 * Recupera o identificador do usoWorkflow. <br />
+	 * Feito para utilizar nos anexos
 	 * 
-	 * @return nome do workflow
+	 * @return identificador do usoWorkflow
 	 */
-	public String getNome() {
-		return this.nome;
+	public Integer getUsoWorkflow() {
+		return this.usoWorkflow;
 	}
 
 	/**
@@ -128,34 +99,6 @@ public class UsarWorkflowActionForm extends BaseForm {
 	}
 
 	/**
-	 * Atribui o indicador de ativo do workflow.
-	 * 
-	 * @param ativo indicador de ativo do workflow
-	 */
-	public void setAtivo(Boolean ativo) {
-		this.ativo = ativo;
-	}
-
-
-	/**
-	 * Atribui a descrição do workflow.
-	 * 
-	 * @param descricao descrição do workflow
-	 */
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	/**
-	 * Atribui o id do anexo
-	 * 
-	 * @param idAnexo id do anexo
-	 */
-	public void setIdAnexo(Integer idAnexo) {
-		this.idAnexo = idAnexo;
-	}
-
-	/**
 	 * Atribui a lista de anexos
 	 * 
 	 * @param listaAnexos Lista de anexos
@@ -174,12 +117,13 @@ public class UsarWorkflowActionForm extends BaseForm {
 	}
 
 	/**
-	 * Atribui o nome do workflow.
+	 * Atribui o identificador do usoWorkflow. <br />
+	 * Feito para utilizar nos anexos
 	 * 
-	 * @param nome nome do workflow
+	 * @param usoWorkflow identificador do usoWorkflow
 	 */
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setUsoWorkflow(Integer usoWorkflow) {
+		this.usoWorkflow = usoWorkflow;
 	}
 
 	/**

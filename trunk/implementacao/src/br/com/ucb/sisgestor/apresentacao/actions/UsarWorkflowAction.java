@@ -5,9 +5,12 @@
 package br.com.ucb.sisgestor.apresentacao.actions;
 
 import br.com.ucb.sisgestor.apresentacao.forms.UsarWorkflowActionForm;
+import br.com.ucb.sisgestor.entidade.Anexo;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.negocio.WorkflowBO;
+import br.com.ucb.sisgestor.negocio.exception.NegocioException;
+import br.com.ucb.sisgestor.util.DataUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -28,7 +31,7 @@ public class UsarWorkflowAction extends BaseAction {
 	private WorkflowBO		workflowBO;
 
 	/**
-	 * Exclui o(s) anexo(s) selecionado(s)
+	 * Exclui o(s) anexo(s) selecionado(s).
 	 * 
 	 * @param mapping objeto mapping da action
 	 * @param formulario objeto form da action
@@ -39,7 +42,6 @@ public class UsarWorkflowAction extends BaseAction {
 	 */
 	public ActionForward excluirAnexo(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
 
 		Integer[] anexosSelecionados = form.getAnexosSelecionados();
@@ -50,7 +52,7 @@ public class UsarWorkflowAction extends BaseAction {
 	}
 
 	/**
-	 * Inclui o anexo ao uso workflow
+	 * Inclui o anexo ao uso workflow.
 	 * 
 	 * @param mapping objeto mapping da action
 	 * @param formulario objeto form da action
@@ -61,14 +63,15 @@ public class UsarWorkflowAction extends BaseAction {
 	 */
 	public ActionForward incluirAnexo(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
 		FormFile arquivo = form.getArquivo();
 
-		this.usoWorkflowBO.incluirAnexo(arquivo, form.getId());
+		Anexo anexo = this.criarAnexo(arquivo);
+		this.copyProperties(anexo, form, "id"); //feito para copiar o id do usoWorkflow
+		this.usoWorkflowBO.incluirAnexo(anexo);
 
-		this.addMessageKey("mensagem.salvar", "Anexo");
-		return this.sendAJAXResponse(true);
+		this.setSessionAttribute("idUsoWorkflow", anexo.getUsoWorkflow().getId());
+		return this.findForward("paginaAposIncluirAnexo");
 	}
 
 	/**
@@ -157,5 +160,26 @@ public class UsarWorkflowAction extends BaseAction {
 	@Autowired
 	public void setWorkflowBO(WorkflowBO workflowBO) {
 		this.workflowBO = workflowBO;
+	}
+
+	/**
+	 * Cria um {@link Anexo} a partir do {@link FormFile} enviado pelo struts.
+	 * 
+	 * @param arquivo arquivo enviado pelo struts
+	 * @return {@link Anexo} correspondente
+	 * @throws NegocioException caso ocorra
+	 */
+	private Anexo criarAnexo(FormFile arquivo) throws NegocioException {
+		Anexo anexo = new Anexo();
+
+		anexo.setNome(arquivo.getFileName());
+		anexo.setContentType(arquivo.getContentType());
+		anexo.setDataCriacao(DataUtil.getDataHoraAtual());
+		try {
+			anexo.setDados(arquivo.getFileData());
+		} catch (Exception e) {
+			throw new NegocioException("erro.arquivo.naoEncontrado"); //NOPMD by João Lúcio - não necessita
+		}
+		return anexo;
 	}
 }

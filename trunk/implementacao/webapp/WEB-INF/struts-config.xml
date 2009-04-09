@@ -84,6 +84,8 @@
 			<forward name="entrada" path="definicaoUsarWorkflow" />
 			<forward name="popupIniciarWorkflow" path="popupIniciarWorkflow" />
 			<forward name="popupVisualizarAnexos" path="popupVisualizarAnexos" />
+			<forward name="iframeAnexos" path="includeIframeAnexo" />
+			<forward name="paginaAposIncluirAnexo" path="/paginas/usarWorkflow/usoWorkflow/paginaAposIncluirAnexo.jsp" />
 			<forward name="popupUsoWorkflow" path="popupUsoWorkflow" />
 		</action>
 		

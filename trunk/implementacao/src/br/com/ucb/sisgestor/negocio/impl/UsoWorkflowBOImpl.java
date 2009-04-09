@@ -16,7 +16,6 @@ import br.com.ucb.sisgestor.util.constantes.Constantes;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.upload.FormFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -83,25 +82,8 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-	public void incluirAnexo(FormFile arquivo, Integer idUsoWorkflow) throws NegocioException {
-
-		this.validarArquivo(arquivo);
-
-		Anexo anexo = new Anexo();
-		//Teste
-		UsoWorkflow usoWorkflow = new UsoWorkflow();
-		usoWorkflow.setId(Integer.valueOf(1));
-
-		anexo.setUsoWorkflow(usoWorkflow);
-		anexo.setNome(arquivo.getFileName());
-		anexo.setContentType(arquivo.getContentType());
-		anexo.setDataCriacao(DataUtil.getDataHoraAtual());
-		try {
-			anexo.setDados(arquivo.getFileData());
-		} catch (Exception e) {
-			throw new NegocioException("erro.arquivo.naoEncontrado"); //NOPMD
-		}
-
+	public void incluirAnexo(Anexo anexo) throws NegocioException {
+		this.validarArquivo(anexo);
 		this.anexoBO.salvar(anexo);
 	}
 
@@ -110,7 +92,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	 */
 	@Transactional(readOnly = true)
 	public UsoWorkflow obter(Integer pk) {
-		return null;
+		return this.usoWorkflowDAO.obter(pk);
 	}
 
 	/**
@@ -118,7 +100,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	 */
 	@Transactional(readOnly = true)
 	public List<UsoWorkflow> obterTodos() {
-		return null;
+		return this.usoWorkflowDAO.obterTodos();
 	}
 
 	/**
@@ -189,12 +171,11 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	/**
 	 * Efetua verificações para saber se o arquivo é válido.
 	 */
-	private void validarArquivo(FormFile arquivo) throws NegocioException {
-		if (StringUtils.isBlank(arquivo.getFileName())) {
+	private void validarArquivo(Anexo anexo) throws NegocioException {
+		if (StringUtils.isBlank(anexo.getNome())) {
 			throw new NegocioException("erro.arquivo.nomeVazio");
 		}
-
-		if (arquivo.getFileSize() > Constantes.TAMANHO_MAX_ANEXO_PERMITIDO) {
+		if (anexo.getDados().length > Constantes.TAMANHO_MAX_ANEXO_PERMITIDO) {
 			throw new NegocioException("erro.arquivo.tamanhoMaximoExcedido", String
 					.valueOf(((Constantes.TAMANHO_MAX_ANEXO_PERMITIDO / 1024) / 1204)));
 		}
