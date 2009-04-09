@@ -23,6 +23,16 @@ public class UsarWorkflowDWR extends BaseDWR {
 	private UsoWorkflowBO	usoWorkflowBO;
 
 	/**
+	 * Recupera um uso de workflow a partir do identificador.
+	 * 
+	 * @param id identificador do uso
+	 * @return {@link UsoWorkflow}
+	 */
+	public UsoWorkflow getById(Integer id) {
+		return this.usoWorkflowBO.obter(id);
+	}
+
+	/**
 	 * Pesquisa os workflows com os parâmetros preenchidos.
 	 * 
 	 * @param parametros parâmetros da pesquisa
