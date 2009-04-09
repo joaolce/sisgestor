@@ -23,7 +23,7 @@ import org.springframework.stereotype.Repository;
  * @since 05/01/2009
  */
 @Repository("departamentoDAO")
-public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento, Integer> implements DepartamentoDAO {
+public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento> implements DepartamentoDAO {
 
 	/**
 	 * Cria uma nova instância do tipo {@link DepartamentoDAOImpl}.

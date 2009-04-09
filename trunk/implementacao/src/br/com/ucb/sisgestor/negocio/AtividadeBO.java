@@ -16,7 +16,7 @@ import java.util.List;
  * @author Thiago
  * @since 16/02/2009
  */
-public interface AtividadeBO extends BaseBO<Atividade, Integer> {
+public interface AtividadeBO extends BaseBO<Atividade> {
 
 	/**
 	 * Atualiza as {@link TransacaoAtividade} informadas e as posições das atividades na página.

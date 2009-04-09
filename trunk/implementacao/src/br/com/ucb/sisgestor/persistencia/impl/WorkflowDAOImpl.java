@@ -24,7 +24,7 @@ import org.springframework.stereotype.Repository;
  * @since 04/02/2009
  */
 @Repository("workflowDAO")
-public class WorkflowDAOImpl extends BaseDAOImpl<Workflow, Integer> implements WorkflowDAO {
+public class WorkflowDAOImpl extends BaseDAOImpl<Workflow> implements WorkflowDAO {
 
 	/**
 	 * Cria uma nova instância do tipo {@link WorkflowDAOImpl}

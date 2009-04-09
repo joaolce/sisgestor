@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
  * @since 07/04/2009
  */
 @Repository("anexoDAO")
-public class AnexoDAOImpl extends BaseDAOImpl<Anexo, Integer> implements AnexoDAO {
+public class AnexoDAOImpl extends BaseDAOImpl<Anexo> implements AnexoDAO {
 
 	/**
 	 * Cria uma nova instância do tipo {@link AnexoDAOImpl}

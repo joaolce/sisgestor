@@ -12,5 +12,5 @@ import br.com.ucb.sisgestor.entidade.Permissao;
  * @author João Lúcio
  * @since 19/01/2009
  */
-public interface PermissaoDAO extends BaseDAO<Permissao, Integer> {
+public interface PermissaoDAO extends BaseDAO<Permissao> {
 }

@@ -13,7 +13,7 @@ import java.util.List;
  * @author Thiago
  * @since 07/04/2009
  */
-public interface AnexoBO extends BaseBO<Anexo, Integer> {
+public interface AnexoBO extends BaseBO<Anexo> {
 
 	/**
 	 * Recupera uma lista de anexos do uso workflow informado.

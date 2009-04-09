@@ -23,7 +23,7 @@ import org.springframework.stereotype.Repository;
  * @since 01/01/2009
  */
 @Repository("usuarioDAO")
-public class UsuarioDAOImpl extends BaseDAOImpl<Usuario, Integer> implements UsuarioDAO {
+public class UsuarioDAOImpl extends BaseDAOImpl<Usuario> implements UsuarioDAO {
 
 	/**
 	 * Cria uma nova instância do tipo {@link UsuarioDAOImpl}.

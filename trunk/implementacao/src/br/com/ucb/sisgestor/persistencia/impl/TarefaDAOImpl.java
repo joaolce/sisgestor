@@ -24,7 +24,7 @@ import org.springframework.stereotype.Repository;
  * @since 16/02/2009
  */
 @Repository("tarefaDAO")
-public class TarefaDAOImpl extends BaseDAOImpl<Tarefa, Integer> implements TarefaDAO {
+public class TarefaDAOImpl extends BaseDAOImpl<Tarefa> implements TarefaDAO {
 
 	/**
 	 * Cria uma nova instância do tipo {@link TarefaDAOImpl}

@@ -14,7 +14,7 @@ import java.util.List;
  * @author João Lúcio
  * @since 01/01/2009
  */
-public interface UsuarioDAO extends BaseDAO<Usuario, Integer> {
+public interface UsuarioDAO extends BaseDAO<Usuario> {
 
 	/**
 	 * Recupera um {@link List} de {@link Usuario} do {@link Departamento}
@@ -23,6 +23,14 @@ public interface UsuarioDAO extends BaseDAO<Usuario, Integer> {
 	 * @return Lista de usuários do departamento
 	 */
 	List<Usuario> getByDepartamento(Integer departamento);
+
+	/**
+	 * Recupera um {@link Usuario} a partir do seu login.
+	 * 
+	 * @param login login do usuário
+	 * @return usuário encontrado
+	 */
+	Usuario getByLogin(String login);
 
 	/**
 	 * Retorna um {@link List} de {@link Usuario} a partir do login, nome e departamento.
@@ -45,12 +53,4 @@ public interface UsuarioDAO extends BaseDAO<Usuario, Integer> {
 	 * @return total de registros encontrados
 	 */
 	Integer getTotalRegistros(String login, String nome, Integer departamento);
-
-	/**
-	 * Recupera um {@link Usuario} a partir do seu login.
-	 * 
-	 * @param login login do usuário
-	 * @return usuário encontrado
-	 */
-	Usuario getByLogin(String login);
 }

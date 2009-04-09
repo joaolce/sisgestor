@@ -14,7 +14,7 @@ import java.util.List;
  * @author Thiago
  * @since 17/02/2009
  */
-public interface CampoDAO extends BaseDAO<Campo, Integer> {
+public interface CampoDAO extends BaseDAO<Campo> {
 
 	/** Quantidade de registros por paginação da tela de campos */
 	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(6);

@@ -15,7 +15,7 @@ import java.util.List;
  * @author João Lúcio
  * @since 27/10/2008
  */
-public interface UsuarioBO extends BaseBO<Usuario, Integer> {
+public interface UsuarioBO extends BaseBO<Usuario> {
 
 	/**
 	 * Envia um e-mail para o {@link Usuario} com o lembrete da sua senha.

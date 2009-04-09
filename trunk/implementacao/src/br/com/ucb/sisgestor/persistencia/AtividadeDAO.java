@@ -15,7 +15,7 @@ import java.util.List;
  * @author Thiago
  * @since 16/02/2009
  */
-public interface AtividadeDAO extends BaseDAO<Atividade, Integer> {
+public interface AtividadeDAO extends BaseDAO<Atividade> {
 
 	/** Quantidade de registros por paginação da tela de Atividades */
 	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(6);

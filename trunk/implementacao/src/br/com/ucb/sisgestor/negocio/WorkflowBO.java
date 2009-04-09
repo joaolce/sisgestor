@@ -14,7 +14,7 @@ import java.util.List;
  * @author Thiago
  * @since 04/02/2009
  */
-public interface WorkflowBO extends BaseBO<Workflow, Integer> {
+public interface WorkflowBO extends BaseBO<Workflow> {
 
 	/**
 	 * Retorna um {@link List} de {@link Workflow} a partir dos parâmetros informados. <br />

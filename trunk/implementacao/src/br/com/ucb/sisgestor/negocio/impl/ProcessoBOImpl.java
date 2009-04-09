@@ -13,8 +13,8 @@ import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.ProcessoDAO;
 import br.com.ucb.sisgestor.util.Utils;
-import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaManterProcessoDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 11/02/2009
  */
 @Service("processoBO")
-public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo, Integer> implements ProcessoBO {
+public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo> implements ProcessoBO {
 
 	private WorkflowBO	workflowBO;
 	private ProcessoDAO	processoDAO;

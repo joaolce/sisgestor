@@ -15,7 +15,7 @@ import java.util.List;
  * @author Thiago
  * @since 11/02/2009
  */
-public interface ProcessoDAO extends BaseDAO<Processo, Integer> {
+public interface ProcessoDAO extends BaseDAO<Processo> {
 
 	/** Quantidade de registros por paginação da tela de Processos */
 	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(6);

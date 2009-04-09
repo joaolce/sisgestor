@@ -16,7 +16,7 @@ import java.util.List;
  * @author Thiago
  * @since 11/02/2009
  */
-public interface ProcessoBO extends BaseBO<Processo, Integer> {
+public interface ProcessoBO extends BaseBO<Processo> {
 
 	/**
 	 * Atualiza as {@link TransacaoProcesso} informadas e as posições dos processos na página.

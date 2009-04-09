@@ -13,7 +13,7 @@ import java.util.List;
  * @author João Lúcio
  * @since 05/01/2009
  */
-public interface DepartamentoBO extends BaseBO<Departamento, Integer> {
+public interface DepartamentoBO extends BaseBO<Departamento> {
 
 	/**
 	 * Retorna um {@link List} de {@link Departamento} a partir da sigla e nome.

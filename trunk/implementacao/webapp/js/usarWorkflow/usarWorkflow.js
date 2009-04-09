@@ -86,7 +86,7 @@ UsarWorkflow.prototype = {
 		   var id = usarWorkflow.getIdSelecionado();
 		   dwr.util.setValue("idUsoWorkflow", id);
 		   UsarWorkflowDWR.getById(id, (function(usoWorkflow){
-		   	dwr.util.setValue("dataHoraInicioTarefa", usoWorkflow.dataHoraInicio);
+		   	dwr.util.setValue("dataHoraInicioTarefa", getStringTimestamp(usoWorkflow.dataHoraInicio));
 		   	dwr.util.setValue("nomeTarefa", usoWorkflow.tarefa.nome);
 		   	dwr.util.setValue("descricaoTarefa", usoWorkflow.tarefa.descricao);
 		   }).bind(this));

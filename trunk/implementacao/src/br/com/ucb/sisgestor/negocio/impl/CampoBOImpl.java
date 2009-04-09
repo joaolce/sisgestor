@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 17/02/2009
  */
 @Service("campoBO")
-public class CampoBOImpl extends BaseBOImpl<Campo, Integer> implements CampoBO {
+public class CampoBOImpl extends BaseBOImpl<Campo> implements CampoBO {
 
 	private WorkflowBO	workflowBO;
 	private CampoDAO		campoDAO;
