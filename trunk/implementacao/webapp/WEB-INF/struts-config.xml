@@ -7,6 +7,7 @@
 	<description>Configurações gerais - struts framework</description>
 	
 	<form-beans>
+		<form-bean name="anexoUsoWorkflowForm" type="br.com.ucb.sisgestor.apresentacao.forms.AnexoUsoWorkflowActionForm" />
 		<form-bean name="manterDepartamentoForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterDepartamentoActionForm" />
 		<form-bean name="manterUsuarioForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterUsuarioActionForm" />
 		<form-bean name="manterWorkflowForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterWorkflowActionForm" />
@@ -83,10 +84,18 @@
 			parameter="method">
 			<forward name="entrada" path="definicaoUsarWorkflow" />
 			<forward name="popupIniciarWorkflow" path="popupIniciarWorkflow" />
-			<forward name="popupVisualizarAnexos" path="popupVisualizarAnexos" />
-			<forward name="iframeAnexos" path="includeIframeAnexo" />
-			<forward name="paginaAposIncluirAnexo" path="/paginas/usarWorkflow/usoWorkflow/paginaAposIncluirAnexo.jsp" />
 			<forward name="popupUsoWorkflow" path="popupUsoWorkflow" />
+			<forward name="popupVisualizarAnexos" path="popupVisualizarAnexos" />
+		</action>
+		
+		<!-- Anexos do Usar Workflow -->
+		<action path="/anexoUsoWorkflow" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.AnexoUsoWorkflowAction"
+			name="anexoUsoWorkflowForm"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoAnexoUsoWorkflow" />
 		</action>
 		
 		<!-- Manter Processo -->

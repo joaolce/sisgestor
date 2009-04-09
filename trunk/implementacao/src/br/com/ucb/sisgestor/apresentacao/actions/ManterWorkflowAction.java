@@ -48,6 +48,25 @@ public class ManterWorkflowAction extends BaseAction {
 	}
 
 	/**
+	 * Atualiza um workflow.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param actionForm objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward da atualização
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward copiar(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		this.addMessageKey("mensagem.workflow.copiado");
+		this.saveMessages(true);
+
+		return this.findForward(FWD_ENTRADA);
+	}
+
+	/**
 	 * Exclui um workflow.
 	 * 
 	 * @param mapping objeto mapping da action

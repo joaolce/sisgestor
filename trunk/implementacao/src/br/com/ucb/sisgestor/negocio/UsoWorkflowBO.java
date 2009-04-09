@@ -8,8 +8,6 @@ import br.com.ucb.sisgestor.entidade.Anexo;
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Usuario;
-import br.com.ucb.sisgestor.entidade.Workflow;
-import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import java.util.List;
 
 /**
@@ -21,28 +19,12 @@ import java.util.List;
 public interface UsoWorkflowBO extends BaseBO<UsoWorkflow> {
 
 	/**
-	 * Exclui os anexos selecionados
-	 * 
-	 * @param anexosSelecionados Seleção dos anexos
-	 * @throws NegocioException NegocioException caso exceção de negócio seja violada
-	 */
-	void excluirAnexos(Integer[] anexosSelecionados) throws NegocioException;
-
-	/**
 	 * Recupera uma lista de anexos do {@link UsoWorkflow}
 	 * 
 	 * @param idUsoWorkflow Código identificador do uso workflow
 	 * @return lista de anexos
 	 */
 	List<Anexo> getAnexos(Integer idUsoWorkflow);
-
-	/**
-	 * Inclui um anexo associado ao uso do {@link Workflow} informado.
-	 * 
-	 * @param anexo arquivo a ser anexado
-	 * @throws NegocioException NegocioException caso exceção de negócio seja violada
-	 */
-	void incluirAnexo(Anexo anexo) throws NegocioException;
 
 	/**
 	 * Recupera a lista de workflows em uso com {@link Tarefa} pendente do {@link Usuario} atual.

@@ -51,6 +51,8 @@
 		roles="4"  />
 	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterProcessoAction#salvar" 
 		roles="4" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterProcessoAction#salvarFluxo" 
+		roles="4" />
 		
 	<!-- Manter Atividade -->
 	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterAtividadeAction#atualizar" 
@@ -61,6 +63,8 @@
 		roles="4"  />
 	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterAtividadeAction#salvar" 
 		roles="4" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterAtividadeAction#salvarFluxo" 
+		roles="4" />
 
 	<!-- Manter Tarefa -->
 	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterTarefaAction#atualizar" 
@@ -70,6 +74,8 @@
 	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterTarefaAction#popupNovaTarefa" 
 		roles="4"  />
 	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterTarefaAction#salvar" 
+		roles="4" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterTarefaAction#salvarFluxo" 
 		roles="4" />
 		
 	<!-- Manter Campo -->

@@ -13,10 +13,8 @@ import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
 import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
-import br.com.ucb.sisgestor.util.constantes.Constantes;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -54,18 +52,6 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-	public void excluirAnexos(Integer[] anexosSelecionados) throws NegocioException {
-		Anexo anexo;
-		for (Integer idAnexo : anexosSelecionados) {
-			anexo = this.anexoBO.obter(idAnexo);
-			this.anexoBO.excluir(anexo);
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	@Transactional(readOnly = true)
 	public List<Anexo> getAnexos(Integer idUsoWorkflow) {
 		return this.anexoBO.getAnexosByUsoWorkflow(idUsoWorkflow);
@@ -77,15 +63,6 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	@Override
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		return this.usoWorkflowDAO.getTotalRegistros(Utils.getUsuario());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-	public void incluirAnexo(Anexo anexo) throws NegocioException {
-		this.validarArquivo(anexo);
-		this.anexoBO.salvar(anexo);
 	}
 
 	/**
@@ -170,18 +147,5 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 			ultimoNumero++;
 		}
 		usoWorkflow.setNumero(ultimoNumero);
-	}
-
-	/**
-	 * Efetua verificações para saber se o arquivo é válido.
-	 */
-	private void validarArquivo(Anexo anexo) throws NegocioException {
-		if (StringUtils.isBlank(anexo.getNome())) {
-			throw new NegocioException("erro.arquivo.nomeVazio");
-		}
-		if (anexo.getDados().length > Constantes.TAMANHO_MAX_ANEXO_PERMITIDO) {
-			throw new NegocioException("erro.arquivo.tamanhoMaximoExcedido", String
-					.valueOf(((Constantes.TAMANHO_MAX_ANEXO_PERMITIDO / 1024) / 1204)));
-		}
 	}
 }

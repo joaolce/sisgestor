@@ -20,4 +20,8 @@ public final class ConstantesRoles {
 	public static final String	MANTER_USUARIO			= "3";
 	/** Manter Workflow */
 	public static final String	MANTER_WORKFLOW		= "4";
+	/** Usar Workflow */
+	public static final String	USAR_WORKFLOW			= "5";
+	/** Anexar Aquivo ao uso do Workflow */
+	public static final String	ANEXAR_ARQUIVO			= "6";
 }
