@@ -5,10 +5,8 @@
 package br.com.ucb.sisgestor.apresentacao.forms;
 
 import br.com.ucb.sisgestor.apresentacao.actions.UsarWorkflowAction;
-import br.com.ucb.sisgestor.entidade.Anexo;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import java.util.List;
-import org.apache.struts.upload.FormFile;
 
 /**
  * Form para a action {@link UsarWorkflowAction}.
@@ -18,39 +16,8 @@ import org.apache.struts.upload.FormFile;
  */
 public class UsarWorkflowActionForm extends BaseForm {
 
-	private Integer[]			anexosSelecionados;
-	private List<Workflow>	listaWorkflows;
-	private List<Anexo>		listaAnexos;
-	private FormFile			arquivo;
 	private Integer			workflow;
-	private Integer			usoWorkflow;
-
-	/**
-	 * Recupera os anexos selecionados
-	 * 
-	 * @return anexos selecionados
-	 */
-	public Integer[] getAnexosSelecionados() {
-		return this.anexosSelecionados;
-	}
-
-	/**
-	 * Recupera o arquivo
-	 * 
-	 * @return arquivo
-	 */
-	public FormFile getArquivo() {
-		return this.arquivo;
-	}
-
-	/**
-	 * Recupera uma lista de anexos
-	 * 
-	 * @return lista de anexos
-	 */
-	public List<Anexo> getListaAnexos() {
-		return this.listaAnexos;
-	}
+	private List<Workflow>	listaWorkflows;
 
 	/**
 	 * Recupera a lista de workflows disponíveis para serem iniciados
@@ -59,16 +26,6 @@ public class UsarWorkflowActionForm extends BaseForm {
 	 */
 	public List<Workflow> getListaWorkflows() {
 		return this.listaWorkflows;
-	}
-
-	/**
-	 * Recupera o identificador do usoWorkflow. <br />
-	 * Feito para utilizar nos anexos
-	 * 
-	 * @return identificador do usoWorkflow
-	 */
-	public Integer getUsoWorkflow() {
-		return this.usoWorkflow;
 	}
 
 	/**
@@ -81,49 +38,12 @@ public class UsarWorkflowActionForm extends BaseForm {
 	}
 
 	/**
-	 * Atribui os anexos selecionados
-	 * 
-	 * @param anexosSelecionados Anexos selecionados na página
-	 */
-	public void setAnexosSelecionados(Integer[] anexosSelecionados) {
-		this.anexosSelecionados = anexosSelecionados;
-	}
-
-	/**
-	 * Atribui o arquivo
-	 * 
-	 * @param arquivo o arquivo a ser carregado
-	 */
-	public void setArquivo(FormFile arquivo) {
-		this.arquivo = arquivo;
-	}
-
-	/**
-	 * Atribui a lista de anexos
-	 * 
-	 * @param listaAnexos Lista de anexos
-	 */
-	public void setListaAnexos(List<Anexo> listaAnexos) {
-		this.listaAnexos = listaAnexos;
-	}
-
-	/**
 	 * Atribui a lista de workflows
 	 * 
 	 * @param listaWorkflows {@link List} de {@link Workflow}
 	 */
 	public void setListaWorkflows(List<Workflow> listaWorkflows) {
 		this.listaWorkflows = listaWorkflows;
-	}
-
-	/**
-	 * Atribui o identificador do usoWorkflow. <br />
-	 * Feito para utilizar nos anexos
-	 * 
-	 * @param usoWorkflow identificador do usoWorkflow
-	 */
-	public void setUsoWorkflow(Integer usoWorkflow) {
-		this.usoWorkflow = usoWorkflow;
 	}
 
 	/**

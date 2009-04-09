@@ -11,6 +11,7 @@ import br.com.ucb.sisgestor.util.GenericsUtil;
 import br.com.ucb.sisgestor.util.hibernate.criterions.RestrictionsSGR;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -47,7 +48,7 @@ public class UsoWorkflowDAOImpl extends BaseDAOImpl<UsoWorkflow> implements UsoW
 	public List<UsoWorkflow> recuperarPendentesUsuario(Usuario usuario, Integer paginaAtual) {
 		Criteria criteria = this.montarCriteriosPaginacao(usuario);
 		this.adicionarPaginacao(criteria, paginaAtual, UsoWorkflowDAO.QTD_REGISTROS_PAGINA);
-		criteria.addOrder(Order.asc("dataHoraInicio"));
+		criteria.addOrder(Order.asc("this.dataHoraInicio"));
 		return GenericsUtil.checkedList(criteria.list(), UsoWorkflow.class);
 	}
 
@@ -71,9 +72,14 @@ public class UsoWorkflowDAOImpl extends BaseDAOImpl<UsoWorkflow> implements UsoW
 	 */
 	private Criteria montarCriteriosPaginacao(Usuario usuario) {
 		Criteria criteria = this.createCriteria(UsoWorkflow.class);
+		Disjunction disjunction = Restrictions.disjunction();
 		criteria.createAlias("this.tarefa", "tarefa");
-		criteria.add(Restrictions.eq("tarefa.usuario", usuario));
-		criteria.addOrder(Order.desc("this.dataHoraInicio"));
+		disjunction.add(Restrictions.eq("tarefa.usuario", usuario));
+		if (usuario.getChefe()) {
+			criteria.createAlias("tarefa.atividade", "atividade");
+			disjunction.add(Restrictions.eq("atividade.departamento", usuario.getDepartamento()));
+		}
+		criteria.add(disjunction);
 		return criteria;
 	}
 }

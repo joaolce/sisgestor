@@ -7,9 +7,9 @@
 		<htmlSGR:link href="#gerenciarTarefas" titleKey="dica.tarefa.gerenciar" linkName="gerenciarTarefas" styleId="linkGerenciarTarefas" styleClass="btDesativado" roles="4">
 			<html:img srcKey="imagem.tarefa" width="20" height="19" />
 		</htmlSGR:link>
-		<htmlSGR:link href="#definirFluxoAtividade" titleKey="dica.definirFluxo" onclick="atividade.popupDefinirFluxoAtividades();" linkName="definirFluxoAtividade" styleId="linkDefinirFluxoAtividade" roles="4">
+		<html:link href="#definirFluxoAtividade" titleKey="dica.definirFluxo" onclick="atividade.popupDefinirFluxoAtividades();" linkName="definirFluxoAtividade" styleId="linkDefinirFluxoAtividade">
 			<html:img srcKey="imagem.fluxo" width="20" height="19" />
-		</htmlSGR:link>
+		</html:link>
 		<htmlSGR:link href="#novaAtividade" titleKey="dica.atividade.nova" onclick="atividade.popupNovaAtividade();" linkName="novaAtividade" roles="4">
 			<html:img srcKey="imagem.novo" width="20" height="19" />
 		</htmlSGR:link>

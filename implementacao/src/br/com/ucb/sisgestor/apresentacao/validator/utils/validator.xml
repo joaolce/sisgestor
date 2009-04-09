@@ -10,6 +10,9 @@
 
 <validate-mapping>
 
+		<validacao action="br.com.ucb.sisgestor.apresentacao.actions.AnexoUsoWorkflowAction" 
+		validator="br.com.ucb.sisgestor.apresentacao.validator.AnexoUsoWorkflowValidator" />
+
 		<validacao action="br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction" 
 		validator="br.com.ucb.sisgestor.apresentacao.validator.ManterDepartamentoValidator" />
 		

@@ -14,11 +14,4 @@ import br.com.ucb.sisgestor.apresentacao.actions.UsarWorkflowAction;
  */
 public class UsarWorkflowValidator extends BaseValidator {
 
-	/**
-	 * Faz as validações do método incluirAnexo.
-	 */
-	public void incluirAnexo() {
-		this.validaRequerido("label.enderecoArquivo", "arquivo");
-		this.setForwardErroValidacao("iframeAnexos");
-	}
 }

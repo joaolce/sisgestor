@@ -4,7 +4,6 @@
  */
 package br.com.ucb.sisgestor.apresentacao.dwr;
 
-import br.com.ucb.sisgestor.entidade.Anexo;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
@@ -44,24 +43,6 @@ public class UsarWorkflowDWR extends BaseDWR {
 		List<UsoWorkflow> lista = this.usoWorkflowBO.recuperarPendentesUsuarioAtual(paginaAtual);
 
 		ListaResultadoDTO<UsoWorkflow> resultado = new ListaResultadoDTO<UsoWorkflow>();
-		resultado.setColecaoParcial(lista);
-
-		this.setTotalPesquisa(parametros, resultado, this.usoWorkflowBO);
-		return resultado;
-	}
-
-	/**
-	 * Pesquisa os anexos do uso workflow
-	 * 
-	 * @param parametros parâmetros da pesquisa
-	 * @return {@link List} de {@link Anexo}
-	 */
-	public ListaResultadoDTO<Anexo> pesquisarAnexos(PesquisaUsarWorkflowDTO parametros) {
-		Integer idUsoWorkflow = parametros.getIdUsoWorkflow();
-
-		List<Anexo> lista = this.usoWorkflowBO.getAnexos(idUsoWorkflow);
-
-		ListaResultadoDTO<Anexo> resultado = new ListaResultadoDTO<Anexo>();
 		resultado.setColecaoParcial(lista);
 
 		this.setTotalPesquisa(parametros, resultado, this.usoWorkflowBO);

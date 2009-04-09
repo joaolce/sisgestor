@@ -32,7 +32,7 @@ public class AnexoDAOImpl extends BaseDAOImpl<Anexo> implements AnexoDAO {
 	 * {@inheritDoc}
 	 */
 	public List<Anexo> getAnexosByUsoWorkflow(Integer idUsoWorkflow) {
-		Criteria criteria = this.getSession().createCriteria(Anexo.class);
+		Criteria criteria = this.createCriteria(Anexo.class);
 		criteria.add(Restrictions.eq("usoWorkflow.id", idUsoWorkflow));
 		return GenericsUtil.checkedList(criteria.list(), Anexo.class);
 	}

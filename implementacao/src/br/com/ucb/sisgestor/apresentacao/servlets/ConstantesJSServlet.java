@@ -34,6 +34,8 @@ public class ConstantesJSServlet extends HttpServlet {
 		constantes.put("MANTER_DEPARTAMENTO", ConstantesRoles.MANTER_DEPARTAMENTO);
 		constantes.put("MANTER_USUARIO", ConstantesRoles.MANTER_USUARIO);
 		constantes.put("MANTER_WORKFLOW", ConstantesRoles.MANTER_WORKFLOW);
+		constantes.put("USAR_WORKFLOW", ConstantesRoles.USAR_WORKFLOW);
+		constantes.put("ANEXAR_ARQUIVO", ConstantesRoles.ANEXAR_ARQUIVO);
 		constantes.put("QTD_REGISTROS_PAGINA", BaseDAO.QTD_REGISTROS_PAGINA);
 		constantes.put("QTD_REGISTROS_PAGINA_CAMPO", CampoDAO.QTD_REGISTROS_PAGINA);
 		constantes.put("QTD_REGISTROS_PAGINA_PROCESSO", ProcessoDAO.QTD_REGISTROS_PAGINA);

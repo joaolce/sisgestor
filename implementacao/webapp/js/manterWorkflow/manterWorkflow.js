@@ -247,11 +247,18 @@ ManterWorkflow.prototype = {
 		   $("linkGerenciarProcessos").onclick = this.popupGerenciarProcessos;
 		   $("linkGerenciarCampos").className = "";
 		   $("linkGerenciarCampos").onclick = this.popupGerenciarCampos;
+		   if (Usuario.temPermissao(MANTER_WORKFLOW)) {
+			   $("linkCopiarWorkflow").className = "";
+			   $("linkCopiarWorkflow").href = "manterWorkflow.do?method=copiar&id="
+			      + this.getIdSelecionado();
+		   }
 	   } else {
 		   $("linkGerenciarProcessos").className = "btDesativado";
 		   $("linkGerenciarProcessos").onclick = "";
 		   $("linkGerenciarCampos").className = "btDesativado";
 		   $("linkGerenciarCampos").onclick = "";
+		   $("linkCopiarWorkflow").className = "btDesativado";
+		   $("linkCopiarWorkflow").href = "#";
 	   }
    },
 

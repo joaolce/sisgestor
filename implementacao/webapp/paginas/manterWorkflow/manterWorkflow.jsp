@@ -29,6 +29,9 @@
 		<htmlSGR:link href="#gerenciarProcessos" titleKey="dica.processo.gerenciar" linkName="gerenciarProcessos" styleId="linkGerenciarProcessos" styleClass="btDesativado" roles="4">
 			<html:img srcKey="imagem.processo" width="20" height="19" />
 		</htmlSGR:link>
+		<htmlSGR:link href="#" titleKey="dica.workflow.copiar" styleId="linkCopiarWorkflow" styleClass="btDesativado" roles="4">
+			<html:img srcKey="imagem.copiar" width="20" height="19" />
+		</htmlSGR:link>
 		<htmlSGR:link href="#novoWorkflow" titleKey="dica.workflow.novo" onclick="workflow.popupNovoWorkflow();" linkName="novoWorkflow" roles="4">
 			<html:img srcKey="imagem.novo" width="20" height="19" />
 		</htmlSGR:link>

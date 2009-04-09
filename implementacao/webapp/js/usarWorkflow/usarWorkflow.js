@@ -20,34 +20,9 @@ UsarWorkflow.prototype = {
    tabelaTelaPrincipal :null,
 
    /**
-	 * Tabela com os anexos
-	 */
-   tabelaTelaAnexo :null,
-
-   /**
 	 * @constructor
 	 */
    initialize : function() {},
-
-   /**
-	 * Inclui um novo anexo. Envia requisição para o servidor.
-	 */
-   incluirAnexo : function() {
-   // REDIRECIONAR A PAGINA DE USO
-   },
-
-   /**
-	 * Exclui o(s) anexo(s) selecionado(s)
-	 */
-   excluirAnexo : function() {
-	   var anexosSelecionados = dwr.util.getValue("anexosSelecionados");
-	   requestUtils.simpleRequest("usarWorkflow.do?method=excluirAnexo&anexosSelecionados="
-	      + anexosSelecionados, ( function() {
-		   if (requestUtils.status) {
-			   this.pesquisarAnexos();
-		   }
-	   }).bind(this));
-   },
 
    /**
 	 * Inicia o workflow selecionado no combo
@@ -61,12 +36,11 @@ UsarWorkflow.prototype = {
 	 * Abre popup para visualizar os anexos.
 	 */
    popupVisualizarAnexos : function() {
-	   var idUsoWorkflow = dwr.util.getValue("idUsoWorkflow");
-	   var url = "usarWorkflow.do?method=popupVisualizarAnexos&id=" + idUsoWorkflow;
-	   createWindow(355, 550, 300, 40, "Visualizar Anexos", "divVisualizarAnexos", url,
+	   var idUsoWorkflow = $F("idUsoWorkflow");
+	   var url = "anexoUsoWorkflow.do?method=entrada&usoWorkflow=" + idUsoWorkflow;
+	   createWindow(250, 500, 300, 40, "Visualizar Anexos", "divVisualizarAnexos", url,
 	      ( function() {
-		      dwr.util.setValue("idUsoWorkflowAnexo", $F("idUsoWorkflow"));
-		      this.pesquisarAnexos();
+		      dwr.util.setValue("idUsoWorkflowAnexo", idUsoWorkflow);
 	      }).bind(this));
    },
 
@@ -103,15 +77,6 @@ UsarWorkflow.prototype = {
    },
 
    /**
-	 * Retorna a tabela da tela de anexo.
-	 * 
-	 * @return {HTMLTableSectionElement}
-	 */
-   getTBodyTelaAnexo : function() {
-	   return $("corpoAnexos");
-   },
-
-   /**
 	 * Recupera a linha selecionada.
 	 * 
 	 * @return linha selecionada
@@ -142,24 +107,6 @@ UsarWorkflow.prototype = {
 	   }
 	   this.tabelaTelaPrincipal.setParametros( {});
 	   this.tabelaTelaPrincipal.executarChamadaRemota();
-   },
-
-   /**
-	 * Faz a pesquisa dos anexos do workflow.
-	 */
-   pesquisarAnexos : function() {
-	   if ((this.tabelaTelaAnexo == null)
-	      || (this.tabelaTelaAnexo.getTabela() != this.getTBodyTelaAnexo())) {
-		   var chamadaRemota = UsarWorkflowDWR.pesquisarAnexos.bind(UsarWorkflowDWR);
-		   this.tabelaTelaAnexo = FactoryTabelas.getNewTabela(this.getTBodyTelaAnexo());
-		   this.tabelaTelaAnexo.setRemoteCall(chamadaRemota);
-		   this.tabelaTelaAnexo.setCallBack(this.popularTabelaAnexos.bind(this));
-	   }
-	   var parametro = {
-		   idUsoWorkflow :dwr.util.getValue("idUsoWorkflow")
-	   };
-	   this.tabelaTelaAnexo.setParametros(parametro);
-	   this.tabelaTelaAnexo.executarChamadaRemota();
    },
 
    /**
@@ -201,46 +148,12 @@ UsarWorkflow.prototype = {
 			   return "&nbsp;";
 		   });
 		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
-		   this.tabelaTelaPrincipal.setOnDblClick(this.popupUsoDeWorkflow);
+		   if(Usuario.temPermissao(USAR_WORKFLOW)) {
+		   	this.tabelaTelaPrincipal.setOnDblClick(this.popupUsoDeWorkflow);
+		   }		   	
 	   } else {
 		   this.tabelaTelaPrincipal
 		      .semRegistros("Não foram encontradas tarefas pendentes de sua responsabilidade");
-	   }
-   },
-
-   /**
-	 * Popula a tabela de anexos com os anexos do workflow
-	 * 
-	 * @param listaAnexos lista de anexos
-	 */
-   popularTabelaAnexos : function(listaAnexos) {
-	   this.tabelaTelaAnexo.removerResultado();
-
-	   if (listaAnexos.length != 0) {
-		   var cellfuncs = new Array();
-		   cellfuncs.push( function(anexo) {
-			   return Builder.node("input", {
-			      type :"hidden",
-			      name :"id",
-			      value :anexo.id
-			   });
-		   });
-		   cellfuncs.push( function(anexo) {
-			   return Builder.node("input", {
-			      type :"checkbox",
-			      name :"anexosSelecionados",
-			      value :anexo.id
-			   });
-		   });
-		   cellfuncs.push( function(anexo) {
-			   return getStringTimestamp(anexo.dataCriacao);
-		   });
-		   cellfuncs.push( function(anexo) {
-			   return anexo.nome;
-		   });
-		   this.tabelaTelaAnexo.adicionarResultadoTabela(cellfuncs);
-	   } else {
-		   this.tabelaTelaAnexo.semRegistros("Não foram encontrados anexos");
 	   }
    },
 
