@@ -19,5 +19,6 @@ public class UsarWorkflowValidator extends BaseValidator {
 	 */
 	public void incluirAnexo() {
 		this.validaRequerido("label.enderecoArquivo", "arquivo");
+		this.setForwardErroValidacao("iframeAnexos");
 	}
 }

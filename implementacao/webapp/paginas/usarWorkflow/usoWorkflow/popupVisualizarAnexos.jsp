@@ -3,7 +3,8 @@
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://www.ucb.br/sisgestor/taglib" prefix="htmlSGR" %>
 
-<html:form styleId="formIncluirAnexo" action="/usarWorkflow.do?method=incluirAnexo" onsubmit="usarWorkflow.incluirAnexo(this); return false;" method="POST" enctype="multipart/form-data">
+<html:form styleId="formAnexos" action="/usarWorkflow.do?method=incluirAnexo" method="POST" enctype="multipart/form-data">
+	<html:hidden property="usoWorkflow" styleId="idUsoWorkflowAnexo" />
 	<div id="divInserirArquivoAnexo" style="padding: 20px;">
 		<label>
 			<bean:message key="label.enderecoArquivo"/>
@@ -31,7 +32,7 @@
 		</table>
 	</div>
 	
-	<div style="margin-top: 10px; margin-right: 1px;">
+	<div style="margin-top: 10px; margin-right: 1px;" align="center">
 		<htmlSGR:button property="excluir" style="width: 110px;" onclick="usarWorkflow.excluirAnexo(); return false;" titleKey="dica.excluir" roles="6">
 				<bean:message key="botao.excluir"/>
 		</htmlSGR:button>

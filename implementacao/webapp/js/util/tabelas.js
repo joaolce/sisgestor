@@ -761,6 +761,10 @@ FactoryTabelas = {
 	 */
    getNewTabela : function(idTabela, className) {
 	   var tabela = new Tabela(idTabela, className);
+	   
+	   if (!(idTabela instanceof String)) {
+		   idTabela = idTabela.id;
+	   }
 	   this.tabelas.set(idTabela, tabela);
 	   return tabela;
    },
