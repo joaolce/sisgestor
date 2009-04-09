@@ -99,7 +99,7 @@ public class BaseDWR {
 	 * @param resultado resultado parcial da consulta
 	 * @param bo bo a realizar a consulta
 	 */
-	protected void setTotalPesquisa(PesquisaPaginadaDTO dto, ListaResultadoDTO<?> resultado, BaseBO<?, ?> bo) {
+	protected void setTotalPesquisa(PesquisaPaginadaDTO dto, ListaResultadoDTO<?> resultado, BaseBO<?> bo) {
 		List<?> lista = resultado.getColecaoParcial();
 		if ((dto.getPaginaAtual() == null) && !lista.isEmpty()) {
 			Integer total = bo.getTotalPesquisa(dto);

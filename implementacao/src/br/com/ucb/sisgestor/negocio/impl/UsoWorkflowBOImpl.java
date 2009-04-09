@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Anexo;
+import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.negocio.AnexoBO;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
@@ -28,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 31/03/2009
  */
 @Service("usoWorkflowBO")
-public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implements UsoWorkflowBO {
+public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWorkflowBO {
 
 	private UsoWorkflowDAO	usoWorkflowDAO;
 	private AnexoBO			anexoBO;
@@ -149,6 +150,9 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow, Integer> implemen
 	 * @param usoWorkflow {@link UsoWorkflow} a gerar histórico
 	 */
 	private void gerarHistorico(UsoWorkflow usoWorkflow) {
+		HistoricoUsoWorkflow historico = new HistoricoUsoWorkflow();
+		historico.setDataHora(DataUtil.getDataHoraAtual());
+		historico.setUsoWorkflow(usoWorkflow);
 		//TODO GERAR HISTORICO
 	}
 

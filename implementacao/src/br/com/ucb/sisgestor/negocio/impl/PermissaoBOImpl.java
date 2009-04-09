@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 19/01/2009
  */
 @Service("permissaoBO")
-public class PermissaoBOImpl extends BaseBOImpl<Permissao, Integer> implements PermissaoBO {
+public class PermissaoBOImpl extends BaseBOImpl<Permissao> implements PermissaoBO {
 
 	private PermissaoDAO	permissaoDAO;
 

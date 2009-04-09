@@ -7,7 +7,6 @@ package br.com.ucb.sisgestor.negocio.impl;
 import br.com.ucb.sisgestor.entidade.BaseWorkflow;
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -15,13 +14,11 @@ import java.util.Map;
  * Implementação da interface que representa um objeto de negócio (Business Object) para {@link BaseWorkflow}.
  * 
  * @param <T> {@link BaseWorkflow} utilizado no BO
- * @param <PK> chave primária do objeto utilizado
  * 
  * @author João Lúcio
  * @since 27/03/2009
  */
-public abstract class BaseWorkflowBOImpl<T extends BaseWorkflow, PK extends Serializable> extends //NOPMD by João Lúcio - Herança
-		BaseBOImpl<T, PK> {
+public abstract class BaseWorkflowBOImpl<T extends BaseWorkflow> extends BaseBOImpl<T> { //NOPMD by João Lúcio - Herança
 
 	/**
 	 * Cria uma nova instância do tipo {@link BaseWorkflowBOImpl}.

@@ -5,19 +5,17 @@
 package br.com.ucb.sisgestor.persistencia;
 
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Interface que representa um DAO (Data Access Object).
  * 
  * @param <T> objeto persistente utilizado no DAO
- * @param <PK> chave primária do objeto persistente utilizado
  * 
  * @author João Lúcio
  * @since 21/10/2008
  */
-public interface BaseDAO<T extends ObjetoPersistente, PK extends Serializable> {
+public interface BaseDAO<T extends ObjetoPersistente> {
 
 	/** Quantidade de registros por paginação */
 	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(9);
@@ -43,7 +41,7 @@ public interface BaseDAO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * 
 	 * @return objeto recuperado
 	 */
-	T obter(PK pk);
+	T obter(Integer pk);
 
 	/**
 	 * Recupera um objeto a partir da sua chave primária. <br />
@@ -54,7 +52,7 @@ public interface BaseDAO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * 
 	 * @return objeto recuperado
 	 */
-	T obterAntigo(PK pk);
+	T obterAntigo(Integer pk);
 
 	/**
 	 * Recupera todos os objetos.

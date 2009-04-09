@@ -14,7 +14,7 @@ import java.util.List;
  * @author João Lúcio
  * @since 30/03/2009
  */
-public interface UsoWorkflowDAO extends BaseDAO<UsoWorkflow, Integer> {
+public interface UsoWorkflowDAO extends BaseDAO<UsoWorkflow> {
 
 	/** Quantidade de registros por paginação */
 	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(17);

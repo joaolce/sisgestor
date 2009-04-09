@@ -25,7 +25,7 @@ import org.springframework.stereotype.Repository;
  * @since 17/02/2009
  */
 @Repository("campoDAO")
-public class CampoDAOImpl extends BaseDAOImpl<Campo, Integer> implements CampoDAO {
+public class CampoDAOImpl extends BaseDAOImpl<Campo> implements CampoDAO {
 
 	/**
 	 * Cria uma nova instância do tipo {@link CampoDAOImpl}

@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 05/01/2009
  */
 @Service("departamentoBO")
-public class DepartamentoBOImpl extends BaseBOImpl<Departamento, Integer> implements DepartamentoBO {
+public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements DepartamentoBO {
 
 	private DepartamentoDAO	departamentoDAO;
 

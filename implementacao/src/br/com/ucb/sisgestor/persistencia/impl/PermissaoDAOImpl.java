@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
  * @since 19/01/2009
  */
 @Repository("permissaoDAO")
-public class PermissaoDAOImpl extends BaseDAOImpl<Permissao, Integer> implements PermissaoDAO {
+public class PermissaoDAOImpl extends BaseDAOImpl<Permissao> implements PermissaoDAO {
 
 	/**
 	 * Cria uma nova instância do tipo {@link PermissaoDAOImpl}.

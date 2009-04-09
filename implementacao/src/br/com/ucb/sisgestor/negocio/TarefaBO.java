@@ -16,7 +16,7 @@ import java.util.List;
  * @author Thiago
  * @since 16/02/2009
  */
-public interface TarefaBO extends BaseBO<Tarefa, Integer> {
+public interface TarefaBO extends BaseBO<Tarefa> {
 
 	/**
 	 * Atualiza as {@link TransacaoTarefa} informadas e as posições das tarefas na página.

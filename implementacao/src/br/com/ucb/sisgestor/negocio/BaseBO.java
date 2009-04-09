@@ -7,19 +7,17 @@ package br.com.ucb.sisgestor.negocio;
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Interface que representa um objeto de negócio (Business Object).
  * 
  * @param <T> objeto persistente utilizado no DAO
- * @param <PK> chave primária do objeto persistente utilizado
  * 
  * @author João Lúcio
  * @since 16/10/2008
  */
-public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
+public interface BaseBO<T extends ObjetoPersistente> {
 
 	/**
 	 * Atualiza um objeto na base de dados.
@@ -52,7 +50,7 @@ public interface BaseBO<T extends ObjetoPersistente, PK extends Serializable> {
 	 * 
 	 * @return objeto recuperado
 	 */
-	T obter(PK pk);
+	T obter(Integer pk);
 
 	/**
 	 * Recupera todos os objetos.

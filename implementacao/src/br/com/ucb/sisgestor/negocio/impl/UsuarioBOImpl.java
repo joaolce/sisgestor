@@ -10,8 +10,8 @@ import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsuarioDAO;
 import br.com.ucb.sisgestor.util.constantes.Constantes;
-import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaManterUsuarioDTO;
+import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
 import java.util.Random;
 import org.apache.commons.lang.StringUtils;
@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 28/12/2008
  */
 @Service("usuarioBO")
-public class UsuarioBOImpl extends BaseBOImpl<Usuario, Integer> implements UsuarioBO {
+public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 
 	private static final Log	LOG	= LogFactory.getLog(UsuarioBOImpl.class);
 	private UsuarioDAO			usuarioDAO;

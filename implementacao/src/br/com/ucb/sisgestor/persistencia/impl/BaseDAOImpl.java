@@ -8,7 +8,6 @@ import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.persistencia.BaseDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
-import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -20,13 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Implementação da interface que representa um DAO (Data Access Object).
  * 
  * @param <T> objeto persistente utilizado no DAO
- * @param <PK> chave primária do objeto persistente utilizado
  * 
  * @author João Lúcio
  * @since 21/10/2008
  */
-public abstract class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serializable> implements
-		BaseDAO<T, PK> {
+public abstract class BaseDAOImpl<T extends ObjetoPersistente> implements BaseDAO<T> {
 
 	private SessionFactory	sessionFactory;
 	private Class<T>			classePersistente;
@@ -60,14 +57,14 @@ public abstract class BaseDAOImpl<T extends ObjetoPersistente, PK extends Serial
 	/**
 	 * {@inheritDoc}
 	 */
-	public T obter(PK pk) {
+	public T obter(Integer pk) {
 		return this.classePersistente.cast(this.getSession().get(this.classePersistente, pk));
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public T obterAntigo(PK pk) {
+	public T obterAntigo(Integer pk) {
 		return this.classePersistente.cast(this.hibernateUtil.getNewSession().get(this.classePersistente, pk));
 	}
 

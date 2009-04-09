@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 07/04/2009
  */
 @Service("anexoBO")
-public class AnexoBOImpl extends BaseBOImpl<Anexo, Integer> implements AnexoBO {
+public class AnexoBOImpl extends BaseBOImpl<Anexo> implements AnexoBO {
 
 	private AnexoDAO	anexoDAO;
 

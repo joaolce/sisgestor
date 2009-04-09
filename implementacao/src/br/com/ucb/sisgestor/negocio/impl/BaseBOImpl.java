@@ -8,7 +8,6 @@ import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.mail.Email;
 import br.com.ucb.sisgestor.negocio.BaseBO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
-import java.io.Serializable;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
  * Implementação da interface que representa um objeto de negócio (Business Object).
  * 
  * @param <T> objeto persistente utilizado no BO
- * @param <PK> chave primária do objeto persistente utilizado
  * 
  * @author João Lúcio
  * @since 16/10/2008
  */
-public abstract class BaseBOImpl<T extends ObjetoPersistente, PK extends Serializable> implements
-		BaseBO<T, PK> {
+public abstract class BaseBOImpl<T extends ObjetoPersistente> implements BaseBO<T> {
 
 	private SessionFactory	sessionFactory;
 

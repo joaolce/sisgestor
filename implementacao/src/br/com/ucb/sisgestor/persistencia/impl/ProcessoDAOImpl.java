@@ -24,7 +24,7 @@ import org.springframework.stereotype.Repository;
  * @since 11/02/2009
  */
 @Repository("processoDAO")
-public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements ProcessoDAO {
+public class ProcessoDAOImpl extends BaseDAOImpl<Processo> implements ProcessoDAO {
 
 	/**
 	 * Cria uma nova instância do tipo {@link ProcessoDAOImpl}

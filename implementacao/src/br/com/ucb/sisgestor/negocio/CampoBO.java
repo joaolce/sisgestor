@@ -13,7 +13,7 @@ import java.util.List;
  * @author Thiago
  * @since 17/02/2009
  */
-public interface CampoBO extends BaseBO<Campo, Integer> {
+public interface CampoBO extends BaseBO<Campo> {
 
 	/**
 	 * Retorna um {@link List} de {@link Campo} a partir dos parâmetros informados.

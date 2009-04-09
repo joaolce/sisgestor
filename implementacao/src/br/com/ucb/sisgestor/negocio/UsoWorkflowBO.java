@@ -18,7 +18,7 @@ import java.util.List;
  * @author João Lúcio
  * @since 31/03/2009
  */
-public interface UsoWorkflowBO extends BaseBO<UsoWorkflow, Integer> {
+public interface UsoWorkflowBO extends BaseBO<UsoWorkflow> {
 
 	/**
 	 * Exclui os anexos selecionados
