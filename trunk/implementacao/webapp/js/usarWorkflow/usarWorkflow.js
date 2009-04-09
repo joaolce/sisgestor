@@ -33,7 +33,7 @@ UsarWorkflow.prototype = {
 	 * Inclui um novo anexo. Envia requisição para o servidor.
 	 */
    incluirAnexo : function() {
-	//REDIRECIONAR A PAGINA DE USO
+   // REDIRECIONAR A PAGINA DE USO
    },
 
    /**
@@ -74,11 +74,23 @@ UsarWorkflow.prototype = {
 	 * Abre o popup de uso do workflow.
 	 */
    popupUsoDeWorkflow : function() {
+   	var colunas = usarWorkflow.getTR().descendants();
+   	var numeroRegistro = colunas[2].innerHTML;
+   	var nomeWorkflow = colunas[3].innerHTML;
+   	var nomeProcesso = colunas[4].innerHTML;
+	   var tituloPagina = numeroRegistro + " - " + nomeWorkflow + " - " + nomeProcesso;
+
 	   var url = "usarWorkflow.do?method=popupUsoWorkflow";
-	   createWindow(536, 985, 280, 10, "Workflow", "divUsoWorkflow", url, ( function() {
+	   createWindow(536, 985, 280, 10, tituloPagina, "divUsoWorkflow", url, ( function() {
 		   FactoryAbas.getNewAba("tabCamposAncora,tabCampos;tabHistoricoAncora,tabHistorico");
-		   dwr.util.setValue("idUsoWorkflow", usarWorkflow.getIdSelecionado());
-	   }));
+		   var id = usarWorkflow.getIdSelecionado();
+		   dwr.util.setValue("idUsoWorkflow", id);
+		   UsarWorkflowDWR.getById(id, (function(usoWorkflow){
+		   	dwr.util.setValue("dataHoraInicioTarefa", usoWorkflow.dataHoraInicio);
+		   	dwr.util.setValue("nomeTarefa", usoWorkflow.tarefa.nome);
+		   	dwr.util.setValue("descricaoTarefa", usoWorkflow.tarefa.descricao);
+		   }).bind(this));
+	   }).bind(this));
    },
 
    /**
@@ -237,16 +249,16 @@ UsarWorkflow.prototype = {
 	 */
    iniciarWorkflow : function() {
 	   return true; // APOS SELECIONAR O WORKFLOW NA INICIALIZACAO
-   },
+	},
 
-   /**
-    * Envia a requisição para submeter o uso do workflow.
-    * 
-    * @param form formulário submetido
-    */
-   confirmar : function(form) {
+	/**
+ 	 * Envia a requisição para submeter o uso do workflow.
+ 	 * 
+ 	 * @param form formulário submetido
+ 	 */
+	confirmar : function(form) {
 
-   }
+	}
 };
 
 var usarWorkflow = new UsarWorkflow();
