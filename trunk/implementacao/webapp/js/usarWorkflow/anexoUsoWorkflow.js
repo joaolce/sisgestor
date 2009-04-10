@@ -6,12 +6,12 @@
  */
 var AnexoUsoWorkflow = Class.create();
 AnexoUsoWorkflow.prototype = {
-	
-	/**
+
+   /**
 	 * @constructor
 	 */
-	initialize : function(){},
-	
+   initialize : function() {},
+
    /**
 	 * Exclui o(s) anexo(s) selecionado(s)
 	 */
@@ -25,11 +25,33 @@ AnexoUsoWorkflow.prototype = {
 			   parametros += "&";
 		   }
 	   }
-	   requestUtils.simpleRequest("anexoUsoWorkflow.do?method=excluirAnexo&" + parametros, ( function() {
-		   if (requestUtils.status) {
-			   this.pesquisarAnexos();
-		   }
-	   }).bind(this));
+	   requestUtils.simpleRequest("anexoUsoWorkflow.do?method=excluirAnexo&" + parametros,
+	      ( function() {
+		      if (requestUtils.status) {
+			      window.parent.JanelaFactory.getJanelaById("divVisualizarAnexos")
+			         .recarregarConteudo();
+		      }
+	      }).bind(this));
+   },
+
+   /**
+	 * Abre o popup para inserir um novo anexo ao uso.
+	 */
+   telaInserirAnexo : function() {
+	   var url = "anexoUsoWorkflow.do?method=popupInserirAnexo&usoWorkflow="
+	      + $F("idUsoWorkflowAnexo");
+	   createWindow(120, 400, 250, 100, "Novo arquivo anexo", "divInserirArquivoAnexo", url);
+   },
+
+   /**
+	 * Executado após inserir um novo anexo.
+	 */
+   anexoConcluido : function() {
+	   window.parent.JanelasComuns.showMessage("O arquivo foi gravado com sucesso no servidor",
+	      true, function() {
+		      window.parent.JanelaFactory.fecharJanela("divInserirArquivoAnexo");
+	      });
+	   window.parent.JanelaFactory.getJanelaById("divVisualizarAnexos").recarregarConteudo();
    }
 };
 

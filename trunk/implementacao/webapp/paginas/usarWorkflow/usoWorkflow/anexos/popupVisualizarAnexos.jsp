@@ -3,13 +3,11 @@
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://www.ucb.br/sisgestor/taglib" prefix="htmlSGR" %>
 
-<script type="text/javascript" src="js/usarWorkflow/anexoUsoWorkflow.js"></script>
-
 <html:form styleId="formAnexos" action="/anexoUsoWorkflow.do?method=excluirAnexo">
 	<html:hidden property="usoWorkflow" styleId="idUsoWorkflowAnexo" />
 	
 	<div id="divMenuOpcoes">
-		<htmlSGR:link href="#incluirAnexo" titleKey="dica.anexo.incluir" onclick="" linkName="incluirAnexo" roles="6">
+		<htmlSGR:link href="#incluirAnexo" titleKey="dica.anexo.incluir" onclick="anexoUsoWorkflow.telaInserirAnexo();" linkName="incluirAnexo" roles="6">
 			<html:img srcKey="imagem.incluirAnexo" width="20" height="19" />
 		</htmlSGR:link>
 	</div>
@@ -37,7 +35,7 @@
 								<bean:write name="anexo" property="dataCriacao" format="dd/MM/yyyy HH:mm"/>
 							</td>
 							<td>
-								<html:link href="anexoUsoWorkflow.do?method=download" paramName="anexo" paramProperty="id" paramId="idAnexo" titleKey="dica.download" target="_blank">
+								<html:link href="anexoUsoWorkflow.do?method=download" paramName="anexo" paramProperty="id" paramId="id" titleKey="dica.download" target="_blank">
 									<bean:write name="anexo" property="nome"/>
 								</html:link>
 							</td>

@@ -77,6 +77,22 @@ public class AnexoUsoWorkflowAction extends BaseAction {
 	}
 
 	/**
+	 * Abre a tela que é carregada por dentro de um iframe por causa do upload de anexo que não pode recarregar
+	 * a página toda.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward da atualização
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward iframeAnexo(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		return this.findForward("iframeAnexos");
+	}
+
+	/**
 	 * Inclui o anexo ao uso do workflow.
 	 * 
 	 * @param mapping objeto mapping da action
@@ -95,8 +111,34 @@ public class AnexoUsoWorkflowAction extends BaseAction {
 		this.copyProperties(anexo, form, "id"); //feito para copiar o id do usoWorkflow
 		this.anexoBO.salvar(anexo);
 
-		this.setSessionAttribute("idUsoWorkflow", anexo.getUsoWorkflow().getId());
-		return this.findForward("paginaAposIncluirAnexo");
+		this.addMessageKey("mensagem.uploadConcluido");
+		this.saveMessages(true);
+		return this.findForward("resultadoAnexo");
+	}
+
+	/**
+	 * Exibe a tela de inserção de um novo anexo.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward da atualização
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward popupInserirAnexo(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		AnexoUsoWorkflowActionForm form = (AnexoUsoWorkflowActionForm) formulario;
+
+		/* Estou gravando o id do uso na sessão, pois no controller do struts (struts-config controller)
+		 * existe uma configuração que não permite que seja efetuado um upload de arquivos de tamanho superior
+		 * a 10MB, porém quando o usuário envia um arquivo superior a esse tamanho o struts zera o form e ele não vem 
+		 * com propriedade nenhuma, o que atrapalha na hora de identificar o id do uso.
+		 * Esse id da sessão é recuperado na classe AnexoUsoWorkflowValidator e recolocado na propriedade do form */
+		Integer idUsoWorkflow = form.getId();
+		this.setSessionAttribute("idUsoWorkflowAnexo", idUsoWorkflow);
+
+		return this.findForward("popupInserirAnexo");
 	}
 
 	/**
