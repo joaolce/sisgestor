@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.util;
 
+import br.com.ucb.sisgestor.entidade.Anexo;
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.entidade.TipoCampoEnum;
@@ -13,7 +14,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.sql.Blob;
 import java.sql.Timestamp;
@@ -108,6 +111,24 @@ public final class Utils {
 		}
 		numeracaoFinal.append(valor);
 		return numeracaoFinal.toString();
+	}
+
+	/**
+	 * Copia uma stream para outra.
+	 * 
+	 * @param destino stream de destino
+	 * @param origem stream de origem
+	 * @throws IOException caso algum erro de i/o aconteça
+	 */
+	public static void copia(OutputStream destino, InputStream origem) throws IOException {
+		byte[] buffer = new byte[8192];
+		int qtdeLida = 0;
+
+		while ((qtdeLida = origem.read(buffer)) > 0) { //NOPMD by João Lúcio - mais legível
+			destino.write(buffer, 0, qtdeLida);
+		}
+		destino.close();
+		origem.close();
 	}
 
 	/**
@@ -333,6 +354,28 @@ public final class Utils {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Faz o download do arquivo.
+	 * 
+	 * @param anexo arquivo a fazer download
+	 * @param response response a enviar o arquivo
+	 * @throws Exception caso ocorra algum erro no download
+	 */
+	public static void download(Anexo anexo, HttpServletResponse response) throws Exception {
+		response.reset();
+
+		String contentType = anexo.getContentType();
+		if (StringUtils.isNotBlank(contentType)) {
+			response.setContentType(contentType);
+		}
+
+		byte[] dadosArquivo = anexo.getDados();
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + anexo.getNome() + "\"");
+		response.setContentLength(dadosArquivo.length);
+
+		copia(response.getOutputStream(), new ByteArrayInputStream(dadosArquivo));
 	}
 
 	/**

@@ -9,6 +9,7 @@ import br.com.ucb.sisgestor.entidade.Anexo;
 import br.com.ucb.sisgestor.negocio.AnexoBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.util.DataUtil;
+import br.com.ucb.sisgestor.util.Utils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -39,7 +40,10 @@ public class AnexoUsoWorkflowAction extends BaseAction {
 	 */
 	public ActionForward download(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		return this.findForward(FWD_ENTRADA);
+		AnexoUsoWorkflowActionForm form = (AnexoUsoWorkflowActionForm) formulario;
+		Anexo anexo = this.anexoBO.obter(form.getId());
+		Utils.download(anexo, response);
+		return null;
 	}
 
 	/**
