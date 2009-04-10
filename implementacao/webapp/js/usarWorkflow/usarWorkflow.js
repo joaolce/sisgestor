@@ -171,7 +171,7 @@ UsarWorkflow.prototype = {
  	 */
 	confirmar : function(form) {
 
-	}
+   }
 };
 
 var usarWorkflow = new UsarWorkflow();

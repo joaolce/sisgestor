@@ -3337,35 +3337,6 @@ public class Foo {
         <priority>3</priority>
         <properties/>
     </rule>
-    <rule class="net.sourceforge.pmd.rules.design.PreserveStackTrace" message="Caught exception is rethrown, original stack trace may be lost" name="PreserveStackTrace">
-        <description>
-Throwing a new exception from a catch block without passing the original exception into the 
-new Exception will cause the true stack trace to be lost, and can make it difficult to
-debug effectively.
-      </description>
-        <example><![CDATA[
-    
-public class Foo {
-    void good() {
-        try{
-            Integer.parseInt("a");
-        } catch(Exception e){
-            throw new Exception(e);
-        }
-    }
-    void bad() {
-        try{
-            Integer.parseInt("a");
-        } catch(Exception e){
-            throw new Exception(e.getMessage());
-        }
-    }
-}
-    
-      ]]></example>
-        <priority>3</priority>
-        <properties/>
-    </rule>
     <rule class="net.sourceforge.pmd.rules.design.UseCollectionIsEmpty" message="Substitute calls to size() == 0 (or size() != 0) with calls to isEmpty()" name="UseCollectionIsEmpty">
         <description>
 The isEmpty() method on java.util.Collection is provided to see if a collection has any elements.

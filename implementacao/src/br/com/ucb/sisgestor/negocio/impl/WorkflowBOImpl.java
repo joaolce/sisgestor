@@ -56,6 +56,23 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow> implements WorkflowBO {
 	}
 
 	/**
+	 *{@inheritDoc}
+	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	public void copiar(Integer idWorkflow) throws NegocioException {
+		Workflow workflow = this.workflowDAO.obterAntigo(idWorkflow);
+		Workflow workflowNovo = new Workflow();
+		try {
+			workflowNovo.setNome("Cópia de - " + workflow.getNome());
+			workflowNovo.setDescricao(workflow.getDescricao());
+			workflowNovo.setAtivo(Boolean.FALSE);
+		} catch (Exception e) {
+			throw new NegocioException("erro.workflow.copiar");
+		}
+		this.workflowDAO.salvar(workflowNovo);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)

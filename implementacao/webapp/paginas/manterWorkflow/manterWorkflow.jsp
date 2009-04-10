@@ -29,7 +29,7 @@
 		<htmlSGR:link href="#gerenciarProcessos" titleKey="dica.processo.gerenciar" linkName="gerenciarProcessos" styleId="linkGerenciarProcessos" styleClass="btDesativado" roles="4">
 			<html:img srcKey="imagem.processo" width="20" height="19" />
 		</htmlSGR:link>
-		<htmlSGR:link href="#" titleKey="dica.workflow.copiar" styleId="linkCopiarWorkflow" styleClass="btDesativado" roles="4">
+		<htmlSGR:link href="#copiarWorkflow" titleKey="dica.workflow.copiar" linkName="copiarWorkflow" styleId="linkCopiarWorkflow" styleClass="btDesativado" roles="4">
 			<html:img srcKey="imagem.copiar" width="20" height="19" />
 		</htmlSGR:link>
 		<htmlSGR:link href="#novoWorkflow" titleKey="dica.workflow.novo" onclick="workflow.popupNovoWorkflow();" linkName="novoWorkflow" roles="4">
@@ -100,7 +100,7 @@
 	
 	<!-- FIELDSET PARA DADOS DO WORKFLOW -->
 	<html:form action="/manterWorkflow.do?method=atualizar" onsubmit="workflow.atualizar(this); return false;" styleId="formAtualizarWorkflow" style="display: none; margin-top: 10px;">
-		<html:hidden property="id"/>
+		<html:hidden property="id" styleId="id" />
 		<fieldset style="padding: 10px; width: 50%; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.workflow"/>

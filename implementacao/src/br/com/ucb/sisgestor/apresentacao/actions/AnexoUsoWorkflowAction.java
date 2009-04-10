@@ -125,7 +125,7 @@ public class AnexoUsoWorkflowAction extends BaseAction {
 		try {
 			anexo.setDados(arquivo.getFileData());
 		} catch (Exception e) {
-			throw new NegocioException("erro.arquivo.naoEncontrado"); //NOPMD by João Lúcio - não necessita
+			throw new NegocioException("erro.arquivo.naoEncontrado");
 		}
 		return anexo;
 	}

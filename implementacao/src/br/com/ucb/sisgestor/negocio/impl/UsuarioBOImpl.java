@@ -43,7 +43,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 		try {
 			this.usuarioDAO.atualizar(usuario);
 		} catch (ConstraintViolationException ce) {
-			throw new NegocioException("erro.usuario.login.repetido"); //NOPMD by João Lúcio - não é necessário ter causa exceção
+			throw new NegocioException("erro.usuario.login.repetido");
 		}
 	}
 
@@ -138,7 +138,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 					"Seja bem vindo ao <b>SisGestor</b> <br/> <p>Sua senha é: " + usuario.getSenha() + "</p>",
 					usuario.getEmail());
 		} catch (ConstraintViolationException ce) {
-			throw new NegocioException("erro.usuario.login.repetido"); //NOPMD by João Lúcio - não é necessário ter causa exceção
+			throw new NegocioException("erro.usuario.login.repetido");
 		}
 	}
 
