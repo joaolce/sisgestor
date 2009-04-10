@@ -56,7 +56,9 @@
 
 	<!-- ANEXOS DO USAR WORKFLOW -->
 	<definition name="definicaoAnexoUsoWorkflow" path="/paginas/usarWorkflow/usoWorkflow/anexos/popupVisualizarAnexos.jsp"/>
-	<definition name="includeIframeAnexo" path="/paginas/usarWorkflow/usoWorkflow/anexos/anexoFrame.jsp" />
+	<definition name="includePopupInserirAnexo" path="/paginas/usarWorkflow/usoWorkflow/anexos/popupInserirAnexo.jsp" />
+	<definition name="includeIframeInserirAnexo" path="/paginas/usarWorkflow/usoWorkflow/anexos/anexoFrame.jsp" />
+	<definition name="includeIframeResultadoAnexo" path="/paginas/usarWorkflow/usoWorkflow/anexos/resultadoAnexo.jsp" />
 	
 	<!--  MANTER PROCESSO -->
 	<definition name="definicaoManterProcesso" path="/paginas/manterProcesso/manterProcesso.jsp" />

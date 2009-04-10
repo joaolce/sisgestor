@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.apresentacao.validator;
 
 import br.com.ucb.sisgestor.apresentacao.actions.AnexoUsoWorkflowAction;
+import br.com.ucb.sisgestor.apresentacao.forms.AnexoUsoWorkflowActionForm;
 
 /**
  * Validações para a action {@link AnexoUsoWorkflowAction}.
@@ -28,7 +29,13 @@ public class AnexoUsoWorkflowValidator extends BaseValidator {
 	 * Faz as validações do método incluirAnexo.
 	 */
 	public void incluirAnexo() {
-		this.validaRequerido("label.enderecoArquivo", "arquivo");
 		this.setForwardErroValidacao("iframeAnexos");
+		this.validaRequerido("label.enderecoArquivo", "arquivo");
+
+		AnexoUsoWorkflowActionForm form = (AnexoUsoWorkflowActionForm) this.getForm();
+		if ((form.getUsoWorkflow() == null) || (form.getUsoWorkflow().intValue() == 0)) {
+			Integer idUsoWorkflow = (Integer) this.getSession().getAttribute("idUsoWorkflow");
+			form.setUsoWorkflow(idUsoWorkflow);
+		}
 	}
 }

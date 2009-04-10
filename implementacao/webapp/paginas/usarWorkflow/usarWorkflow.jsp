@@ -4,6 +4,7 @@
 
 <script type="text/javascript" src="dwr/interface/UsarWorkflowDWR.js"></script>
 <script type="text/javascript" src="js/usarWorkflow/usarWorkflow.js"></script>
+<script type="text/javascript" src="js/usarWorkflow/anexoUsoWorkflow.js"></script>
 
 <div class="bordas" id="BordaExterna">
 	<div id="divMenuOpcoes">

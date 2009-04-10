@@ -85,7 +85,6 @@
 			<forward name="entrada" path="definicaoUsarWorkflow" />
 			<forward name="popupIniciarWorkflow" path="popupIniciarWorkflow" />
 			<forward name="popupUsoWorkflow" path="popupUsoWorkflow" />
-			<forward name="popupVisualizarAnexos" path="popupVisualizarAnexos" />
 		</action>
 		
 		<!-- Anexos do Usar Workflow -->
@@ -96,6 +95,9 @@
 			scope="request"
 			parameter="method">
 			<forward name="entrada" path="definicaoAnexoUsoWorkflow" />
+			<forward name="popupInserirAnexo" path="includePopupInserirAnexo" />
+			<forward name="iframeAnexos" path="includeIframeInserirAnexo" />
+			<forward name="resultadoAnexo" path="includeIframeResultadoAnexo" redirect="true"/>
 		</action>
 		
 		<!-- Manter Processo -->
