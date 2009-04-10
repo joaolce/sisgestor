@@ -528,24 +528,11 @@ public class BaseAction extends DispatchActionSupport {
 	}
 
 	/**
-	 * Salva os erros no request.
+	 * Salva os erros.
 	 * 
 	 * @param status <code>true</code> - verde, <code>false</code> - vermelho
 	 */
 	protected void saveMessages(boolean status) {
-		this.setStatus(status);
-		if (this.getActionErrors() != null) {
-			super.saveErrors(this.getRequest(), this.getActionErrors());
-		}
-		this.setActionErrors(null);
-	}
-
-	/**
-	 * Salva os erros na session.
-	 * 
-	 * @param status <code>true</code> - verde, <code>false</code> - vermelho
-	 */
-	protected void saveMessagesOnSession(boolean status) {
 		this.setStatus(status);
 		if (this.getActionErrors() != null) {
 			super.saveErrors(this.getSession(), this.getActionErrors());
@@ -801,7 +788,7 @@ public class BaseAction extends DispatchActionSupport {
 			return this.sendAJAXResponse(ajaxResponse);
 		}
 		LOG.debug("processando mensagens de erro");
-		this.saveMessagesOnSession(false);
+		this.saveMessages(false);
 
 		//retorna o forward correto
 		if (StringUtils.isNotBlank(forwardValidacao)) {

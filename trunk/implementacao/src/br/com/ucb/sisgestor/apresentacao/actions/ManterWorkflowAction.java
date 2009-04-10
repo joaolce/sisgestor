@@ -59,11 +59,12 @@ public class ManterWorkflowAction extends BaseAction {
 	 */
 	public ActionForward copiar(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		ManterWorkflowActionForm form = (ManterWorkflowActionForm) actionForm;
+
+		this.workflowBO.copiar(form.getId());
 
 		this.addMessageKey("mensagem.workflow.copiado");
-		this.saveMessages(true);
-
-		return this.findForward(FWD_ENTRADA);
+		return this.sendAJAXResponse(true);
 	}
 
 	/**

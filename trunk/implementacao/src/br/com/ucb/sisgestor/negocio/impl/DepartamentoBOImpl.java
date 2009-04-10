@@ -37,7 +37,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 		try {
 			this.departamentoDAO.atualizar(departamento);
 		} catch (ConstraintViolationException ce) {
-			throw new NegocioException("erro.departamento.sigla"); //NOPMD by João Lúcio - não é necessário ter causa exceção
+			throw new NegocioException("erro.departamento.sigla");
 		}
 	}
 
@@ -101,7 +101,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 		try {
 			this.departamentoDAO.salvar(departamento);
 		} catch (ConstraintViolationException ce) {
-			throw new NegocioException("erro.departamento.sigla"); //NOPMD by João Lúcio - não é necessário ter causa exceção
+			throw new NegocioException("erro.departamento.sigla");
 		}
 	}
 

@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.negocio;
 
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Workflow;
+import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import java.util.List;
 
 /**
@@ -15,6 +16,14 @@ import java.util.List;
  * @since 04/02/2009
  */
 public interface WorkflowBO extends BaseBO<Workflow> {
+
+	/**
+	 * Faz a cópia do {@link Workflow} informado.
+	 * 
+	 * @param idWorkflow identificador do workflow
+	 * @throws NegocioException caso alguma regra seja violada
+	 */
+	void copiar(Integer idWorkflow) throws NegocioException;
 
 	/**
 	 * Retorna um {@link List} de {@link Workflow} a partir dos parâmetros informados. <br />

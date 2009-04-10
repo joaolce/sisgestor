@@ -249,8 +249,7 @@ ManterWorkflow.prototype = {
 		   $("linkGerenciarCampos").onclick = this.popupGerenciarCampos;
 		   if (Usuario.temPermissao(MANTER_WORKFLOW)) {
 			   $("linkCopiarWorkflow").className = "";
-			   $("linkCopiarWorkflow").href = "manterWorkflow.do?method=copiar&id="
-			      + this.getIdSelecionado();
+			   $("linkCopiarWorkflow").onclick = this.copiar;
 		   }
 	   } else {
 		   $("linkGerenciarProcessos").className = "btDesativado";
@@ -258,7 +257,7 @@ ManterWorkflow.prototype = {
 		   $("linkGerenciarCampos").className = "btDesativado";
 		   $("linkGerenciarCampos").onclick = "";
 		   $("linkCopiarWorkflow").className = "btDesativado";
-		   $("linkCopiarWorkflow").href = "#";
+		   $("linkCopiarWorkflow").onclick = "";
 	   }
    },
 
@@ -282,6 +281,17 @@ ManterWorkflow.prototype = {
 	   } else {
 		   $("thExcluidos").hide();
 	   }
+   },
+
+   /**
+	 * Faz a cópia de um workflow.
+	 */
+   copiar : function() {
+	   requestUtils.simpleRequest("manterWorkflow.do?method=copiar&id=" + $F("id"), ( function() {
+		   if (requestUtils.status) {
+			   workflow.pesquisar();
+		   }
+	   }));
    }
 };
 
