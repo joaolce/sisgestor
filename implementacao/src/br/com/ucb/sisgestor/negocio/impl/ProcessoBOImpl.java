@@ -146,10 +146,10 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo> implements Proc
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-	public void salvar(Processo processo) throws NegocioException {
+	public Integer salvar(Processo processo) throws NegocioException {
 		Workflow workflow = this.getWorkflowBO().obter(processo.getWorkflow().getId());
 		this.validarSePodeAlterarWorkflow(workflow);
-		this.processoDAO.salvar(processo);
+		return this.processoDAO.salvar(processo);
 	}
 
 	/**

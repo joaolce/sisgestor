@@ -4,7 +4,6 @@
  */
 package br.com.ucb.sisgestor.negocio;
 
-import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import java.util.List;
@@ -41,7 +40,7 @@ public interface WorkflowBO extends BaseBO<Workflow> {
 	/**
 	 * Recupera a lista de workflows pendentes de serem inicializados.
 	 * 
-	 * @return {@link List} com {@link UsoWorkflow}
+	 * @return {@link List} com {@link Workflow}
 	 */
 	List<Workflow> recuperarPendentesIniciar();
 }

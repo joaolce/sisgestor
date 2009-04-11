@@ -28,8 +28,7 @@ AnexoUsoWorkflow.prototype = {
 	   requestUtils.simpleRequest("anexoUsoWorkflow.do?method=excluirAnexo&" + parametros,
 	      ( function() {
 		      if (requestUtils.status) {
-			      window.parent.JanelaFactory.getJanelaById("divVisualizarAnexos")
-			         .recarregarConteudo();
+			      JanelaFactory.getJanelaById("divVisualizarAnexos").recarregarConteudo();
 		      }
 	      }).bind(this));
    },
@@ -47,8 +46,8 @@ AnexoUsoWorkflow.prototype = {
 	 * Executado após inserir um novo anexo.
 	 */
    anexoConcluido : function() {
-	   window.parent.JanelasComuns.showMessage("O arquivo foi gravado com sucesso no servidor",
-	      true, function() {
+	   window.parent.JanelasComuns.showMessage("O arquivo foi gravado com sucesso!", true,
+	      function() {
 		      window.parent.JanelaFactory.fecharJanela("divInserirArquivoAnexo");
 	      });
 	   window.parent.JanelaFactory.getJanelaById("divVisualizarAnexos").recarregarConteudo();

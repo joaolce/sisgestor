@@ -4,8 +4,12 @@
  */
 package br.com.ucb.sisgestor.apresentacao.actions;
 
+import br.com.ucb.sisgestor.apresentacao.dwr.utils.AjaxResponse;
 import br.com.ucb.sisgestor.apresentacao.forms.UsarWorkflowActionForm;
+import br.com.ucb.sisgestor.entidade.Tarefa;
+import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Workflow;
+import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +29,7 @@ public class UsarWorkflowAction extends BaseAction {
 
 	private UsoWorkflowBO	usoWorkflowBO;
 	private WorkflowBO		workflowBO;
+	private TarefaBO			tarefaBO;
 
 	/**
 	 * Dá o início de uso de um {@link Workflow}.
@@ -33,12 +38,22 @@ public class UsarWorkflowAction extends BaseAction {
 	 * @param formulario objeto form da action
 	 * @param request request atual
 	 * @param response response atual
-	 * @return forward da atualização
+	 * @return <code>null</code>
 	 * @throws Exception caso exceção seja lançada
 	 */
-	public ActionForward iniciarWorkflow(ActionMapping mapping, ActionForm formulario,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return this.findForward(FWD_ENTRADA);
+	public ActionForward iniciarUso(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
+		UsoWorkflow usoWorkflow = new UsoWorkflow();
+		Workflow workflow = this.workflowBO.obter(form.getWorkflow());
+		usoWorkflow.setWorkflow(workflow);
+		usoWorkflow.setTarefa(this.tarefaBO.recuperarPrimeiraTarefa(workflow));
+		Integer idUso = this.usoWorkflowBO.salvar(usoWorkflow);
+
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		ajaxResponse.setGeneratedID(idUso);
+		ajaxResponse.setStatus(true);
+		return this.sendAJAXResponse(ajaxResponse);
 	}
 
 	/**
@@ -48,7 +63,7 @@ public class UsarWorkflowAction extends BaseAction {
 	 * @param formulario objeto form da action
 	 * @param request request atual
 	 * @param response response atual
-	 * @return forward da atualização
+	 * @return forward do popup
 	 * @throws Exception caso exceção seja lançada
 	 */
 	public ActionForward popupIniciarWorkflow(ActionMapping mapping, ActionForm formulario,
@@ -67,7 +82,7 @@ public class UsarWorkflowAction extends BaseAction {
 	 * @param formulario objeto form da action
 	 * @param request request atual
 	 * @param response response atual
-	 * @return forward da atualização
+	 * @return forward do popup
 	 * @throws Exception caso exceção seja lançada
 	 */
 	public ActionForward popupUsoWorkflow(ActionMapping mapping, ActionForm formulario,
@@ -82,12 +97,22 @@ public class UsarWorkflowAction extends BaseAction {
 	 * @param formulario objeto form da action
 	 * @param request request atual
 	 * @param response response atual
-	 * @return forward da atualização
+	 * @return forward do popup
 	 * @throws Exception caso exceção seja lançada
 	 */
 	public ActionForward popupVisualizarAnexos(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return this.findForward("popupVisualizarAnexos");
+	}
+
+	/**
+	 * Atribui o BO de {@link Tarefa}.
+	 * 
+	 * @param tarefaBO BO de {@link Tarefa}
+	 */
+	@Autowired
+	public void setTarefaBO(TarefaBO tarefaBO) {
+		this.tarefaBO = tarefaBO;
 	}
 
 	/**

@@ -7,6 +7,7 @@ package br.com.ucb.sisgestor.negocio;
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
+import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import java.util.List;
 
@@ -48,6 +49,14 @@ public interface TarefaBO extends BaseBO<Tarefa> {
 	 */
 	List<Tarefa> getByNomeDescricaoUsuario(String nome, String descricao, Integer usuario,
 			Integer idAtividade, Integer paginaAtual);
+
+	/**
+	 * Recupera a primeira tarefa do {@link Workflow}.
+	 * 
+	 * @param workflow workflow da tarefa
+	 * @return {@link Tarefa} inicial do {@link Workflow}
+	 */
+	Tarefa recuperarPrimeiraTarefa(Workflow workflow);
 
 	/**
 	 * Verifica se há fluxo definido para as tarefas da {@link Atividade} informada.

@@ -34,7 +34,7 @@ public class AnexoUsoWorkflowValidator extends BaseValidator {
 
 		AnexoUsoWorkflowActionForm form = (AnexoUsoWorkflowActionForm) this.getForm();
 		if ((form.getUsoWorkflow() == null) || (form.getUsoWorkflow().intValue() == 0)) {
-			Integer idUsoWorkflow = (Integer) this.getSession().getAttribute("idUsoWorkflow");
+			Integer idUsoWorkflow = (Integer) this.getSession().getAttribute("idUsoWorkflowAnexo");
 			form.setUsoWorkflow(idUsoWorkflow);
 		}
 	}

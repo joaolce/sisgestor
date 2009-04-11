@@ -8,6 +8,7 @@ import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
 import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
+import br.com.ucb.sisgestor.entidade.Workflow;
 import java.util.List;
 
 /**
@@ -61,6 +62,14 @@ public interface TarefaDAO extends BaseDAO<Tarefa> {
 	Integer getTotalRegistros(String nome, String descricao, Integer usuario, Integer idAtividade);
 
 	/**
+	 * Recupera a primeira tarefa do {@link Workflow}.
+	 * 
+	 * @param workflow workflow a recuperar a tarefa
+	 * @return primeira {@link Tarefa}
+	 */
+	Tarefa recuperarPrimeiraTarefa(Workflow workflow);
+
+	/**
 	 * Recupera as transações de tarefa do {@link Atividade}.
 	 * 
 	 * @param idAtividade identificador do {@link Atividade}
@@ -74,5 +83,4 @@ public interface TarefaDAO extends BaseDAO<Tarefa> {
 	 * @param transacao transação a armazenar
 	 */
 	void salvarTransacao(TransacaoTarefa transacao);
-
 }

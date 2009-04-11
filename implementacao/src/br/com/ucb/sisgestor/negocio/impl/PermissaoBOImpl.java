@@ -57,7 +57,7 @@ public class PermissaoBOImpl extends BaseBOImpl<Permissao> implements PermissaoB
 	/**
 	 * {@inheritDoc}
 	 */
-	public void salvar(Permissao obj) throws NegocioException {
+	public Integer salvar(Permissao obj) throws NegocioException {
 		throw new UnsupportedOperationException("erro.operacaoNaoSuportada");
 	}
 

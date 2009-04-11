@@ -11,7 +11,7 @@
 			<html:img srcKey="imagem.incluirAnexo" width="20" height="19" />
 		</htmlSGR:link>
 	</div>
-	<div id="divAnexos" style="clear: both; height: 160px; overflow: auto; border: 1px solid gray; margin-top: 5px;">
+	<div id="divAnexos" align="center" style="clear: both; height: 160px; overflow: auto; border: 1px solid gray;">
 		<logic:notEmpty name="anexoUsoWorkflowForm" property="anexos">
 			<table style="width: 99.9%">
 				<thead>
@@ -45,7 +45,7 @@
 			</table>
 		</logic:notEmpty>
 		<logic:empty name="anexoUsoWorkflowForm" property="anexos">
-			<span class="mensagemEmVermelho" style="text-align: center;">
+			<span class="mensagemErro">
 				<bean:message key="mensagem.semAnexo" />
 			</span>
 		</logic:empty>

@@ -131,11 +131,11 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow> implements WorkflowBO {
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-	public void salvar(Workflow workflow) throws NegocioException {
+	public Integer salvar(Workflow workflow) throws NegocioException {
 		if (workflow.getAtivo()) { //quando salva um workflow, ele ainda não contém processos
 			throw new NegocioException("erro.workflowNaoAtivado.processo");
 		}
-		this.workflowDAO.salvar(workflow);
+		return this.workflowDAO.salvar(workflow);
 	}
 
 	/**

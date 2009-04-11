@@ -35,7 +35,7 @@ public class AnexoUsoWorkflowAction extends BaseAction {
 	 * @param formulario objeto form da action
 	 * @param request request atual
 	 * @param response response atual
-	 * @return forward da atualização
+	 * @return <code>null</code>
 	 * @throws Exception caso exceção seja lançada
 	 */
 	public ActionForward download(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
@@ -66,7 +66,7 @@ public class AnexoUsoWorkflowAction extends BaseAction {
 	 * @param formulario objeto form da action
 	 * @param request request atual
 	 * @param response response atual
-	 * @return forward da atualização
+	 * @return <code>null</code>
 	 * @throws Exception caso exceção seja lançada
 	 */
 	public ActionForward excluirAnexo(ActionMapping mapping, ActionForm formulario,
@@ -88,7 +88,7 @@ public class AnexoUsoWorkflowAction extends BaseAction {
 	 * @param formulario objeto form da action
 	 * @param request request atual
 	 * @param response response atual
-	 * @return forward da atualização
+	 * @return forward do iframe
 	 * @throws Exception caso exceção seja lançada
 	 */
 	public ActionForward iframeAnexo(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
@@ -103,7 +103,7 @@ public class AnexoUsoWorkflowAction extends BaseAction {
 	 * @param formulario objeto form da action
 	 * @param request request atual
 	 * @param response response atual
-	 * @return forward da atualização
+	 * @return forward após incluir anexo
 	 * @throws Exception caso exceção seja lançada
 	 */
 	public ActionForward incluirAnexo(ActionMapping mapping, ActionForm formulario,
@@ -115,8 +115,6 @@ public class AnexoUsoWorkflowAction extends BaseAction {
 		this.copyProperties(anexo, form, "id"); //feito para copiar o id do usoWorkflow
 		this.anexoBO.salvar(anexo);
 
-		this.addMessageKey("mensagem.uploadConcluido");
-		this.saveMessages(true);
 		return this.findForward("resultadoAnexo");
 	}
 
@@ -127,7 +125,7 @@ public class AnexoUsoWorkflowAction extends BaseAction {
 	 * @param formulario objeto form da action
 	 * @param request request atual
 	 * @param response response atual
-	 * @return forward da atualização
+	 * @return forward para o popup de inserir anexo
 	 * @throws Exception caso exceção seja lançada
 	 */
 	public ActionForward popupInserirAnexo(ActionMapping mapping, ActionForm formulario,
@@ -139,7 +137,7 @@ public class AnexoUsoWorkflowAction extends BaseAction {
 		 * a 10MB, porém quando o usuário envia um arquivo superior a esse tamanho o struts zera o form e ele não vem 
 		 * com propriedade nenhuma, o que atrapalha na hora de identificar o id do uso.
 		 * Esse id da sessão é recuperado na classe AnexoUsoWorkflowValidator e recolocado na propriedade do form */
-		Integer idUsoWorkflow = form.getId();
+		Integer idUsoWorkflow = form.getUsoWorkflow();
 		this.setSessionAttribute("idUsoWorkflowAnexo", idUsoWorkflow);
 
 		return this.findForward("popupInserirAnexo");

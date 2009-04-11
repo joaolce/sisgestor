@@ -14,4 +14,10 @@ import br.com.ucb.sisgestor.apresentacao.actions.UsarWorkflowAction;
  */
 public class UsarWorkflowValidator extends BaseValidator {
 
+	/**
+	 * Faz as validações do método iniciarUso.
+	 */
+	public void iniciarUso() {
+		this.validaRequerido("label.workflow", "workflow");
+	}
 }

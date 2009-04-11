@@ -141,11 +141,19 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
+	public Tarefa recuperarPrimeiraTarefa(Workflow workflow) {
+		return this.tarefaDAO.recuperarPrimeiraTarefa(workflow);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-	public void salvar(Tarefa tarefa) throws NegocioException {
+	public Integer salvar(Tarefa tarefa) throws NegocioException {
 		Atividade atividade = this.getAtividadeBO().obter(tarefa.getAtividade().getId());
 		this.validarSePodeAlterarWorkflow(atividade.getProcesso().getWorkflow());
-		this.tarefaDAO.salvar(tarefa);
+		return this.tarefaDAO.salvar(tarefa);
 	}
 
 	/**

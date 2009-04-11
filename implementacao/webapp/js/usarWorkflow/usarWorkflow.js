@@ -45,26 +45,18 @@ UsarWorkflow.prototype = {
    },
 
    /**
-	 * Abre o popup de uso do workflow.
+	 * Faz o uso do workflow.
 	 */
-   popupUsoDeWorkflow : function() {
-   	var colunas = usarWorkflow.getTR().descendants();
-   	var numeroRegistro = colunas[2].innerHTML;
-   	var nomeWorkflow = colunas[3].innerHTML;
-   	var nomeProcesso = colunas[4].innerHTML;
-	   var tituloPagina = numeroRegistro + " - " + nomeWorkflow + " - " + nomeProcesso;
+   usarWorkflow : function() {
+	   var colunas = usarWorkflow.getTR().descendants();
+	   var numeroRegistro = colunas[2].innerHTML;
+	   var nomeWorkflow = colunas[3].innerHTML;
 
-	   var url = "usarWorkflow.do?method=popupUsoWorkflow";
-	   createWindow(536, 985, 280, 10, tituloPagina, "divUsoWorkflow", url, ( function() {
-		   FactoryAbas.getNewAba("tabCamposAncora,tabCampos;tabHistoricoAncora,tabHistorico");
-		   var id = usarWorkflow.getIdSelecionado();
-		   dwr.util.setValue("idUsoWorkflow", id);
-		   UsarWorkflowDWR.getById(id, (function(usoWorkflow){
-		   	dwr.util.setValue("dataHoraInicioTarefa", getStringTimestamp(usoWorkflow.dataHoraInicio));
-		   	dwr.util.setValue("nomeTarefa", usoWorkflow.tarefa.nome);
-		   	dwr.util.setValue("descricaoTarefa", usoWorkflow.tarefa.descricao);
-		   }).bind(this));
-	   }).bind(this));
+	   var id = usarWorkflow.getIdSelecionado();
+	   UsarWorkflowDWR.getById(id, ( function(usoWorkflow) {
+		   usarWorkflow._abrePopupUsoDeWorkflow(id, numeroRegistro, nomeWorkflow,
+		      usoWorkflow.tarefa.nome, usoWorkflow.tarefa.descricao, usoWorkflow.dataHoraInicio);
+	   }));
    },
 
    /**
@@ -148,9 +140,9 @@ UsarWorkflow.prototype = {
 			   return "&nbsp;";
 		   });
 		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
-		   if(Usuario.temPermissao(USAR_WORKFLOW)) {
-		   	this.tabelaTelaPrincipal.setOnDblClick(this.popupUsoDeWorkflow);
-		   }		   	
+		   if (Usuario.temPermissao(USAR_WORKFLOW)) {
+			   this.tabelaTelaPrincipal.setOnDblClick(this.usarWorkflow);
+		   }
 	   } else {
 		   this.tabelaTelaPrincipal
 		      .semRegistros("Não foram encontradas tarefas pendentes de sua responsabilidade");
@@ -159,18 +151,56 @@ UsarWorkflow.prototype = {
 
    /**
 	 * Inicializa um uso do workflow.
+	 * 
+	 * @param form formulário submetido
 	 */
-   iniciarWorkflow : function() {
-	   return true; // APOS SELECIONAR O WORKFLOW NA INICIALIZACAO
-	},
+   iniciarUso : function(form) {
+	   requestUtils.submitForm(form, ( function() {
+		   if (requestUtils.status) {
+			   this.pesquisar();
+			   var idUso = requestUtils.generatedId;
+			   UsarWorkflowDWR.getById(idUso, ( function(usoWorkflow) {
+				   var tarefa = usoWorkflow.tarefa;
+				   JanelaFactory.fecharJanela("divIniciarWorkflow");
+				   this._abrePopupUsoDeWorkflow(idUso, usoWorkflow.numeroRegistro,
+				      tarefa.atividade.processo.workflow.nome, tarefa.nome, tarefa.descricao,
+				      usoWorkflow.dataHoraInicio);
+			   }).bind(this));
+		   }
+	   }).bind(this));
+   },
 
-	/**
- 	 * Envia a requisição para submeter o uso do workflow.
- 	 * 
- 	 * @param form formulário submetido
- 	 */
-	confirmar : function(form) {
+   /**
+	 * Envia a requisição para submeter o uso do workflow.
+	 * 
+	 * @param form formulário submetido
+	 */
+   confirmar : function(form) {
 
+   },
+
+   /**
+	 * Abre o popup de uso do workflow.
+	 * 
+	 * @param {Number} idUso identificador do uso do workflow
+	 * @param {String} numeroRegistro número de registro do uso
+	 * @param {String} nomeWorkflow nome do workflow em uso
+	 * @param {String} nomeTarefa nome da tarefa atual
+	 * @param {String} descricaoTarefa descrição da tarefa atual
+	 * @param {Date} dataHoraInicio data/hora de início da tarefa atual
+	 */
+   _abrePopupUsoDeWorkflow : function(idUso, numeroRegistro, nomeWorkflow, nomeTarefa,
+      descricaoTarefa, dataHoraInicio) {
+	   var tituloPagina = numeroRegistro + " - " + nomeWorkflow;
+
+	   var url = "usarWorkflow.do?method=popupUsoWorkflow";
+	   createWindow(536, 985, 280, 10, tituloPagina, "divUsoWorkflow", url, ( function() {
+		   FactoryAbas.getNewAba("tabCamposAncora,tabCampos;tabHistoricoAncora,tabHistorico");
+		   dwr.util.setValue("idUsoWorkflow", idUso);
+		   dwr.util.setValue("dataHoraInicioTarefa", getStringTimestamp(dataHoraInicio));
+		   dwr.util.setValue("nomeTarefa", nomeTarefa);
+		   dwr.util.setValue("descricaoTarefa", descricaoTarefa);
+	   }).bind(this));
    }
 };
 
