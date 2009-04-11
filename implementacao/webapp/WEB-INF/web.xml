@@ -124,12 +124,16 @@
 		<location>/dologin?erro=403</location>
 	</error-page>
 	<error-page>
+		<error-code>405</error-code>
+		<location>/dologin?erro=405</location>
+	</error-page>
+	<error-page>
 		<error-code>500</error-code>
 		<location>/principal.do?method=erro</location>
 	</error-page>
 	
 	<security-constraint>
-		<display-name>Proteção de recursos internos></display-name>
+		<display-name>Proteção de recursos internos</display-name>
 		<web-resource-collection>
 			<web-resource-name>recursos_visuais</web-resource-name>
 			<description>proteger páginas jsp e os relatórios de acesso direto</description>
@@ -156,6 +160,17 @@
 		</user-data-constraint>
 	</security-constraint>
 	
+	<security-constraint>
+		<display-name>Usar Workflow</display-name>
+		<web-resource-collection>
+			<web-resource-name>Usar_Workflow</web-resource-name>
+			<url-pattern>/usarWorkflow.do</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>5</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
 	<security-role>
 		<description>Permissão mínima para acessar o SisGestor</description>
 		<role-name>1</role-name>
@@ -177,12 +192,12 @@
 	</security-role>
 	
 	<security-role>
-		<description>Iniciar Workflow</description>
+		<description>Usar Workflow</description>
 		<role-name>5</role-name>
 	</security-role>
 	
 	<security-role>
-		<description>Usar Workflow</description>
+		<description>Anexar Arquivos</description>
 		<role-name>6</role-name>
 	</security-role>
 	

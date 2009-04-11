@@ -19,7 +19,11 @@ import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.dto.PesquisaManterWorkflowDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -60,16 +64,17 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow> implements WorkflowBO {
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void copiar(Integer idWorkflow) throws NegocioException {
-		Workflow workflow = this.workflowDAO.obterAntigo(idWorkflow);
+		Workflow workflow = this.workflowDAO.obter(idWorkflow);
 		Workflow workflowNovo = new Workflow();
 		try {
-			workflowNovo.setNome("Cópia de - " + workflow.getNome());
-			workflowNovo.setDescricao(workflow.getDescricao());
+			this.copiarPropriedades(workflowNovo, workflow);
+			workflowNovo.setNome("Cópia - " + workflow.getNome());
 			workflowNovo.setAtivo(Boolean.FALSE);
+			workflowNovo.setDataHoraExclusao(null);
+			this.workflowDAO.salvar(workflowNovo);
 		} catch (Exception e) {
 			throw new NegocioException("erro.workflow.copiar");
 		}
-		this.workflowDAO.salvar(workflowNovo);
 	}
 
 	/**
@@ -82,6 +87,7 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow> implements WorkflowBO {
 		workflow.setDataHoraExclusao(DataUtil.getDataHoraAtual());
 		this.workflowDAO.atualizar(workflow); //Exclusão lógica
 	}
+
 
 	/**
 	 * {@inheritDoc}
@@ -176,6 +182,100 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow> implements WorkflowBO {
 	@Autowired
 	public void setWorkflowDAO(WorkflowDAO workflowDAO) {
 		this.workflowDAO = workflowDAO;
+	}
+
+	/**
+	 * Copia as propriedades do objeto.
+	 * 
+	 * @param destino objeto de destino
+	 * @param origem objeto de origem
+	 * @throws IllegalAccessException caso ocorra acesso ilegal de propriedade
+	 * @throws InstantiationException caso ocorra erro na instancialização de novos objetos
+	 * @throws InvocationTargetException caso ocorra erro na invocação de método
+	 * @throws NoSuchMethodException caso não exista o método <code>get</code> ou <code>set</code>
+	 */
+	private void copiarPropriedades(Object destino, Object origem) throws IllegalAccessException,
+			InstantiationException, InvocationTargetException, NoSuchMethodException {
+		if (!destino.getClass().getName().equals(origem.getClass().getName())) {
+			throw new IllegalArgumentException("Classes devem ser iguais");
+		}
+		Class<?> tipo;
+		String nomePropriedade;
+		Object valorPropriedade;
+		PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(origem);
+		for (PropertyDescriptor descriptor : descriptors) {
+			nomePropriedade = descriptor.getName();
+			if ("class".equals(nomePropriedade) || "id".equals(nomePropriedade)) {
+				continue;
+			}
+			tipo = descriptor.getPropertyType();
+			valorPropriedade = PropertyUtils.getProperty(origem, nomePropriedade);
+			if (tipo.isAssignableFrom(List.class)) {
+				valorPropriedade =
+						this.copiarPropriedadesList(destino, origem, nomePropriedade, (List<?>) valorPropriedade);
+			}
+			PropertyUtils.setSimpleProperty(destino, nomePropriedade, valorPropriedade); //seta propriedade no destino
+		}
+	}
+
+	/**
+	 * Copia um {@link List} a partir dos seus objetos
+	 * 
+	 * @param destino objeto de destino
+	 * @param origem objeto de origem
+	 * @param nomePropriedade nome da propriedade do {@link List}
+	 * @param valorPropriedade o {@link List} original
+	 * @return o valor da propriedade, atribuído como {@link List}
+	 * @throws IllegalAccessException caso ocorra acesso ilegal de propriedade
+	 * @throws InstantiationException caso ocorra erro na instancialização de novos objetos
+	 * @throws InvocationTargetException caso ocorra erro na invocação de método
+	 * @throws NoSuchMethodException caso não exista o método <code>get</code> ou <code>set</code>
+	 */
+	@SuppressWarnings("unchecked")
+	private Object copiarPropriedadesList(Object destino, Object origem, String nomePropriedade,
+			List<?> valorOrigem) throws IllegalAccessException, InvocationTargetException,
+			NoSuchMethodException, InstantiationException {
+		List valorDestino = (List<?>) PropertyUtils.getProperty(destino, nomePropriedade);
+		if (valorDestino == null) {
+			valorDestino = new ArrayList();
+		}
+		Object objetoListaDestino;
+		for (Object objetoListaOrigem : valorOrigem) {
+			objetoListaDestino = objetoListaOrigem.getClass().newInstance();
+			this.copiarPropriedades(objetoListaDestino, objetoListaOrigem);
+			String nomePropriedadeRelacionamento =
+					this.recuperarNomePropriedadeRelacionamento(objetoListaOrigem, origem);
+			if (nomePropriedadeRelacionamento != null) {
+				PropertyUtils.setSimpleProperty(objetoListaDestino, nomePropriedadeRelacionamento, destino); //atribuindo para o relacionamento
+			}
+			valorDestino.add(objetoListaDestino);
+		}
+		return valorDestino;
+	}
+
+	/**
+	 * Recupera o nome da propriedade que contém a chave estrangeira para o objeto de relacionamento.
+	 * 
+	 * @param objetoDeFK objeto com a chave estrangeira
+	 * @param objetoDePK objeto que está com a chave primária do relacionamento
+	 * @return {@link String} com o nome da propriedade, ou <code>null</code> caso não encontre
+	 * @throws IllegalAccessException caso ocorra acesso ilegal de propriedade
+	 * @throws InvocationTargetException caso ocorra erro na invocação de método
+	 * @throws NoSuchMethodException caso não exista o método <code>get</code> ou <code>set</code>
+	 */
+	private String recuperarNomePropriedadeRelacionamento(Object objetoDeFK, Object objetoDePK)
+			throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		String nomePropriedade;
+		Object valorPropriedade;
+		PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(objetoDeFK);
+		for (PropertyDescriptor descriptor : descriptors) {
+			nomePropriedade = descriptor.getName();
+			valorPropriedade = PropertyUtils.getProperty(objetoDeFK, nomePropriedade);
+			if ((valorPropriedade != null) && valorPropriedade.equals(objetoDePK)) {
+				return nomePropriedade;
+			}
+		}
+		return null;
 	}
 
 	/**

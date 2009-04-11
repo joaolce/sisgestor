@@ -29,7 +29,7 @@ public final class LoginServlet extends HttpServlet {
 
 	private static final String	CHARSET			= "ISO-8859-1";
 	private static final String	HTML_MIME_TYPE	= "text/html";
-	private static final String	ERROR				= "error";
+	private static final String	ERRO				= "erro";
 	private static final String	LOGIN_ERROR		= "loginerror";
 	private static final String	LOGOUT			= "logout";
 	private static final Log		LOG				= LogFactory.getLog(LoginServlet.class);
@@ -64,7 +64,7 @@ public final class LoginServlet extends HttpServlet {
 			IOException {
 		String param;
 		if (request.getParameter(LOGOUT) == null) {
-			param = request.getParameter(ERROR);
+			param = request.getParameter(ERRO);
 			if (param == null) {
 				LOG.debug("Página de login.");
 				this.escrevePagina(response, this.loginBundle.getLoginPage(""));

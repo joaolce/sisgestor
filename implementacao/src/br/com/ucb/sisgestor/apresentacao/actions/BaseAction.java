@@ -528,7 +528,7 @@ public class BaseAction extends DispatchActionSupport {
 	}
 
 	/**
-	 * Salva os erros.
+	 * Salva as mensagens da requisição.
 	 * 
 	 * @param status <code>true</code> - verde, <code>false</code> - vermelho
 	 */

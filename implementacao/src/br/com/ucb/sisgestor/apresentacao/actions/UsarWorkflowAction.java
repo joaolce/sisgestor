@@ -91,21 +91,6 @@ public class UsarWorkflowAction extends BaseAction {
 	}
 
 	/**
-	 * Abre popup para visualizar os anexos
-	 * 
-	 * @param mapping objeto mapping da action
-	 * @param formulario objeto form da action
-	 * @param request request atual
-	 * @param response response atual
-	 * @return forward do popup
-	 * @throws Exception caso exceção seja lançada
-	 */
-	public ActionForward popupVisualizarAnexos(ActionMapping mapping, ActionForm formulario,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return this.findForward("popupVisualizarAnexos");
-	}
-
-	/**
 	 * Atribui o BO de {@link Tarefa}.
 	 * 
 	 * @param tarefaBO BO de {@link Tarefa}
