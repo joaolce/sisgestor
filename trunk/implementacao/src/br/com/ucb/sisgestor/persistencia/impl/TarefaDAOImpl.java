@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.persistencia.impl;
 
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
+import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.persistencia.TarefaDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
 import java.util.List;
@@ -73,6 +74,20 @@ public class TarefaDAOImpl extends BaseDAOImpl<Tarefa> implements TarefaDAO {
 	}
 
 	/**
+	 *{@inheritDoc}
+	 */
+	public Tarefa recuperarPrimeiraTarefa(Workflow workflow) {
+		Criteria criteria = this.createCriteria(Tarefa.class);
+		criteria.createAlias("this.atividade", "atividade");
+		criteria.createAlias("atividade.processo", "processo");
+		criteria.add(Restrictions.eq("processo.workflow", workflow));
+		criteria.add(Restrictions.isEmpty("processo.transacoesAnteriores"));
+		criteria.add(Restrictions.isEmpty("atividade.transacoesAnteriores"));
+		criteria.add(Restrictions.isEmpty("this.transacoesAnteriores"));
+		return (Tarefa) criteria.uniqueResult();
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public List<TransacaoTarefa> recuperarTransacoesDaAtividade(Integer idAtividade) {
@@ -97,7 +112,6 @@ public class TarefaDAOImpl extends BaseDAOImpl<Tarefa> implements TarefaDAO {
 	protected Order getOrdemLista() {
 		return Order.asc("nome").ignoreCase();
 	}
-
 
 	/**
 	 * Monta os critérios para a paginação das tarefas.

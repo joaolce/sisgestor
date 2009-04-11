@@ -65,6 +65,7 @@ public interface BaseDAO<T extends ObjetoPersistente> {
 	 * Salva um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a salvar
+	 * @return {@link Integer} indentificador do objeto criado
 	 */
-	void salvar(T obj);
+	Integer salvar(T obj);
 }

@@ -83,9 +83,10 @@ public abstract class BaseDAOImpl<T extends ObjetoPersistente> implements BaseDA
 	/**
 	 * {@inheritDoc}
 	 */
-	public void salvar(T obj) {
-		this.getSession().save(obj);
+	public Integer salvar(T obj) {
+		Integer id = (Integer) this.getSession().save(obj);
 		this.getSession().flush();
+		return id;
 	}
 
 	/**

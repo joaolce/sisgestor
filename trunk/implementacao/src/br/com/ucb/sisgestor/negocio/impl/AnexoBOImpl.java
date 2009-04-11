@@ -83,9 +83,9 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo> implements AnexoBO {
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-	public void salvar(Anexo anexo) throws NegocioException {
+	public Integer salvar(Anexo anexo) throws NegocioException {
 		this.validarArquivo(anexo);
-		this.anexoDAO.salvar(anexo);
+		return this.anexoDAO.salvar(anexo);
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo> implements AnexoBO {
 		}
 		if (anexo.getDados().length > Constantes.TAMANHO_MAX_ANEXO_PERMITIDO) {
 			throw new NegocioException("erro.arquivo.tamanhoMaximoExcedido", String
-					.valueOf(((Constantes.TAMANHO_MAX_ANEXO_PERMITIDO / 1024) / 1204)));
+					.valueOf(((Constantes.TAMANHO_MAX_ANEXO_PERMITIDO / 1024) / 1024)));
 		}
 	}
 }

@@ -63,7 +63,8 @@ public interface BaseBO<T extends ObjetoPersistente> {
 	 * Salva (incluí) um objeto na base de dados.
 	 * 
 	 * @param obj objeto persistente a ser salvo
+	 * @return {@link Integer} identificador do objeto criado
 	 * @throws NegocioException caso uma regra de negócio seja violada
 	 */
-	void salvar(T obj) throws NegocioException;
+	Integer salvar(T obj) throws NegocioException;
 }

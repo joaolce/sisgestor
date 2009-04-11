@@ -130,13 +130,14 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-	public void salvar(Usuario usuario) throws NegocioException {
+	public Integer salvar(Usuario usuario) throws NegocioException {
 		usuario.setSenha(this.gerarSenha());
 		try {
-			this.usuarioDAO.salvar(usuario);
+			Integer id = this.usuarioDAO.salvar(usuario);
 			this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR, Constantes.ASSUNTO_EMAIL_NOVO_USUARIO,
-					"Seja bem vindo ao <b>SisGestor</b> <br/> <p>Sua senha é: " + usuario.getSenha() + "</p>",
+					"Seja bem vindo ao <b>SisGestor</b> <br /> <p>Sua senha é: " + usuario.getSenha() + "</p>",
 					usuario.getEmail());
+			return id;
 		} catch (ConstraintViolationException ce) {
 			throw new NegocioException("erro.usuario.login.repetido");
 		}

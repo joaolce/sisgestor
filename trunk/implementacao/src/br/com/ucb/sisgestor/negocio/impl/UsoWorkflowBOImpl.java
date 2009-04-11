@@ -93,11 +93,12 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-	public void salvar(UsoWorkflow usoWorkflow) throws NegocioException {
+	public Integer salvar(UsoWorkflow usoWorkflow) throws NegocioException {
 		usoWorkflow.setDataHoraInicio(DataUtil.getDataHoraAtual());
 		this.gerarNumeroDoRegistro(usoWorkflow);
-		this.usoWorkflowDAO.salvar(usoWorkflow);
+		Integer id = this.usoWorkflowDAO.salvar(usoWorkflow);
 		this.gerarHistorico(usoWorkflow);
+		return id;
 	}
 
 	/**

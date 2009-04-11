@@ -101,10 +101,10 @@ public class CampoBOImpl extends BaseBOImpl<Campo> implements CampoBO {
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-	public void salvar(Campo campo) throws NegocioException {
+	public Integer salvar(Campo campo) throws NegocioException {
 		Workflow workflow = this.getWorkflowBO().obter(campo.getWorkflow().getId());
 		this.validarSePodeAlterarWorkflow(workflow);
-		this.campoDAO.salvar(campo);
+		return this.campoDAO.salvar(campo);
 	}
 
 	/**
