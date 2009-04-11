@@ -88,4 +88,25 @@
 	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.ManterCampoAction#salvar" 
 		roles="4" />
 
+	<!-- Usar Workflow -->
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.UsarWorkflowAction#iniciarUso" 
+		roles="5" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.UsarWorkflowAction#popupIniciarWorkflow" 
+		roles="5" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.UsarWorkflowAction#popupUsoWorkflow" 
+		roles="5" />
+
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.AnexoUsoWorkflowAction#download" 
+		roles="5" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.AnexoUsoWorkflowAction#entrada" 
+		roles="5" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.AnexoUsoWorkflowAction#excluirAnexo" 
+		roles="6" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.AnexoUsoWorkflowAction#iframeAnexo" 
+		roles="6" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.AnexoUsoWorkflowAction#incluirAnexo" 
+		roles="6" />
+	<validacao actionMethod="br.com.ucb.sisgestor.apresentacao.actions.AnexoUsoWorkflowAction#popupInserirAnexo" 
+		roles="6" />
+
 </validator-mapping>

@@ -5,9 +5,9 @@
 
 <fieldset style="margin: 5pt auto; padding: 10px;">
 	<div id="divMenuOpcoes">
-		<htmlSGR:link href="#anexos" titleKey="dica.anexos" onclick="usarWorkflow.popupVisualizarAnexos();" linkName="anexos" roles="6">
+		<html:link href="#anexos" titleKey="dica.anexos" onclick="usarWorkflow.popupVisualizarAnexos();" linkName="anexos">
 			<html:img srcKey="imagem.anexos" width="20" height="19"/>
-		</htmlSGR:link>
+		</html:link>
 	</div>
 	
 	<div class="bordas" style="width: 50%; padding: 5px; overflow: auto;">
