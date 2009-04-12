@@ -22,8 +22,10 @@ import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -36,7 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 04/02/2009
  */
 @Service("workflowBO")
-public class WorkflowBOImpl extends BaseBOImpl<Workflow> implements WorkflowBO {
+public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements WorkflowBO {
 
 	private WorkflowDAO	workflowDAO;
 	private ProcessoBO	processoBO;
@@ -53,7 +55,7 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow> implements WorkflowBO {
 		if (workflow.getAtivo()) { //ativando o workflow
 			this.validarAtivacaoDoWorkflow(workflowAtual);
 			this.validarTransacoesDosProcessos(workflowAtual);
-		} else if (workflowAtual.getAtivo()) { //está desativando o workflow
+		} else if (workflowAtual.getAtivo() && CollectionUtils.isNotEmpty(workflowAtual.getUsos())) { //está desativando o workflow
 			throw new NegocioException("erro.workflowDestivar");
 		}
 		this.workflowDAO.atualizar(workflow);
@@ -67,7 +69,7 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow> implements WorkflowBO {
 		Workflow workflow = this.workflowDAO.obter(idWorkflow);
 		Workflow workflowNovo = new Workflow();
 		try {
-			this.copiarPropriedades(workflowNovo, workflow);
+			this.copiarPropriedades(workflowNovo, workflow, "usos");
 			workflowNovo.setNome("Cópia - " + workflow.getNome());
 			workflowNovo.setAtivo(Boolean.FALSE);
 			workflowNovo.setDataHoraExclusao(null);
@@ -187,25 +189,31 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow> implements WorkflowBO {
 	/**
 	 * Copia as propriedades do objeto.
 	 * 
+	 * @see Utils#copyProperties(Object, Object, String...)
+	 * 
 	 * @param destino objeto de destino
 	 * @param origem objeto de origem
+	 * @param exclusao propriedades a ser ignoradas na cópia
 	 * @throws IllegalAccessException caso ocorra acesso ilegal de propriedade
 	 * @throws InstantiationException caso ocorra erro na instancialização de novos objetos
 	 * @throws InvocationTargetException caso ocorra erro na invocação de método
 	 * @throws NoSuchMethodException caso não exista o método <code>get</code> ou <code>set</code>
 	 */
-	private void copiarPropriedades(Object destino, Object origem) throws IllegalAccessException,
-			InstantiationException, InvocationTargetException, NoSuchMethodException {
+	private void copiarPropriedades(Object destino, Object origem, String... exclusao)
+			throws IllegalAccessException, InstantiationException, InvocationTargetException,
+			NoSuchMethodException {
 		if (!destino.getClass().getName().equals(origem.getClass().getName())) {
 			throw new IllegalArgumentException("Classes devem ser iguais");
 		}
 		Class<?> tipo;
 		String nomePropriedade;
 		Object valorPropriedade;
+		List<String> excluidos = Arrays.asList(exclusao);
 		PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(origem);
 		for (PropertyDescriptor descriptor : descriptors) {
 			nomePropriedade = descriptor.getName();
-			if ("class".equals(nomePropriedade) || "id".equals(nomePropriedade)) {
+			if ("class".equals(nomePropriedade) || "id".equals(nomePropriedade)
+					|| excluidos.contains(nomePropriedade)) {
 				continue;
 			}
 			tipo = descriptor.getPropertyType();
@@ -242,10 +250,10 @@ public class WorkflowBOImpl extends BaseBOImpl<Workflow> implements WorkflowBO {
 		Object objetoListaDestino;
 		for (Object objetoListaOrigem : valorOrigem) {
 			objetoListaDestino = objetoListaOrigem.getClass().newInstance();
-			this.copiarPropriedades(objetoListaDestino, objetoListaOrigem);
 			String nomePropriedadeRelacionamento =
 					this.recuperarNomePropriedadeRelacionamento(objetoListaOrigem, origem);
 			if (nomePropriedadeRelacionamento != null) {
+				this.copiarPropriedades(objetoListaDestino, objetoListaOrigem, nomePropriedadeRelacionamento);
 				PropertyUtils.setSimpleProperty(objetoListaDestino, nomePropriedadeRelacionamento, destino); //atribuindo para o relacionamento
 			}
 			valorDestino.add(objetoListaDestino);

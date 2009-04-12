@@ -30,10 +30,11 @@ import org.hibernate.annotations.CascadeType;
 		@AttributeOverride(name = "descricao", column = @Column(name = "WOR_DESCRICAO", nullable = false, length = ConstantesDB.DESCRICAO))})
 public class Workflow extends BaseWorkflow {
 
-	private Boolean			ativo;
-	private Timestamp			dataHoraExclusao;
-	private List<Processo>	processos;
-	private List<Campo>		campos;
+	private Boolean				ativo;
+	private Timestamp				dataHoraExclusao;
+	private List<Processo>		processos;
+	private List<Campo>			campos;
+	private List<UsoWorkflow>	usos;
 
 	/**
 	 * Recupera o indicador se o workflow está ativo.
@@ -78,6 +79,16 @@ public class Workflow extends BaseWorkflow {
 	}
 
 	/**
+	 * Recupera os usos do workflow.
+	 * 
+	 * @return usos do workflow
+	 */
+	@OneToMany(targetEntity = UsoWorkflow.class, mappedBy = "workflow")
+	public List<UsoWorkflow> getUsos() {
+		return this.usos;
+	}
+
+	/**
 	 * Atribui o indicador se o workflow está ativo.
 	 * 
 	 * @param ativo indicador se o workflow está ativo
@@ -111,5 +122,14 @@ public class Workflow extends BaseWorkflow {
 	 */
 	public void setProcessos(List<Processo> processos) {
 		this.processos = processos;
+	}
+
+	/**
+	 * Atribui os usos do workflow.
+	 * 
+	 * @param usos usos do workflow
+	 */
+	public void setUsos(List<UsoWorkflow> usos) {
+		this.usos = usos;
 	}
 }

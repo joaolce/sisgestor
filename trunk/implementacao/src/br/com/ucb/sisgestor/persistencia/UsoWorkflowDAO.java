@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.persistencia;
 
+import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import java.util.List;
@@ -43,4 +44,11 @@ public interface UsoWorkflowDAO extends BaseDAO<UsoWorkflow> {
 	 * @return número mais recente do ano
 	 */
 	Integer recuperarUltimoNumeroDoAno(Integer ano);
+
+	/**
+	 * Salva um histórico do {@link UsoWorkflow}.
+	 * 
+	 * @param historicoUsoWorkflow histórico a salvar
+	 */
+	void salvarHistorico(HistoricoUsoWorkflow historicoUsoWorkflow);
 }

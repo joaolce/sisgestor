@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.BaseWorkflow;
 import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
+import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +81,18 @@ public abstract class BaseWorkflowBOImpl<T extends BaseWorkflow> extends BaseBOI
 
 		this.lancarExcecaoFluxo(exceptionIsolado, exceptionInicial, exceptionFinal, temInicio,
 				temMaisDeUmInicio, temFim, temTarefasIsoladas);
+	}
+
+	/**
+	 * Verifica se o {@link Workflow} pode ser alterado, para não poder ocorrer alteração em nenhum lugar.
+	 * 
+	 * @param workflow {@link Workflow} a verificar
+	 * @throws NegocioException caso o {@link Workflow} não possa ser alterado
+	 */
+	protected void validarSePodeAlterarWorkflow(Workflow workflow) throws NegocioException {
+		if (workflow.getAtivo() || (workflow.getDataHoraExclusao() != null)) {
+			throw new NegocioException("erro.workflow.alterar");
+		}
 	}
 
 	/**

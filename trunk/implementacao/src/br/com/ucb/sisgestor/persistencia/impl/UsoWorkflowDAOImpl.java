@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.persistencia.impl;
 
+import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
@@ -53,7 +54,7 @@ public class UsoWorkflowDAOImpl extends BaseDAOImpl<UsoWorkflow> implements UsoW
 	}
 
 	/**
-	 *{@inheritDoc}
+	 * {@inheritDoc}
 	 */
 	public Integer recuperarUltimoNumeroDoAno(Integer ano) {
 		Criteria criteria = this.createCriteria(UsoWorkflow.class);
@@ -63,6 +64,13 @@ public class UsoWorkflowDAOImpl extends BaseDAOImpl<UsoWorkflow> implements UsoW
 		criteria.add(RestrictionsSGR.eqWithTransform("this.dataHoraInicio", "YEAR", ano));
 		criteria.addOrder(Order.desc("this.numero"));
 		return (Integer) criteria.uniqueResult();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void salvarHistorico(HistoricoUsoWorkflow historicoUsoWorkflow) {
+		this.getSession().save(historicoUsoWorkflow);
 	}
 
 	/**
