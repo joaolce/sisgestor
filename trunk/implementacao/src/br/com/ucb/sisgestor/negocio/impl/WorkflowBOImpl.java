@@ -52,17 +52,21 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	public void atualizar(Workflow workflow) throws NegocioException {
 		Workflow workflowAtual = this.workflowDAO.obterAntigo(workflow.getId());
 		this.verificarWorkflowExcluido(workflowAtual);
-		if (workflow.getAtivo()) { //ativando o workflow
+		if (workflow.getAtivo() && !workflowAtual.getAtivo()) { //ativando o workflow
 			this.validarAtivacaoDoWorkflow(workflowAtual);
 			this.validarTransacoesDosProcessos(workflowAtual);
-		} else if (workflowAtual.getAtivo() && CollectionUtils.isNotEmpty(workflowAtual.getUsos())) { //está desativando o workflow
-			throw new NegocioException("erro.workflowDestivar");
+		} else if (workflowAtual.getAtivo()) {
+			if (workflow.getAtivo()) { //alterando os dados de um workflow ativo
+				throw new NegocioException("erro.workflow.alterar");
+			} else if (CollectionUtils.isNotEmpty(workflowAtual.getUsos())) { //está desativando o workflow
+				throw new NegocioException("erro.workflowDestivar");
+			}
 		}
 		this.workflowDAO.atualizar(workflow);
 	}
 
 	/**
-	 *{@inheritDoc}
+	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void copiar(Integer idWorkflow) throws NegocioException {
