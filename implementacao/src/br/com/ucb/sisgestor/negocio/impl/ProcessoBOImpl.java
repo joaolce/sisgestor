@@ -288,16 +288,4 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo> implements Proc
 		this.validarFluxos(lista, exceptionIsolado, exceptionInicial, exceptionFinal, mapAnteriores,
 				mapPosteriores);
 	}
-
-	/**
-	 * Verifica se o {@link Workflow} pode ser alterado, para não poder ocorrer alteração nos processos.
-	 * 
-	 * @param workflow {@link Workflow} a verificar
-	 * @throws NegocioException caso o {@link Workflow} não possa ser alterado
-	 */
-	private void validarSePodeAlterarWorkflow(Workflow workflow) throws NegocioException {
-		if (workflow.getAtivo() || (workflow.getDataHoraExclusao() != null)) {
-			throw new NegocioException("erro.workflow.alterar");
-		}
-	}
 }

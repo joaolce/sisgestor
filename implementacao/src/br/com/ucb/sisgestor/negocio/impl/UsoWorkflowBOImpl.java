@@ -121,7 +121,6 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 		this.usoWorkflowDAO = usoWorkflowDAO;
 	}
 
-
 	/**
 	 * Gera um registro de histórico para o {@link UsoWorkflow}.
 	 * 
@@ -129,9 +128,10 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 */
 	private void gerarHistorico(UsoWorkflow usoWorkflow) {
 		HistoricoUsoWorkflow historico = new HistoricoUsoWorkflow();
-		historico.setDataHora(DataUtil.getDataHoraAtual());
 		historico.setUsoWorkflow(usoWorkflow);
-		//TODO GERAR HISTORICO
+		historico.setDataHora(DataUtil.getDataHoraAtual());
+		//TODO IDENTIFICAR ALTERAÇÕES NO USO
+		this.usoWorkflowDAO.salvarHistorico(historico);
 	}
 
 	/**
