@@ -46,7 +46,7 @@ public abstract class BaseWorkflowBOImpl<T extends BaseWorkflow> extends BaseBOI
 		boolean temInicio = false;
 		boolean temMaisDeUmInicio = false;
 		boolean temFim = false;
-		boolean temTarefasIsoladas = false;
+		boolean temElementoIsolado = false;
 
 		Integer id;
 		Integer elementoAnterior;
@@ -61,7 +61,7 @@ public abstract class BaseWorkflowBOImpl<T extends BaseWorkflow> extends BaseBOI
 			elementoPosterior = mapPosteriores.get(id);
 
 			if ((elementoAnterior == null) && (elementoPosterior == null)) {
-				temTarefasIsoladas = true;
+				temElementoIsolado = true;
 				exceptionIsolado.putValorDevolvido("id" + id, id);
 			}
 			if (elementoPosterior == null) {
@@ -80,7 +80,7 @@ public abstract class BaseWorkflowBOImpl<T extends BaseWorkflow> extends BaseBOI
 		}
 
 		this.lancarExcecaoFluxo(exceptionIsolado, exceptionInicial, exceptionFinal, temInicio,
-				temMaisDeUmInicio, temFim, temTarefasIsoladas);
+				temMaisDeUmInicio, temFim, temElementoIsolado);
 	}
 
 	/**
@@ -104,14 +104,14 @@ public abstract class BaseWorkflowBOImpl<T extends BaseWorkflow> extends BaseBOI
 	 * @param temInicio Indicador para ocorrência de elemento inicial
 	 * @param temMaisDeUmInicio Indicador para ocorrência de mais de um elemento inicial
 	 * @param temFim Indicador para ocorrência de nenhum elemento final
-	 * @param temTarefasIsoladas Indicador para ocorrência de elemento isolado
+	 * @param temElementoIsolado Indicador para ocorrência de elemento isolado
 	 * @throws NegocioException Exceção a ser lançada na ocorrência de regra violada
 	 */
 	private void lancarExcecaoFluxo(NegocioException exceptionIsolado, NegocioException exceptionInicial,
 			NegocioException exceptionFinal, boolean temInicio, boolean temMaisDeUmInicio, boolean temFim,
-			boolean temTarefasIsoladas) throws NegocioException {
+			boolean temElementoIsolado) throws NegocioException {
 		//Não permite tarefas isoladas
-		if (temTarefasIsoladas) {
+		if (temElementoIsolado) {
 			throw exceptionIsolado;
 		}
 		//Não permite a inexistência de um início
