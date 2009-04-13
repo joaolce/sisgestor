@@ -164,21 +164,13 @@ public final class Utils {
 		PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(destino);
 		//as propriedades que são do mesmo tipo serão copiadas por último
 		List<String> propriedadesIguais = new ArrayList<String>();
+		List<String> excluidos = Arrays.asList(exclusao);
 
 		for (PropertyDescriptor descriptor : propertyDescriptors) {
 			PropertyDescriptor descriptorOrigem;
 			String nomePropriedade = descriptor.getName();
-			if (exclusao != null) {
-				boolean pula = false;
-				for (String exclui : exclusao) {
-					if (nomePropriedade.equals(exclui)) {
-						pula = true;
-						break;
-					}
-				}
-				if (pula) {
-					continue;
-				}
+			if (excluidos.contains(nomePropriedade)) {
+				continue;
 			}
 			try {
 				descriptorOrigem = PropertyUtils.getPropertyDescriptor(origem, nomePropriedade);

@@ -19,4 +19,7 @@ public final class HibernateUserTypeConstants {
 
 	/** Enum que implementa o user type. */
 	public static final String	TIPO_CAMPO_ENUM	= "br.com.ucb.sisgestor.entidade.TipoCampoEnum";
+
+	/** Enum que implementa o user type. */
+	public static final String	TIPO_ACAO_ENUM		= "br.com.ucb.sisgestor.entidade.TipoAcaoEnum";
 }

@@ -5,9 +5,15 @@
 package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Anexo;
+import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
+import br.com.ucb.sisgestor.entidade.TipoAcaoEnum;
+import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.negocio.AnexoBO;
+import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.AnexoDAO;
+import br.com.ucb.sisgestor.util.DataUtil;
+import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.constantes.Constantes;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -25,14 +31,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("anexoBO")
 public class AnexoBOImpl extends BaseBOImpl<Anexo> implements AnexoBO {
 
-	private AnexoDAO	anexoDAO;
+	private AnexoDAO			anexoDAO;
+	private UsoWorkflowBO	usoWorkflowBO;
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(readOnly = true)
 	public void atualizar(Anexo anexo) throws NegocioException {
-		this.anexoDAO.atualizar(anexo);
+		throw new UnsupportedOperationException("erro.operacaoNaoSuportada");
 	}
 
 	/**
@@ -48,11 +55,12 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo> implements AnexoBO {
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void excluirAnexos(Integer[] anexosSelecionados) throws NegocioException {
-		Anexo anexo;
+		Anexo anexo = null;
 		for (Integer idAnexo : anexosSelecionados) {
 			anexo = this.anexoDAO.obter(idAnexo);
 			this.anexoDAO.excluir(anexo);
 		}
+		this.salvarHistoricoUso(anexo.getUsoWorkflow(), TipoAcaoEnum.EXCLUSAO_DE_ANEXO);
 	}
 
 	/**
@@ -85,7 +93,9 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo> implements AnexoBO {
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public Integer salvar(Anexo anexo) throws NegocioException {
 		this.validarArquivo(anexo);
-		return this.anexoDAO.salvar(anexo);
+		Integer idAnexo = this.anexoDAO.salvar(anexo);
+		this.salvarHistoricoUso(anexo.getUsoWorkflow(), TipoAcaoEnum.INCLUSAO_DE_ANEXO);
+		return idAnexo;
 	}
 
 	/**
@@ -96,6 +106,32 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo> implements AnexoBO {
 	@Autowired
 	public void setAnexoDAO(AnexoDAO anexoDAO) {
 		this.anexoDAO = anexoDAO;
+	}
+
+	/**
+	 * Recupera o BO de {@link UsoWorkflow}.
+	 * 
+	 * @return BO de {@link UsoWorkflow}
+	 */
+	private UsoWorkflowBO getUsoWorkflowBO() {
+		if (this.usoWorkflowBO == null) {
+			this.usoWorkflowBO = Utils.getBean(UsoWorkflowBO.class);
+		}
+		return this.usoWorkflowBO;
+	}
+
+	/**
+	 * Salva um {@link HistoricoUsoWorkflow} em relação aos anexos.
+	 * 
+	 * @param usoWorkflow {@link UsoWorkflow} em questão
+	 * @param acao {@link TipoAcaoEnum} ocorrida
+	 */
+	private void salvarHistoricoUso(UsoWorkflow usoWorkflow, TipoAcaoEnum acao) {
+		HistoricoUsoWorkflow historicoUsoWorkflow = new HistoricoUsoWorkflow();
+		historicoUsoWorkflow.setUsoWorkflow(usoWorkflow);
+		historicoUsoWorkflow.setDataHora(DataUtil.getDataHoraAtual());
+		historicoUsoWorkflow.setAcao(acao);
+		this.getUsoWorkflowBO().salvarHistorico(historicoUsoWorkflow);
 	}
 
 	/**

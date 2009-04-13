@@ -4,10 +4,9 @@
  */
 package br.com.ucb.sisgestor.negocio.impl;
 
-import br.com.ucb.sisgestor.entidade.Anexo;
 import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
+import br.com.ucb.sisgestor.entidade.TipoAcaoEnum;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
-import br.com.ucb.sisgestor.negocio.AnexoBO;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
@@ -15,6 +14,7 @@ import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -30,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWorkflowBO {
 
 	private UsoWorkflowDAO	usoWorkflowDAO;
-	private AnexoBO			anexoBO;
 
 	/**
 	 * {@inheritDoc}
@@ -47,14 +46,6 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	@Transactional(readOnly = true)
 	public void excluir(UsoWorkflow obj) throws NegocioException {
 		throw new UnsupportedOperationException("erro.operacaoNaoSuportada");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Transactional(readOnly = true)
-	public List<Anexo> getAnexos(Integer idUsoWorkflow) {
-		return this.anexoBO.getAnexosByUsoWorkflow(idUsoWorkflow);
 	}
 
 	/**
@@ -102,13 +93,11 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	}
 
 	/**
-	 * Atribui o BO de {@link Anexo}.
-	 * 
-	 * @param anexoBO BO de {@link Anexo}
+	 * {@inheritDoc}
 	 */
-	@Autowired
-	public void setAnexoBO(AnexoBO anexoBO) {
-		this.anexoBO = anexoBO;
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	public void salvarHistorico(HistoricoUsoWorkflow historicoUsoWorkflow) {
+		this.usoWorkflowDAO.salvarHistorico(historicoUsoWorkflow);
 	}
 
 	/**
@@ -130,8 +119,10 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 		HistoricoUsoWorkflow historico = new HistoricoUsoWorkflow();
 		historico.setUsoWorkflow(usoWorkflow);
 		historico.setDataHora(DataUtil.getDataHoraAtual());
-		//TODO IDENTIFICAR ALTERAÇÕES NO USO
-		this.usoWorkflowDAO.salvarHistorico(historico);
+		if (CollectionUtils.isEmpty(usoWorkflow.getHistorico())) {
+			historico.setAcao(TipoAcaoEnum.INICIO_USO);
+		}
+		this.salvarHistorico(historico);
 	}
 
 	/**
