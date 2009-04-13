@@ -287,10 +287,12 @@ ManterWorkflow.prototype = {
 	 * Faz a cópia de um workflow.
 	 */
    copiar : function() {
-	   requestUtils.simpleRequest("manterWorkflow.do?method=copiar&id=" + $F("id"), ( function() {
-		   if (requestUtils.status) {
-			   workflow.pesquisar();
-		   }
+	   JanelasComuns.showConfirmDialog("Deseja copiar o workflow selecionado?", ( function() {
+		   requestUtils.simpleRequest("manterWorkflow.do?method=copiar&id=" + $F("id"), ( function() {
+			   if (requestUtils.status) {
+				   workflow.pesquisar();
+			   }
+		   }));
 	   }));
    }
 };

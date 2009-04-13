@@ -4,10 +4,14 @@
  */
 package br.com.ucb.sisgestor.entidade;
 
+import br.com.ucb.sisgestor.util.hibernate.HibernateUserTypeConstants;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
 
 /**
  * Histórico de uso do {@link Workflow}.
@@ -23,6 +27,18 @@ public class HistoricoUsoWorkflow implements Serializable {
 
 	private UsoWorkflow	usoWorkflow;
 	private Timestamp		dataHora;
+	private TipoAcaoEnum	acao;
+
+	/**
+	 * Recupera a ação ocorrida no {@link UsoWorkflow}.
+	 * 
+	 * @return ação ocorrida no {@link UsoWorkflow}
+	 */
+	@Column(name = "HUWR_ACAO", nullable = false)
+	@Type(type = HibernateUserTypeConstants.CODIGO_INTEGER, parameters = @Parameter(name = "className", value = HibernateUserTypeConstants.TIPO_ACAO_ENUM))
+	public TipoAcaoEnum getAcao() {
+		return this.acao;
+	}
 
 	/**
 	 * Recupera a data/hora que houve a atualização.
@@ -42,6 +58,15 @@ public class HistoricoUsoWorkflow implements Serializable {
 	@Id
 	public UsoWorkflow getUsoWorkflow() {
 		return this.usoWorkflow;
+	}
+
+	/**
+	 * Atribui a ação ocorrida no {@link UsoWorkflow}.
+	 * 
+	 * @param acao ação ocorrida no {@link UsoWorkflow}
+	 */
+	public void setAcao(TipoAcaoEnum acao) {
+		this.acao = acao;
 	}
 
 	/**
