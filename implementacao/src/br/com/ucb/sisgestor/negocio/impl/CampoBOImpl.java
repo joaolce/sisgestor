@@ -74,6 +74,13 @@ public class CampoBOImpl extends BaseBOImpl<Campo> implements CampoBO {
 	/**
 	 * {@inheritDoc}
 	 */
+	public List<Campo> getByWorkflow(Integer idWorkflow) {
+		return this.campoDAO.getByWorkflow(idWorkflow);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {

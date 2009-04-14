@@ -17,6 +17,14 @@ import java.util.List;
 public interface WorkflowDAO extends BaseDAO<Workflow> {
 
 	/**
+	 * Recupera o workflow pelo id do uso
+	 * 
+	 * @param idUsoWorkflow Código identificador do uso workflow
+	 * @return {@link Workflow}
+	 */
+	Workflow getByIdUsoWorkflow(Integer idUsoWorkflow);
+
+	/**
 	 * Retorna um {@link List} de {@link Workflow} a partir do nome, descrição e/ou ativo/inativo. <br />
 	 * 
 	 * @param nome parte do nome do workflow

@@ -58,6 +58,76 @@ UsarWorkflow.prototype = {
 		      usoWorkflow.tarefa.nome, usoWorkflow.tarefa.descricao, usoWorkflow.dataHoraInicio);
 	   }));
    },
+   
+   /**
+     * Cria um elemento para o campo definido
+     * 
+     * @param campo Campo
+     */
+  getCampo : function(campo) {
+	   var tipoCampo = campo.tipo;
+	   var defaultValue = "";
+	   var mascara = "";
+	   var estilo = "";
+	   var tipo;
+	   var input;
+	   
+	   if (tipoCampo == "TEXTO" || tipoCampo == "DATA" || tipoCampo == "HORA" ) {
+		   tipo = "text";
+		   estilo = "width: 250px;";
+		   if (tipoCampo == "DATA") {
+			   mascara = "##/##/####";
+			   estilo = "width: 80px;";
+		   } else {
+			   if (tipoCampo == "HORA") {
+				   mascara = "##:##";
+				   estilo = "width: 50px;";
+			   }
+		   }
+		   input = $(Builder.node("input", {type: tipo, value: defaultValue, id: campo.id, title: campo.descricao, style: estilo}));
+		   if (!isBlankOrNull(mascara)){
+			   MaskInput(input, mascara);   
+		   }
+		   return Builder.node("div", [
+		                   		    Builder.node("br"),
+		                			Builder.node("label", {htmlFor: campo.id}, [
+		                				document.createTextNode(campo.nome),
+		                				Builder.node("br"),
+		                				input
+		                			])
+		   ]);
+	   } else {
+		   var idCampo;
+		   var elementOpcao;
+		   var classNome;
+		   
+		   if (tipoCampo == "LISTA_DE_OPCOES") {
+			   tipo = "checkbox";
+			   idCampo = "ListaOpcoes";
+			   classNome = "";
+		   } else {
+			   tipo = "radio";
+			   idCampo = "MultiplaEscolha";
+			   classNome = "radioInput";
+		   }
+		   var legenda = Builder.node("legend");
+		   legenda.innerHTML = campo.nome;
+		   input = $(Builder.node("fieldset", {id: "fieldset" + idCampo, style: "padding: 10px; float:left;"}, [legenda]));
+		   
+		   //Para cada opção do campo, cria um elemento e adiciona ao fieldset
+		   campo.opcoes.each((function(opcao){
+			   elementOpcao = $(Builder.node("input", {type: tipo, value: opcao.valor, id: opcao.id, style: estilo, className :classNome}));
+			   input.appendChild(elementOpcao);
+			   input.appendChild(document.createTextNode(opcao.descricao));
+			   input.appendChild($(Builder.node("br")));
+		   }));
+		   
+		   return Builder.node("div", [
+              Builder.node("br"),
+              input
+		   ]);
+	   }
+  },
 
    /**
 	 * Retorna a tabela da tela inicial do caso de uso.
@@ -200,8 +270,50 @@ UsarWorkflow.prototype = {
 		   dwr.util.setValue("dataHoraInicioTarefa", getStringTimestamp(dataHoraInicio));
 		   dwr.util.setValue("nomeTarefa", nomeTarefa);
 		   dwr.util.setValue("descricaoTarefa", descricaoTarefa);
+		   this.carregarCampos();
 	   }).bind(this));
-   }
+   },
+   
+   /**
+    * Carrega os campos do workflow na aba Campos 
+    */
+  carregarCampos : function(){
+	   var idUsoWorkflow = dwr.util.getValue("idUsoWorkflow");
+	   var divCampo;
+	   var div1 = Builder.node("div", {id: "div1", style: "padding: 10px; float:left; "});
+	   var div2 = Builder.node("div", {id: "div2", style: "padding: 10px; float:left; "});
+	   var div3 = Builder.node("div", {id: "div3", style: "padding: 10px; float:left; "});
+	   var div4 = Builder.node("div", {id: "div4", style: "padding: 10px; float:left; "});
+	   var aux = 0;
+	   var resto = 0;
+	   
+	  UsarWorkflowDWR.getCamposByIdUsoWorkflow(idUsoWorkflow, ( function(listaCampos) {
+		 listaCampos.each( (function(campo) {
+			 divCampo = this.getCampo(campo);
+			 if (resto == 0) {
+				 div1.appendChild(divCampo); 
+			 } else {
+				 if (resto == 1) {
+					 div2.appendChild(divCampo); 
+				 } else {
+					 if (resto ==3 ) {
+						 div3.appendChild(divCampo); 
+					 } else {
+						 div4.appendChild(divCampo); 
+					 }
+				 }
+			 }
+			 aux++;
+			 resto = aux % 4;
+		 }).bind(this));
+		 if (listaCampos.size != 0) {
+			 $("tabCampos").appendChild(div1);
+			 $("tabCampos").appendChild(div2);
+			 $("tabCampos").appendChild(div3);
+			 $("tabCampos").appendChild(div4);
+		 }
+	  }).bind(this));
+  }
 };
 
 var usarWorkflow = new UsarWorkflow();

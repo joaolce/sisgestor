@@ -54,6 +54,15 @@ public class CampoDAOImpl extends BaseDAOImpl<Campo> implements CampoDAO {
 	/**
 	 * {@inheritDoc}
 	 */
+	public List<Campo> getByWorkflow(Integer idWorkflow) {
+		Criteria criteria = this.getSession().createCriteria(Campo.class);
+		criteria.add(Restrictions.eq("this.workflow.id", idWorkflow));
+		return GenericsUtil.checkedList(criteria.list(), Campo.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public Integer getTotalRegistros(String nome, Integer idTipo, Integer idWorkflow) {
 		Criteria criteria = this.montarCriteriosPaginacao(nome, idTipo, idWorkflow);
 		criteria.setProjection(Projections.rowCount());
