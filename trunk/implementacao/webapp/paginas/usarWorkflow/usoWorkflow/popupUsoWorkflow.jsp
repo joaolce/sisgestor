@@ -9,6 +9,13 @@
 			<html:img srcKey="imagem.anexos" width="20" height="19"/>
 		</html:link>
 	</div>
+	<div id="divProximaTarefa" style="float: right; margin-right:200px; padding:10px;">
+		<label>
+			<b>
+				<bean:message key="label.proximaTarefa"/>
+			</b>
+		</label>
+	</div>
 	
 	<div class="bordas" style="width: 50%; padding: 5px; overflow: auto;">
 		<div>
