@@ -5,13 +5,10 @@
 package br.com.ucb.sisgestor.apresentacao.dwr;
 
 import br.com.ucb.sisgestor.entidade.Campo;
-import br.com.ucb.sisgestor.entidade.OpcaoCampo;
-import br.com.ucb.sisgestor.entidade.TipoCampoEnum;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaUsarWorkflowDTO;
-import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
