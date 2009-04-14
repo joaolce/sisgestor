@@ -26,4 +26,12 @@ public interface CampoBO extends BaseBO<Campo> {
 	 */
 	List<Campo> getByNomeTipo(String nome, Integer idTipo, Integer idWorkflow, Integer paginaAtual);
 
+	/**
+	 * Retorna um {@link List} de {@link Campo} a partir do id do workflow.
+	 * 
+	 * @param idWorkflow Código identificador do workflow
+	 * @return lista de campos
+	 */
+	List<Campo> getByWorkflow(Integer idWorkflow);
+
 }

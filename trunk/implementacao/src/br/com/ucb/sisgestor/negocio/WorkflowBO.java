@@ -25,6 +25,14 @@ public interface WorkflowBO extends BaseBO<Workflow> {
 	void copiar(Integer idWorkflow) throws NegocioException;
 
 	/**
+	 * Recupera o workflow pelo id do uso
+	 * 
+	 * @param idUsoWorkflow Código identificador do uso workflow
+	 * @return {@link Workflow}
+	 */
+	Workflow getByIdUsoWorkflow(Integer idUsoWorkflow);
+
+	/**
 	 * Retorna um {@link List} de {@link Workflow} a partir dos parâmetros informados. <br />
 	 * 
 	 * @param nome parte do nome do workflow

@@ -36,6 +36,16 @@ public class WorkflowDAOImpl extends BaseDAOImpl<Workflow> implements WorkflowDA
 	/**
 	 * {@inheritDoc}
 	 */
+	public Workflow getByIdUsoWorkflow(Integer idUsoWorkflow) {
+		Criteria criteria = this.createCriteria(Workflow.class);
+		criteria.createAlias("this.usos", "usos");
+		criteria.add(Restrictions.eq("usos.id", idUsoWorkflow));
+		return (Workflow) criteria.uniqueResult();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Workflow> getByNomeDescricaoAtivo(String nome, String descricao, Boolean ativo,
 			Boolean excluidos, Integer paginaAtual) {
 		Criteria criteria = this.montarCriteriosPaginacao(nome, descricao, ativo, excluidos);

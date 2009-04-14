@@ -247,7 +247,7 @@ ManterCampo.prototype = {
 				   Effect.BlindDown(divOpcoes);
 			   } else {
 				   $("fieldsetCampo").setStyle( {
-					   width :"780px"
+					   width :"790px"
 				   });
 				   $(divOpcoes).show();
 			   }

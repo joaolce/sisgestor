@@ -4,11 +4,16 @@
  */
 package br.com.ucb.sisgestor.apresentacao.dwr;
 
+import br.com.ucb.sisgestor.entidade.Campo;
+import br.com.ucb.sisgestor.entidade.OpcaoCampo;
+import br.com.ucb.sisgestor.entidade.TipoCampoEnum;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaUsarWorkflowDTO;
+import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -29,6 +34,20 @@ public class UsarWorkflowDWR extends BaseDWR {
 	 */
 	public UsoWorkflow getById(Integer id) {
 		return this.usoWorkflowBO.obter(id);
+	}
+
+	/**
+	 * Recupera uma lista de campos do workflow pelo código identificador do uso workflow
+	 * 
+	 * @param idUsoWorkflow Código identificador do uso workflow
+	 * @return lista de campos
+	 */
+	public List<Campo> getCamposByIdUsoWorkflow(Integer idUsoWorkflow) {
+		List<Campo> campos = this.usoWorkflowBO.getCamposByIdUsoWorkflow(idUsoWorkflow);
+		for (Campo campo : campos) {
+			Hibernate.initialize(campo.getOpcoes());
+		}
+		return campos;
 	}
 
 	/**

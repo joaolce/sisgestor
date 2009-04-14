@@ -4,10 +4,14 @@
  */
 package br.com.ucb.sisgestor.negocio.impl;
 
+import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.TipoAcaoEnum;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
+import br.com.ucb.sisgestor.entidade.Workflow;
+import br.com.ucb.sisgestor.negocio.CampoBO;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
+import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
 import br.com.ucb.sisgestor.util.DataUtil;
@@ -30,6 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWorkflowBO {
 
 	private UsoWorkflowDAO	usoWorkflowDAO;
+	private WorkflowBO		workflowBO;
+	private CampoBO			campoBO;
 
 	/**
 	 * {@inheritDoc}
@@ -46,6 +52,14 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	@Transactional(readOnly = true)
 	public void excluir(UsoWorkflow obj) throws NegocioException {
 		throw new UnsupportedOperationException("erro.operacaoNaoSuportada");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<Campo> getCamposByIdUsoWorkflow(Integer idUsoWorkflow) {
+		Workflow workflow = this.workflowBO.getByIdUsoWorkflow(idUsoWorkflow);
+		return this.campoBO.getByWorkflow(workflow.getId());
 	}
 
 	/**
@@ -101,6 +115,16 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	}
 
 	/**
+	 * Atribui o BO de {@link Campo}.
+	 * 
+	 * @param campoBO BO de {@link Campo}
+	 */
+	@Autowired
+	public void setCampoBO(CampoBO campoBO) {
+		this.campoBO = campoBO;
+	}
+
+	/**
 	 * Atribui o DAO de {@link UsoWorkflow}.
 	 * 
 	 * @param usoWorkflowDAO DAO de {@link UsoWorkflow}
@@ -109,6 +133,17 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	public void setUsoWorkflowDAO(UsoWorkflowDAO usoWorkflowDAO) {
 		this.usoWorkflowDAO = usoWorkflowDAO;
 	}
+
+	/**
+	 * Atribui o BO de {@link Workflow}.
+	 * 
+	 * @param workflowBO BO de {@link Workflow}
+	 */
+	@Autowired
+	public void setWorkflowBO(WorkflowBO workflowBO) {
+		this.workflowBO = workflowBO;
+	}
+
 
 	/**
 	 * Gera um registro de histórico para o {@link UsoWorkflow}.
@@ -124,6 +159,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 		}
 		this.salvarHistorico(historico);
 	}
+
 
 	/**
 	 * Gera um número de registro para o {@link UsoWorkflow} a ser iniciado.

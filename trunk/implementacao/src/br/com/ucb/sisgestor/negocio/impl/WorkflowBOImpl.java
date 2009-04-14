@@ -98,6 +98,13 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	/**
 	 * {@inheritDoc}
 	 */
+	public Workflow getByIdUsoWorkflow(Integer idUsoWorkflow) {
+		return this.workflowDAO.getByIdUsoWorkflow(idUsoWorkflow);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Transactional(readOnly = true)
 	public List<Workflow> getByNomeDescricaoAtivo(String nome, String descricao, Boolean ativo,
 			Boolean excluidos, Integer paginaAtual) {
@@ -415,6 +422,7 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 			}
 		}
 	}
+
 
 	/**
 	 * Verifica se um {@link Workflow} encontra-se excluído, caso esteja lança exceção.

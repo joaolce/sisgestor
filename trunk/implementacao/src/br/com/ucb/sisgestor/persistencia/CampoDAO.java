@@ -38,6 +38,14 @@ public interface CampoDAO extends BaseDAO<Campo> {
 	List<Campo> getByNomeTipo(String nome, Integer idTipo, Integer idWorkflow, Integer paginaAtual);
 
 	/**
+	 * Retorna um {@link List} de {@link Campo} a partir do id do workflow.
+	 * 
+	 * @param idWorkflow identificador do workflow
+	 * @return {@link List} de {@link Campo}
+	 */
+	List<Campo> getByWorkflow(Integer idWorkflow);
+
+	/**
 	 * Recupera o total de registros retornados pela consulta.
 	 * 
 	 * @param nome parte do nome do campo
