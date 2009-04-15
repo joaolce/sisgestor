@@ -12,9 +12,11 @@ import br.com.ucb.sisgestor.util.GenericsUtil;
 import br.com.ucb.sisgestor.util.hibernate.criterions.RestrictionsSGR;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -57,12 +59,13 @@ public class UsoWorkflowDAOImpl extends BaseDAOImpl<UsoWorkflow> implements UsoW
 	 * {@inheritDoc}
 	 */
 	public Integer recuperarUltimoNumeroDoAno(Integer ano) {
-		Criteria criteria = this.createCriteria(UsoWorkflow.class);
-		criteria.setProjection(Projections.property("this.numero"));
-		criteria.setMaxResults(1);
+		DetachedCriteria subCriteria = DetachedCriteria.forClass(HistoricoUsoWorkflow.class, "historico");
+		subCriteria.setProjection(Projections.property("historico.usoWorkflow.id"));
+		subCriteria.add(RestrictionsSGR.eqWithTransform("historico.dataHora", "YEAR", ano));
 
-		criteria.add(RestrictionsSGR.eqWithTransform("this.dataHoraInicio", "YEAR", ano));
-		criteria.addOrder(Order.desc("this.numero"));
+		Criteria criteria = this.createCriteria(UsoWorkflow.class);
+		criteria.setProjection(Projections.max("this.numero"));
+		criteria.add(Property.forName("this.id").in(subCriteria));
 		return (Integer) criteria.uniqueResult();
 	}
 
