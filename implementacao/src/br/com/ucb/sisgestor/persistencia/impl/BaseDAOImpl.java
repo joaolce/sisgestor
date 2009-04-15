@@ -8,6 +8,7 @@ import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.persistencia.BaseDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
 import br.com.ucb.sisgestor.util.hibernate.HibernateUtil;
+import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -127,10 +128,21 @@ public abstract class BaseDAOImpl<T extends ObjetoPersistente> implements BaseDA
 	 * Cria um {@link Criteria} para a classe informada.
 	 * 
 	 * @param clazz classe a criar o criteria
-	 * @return criteria da classes
+	 * @return criteria da classe
 	 */
-	protected Criteria createCriteria(Class<? extends ObjetoPersistente> clazz) {
+	protected Criteria createCriteria(Class<? extends Serializable> clazz) {
 		return this.getSession().createCriteria(clazz);
+	}
+
+	/**
+	 * Cria um {@link Criteria} para a classe informada.
+	 * 
+	 * @param clazz classe a criar o criteria
+	 * @param alias alias para o objeto
+	 * @return criteria da classe
+	 */
+	protected Criteria createCriteria(Class<? extends Serializable> clazz, String alias) {
+		return this.getSession().createCriteria(clazz, alias);
 	}
 
 	/**
