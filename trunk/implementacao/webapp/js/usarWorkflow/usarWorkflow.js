@@ -18,6 +18,39 @@ UsarWorkflow.prototype = {
 	 * Tabela com os dados da pesquisa.
 	 */
    tabelaTelaPrincipal :null,
+   
+   /**
+     * Indica se os campos do uso serão editáveis ou não 
+     */
+   editarCampos : true,
+   
+   /**
+     * Define a máscara para campos data
+     */
+   mascaraData : "##/##/####",
+   
+   /**
+    * Define a máscara para campos hora
+    */
+   mascaraHora : "##:##",
+   
+   /**
+     * Tipo de campo texto 
+     */
+   tipoTexto : "TEXTO",
+   
+   /**
+    * Tipo de campo data 
+    */
+   tipoData : "DATA",
+   /**
+    * Tipo de campo hora 
+    */
+   tipoHora : "HORA",
+   /**
+    * Tipo de campo opções
+    */
+   tipoOpcoes : "LISTA_DE_OPCOES",
 
    /**
 	 * @constructor
@@ -54,72 +87,102 @@ UsarWorkflow.prototype = {
 
 	   var id = usarWorkflow.getIdSelecionado();
 	   UsarWorkflowDWR.getById(id, ( function(usoWorkflow) {
+		   usarWorkflow.setEditarCampos(!(usoWorkflow.dataHoraInicio == null));  
 		   usarWorkflow._abrePopupUsoDeWorkflow(id, numeroRegistro, nomeWorkflow,
 		      usoWorkflow.tarefa.nome, usoWorkflow.tarefa.descricao, usoWorkflow.dataHoraInicio);
 	   }));
    },
    
    /**
-     * Cria um elemento para o campo definido
+     * Seta a variável para editar campos
+     * @param {Boolean} indicador para editar os campos 
+     */
+   setEditarCampos : function(editar) {
+	   this.editarCampos = editar;
+   },
+   
+   /**
+     * Cria um elemento para o campo definido.
      * 
      * @param campo Campo
      */
-  getCampo : function(campo) {
+   getCampo : function(campo) {
 	   var tipoCampo = campo.tipo;
 	   var defaultValue = "";
 	   var mascara = "";
 	   var estilo = "";
+	   var descricao = "";
 	   var tipo;
 	   var input;
+	   var identificador = campo.nome + "Id";
+	   var spanObrigatorio = Builder.node("span" , {class:"obrigatorio"});
 	   
-	   if (tipoCampo == "TEXTO" || tipoCampo == "DATA" || tipoCampo == "HORA" ) {
+	   if (!isBlankOrNull(campo.descricao)) {
+		   descricao = campo.descricao;
+	   }
+	   
+	   if (campo.obrigatorio) {
+		   spanObrigatorio.innerHTML = "&nbsp;*";
+	   }
+	   
+	   if (tipoCampo == this.tipoTexto || tipoCampo == this.tipoData || tipoCampo == this.tipoHora ) {
 		   tipo = "text";
 		   estilo = "width: 250px;";
-		   if (tipoCampo == "DATA") {
-			   mascara = "##/##/####";
+		   if (tipoCampo == this.tipoData) {
+			   mascara = this.mascaraData;
 			   estilo = "width: 80px;";
 		   } else {
-			   if (tipoCampo == "HORA") {
-				   mascara = "##:##";
+			   if (tipoCampo == this.tipoHora) {
+				   mascara = this.mascaraHora;;
 				   estilo = "width: 50px;";
 			   }
 		   }
-		   input = $(Builder.node("input", {type: tipo, value: defaultValue, id: campo.id, title: campo.descricao, style: estilo}));
+		   input = Builder.node("input", {type: tipo, value: defaultValue ,name: identificador, id: identificador, title: descricao, style: estilo});
+		   if (!usarWorkflow.editarCampos) {
+			   $(input).disable();
+		   }
 		   if (!isBlankOrNull(mascara)){
 			   MaskInput(input, mascara);   
 		   }
 		   return Builder.node("div", [
 		                   		    Builder.node("br"),
-		                			Builder.node("label", {htmlFor: campo.id}, [
+		                			Builder.node("label", {htmlFor: identificador}, [
 		                				document.createTextNode(campo.nome),
+		                				spanObrigatorio,
 		                				Builder.node("br"),
 		                				input
 		                			])
 		   ]);
 	   } else {
-		   var idCampo;
 		   var elementOpcao;
-		   var classNome;
+   		   var divOpcao;
 		   
-		   if (tipoCampo == "LISTA_DE_OPCOES") {
+		   if (tipoCampo == this.tipoOpcoes) {
 			   tipo = "checkbox";
 			   idCampo = "ListaOpcoes";
-			   classNome = "";
 		   } else {
 			   tipo = "radio";
 			   idCampo = "MultiplaEscolha";
-			   classNome = "radioInput";
 		   }
+		   
 		   var legenda = Builder.node("legend");
 		   legenda.innerHTML = campo.nome;
-		   input = $(Builder.node("fieldset", {id: "fieldset" + idCampo, style: "padding: 10px; float:left;"}, [legenda]));
+		   legenda.appendChild(spanObrigatorio);
 		   
+		   input = Builder.node("fieldset", {style: "padding: 10px; float:left;"}, [legenda]);
+
 		   //Para cada opção do campo, cria um elemento e adiciona ao fieldset
 		   campo.opcoes.each((function(opcao){
-			   elementOpcao = $(Builder.node("input", {type: tipo, value: opcao.valor, id: opcao.id, style: estilo, className :classNome}));
-			   input.appendChild(elementOpcao);
-			   input.appendChild(document.createTextNode(opcao.descricao));
-			   input.appendChild($(Builder.node("br")));
+			   divOpcao = Builder.node("div", {style: "margin-top: 2px;"});
+			   elementOpcao = Builder.node("input", {type: tipo, value: opcao.valor, name: identificador, id: "opcao" + opcao.id , style: estilo});
+			   if (!usarWorkflow.editarCampos) {
+				   $(elementOpcao).disable();
+			   }
+			   divOpcao.appendChild(elementOpcao);
+			   divOpcao.appendChild(document.createTextNode(" " + opcao.descricao));
+			   divOpcao.appendChild(Builder.node("br"));
+			   
+			   input.appendChild(divOpcao);
 		   }));
 		   
 		   return Builder.node("div", [
@@ -127,7 +190,7 @@ UsarWorkflow.prototype = {
               input
 		   ]);
 	   }
-  },
+   },
 
    /**
 	 * Retorna a tabela da tela inicial do caso de uso.
@@ -232,6 +295,7 @@ UsarWorkflow.prototype = {
 			   UsarWorkflowDWR.getById(idUso, ( function(usoWorkflow) {
 				   var tarefa = usoWorkflow.tarefa;
 				   JanelaFactory.fecharJanela("divIniciarWorkflow");
+				   this.editarCampos = !(usoWorkflow.dataHoraInicio == null); 
 				   this._abrePopupUsoDeWorkflow(idUso, usoWorkflow.numeroRegistro,
 				      tarefa.atividade.processo.workflow.nome, tarefa.nome, tarefa.descricao,
 				      usoWorkflow.dataHoraInicio);
@@ -271,19 +335,20 @@ UsarWorkflow.prototype = {
 		   dwr.util.setValue("nomeTarefa", nomeTarefa);
 		   dwr.util.setValue("descricaoTarefa", descricaoTarefa);
 		   this.carregarCampos();
+		   this.habilitarLinks(!this.editarCampos);
 	   }).bind(this));
    },
    
    /**
-    * Carrega os campos do workflow na aba Campos 
+    * Carrega os campos do workflow na aba Campos.
     */
-  carregarCampos : function(){
+   carregarCampos : function(){
 	   var idUsoWorkflow = dwr.util.getValue("idUsoWorkflow");
 	   var divCampo;
-	   var div1 = Builder.node("div", {id: "div1", style: "padding: 10px; float:left; "});
-	   var div2 = Builder.node("div", {id: "div2", style: "padding: 10px; float:left; "});
-	   var div3 = Builder.node("div", {id: "div3", style: "padding: 10px; float:left; "});
-	   var div4 = Builder.node("div", {id: "div4", style: "padding: 10px; float:left; "});
+	   var div1 = $("div1");
+	   var div2 = $("div2");
+	   var div3 = $("div3");
+	   var div4 = $("div4");
 	   var aux = 0;
 	   var resto = 0;
 	   
@@ -306,14 +371,47 @@ UsarWorkflow.prototype = {
 			 aux++;
 			 resto = aux % 4;
 		 }).bind(this));
-		 if (listaCampos.size != 0) {
-			 $("tabCampos").appendChild(div1);
-			 $("tabCampos").appendChild(div2);
-			 $("tabCampos").appendChild(div3);
-			 $("tabCampos").appendChild(div4);
-		 }
 	  }).bind(this));
-  }
+   },
+   
+   /**
+	 * Habilita/desabilita os links se a tarefa está pendente para iniciar.
+	 * 
+	 * @param (Boolean) caso seja para habilitar ou desabilitar
+	 */
+   habilitarLinks : function(habilita) {
+	   if (habilita) {
+		   $("linkIniciarTarefa").className = "";
+		   $("linkIniciarTarefa").onclick = this.iniciarTarefa;
+	   } else {
+		   $("linkIniciarTarefa").className = "btDesativado";
+		   $("linkIniciarTarefa").onclick = "";
+	   }
+   },
+   
+   /**
+     * Inicia a tarefa aberta.
+     */
+   iniciarTarefa : function() {
+	   usarWorkflow.habilitarCampos();
+	   usarWorkflow.habilitarLinks(false);
+	   JanelasComuns.showInformation("Mensagem para desenvolvedor: Implementar funcionalidade para iniciar esta tarefa");
+   },
+   
+   /**
+    * Habilita os campos para serem editáveis. 
+    */
+   habilitarCampos : function() {
+	   $("tabCampos").select("input[type=\"text\"]").each(function(input){
+		    $(input).enable();
+	   });
+	   $("tabCampos").select("input[type=\"radio\"]").each(function(input){
+		    $(input).enable();
+	   });
+	   $("tabCampos").select("input[type=\"checkbox\"]").each(function(input){
+		    $(input).enable();
+	   });
+   }
 };
 
 var usarWorkflow = new UsarWorkflow();

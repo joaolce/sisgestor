@@ -20,7 +20,7 @@ import org.apache.struts.action.ActionMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Action para ultilizar um {@link Workflow}.
+ * Action para utilizar um {@link Workflow}.
  * 
  * @author Gustavo
  * @since 27/03/2009
@@ -32,7 +32,7 @@ public class UsarWorkflowAction extends BaseAction {
 	private TarefaBO			tarefaBO;
 
 	/**
-	 * Dá o início de uso de um {@link Workflow}.
+	 * Dá início a um uso de {@link Workflow}.
 	 * 
 	 * @param mapping objeto mapping da action
 	 * @param formulario objeto form da action

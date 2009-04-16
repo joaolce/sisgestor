@@ -58,8 +58,8 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 * {@inheritDoc}
 	 */
 	public List<Campo> getCamposByIdUsoWorkflow(Integer idUsoWorkflow) {
-		Workflow workflow = this.workflowBO.getByIdUsoWorkflow(idUsoWorkflow);
-		return this.campoBO.getByWorkflow(workflow.getId());
+		Workflow workflow = this.getWorkflowBO().getByIdUsoWorkflow(idUsoWorkflow);
+		return this.getCampoBO().getByWorkflow(workflow.getId());
 	}
 
 	/**
@@ -99,8 +99,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public Integer salvar(UsoWorkflow usoWorkflow) throws NegocioException {
-		usoWorkflow.setDataHoraInicio(DataUtil.getDataHoraAtual());
-		this.gerarNumeroDoRegistro(usoWorkflow);
+		this.gerarNumeroDoRegistro(usoWorkflow, DataUtil.getAno(DataUtil.getDataAtual()));
 		Integer id = this.usoWorkflowDAO.salvar(usoWorkflow);
 		this.gerarHistorico(usoWorkflow);
 		return id;
@@ -115,16 +114,6 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	}
 
 	/**
-	 * Atribui o BO de {@link Campo}.
-	 * 
-	 * @param campoBO BO de {@link Campo}
-	 */
-	@Autowired
-	public void setCampoBO(CampoBO campoBO) {
-		this.campoBO = campoBO;
-	}
-
-	/**
 	 * Atribui o DAO de {@link UsoWorkflow}.
 	 * 
 	 * @param usoWorkflowDAO DAO de {@link UsoWorkflow}
@@ -133,17 +122,6 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	public void setUsoWorkflowDAO(UsoWorkflowDAO usoWorkflowDAO) {
 		this.usoWorkflowDAO = usoWorkflowDAO;
 	}
-
-	/**
-	 * Atribui o BO de {@link Workflow}.
-	 * 
-	 * @param workflowBO BO de {@link Workflow}
-	 */
-	@Autowired
-	public void setWorkflowBO(WorkflowBO workflowBO) {
-		this.workflowBO = workflowBO;
-	}
-
 
 	/**
 	 * Gera um registro de histórico para o {@link UsoWorkflow}.
@@ -160,14 +138,13 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 		this.salvarHistorico(historico);
 	}
 
-
 	/**
 	 * Gera um número de registro para o {@link UsoWorkflow} a ser iniciado.
 	 * 
 	 * @param usoWorkflow {@link UsoWorkflow} a ser iniciado
+	 * @param ano Ano de início do uso do workflow
 	 */
-	private void gerarNumeroDoRegistro(UsoWorkflow usoWorkflow) {
-		int ano = DataUtil.getAno(usoWorkflow.getDataHoraInicio());
+	private void gerarNumeroDoRegistro(UsoWorkflow usoWorkflow, int ano) {
 		Integer ultimoNumero = this.usoWorkflowDAO.recuperarUltimoNumeroDoAno(ano);
 		if (ultimoNumero == null) {
 			ultimoNumero = 1;
@@ -175,5 +152,29 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 			ultimoNumero++;
 		}
 		usoWorkflow.setNumero(ultimoNumero);
+	}
+
+	/**
+	 * Recupera o BO de {@link Campo}.
+	 * 
+	 * @return BO de {@link Campo}
+	 */
+	private CampoBO getCampoBO() {
+		if (this.campoBO == null) {
+			this.campoBO = Utils.getBean(CampoBO.class);
+		}
+		return this.campoBO;
+	}
+
+	/**
+	 * Recupera o BO de {@link Workflow}.
+	 * 
+	 * @return BO de {@link Workflow}
+	 */
+	private WorkflowBO getWorkflowBO() {
+		if (this.workflowBO == null) {
+			this.workflowBO = Utils.getBean(WorkflowBO.class);
+		}
+		return this.workflowBO;
 	}
 }
