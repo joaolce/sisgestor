@@ -9,6 +9,7 @@ import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Usuario;
+import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import java.util.List;
 
 /**
@@ -26,6 +27,14 @@ public interface UsoWorkflowBO extends BaseBO<UsoWorkflow> {
 	 * @return {@link List} de {@link Campo}
 	 */
 	List<Campo> getCamposByIdUsoWorkflow(Integer idUsoWorkflow);
+
+	/**
+	 * Inicia a tarefa atual do {@link UsoWorkflow}.
+	 * 
+	 * @param usoWorkflow uso a iniciar a tarefa
+	 * @throws NegocioException caso seja violada um regra
+	 */
+	void iniciarTarefa(UsoWorkflow usoWorkflow) throws NegocioException;
 
 	/**
 	 * Recupera a lista de workflows em uso com {@link Tarefa} pendente do {@link Usuario} atual.

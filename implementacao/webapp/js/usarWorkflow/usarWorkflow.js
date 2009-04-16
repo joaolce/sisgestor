@@ -127,7 +127,7 @@ UsarWorkflow.prototype = {
 	   
 	   if (tipoCampo == this.tipoTexto || tipoCampo == this.tipoData || tipoCampo == this.tipoHora ) {
 		   tipo = "text";
-		   estilo = "width: 250px;";
+		   estilo = "width: 230px;";
 		   if (tipoCampo == this.tipoData) {
 			   mascara = this.mascaraData;
 			   estilo = "width: 80px;";
@@ -146,7 +146,7 @@ UsarWorkflow.prototype = {
 		   }
 		   return Builder.node("div", [
 		                   		    Builder.node("br"),
-		                			Builder.node("label", {htmlFor: identificador}, [
+		                			Builder.node("label", [
 		                				document.createTextNode(campo.nome),
 		                				spanObrigatorio,
 		                				Builder.node("br"),
@@ -390,12 +390,20 @@ UsarWorkflow.prototype = {
    },
    
    /**
-     * Inicia a tarefa aberta.
-     */
+	 * Inicia a tarefa aberta.
+	 */
    iniciarTarefa : function() {
-	   usarWorkflow.habilitarCampos();
-	   usarWorkflow.habilitarLinks(false);
-	   JanelasComuns.showInformation("Mensagem para desenvolvedor: Implementar funcionalidade para iniciar esta tarefa");
+	   requestUtils.simpleRequest("usarWorkflow.do?method=iniciarTarefa&id=" + $F("idUsoWorkflow"),
+	      ( function() {
+		      if (requestUtils.status) {
+		      	requestUtils.valoresDevolvidos.each(( function(data) {
+			      	dwr.util.setValue("dataHoraInicioTarefa", data.value);	
+			      }));
+			      usarWorkflow.habilitarCampos();
+			      usarWorkflow.habilitarLinks(false);
+			      usarWorkflow.pesquisar();
+		      }
+	      }));
    },
    
    /**
