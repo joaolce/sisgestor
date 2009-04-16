@@ -12,6 +12,7 @@ import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.negocio.WorkflowBO;
+import br.com.ucb.sisgestor.util.DataUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -30,6 +31,29 @@ public class UsarWorkflowAction extends BaseAction {
 	private UsoWorkflowBO	usoWorkflowBO;
 	private WorkflowBO		workflowBO;
 	private TarefaBO			tarefaBO;
+
+	/**
+	 * Dá inicio a tarefa do {@link UsoWorkflow}.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return <code>null</code>
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward iniciarTarefa(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
+		UsoWorkflow usoWorkflow = this.usoWorkflowBO.obter(form.getId());
+		this.usoWorkflowBO.iniciarTarefa(usoWorkflow);
+
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		ajaxResponse.setStatus(true);
+		ajaxResponse.putValorRetorno("dataHora", DataUtil.DATA_HORA_MEDIUM.format(usoWorkflow
+				.getDataHoraInicio()));
+		return this.sendAJAXResponse(ajaxResponse);
+	}
 
 	/**
 	 * Dá início a um uso de {@link Workflow}.

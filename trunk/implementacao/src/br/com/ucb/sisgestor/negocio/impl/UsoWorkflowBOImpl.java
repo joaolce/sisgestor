@@ -18,7 +18,6 @@ import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -43,7 +42,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	public void atualizar(UsoWorkflow usoWorkflow) throws NegocioException {
 		this.usoWorkflowDAO.atualizar(usoWorkflow);
-		this.gerarHistorico(usoWorkflow);
+		this.gerarHistorico(usoWorkflow, TipoAcaoEnum.ALTERACAO_CAMPOS);
 	}
 
 	/**
@@ -68,6 +67,15 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	@Override
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		return this.usoWorkflowDAO.getTotalRegistros(Utils.getUsuario());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void iniciarTarefa(UsoWorkflow usoWorkflow) throws NegocioException {
+		usoWorkflow.setDataHoraInicio(DataUtil.getDataHoraAtual());
+		this.usoWorkflowDAO.atualizar(usoWorkflow);
+		this.gerarHistorico(usoWorkflow, TipoAcaoEnum.INICIO_TAREFA);
 	}
 
 	/**
@@ -101,7 +109,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	public Integer salvar(UsoWorkflow usoWorkflow) throws NegocioException {
 		this.gerarNumeroDoRegistro(usoWorkflow, DataUtil.getAno(DataUtil.getDataAtual()));
 		Integer id = this.usoWorkflowDAO.salvar(usoWorkflow);
-		this.gerarHistorico(usoWorkflow);
+		this.gerarHistorico(usoWorkflow, TipoAcaoEnum.INICIO_USO);
 		return id;
 	}
 
@@ -127,14 +135,13 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 * Gera um registro de histórico para o {@link UsoWorkflow}.
 	 * 
 	 * @param usoWorkflow {@link UsoWorkflow} a gerar histórico
+	 * @para acao ação ocorrida no {@link UsoWorkflow}
 	 */
-	private void gerarHistorico(UsoWorkflow usoWorkflow) {
+	private void gerarHistorico(UsoWorkflow usoWorkflow, TipoAcaoEnum acao) {
 		HistoricoUsoWorkflow historico = new HistoricoUsoWorkflow();
 		historico.setUsoWorkflow(usoWorkflow);
 		historico.setDataHora(DataUtil.getDataHoraAtual());
-		if (CollectionUtils.isEmpty(usoWorkflow.getHistorico())) {
-			historico.setAcao(TipoAcaoEnum.INICIO_USO);
-		}
+		historico.setAcao(acao);
 		this.salvarHistorico(historico);
 	}
 

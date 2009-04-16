@@ -21,7 +21,9 @@ public enum TipoAcaoEnum implements CodigoDescricao {
 	/** Exclusão de {@link Anexo}. */
 	EXCLUSAO_DE_ANEXO(3, "Exclusão de anexo"),
 	/** Inclusão de {@link Anexo}. */
-	APENAS_ALTERACAO_CAMPOS(4, "Alteração nos campos");
+	ALTERACAO_CAMPOS(4, "Alteração nos campos"),
+	/** Início da tarefa. */
+	INICIO_TAREFA(5, "Início da tarefa");
 
 	private Integer	chave;
 	private String		descricao;
