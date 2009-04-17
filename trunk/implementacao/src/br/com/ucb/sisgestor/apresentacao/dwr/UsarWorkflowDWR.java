@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.apresentacao.dwr;
 
 import br.com.ucb.sisgestor.entidade.Campo;
+import br.com.ucb.sisgestor.entidade.CampoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
@@ -30,7 +31,13 @@ public class UsarWorkflowDWR extends BaseDWR {
 	 * @return {@link UsoWorkflow}
 	 */
 	public UsoWorkflow getById(Integer id) {
-		return this.usoWorkflowBO.obter(id);
+		UsoWorkflow usoWorkflow = this.usoWorkflowBO.obter(id);
+		List<CampoUsoWorkflow> listaCamposUsados = usoWorkflow.getCamposUsados();
+		for (CampoUsoWorkflow campoUsoWorkflow : listaCamposUsados) {
+			Hibernate.initialize(campoUsoWorkflow.getCampo());
+			Hibernate.initialize(campoUsoWorkflow.getValor());
+		}
+		return usoWorkflow;
 	}
 
 	/**

@@ -37,6 +37,7 @@ public class UsoWorkflow extends ObjetoPersistente {
 	private List<HistoricoUsoWorkflow>	historico;
 	private Tarefa								tarefa;
 	private List<Anexo>						anexos;
+	private List<CampoUsoWorkflow>		camposUsados;
 
 	/**
 	 * Recupera os anexos da utilização do {@link Workflow}.
@@ -46,6 +47,17 @@ public class UsoWorkflow extends ObjetoPersistente {
 	@OneToMany(targetEntity = Anexo.class, mappedBy = "usoWorkflow", fetch = FetchType.LAZY)
 	public List<Anexo> getAnexos() {
 		return this.anexos;
+	}
+
+	/**
+	 * Recupera o valor de usos
+	 * 
+	 * @return usos
+	 */
+	@OneToMany(targetEntity = CampoUsoWorkflow.class, mappedBy = "usoWorkflow")
+	@ForeignKey(name = "IR_UWR_UCA")
+	public List<CampoUsoWorkflow> getCamposUsados() {
+		return this.camposUsados;
 	}
 
 	/**
@@ -130,6 +142,15 @@ public class UsoWorkflow extends ObjetoPersistente {
 	}
 
 	/**
+	 * Atribui os usos do uso workflow
+	 * 
+	 * @param camposUsados usos do uso workflow
+	 */
+	public void setCamposUsados(List<CampoUsoWorkflow> camposUsados) {
+		this.camposUsados = camposUsados;
+	}
+
+	/**
 	 * Atribui a data/hora de inicio de uso da {@link Tarefa}.
 	 * 
 	 * @param dataHoraInicio data/hora de inicio de uso da {@link Tarefa}
@@ -156,6 +177,7 @@ public class UsoWorkflow extends ObjetoPersistente {
 		this.numero = numero;
 	}
 
+
 	/**
 	 * Atribui a {@link Tarefa} que está sendo executada.
 	 * 
@@ -164,6 +186,7 @@ public class UsoWorkflow extends ObjetoPersistente {
 	public void setTarefa(Tarefa tarefa) {
 		this.tarefa = tarefa;
 	}
+
 
 	/**
 	 * Atribui o {@link Workflow} que está sendo usado.

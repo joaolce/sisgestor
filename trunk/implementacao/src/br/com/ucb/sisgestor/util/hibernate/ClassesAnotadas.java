@@ -7,6 +7,7 @@ package br.com.ucb.sisgestor.util.hibernate;
 import br.com.ucb.sisgestor.entidade.Anexo;
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Campo;
+import br.com.ucb.sisgestor.entidade.CampoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflowPK;
@@ -42,6 +43,7 @@ public class ClassesAnotadas {
 		classes.add(Anexo.class);
 		classes.add(Atividade.class);
 		classes.add(Campo.class);
+		classes.add(CampoUsoWorkflow.class);
 		classes.add(Departamento.class);
 		classes.add(HistoricoUsoWorkflow.class);
 		classes.add(HistoricoUsoWorkflowPK.class);

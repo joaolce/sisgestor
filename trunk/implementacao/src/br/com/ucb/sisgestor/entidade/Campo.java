@@ -31,12 +31,13 @@ import org.hibernate.annotations.Type;
 @AttributeOverride(name = "id", column = @Column(name = "CAM_ID", nullable = false))
 public class Campo extends ObjetoPersistente {
 
-	private String					nome;
-	private String					descricao;
-	private TipoCampoEnum		tipo;
-	private Boolean				obrigatorio;
-	private Workflow				workflow;
-	private List<OpcaoCampo>	opcoes;
+	private String							nome;
+	private String							descricao;
+	private TipoCampoEnum				tipo;
+	private Boolean						obrigatorio;
+	private Workflow						workflow;
+	private List<OpcaoCampo>			opcoes;
+	private List<CampoUsoWorkflow>	usos;
 
 	/**
 	 * Recupera a descrição do campo.
@@ -88,6 +89,17 @@ public class Campo extends ObjetoPersistente {
 	@Type(type = HibernateUserTypeConstants.CODIGO_INTEGER, parameters = @Parameter(name = "className", value = HibernateUserTypeConstants.TIPO_CAMPO_ENUM))
 	public TipoCampoEnum getTipo() {
 		return this.tipo;
+	}
+
+	/**
+	 * Recupera os usos do campo
+	 * 
+	 * @return usos do campo
+	 */
+	@OneToMany(targetEntity = CampoUsoWorkflow.class, mappedBy = "campo")
+	@ForeignKey(name = "IR_CAM_UCA")
+	public List<CampoUsoWorkflow> getUsos() {
+		return this.usos;
 	}
 
 	/**
@@ -146,6 +158,17 @@ public class Campo extends ObjetoPersistente {
 	public void setTipo(TipoCampoEnum tipo) {
 		this.tipo = tipo;
 	}
+
+
+	/**
+	 * Atribui os usos do campo
+	 * 
+	 * @param usos usos do campo
+	 */
+	public void setUsos(List<CampoUsoWorkflow> usos) {
+		this.usos = usos;
+	}
+
 
 	/**
 	 * Atribui o workflow do campo.
