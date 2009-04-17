@@ -8,6 +8,9 @@ import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.entidade.Processo;
 import br.com.ucb.sisgestor.entidade.Tarefa;
+import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
+import br.com.ucb.sisgestor.entidade.TransacaoProcesso;
+import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.negocio.ProcessoBO;
@@ -23,9 +26,14 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.classic.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -40,10 +48,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("workflowBO")
 public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements WorkflowBO {
 
-	private WorkflowDAO	workflowDAO;
-	private ProcessoBO	processoBO;
-	private AtividadeBO	atividadeBO;
-	private TarefaBO		tarefaBO;
+	private static final Log	LOG	= LogFactory.getLog(WorkflowBOImpl.class);
+
+	private WorkflowDAO			workflowDAO;
+	private ProcessoBO			processoBO;
+	private AtividadeBO			atividadeBO;
+	private TarefaBO				tarefaBO;
 
 	/**
 	 * {@inheritDoc}
@@ -73,12 +83,15 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 		Workflow workflow = this.workflowDAO.obter(idWorkflow);
 		Workflow workflowNovo = new Workflow();
 		try {
-			this.copiarPropriedades(workflowNovo, workflow, "usos");
+			Map<Object, Object> mapaObjetos = this.inicializarCopiaWorkflow(workflow);
+			this.copiarPropriedades(workflowNovo, workflow, mapaObjetos, "ativo", "nome", "dataHoraExclusao",
+					"usos");
 			workflowNovo.setNome("Cópia - " + workflow.getNome());
 			workflowNovo.setAtivo(Boolean.FALSE);
 			workflowNovo.setDataHoraExclusao(null);
-			this.workflowDAO.salvar(workflowNovo);
+			this.salvarNovoWorkflow(workflowNovo);
 		} catch (Exception e) {
+			LOG.error(e.getMessage());
 			throw new NegocioException("erro.workflow.copiar");
 		}
 	}
@@ -93,7 +106,6 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 		workflow.setDataHoraExclusao(DataUtil.getDataHoraAtual());
 		this.workflowDAO.atualizar(workflow); //Exclusão lógica
 	}
-
 
 	/**
 	 * {@inheritDoc}
@@ -204,21 +216,22 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	 * 
 	 * @param destino objeto de destino
 	 * @param origem objeto de origem
+	 * @param mapaObjetos mapa com os objetos da cópia
 	 * @param exclusao propriedades a ser ignoradas na cópia
 	 * @throws IllegalAccessException caso ocorra acesso ilegal de propriedade
 	 * @throws InstantiationException caso ocorra erro na instancialização de novos objetos
 	 * @throws InvocationTargetException caso ocorra erro na invocação de método
 	 * @throws NoSuchMethodException caso não exista o método <code>get</code> ou <code>set</code>
 	 */
-	private void copiarPropriedades(Object destino, Object origem, String... exclusao)
-			throws IllegalAccessException, InstantiationException, InvocationTargetException,
-			NoSuchMethodException {
+	private void copiarPropriedades(Object destino, Object origem, Map<Object, Object> mapaObjetos,
+			String... exclusao) throws IllegalAccessException, InstantiationException,
+			InvocationTargetException, NoSuchMethodException {
 		if (!destino.getClass().getName().equals(origem.getClass().getName())) {
 			throw new IllegalArgumentException("Classes devem ser iguais");
 		}
 		Class<?> tipo;
 		String nomePropriedade;
-		Object valorPropriedade;
+		Object valorOrigem;
 		List<String> excluidos = Arrays.asList(exclusao);
 		PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(origem);
 		for (PropertyDescriptor descriptor : descriptors) {
@@ -228,12 +241,18 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 				continue;
 			}
 			tipo = descriptor.getPropertyType();
-			valorPropriedade = PropertyUtils.getProperty(origem, nomePropriedade);
+			valorOrigem = PropertyUtils.getProperty(origem, nomePropriedade);
 			if (tipo.isAssignableFrom(List.class)) {
-				valorPropriedade =
-						this.copiarPropriedadesList(destino, origem, nomePropriedade, (List<?>) valorPropriedade);
+				valorOrigem =
+						this.copiarPropriedadesList(destino, origem, mapaObjetos, nomePropriedade,
+								(List<?>) valorOrigem);
+			} else if (valorOrigem != null) {
+				Object valorDoMapa = mapaObjetos.get(valorOrigem);
+				if (valorDoMapa != null) {
+					valorOrigem = valorDoMapa;
+				}
 			}
-			PropertyUtils.setSimpleProperty(destino, nomePropriedade, valorPropriedade); //seta propriedade no destino
+			PropertyUtils.setSimpleProperty(destino, nomePropriedade, valorOrigem); //seta propriedade no destino
 		}
 	}
 
@@ -242,6 +261,7 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	 * 
 	 * @param destino objeto de destino
 	 * @param origem objeto de origem
+	 * @param mapaObjetos mapa com os objetos da cópia
 	 * @param nomePropriedade nome da propriedade do {@link List}
 	 * @param valorPropriedade o {@link List} original
 	 * @return o valor da propriedade, atribuído como {@link List}
@@ -251,25 +271,61 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	 * @throws NoSuchMethodException caso não exista o método <code>get</code> ou <code>set</code>
 	 */
 	@SuppressWarnings("unchecked")
-	private Object copiarPropriedadesList(Object destino, Object origem, String nomePropriedade,
-			List<?> valorOrigem) throws IllegalAccessException, InvocationTargetException,
-			NoSuchMethodException, InstantiationException {
-		List valorDestino = (List<?>) PropertyUtils.getProperty(destino, nomePropriedade);
-		if (valorDestino == null) {
-			valorDestino = new ArrayList();
+	private Object copiarPropriedadesList(Object destino, Object origem, Map<Object, Object> mapaObjetos,
+			String nomePropriedade, List<?> listaOrigem) throws IllegalAccessException,
+			InvocationTargetException, NoSuchMethodException, InstantiationException {
+		List listaDestino = (List<?>) PropertyUtils.getProperty(destino, nomePropriedade);
+		if (listaDestino == null) {
+			listaDestino = new ArrayList();
 		}
 		Object objetoListaDestino;
-		for (Object objetoListaOrigem : valorOrigem) {
-			objetoListaDestino = objetoListaOrigem.getClass().newInstance();
+		for (Object objetoListaOrigem : listaOrigem) {
+			objetoListaDestino = mapaObjetos.get(objetoListaOrigem);
+			if (objetoListaDestino == null) {
+				objetoListaDestino = objetoListaOrigem.getClass().newInstance();
+				mapaObjetos.put(objetoListaOrigem, objetoListaDestino);
+			}
 			String nomePropriedadeRelacionamento =
 					this.recuperarNomePropriedadeRelacionamento(objetoListaOrigem, origem);
 			if (nomePropriedadeRelacionamento != null) {
-				this.copiarPropriedades(objetoListaDestino, objetoListaOrigem, nomePropriedadeRelacionamento);
+				this.copiarPropriedades(objetoListaDestino, objetoListaOrigem, mapaObjetos,
+						nomePropriedadeRelacionamento);
 				PropertyUtils.setSimpleProperty(objetoListaDestino, nomePropriedadeRelacionamento, destino); //atribuindo para o relacionamento
 			}
-			valorDestino.add(objetoListaDestino);
+			listaDestino.add(objetoListaDestino);
 		}
-		return valorDestino;
+		return listaDestino;
+	}
+
+	/**
+	 * Inicializa mapa com os objetos que possuem transações para realizar a cópia do {@link Workflow}.
+	 * 
+	 * @param workflow {@link Workflow} original
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
+	private Map<Object, Object> inicializarCopiaWorkflow(Workflow workflow) throws InstantiationException,
+			IllegalAccessException {
+		Map<Object, Object> mapaObjetosTransacionais = new HashMap<Object, Object>();
+		for (Processo processo : workflow.getProcessos()) {
+			mapaObjetosTransacionais.put(processo, processo.getClass().newInstance());
+			for (TransacaoProcesso transacao : processo.getTransacoesPosteriores()) {
+				mapaObjetosTransacionais.put(transacao, transacao.getClass().newInstance());
+			}
+			for (Atividade atividade : processo.getAtividades()) {
+				mapaObjetosTransacionais.put(atividade, atividade.getClass().newInstance());
+				for (TransacaoAtividade transacao : atividade.getTransacoesPosteriores()) {
+					mapaObjetosTransacionais.put(transacao, transacao.getClass().newInstance());
+				}
+				for (Tarefa tarefa : atividade.getTarefas()) {
+					mapaObjetosTransacionais.put(tarefa, tarefa.getClass().newInstance());
+					for (TransacaoTarefa transacao : tarefa.getTransacoesPosteriores()) {
+						mapaObjetosTransacionais.put(transacao, transacao.getClass().newInstance());
+					}
+				}
+			}
+		}
+		return mapaObjetosTransacionais;
 	}
 
 	/**
@@ -295,6 +351,52 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Retira as transações dos objetos que possuem transação. <br>
+	 * obs: método feito por causa do hibernate
+	 * 
+	 * @param processos lista de processos
+	 * @return lista com todas as transações do {@link Workflow}
+	 */
+	private List<Object> retirarTransacoesDaCopia(List<Processo> processos) {
+		List<Object> lista = new ArrayList<Object>();
+
+		for (Processo processo : processos) {
+			lista.addAll(processo.getTransacoesPosteriores());
+			processo.setTransacoesAnteriores(null);
+			processo.setTransacoesPosteriores(null);
+			for (Atividade atividade : processo.getAtividades()) {
+				lista.addAll(atividade.getTransacoesPosteriores());
+				atividade.setTransacoesAnteriores(null);
+				atividade.setTransacoesPosteriores(null);
+				for (Tarefa tarefa : atividade.getTarefas()) {
+					lista.addAll(tarefa.getTransacoesPosteriores());
+					tarefa.setTransacoesAnteriores(null);
+					tarefa.setTransacoesPosteriores(null);
+				}
+			}
+		}
+		return lista;
+	}
+
+	/**
+	 * Salva o novo {@link Workflow} gerado a partir da cópia.
+	 * 
+	 * @param workflowNovo novo {@link Workflow} a ser salvo
+	 */
+	private void salvarNovoWorkflow(Workflow workflowNovo) {
+		/* *** GAMBIARRA ***
+		 *  gambiarra feita por causa do hibernate não detectar quando uma transação é salva
+		 *  referenciando um objeto ainda não salvo, pois não faz o cascade para o objeto pai
+		 */
+		List<Object> listaTransacoes = this.retirarTransacoesDaCopia(workflowNovo.getProcessos());
+		this.workflowDAO.salvar(workflowNovo);
+		Session session = this.getSession();
+		for (Object transacao : listaTransacoes) {
+			session.saveOrUpdate(transacao);
+		}
 	}
 
 	/**
