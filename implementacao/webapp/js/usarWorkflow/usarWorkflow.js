@@ -133,7 +133,7 @@ UsarWorkflow.prototype = {
 	   var descricao = "";
 	   var tipo;
 	   var input;
-	   var identificador = campo.nome + "Id";
+	   var identificador = "campo"+campo.id;
 	   var spanObrigatorio = Builder.node("span");
 	   $(spanObrigatorio).className = "obrigatorio";
 
@@ -433,9 +433,8 @@ UsarWorkflow.prototype = {
 			   aux++;
 			   resto = aux % 4;
 		   }).bind(this));
+		   this.preencherCampos(listaCamposUsados);
 	   }).bind(this));
-	   
-	   this.preencherCampos(listaCamposUsados);
    },
    
    /**
@@ -444,6 +443,21 @@ UsarWorkflow.prototype = {
 	 * @param {Object} Lista dos campos usados
 	 */
 	preencherCampos : function(listaCamposUsados) {
+		var tipoCampo;
+
+		// Caso a lista estiver vazia, nem executa
+		listaCamposUsados.each(( function(campoUsoWorkflow) {
+			tipoCampo = campoUsoWorkflow.campo.tipo;
+			if (tipoCampo == usarWorkflow.tipoTexto || tipoCampo == usarWorkflow.tipoData || tipoCampo == usarWorkflow.tipoHora) {
+				$("tabCampos").select("input[type=\"text\"]").each(function(input) {
+					if (parseInt($(input).id.substring(5)) == campoUsoWorkflow.campo.id) {
+						$(input).value = campoUsoWorkflow.valor;
+					}
+				});
+			} else {
+				//TODO Implementar funcionalidades para os campos checkbox e radio
+			}
+		}));
 	},
 
    /**
