@@ -54,6 +54,7 @@
 		<convert match="br.com.ucb.sisgestor.entidade.Anexo"			 	converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Atividade"		 	converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Campo"			 	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.CampoUsoWorkflow"	 	converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Departamento" 	 	converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Permissao"		 	converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.OpcaoCampo"		 	converter="hibernate3" />
