@@ -106,7 +106,8 @@ UsarWorkflow.prototype = {
 	   UsarWorkflowDWR.getById(id, ( function(usoWorkflow) {
 		   usarWorkflow.setEditarCampos(!(usoWorkflow.dataHoraInicio == null));
 		   usarWorkflow._abrePopupUsoDeWorkflow(id, numeroRegistro, nomeWorkflow,
-		      usoWorkflow.tarefa.nome, usoWorkflow.tarefa.descricao, usoWorkflow.dataHoraInicio);
+		      usoWorkflow.tarefa.nome, usoWorkflow.tarefa.descricao, usoWorkflow.dataHoraInicio,
+		      usoWorkflow.camposUsados);
 	   }));
    },
 
@@ -329,7 +330,7 @@ UsarWorkflow.prototype = {
 				   this.editarCampos = !(usoWorkflow.dataHoraInicio == null);
 				   this._abrePopupUsoDeWorkflow(idUso, usoWorkflow.numeroRegistro,
 				      tarefa.atividade.processo.workflow.nome, tarefa.nome, tarefa.descricao,
-				      usoWorkflow.dataHoraInicio);
+				      usoWorkflow.dataHoraInicio, usoWorkflow.camposUsados);
 			   }).bind(this));
 		   }
 	   }).bind(this));
@@ -355,9 +356,10 @@ UsarWorkflow.prototype = {
 	 * @param {String} nomeTarefa nome da tarefa atual
 	 * @param {String} descricaoTarefa descrição da tarefa atual
 	 * @param {Date} dataHoraInicio data/hora de início da tarefa atual
+	 * @param {Object} Lista dos campos usados
 	 */
    _abrePopupUsoDeWorkflow : function(idUso, numeroRegistro, nomeWorkflow, nomeTarefa,
-      descricaoTarefa, dataHoraInicio) {
+      descricaoTarefa, dataHoraInicio, listaCamposUsados) {
 	   var tituloPagina = numeroRegistro + " - " + nomeWorkflow;
 
 	   var url = "usarWorkflow.do?method=popupUsoWorkflow";
@@ -368,7 +370,7 @@ UsarWorkflow.prototype = {
 		      dwr.util.setValue("dataHoraInicioTarefa", getStringTimestamp(dataHoraInicio));
 		      dwr.util.setValue("nomeTarefa", nomeTarefa);
 		      dwr.util.setValue("descricaoTarefa", descricaoTarefa);
-		      this.carregarCampos();
+		      this.carregarCampos(listaCamposUsados);
 		      this.habilitarLinks(!this.editarCampos);
 	      }).bind(this));
 	   janela.setOnClose(( function() {
@@ -403,8 +405,10 @@ UsarWorkflow.prototype = {
 
    /**
 	 * Carrega os campos do workflow na aba Campos.
+	 * 
+	 * @param {Object} Lista dos campos usados
 	 */
-   carregarCampos : function() {
+   carregarCampos : function(listaCamposUsados) {
 	   var idUsoWorkflow = dwr.util.getValue("idUsoWorkflow");
 	   var divCampo;
 	   var div1 = $("div1");
@@ -430,7 +434,17 @@ UsarWorkflow.prototype = {
 			   resto = aux % 4;
 		   }).bind(this));
 	   }).bind(this));
+	   
+	   this.preencherCampos(listaCamposUsados);
    },
+   
+   /**
+	 * Seta os valores do campo na página
+	 * 
+	 * @param {Object} Lista dos campos usados
+	 */
+	preencherCampos : function(listaCamposUsados) {
+	},
 
    /**
 	 * Habilita/desabilita os links se a tarefa está pendente para iniciar.
