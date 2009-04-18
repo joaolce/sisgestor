@@ -38,7 +38,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void atualizar(Usuario usuario) throws NegocioException {
 		try {
 			this.usuarioDAO.atualizar(usuario);
@@ -50,7 +50,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public boolean enviarLembreteDeSenha(String login) throws NegocioException {
 		Usuario usuario = this.usuarioDAO.getByLogin(login);
 		if ((usuario != null) && StringUtils.isNotBlank(usuario.getEmail())) {
@@ -66,7 +66,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void excluir(Usuario usuario) throws NegocioException {
 		this.usuarioDAO.excluir(usuario);
 	}
@@ -129,7 +129,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public Integer salvar(Usuario usuario) throws NegocioException {
 		usuario.setSenha(this.gerarSenha());
 		try {

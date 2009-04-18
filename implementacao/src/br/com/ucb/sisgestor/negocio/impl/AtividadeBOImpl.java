@@ -11,6 +11,7 @@ import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.negocio.ProcessoBO;
+import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.AtividadeDAO;
 import br.com.ucb.sisgestor.util.Utils;
@@ -35,21 +36,30 @@ import org.springframework.transaction.annotation.Transactional;
 public class AtividadeBOImpl extends BaseWorkflowBOImpl<Atividade> implements AtividadeBO {
 
 	private ProcessoBO	processoBO;
+	private TarefaBO		tarefaBO;
 	private AtividadeDAO	atividadeDAO;
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void atualizar(Atividade atividade) throws NegocioException {
 		this.validarSePodeAlterarWorkflow(atividade.getProcesso().getWorkflow());
+		Atividade atividadeDesatualizada = this.atividadeDAO.obterAntigo(atividade.getId());
+		if (!atividadeDesatualizada.getDepartamento().equals(atividade.getDepartamento())) {
+			//caso o departamento foi modificado, os usuários não poderão ser os mesmos
+			for (Tarefa tarefa : atividade.getTarefas()) {
+				tarefa.setUsuario(null);
+				this.getTarefaBO().atualizar(tarefa);
+			}
+		}
 		this.atividadeDAO.atualizar(atividade);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void atualizarTransacoes(Integer idProcesso, String[] fluxos, String[] posicoes)
 			throws NegocioException {
 		Workflow workflow = this.getProcessoBO().obter(idProcesso).getWorkflow();
@@ -89,7 +99,7 @@ public class AtividadeBOImpl extends BaseWorkflowBOImpl<Atividade> implements At
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void excluir(Atividade atividade) throws NegocioException {
 		this.validarSePodeAlterarWorkflow(atividade.getProcesso().getWorkflow());
 		List<Tarefa> lista = atividade.getTarefas();
@@ -148,7 +158,7 @@ public class AtividadeBOImpl extends BaseWorkflowBOImpl<Atividade> implements At
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public Integer salvar(Atividade atividade) throws NegocioException {
 		Processo processo = this.getProcessoBO().obter(atividade.getProcesso().getId());
 		this.validarSePodeAlterarWorkflow(processo.getWorkflow());
@@ -197,6 +207,18 @@ public class AtividadeBOImpl extends BaseWorkflowBOImpl<Atividade> implements At
 			this.processoBO = Utils.getBean(ProcessoBO.class);
 		}
 		return this.processoBO;
+	}
+
+	/**
+	 * Recupera o BO de {@link Tarefa}.
+	 * 
+	 * @return BO de {@link Tarefa}
+	 */
+	private TarefaBO getTarefaBO() {
+		if (this.tarefaBO == null) {
+			this.tarefaBO = Utils.getBean(TarefaBO.class);
+		}
+		return this.tarefaBO;
 	}
 
 	/**

@@ -31,7 +31,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void atualizar(Departamento departamento) throws NegocioException {
 		this.verificaDepartamentoSuperior(departamento);
 		try {
@@ -44,7 +44,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void excluir(Departamento departamento) throws NegocioException {
 		if ((departamento.getDepartamentosFilhos() != null) && !departamento.getDepartamentosFilhos().isEmpty()) {
 			throw new NegocioException("erro.departamento.filhos");
@@ -95,7 +95,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public Integer salvar(Departamento departamento) throws NegocioException {
 		this.verificaDepartamentoSuperior(departamento);
 		try {

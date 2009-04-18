@@ -35,7 +35,7 @@ public class CampoBOImpl extends BaseBOImpl<Campo> implements CampoBO {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void atualizar(Campo campo) throws NegocioException {
 		Workflow workflow = this.getWorkflowBO().obter(campo.getWorkflow().getId());
 		this.validarSePodeAlterarWorkflow(workflow);
@@ -57,7 +57,7 @@ public class CampoBOImpl extends BaseBOImpl<Campo> implements CampoBO {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void excluir(Campo campo) throws NegocioException {
 		this.validarSePodeAlterarWorkflow(campo.getWorkflow());
 		this.campoDAO.excluir(campo);
@@ -107,7 +107,7 @@ public class CampoBOImpl extends BaseBOImpl<Campo> implements CampoBO {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public Integer salvar(Campo campo) throws NegocioException {
 		Workflow workflow = this.getWorkflowBO().obter(campo.getWorkflow().getId());
 		this.validarSePodeAlterarWorkflow(workflow);
