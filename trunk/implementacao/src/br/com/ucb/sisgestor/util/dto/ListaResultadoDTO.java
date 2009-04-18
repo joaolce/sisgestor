@@ -4,20 +4,20 @@
  */
 package br.com.ucb.sisgestor.util.dto;
 
-import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Lista de resultados de consultas.
  * 
- * @param <T> {@link ObjetoPersistente} utilizado
+ * @param <T> {@link Serializable} utilizado
  * @author Thiago
  * @since 10/01/2009
  */
-public class ListaResultadoDTO<T extends ObjetoPersistente> extends BaseDTO {
+public class ListaResultadoDTO<T extends Serializable> extends BaseDTO {
 
-	private Integer	totalRegistros;
-	private List<T>	colecaoParcial;
+	private Integer totalRegistros;
+	private List<T> colecaoParcial;
 
 	/**
 	 * Recupera a coleção de registros da página atual.

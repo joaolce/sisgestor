@@ -56,6 +56,7 @@
 		<convert match="br.com.ucb.sisgestor.entidade.Campo"			 	converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.CampoUsoWorkflow"	 	converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Departamento" 	 	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow"	converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Permissao"		 	converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.OpcaoCampo"		 	converter="hibernate3" />
 		<convert match="br.com.ucb.sisgestor.entidade.Processo"			 	converter="hibernate3" />
@@ -69,5 +70,6 @@
 
 		<!-- Convertendo as enums -->
 		<convert match="br.com.ucb.sisgestor.entidade.TipoCampoEnum" converter="enum" />
+		<convert match="br.com.ucb.sisgestor.entidade.TipoAcaoEnum" converter="enum" />
 	</allow>
 </dwr>

@@ -17,6 +17,7 @@ import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
 import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,9 +33,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("usoWorkflowBO")
 public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWorkflowBO {
 
-	private UsoWorkflowDAO	usoWorkflowDAO;
-	private WorkflowBO		workflowBO;
-	private CampoBO			campoBO;
+	private UsoWorkflowDAO usoWorkflowDAO;
+	private WorkflowBO workflowBO;
+	private CampoBO campoBO;
 
 	/**
 	 * {@inheritDoc}
@@ -59,6 +60,24 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	public List<Campo> getCamposByIdUsoWorkflow(Integer idUsoWorkflow) {
 		Workflow workflow = this.getWorkflowBO().getByIdUsoWorkflow(idUsoWorkflow);
 		return this.getCampoBO().getByWorkflow(workflow.getId());
+	}
+
+	/**
+	 * TODO DOCUMENT ME!
+	 * 
+	 * @see br.com.ucb.sisgestor.negocio.UsoWorkflowBO#getHistoricoByIdUsoWorkflow(java.lang.Integer)
+	 */
+	@Override
+	public List<HistoricoUsoWorkflow> getHistoricoByIdUsoWorkflow(Integer idUsoWorkflow) {
+		//FAKER
+		List<HistoricoUsoWorkflow> lista = new ArrayList<HistoricoUsoWorkflow>();
+		HistoricoUsoWorkflow his = new HistoricoUsoWorkflow();
+
+		his.setAcao(TipoAcaoEnum.INICIO_USO);
+		his.setDataHora(DataUtil.getDataHoraAtual());
+
+		lista.add(his);
+		return lista;
 	}
 
 	/**
