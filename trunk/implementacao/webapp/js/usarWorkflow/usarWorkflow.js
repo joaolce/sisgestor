@@ -20,6 +20,11 @@ UsarWorkflow.prototype = {
    tabelaTelaPrincipal :null,
 
    /**
+	 * Tabela com os dados do historico.
+	 */
+   tabelaAbaHistorico :null,
+
+   /**
 	 * Indica se os campos do uso serão editáveis ou não
 	 */
    editarCampos :true,
@@ -133,7 +138,7 @@ UsarWorkflow.prototype = {
 	   var descricao = "";
 	   var tipo;
 	   var input;
-	   var identificador = "campo"+campo.id;
+	   var identificador = "campo" + campo.id;
 	   var spanObrigatorio = Builder.node("span");
 	   $(spanObrigatorio).className = "obrigatorio";
 
@@ -145,7 +150,8 @@ UsarWorkflow.prototype = {
 		   spanObrigatorio.innerHTML = "&nbsp;*";
 	   }
 
-	   if (tipoCampo == this.tipoTexto || tipoCampo == this.tipoData || tipoCampo == this.tipoHora) {
+	   if ((tipoCampo == this.tipoTexto) || (tipoCampo == this.tipoData)
+	      || (tipoCampo == this.tipoHora)) {
 		   tipo = "text";
 		   if (tipoCampo == this.tipoData) {
 			   mascara = this.mascaraData;
@@ -231,6 +237,15 @@ UsarWorkflow.prototype = {
 	 */
    getTBodyTelaPrincipal : function() {
 	   return $("corpoUsarWorkflow");
+   },
+
+   /**
+	 * Retorna a tabela da aba historico.
+	 * 
+	 * @return {HTMLTableSectionElement}
+	 */
+   getTBodyAbaHistorico : function() {
+	   return $("corpoHistoricoUsarWorkflow");
    },
 
    /**
@@ -372,6 +387,7 @@ UsarWorkflow.prototype = {
 		      dwr.util.setValue("descricaoTarefa", descricaoTarefa);
 		      this.carregarCampos(listaCamposUsados);
 		      this.habilitarLinkProximaTarefa(this.editarCampos);
+		      this.carregaHistorico();
 	      }).bind(this));
 	   janela.setOnClose(( function() {
 		   this.houveAlteracao = false;
@@ -436,30 +452,77 @@ UsarWorkflow.prototype = {
 		   this.preencherCampos(listaCamposUsados);
 	   }).bind(this));
    },
-   
+
    /**
 	 * Seta os valores do campo na página
 	 * 
 	 * @param {Object} Lista dos campos usados
 	 */
-	preencherCampos : function(listaCamposUsados) {
-		var tipoCampo;
+   preencherCampos : function(listaCamposUsados) {
+	   var tipoCampo;
 
-		// Caso a lista estiver vazia, nem executa
-		listaCamposUsados.each(( function(campoUsoWorkflow) {
-			tipoCampo = campoUsoWorkflow.campo.tipo;
-			if (tipoCampo == usarWorkflow.tipoTexto || tipoCampo == usarWorkflow.tipoData || tipoCampo == usarWorkflow.tipoHora) {
-				$("tabCampos").select("input[type=\"text\"]").each(function(input) {
-					if (parseInt($(input).id.substring(5)) == campoUsoWorkflow.campo.id) {
-						$(input).value = campoUsoWorkflow.valor;
-					}
-				});
-			} else {
-				//TODO Implementar funcionalidades para os campos checkbox e radio
-			}
-		}));
-	},
+	   // Caso a lista estiver vazia, nem executa
+	   listaCamposUsados.each(( function(campoUsoWorkflow) {
+		   tipoCampo = campoUsoWorkflow.campo.tipo;
+		   if ((tipoCampo == usarWorkflow.tipoTexto) || (tipoCampo == usarWorkflow.tipoData)
+		      || (tipoCampo == usarWorkflow.tipoHora)) {
+			   $("tabCampos").select("input[type=\"text\"]").each( function(input) {
+				   if (parseInt($(input).id.substring(5)) == campoUsoWorkflow.campo.id) {
+					   $(input).value = campoUsoWorkflow.valor;
+				   }
+			   });
+		   } else {
+			   // TODO Implementar funcionalidades para os campos checkbox e radio
+		}
+	}));
+   },
+   /**
+    * Carrega os Historicos.
+    */
+   carregaHistorico : function() {
+	   var dto = {
+		   idUsoWorkflow :dwr.util.getValue("idUsoWorkflow")
+	   };
+	   if ((this.tabelaAbaHistorico == null)
+	      || (this.tabelaAbaHistorico.getTabela() != this.getTBodyAbaHistorico())) {
+		   var chamadaRemota = UsarWorkflowDWR.getHistoricoByIdUsoWorkflow.bind(UsarWorkflowDWR);
+		   this.tabelaAbaHistorico = FactoryTabelas.getNewTabela(this.getTBodyAbaHistorico());
+		   this.tabelaAbaHistorico.setRemoteCall(chamadaRemota);
+		   this.tabelaAbaHistorico.setCallBack(this.popularAbaHistorico);
+	   }
+	   this.tabelaAbaHistorico.setParametros(dto);
+	   this.tabelaAbaHistorico.executarChamadaRemota();
+   },
 
+   /**
+    * Popula a aba historico com a lista de historicos.
+    * 
+    * @param listaHistorico lista de uso de workflows retornados
+    */
+   popularAbaHistorico : function(listaHistorico) {
+	   usarWorkflow.tabelaAbaHistorico.removerResultado();
+
+	   if (listaHistorico.length != 0) {
+		   var cellfuncs = new Array();
+		   cellfuncs.push( function(historico) {
+			   return Builder.node("input", {
+			      type :"hidden",
+			      name :"id",
+			      value :"fake"
+			   });
+		   });
+		   cellfuncs.push( function(historico) {
+			   return getStringTimestamp(historico.dataHora);
+		   });
+		   cellfuncs.push( function(historico) {
+			   return "acao";
+		   });
+
+		   usarWorkflow.tabelaAbaHistorico.adicionarResultadoTabela(cellfuncs);
+	   } else {
+		   usarWorkflow.tabelaAbaHistorico.semRegistros("Não foram encontrados historicos");
+	   }
+   },
    /**
 	 * Habilita/desabilita os links se a tarefa está pendente para iniciar.
 	 * 
@@ -467,18 +530,18 @@ UsarWorkflow.prototype = {
 	 */
    habilitarLinkProximaTarefa : function(habilita) {
 	   if (habilita) {
-	   	//se habilita link de próximas tarefas, desabilita o de iniciar
-	   	$("linkIniciarTarefa").className = "btDesativado";
-	   	$("linkIniciarTarefa").onclick = "";
-	   	$("linkProximasTarefa").className = "";
-	   	$("linkProximasTarefa").onclick = Prototype.emptyFunction;
-	   } else {
-	   	$("linkIniciarTarefa").className = "";
-	   	$("linkIniciarTarefa").onclick = this.iniciarTarefa;
-	   	$("linkProximasTarefa").className = "btDesativado";
-	   	$("linkProximasTarefa").onclick = "";
-	   }
-   },
+		   // se habilita link de próximas tarefas, desabilita o de iniciar
+	$("linkIniciarTarefa").className = "btDesativado";
+	$("linkIniciarTarefa").onclick = "";
+	$("linkProximasTarefa").className = "";
+	$("linkProximasTarefa").onclick = Prototype.emptyFunction;
+} else {
+	$("linkIniciarTarefa").className = "";
+	$("linkIniciarTarefa").onclick = this.iniciarTarefa;
+	$("linkProximasTarefa").className = "btDesativado";
+	$("linkProximasTarefa").onclick = "";
+}
+},
 
    /**
 	 * Inicia a tarefa aberta.
