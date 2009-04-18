@@ -26,51 +26,79 @@ UsarWorkflow.prototype = {
 
    /**
 	 * Indica se os campos do uso serão editáveis ou não
+	 * 
+	 * @type Boolean
 	 */
    editarCampos :true,
 
    /**
 	 * Define a máscara para campos data
+	 * 
+	 * @type String
 	 */
    mascaraData :"##/##/####",
 
    /**
 	 * Define a máscara para campos hora
+	 * 
+	 * @type String
 	 */
    mascaraHora :"##:##",
 
    /**
 	 * Tipo de campo texto
+	 * 
+	 * @type String
 	 */
    tipoTexto :"TEXTO",
 
    /**
 	 * Tipo de campo data
+	 * 
+	 * @type String
 	 */
    tipoData :"DATA",
+   
    /**
 	 * Tipo de campo hora
+	 * 
+	 * @type String
 	 */
    tipoHora :"HORA",
+   
    /**
 	 * Tipo de campo opções
+	 * 
+	 * @type String
 	 */
    tipoOpcoes :"LISTA_DE_OPCOES",
 
    /**
-	 * indicar se houve alteração na tela
+	 * Indica se houve alteração nos campos da tela
 	 * 
 	 * @type Boolean
 	 */
    houveAlteracao :false,
+   
+   /**
+    * Array com os tipos de ações que podem ocorrer para o histórico do uso.
+    *	obs: Cada elemento do array é composto: [0] - id, [1] - name, [2] - descrição
+    *
+    * @type Array 
+    */
+   acoesHistorico :null,
 
    /**
 	 * @constructor
 	 */
-   initialize : function() {},
+   initialize : function() {
+		UsarWorkflowDWR.getAcoesHistorico(( function(acoes) {
+		   this.setAcoesHistorico(acoes);
+	   }).bind(this));
+   },
 
    /**
-	 * Retorna o form da página de uso.
+    * Retorna o form da página de uso.
 	 * 
 	 * @return form da página
 	 * @type HTMLFormElement
@@ -358,6 +386,7 @@ UsarWorkflow.prototype = {
 	   requestUtils.submitForm(this.getForm(), null, ( function() {
 		   if (requestUtils.status) {
 			   this.houveAlteracao = false;
+			   JanelaFactory.fecharJanela("divUsoWorkflow");
 		   }
 	   }));
    },
@@ -389,10 +418,7 @@ UsarWorkflow.prototype = {
 		      this.habilitarLinkProximaTarefa(this.editarCampos);
 		      this.carregaHistorico(usoWorkflow);
 	      }).bind(this));
-	   janela.setOnClose(( function() {
-		   this.houveAlteracao = false;
-		   return true;
-	   }).bind(this));
+	   janela.removerBotaoFechar();
    },
 
    /**
@@ -413,7 +439,7 @@ UsarWorkflow.prototype = {
 	 */
    salvarAntesSair : function() {
 	   if (this.houveAlteracao) {
-		   JanelasComuns.showConfirmDialog("Deseja salvar as alterações?", this.confirmar.bind(this));
+		   JanelasComuns.showConfirmCancelDialog("Deseja salvar as alterações?", this.confirmar.bind(this), this.sairSemSalvar.bind(this));
 	   } else {
 		   JanelaFactory.fecharJanelaAtiva();
 	   }
@@ -534,9 +560,9 @@ UsarWorkflow.prototype = {
 	   cellfuncs.push( function(historico) {
 		   return "usuario";
 	   });
-	   cellfuncs.push( function(historico) {
-		   return "acao";
-	   });
+	   cellfuncs.push( (function(historico) {
+		   return this.getDescricaoAcao(historico.acao);
+	   }).bind(this));
 	   this.tabelaAbaHistorico.adicionarResultadoTabela(cellfuncs, listaHistorico);
    },
    
@@ -590,6 +616,40 @@ UsarWorkflow.prototype = {
 	   $("tabCampos").select("input[type=\"checkbox\"]").each( function(input) {
 		   $(input).enable();
 	   });
+   },
+   
+   /**
+    * Atribui as ações possíveis para o histórico do uso.
+    * 
+    * @param {Array} acoes ações disponíveis
+    */
+   setAcoesHistorico : function(acoes) {
+   	this.acoesHistorico = acoes;
+   },
+   
+   /**
+    * Recupera a descrição da ação ocorrida
+    * 
+    * @param {String} acao name da ação da enum
+    * @return Descrição da ação ocorrida
+    */
+   getDescricaoAcao : function(acao){
+	   var acaoOcorrida;
+	   this.acoesHistorico.each(( function(acaoHistorico) {
+		   if (acaoHistorico[1] == acao) { // verifica pelo name da enum
+			   acaoOcorrida = acaoHistorico[2];
+			   throw $break;
+		   }
+	   }));
+	   return acaoOcorrida;
+   },
+   
+   /**
+    * Executado quando o usuário não quer salvar as alterações.
+    */
+   sairSemSalvar : function(){
+   	this.houveAlteracao = false;
+   	JanelaFactory.fecharJanela("divUsoWorkflow");
    }
 };
 
