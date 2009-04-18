@@ -80,6 +80,7 @@ public class WorkflowDAOImpl extends BaseDAOImpl<Workflow> implements WorkflowDA
 		criteria.add(Restrictions.isEmpty("tarefa.transacoesAnteriores"));
 		criteria.add(Restrictions.eq("tarefa.usuario", usuario));
 
+		criteria.addOrder(this.getOrdemLista());
 		return GenericsUtil.checkedList(criteria.list(), Workflow.class);
 	}
 
@@ -88,7 +89,7 @@ public class WorkflowDAOImpl extends BaseDAOImpl<Workflow> implements WorkflowDA
 	 */
 	@Override
 	protected Order getOrdemLista() {
-		return Order.asc("nome").ignoreCase();
+		return Order.asc("this.nome").ignoreCase();
 	}
 
 	/**

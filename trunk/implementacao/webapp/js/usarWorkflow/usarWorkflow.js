@@ -516,8 +516,9 @@ UsarWorkflow.prototype = {
 				   });
 			   }
 		   }
-	}));
+	   }));
    },
+   
    /**
 	 * Carrega todo o histórico do uso.
 	 * 
@@ -532,19 +533,27 @@ UsarWorkflow.prototype = {
    },
 
    /**
-	 * Popula a tabela de histórico com a lista de historicos.
+	 * Popula a tabela de histórico com a lista de históricos.
 	 * 
-	 * @param {Array} listaHistorico lista de histórico
+	 * @param {Array} listaHistorico lista de histórico (opcional)
 	 */
    popularHistorico : function(listaHistorico) {
    	if(Object.isUndefined(listaHistorico)) {
-   		dwr.engine.setAsync(false);
    	   UsarWorkflowDWR.getHistorico($F("idUsoWorkflow"), ( function(historicoAtualizado) {
-   	   	listaHistorico = historicoAtualizado;
+   	   	usarWorkflow._preencheHistorico(historicoAtualizado);
    	   }));
-   	   dwr.engine.setAsync(true);
+   	} else {
+   		usarWorkflow._preencheHistorico(listaHistorico);
    	}
-	   this.tabelaAbaHistorico.removerResultado();
+   },
+   
+   /**
+    * Preenche a tabela de histórico do uso.
+    * 
+    * @param {Array} listaHistorico lista de histórico
+    */
+   _preencheHistorico : function(listaHistorico) {
+   	this.tabelaAbaHistorico.removerResultado();
 
 	   var cellfuncs = new Array();
 	   cellfuncs.push( function(historico) {
@@ -587,20 +596,21 @@ UsarWorkflow.prototype = {
    },
 
    /**
-	 * Inicia a tarefa aberta.
-	 */
+    * Inicia a tarefa aberta.
+    */
    iniciarTarefa : function() {
-	   requestUtils.simpleRequest("usarWorkflow.do?method=iniciarTarefa&id=" + $F("idUsoWorkflow"),
-	      ( function() {
-		      if (requestUtils.status) {
-			      requestUtils.valoresDevolvidos.each(( function(data) {
-				      dwr.util.setValue("dataHoraInicioTarefa", data.value);
-			      }));
-			      usarWorkflow.habilitarCampos();
-			      usarWorkflow.habilitarLinkProximaTarefa(true);
-			      usarWorkflow.pesquisar();
-		      }
-	      }));
+   	var idUso = $F("idUsoWorkflow");
+   	requestUtils.simpleRequest("usarWorkflow.do?method=iniciarTarefa&id=" + idUso, ( function() {
+   		if (requestUtils.status) {
+   			requestUtils.valoresDevolvidos.each(( function(data) {
+   				dwr.util.setValue("dataHoraInicioTarefa", data.value);
+   			}));
+   			usarWorkflow.popularHistorico();
+   			usarWorkflow.habilitarCampos();
+   			usarWorkflow.habilitarLinkProximaTarefa(true);
+   			usarWorkflow.pesquisar();
+   		}
+   	}));
    },
 
    /**

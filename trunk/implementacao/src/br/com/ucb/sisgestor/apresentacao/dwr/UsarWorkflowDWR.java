@@ -64,7 +64,8 @@ public class UsarWorkflowDWR extends BaseDWR {
 	 * @return lista de campos
 	 */
 	public List<Campo> getCamposByIdUsoWorkflow(Integer idUsoWorkflow) {
-		List<Campo> campos = this.usoWorkflowBO.getCamposByIdUsoWorkflow(idUsoWorkflow);
+		UsoWorkflow usoWorkflow = this.usoWorkflowBO.obter((idUsoWorkflow));
+		List<Campo> campos = usoWorkflow.getWorkflow().getCampos();
 		for (Campo campo : campos) {
 			Hibernate.initialize(campo.getOpcoes());
 		}
