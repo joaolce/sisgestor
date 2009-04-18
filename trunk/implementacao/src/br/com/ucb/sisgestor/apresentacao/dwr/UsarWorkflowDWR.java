@@ -5,7 +5,9 @@
 package br.com.ucb.sisgestor.apresentacao.dwr;
 
 import br.com.ucb.sisgestor.entidade.Campo;
+import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
+import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaUsarWorkflowDTO;
@@ -22,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UsarWorkflowDWR extends BaseDWR {
 
 	private UsoWorkflowBO	usoWorkflowBO;
+	private TarefaBO			tarefaBO;
 
 	/**
 	 * Recupera um uso de workflow a partir do identificador.
@@ -65,6 +68,27 @@ public class UsarWorkflowDWR extends BaseDWR {
 
 		this.setTotalPesquisa(parametros, resultado, this.usoWorkflowBO);
 		return resultado;
+	}
+
+	/**
+	 * Recupera as próximas tarefas da tarefa atual do {@link UsoWorkflow}.
+	 * 
+	 * @param isUsoWorkflow identificador do uso
+	 * @return {@link List} com as {@link Tarefa}
+	 */
+	public List<Tarefa> recuperarProximasTarefas(Integer isUsoWorkflow) {
+		UsoWorkflow usoWorkflow = this.usoWorkflowBO.obter(isUsoWorkflow);
+		return this.tarefaBO.recuperarProximasTarefas(usoWorkflow);
+	}
+
+	/**
+	 * Atribui o BO de {@link Tarefa}.
+	 * 
+	 * @param tarefaBO BO de {@link Tarefa}
+	 */
+	@Autowired
+	public void setTarefaBO(TarefaBO tarefaBO) {
+		this.tarefaBO = tarefaBO;
 	}
 
 	/**

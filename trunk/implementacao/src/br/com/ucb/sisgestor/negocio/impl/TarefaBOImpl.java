@@ -7,6 +7,7 @@ package br.com.ucb.sisgestor.negocio.impl;
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
+import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -39,7 +41,7 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void atualizar(Tarefa tarefa) throws NegocioException {
 		this.validarSePodeAlterarWorkflow(tarefa.getAtividade().getProcesso().getWorkflow());
 		this.tarefaDAO.atualizar(tarefa);
@@ -48,7 +50,7 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void atualizarTransacoes(Integer idAtividade, String[] fluxos, String[] posicoes)
 			throws NegocioException {
 		Workflow workflow = this.getAtividadeBO().obter(idAtividade).getProcesso().getWorkflow();
@@ -88,7 +90,7 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void excluir(Tarefa tarefa) throws NegocioException {
 		this.validarSePodeAlterarWorkflow(tarefa.getAtividade().getProcesso().getWorkflow());
 		this.tarefaDAO.excluir(tarefa);
@@ -149,7 +151,26 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(readOnly = true)
+	public List<Tarefa> recuperarProximasTarefas(UsoWorkflow usoWorkflow) {
+		List<Tarefa> proximasTarefas;
+		Tarefa tarefaAtual = usoWorkflow.getTarefa();
+		if (CollectionUtils.isNotEmpty(tarefaAtual.getTransacoesPosteriores())) {
+			//existem tarefas dentro da mesma atividade
+			proximasTarefas = new ArrayList<Tarefa>();
+			for (TransacaoTarefa transacao : tarefaAtual.getTransacoesPosteriores()) {
+				proximasTarefas.add(transacao.getPosterior());
+			}
+		} else {
+			proximasTarefas = this.tarefaDAO.recuperarProximasTarefas(usoWorkflow);
+		}
+		return proximasTarefas;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public Integer salvar(Tarefa tarefa) throws NegocioException {
 		Atividade atividade = this.getAtividadeBO().obter(tarefa.getAtividade().getId());
 		this.validarSePodeAlterarWorkflow(atividade.getProcesso().getWorkflow());

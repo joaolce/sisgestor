@@ -58,7 +58,7 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void atualizar(Workflow workflow) throws NegocioException {
 		Workflow workflowAtual = this.workflowDAO.obterAntigo(workflow.getId());
 		this.verificarWorkflowExcluido(workflowAtual);
@@ -78,7 +78,7 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void copiar(Integer idWorkflow) throws NegocioException {
 		Workflow workflow = this.workflowDAO.obter(idWorkflow);
 		Workflow workflowNovo = new Workflow();
@@ -99,7 +99,7 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void excluir(Workflow workflow) throws NegocioException {
 		this.verificarWorkflowExcluido(workflow);
 		workflow.setAtivo(Boolean.FALSE);
@@ -161,7 +161,7 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public Integer salvar(Workflow workflow) throws NegocioException {
 		if (workflow.getAtivo()) { //quando salva um workflow, ele ainda não contém processos
 			throw new NegocioException("erro.workflowNaoAtivado.processo");

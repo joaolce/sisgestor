@@ -39,7 +39,7 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo> implements Proc
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void atualizar(Processo processo) throws NegocioException {
 		this.validarSePodeAlterarWorkflow(processo.getWorkflow());
 		this.processoDAO.atualizar(processo);
@@ -48,7 +48,7 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo> implements Proc
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void atualizarTransacoes(Integer idWorkflow, String[] fluxos, String[] posicoes)
 			throws NegocioException {
 		Workflow workflow = this.getWorkflowBO().obter(idWorkflow);
@@ -88,7 +88,7 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo> implements Proc
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void excluir(Processo processo) throws NegocioException {
 		this.validarSePodeAlterarWorkflow(processo.getWorkflow());
 		List<Atividade> lista = processo.getAtividades();
@@ -145,7 +145,7 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo> implements Proc
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public Integer salvar(Processo processo) throws NegocioException {
 		Workflow workflow = this.getWorkflowBO().obter(processo.getWorkflow().getId());
 		this.validarSePodeAlterarWorkflow(workflow);

@@ -7,6 +7,7 @@ package br.com.ucb.sisgestor.negocio;
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
+import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import java.util.List;
@@ -57,6 +58,14 @@ public interface TarefaBO extends BaseBO<Tarefa> {
 	 * @return {@link Tarefa} inicial do {@link Workflow}
 	 */
 	Tarefa recuperarPrimeiraTarefa(Workflow workflow);
+
+	/**
+	 * Recupera as próximas tarefas disponíveis para o {@link UsoWorkflow}.
+	 * 
+	 * @param usoWorkflow uso a ser recuperado as próximas tarefas
+	 * @return {@link List} de {@link Tarefa}
+	 */
+	List<Tarefa> recuperarProximasTarefas(UsoWorkflow usoWorkflow);
 
 	/**
 	 * Verifica se há fluxo definido para as tarefas da {@link Atividade} informada.

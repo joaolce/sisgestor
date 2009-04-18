@@ -45,7 +45,7 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo> implements AnexoBO {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void excluir(Anexo anexo) throws NegocioException {
 		this.anexoDAO.excluir(anexo);
 	}
@@ -53,7 +53,7 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo> implements AnexoBO {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void excluirAnexos(Integer[] anexosSelecionados) throws NegocioException {
 		Anexo anexo = null;
 		for (Integer idAnexo : anexosSelecionados) {
@@ -90,7 +90,7 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo> implements AnexoBO {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public Integer salvar(Anexo anexo) throws NegocioException {
 		this.validarArquivo(anexo);
 		Integer idAnexo = this.anexoDAO.salvar(anexo);
