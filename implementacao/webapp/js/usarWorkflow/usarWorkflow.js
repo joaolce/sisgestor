@@ -371,7 +371,7 @@ UsarWorkflow.prototype = {
 	 * @param {String} nomeTarefa nome da tarefa atual
 	 * @param {String} descricaoTarefa descrição da tarefa atual
 	 * @param {Date} dataHoraInicio data/hora de início da tarefa atual
-	 * @param {Object} Lista dos campos usados
+	 * @param {Array} Lista dos campos usados
 	 */
    _abrePopupUsoDeWorkflow : function(idUso, numeroRegistro, nomeWorkflow, nomeTarefa,
       descricaoTarefa, dataHoraInicio, listaCamposUsados) {
@@ -422,7 +422,7 @@ UsarWorkflow.prototype = {
    /**
 	 * Carrega os campos do workflow na aba Campos.
 	 * 
-	 * @param {Object} Lista dos campos usados
+	 * @param {Array} Lista dos campos usados
 	 */
    carregarCampos : function(listaCamposUsados) {
 	   var idUsoWorkflow = dwr.util.getValue("idUsoWorkflow");
@@ -456,24 +456,40 @@ UsarWorkflow.prototype = {
    /**
 	 * Seta os valores do campo na página
 	 * 
-	 * @param {Object} Lista dos campos usados
+	 * @param {Array} Lista dos campos usados
 	 */
    preencherCampos : function(listaCamposUsados) {
 	   var tipoCampo;
+	   var valorCampo;
 
 	   // Caso a lista estiver vazia, nem executa
 	   listaCamposUsados.each(( function(campoUsoWorkflow) {
 		   tipoCampo = campoUsoWorkflow.campo.tipo;
+		   valorCampo = campoUsoWorkflow.valor;
 		   if ((tipoCampo == usarWorkflow.tipoTexto) || (tipoCampo == usarWorkflow.tipoData)
 		      || (tipoCampo == usarWorkflow.tipoHora)) {
 			   $("tabCampos").select("input[type=\"text\"]").each( function(input) {
 				   if (parseInt($(input).id.substring(5)) == campoUsoWorkflow.campo.id) {
-					   $(input).value = campoUsoWorkflow.valor;
+					   $(input).value = valorCampo;
 				   }
 			   });
 		   } else {
-			   // TODO Implementar funcionalidades para os campos checkbox e radio
-		}
+			   if (tipoCampo == usarWorkflow.tipoOpcoes) {
+				   $("tabCampos").select("input[type=\"checkbox\"]").each( function(input) {
+					   if (( (parseInt($(input).name.substring(5))) == campoUsoWorkflow.campo.id) && 
+							   (valorCampo.indexOf($(input).value) != -1)) {
+						   $(input).checked = true;
+					   }
+				   });
+			   } else {
+				   $("tabCampos").select("input[type=\"radio\"]").each( function(input) {
+					   if (( (parseInt($(input).name.substring(5))) == campoUsoWorkflow.campo.id) && 
+							   (valorCampo.indexOf($(input).value) != -1)) {
+						   $(input).checked = true;
+					   }
+				   });
+			   }
+		   }
 	}));
    },
    /**

@@ -24,8 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class UsarWorkflowDWR extends BaseDWR {
 
-	private UsoWorkflowBO usoWorkflowBO;
-	private TarefaBO tarefaBO;
+	private UsoWorkflowBO	usoWorkflowBO;
+	private TarefaBO			tarefaBO;
 
 	/**
 	 * Recupera um uso de workflow a partir do identificador.
@@ -65,8 +65,7 @@ public class UsarWorkflowDWR extends BaseDWR {
 		List<HistoricoUsoWorkflow> listaHistorico =
 				this.usoWorkflowBO.getHistoricoByIdUsoWorkflow(idUsoWorkflow);
 
-		ListaResultadoDTO<HistoricoUsoWorkflow> resultado =
-				new ListaResultadoDTO<HistoricoUsoWorkflow>();
+		ListaResultadoDTO<HistoricoUsoWorkflow> resultado = new ListaResultadoDTO<HistoricoUsoWorkflow>();
 		resultado.setColecaoParcial(listaHistorico);
 
 		this.setTotalPesquisa(parametros, resultado, this.usoWorkflowBO);
