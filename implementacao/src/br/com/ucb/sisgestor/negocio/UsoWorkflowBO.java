@@ -29,6 +29,14 @@ public interface UsoWorkflowBO extends BaseBO<UsoWorkflow> {
 	List<Campo> getCamposByIdUsoWorkflow(Integer idUsoWorkflow);
 
 	/**
+	 * Recupera uma lista de historico pelo id do uso workflow
+	 * 
+	 * @param idUsoWorkflow Código identificador do uso workflow
+	 * @return {@link List} de {@link HistoricoUsoWorkflow}
+	 */
+	List<HistoricoUsoWorkflow> getHistoricoByIdUsoWorkflow(Integer idUsoWorkflow);
+
+	/**
 	 * Inicia a tarefa atual do {@link UsoWorkflow}.
 	 * 
 	 * @param usoWorkflow uso a iniciar a tarefa
