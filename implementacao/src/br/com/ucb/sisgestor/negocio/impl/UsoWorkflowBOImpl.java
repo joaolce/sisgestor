@@ -4,14 +4,10 @@
  */
 package br.com.ucb.sisgestor.negocio.impl;
 
-import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.TipoAcaoEnum;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
-import br.com.ucb.sisgestor.entidade.Workflow;
-import br.com.ucb.sisgestor.negocio.CampoBO;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
-import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
 import br.com.ucb.sisgestor.util.DataUtil;
@@ -33,8 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWorkflowBO {
 
 	private UsoWorkflowDAO	usoWorkflowDAO;
-	private WorkflowBO		workflowBO;
-	private CampoBO			campoBO;
 
 	/**
 	 * {@inheritDoc}
@@ -56,15 +50,8 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Campo> getCamposByIdUsoWorkflow(Integer idUsoWorkflow) {
-		Workflow workflow = this.getWorkflowBO().getByIdUsoWorkflow(idUsoWorkflow);
-		return this.getCampoBO().getByWorkflow(workflow.getId());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
+	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		return this.usoWorkflowDAO.getTotalRegistros(Utils.getUsuario());
 	}
@@ -72,6 +59,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void iniciarTarefa(UsoWorkflow usoWorkflow) throws NegocioException {
 		usoWorkflow.setDataHoraInicio(DataUtil.getDataHoraAtual());
 		this.usoWorkflowDAO.atualizar(usoWorkflow);
@@ -159,29 +147,5 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 			ultimoNumero++;
 		}
 		usoWorkflow.setNumero(ultimoNumero);
-	}
-
-	/**
-	 * Recupera o BO de {@link Campo}.
-	 * 
-	 * @return BO de {@link Campo}
-	 */
-	private CampoBO getCampoBO() {
-		if (this.campoBO == null) {
-			this.campoBO = Utils.getBean(CampoBO.class);
-		}
-		return this.campoBO;
-	}
-
-	/**
-	 * Recupera o BO de {@link Workflow}.
-	 * 
-	 * @return BO de {@link Workflow}
-	 */
-	private WorkflowBO getWorkflowBO() {
-		if (this.workflowBO == null) {
-			this.workflowBO = Utils.getBean(WorkflowBO.class);
-		}
-		return this.workflowBO;
 	}
 }
