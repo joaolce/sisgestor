@@ -7,11 +7,13 @@ package br.com.ucb.sisgestor.apresentacao.dwr;
 import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Tarefa;
+import br.com.ucb.sisgestor.entidade.TipoAcaoEnum;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaUsarWorkflowDTO;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,21 @@ public class UsarWorkflowDWR extends BaseDWR {
 
 	private UsoWorkflowBO	usoWorkflowBO;
 	private TarefaBO			tarefaBO;
+
+	/**
+	 * Recupera a lista de {@link TipoAcaoEnum}.
+	 * 
+	 * @return {@link List} com array de Object[], onde: [0] - id do tipo, [1] - name do tipo, [2] - descrição
+	 *         do tipo
+	 */
+	public List<Object[]> getAcoesHistorico() {
+		//método gambiarra feito, pois o DWR não converte de forma que conseguimos pegar os dados de uma enum
+		List<Object[]> tipos = new ArrayList<Object[]>();
+		for (TipoAcaoEnum tipo : TipoAcaoEnum.values()) {
+			tipos.add(new Object[] {tipo.getId(), tipo.name(), tipo.getDescricao()});
+		}
+		return tipos;
+	}
 
 	/**
 	 * Recupera um uso de workflow a partir do identificador.

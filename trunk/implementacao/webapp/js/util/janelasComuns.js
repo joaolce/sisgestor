@@ -112,6 +112,77 @@ JanelasComuns = {
 	   Event.observe("cancelarBotao", "click", funcCancelar);
 	   Form.Element.focus("cancelarBotao");
    },
+   
+   /**
+	 * Mostra uma mensagem de confirmação com opção de cancelar
+	 *
+	 * @param {String} mensagem mensagem a ser exibida
+	 * @param {Function} funcTrue função a ser executada caso o usuário clique 'Sim'
+	 * @param {Function} funcFalse função a ser executada caso o usuário clique 'Não'
+	 */
+   showConfirmCancelDialog : function(mensagem, funcTrue, funcFalse) {
+	   if ($("idConfirmacao") != null) {
+		   return;
+	   }
+	   var janela = createWindow(110, 600, 200, 100, "Confirmação", "idConfirmacao", null);
+	   janela.setHeight(null);
+	   Element.setStyle("idConfirmacao", {
+		   paddingBottom :"10px"
+	   });
+	   var img = Builder.node("img", {
+	      src :this.imagemConfirmacao,
+	      width :22,
+	      height :22
+	   });
+	   var divImg = Builder.node("div", {
+		   style :"float: left; margin-right: 10px; margin-left: 3px;"
+	   }, [ img ]);
+	   var divMsg = Builder.node("div", {
+		   style :"padding-top: 4px; margin-left: 30px;"
+	   }, [ document.createTextNode(mensagem) ]);
+	   Element.setStyle(divMsg, {
+	      fontWeight :"bold",
+	      color :"#007AE2"
+	   });
+	   var primeiro = Builder.node("div", [ divImg, divMsg ]);
+	   var segundo = Builder.node("div", {
+	      align :"center",
+	      style :"clear: both; padding-top: 10px;"
+	   }, [ Builder.node("input", {
+	      type :"button",
+	      CLASS :"botaoOkCancelar",
+	      value :"Sim",
+	      id :"botaoSim"
+	   }), Builder.node("input", {
+	      type :"button",
+	      CLASS :"botaoOkCancelar",
+	      value :"Não",
+	      id :"botaoNao"
+	   }), Builder.node("input", {
+	      type :"button",
+	      CLASS :"botaoOkCancelar",
+	      value :"Cancelar",
+	      id :"botaoCancelar"
+	   }) ]);
+	   $("idConfirmacao").appendChild(primeiro);
+	   $("idConfirmacao").appendChild(segundo);
+	   var funcSim = function() {
+		   janela.fecharJanela();
+		   funcTrue();
+	   };
+	   Event.observe($("botaoSim"), "click", funcSim);
+	   var funcNao = function() {
+			funcFalse();
+		   janela.fecharJanela();
+	   };
+	   Event.observe("botaoNao", "click", funcNao);
+	   var funcCancelar = function() {
+	   	janela.fecharJanela();
+	   };
+	   Event.observe("botaoCancelar", "click", funcCancelar);
+	   Form.Element.focus("botaoCancelar");
+   },
+   
    carregando :false,
    /**
 	 * mostrar tela de aguarde enquanto uma página carrega
