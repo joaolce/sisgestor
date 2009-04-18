@@ -110,7 +110,7 @@ UsarWorkflow.prototype = {
 	   var id = usarWorkflow.getIdSelecionado();
 	   UsarWorkflowDWR.getById(id, ( function(usoWorkflow) {
 		   usarWorkflow.setEditarCampos(!(usoWorkflow.dataHoraInicio == null));
-		   usarWorkflow._abrePopupUsoDeWorkflow(id, numeroRegistro, nomeWorkflow,
+		   usarWorkflow._abrePopupUsoDeWorkflow(usoWorkflow, numeroRegistro, nomeWorkflow,
 		      usoWorkflow.tarefa.nome, usoWorkflow.tarefa.descricao, usoWorkflow.dataHoraInicio,
 		      usoWorkflow.camposUsados);
 	   }));
@@ -343,7 +343,7 @@ UsarWorkflow.prototype = {
 				   var tarefa = usoWorkflow.tarefa;
 				   JanelaFactory.fecharJanela("divIniciarWorkflow");
 				   this.editarCampos = !(usoWorkflow.dataHoraInicio == null);
-				   this._abrePopupUsoDeWorkflow(idUso, usoWorkflow.numeroRegistro,
+				   this._abrePopupUsoDeWorkflow(usoWorkflow, usoWorkflow.numeroRegistro,
 				      tarefa.atividade.processo.workflow.nome, tarefa.nome, tarefa.descricao,
 				      usoWorkflow.dataHoraInicio, usoWorkflow.camposUsados);
 			   }).bind(this));
@@ -365,7 +365,7 @@ UsarWorkflow.prototype = {
    /**
 	 * Abre o popup de uso do workflow.
 	 * 
-	 * @param {Number} idUso identificador do uso do workflow
+	 * @param {Object} idUso identificador do uso do workflow
 	 * @param {String} numeroRegistro número de registro do uso
 	 * @param {String} nomeWorkflow nome do workflow em uso
 	 * @param {String} nomeTarefa nome da tarefa atual
@@ -373,7 +373,7 @@ UsarWorkflow.prototype = {
 	 * @param {Date} dataHoraInicio data/hora de início da tarefa atual
 	 * @param {Array} Lista dos campos usados
 	 */
-   _abrePopupUsoDeWorkflow : function(idUso, numeroRegistro, nomeWorkflow, nomeTarefa,
+   _abrePopupUsoDeWorkflow : function(usoWorkflow, numeroRegistro, nomeWorkflow, nomeTarefa,
       descricaoTarefa, dataHoraInicio, listaCamposUsados) {
 	   var tituloPagina = numeroRegistro + " - " + nomeWorkflow;
 
@@ -381,13 +381,13 @@ UsarWorkflow.prototype = {
 	   var janela = createWindow(536, 985, 280, 10, tituloPagina, "divUsoWorkflow", url,
 	      ( function() {
 		      FactoryAbas.getNewAba("tabCamposAncora,tabCampos;tabHistoricoAncora,tabHistorico");
-		      dwr.util.setValue("idUsoWorkflow", idUso);
+		      dwr.util.setValue("idUsoWorkflow", usoWorkflow.id);
 		      dwr.util.setValue("dataHoraInicioTarefa", getStringTimestamp(dataHoraInicio));
 		      dwr.util.setValue("nomeTarefa", nomeTarefa);
 		      dwr.util.setValue("descricaoTarefa", descricaoTarefa);
 		      this.carregarCampos(listaCamposUsados);
 		      this.habilitarLinkProximaTarefa(this.editarCampos);
-		      this.carregaHistorico();
+		      this.carregaHistorico(usoWorkflow);
 	      }).bind(this));
 	   janela.setOnClose(( function() {
 		   this.houveAlteracao = false;
@@ -493,52 +493,53 @@ UsarWorkflow.prototype = {
 	}));
    },
    /**
-    * Carrega os Historicos.
-    */
-   carregaHistorico : function() {
-	   var dto = {
-		   idUsoWorkflow :dwr.util.getValue("idUsoWorkflow")
-	   };
+	 * Carrega todo o histórico do uso.
+	 * 
+	 * @param {Object} usoWorkflow uso do workflow
+	 */
+   carregaHistorico : function(usoWorkflow) {
 	   if ((this.tabelaAbaHistorico == null)
 	      || (this.tabelaAbaHistorico.getTabela() != this.getTBodyAbaHistorico())) {
-		   var chamadaRemota = UsarWorkflowDWR.getHistoricoByIdUsoWorkflow.bind(UsarWorkflowDWR);
 		   this.tabelaAbaHistorico = FactoryTabelas.getNewTabela(this.getTBodyAbaHistorico());
-		   this.tabelaAbaHistorico.setRemoteCall(chamadaRemota);
-		   this.tabelaAbaHistorico.setCallBack(this.popularAbaHistorico);
+		   this.popularHistorico(usoWorkflow.historico);
 	   }
-	   this.tabelaAbaHistorico.setParametros(dto);
-	   this.tabelaAbaHistorico.executarChamadaRemota();
    },
 
    /**
-    * Popula a aba historico com a lista de historicos.
-    * 
-    * @param listaHistorico lista de uso de workflows retornados
-    */
-   popularAbaHistorico : function(listaHistorico) {
-	   usarWorkflow.tabelaAbaHistorico.removerResultado();
+	 * Popula a tabela de histórico com a lista de historicos.
+	 * 
+	 * @param {Array} listaHistorico lista de histórico
+	 */
+   popularHistorico : function(listaHistorico) {
+   	if(Object.isUndefined(listaHistorico)) {
+   		dwr.engine.setAsync(false);
+   	   UsarWorkflowDWR.getHistorico($F("idUsoWorkflow"), ( function(historicoAtualizado) {
+   	   	listaHistorico = historicoAtualizado;
+   	   }));
+   	   dwr.engine.setAsync(true);
+   	}
+	   this.tabelaAbaHistorico.removerResultado();
 
-	   if (listaHistorico.length != 0) {
-		   var cellfuncs = new Array();
-		   cellfuncs.push( function(historico) {
-			   return Builder.node("input", {
-			      type :"hidden",
-			      name :"id",
-			      value :"fake"
-			   });
+	   var cellfuncs = new Array();
+	   cellfuncs.push( function(historico) {
+		   return Builder.node("input", {
+		      type :"hidden",
+		      name :"idHora",
+		      value :historico.dataHora
 		   });
-		   cellfuncs.push( function(historico) {
-			   return getStringTimestamp(historico.dataHora);
-		   });
-		   cellfuncs.push( function(historico) {
-			   return "acao";
-		   });
-
-		   usarWorkflow.tabelaAbaHistorico.adicionarResultadoTabela(cellfuncs);
-	   } else {
-		   usarWorkflow.tabelaAbaHistorico.semRegistros("Não foram encontrados historicos");
-	   }
+	   });
+	   cellfuncs.push( function(historico) {
+		   return getStringTimestamp(historico.dataHora);
+	   });
+	   cellfuncs.push( function(historico) {
+		   return "usuario";
+	   });
+	   cellfuncs.push( function(historico) {
+		   return "acao";
+	   });
+	   this.tabelaAbaHistorico.adicionarResultadoTabela(cellfuncs, listaHistorico);
    },
+   
    /**
 	 * Habilita/desabilita os links se a tarefa está pendente para iniciar.
 	 * 
@@ -547,17 +548,17 @@ UsarWorkflow.prototype = {
    habilitarLinkProximaTarefa : function(habilita) {
 	   if (habilita) {
 		   // se habilita link de próximas tarefas, desabilita o de iniciar
-	$("linkIniciarTarefa").className = "btDesativado";
-	$("linkIniciarTarefa").onclick = "";
-	$("linkProximasTarefa").className = "";
-	$("linkProximasTarefa").onclick = Prototype.emptyFunction;
-} else {
-	$("linkIniciarTarefa").className = "";
-	$("linkIniciarTarefa").onclick = this.iniciarTarefa;
-	$("linkProximasTarefa").className = "btDesativado";
-	$("linkProximasTarefa").onclick = "";
-}
-},
+	   	$("linkIniciarTarefa").className = "btDesativado";
+	   	$("linkIniciarTarefa").onclick = "";
+	   	$("linkProximasTarefa").className = "";
+	   	$("linkProximasTarefa").onclick = Prototype.emptyFunction;
+	   } else {
+	   	$("linkIniciarTarefa").className = "";
+	   	$("linkIniciarTarefa").onclick = this.iniciarTarefa;
+	   	$("linkProximasTarefa").className = "btDesativado";
+	   	$("linkProximasTarefa").onclick = "";
+	   }
+   },
 
    /**
 	 * Inicia a tarefa aberta.

@@ -36,6 +36,7 @@ public class UsarWorkflowDWR extends BaseDWR {
 	public UsoWorkflow getById(Integer id) {
 		UsoWorkflow usoWorkflow = this.usoWorkflowBO.obter(id);
 		Hibernate.initialize(usoWorkflow.getCamposUsados());
+		Hibernate.initialize(usoWorkflow.getHistorico());
 		return usoWorkflow;
 	}
 
@@ -54,22 +55,15 @@ public class UsarWorkflowDWR extends BaseDWR {
 	}
 
 	/**
-	 * Recupera uma lista de historico do workflow pelo código identificador do uso workflow
+	 * Recupera o histórico do {@link UsoWorkflow}. <br>
+	 * obs: usado apenas para atualizar a tabela de histórico, sem precisar recuperar todo o uso
 	 * 
-	 * @param parametros parâmetros contendo o código identificador do uso workflow
-	 * @return lista de historico
+	 * @param id identificador do uso
+	 * @return {@link List} do {@link HistoricoUsoWorkflow}
 	 */
-	public ListaResultadoDTO<HistoricoUsoWorkflow> getHistoricoByIdUsoWorkflow(
-			PesquisaUsarWorkflowDTO parametros) {
-		Integer idUsoWorkflow = parametros.getIdUsoWorkflow();
-		List<HistoricoUsoWorkflow> listaHistorico =
-				this.usoWorkflowBO.getHistoricoByIdUsoWorkflow(idUsoWorkflow);
-
-		ListaResultadoDTO<HistoricoUsoWorkflow> resultado = new ListaResultadoDTO<HistoricoUsoWorkflow>();
-		resultado.setColecaoParcial(listaHistorico);
-
-		this.setTotalPesquisa(parametros, resultado, this.usoWorkflowBO);
-		return resultado;
+	public List<HistoricoUsoWorkflow> getHistorico(Integer id) {
+		UsoWorkflow usoWorkflow = this.usoWorkflowBO.obter(id);
+		return usoWorkflow.getHistorico();
 	}
 
 	/**
