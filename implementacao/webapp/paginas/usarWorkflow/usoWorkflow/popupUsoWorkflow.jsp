@@ -6,7 +6,7 @@
 <fieldset style="margin: 5pt auto; padding: 10px;">
 	<div id="divMenuOpcoes">
 		<html:link href="#iniciarTarefa" titleKey="dica.iniciarTarefa" linkName="iniciarTarefa" 
-			styleClass="btDesativado" styleId="linkIniciarTarefa" style="margin-right: 10px;">
+			styleClass="btDesativado" styleId="linkIniciarTarefa" >
 			<html:img srcKey="imagem.iniciarTarefa" width="20" height="19"/>
 		</html:link>
 		<html:link href="#proximasTarefa" titleKey="dica.tarefa.proximas" linkName="proximasTarefa" 
