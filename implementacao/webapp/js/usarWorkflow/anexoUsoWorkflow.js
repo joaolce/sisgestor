@@ -29,6 +29,7 @@ AnexoUsoWorkflow.prototype = {
 	      ( function() {
 		      if (requestUtils.status) {
 			      JanelaFactory.getJanelaById("divVisualizarAnexos").recarregarConteudo();
+			      usarWorkflow.popularHistorico();
 		      }
 	      }).bind(this));
    },
@@ -50,6 +51,7 @@ AnexoUsoWorkflow.prototype = {
 	      function() {
 		      window.parent.JanelaFactory.fecharJanela("divInserirArquivoAnexo");
 	      });
+	   window.parent.usarWorkflow.popularHistorico();
 	   window.parent.JanelaFactory.getJanelaById("divVisualizarAnexos").recarregarConteudo();
    }
 };
