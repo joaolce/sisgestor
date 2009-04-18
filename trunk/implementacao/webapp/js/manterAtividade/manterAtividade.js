@@ -69,6 +69,7 @@ ManterAtividade.prototype = {
 	 */
    pesquisar : function() {
 	   Effect.Fade("formAtualizarAtividade");
+	   this.habilitarLinks(false);
 	   var dto = {
 	      nome :dwr.util.getValue("nomePesquisaAtividade"),
 	      descricao :dwr.util.getValue("descricaoPesquisaAtividade"),

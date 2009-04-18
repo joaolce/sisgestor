@@ -371,7 +371,7 @@ UsarWorkflow.prototype = {
 		      dwr.util.setValue("nomeTarefa", nomeTarefa);
 		      dwr.util.setValue("descricaoTarefa", descricaoTarefa);
 		      this.carregarCampos(listaCamposUsados);
-		      this.habilitarLinks(!this.editarCampos);
+		      this.habilitarLinkProximaTarefa(this.editarCampos);
 	      }).bind(this));
 	   janela.setOnClose(( function() {
 		   this.houveAlteracao = false;
@@ -465,13 +465,18 @@ UsarWorkflow.prototype = {
 	 * 
 	 * @param (Boolean) caso seja para habilitar ou desabilitar
 	 */
-   habilitarLinks : function(habilita) {
+   habilitarLinkProximaTarefa : function(habilita) {
 	   if (habilita) {
-		   $("linkIniciarTarefa").className = "";
-		   $("linkIniciarTarefa").onclick = this.iniciarTarefa;
+	   	//se habilita link de próximas tarefas, desabilita o de iniciar
+	   	$("linkIniciarTarefa").className = "btDesativado";
+	   	$("linkIniciarTarefa").onclick = "";
+	   	$("linkProximasTarefa").className = "";
+	   	$("linkProximasTarefa").onclick = Prototype.emptyFunction;
 	   } else {
-		   $("linkIniciarTarefa").className = "btDesativado";
-		   $("linkIniciarTarefa").onclick = "";
+	   	$("linkIniciarTarefa").className = "";
+	   	$("linkIniciarTarefa").onclick = this.iniciarTarefa;
+	   	$("linkProximasTarefa").className = "btDesativado";
+	   	$("linkProximasTarefa").onclick = "";
 	   }
    },
 
@@ -486,7 +491,7 @@ UsarWorkflow.prototype = {
 				      dwr.util.setValue("dataHoraInicioTarefa", data.value);
 			      }));
 			      usarWorkflow.habilitarCampos();
-			      usarWorkflow.habilitarLinks(false);
+			      usarWorkflow.habilitarLinkProximaTarefa(true);
 			      usarWorkflow.pesquisar();
 		      }
 	      }));
