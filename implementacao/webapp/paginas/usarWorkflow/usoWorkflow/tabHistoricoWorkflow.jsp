@@ -1,6 +1,6 @@
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 
-<table align="center" style="width: 90%">
+<table align="center" style="width: 99.9%">
 	<thead>
 		<tr>
 			<th style="display: none;">&nbsp;</th>

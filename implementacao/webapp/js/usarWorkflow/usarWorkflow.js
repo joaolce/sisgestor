@@ -428,6 +428,7 @@ UsarWorkflow.prototype = {
    observarAlteracoes : function(campo) {
 	   var callback = ( function() {
 		   this.houveAlteracao = true;
+		   $("botaoSalvarUso").enable();
 	   }).bind(this);
 
 	   observarAlteracao(campo, callback);
