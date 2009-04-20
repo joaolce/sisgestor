@@ -6,7 +6,9 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 
 import br.com.ucb.sisgestor.apresentacao.forms.AnexoUsoWorkflowActionForm;
 import br.com.ucb.sisgestor.entidade.Anexo;
+import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.negocio.AnexoBO;
+import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
@@ -26,7 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class AnexoUsoWorkflowAction extends BaseAction {
 
-	private AnexoBO	anexoBO;
+	private AnexoBO			anexoBO;
+	private UsoWorkflowBO	usoWorkflowBO;
 
 	/**
 	 * Faz o download do anexo solicitado.
@@ -54,7 +57,12 @@ public class AnexoUsoWorkflowAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		AnexoUsoWorkflowActionForm form = (AnexoUsoWorkflowActionForm) actionForm;
 
-		form.setAnexos(this.anexoBO.getAnexosByUsoWorkflow(form.getUsoWorkflow()));
+		UsoWorkflow usoWorkflow = this.usoWorkflowBO.obter(form.getUsoWorkflow());
+		if (usoWorkflow.getDataHoraInicio() != null) {
+			request.setAttribute("TarefaIniciada", Boolean.TRUE);
+		}
+
+		form.setAnexos(this.anexoBO.getAnexosByUsoWorkflow(usoWorkflow.getId()));
 
 		return this.findForward(FWD_ENTRADA);
 	}
@@ -151,6 +159,16 @@ public class AnexoUsoWorkflowAction extends BaseAction {
 	@Autowired
 	public void setAnexoBO(AnexoBO anexoBO) {
 		this.anexoBO = anexoBO;
+	}
+
+	/**
+	 * Atribui o BO de {@link UsoWorkflow}.
+	 * 
+	 * @param usoWorkflowBO BO de {@link UsoWorkflow}
+	 */
+	@Autowired
+	public void setUsoWorkflowBO(UsoWorkflowBO usoWorkflowBO) {
+		this.usoWorkflowBO = usoWorkflowBO;
 	}
 
 	/**
