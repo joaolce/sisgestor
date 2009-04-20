@@ -156,9 +156,10 @@ UsarWorkflow.prototype = {
    /**
 	 * Cria um elemento para o campo definido.
 	 * 
-	 * @param campo Campo
+	 * @param {Object} Campo
+	 * @return {Object} Elemento a ser adicionado na página
 	 */
-   getCampo : function(campo) {
+   _getCampo : function(campo) {
 	   var tipoCampo = campo.tipo;
 	   var defaultValue = "";
 	   var mascara = "";
@@ -178,8 +179,7 @@ UsarWorkflow.prototype = {
 		   spanObrigatorio.innerHTML = "&nbsp;*";
 	   }
 
-	   if ((tipoCampo == this.tipoTexto) || (tipoCampo == this.tipoData)
-	      || (tipoCampo == this.tipoHora)) {
+	   if (!this._isListaOpcoesOrMultiplaEscolha(tipoCampo)) {
 		   tipo = "text";
 		   if (tipoCampo == this.tipoData) {
 			   mascara = this.mascaraData;
@@ -206,19 +206,22 @@ UsarWorkflow.prototype = {
 			   MaskInput(input, mascara);
 		   }
 		   return Builder.node("div", [
-		      Builder.node("br"),
-		      Builder.node("label", [ document.createTextNode(campo.nome), spanObrigatorio,
-		         Builder.node("br"), input ]) ]);
+		                  Builder.node("br"),
+		                  Builder.node("label", [ 
+		                          document.createTextNode(campo.nome), 
+		                          spanObrigatorio,
+		                          Builder.node("br"), 
+		                          input
+		                  ])
+		    ]);
 	   } else {
 		   var elementOpcao;
 		   var divOpcao;
 
 		   if (tipoCampo == this.tipoOpcoes) {
 			   tipo = "checkbox";
-			   idCampo = "ListaOpcoes";
 		   } else {
 			   tipo = "radio";
-			   idCampo = "MultiplaEscolha";
 		   }
 
 		   var legenda = Builder.node("legend", {
@@ -227,15 +230,12 @@ UsarWorkflow.prototype = {
 		   legenda.innerHTML = campo.nome;
 		   legenda.appendChild(spanObrigatorio);
 
-		   input = Builder.node("fieldset", {
-			   style :"padding: 10px; float:left;"
-		   }, [ legenda ]);
+		   input = Builder.node("fieldset", { style :"padding: 10px; float:left;"}, [ 
+		                   legenda]);
 
 		   // Para cada opção do campo, cria um elemento e adiciona ao fieldset
 		   campo.opcoes.each(( function(opcao) {
-			   divOpcao = Builder.node("div", {
-				   style :"margin-top: 2px;"
-			   });
+			   divOpcao = Builder.node("div", {style :"margin-top: 2px;"});
 			   elementOpcao = Builder.node("input", {
 			      type :tipo,
 			      value :opcao.valor,
@@ -250,7 +250,6 @@ UsarWorkflow.prototype = {
 			   divOpcao.appendChild(elementOpcao);
 			   divOpcao.appendChild(document.createTextNode(" " + opcao.descricao));
 			   divOpcao.appendChild(Builder.node("br"));
-
 			   input.appendChild(divOpcao);
 		   }).bind(this));
 
@@ -416,7 +415,7 @@ UsarWorkflow.prototype = {
 		      dwr.util.setValue("descricaoTarefa", descricaoTarefa);
 		      this.carregarCampos(listaCamposUsados);
 		      this.habilitarLinkProximaTarefa(this.editarCampos);
-		      this.carregaHistorico(usoWorkflow);
+		      this.carregarHistorico(usoWorkflow);
 	      }).bind(this));
 	   janela.removerBotaoFechar();
    },
@@ -462,7 +461,7 @@ UsarWorkflow.prototype = {
 
 	   UsarWorkflowDWR.getCamposByIdUsoWorkflow(idUsoWorkflow, ( function(listaCampos) {
 		   listaCampos.each(( function(campo) {
-			   divCampo = this.getCampo(campo);
+			   divCampo = this._getCampo(campo);
 			   if (resto == 0) {
 				   div1.appendChild(divCampo);
 			   } else if (resto == 1) {
@@ -475,46 +474,25 @@ UsarWorkflow.prototype = {
 			   aux++;
 			   resto = aux % 4;
 		   }).bind(this));
-		   this.preencherCampos(listaCamposUsados);
+		   this._preencherCampos(listaCamposUsados);
 	   }).bind(this));
    },
 
    /**
-	 * Seta os valores do campo na página
+	 * Seta os valores do campo na página.
 	 * 
 	 * @param {Array} Lista dos campos usados
 	 */
-   preencherCampos : function(listaCamposUsados) {
+   _preencherCampos : function(listaCamposUsados) {
 	   var tipoCampo;
-	   var valorCampo;
 
 	   // Caso a lista estiver vazia, nem executa
-	   listaCamposUsados.each(( function(campoUsoWorkflow) {
+	   listaCamposUsados.each((function(campoUsoWorkflow) {
 		   tipoCampo = campoUsoWorkflow.campo.tipo;
-		   valorCampo = campoUsoWorkflow.valor;
-		   if ((tipoCampo == usarWorkflow.tipoTexto) || (tipoCampo == usarWorkflow.tipoData)
-		      || (tipoCampo == usarWorkflow.tipoHora)) {
-			   $("tabCampos").select("input[type=\"text\"]").each( function(input) {
-				   if (parseInt($(input).id.substring(5)) == campoUsoWorkflow.campo.id) {
-					   $(input).value = valorCampo;
-				   }
-			   });
+		   if (!usarWorkflow._isListaOpcoesOrMultiplaEscolha(tipoCampo)) {
+			   usarWorkflow._preencherCampo(campoUsoWorkflow.campo.id, campoUsoWorkflow.valor);
 		   } else {
-			   if (tipoCampo == usarWorkflow.tipoOpcoes) {
-				   $("tabCampos").select("input[type=\"checkbox\"]").each( function(input) {
-					   if (( (parseInt($(input).name.substring(5))) == campoUsoWorkflow.campo.id) && 
-							   (valorCampo.indexOf($(input).value) != -1)) {
-						   $(input).checked = true;
-					   }
-				   });
-			   } else {
-				   $("tabCampos").select("input[type=\"radio\"]").each( function(input) {
-					   if (( (parseInt($(input).name.substring(5))) == campoUsoWorkflow.campo.id) && 
-							   (valorCampo.indexOf($(input).value) != -1)) {
-						   $(input).checked = true;
-					   }
-				   });
-			   }
+			   usarWorkflow._preencherCampoComOpcoes(campoUsoWorkflow.campo.id, campoUsoWorkflow.valor, tipoCampo);
 		   }
 	   }));
    },
@@ -524,7 +502,7 @@ UsarWorkflow.prototype = {
 	 * 
 	 * @param {Object} usoWorkflow uso do workflow
 	 */
-   carregaHistorico : function(usoWorkflow) {
+   carregarHistorico : function(usoWorkflow) {
 	   if ((this.tabelaAbaHistorico == null)
 	      || (this.tabelaAbaHistorico.getTabela() != this.getTBodyAbaHistorico())) {
 		   this.tabelaAbaHistorico = FactoryTabelas.getNewTabela(this.getTBodyAbaHistorico());
@@ -540,10 +518,10 @@ UsarWorkflow.prototype = {
    popularHistorico : function(listaHistorico) {
    	if(Object.isUndefined(listaHistorico)) {
    	   UsarWorkflowDWR.getHistorico($F("idUsoWorkflow"), ( function(historicoAtualizado) {
-   	   	usarWorkflow._preencheHistorico(historicoAtualizado);
+   	   	usarWorkflow._preencherHistorico(historicoAtualizado);
    	   }));
    	} else {
-   		usarWorkflow._preencheHistorico(listaHistorico);
+   		usarWorkflow._preencherHistorico(listaHistorico);
    	}
    },
    
@@ -552,7 +530,7 @@ UsarWorkflow.prototype = {
     * 
     * @param {Array} listaHistorico lista de histórico
     */
-   _preencheHistorico : function(listaHistorico) {
+   _preencherHistorico : function(listaHistorico) {
    	this.tabelaAbaHistorico.removerResultado();
 
 	   var cellfuncs = new Array();
@@ -655,8 +633,65 @@ UsarWorkflow.prototype = {
    },
    
    /**
-    * Executado quando o usuário não quer salvar as alterações.
-    */
+	 * Verifica se o campo é do tipo lista de opções ou múltipla escolha.
+	 * @param {String} tipo do campo 
+	 * @return <code>true</code>, se for lsita de opções ou múltipla escolha; 
+	 * <code>false</code>, se for texto, data ou hora
+	 */
+	_isListaOpcoesOrMultiplaEscolha : function(tipoCampo) {
+	   if ((tipoCampo == usarWorkflow.tipoTexto) || (tipoCampo == usarWorkflow.tipoData)
+	      || (tipoCampo == usarWorkflow.tipoHora)) {
+		   return false;
+	   }
+	   return true;
+	},
+	
+	/**
+	 * Preenche os campos do tipo data, hora e texto.
+	 * 
+	 * {Number} Código identificador do campo
+	 * {String} Valor a ser setado. 
+	 */
+	_preencherCampo : function(idCampo, valor) {
+		$("tabCampos").select("input[type=\"text\"]").each(function(input) {
+			if (parseInt($(input).id.substring(5)) == idCampo) {
+				$(input).value = valor;
+			}
+		});
+	},
+	
+	/**
+	 * Preenche os campos de múltipla escolha e lista de opções.
+	 * 
+	 * {Number} Código identificador do campo
+	 * {String} Valor a ser setado. 
+	 * {String} Tipo do campo a ser setado 
+	 * 
+	 * Obs.: Nesse caso, o valor do campo conterá quais opções deverão estar marcadas (checked)  
+	 */
+	_preencherCampoComOpcoes : function(idCampo, valor, tipoCampo) {
+		if (tipoCampo == usarWorkflow.tipoOpcoes) {
+			$("tabCampos").select("input[type=\"checkbox\"]").each(function(input) {
+				//Se o valor do campo está contido em algum value do input, deve ser setado
+				if (((parseInt($(input).name.substring(5))) == idCampo)
+						&& (valor.indexOf($(input).value) != -1)) {
+					$(input).checked = true;
+				}
+			});
+		} else {
+			$("tabCampos").select("input[type=\"radio\"]").each(function(input) {
+				//Se o valor do campo está contido em algum value do input, deve ser setado
+				if (((parseInt($(input).name.substring(5))) == idCampo)
+						&& (valor.indexOf($(input).value) != -1)) {
+					$(input).checked = true;
+				}
+			});
+		}
+	},
+   
+   /**
+	 * Executado quando o usuário não quer salvar as alterações.
+	 */
    sairSemSalvar : function(){
    	this.houveAlteracao = false;
    	JanelaFactory.fecharJanela("divUsoWorkflow");
