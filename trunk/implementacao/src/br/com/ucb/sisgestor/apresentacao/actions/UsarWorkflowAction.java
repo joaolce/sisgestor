@@ -33,6 +33,25 @@ public class UsarWorkflowAction extends BaseAction {
 	private TarefaBO			tarefaBO;
 
 	/**
+	 * Salva as alterações em {@link UsoWorkflow}.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return <code>null</code>
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward confirmar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
+		//Desenvolvendo
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		ajaxResponse.setStatus(true);
+		return this.sendAJAXResponse(ajaxResponse);
+	}
+
+	/**
 	 * Dá inicio a tarefa do {@link UsoWorkflow}.
 	 * 
 	 * @param mapping objeto mapping da action
