@@ -33,5 +33,8 @@
 		<label>
 			<bean:message key="mensagem.acessoTarefa" />
 		</label>
+		<html:link styleId="botaoUsarTarefa" href="#">
+			<bean:message key="link.cliqueAqui"/>
+		</html:link>
 	</div>
 </div>
