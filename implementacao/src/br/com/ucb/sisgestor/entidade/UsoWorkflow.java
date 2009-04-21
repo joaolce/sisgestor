@@ -38,6 +38,7 @@ public class UsoWorkflow extends ObjetoPersistente {
 	private Tarefa								tarefa;
 	private List<Anexo>						anexos;
 	private List<CampoUsoWorkflow>		camposUsados;
+	private Boolean							usoFinalizado;
 
 	/**
 	 * Recupera os anexos da utilização do {@link Workflow}.
@@ -121,6 +122,16 @@ public class UsoWorkflow extends ObjetoPersistente {
 	}
 
 	/**
+	 * Recupera se o uso foi finalizado.
+	 * 
+	 * @return se o uso foi finalizado
+	 */
+	@Column(name = "UWR_FINALIZADO", nullable = false)
+	public Boolean getUsoFinalizado() {
+		return this.usoFinalizado;
+	}
+
+	/**
 	 * Recupera o {@link Workflow} que está sendo usado.
 	 * 
 	 * @return {@link Workflow} que está sendo usado
@@ -187,6 +198,14 @@ public class UsoWorkflow extends ObjetoPersistente {
 		this.tarefa = tarefa;
 	}
 
+	/**
+	 * Atribui se o uso foi finalizado.
+	 * 
+	 * @param usoFinalizado se o uso foi finalizado
+	 */
+	public void setUsoFinalizado(Boolean usoFinalizado) {
+		this.usoFinalizado = usoFinalizado;
+	}
 
 	/**
 	 * Atribui o {@link Workflow} que está sendo usado.

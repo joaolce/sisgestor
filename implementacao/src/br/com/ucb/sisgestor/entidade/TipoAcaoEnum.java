@@ -25,7 +25,9 @@ public enum TipoAcaoEnum implements CodigoDescricao {
 	/** Início da tarefa. */
 	INICIO_TAREFA(5, "Início da tarefa"),
 	/** Finalização da tarefa. */
-	FINALIZAR_TAREFA(6, "Finalização da tarefa");
+	FINALIZAR_TAREFA(6, "Finalização da tarefa"),
+	/** Finalização do registro do uso. */
+	FINALIZAR_USO(7, "Finalização do registro");
 
 	private Integer	chave;
 	private String		descricao;

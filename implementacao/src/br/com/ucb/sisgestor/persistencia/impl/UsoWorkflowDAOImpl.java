@@ -94,6 +94,7 @@ public class UsoWorkflowDAOImpl extends BaseDAOImpl<UsoWorkflow> implements UsoW
 	 */
 	private Criteria montarCriteriosPaginacao(Usuario usuario) {
 		Criteria criteria = this.createCriteria(UsoWorkflow.class);
+		criteria.add(Restrictions.eq("this.usoFinalizado", Boolean.FALSE));
 		Disjunction disjunction = Restrictions.disjunction();
 		criteria.createAlias("this.tarefa", "tarefa");
 		disjunction.add(Restrictions.eq("tarefa.usuario", usuario));

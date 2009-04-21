@@ -18,6 +18,11 @@ ManterCampo.prototype = {
    tiposCampo :null,
 
    /**
+    * Número máximo de opções para lista de opções e múltipla escolha.
+    */
+   MAXIMO_OPCOES : 20,
+   
+   /**
 	 * @constructor
 	 */
    initialize : function() {
@@ -295,11 +300,19 @@ ManterCampo.prototype = {
 	   var novaOpcao = novo ? "opcaoNovoCampo" : "opcaoCampo";
 	   var comboOpcoes = novo ? "opcoesNovoCampo" : "opcoesCampo";
 
-	   var opcao = dwr.util.getValue(novaOpcao);
-	   if (!opcao.empty()) {
-		   dwr.util.addOptions(comboOpcoes, [ opcao ]);
-		   ComboFunctions.ordenarOptions(comboOpcoes);
-		   $(novaOpcao).clear();
+	   if ($(comboOpcoes).options.length >= this.MAXIMO_OPCOES) {
+		   JanelasComuns.showInformation("Número máximo de opções permitidas: " + this.MAXIMO_OPCOES);
+	   } else {
+		   var opcao = dwr.util.getValue(novaOpcao);
+		   if (!opcao.empty()) { //opção em branco
+			   if (ComboFunctions.getAllOptionInnerLabel(comboOpcoes).include(opcao)) { //já existe a opção
+			   	JanelasComuns.showInformation("A opção '"+ opcao + "' já foi adicionada!");
+			   } else {
+				   dwr.util.addOptions(comboOpcoes, [ opcao ]);
+				   ComboFunctions.ordenarOptions(comboOpcoes);
+				   $(novaOpcao).clear();
+			   }
+		   }
 	   }
    }
 };

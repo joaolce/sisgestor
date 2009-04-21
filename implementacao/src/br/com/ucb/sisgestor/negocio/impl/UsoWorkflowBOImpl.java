@@ -6,8 +6,10 @@ package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.CampoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
+import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.TipoAcaoEnum;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
+import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
@@ -33,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWorkflowBO {
 
 	private UsoWorkflowDAO	usoWorkflowDAO;
+	private TarefaBO			tarefaBO;
 
 	/**
 	 * {@inheritDoc}
@@ -74,10 +77,18 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-	public void modificarTarefa(UsoWorkflow usoWorkflow) {
-		usoWorkflow.setDataHoraInicio(null); // para que o novo usuário possa iniciar sua tarefa
+	public void modificarTarefa(UsoWorkflow usoWorkflow, Integer idTarefa) throws NegocioException {
+		TipoAcaoEnum acaoOcorrida;
+		if (idTarefa == -1) { //finalização do workflow
+			usoWorkflow.setUsoFinalizado(Boolean.TRUE);
+			acaoOcorrida = TipoAcaoEnum.FINALIZAR_USO;
+		} else {
+			usoWorkflow.setDataHoraInicio(null); // para que o novo usuário possa iniciar sua tarefa
+			usoWorkflow.setTarefa(this.getTarefaBO().obter(idTarefa));
+			acaoOcorrida = TipoAcaoEnum.FINALIZAR_TAREFA;
+		}
 		this.usoWorkflowDAO.atualizar(usoWorkflow);
-		this.gerarHistorico(usoWorkflow, TipoAcaoEnum.FINALIZAR_TAREFA);
+		this.gerarHistorico(usoWorkflow, acaoOcorrida);
 	}
 
 	/**
@@ -109,6 +120,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public Integer salvar(UsoWorkflow usoWorkflow) throws NegocioException {
+		usoWorkflow.setUsoFinalizado(Boolean.FALSE);
 		this.gerarNumeroDoRegistro(usoWorkflow, DataUtil.getAno(DataUtil.getDataAtual()));
 		Integer id = this.usoWorkflowDAO.salvar(usoWorkflow);
 		this.gerarHistorico(usoWorkflow, TipoAcaoEnum.INICIO_USO);
@@ -287,6 +299,18 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 			listaCamposAtualizar.addAll(this.getCampoUsoWorkflowComplexo(camposRadioCheckbox, listaCampos));
 		}
 		return listaCamposAtualizar;
+	}
+
+	/**
+	 * Recupera o BO de {@link Tarefa}.
+	 * 
+	 * @return BO de {@link Tarefa}
+	 */
+	private TarefaBO getTarefaBO() {
+		if (this.tarefaBO == null) {
+			this.tarefaBO = Utils.getBean(TarefaBO.class);
+		}
+		return this.tarefaBO;
 	}
 
 	/**

@@ -166,10 +166,15 @@ public class UsarWorkflowAction extends BaseAction {
 		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
 
 		UsoWorkflow usoWorkflow = this.usoWorkflowBO.obter(form.getId());
-		this.copyProperties(usoWorkflow, form);
-		this.usoWorkflowBO.modificarTarefa(usoWorkflow);
+		Integer idTarefa = form.getTarefa();
 
-		this.addMessageKey("mensagem.usoWorkflow.tarefaModificada");
+		this.usoWorkflowBO.modificarTarefa(usoWorkflow, idTarefa);
+
+		if (idTarefa == -1) {
+			this.addMessageKey("mensagem.usoWorkflow.finalizado");
+		} else {
+			this.addMessageKey("mensagem.usoWorkflow.tarefaModificada");
+		}
 		return this.sendAJAXResponse(true);
 	}
 
