@@ -161,44 +161,42 @@ UsarWorkflow.prototype = {
 	 */
    _getCampo : function(campo) {
 	   var tipoCampo = campo.tipo;
-	   var defaultValue = "";
-	   var mascara = "";
-	   var estilo = "";
 	   var descricao = "";
 	   var tipo;
 	   var input;
 	   var identificador = "campo" + campo.id;
-	   var spanObrigatorio = Builder.node("span");
-	   $(spanObrigatorio).className = "obrigatorio";
-
+	   var spanObrigatorio = this._getSpanObrigatorio(campo.obrigatorio);
 	   if (!isBlankOrNull(campo.descricao)) {
 		   descricao = campo.descricao;
 	   }
 
-	   if (campo.obrigatorio) {
-		   spanObrigatorio.innerHTML = "&nbsp;*";
-	   }
-
 	   if (!this._isListaOpcoesOrMultiplaEscolha(tipoCampo)) {
+	   	var mascara;
+	   	var estilo;
+	   	var maxLength;
 		   tipo = "text";
 		   if (tipoCampo == this.tipoData) {
 			   mascara = this.mascaraData;
-			   estilo = "width: 80px;";
+			   estilo = "width: 70px;";
+			   maxLength = 10;
 		   } else if (tipoCampo == this.tipoHora) {
 			   mascara = this.mascaraHora;
-			   estilo = "width: 50px;";
+			   estilo = "width: 40px;";
+			   maxLength = 5;
 		   } else {
+		   	mascara = "";
 			   estilo = "width: 220px;";
+			   maxLength = 100;
 		   }
 		   input = Builder.node("input", {
 		      type :tipo,
-		      value :defaultValue,
 		      name :identificador,
 		      id :identificador,
 		      title :descricao,
-		      style :estilo
+		      style :estilo,
+		      maxlength :maxLength
 		   });
-		   this.observarAlteracoes(input);
+		   this._observarAlteracoes(input);
 		   if (!usarWorkflow.editarCampos) {
 			   $(input).disable();
 		   }
@@ -226,12 +224,11 @@ UsarWorkflow.prototype = {
 
 		   var legenda = Builder.node("legend", {
 			   title :descricao
-		   });
-		   legenda.innerHTML = campo.nome;
-		   legenda.appendChild(spanObrigatorio);
+		   }, [ document.createTextNode(campo.nome), spanObrigatorio ]);
 
-		   input = Builder.node("fieldset", { style :"padding: 10px; float:left;"}, [ 
-		                   legenda]);
+		   input = Builder.node("fieldset", {
+			   style :"padding: 10px; float:left;"
+		   }, [ legenda ]);
 
 		   // Para cada opção do campo, cria um elemento e adiciona ao fieldset
 		   campo.opcoes.each(( function(opcao) {
@@ -240,10 +237,9 @@ UsarWorkflow.prototype = {
 			      type :tipo,
 			      value :opcao.valor,
 			      name :identificador,
-			      id :"opcao" + opcao.id,
-			      style :estilo
+			      id :"opcao" + opcao.id
 			   });
-			   this.observarAlteracoes(elementOpcao);
+			   this._observarAlteracoes(elementOpcao);
 			   if (!usarWorkflow.editarCampos) {
 				   $(elementOpcao).disable();
 			   }
@@ -428,7 +424,7 @@ UsarWorkflow.prototype = {
 	 * 
 	 * @param campo campo a ser observado
 	 */
-   observarAlteracoes : function(campo) {
+   _observarAlteracoes : function(campo) {
 	   var callback = ( function() {
 		   this.houveAlteracao = true;
 		   $("botaoSalvarUso").enable();
@@ -701,7 +697,7 @@ UsarWorkflow.prototype = {
 	 * 
 	 * @param {String}
 	 *            tipo do campo
-	 * @return <code>true</code>, se for lsita de opções ou múltipla escolha;
+	 * @return <code>true</code>, se for lista de opções ou múltipla escolha;
 	 *         <code>false</code>, se for texto, data ou hora
 	 */
 	_isListaOpcoesOrMultiplaEscolha : function(tipoCampo) {
@@ -790,6 +786,22 @@ UsarWorkflow.prototype = {
 			   JanelaFactory.fecharJanelaAtiva(); // fecha janela do uso
 		   }
 	   }));
+   },
+   
+   /**
+	 * Recupera o span de campo obrigatório.
+	 * 
+	 * @param {Boolean} obrigatorio caso o campo seja obrigatório
+	 * @return span criado
+	 */
+   _getSpanObrigatorio : function(obrigatorio) {
+	   var span = Builder.node("span", {
+		   CLASS :"obrigatorio"
+	   });
+	   if (obrigatorio) {
+		   span.innerHTML = "&nbsp;*";
+	   }
+	   return span;
    }
 };
 
