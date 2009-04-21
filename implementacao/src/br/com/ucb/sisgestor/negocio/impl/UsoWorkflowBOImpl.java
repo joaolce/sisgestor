@@ -44,8 +44,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void atualizar(UsoWorkflow usoWorkflow) throws NegocioException {
-		this.usoWorkflowDAO.atualizar(usoWorkflow);
-		this.gerarHistorico(usoWorkflow, TipoAcaoEnum.ALTERACAO_CAMPOS);
+		throw new UnsupportedOperationException("erro.operacaoNaoSuportada");
 	}
 
 	/**
@@ -144,7 +143,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void salvarValoresCampos(String[] valores, Integer idUsoWorkflow) throws NegocioException {
 		List<CampoUsoWorkflow> listaCampos = this.getCamposUsoWorkflowByIdUsoWorkflow(idUsoWorkflow);
-		UsoWorkflow usoWorkflow = this.obter(idUsoWorkflow);
+		UsoWorkflow usoWorkflow = this.usoWorkflowDAO.obter(idUsoWorkflow);
 		usoWorkflow.setCamposUsados(this.getListaCamposAtualizar(listaCampos, valores));
 		this.usoWorkflowDAO.atualizar(usoWorkflow);
 		this.gerarHistorico(usoWorkflow, TipoAcaoEnum.ALTERACAO_CAMPOS);
@@ -322,10 +321,13 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 * @param usoWorkflow {@link UsoWorkflow} usado
 	 */
 	private void notificarUsuarioTarefa(UsoWorkflow usoWorkflow) {
-		Usuario usuarioTarefa = usoWorkflow.getTarefa().getUsuario();
+		Tarefa tarefa = usoWorkflow.getTarefa();
+		Usuario usuarioTarefa = tarefa.getUsuario();
 		String emailUsuario = usuarioTarefa.getEmail();
 		if (StringUtils.isNotBlank(emailUsuario)) {
-			String corpoEmail = "TESTE";
+			String corpoEmail =
+					"A tarefa '" + tarefa.getNome() + "' está sob sua responsabilidade, referente ao registro: "
+							+ usoWorkflow.getNumeroRegistro();
 			this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR, Constantes.ASSUNTO_EMAIL_TAREFA_TRANSFERIDA,
 					corpoEmail, emailUsuario);
 		}
