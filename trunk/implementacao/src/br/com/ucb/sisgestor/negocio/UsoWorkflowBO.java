@@ -31,8 +31,10 @@ public interface UsoWorkflowBO extends BaseBO<UsoWorkflow> {
 	 * Modifica a {@link Tarefa} atual do {@link UsoWorkflow} para a especificada.
 	 * 
 	 * @param usoWorkflow {@link UsoWorkflow} a atualizar a tarefa
+	 * @param idTarefa identificador da nova tarefa
+	 * @throws NegocioException caso regra de negócio seja violada
 	 */
-	void modificarTarefa(UsoWorkflow usoWorkflow);
+	void modificarTarefa(UsoWorkflow usoWorkflow, Integer idTarefa) throws NegocioException;
 
 	/**
 	 * Recupera a lista de workflows em uso com {@link Tarefa} pendente do {@link Usuario} atual.

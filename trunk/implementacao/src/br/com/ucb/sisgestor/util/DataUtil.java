@@ -255,7 +255,7 @@ public final class DataUtil {
 	 * @return data e hora atual
 	 */
 	public static Timestamp getDataHoraAtual() {
-		return utilDateToTimestamp(getDataAtual());
+		return new Timestamp(System.currentTimeMillis());
 	}
 
 	/**
