@@ -159,49 +159,12 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 		List<Tarefa> proximasTarefas = new ArrayList<Tarefa>();
 		Tarefa tarefa = usoWorkflow.getTarefa();
 		List<TransacaoTarefa> transacoesTarefa = tarefa.getTransacoesPosteriores();
-		if (CollectionUtils.isNotEmpty(transacoesTarefa)) {
-			//existem tarefas dentro da mesma atividade
+		if (CollectionUtils.isNotEmpty(transacoesTarefa)) { //existem tarefas dentro da mesma atividade
 			for (TransacaoTarefa transacaoTarefa : transacoesTarefa) {
 				proximasTarefas.add(transacaoTarefa.getPosterior());
 			}
-		} else {
-			//é tarefa final de atividade
-			Atividade atividadeAtual = tarefa.getAtividade();
-			List<TransacaoAtividade> transacoesAtividade = atividadeAtual.getTransacoesPosteriores();
-			if (CollectionUtils.isNotEmpty(transacoesAtividade)) {
-				List<Atividade> proximasAtividades = new ArrayList<Atividade>();
-				for (TransacaoAtividade transacaoAtividade : transacoesAtividade) {
-					proximasAtividades.add(transacaoAtividade.getPosterior());
-				}
-				for (Atividade proximaAtividade : proximasAtividades) {
-					for (Tarefa proximaTarefa : proximaAtividade.getTarefas()) {
-						if (CollectionUtils.isEmpty(proximaTarefa.getTransacoesAnteriores())) {
-							proximasTarefas.add(proximaTarefa);
-						}
-					}
-				}
-			} else {
-				// é atividade final de processo
-				Processo processoAtual = atividadeAtual.getProcesso();
-				List<TransacaoProcesso> transacoesProcesso = processoAtual.getTransacoesPosteriores();
-				if (CollectionUtils.isNotEmpty(transacoesProcesso)) {
-					List<Processo> proximosProcessos = new ArrayList<Processo>();
-					for (TransacaoProcesso transacaoProcesso : transacoesProcesso) {
-						proximosProcessos.add(transacaoProcesso.getPosterior());
-					}
-					for (Processo proximoProcesso : proximosProcessos) {
-						for (Atividade proximaAtividade : proximoProcesso.getAtividades()) {
-							if (CollectionUtils.isEmpty(proximaAtividade.getTransacoesAnteriores())) {
-								for (Tarefa proximaTarefa : proximaAtividade.getTarefas()) {
-									if (CollectionUtils.isEmpty(proximaTarefa.getTransacoesAnteriores())) {
-										proximasTarefas.add(proximaTarefa);
-									}
-								}
-							}
-						}
-					}
-				}
-			}
+		} else { //é tarefa final de atividade
+			this.verificarProximasTarefasDoUsoPelaAtividade(tarefa.getAtividade(), proximasTarefas);
 		}
 		return proximasTarefas;
 	}
@@ -350,5 +313,58 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 
 		this.validarFluxos(lista, exceptionIsolado, exceptionInicial, exceptionFinal, mapAnteriores,
 				mapPosteriores);
+	}
+
+	/**
+	 * Verifica quais são as próximas tarefas disponíveis para o {@link UsoWorkflow} a partir de uma nova
+	 * {@link Atividade}.
+	 * 
+	 * @param atividade atividade atual do {@link UsoWorkflow}
+	 * @param proximasTarefas lista com as próximas tarefas
+	 */
+	private void verificarProximasTarefasDoUsoPelaAtividade(Atividade atividade, List<Tarefa> proximasTarefas) {
+		List<TransacaoAtividade> transacoesAtividade = atividade.getTransacoesPosteriores();
+		if (CollectionUtils.isNotEmpty(transacoesAtividade)) {
+			for (TransacaoAtividade transacaoAtividade : transacoesAtividade) {
+				Atividade proximaAtividade = transacaoAtividade.getPosterior();
+				for (Tarefa proximaTarefa : proximaAtividade.getTarefas()) {
+					if (CollectionUtils.isEmpty(proximaTarefa.getTransacoesAnteriores())) { // é a tarefa inicial
+						proximasTarefas.add(proximaTarefa);
+						break;
+					}
+				}
+			}
+		} else { // é atividade final de processo
+			this.verificarProximasTarefasDoUsoPeloProcesso(atividade.getProcesso(), proximasTarefas);
+		}
+	}
+
+	/**
+	 * Verifica quais são as próximas tarefas disponíveis para o {@link UsoWorkflow} a partir de um novo
+	 * {@link Processo}.
+	 * 
+	 * @param processo processo atual do {@link UsoWorkflow}
+	 * @param proximasTarefas lista com as próximas tarefas
+	 */
+	private void verificarProximasTarefasDoUsoPeloProcesso(Processo processo, List<Tarefa> proximasTarefas) {
+		List<TransacaoProcesso> transacoesProcesso = processo.getTransacoesPosteriores();
+		if (CollectionUtils.isNotEmpty(transacoesProcesso)) {
+			for (TransacaoProcesso transacaoProcesso : transacoesProcesso) {
+				Processo proximoProcesso = transacaoProcesso.getPosterior();
+				for (Atividade proximaAtividade : proximoProcesso.getAtividades()) {
+					List<TransacaoAtividade> transacoesAtividade = proximaAtividade.getTransacoesAnteriores();
+					if (CollectionUtils.isEmpty(transacoesAtividade)) { // é atividade inicial
+						List<Tarefa> tarefas = proximaAtividade.getTarefas();
+						for (Tarefa proximaTarefa : tarefas) {
+							if (CollectionUtils.isEmpty(proximaTarefa.getTransacoesAnteriores())) { // é tarefa inicial
+								proximasTarefas.add(proximaTarefa);
+								break;
+							}
+						}
+						break;
+					}
+				}
+			}
+		}
 	}
 }
