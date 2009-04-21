@@ -6,7 +6,6 @@ package br.com.ucb.sisgestor.persistencia.impl;
 
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
-import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.persistencia.TarefaDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
@@ -86,13 +85,6 @@ public class TarefaDAOImpl extends BaseDAOImpl<Tarefa> implements TarefaDAO {
 		criteria.add(Restrictions.isEmpty("atividade.transacoesAnteriores"));
 		criteria.add(Restrictions.isEmpty("this.transacoesAnteriores"));
 		return (Tarefa) criteria.uniqueResult();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public List<Tarefa> recuperarProximasTarefas(UsoWorkflow usoWorkflow) {
-		return null;
 	}
 
 	/**

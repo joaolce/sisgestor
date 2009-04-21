@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Tarefa;
+import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
 import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Workflow;
@@ -153,16 +154,33 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 	 */
 	@Transactional(readOnly = true)
 	public List<Tarefa> recuperarProximasTarefas(UsoWorkflow usoWorkflow) {
-		List<Tarefa> proximasTarefas;
-		Tarefa tarefaAtual = usoWorkflow.getTarefa();
-		if (CollectionUtils.isNotEmpty(tarefaAtual.getTransacoesPosteriores())) {
+		List<Tarefa> proximasTarefas = new ArrayList<Tarefa>();
+		Tarefa tarefa = usoWorkflow.getTarefa();
+		List<TransacaoTarefa> transacoesTarefa = tarefa.getTransacoesPosteriores();
+		if (CollectionUtils.isNotEmpty(transacoesTarefa)) {
 			//existem tarefas dentro da mesma atividade
-			proximasTarefas = new ArrayList<Tarefa>();
-			for (TransacaoTarefa transacao : tarefaAtual.getTransacoesPosteriores()) {
-				proximasTarefas.add(transacao.getPosterior());
+			for (TransacaoTarefa transacaoTarefa : transacoesTarefa) {
+				proximasTarefas.add(transacaoTarefa.getPosterior());
 			}
 		} else {
-			proximasTarefas = this.tarefaDAO.recuperarProximasTarefas(usoWorkflow);
+			//é tarefa final de atividade
+			Atividade atividadeAtual = tarefa.getAtividade();
+			List<TransacaoAtividade> transacoesAtividade = atividadeAtual.getTransacoesPosteriores();
+			if (CollectionUtils.isNotEmpty(transacoesAtividade)) {
+				List<Atividade> proximasAtividades = new ArrayList<Atividade>();
+				for (TransacaoAtividade transacaoAtividade : transacoesAtividade) {
+					proximasAtividades.add(transacaoAtividade.getPosterior());
+				}
+				for (Atividade proximaAtividade : proximasAtividades) {
+					for (Tarefa proximaTarefa : proximaAtividade.getTarefas()) {
+						if (CollectionUtils.isEmpty(proximaTarefa.getTransacoesAnteriores())) {
+							proximasTarefas.add(proximaTarefa);
+						}
+					}
+				}
+			} else {
+				// é atividade final de processo
+			}
 		}
 		return proximasTarefas;
 	}

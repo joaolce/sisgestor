@@ -565,7 +565,7 @@ UsarWorkflow.prototype = {
 	   	$("linkIniciarTarefa").className = "btDesativado";
 	   	$("linkIniciarTarefa").onclick = "";
 	   	$("linkProximasTarefa").className = "";
-	   	$("linkProximasTarefa").onclick = Prototype.emptyFunction;
+	   	$("linkProximasTarefa").onclick = this.popupProximasTarefas;
 	   } else {
 	   	$("linkIniciarTarefa").className = "";
 	   	$("linkIniciarTarefa").onclick = this.iniciarTarefa;
@@ -693,9 +693,31 @@ UsarWorkflow.prototype = {
    /**
 	 * Executado quando o usuário não quer salvar as alterações.
 	 */
-   sairSemSalvar : function(){
-   	this.houveAlteracao = false;
-   	JanelaFactory.fecharJanela("divUsoWorkflow");
+   sairSemSalvar : function() {
+	   this.houveAlteracao = false;
+	   JanelaFactory.fecharJanela("divUsoWorkflow");
+   },
+
+   /**
+    * Abre o popup das próximas tarefas disponíveis.
+    */
+   popupProximasTarefas : function() {
+	   var url = "usarWorkflow.do?method=popupProximasTarefas&id=" + $F("idUsoWorkflow");
+	   createWindow(115, 375, 280, 70, "Próxima Tarefa", "divProximasTarefas", url);
+   },
+   
+   /**
+    * Muda a tarefa atual do uso do workflow.
+    * 
+    * @param form formulário submetido
+    */
+   proximaTarefa : function(form) {
+	   requestUtils.submitForm(form, ( function() {
+		   if (requestUtils.status) {
+			   this.pesquisar();
+			   JanelaFactory.fecharJanelaAtiva();
+		   }
+	   }).bind(this));
    }
 };
 
