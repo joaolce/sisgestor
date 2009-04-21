@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 import org.apache.commons.collections.CollectionUtils;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
 
 /**
@@ -55,8 +57,9 @@ public class UsoWorkflow extends ObjetoPersistente {
 	 * 
 	 * @return usos
 	 */
-	@OneToMany(targetEntity = CampoUsoWorkflow.class, mappedBy = "usoWorkflow")
+	@OneToMany(targetEntity = CampoUsoWorkflow.class, mappedBy = "usoWorkflow", fetch = FetchType.LAZY)
 	@ForeignKey(name = "IR_UWR_UCA")
+	@Cascade(CascadeType.ALL)
 	public List<CampoUsoWorkflow> getCamposUsados() {
 		return this.camposUsados;
 	}

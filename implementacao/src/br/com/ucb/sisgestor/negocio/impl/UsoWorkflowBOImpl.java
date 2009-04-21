@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.negocio.impl;
 
+import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.entidade.CampoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Tarefa;
@@ -122,6 +123,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public Integer salvar(UsoWorkflow usoWorkflow) throws NegocioException {
+		this.adicionaCamposDoUso(usoWorkflow);
 		usoWorkflow.setUsoFinalizado(Boolean.FALSE);
 		this.gerarNumeroDoRegistro(usoWorkflow, DataUtil.getAno(DataUtil.getDataAtual()));
 		Integer id = this.usoWorkflowDAO.salvar(usoWorkflow);
@@ -157,6 +159,24 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	@Autowired
 	public void setUsoWorkflowDAO(UsoWorkflowDAO usoWorkflowDAO) {
 		this.usoWorkflowDAO = usoWorkflowDAO;
+	}
+
+	/**
+	 * Adiciona os campos do {@link UsoWorkflow} com o valor padrão "".
+	 * 
+	 * @param usoWorkflow {@link UsoWorkflow} sendo criado
+	 */
+	private void adicionaCamposDoUso(UsoWorkflow usoWorkflow) {
+		List<CampoUsoWorkflow> camposDoUso = new ArrayList<CampoUsoWorkflow>();
+		CampoUsoWorkflow campoUsoWorkflow;
+		for (Campo campo : usoWorkflow.getWorkflow().getCampos()) {
+			campoUsoWorkflow = new CampoUsoWorkflow();
+			campoUsoWorkflow.setCampo(campo);
+			campoUsoWorkflow.setUsoWorkflow(usoWorkflow);
+			campoUsoWorkflow.setValor("");
+			camposDoUso.add(campoUsoWorkflow);
+		}
+		usoWorkflow.setCamposUsados(camposDoUso);
 	}
 
 	/**
