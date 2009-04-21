@@ -6,7 +6,6 @@ package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.CampoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
-import br.com.ucb.sisgestor.entidade.OpcaoCampo;
 import br.com.ucb.sisgestor.entidade.TipoAcaoEnum;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
@@ -14,9 +13,11 @@ import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
 import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
+import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -127,18 +128,9 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void salvarValoresCampos(String[] valores, Integer idUsoWorkflow) throws NegocioException {
-		String[] campo;
 		List<CampoUsoWorkflow> listaCampos = this.getCamposUsoWorkflowByIdUsoWorkflow(idUsoWorkflow);
-		List<CampoUsoWorkflow> listaCamposAtualizar = new ArrayList<CampoUsoWorkflow>();
-
 		UsoWorkflow usoWorkflow = this.obter(idUsoWorkflow);
-
-		for (String valor : valores) {
-			campo = valor.split("£");
-			listaCamposAtualizar.add(this.getCampoUsoWorkflow(campo, listaCampos));
-		}
-
-		usoWorkflow.setCamposUsados(listaCamposAtualizar);
+		usoWorkflow.setCamposUsados(this.getListaCamposAtualizar(listaCampos, valores));
 		this.usoWorkflowDAO.atualizar(usoWorkflow);
 		this.gerarHistorico(usoWorkflow, TipoAcaoEnum.ALTERACAO_CAMPOS);
 	}
@@ -194,38 +186,124 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	}
 
 	/**
-	 * TODO DOCUMENT ME!
+	 * Recupera o campo uso workflow do tipo radio ou checkbox com seu novo valor
 	 * 
-	 * @param campos
-	 * @param listaCampos
-	 * @return
+	 * @param camposRadioCheckbox Lista dos campos com seus valores
+	 * @param listaCampos Lista de campos persistida atualmente
+	 * @return um {@link List} de {@link CampoUsoWorkflow}
+	 * @throws NegocioException caso o campo obrigatório não esteje preenchido
 	 */
-	private CampoUsoWorkflow getCampoUsoWorkflow(String[] campos, List<CampoUsoWorkflow> listaCampos) {
-		CampoUsoWorkflow campoUsoWorkflowRetorno = null;
+	private List<CampoUsoWorkflow> getCampoUsoWorkflowComplexo(List<String> camposRadioCheckbox,
+			List<CampoUsoWorkflow> listaCampos) throws NegocioException {
 
-		Integer idOpcao;
-		StringBuffer valor = new StringBuffer();
-		Integer idCampo = Integer.valueOf(campos[0].substring(5));
+		String[] campo;
+		Integer idcampo;
+		Boolean checked;
+		String valor;
+		StringBuffer novoValor = new StringBuffer();
+		List<CampoUsoWorkflow> listaCamposAtualizar = new ArrayList<CampoUsoWorkflow>();
+
 		for (CampoUsoWorkflow campoUsoWorkflow : listaCampos) {
-			if (campoUsoWorkflow.getCampo().getId().equals(idCampo)) {
-				if (campos.length == 2) {
-					valor.append(campos[1]);
-				} else {
-					//Tipo checkbox ou radio
-					for (OpcaoCampo opcao : campoUsoWorkflow.getCampo().getOpcoes()) {
-						idOpcao = Integer.valueOf(campos[1].substring(5));
-						if (opcao.getId().equals(idOpcao) && Boolean.parseBoolean(campos[3])) {
-							valor.append(campos[2]);
-						}
-						//TODO Verificar correção para salvar os valores de todas as opções
+			if (!campoUsoWorkflow.getCampo().getOpcoes().isEmpty()) {
+				for (String campoRadioCheckbox : camposRadioCheckbox) {
+					campo = campoRadioCheckbox.split("£");
+					idcampo = Integer.valueOf(campo[0].substring(5));
+					checked = Boolean.parseBoolean(campo[2]);
+					if (campoUsoWorkflow.getCampo().getId().equals(idcampo) && checked.booleanValue()) {
+						novoValor.append(campo[1]);
 					}
 				}
-				campoUsoWorkflow.setValor(valor.toString());
-				campoUsoWorkflowRetorno = campoUsoWorkflow;
-				break;
+				valor = novoValor.toString();
+
+				this.validarValorCampo(valor, campoUsoWorkflow.getCampo().getObrigatorio(), campoUsoWorkflow
+						.getCampo().getNome());
+
+				campoUsoWorkflow.setValor(novoValor.toString());
+				listaCamposAtualizar.add(campoUsoWorkflow);
+				novoValor = new StringBuffer();
 			}
 		}
 
-		return campoUsoWorkflowRetorno;
+		return listaCamposAtualizar;
+	}
+
+	/**
+	 * Recupera o campo uso workflow do tipo data, texto ou hora com seu novo valor
+	 * 
+	 * @param campo Campo com seu id e seu valor
+	 * @param listaCampos Lista de campos persistida atualmente
+	 * @return um {@link CampoUsoWorkflow}
+	 * @throws NegocioException caso o campo obrigatório não esteje preenchido
+	 */
+	private CampoUsoWorkflow getCampoUsoWorkflowSimples(String[] campo, List<CampoUsoWorkflow> listaCampos)
+			throws NegocioException {
+
+		CampoUsoWorkflow novoCampoUsoWorkflow = null;
+		Integer idCampo = Integer.valueOf(campo[0].substring(5));
+		String novoValor = "";
+
+		for (CampoUsoWorkflow campoUsoWorkflow : listaCampos) {
+			if (campoUsoWorkflow.getCampo().getId().equals(idCampo)) {
+				if (campo.length > 1) {
+					novoValor = campo[1];
+				}
+
+				this.validarValorCampo(novoValor, campoUsoWorkflow.getCampo().getObrigatorio(), campoUsoWorkflow
+						.getCampo().getNome());
+
+				campoUsoWorkflow.setValor(novoValor);
+				novoCampoUsoWorkflow = campoUsoWorkflow;
+				break;
+			}
+		}
+		return novoCampoUsoWorkflow;
+	}
+
+	/**
+	 * Retorna um {@link List} de {@link CampoUsoWorkflow} de acordo com os valores informados
+	 * 
+	 * @param listaCampos Lista de campos persistida atualmente
+	 * @param valores Novos valores a serem persistidos
+	 * @return lista de campos do uso workflow a serem salvos
+	 * @throws NegocioException caso o campo obrigatório não esteje preenchido
+	 */
+	private List<CampoUsoWorkflow> getListaCamposAtualizar(List<CampoUsoWorkflow> listaCampos, String[] valores)
+			throws NegocioException {
+		List<CampoUsoWorkflow> listaCamposAtualizar = new ArrayList<CampoUsoWorkflow>();
+		List<String> camposRadioCheckbox = new ArrayList<String>();
+		String[] campoParcial;
+
+		for (String valor : valores) {
+			campoParcial = valor.split("£");
+			if (campoParcial.length <= 2) {
+				//Campo texto, data ou hora. Basta recuperar o valor e atualizar.
+				listaCamposAtualizar.add(this.getCampoUsoWorkflowSimples(campoParcial, listaCampos));
+			} else {
+				//Campo radio ou checkbox.
+				camposRadioCheckbox.add(valor);
+			}
+		}
+		if (!camposRadioCheckbox.isEmpty()) {
+			listaCamposAtualizar.addAll(this.getCampoUsoWorkflowComplexo(camposRadioCheckbox, listaCampos));
+		}
+		return listaCamposAtualizar;
+	}
+
+	/**
+	 * Efetua a validação do valor do campo
+	 * 
+	 * @param valor Valor a ser verificado
+	 * @param obrigatorio Indicador para campo obrigatório
+	 * @param nomeCampo Nome do campo a ser valiado
+	 * @throws NegocioException caso o campo obrigatório não esteje preenchido
+	 */
+	private void validarValorCampo(String valor, boolean obrigatorio, String nomeCampo)
+			throws NegocioException {
+		if (StringUtils.isBlank(valor) && obrigatorio) {
+			throw new NegocioException("erro.required", nomeCampo);
+		}
+		if (valor.length() > ConstantesDB.VALOR_CAMPO) {
+			throw new NegocioException("erro.maxlength", nomeCampo, Integer.toString(ConstantesDB.VALOR_CAMPO));
+		}
 	}
 }

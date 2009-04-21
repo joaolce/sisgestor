@@ -39,7 +39,7 @@
 		</div>
 	</div>
 	
-	<div class="divAba">
+	<div class="divAba" style="margin-top: 15px;">
 		<a href="#" id="tabCamposAncora" accesskey="c" title="IE: Alt + c, Enter / Firefox: Alt + Shift + c" style="font-size: 11pt;">
 			<bean:message key="aba.campos" />
 		</a>
@@ -51,10 +51,10 @@
 	<html:form action="/usarWorkflow.do?method=confirmar" onsubmit="usarWorkflow.confirmar(); return false;" styleId="usoWorkflowForm">
 		<html:hidden property="id" styleId="idUsoWorkflow" />
 		<div class="bordas">
-			<div id="tabCampos" style="margin: 5px; height: 350px; overflow: scroll;">
+			<div id="tabCampos" style="margin: 5px; height: 330px; overflow: scroll;">
 				<tiles:insert definition="includeTabCamposWorkflow"/>
 			</div>
-			<div id="tabHistorico" style="margin: 5px; height: 350px; overflow: scroll;">
+			<div id="tabHistorico" style="margin: 5px; height: 330px; overflow: scroll;">
 				<tiles:insert definition="includeTabHistoricoWorkflow"/>
 			</div>
 		</div>

@@ -1,5 +1,6 @@
 package br.com.ucb.sisgestor.entidade;
 
+import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
@@ -52,7 +53,7 @@ public class CampoUsoWorkflow extends ObjetoPersistente {
 	 * 
 	 * @return valor do campo
 	 */
-	@Column(name = "UCA_VALOR", nullable = false, length = 50)
+	@Column(name = "UCA_VALOR", nullable = false, length = ConstantesDB.VALOR_CAMPO)
 	public String getValor() {
 		return this.valor;
 	}
