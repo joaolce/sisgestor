@@ -9,12 +9,14 @@ import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.TipoAcaoEnum;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
+import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
 import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
+import br.com.ucb.sisgestor.util.constantes.Constantes;
 import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.ArrayList;
@@ -85,6 +87,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 		} else {
 			usoWorkflow.setDataHoraInicio(null); // para que o novo usuário possa iniciar sua tarefa
 			usoWorkflow.setTarefa(this.getTarefaBO().obter(idTarefa));
+			this.notificarUsuarioTarefa(usoWorkflow);
 			acaoOcorrida = TipoAcaoEnum.FINALIZAR_TAREFA;
 		}
 		this.usoWorkflowDAO.atualizar(usoWorkflow);
@@ -311,6 +314,21 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 			this.tarefaBO = Utils.getBean(TarefaBO.class);
 		}
 		return this.tarefaBO;
+	}
+
+	/**
+	 * Notifica o novo usuário da tarefa, informando que há um novo registro pendente para ele.
+	 * 
+	 * @param usoWorkflow {@link UsoWorkflow} usado
+	 */
+	private void notificarUsuarioTarefa(UsoWorkflow usoWorkflow) {
+		Usuario usuarioTarefa = usoWorkflow.getTarefa().getUsuario();
+		String emailUsuario = usuarioTarefa.getEmail();
+		if (StringUtils.isNotBlank(emailUsuario)) {
+			String corpoEmail = "TESTE";
+			this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR, Constantes.ASSUNTO_EMAIL_TAREFA_TRANSFERIDA,
+					corpoEmail, emailUsuario);
+		}
 	}
 
 	/**
