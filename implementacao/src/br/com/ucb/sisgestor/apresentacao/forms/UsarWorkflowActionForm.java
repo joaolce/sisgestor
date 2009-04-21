@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class UsarWorkflowActionForm extends BaseForm {
 
+	private String[]			valor;
 	private Integer			workflow;
 	private List<Workflow>	listaWorkflows;
 	private List<Tarefa>		proximasTarefas;
@@ -47,6 +48,15 @@ public class UsarWorkflowActionForm extends BaseForm {
 	 */
 	public Integer getTarefa() {
 		return this.tarefa;
+	}
+
+	/**
+	 * Recupera os valores dos campos da página
+	 * 
+	 * @return valores dos campos
+	 */
+	public String[] getValor() {
+		return this.valor;
 	}
 
 	/**
@@ -83,6 +93,15 @@ public class UsarWorkflowActionForm extends BaseForm {
 	 */
 	public void setTarefa(Integer tarefa) {
 		this.tarefa = tarefa;
+	}
+
+	/**
+	 * Atribui os valores dos campos
+	 * 
+	 * @param valor valores dos campos
+	 */
+	public void setValor(String[] valor) {
+		this.valor = valor;
 	}
 
 	/**

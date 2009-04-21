@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.persistencia.impl;
 
+import br.com.ucb.sisgestor.entidade.CampoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Usuario;
@@ -34,6 +35,15 @@ public class UsoWorkflowDAOImpl extends BaseDAOImpl<UsoWorkflow> implements UsoW
 	 */
 	public UsoWorkflowDAOImpl() {
 		super(UsoWorkflow.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<CampoUsoWorkflow> getCamposUsoWorkflowByIdUsoWorkflow(Integer idUsoWorkflow) {
+		Criteria criteria = this.createCriteria(CampoUsoWorkflow.class);
+		criteria.add(Restrictions.eq("this.usoWorkflow.id", idUsoWorkflow));
+		return GenericsUtil.checkedList(criteria.list(), CampoUsoWorkflow.class);
 	}
 
 	/**
@@ -75,6 +85,7 @@ public class UsoWorkflowDAOImpl extends BaseDAOImpl<UsoWorkflow> implements UsoW
 	public void salvarHistorico(HistoricoUsoWorkflow historicoUsoWorkflow) {
 		this.getSession().save(historicoUsoWorkflow);
 	}
+
 
 	/**
 	 * Monta os critérios para a paginação dos workflows.

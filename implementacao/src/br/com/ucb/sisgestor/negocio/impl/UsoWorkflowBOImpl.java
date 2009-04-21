@@ -4,7 +4,9 @@
  */
 package br.com.ucb.sisgestor.negocio.impl;
 
+import br.com.ucb.sisgestor.entidade.CampoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
+import br.com.ucb.sisgestor.entidade.OpcaoCampo;
 import br.com.ucb.sisgestor.entidade.TipoAcaoEnum;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
@@ -13,6 +15,7 @@ import br.com.ucb.sisgestor.persistencia.UsoWorkflowDAO;
 import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -110,6 +113,27 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+	public void salvarValoresCampos(String[] valores, Integer idUsoWorkflow) throws NegocioException {
+		String[] campo;
+		List<CampoUsoWorkflow> listaCampos = this.getCamposUsoWorkflowByIdUsoWorkflow(idUsoWorkflow);
+		List<CampoUsoWorkflow> listaCamposAtualizar = new ArrayList<CampoUsoWorkflow>();
+
+		UsoWorkflow usoWorkflow = this.obter(idUsoWorkflow);
+
+		for (String valor : valores) {
+			campo = valor.split("£");
+			listaCamposAtualizar.add(this.getCampoUsoWorkflow(campo, listaCampos));
+		}
+
+		usoWorkflow.setCamposUsados(listaCamposAtualizar);
+		this.usoWorkflowDAO.atualizar(usoWorkflow);
+		this.gerarHistorico(usoWorkflow, TipoAcaoEnum.ALTERACAO_CAMPOS);
+	}
+
+	/**
 	 * Atribui o DAO de {@link UsoWorkflow}.
 	 * 
 	 * @param usoWorkflowDAO DAO de {@link UsoWorkflow}
@@ -147,5 +171,51 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 			ultimoNumero++;
 		}
 		usoWorkflow.setNumero(ultimoNumero);
+	}
+
+	/**
+	 * TODO DOCUMENT ME!
+	 * 
+	 * @param idUsoWorkflow
+	 * @return
+	 */
+	private List<CampoUsoWorkflow> getCamposUsoWorkflowByIdUsoWorkflow(Integer idUsoWorkflow) {
+		return this.usoWorkflowDAO.getCamposUsoWorkflowByIdUsoWorkflow(idUsoWorkflow);
+	}
+
+	/**
+	 * TODO DOCUMENT ME!
+	 * 
+	 * @param campos
+	 * @param listaCampos
+	 * @return
+	 */
+	private CampoUsoWorkflow getCampoUsoWorkflow(String[] campos, List<CampoUsoWorkflow> listaCampos) {
+		CampoUsoWorkflow campoUsoWorkflowRetorno = null;
+
+		Integer idOpcao;
+		StringBuffer valor = new StringBuffer();
+		Integer idCampo = Integer.valueOf(campos[0].substring(5));
+		for (CampoUsoWorkflow campoUsoWorkflow : listaCampos) {
+			if (campoUsoWorkflow.getCampo().getId().equals(idCampo)) {
+				if (campos.length == 2) {
+					valor.append(campos[1]);
+				} else {
+					//Tipo checkbox ou radio
+					for (OpcaoCampo opcao : campoUsoWorkflow.getCampo().getOpcoes()) {
+						idOpcao = Integer.valueOf(campos[1].substring(5));
+						if (opcao.getId().equals(idOpcao) && Boolean.parseBoolean(campos[3])) {
+							valor.append(campos[2]);
+						}
+						//TODO Verificar correção para salvar os valores de todas as opções
+					}
+				}
+				campoUsoWorkflow.setValor(valor.toString());
+				campoUsoWorkflowRetorno = campoUsoWorkflow;
+				break;
+			}
+		}
+
+		return campoUsoWorkflowRetorno;
 	}
 }

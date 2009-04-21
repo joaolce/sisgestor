@@ -41,4 +41,14 @@ public interface UsoWorkflowBO extends BaseBO<UsoWorkflow> {
 	 * @param historicoUsoWorkflow {@link HistoricoUsoWorkflow} a salvar
 	 */
 	void salvarHistorico(HistoricoUsoWorkflow historicoUsoWorkflow);
+
+
+	/**
+	 * Salva os valores informados dos campos.
+	 * 
+	 * @param valores Array de campos com seus valores
+	 * @param idUsoWorkflow Código identificador do uso workflow
+	 * @throws NegocioException caso seja violada um regra
+	 */
+	void salvarValoresCampos(String[] valores, Integer idUsoWorkflow) throws NegocioException;
 }

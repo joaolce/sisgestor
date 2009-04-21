@@ -45,10 +45,10 @@ public class UsarWorkflowAction extends BaseAction {
 	public ActionForward confirmar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
-		//Desenvolvendo
-		AjaxResponse ajaxResponse = new AjaxResponse();
-		ajaxResponse.setStatus(true);
-		return this.sendAJAXResponse(ajaxResponse);
+		Integer idUsoWorkflow = form.getId();
+		this.usoWorkflowBO.salvarValoresCampos(form.getValor(), idUsoWorkflow);
+		this.addMessageKey("mensagem.alterar", "Registro");
+		return this.sendAJAXResponse(true);
 	}
 
 	/**
