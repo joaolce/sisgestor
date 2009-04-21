@@ -25,6 +25,9 @@ public final class ConstantesDB {
 	/** Tamanho do campo Nome */
 	public static final int		NOME								= 100;
 
+	/** Tamanho do valor do campo */
+	public static final int		VALOR_CAMPO						= 100;
+
 	/** Tamanho do campo Login */
 	public static final int		LOGIN								= 15;
 

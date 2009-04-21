@@ -670,7 +670,7 @@ UsarWorkflow.prototype = {
 	_getValoresRadio : function() {
 		var valor = "";
 		$("tabCampos").select("input[type=\"radio\"]").each(function(input) {
-			valor += "valor=" + $(input).name + "£" + $(input).id + "£" + $(input).value + "£" + $(input).checked + "&";  
+			valor += "valor=" + $(input).name + "£" + $(input).value + "£" + $(input).checked + "&";  
 		});
 		return valor;
 	},	
@@ -683,7 +683,7 @@ UsarWorkflow.prototype = {
 	_getValoresCheckBox : function() {
 		var valor = "";
 		$("tabCampos").select("input[type=\"checkbox\"]").each(function(input) {
-			valor += "valor=" + $(input).name + "£" + $(input).id + "£" + $(input).value + "£" + $(input).checked + "&";  
+			valor += "valor=" + $(input).name + "£" + $(input).value + "£" + $(input).checked + "&";  
 		});
 		return valor;
 	},	
