@@ -29,7 +29,6 @@ public class ManterWorkflowValidator extends BaseValidator {
 		if (this.validaRequerido("label.nome", "nome")) {
 			this.validaTamanhoMaximo("label.nome", "nome", ConstantesDB.NOME);
 		}
-		this.validaRequerido("label.ativo", "ativo");
 		if (this.validaRequerido("label.descricao", "descricao")) {
 			this.validaTamanhoMaximo("label.descricao", "descricao", ConstantesDB.DESCRICAO);
 		}
