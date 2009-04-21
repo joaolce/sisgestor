@@ -28,6 +28,13 @@ public interface UsoWorkflowBO extends BaseBO<UsoWorkflow> {
 	void iniciarTarefa(UsoWorkflow usoWorkflow) throws NegocioException;
 
 	/**
+	 * Modifica a {@link Tarefa} atual do {@link UsoWorkflow} para a especificada.
+	 * 
+	 * @param usoWorkflow {@link UsoWorkflow} a atualizar a tarefa
+	 */
+	void modificarTarefa(UsoWorkflow usoWorkflow);
+
+	/**
 	 * Recupera a lista de workflows em uso com {@link Tarefa} pendente do {@link Usuario} atual.
 	 * 
 	 * @param paginaAtual página atual da pesquisa
@@ -41,7 +48,6 @@ public interface UsoWorkflowBO extends BaseBO<UsoWorkflow> {
 	 * @param historicoUsoWorkflow {@link HistoricoUsoWorkflow} a salvar
 	 */
 	void salvarHistorico(HistoricoUsoWorkflow historicoUsoWorkflow);
-
 
 	/**
 	 * Salva os valores informados dos campos.

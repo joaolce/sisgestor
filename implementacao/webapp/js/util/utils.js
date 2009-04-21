@@ -1151,6 +1151,7 @@ function observarAlteracao(elemento, callback) {
 				case "text":
 					Event.observe(obj, "keypress", callback);
 					Event.observe(obj, "keyup", callback);
+					Event.observe(obj, "change", callback);
 					break;
 				case "radio":
 				case "button":

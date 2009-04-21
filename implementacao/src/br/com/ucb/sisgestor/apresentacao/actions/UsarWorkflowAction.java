@@ -163,7 +163,13 @@ public class UsarWorkflowAction extends BaseAction {
 	 */
 	public ActionForward proximaTarefa(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		this.addMessage("TESTE");
+		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
+
+		UsoWorkflow usoWorkflow = this.usoWorkflowBO.obter(form.getId());
+		this.copyProperties(usoWorkflow, form);
+		this.usoWorkflowBO.modificarTarefa(usoWorkflow);
+
+		this.addMessageKey("mensagem.usoWorkflow.tarefaModificada");
 		return this.sendAJAXResponse(true);
 	}
 
