@@ -3,7 +3,9 @@
 <%@ taglib uri="http://www.ucb.br/sisgestor/taglib" prefix="htmlSGR" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
-<html:form action="/usarWorkflow.do?method=proximaTarefa" onsubmit="usarWorkflow.proximaTarefa(this); return false;" styleId="usarWorkflowForm">
+<html:form action="/usarWorkflow.do?method=proximaTarefa" onsubmit="usarWorkflow.proximaTarefa(this); return false;" styleId="usarWorkflowProximaTarefaForm">
+	<html:hidden property="id" styleId="idUsoWorkflowProximaTarefa" />
+	
 	<fieldset style="margin: 5pt auto; padding: 10px;">
 		<div style="float: left;">
 			<label>

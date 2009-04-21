@@ -5,8 +5,10 @@
 package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Atividade;
+import br.com.ucb.sisgestor.entidade.Processo;
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
+import br.com.ucb.sisgestor.entidade.TransacaoProcesso;
 import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Workflow;
@@ -180,6 +182,25 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 				}
 			} else {
 				// é atividade final de processo
+				Processo processoAtual = atividadeAtual.getProcesso();
+				List<TransacaoProcesso> transacoesProcesso = processoAtual.getTransacoesPosteriores();
+				if (CollectionUtils.isNotEmpty(transacoesProcesso)) {
+					List<Processo> proximosProcessos = new ArrayList<Processo>();
+					for (TransacaoProcesso transacaoProcesso : transacoesProcesso) {
+						proximosProcessos.add(transacaoProcesso.getPosterior());
+					}
+					for (Processo proximoProcesso : proximosProcessos) {
+						for (Atividade proximaAtividade : proximoProcesso.getAtividades()) {
+							if (CollectionUtils.isEmpty(proximaAtividade.getTransacoesAnteriores())) {
+								for (Tarefa proximaTarefa : proximaAtividade.getTarefas()) {
+									if (CollectionUtils.isEmpty(proximaTarefa.getTransacoesAnteriores())) {
+										proximasTarefas.add(proximaTarefa);
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 		return proximasTarefas;

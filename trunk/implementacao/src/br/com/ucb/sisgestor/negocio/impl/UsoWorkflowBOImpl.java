@@ -72,6 +72,16 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+	public void modificarTarefa(UsoWorkflow usoWorkflow) {
+		usoWorkflow.setDataHoraInicio(null); // para que o novo usuário possa iniciar sua tarefa
+		this.usoWorkflowDAO.atualizar(usoWorkflow);
+		this.gerarHistorico(usoWorkflow, TipoAcaoEnum.FINALIZAR_TAREFA);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Transactional(readOnly = true)
 	public UsoWorkflow obter(Integer pk) {
 		return this.usoWorkflowDAO.obter(pk);

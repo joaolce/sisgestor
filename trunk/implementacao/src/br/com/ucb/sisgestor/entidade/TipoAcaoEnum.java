@@ -23,7 +23,9 @@ public enum TipoAcaoEnum implements CodigoDescricao {
 	/** Inclusão de {@link Anexo}. */
 	ALTERACAO_CAMPOS(4, "Alteração nos campos"),
 	/** Início da tarefa. */
-	INICIO_TAREFA(5, "Início da tarefa");
+	INICIO_TAREFA(5, "Início da tarefa"),
+	/** Finalização da tarefa. */
+	FINALIZAR_TAREFA(6, "Finalização da tarefa");
 
 	private Integer	chave;
 	private String		descricao;

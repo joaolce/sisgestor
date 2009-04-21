@@ -756,25 +756,32 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Abre o popup das próximas tarefas disponíveis.
-    */
+	 * Abre o popup das próximas tarefas disponíveis.
+	 */
    popupProximasTarefas : function() {
-	   var url = "usarWorkflow.do?method=popupProximasTarefas&id=" + $F("idUsoWorkflow");
-	   createWindow(115, 375, 280, 70, "Próxima Tarefa", "divProximasTarefas", url);
+	   var idUso = $F("idUsoWorkflow");
+	   var url = "usarWorkflow.do?method=popupProximasTarefas&id=" + idUso;
+	   createWindow(115, 375, 280, 70, "Próxima Tarefa", "divProximasTarefas", url, ( function() {
+		   dwr.util.setValue("idUsoWorkflowProximaTarefa", idUso);
+	   }));
    },
-   
+
    /**
-    * Muda a tarefa atual do uso do workflow.
-    * 
-    * @param form formulário submetido
-    */
+	 * Muda a tarefa atual do uso do workflow.
+	 * 
+	 * @param form formulário submetido
+	 */
    proximaTarefa : function(form) {
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
 			   this.pesquisar();
-			   JanelaFactory.fecharJanelaAtiva();
 		   }
-	   }).bind(this));
+	   }).bind(this), ( function() {
+		   if (requestUtils.status) {
+			   JanelaFactory.fecharJanelaAtiva(); // fecha janela da mudança de tarefa
+			   JanelaFactory.fecharJanelaAtiva(); // fecha janela do uso
+		   }
+	   }));
    }
 };
 
