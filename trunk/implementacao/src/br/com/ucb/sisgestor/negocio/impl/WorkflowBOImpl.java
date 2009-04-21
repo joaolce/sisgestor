@@ -163,9 +163,7 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public Integer salvar(Workflow workflow) throws NegocioException {
-		if (workflow.getAtivo()) { //quando salva um workflow, ele ainda não contém processos
-			throw new NegocioException("erro.workflowNaoAtivado.processo");
-		}
+		workflow.setAtivo(Boolean.FALSE);
 		return this.workflowDAO.salvar(workflow);
 	}
 

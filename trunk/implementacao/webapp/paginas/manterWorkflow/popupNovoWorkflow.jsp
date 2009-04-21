@@ -12,17 +12,6 @@
 				<br />
 				<html:text property="nome" styleId="nomeNovoWorkflow" size="51" maxlength="100" />
 			</label> 
-			<label style="float: left; margin-top: 15px; margin-left: 15px;">
-				<b>
-					<bean:message key="label.ativo"/>
-					<span class="obrigatorio">*</span>
-				</b>
-				<br />
-				<html:select property="ativo" styleId="ativoNovoWorkflow">
-					<html:option value="0" key="label.nao" />
-					<html:option value="1" key="label.sim" />
-				</html:select>
-			</label>
 		</div>
 		<label style="float: left; margin-top: 15px;">
 			<b>
