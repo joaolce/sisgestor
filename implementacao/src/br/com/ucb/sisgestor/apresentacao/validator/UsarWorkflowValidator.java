@@ -20,4 +20,11 @@ public class UsarWorkflowValidator extends BaseValidator {
 	public void iniciarUso() {
 		this.validaRequerido("label.workflow", "workflow");
 	}
+
+	/**
+	 * Faz as validações do método proximaTarefa.
+	 */
+	public void proximaTarefa() {
+		this.validaRequerido("label.proximaTarefa", "tarefa");
+	}
 }

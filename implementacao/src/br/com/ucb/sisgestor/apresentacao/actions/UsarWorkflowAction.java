@@ -119,6 +119,24 @@ public class UsarWorkflowAction extends BaseAction {
 	}
 
 	/**
+	 * Abre o popup das próximas tarefas disponíveis.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return {@link ActionForward} do popup
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward popupProximasTarefas(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
+		UsoWorkflow usoWorkflow = this.usoWorkflowBO.obter(form.getId());
+		form.setProximasTarefas(this.tarefaBO.recuperarProximasTarefas(usoWorkflow));
+		return this.findForward("popupProximasTarefas");
+	}
+
+	/**
 	 * Abre o popup de um uso do {@link Workflow}.
 	 * 
 	 * @param mapping objeto mapping da action
@@ -131,6 +149,22 @@ public class UsarWorkflowAction extends BaseAction {
 	public ActionForward popupUsoWorkflow(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return this.findForward("popupUsoWorkflow");
+	}
+
+	/**
+	 * Modifica a tarefa atual do {@link UsoWorkflow}.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return <code>null</code>
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward proximaTarefa(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		this.addMessage("TESTE");
+		return this.sendAJAXResponse(true);
 	}
 
 	/**

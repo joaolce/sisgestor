@@ -8,7 +8,6 @@ import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
 import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
-import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import java.util.List;
 
@@ -69,14 +68,6 @@ public interface TarefaDAO extends BaseDAO<Tarefa> {
 	 * @return primeira {@link Tarefa}
 	 */
 	Tarefa recuperarPrimeiraTarefa(Workflow workflow);
-
-	/**
-	 * Recupera as próximas tarefas indiretas disponíveis para o {@link UsoWorkflow}.
-	 * 
-	 * @param usoWorkflow uso a ser recuperado as próximas tarefas
-	 * @return {@link List} de {@link Tarefa}
-	 */
-	List<Tarefa> recuperarProximasTarefas(UsoWorkflow usoWorkflow);
 
 	/**
 	 * Recupera as transações de tarefa do {@link Atividade}.
