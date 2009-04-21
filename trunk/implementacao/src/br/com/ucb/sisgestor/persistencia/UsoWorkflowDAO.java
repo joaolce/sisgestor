@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.persistencia;
 
+import br.com.ucb.sisgestor.entidade.CampoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Usuario;
@@ -19,6 +20,14 @@ public interface UsoWorkflowDAO extends BaseDAO<UsoWorkflow> {
 
 	/** Quantidade de registros por paginação */
 	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(17);
+
+	/**
+	 * Recupera um {@link List} de {@link CampoUsoWorkflow} pelo id do uso workflow.
+	 * 
+	 * @param idUsoWorkflow Código identificador do uso workflow
+	 * @return lista de campos usados
+	 */
+	List<CampoUsoWorkflow> getCamposUsoWorkflowByIdUsoWorkflow(Integer idUsoWorkflow);
 
 	/**
 	 * Recupera o total de registros retornados pela consulta. <br />

@@ -382,12 +382,14 @@ UsarWorkflow.prototype = {
 	 * Envia a requisição para submeter o uso do workflow.
 	 */
    confirmar : function() {
-	   requestUtils.submitForm(this.getForm(), null, ( function() {
+	   var idUsoWorkflow = dwr.util.getValue("idUsoWorkflow");
+	   var valor = this._getValoresCampos();
+	   requestUtils.simpleRequest("usarWorkflow.do?method=confirmar&id=" + idUsoWorkflow + valor, ( function() {
 		   if (requestUtils.status) {
 			   this.houveAlteracao = false;
 			   JanelaFactory.fecharJanela("divUsoWorkflow");
 		   }
-	   }));
+	   }).bind(this));
    },
 
    /**
@@ -634,10 +636,65 @@ UsarWorkflow.prototype = {
    },
    
    /**
+	 * Recupera os ids dos campos com seus valores.
+	 * 
+	 * @return {String} valores
+	 */
+	_getValoresCampos : function() {
+	   var valores = "&";
+	   valores +=this._getValoresTexto();
+	   valores +=this._getValoresRadio();
+	   valores +=this._getValoresCheckBox();
+	   
+	   return valores;
+	},
+	
+	/**
+	  * Recupera os ids dos campos do tipo texto com seus respectivos valores.
+	  * 
+	  * @return {String} valores
+	  */
+	_getValoresTexto : function() {
+		var valor = "";
+		$("tabCampos").select("input[type=\"text\"]").each(function(input) {
+			valor += "valor=" + $(input).id + "£" + $(input).value + "&";  
+		});
+		return valor;
+	},
+	
+	/**
+	  * Recupera os ids dos campos do tipo radio com seus respectivos valores.
+	  * 
+	  * @return {String} valores
+	  */
+	_getValoresRadio : function() {
+		var valor = "";
+		$("tabCampos").select("input[type=\"radio\"]").each(function(input) {
+			valor += "valor=" + $(input).name + "£" + $(input).id + "£" + $(input).value + "£" + $(input).checked + "&";  
+		});
+		return valor;
+	},	
+	
+	/**
+	 * Recupera os ids dos campos do tipo checkbox com seus respectivos valores.
+	 * 
+	 * @return {String} valores
+	 */
+	_getValoresCheckBox : function() {
+		var valor = "";
+		$("tabCampos").select("input[type=\"checkbox\"]").each(function(input) {
+			valor += "valor=" + $(input).name + "£" + $(input).id + "£" + $(input).value + "£" + $(input).checked + "&";  
+		});
+		return valor;
+	},	
+   
+   /**
 	 * Verifica se o campo é do tipo lista de opções ou múltipla escolha.
-	 * @param {String} tipo do campo 
-	 * @return <code>true</code>, se for lsita de opções ou múltipla escolha; 
-	 * <code>false</code>, se for texto, data ou hora
+	 * 
+	 * @param {String}
+	 *            tipo do campo
+	 * @return <code>true</code>, se for lsita de opções ou múltipla escolha;
+	 *         <code>false</code>, se for texto, data ou hora
 	 */
 	_isListaOpcoesOrMultiplaEscolha : function(tipoCampo) {
 	   if ((tipoCampo == usarWorkflow.tipoTexto) || (tipoCampo == usarWorkflow.tipoData)
