@@ -176,10 +176,10 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	}
 
 	/**
-	 * TODO DOCUMENT ME!
+	 * Recupera uma lista de {@link CampoUsoWorkflow} pelo código identificador do uso wokflow
 	 * 
-	 * @param idUsoWorkflow
-	 * @return
+	 * @param idUsoWorkflow Código identificador do uso workflow
+	 * @return lista de campos uso workflow do uso workflow
 	 */
 	private List<CampoUsoWorkflow> getCamposUsoWorkflowByIdUsoWorkflow(Integer idUsoWorkflow) {
 		return this.usoWorkflowDAO.getCamposUsoWorkflowByIdUsoWorkflow(idUsoWorkflow);
