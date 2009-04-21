@@ -776,6 +776,17 @@ function MaskInput(campo, mask) {
 		if (!isBlankOrNull(campo.value)) {
 			campo.value = oStringMask.format(campo.value);
 		}
+		
+		if (mask == "##:##") {
+			Event.observe(campo, "blur", function(event) {
+				var elemento = Event.element(event);
+				if (!isBlankOrNull(elemento.value) && !isDate(elemento.value, "HH:mm")) {
+					JanelasComuns.showMessage("A hora informada não é válida!", false, function() {
+						Form.Element.activate(elemento);
+					});
+				}
+			});
+		}
 	}
 }
 /**
