@@ -6,10 +6,6 @@ IF EXIST %JBOSS_HOME%\server\default\conf\login-config.xml (
 	del "%JBOSS_HOME%"\server\default\conf\login-config.xml
 )
 	
-IF EXIST %JBOSS_HOME%\server\default\conf\sisgestor.keystore (	
-	del "%JBOSS_HOME%"\server\default\conf\sisgestor.keystore
-)
-
 IF EXIST %JBOSS_HOME%\server\default\deploy\sisgestor-ds.xml (
 	del "%JBOSS_HOME%"\server\default\deploy\sisgestor-ds.xml
 )
@@ -18,10 +14,6 @@ IF EXIST %JBOSS_HOME%\server\default\deploy\mail-service.xml (
 	del "%JBOSS_HOME%"\server\default\deploy\mail-service.xml
 )
 	
-IF EXIST %JBOSS_HOME%\server\default\deploy\jboss-web.deployer\server.xml (	
-	del "%JBOSS_HOME%"\server\default\deploy\jboss-web.deployer\server.xml
-)
-
 IF EXIST %JBOSS_HOME%\client\hibernate-annotations.jar (
 	del "%JBOSS_HOME%"\client\hibernate-annotations.jar
 )
@@ -71,10 +63,8 @@ IF EXIST %JBOSS_HOME%\server\default\deploy\scheduler-service.xml (
 echo Copiando arquivos de configuracoes
 
 copy configuracao\jboss\login-config.xml "%JBOSS_HOME%"\server\default\conf
-copy configuracao\jboss\sisgestor.keystore "%JBOSS_HOME%"\server\default\conf
 copy configuracao\jboss\mail-service.xml "%JBOSS_HOME%"\server\default\deploy
 copy configuracao\jboss\sisgestor-ds.xml "%JBOSS_HOME%"\server\default\deploy
-copy configuracao\jboss\server.xml "%JBOSS_HOME%"\server\default\deploy\jboss-web.deployer
 
 echo Copiando libs necessarias
 
