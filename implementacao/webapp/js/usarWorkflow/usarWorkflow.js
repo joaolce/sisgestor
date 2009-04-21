@@ -131,17 +131,17 @@ UsarWorkflow.prototype = {
 	 * Faz o uso do workflow.
 	 */
    usarWorkflow : function() {
-	   var colunas = usarWorkflow.getTR().descendants();
+	   var colunas = this.getTR().descendants();
 	   var numeroRegistro = colunas[2].innerHTML;
 	   var nomeWorkflow = colunas[3].innerHTML;
 
-	   var id = usarWorkflow.getIdSelecionado();
+	   var id = this.getIdSelecionado();
 	   UsarWorkflowDWR.getById(id, ( function(usoWorkflow) {
-		   usarWorkflow.setEditarCampos(!(usoWorkflow.dataHoraInicio == null));
-		   usarWorkflow._abrePopupUsoDeWorkflow(usoWorkflow, numeroRegistro, nomeWorkflow,
+		   this.setEditarCampos(!(usoWorkflow.dataHoraInicio == null));
+		   this._abrePopupUsoDeWorkflow(usoWorkflow, numeroRegistro, nomeWorkflow,
 		      usoWorkflow.tarefa.nome, usoWorkflow.tarefa.descricao, usoWorkflow.dataHoraInicio,
 		      usoWorkflow.camposUsados);
-	   }));
+	   }).bind(this));
    },
 
    /**
@@ -348,7 +348,8 @@ UsarWorkflow.prototype = {
 		   });
 		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
 		   if (Usuario.temPermissao(USAR_WORKFLOW)) {
-			   this.tabelaTelaPrincipal.setOnDblClick(this.usarWorkflow);
+			   this.tabelaTelaPrincipal.setOnDblClick(this.usarWorkflow.bind(usarWorkflow));
+			   this.tabelaTelaPrincipal.setOnClick(this.habilitarBotaoUsarTarefa.bind(usarWorkflow));
 		   }
 	   } else {
 		   this.tabelaTelaPrincipal
@@ -561,24 +562,31 @@ UsarWorkflow.prototype = {
 	 * 
 	 * @param (Boolean) caso seja para habilitar ou desabilitar
 	 */
-   habilitarLinkProximaTarefa : function(habilita) {
-	   if (habilita) {
-		   // se habilita link de próximas tarefas, desabilita o de iniciar
-	   	$("linkIniciarTarefa").className = "btDesativado";
-	   	$("linkIniciarTarefa").onclick = "";
-	   	$("linkProximasTarefa").className = "";
-	   	$("linkProximasTarefa").onclick = this.popupProximasTarefas;
-	   } else {
-	   	$("linkIniciarTarefa").className = "";
-	   	$("linkIniciarTarefa").onclick = this.iniciarTarefa;
-	   	$("linkProximasTarefa").className = "btDesativado";
-	   	$("linkProximasTarefa").onclick = "";
-	   }
-   },
+	habilitarLinkProximaTarefa : function(habilita) {
+		if (habilita) {
+			// se habilita link de próximas tarefas, desabilita o de iniciar
+			$("linkIniciarTarefa").className = "btDesativado";
+			$("linkIniciarTarefa").onclick = "";
+			$("linkProximasTarefa").className = "";
+			$("linkProximasTarefa").onclick = this.popupProximasTarefas;
+		} else {
+			$("linkIniciarTarefa").className = "";
+			$("linkIniciarTarefa").onclick = this.iniciarTarefa;
+			$("linkProximasTarefa").className = "btDesativado";
+			$("linkProximasTarefa").onclick = "";
+		}
+	},
+   
+   /**
+	 * Habilita o botão para uso da tarefa
+	 */
+	habilitarBotaoUsarTarefa : function() {
+		$("botaoUsarTarefa").onclick = this.usarWorkflow.bind(usarWorkflow);
+	},
 
    /**
-    * Inicia a tarefa aberta.
-    */
+	 * Inicia a tarefa aberta.
+	 */
    iniciarTarefa : function() {
    	var idUso = $F("idUsoWorkflow");
    	requestUtils.simpleRequest("usarWorkflow.do?method=iniciarTarefa&id=" + idUso, ( function() {
