@@ -2,9 +2,13 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://www.ucb.br/sisgestor/taglib" prefix="htmlSGR" %>
 
+<link href="css/calendar.css" rel="stylesheet" type="text/css" media="screen" />
+
 <script type="text/javascript" src="dwr/interface/UsarWorkflowDWR.js"></script>
 <script type="text/javascript" src="js/usarWorkflow/usarWorkflow.js"></script>
 <script type="text/javascript" src="js/usarWorkflow/anexoUsoWorkflow.js"></script>
+<script type="text/javascript" src="js/util/calendar.js"></script>
+<script type="text/javascript" src="js/util/calendar-br.js"></script>
 
 <div class="bordas" id="BordaExterna">
 	<div id="divMenuOpcoes">

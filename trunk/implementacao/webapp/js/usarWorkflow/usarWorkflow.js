@@ -87,6 +87,13 @@ UsarWorkflow.prototype = {
     * @type Array 
     */
    acoesHistorico :null,
+   
+   /**
+    * Imagem que contém o calendário.
+    * 
+    * @type String
+    */
+   imagemCalendario : "imagens/calendar.gif",
 
    /**
 	 * @constructor
@@ -174,11 +181,19 @@ UsarWorkflow.prototype = {
 	   	var mascara;
 	   	var estilo;
 	   	var maxLength;
+	   	var calendario = null;
 		   tipo = "text";
 		   if (tipoCampo == this.tipoData) {
 			   mascara = this.mascaraData;
 			   estilo = "width: 70px;";
 			   maxLength = 10;
+			   calendario = Builder.node("img", {
+			      id :"trigger-" + identificador,
+			      src :this.imagemCalendario,
+			      CLASS: "calendar-trigger",
+			      title :"Calendário",
+			      alt :"Calendário"
+			   });
 		   } else if (tipoCampo == this.tipoHora) {
 			   mascara = this.mascaraHora;
 			   estilo = "width: 40px;";
@@ -196,22 +211,28 @@ UsarWorkflow.prototype = {
 		      style :estilo,
 		      maxlength :maxLength
 		   });
-		   this._observarAlteracoes(input);
+		   observarAlteracao(input, this.aposMudancaEmCampo.bind(this));
 		   if (!usarWorkflow.editarCampos) {
 			   $(input).disable();
 		   }
 		   if (!isBlankOrNull(mascara)) {
 			   MaskInput(input, mascara);
 		   }
-		   return Builder.node("div", [
+		   var divCampo = Builder.node("div", [
 		                  Builder.node("br"),
 		                  Builder.node("label", [ 
 		                          document.createTextNode(campo.nome), 
 		                          spanObrigatorio,
 		                          Builder.node("br"), 
-		                          input
-		                  ])
-		    ]);
+		                          input ]) ]);
+		   if (calendario != null) {
+			   divCampo.appendChild(calendario);
+			   var scriptTrigger = Builder.node("script", [ document
+			      .createTextNode("Calendar.registerDateCalendar('" + identificador + "', '"
+			         + calendario.id + "', usarWorkflow.aposMudancaEmCampo.bind(usarWorkflow));") ]);
+			   divCampo.appendChild(scriptTrigger);
+		   }
+		   return divCampo;
 	   } else {
 		   var elementOpcao;
 		   var divOpcao;
@@ -239,7 +260,7 @@ UsarWorkflow.prototype = {
 			      name :identificador,
 			      id :"opcao" + opcao.id
 			   });
-			   this._observarAlteracoes(elementOpcao);
+			   observarAlteracao(elementOpcao, this.aposMudancaEmCampo.bind(this));
 			   if (!usarWorkflow.editarCampos) {
 				   $(elementOpcao).disable();
 			   }
@@ -417,20 +438,6 @@ UsarWorkflow.prototype = {
 		      this.carregarHistorico(usoWorkflow);
 	      }).bind(this));
 	   janela.removerBotaoFechar();
-   },
-
-   /**
-	 * Faz a observação das alterações feitas no campo.
-	 * 
-	 * @param campo campo a ser observado
-	 */
-   _observarAlteracoes : function(campo) {
-	   var callback = ( function() {
-		   this.houveAlteracao = true;
-		   $("botaoSalvarUso").enable();
-	   }).bind(this);
-
-	   observarAlteracao(campo, callback);
    },
 
    /**
@@ -802,6 +809,14 @@ UsarWorkflow.prototype = {
 		   span.innerHTML = "&nbsp;*";
 	   }
 	   return span;
+   },
+   
+   /**
+    * Executado após cada mudança em algum campo do uso.
+    */
+   aposMudancaEmCampo : function() {
+	   this.houveAlteracao = true;
+	   $("botaoSalvarUso").enable();
    }
 };
 
