@@ -11,6 +11,8 @@ import br.com.ucb.sisgestor.entidade.CampoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflowPK;
+import br.com.ucb.sisgestor.entidade.HistoricoUsuario;
+import br.com.ucb.sisgestor.entidade.HistoricoUsuarioPK;
 import br.com.ucb.sisgestor.entidade.OpcaoCampo;
 import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.entidade.Processo;
@@ -47,6 +49,8 @@ public class ClassesAnotadas {
 		classes.add(Departamento.class);
 		classes.add(HistoricoUsoWorkflow.class);
 		classes.add(HistoricoUsoWorkflowPK.class);
+		classes.add(HistoricoUsuario.class);
+		classes.add(HistoricoUsuarioPK.class);
 		classes.add(OpcaoCampo.class);
 		classes.add(Permissao.class);
 		classes.add(Processo.class);
