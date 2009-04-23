@@ -5,7 +5,6 @@
 package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Departamento;
-import br.com.ucb.sisgestor.entidade.HistoricoUsuario;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
@@ -44,7 +43,6 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	public void atualizar(Usuario usuario) throws NegocioException {
 		try {
 			this.usuarioDAO.atualizar(usuario);
-			this.gerarHistorico(usuario);
 		} catch (ConstraintViolationException ce) {
 			throw new NegocioException("erro.usuario.login.repetido");
 		}
@@ -59,7 +57,6 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 		if ((usuario != null) && StringUtils.isNotBlank(usuario.getEmail())) {
 			usuario.setSenha(this.gerarSenha());
 			this.usuarioDAO.atualizar(usuario);
-			this.gerarHistorico(usuario);
 			return this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR,
 					Constantes.ASSUNTO_EMAIL_LEMBRETE_SENHA, usuario.getSenha(), usuario.getEmail());
 		}
@@ -74,7 +71,6 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	public void excluir(Usuario usuario) throws NegocioException {
 		usuario.setDataHoraExclusao(DataUtil.getDataHoraAtual());
 		this.usuarioDAO.atualizar(usuario); //Exclusão lógica
-		this.gerarHistorico(usuario);
 	}
 
 	/**
@@ -140,7 +136,6 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 		usuario.setSenha(this.gerarSenha());
 		try {
 			Integer id = this.usuarioDAO.salvar(usuario);
-			this.gerarHistorico(usuario);
 			this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR, Constantes.ASSUNTO_EMAIL_NOVO_USUARIO,
 					"Seja bem vindo ao <b>SisGestor</b> <br /> <p>Sua senha é: " + usuario.getSenha() + "</p>",
 					usuario.getEmail());
@@ -151,16 +146,6 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	}
 
 	/**
-	 * Salva um registro de {@link HistoricoUsuario}.
-	 * 
-	 * @param historicoUsuario {@link HistoricoUsuario} a salvar
-	 */
-	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-	private void salvarHistorico(HistoricoUsuario historicoUsuario) {
-		this.usuarioDAO.salvarHistorico(historicoUsuario);
-	}
-
-	/**
 	 * Atribui o DAO de {@link Usuario}.
 	 * 
 	 * @param usuarioDAO DAO de {@link Usuario}
@@ -168,18 +153,6 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	@Autowired
 	public void setUsuarioDAO(UsuarioDAO usuarioDAO) {
 		this.usuarioDAO = usuarioDAO;
-	}
-
-	/**
-	 * Gera um registro de histórico para o {@link Usuario}.
-	 * 
-	 * @param usuario {@link Usuario} a gerar histórico
-	 */
-	private void gerarHistorico(Usuario usuario) {
-		HistoricoUsuario historico = new HistoricoUsuario();
-		historico.setUsuario(usuario);
-		historico.setDataHora(DataUtil.getDataHoraAtual());
-		this.salvarHistorico(historico);
 	}
 
 	/**
