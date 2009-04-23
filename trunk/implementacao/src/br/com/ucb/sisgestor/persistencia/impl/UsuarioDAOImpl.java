@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.persistencia.impl;
 
+import br.com.ucb.sisgestor.entidade.HistoricoUsuario;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.persistencia.UsuarioDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
@@ -36,7 +37,7 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario> implements UsuarioDAO {
 	 * {@inheritDoc}
 	 * */
 	public List<Usuario> getByDepartamento(Integer departamento) {
-		Criteria criteria = this.createCriteria(Usuario.class);
+		Criteria criteria = this.getCriteria();
 		criteria.createAlias("this.departamento", "departamento");
 		criteria.add(Restrictions.eq("departamento.id", departamento));
 		return GenericsUtil.checkedList(criteria.list(), Usuario.class);
@@ -46,7 +47,7 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario> implements UsuarioDAO {
 	 * {@inheritDoc}
 	 */
 	public Usuario getByLogin(String login) {
-		Criteria criteria = this.createCriteria(Usuario.class);
+		Criteria criteria = this.getCriteria();
 		criteria.add(Restrictions.eq("login", login).ignoreCase());
 		return (Usuario) criteria.uniqueResult();
 	}
@@ -74,9 +75,27 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario> implements UsuarioDAO {
 	/**
 	 * {@inheritDoc}
 	 */
+	public void salvarHistorico(HistoricoUsuario historicoUsuario) {
+		this.getSession().save(historicoUsuario);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected Order getOrdemLista() {
 		return Order.asc("nome").ignoreCase();
+	}
+
+	/**
+	 * Recupera um {@link Criteria} padrão.
+	 * 
+	 * @return criteria
+	 */
+	private Criteria getCriteria() {
+		Criteria criteria = this.createCriteria(Usuario.class);
+		criteria.add(Restrictions.isNull("dataHoraExclusao"));
+		return criteria;
 	}
 
 	/**
@@ -88,7 +107,7 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario> implements UsuarioDAO {
 	 * @return {@link Criteria}
 	 */
 	private Criteria montarCriteriosPaginacao(String login, String nome, Integer departamento) {
-		Criteria criteria = this.createCriteria(Usuario.class);
+		Criteria criteria = this.getCriteria();
 		if (StringUtils.isNotBlank(login)) {
 			criteria.add(Restrictions.like("login", login, MatchMode.ANYWHERE).ignoreCase());
 		}

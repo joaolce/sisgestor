@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.entidade;
 
 import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
+import java.sql.Timestamp;
 import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -31,6 +32,7 @@ import org.hibernate.annotations.NaturalId;
 public class Usuario extends ObjetoPersistente {
 
 	private Boolean						chefe;
+	private Timestamp						dataHoraExclusao;
 	private Departamento					departamento;
 	private String							email;
 	private String							login;
@@ -48,6 +50,16 @@ public class Usuario extends ObjetoPersistente {
 	@Column(name = "UUR_CHEFE", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_BOOLEAN)
 	public Boolean getChefe() {
 		return this.chefe;
+	}
+
+	/**
+	 * Recupera a data/hora de exclusão do usuário.
+	 * 
+	 * @return data/hora de exclusão do usuário
+	 */
+	@Column(name = "UUR_DATA_HORA_EXCLUSAO", nullable = true)
+	public Timestamp getDataHoraExclusao() {
+		return this.dataHoraExclusao;
 	}
 
 	/**
@@ -145,6 +157,15 @@ public class Usuario extends ObjetoPersistente {
 	 */
 	public void setChefe(Boolean chefe) {
 		this.chefe = chefe;
+	}
+
+	/**
+	 * Atribui a data/hora de exclusão do usuário.
+	 * 
+	 * @param dataHoraExclusao data/hora de exclusão do usuário
+	 */
+	public void setDataHoraExclusao(Timestamp dataHoraExclusao) {
+		this.dataHoraExclusao = dataHoraExclusao;
 	}
 
 	/**

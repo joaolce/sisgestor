@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.persistencia;
 
 import br.com.ucb.sisgestor.entidade.Departamento;
+import br.com.ucb.sisgestor.entidade.HistoricoUsuario;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import java.util.List;
 
@@ -53,4 +54,11 @@ public interface UsuarioDAO extends BaseDAO<Usuario> {
 	 * @return total de registros encontrados
 	 */
 	Integer getTotalRegistros(String login, String nome, Integer departamento);
+
+	/**
+	 * Salva um histórico do {@link Usuario}.
+	 * 
+	 * @param historicoUsuario histórico a salvar
+	 */
+	void salvarHistorico(HistoricoUsuario historicoUsuario);
 }
