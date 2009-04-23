@@ -5,7 +5,6 @@
 package br.com.ucb.sisgestor.negocio;
 
 import br.com.ucb.sisgestor.entidade.Departamento;
-import br.com.ucb.sisgestor.entidade.HistoricoUsuario;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import java.util.List;
@@ -57,10 +56,4 @@ public interface UsuarioBO extends BaseBO<Usuario> {
 	List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
 			Integer paginaAtual);
 
-	/**
-	 * Salva um registro de {@link HistoricoUsuario}.
-	 * 
-	 * @param historicoUsuario {@link HistoricoUsuario} a salvar
-	 */
-	void salvarHistorico(HistoricoUsuario historicoUsuario);
 }
