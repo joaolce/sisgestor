@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 
 /**
- * Histórico de uso do {@link Usuario}.
+ * Histórico do {@link Usuario}.
  * 
  * @author Thiago Pires
  * @since 22/04/2009

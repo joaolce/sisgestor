@@ -121,12 +121,27 @@ input[type="radio"],.radioInput {
 	vertical-align: middle;
 }
 
+input[type="text"]:FOCUS, TEXTAREA:FOCUS {
+	background-color: #FFFFFF;
+	margin-top: 2px;
+	font-family: verdana;
+	color: #003366;
+	font-size: 85%;
+}
+
+input[type="text"], TEXTAREA {
+	background-color: #CECDCD;
+	margin-top: 2px;
+	color: #003366;
+	font-family: verdana;
+	font-size: 85%;
+}
+
 input[type="text"],input[type="password"],input[type="button"],input[type="submit"],.textInput
 	{
 	margin-top: 2px;
 	color: #003366;
 	font-family: verdana;
-	color: #003366;
 	font-size: 85%;
 }
 
