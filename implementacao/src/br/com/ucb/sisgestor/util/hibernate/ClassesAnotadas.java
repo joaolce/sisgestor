@@ -2,7 +2,7 @@
  * Projeto: SisGestor
  * Criação: 23/10/2008 por João Lúcio
  */
-package br.com.ucb.sisgestor.util.hibernate;
+package br.com.ucb.sisgestor.util.hibernate; //NOPMD by João Lúcio - classes para o hibernate
 
 import br.com.ucb.sisgestor.entidade.Anexo;
 import br.com.ucb.sisgestor.entidade.Atividade;

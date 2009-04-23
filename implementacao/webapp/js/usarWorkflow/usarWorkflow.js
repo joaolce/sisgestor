@@ -226,6 +226,7 @@ UsarWorkflow.prototype = {
 		                          Builder.node("br"), 
 		                          input ]) ]);
 		   if (calendario != null) {
+		   	$(input).className = "data";
 			   divCampo.appendChild(calendario);
 			   var scriptTrigger = Builder.node("script", [ document
 			      .createTextNode("Calendar.registerDateCalendar('" + identificador + "', '"
