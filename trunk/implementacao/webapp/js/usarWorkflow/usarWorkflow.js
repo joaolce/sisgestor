@@ -94,6 +94,14 @@ UsarWorkflow.prototype = {
     * @type String
     */
    imagemCalendario : "imagens/calendar.gif",
+   
+   /**
+    * Array com os links para os campos de data.
+    * obs: [0] id do campo de data, [1] id da trigger de data.
+    * 
+    * @type Array
+    */
+   camposData : new Array(),
 
    /**
 	 * @constructor
@@ -228,10 +236,7 @@ UsarWorkflow.prototype = {
 		   if (calendario != null) {
 		   	$(input).className = "data";
 			   divCampo.appendChild(calendario);
-			   var scriptTrigger = Builder.node("script", [ document
-			      .createTextNode("Calendar.registerDateCalendar('" + identificador + "', '"
-			         + calendario.id + "', usarWorkflow.aposMudancaEmCampo.bind(usarWorkflow));") ]);
-			   divCampo.appendChild(scriptTrigger);
+			   this.camposData.push(new Array(identificador, calendario.id));
 		   }
 		   return divCampo;
 	   } else {
@@ -406,6 +411,7 @@ UsarWorkflow.prototype = {
 	   requestUtils.simpleRequest("usarWorkflow.do?method=confirmar&id=" + idUsoWorkflow + valor, ( function() {
 		   if (requestUtils.status) {
 			   this.houveAlteracao = false;
+			   this.camposData = new Array();
 			   JanelaFactory.fecharJanela("divUsoWorkflow");
 		   }
 	   }).bind(this));
@@ -483,6 +489,9 @@ UsarWorkflow.prototype = {
 			   resto = aux % 4;
 		   }).bind(this));
 		   this._preencherCampos(listaCamposUsados);
+		   if(this.editarCampos) {
+		   	this._adicionarLinksDatas();
+		   }
 	   }).bind(this));
    },
 
@@ -602,6 +611,7 @@ UsarWorkflow.prototype = {
    			usarWorkflow.habilitarCampos();
    			usarWorkflow.habilitarLinkProximaTarefa(true);
    			usarWorkflow.pesquisar();
+   			usarWorkflow._adicionarLinksDatas();
    		}
    	}));
    },
@@ -764,6 +774,7 @@ UsarWorkflow.prototype = {
 	 */
    sairSemSalvar : function() {
 	   this.houveAlteracao = false;
+	   this.camposData = new Array();
 	   JanelaFactory.fecharJanela("divUsoWorkflow");
    },
 
@@ -818,6 +829,17 @@ UsarWorkflow.prototype = {
    aposMudancaEmCampo : function() {
 	   this.houveAlteracao = true;
 	   $("botaoSalvarUso").enable();
+   },
+
+   /**
+	 * Adiciona os eventos aos links de campos de datas.
+	 */
+   _adicionarLinksDatas : function() {
+	   this.camposData.each(( function(campoData) {
+		   Calendar.registerDateCalendar(campoData[0], campoData[1], this.aposMudancaEmCampo
+		      .bind(this));
+	   }).bind(this));
+	   this.camposData = new Array();
    }
 };
 
