@@ -151,10 +151,12 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Salva um registro de {@link HistoricoUsuario}.
+	 * 
+	 * @param historicoUsuario {@link HistoricoUsuario} a salvar
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-	public void salvarHistorico(HistoricoUsuario historicoUsuario) {
+	private void salvarHistorico(HistoricoUsuario historicoUsuario) {
 		this.usuarioDAO.salvarHistorico(historicoUsuario);
 	}
 
