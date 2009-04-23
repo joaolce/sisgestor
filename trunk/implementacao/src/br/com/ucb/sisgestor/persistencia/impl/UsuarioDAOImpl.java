@@ -4,7 +4,6 @@
  */
 package br.com.ucb.sisgestor.persistencia.impl;
 
-import br.com.ucb.sisgestor.entidade.HistoricoUsuario;
 import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.persistencia.UsuarioDAO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
@@ -70,13 +69,6 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario> implements UsuarioDAO {
 		Criteria criteria = this.montarCriteriosPaginacao(login, nome, departamento);
 		criteria.setProjection(Projections.rowCount());
 		return (Integer) criteria.uniqueResult();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void salvarHistorico(HistoricoUsuario historicoUsuario) {
-		this.getSession().save(historicoUsuario);
 	}
 
 	/**

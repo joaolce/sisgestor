@@ -10,6 +10,9 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 
@@ -27,6 +30,7 @@ public class HistoricoUsoWorkflow implements Serializable {
 
 	private UsoWorkflow	usoWorkflow;
 	private Timestamp		dataHora;
+	private Usuario		usuario;
 	private TipoAcaoEnum	acao;
 
 	/**
@@ -61,6 +65,18 @@ public class HistoricoUsoWorkflow implements Serializable {
 	}
 
 	/**
+	 * Recupera o usuário responsável por alterar o uso
+	 * 
+	 * @return usuário responsável por alterar o uso
+	 */
+	@ManyToOne
+	@JoinColumn(name = "UUR_ID", nullable = false)
+	@ForeignKey(name = "IR_UUR_HUWR")
+	public Usuario getUsuario() {
+		return this.usuario;
+	}
+
+	/**
 	 * Atribui a ação ocorrida no {@link UsoWorkflow}.
 	 * 
 	 * @param acao ação ocorrida no {@link UsoWorkflow}
@@ -78,6 +94,7 @@ public class HistoricoUsoWorkflow implements Serializable {
 		this.dataHora = dataHora;
 	}
 
+
 	/**
 	 * Atribui utilização do {@link Workflow} do histórico.
 	 * 
@@ -85,5 +102,15 @@ public class HistoricoUsoWorkflow implements Serializable {
 	 */
 	public void setUsoWorkflow(UsoWorkflow usoWorkflow) {
 		this.usoWorkflow = usoWorkflow;
+	}
+
+
+	/**
+	 * Atribui o usuário responsável por alterar o uso
+	 * 
+	 * @param usuario usuário responsável por alterar o uso
+	 */
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }

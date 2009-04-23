@@ -189,6 +189,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 		HistoricoUsoWorkflow historico = new HistoricoUsoWorkflow();
 		historico.setUsoWorkflow(usoWorkflow);
 		historico.setDataHora(DataUtil.getDataHoraAtual());
+		historico.setUsuario(Utils.getUsuario());
 		historico.setAcao(acao);
 		this.salvarHistorico(historico);
 	}

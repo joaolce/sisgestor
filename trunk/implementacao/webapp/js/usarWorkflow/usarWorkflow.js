@@ -564,7 +564,7 @@ UsarWorkflow.prototype = {
 		   return getStringTimestamp(historico.dataHora, "dd/MM/yyyy HH:mm:ss");
 	   });
 	   cellfuncs.push( function(historico) {
-		   return "usuario";
+		   return historico.usuario.nome;
 	   });
 	   cellfuncs.push( (function(historico) {
 		   return this.getDescricaoAcao(historico.acao);

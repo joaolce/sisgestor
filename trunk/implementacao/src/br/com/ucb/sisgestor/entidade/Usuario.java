@@ -15,7 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.NaturalId;
 
@@ -31,16 +30,15 @@ import org.hibernate.annotations.NaturalId;
 @AttributeOverride(name = "id", column = @Column(name = "UUR_ID", nullable = false))
 public class Usuario extends ObjetoPersistente {
 
-	private Boolean						chefe;
-	private Timestamp						dataHoraExclusao;
-	private Departamento					departamento;
-	private String							email;
-	private String							login;
-	private String							nome;
-	private List<Permissao>				permissoes;
-	private String							senha;
-	private List<Tarefa>					tarefas;
-	private List<HistoricoUsuario>	historico;
+	private Boolean			chefe;
+	private Timestamp			dataHoraExclusao;
+	private Departamento		departamento;
+	private String				email;
+	private String				login;
+	private String				nome;
+	private List<Permissao>	permissoes;
+	private String				senha;
+	private List<Tarefa>		tarefas;
 
 	/**
 	 * Recupera se o usuário é chefe do departamento.
@@ -82,17 +80,6 @@ public class Usuario extends ObjetoPersistente {
 	@Column(name = "UUR_EMAIL", nullable = true, length = ConstantesDB.EMAIL)
 	public String getEmail() {
 		return this.email;
-	}
-
-	/**
-	 * Recupera o histórico do {@link Usuario}.
-	 * 
-	 * @return histórico do usuario
-	 */
-	@OneToMany(targetEntity = HistoricoUsuario.class, mappedBy = "usuario", fetch = FetchType.LAZY)
-	@OrderBy("dataHora DESC")
-	public List<HistoricoUsuario> getHistorico() {
-		return this.historico;
 	}
 
 	/**
@@ -184,15 +171,6 @@ public class Usuario extends ObjetoPersistente {
 	 */
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	/**
-	 * Atribui o historico do usuário.
-	 * 
-	 * @param historico histórico do usuário
-	 */
-	public void setHistorico(List<HistoricoUsuario> historico) {
-		this.historico = historico;
 	}
 
 	/**
