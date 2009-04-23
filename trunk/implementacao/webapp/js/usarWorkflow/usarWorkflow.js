@@ -408,13 +408,15 @@ UsarWorkflow.prototype = {
    confirmar : function() {
 	   var idUsoWorkflow = dwr.util.getValue("idUsoWorkflow");
 	   var valor = this._getValoresCampos();
-	   requestUtils.simpleRequest("usarWorkflow.do?method=confirmar&id=" + idUsoWorkflow + valor, ( function() {
-		   if (requestUtils.status) {
-			   this.houveAlteracao = false;
-			   this.camposData = new Array();
-			   JanelaFactory.fecharJanela("divUsoWorkflow");
-		   }
-	   }).bind(this));
+	   if(this.houveAlteracao) {
+	   	requestUtils.simpleRequest("usarWorkflow.do?method=confirmar&id=" + idUsoWorkflow + valor, ( function() {
+	   		if (requestUtils.status) {
+	   			this.houveAlteracao = false;
+	   			this.camposData = new Array();
+	   			JanelaFactory.fecharJanela("divUsoWorkflow");
+	   		}
+	   	}).bind(this));
+	   }
    },
 
    /**
@@ -437,7 +439,7 @@ UsarWorkflow.prototype = {
 	      ( function() {
 		      FactoryAbas.getNewAba("tabCamposAncora,tabCampos;tabHistoricoAncora,tabHistorico");
 		      dwr.util.setValue("idUsoWorkflow", usoWorkflow.id);
-		      dwr.util.setValue("dataHoraInicioTarefa", getStringTimestamp(dataHoraInicio));
+		      dwr.util.setValue("dataHoraInicioTarefa", getStringTimestamp(dataHoraInicio, "dd/MM/yyyy HH:mm:ss"));
 		      dwr.util.setValue("nomeTarefa", nomeTarefa);
 		      dwr.util.setValue("descricaoTarefa", descricaoTarefa);
 		      this.carregarCampos(listaCamposUsados);
@@ -559,7 +561,7 @@ UsarWorkflow.prototype = {
 		   });
 	   });
 	   cellfuncs.push( function(historico) {
-		   return getStringTimestamp(historico.dataHora);
+		   return getStringTimestamp(historico.dataHora, "dd/MM/yyyy HH:mm:ss");
 	   });
 	   cellfuncs.push( function(historico) {
 		   return "usuario";
@@ -713,8 +715,7 @@ UsarWorkflow.prototype = {
    /**
 	 * Verifica se o campo é do tipo lista de opções ou múltipla escolha.
 	 * 
-	 * @param {String}
-	 *            tipo do campo
+	 * @param {String} tipoCampo tipo do campo
 	 * @return <code>true</code>, se for lista de opções ou múltipla escolha;
 	 *         <code>false</code>, se for texto, data ou hora
 	 */
@@ -729,13 +730,14 @@ UsarWorkflow.prototype = {
 	/**
 	 * Preenche os campos do tipo data, hora e texto.
 	 * 
-	 * {Number} Código identificador do campo
-	 * {String} Valor a ser setado. 
+	 * @param {Number} idCampo Código identificador do campo
+	 * @param {String} valor Valor a ser setado. 
 	 */
 	_preencherCampo : function(idCampo, valor) {
 		$("tabCampos").select("input[type=\"text\"]").each(function(input) {
-			if (parseInt($(input).id.substring(5)) == idCampo) {
+			if (parseInt($(input).id.substring(5)) == idCampo) { // retira o "campo" do id html
 				$(input).value = valor;
+				throw $break;
 			}
 		});
 	},
@@ -743,9 +745,9 @@ UsarWorkflow.prototype = {
 	/**
 	 * Preenche os campos de múltipla escolha e lista de opções.
 	 * 
-	 * {Number} Código identificador do campo
-	 * {String} Valor a ser setado. 
-	 * {String} Tipo do campo a ser setado 
+	 * @param {Number} idCampo Código identificador do campo
+	 * @param {String} valor Valor a ser setado. 
+	 * @param {String} tipoCampo Tipo do campo a ser setado 
 	 * 
 	 * Obs.: Nesse caso, o valor do campo conterá quais opções deverão estar marcadas (checked)  
 	 */
@@ -753,7 +755,7 @@ UsarWorkflow.prototype = {
 		if (tipoCampo == usarWorkflow.tipoOpcoes) {
 			$("tabCampos").select("input[type=\"checkbox\"]").each(function(input) {
 				//Se o valor do campo está contido em algum value do input, deve ser setado
-				if (((parseInt($(input).name.substring(5))) == idCampo)
+				if (((parseInt($(input).name.substring(5))) == idCampo) //retira o "campo" do name html
 						&& (valor.indexOf($(input).value) != -1)) {
 					$(input).checked = true;
 				}
@@ -761,7 +763,7 @@ UsarWorkflow.prototype = {
 		} else {
 			$("tabCampos").select("input[type=\"radio\"]").each(function(input) {
 				//Se o valor do campo está contido em algum value do input, deve ser setado
-				if (((parseInt($(input).name.substring(5))) == idCampo)
+				if (((parseInt($(input).name.substring(5))) == idCampo) //retira o "campo" do name html
 						&& (valor.indexOf($(input).value) != -1)) {
 					$(input).checked = true;
 				}

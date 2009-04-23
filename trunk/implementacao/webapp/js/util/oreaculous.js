@@ -234,6 +234,12 @@ Janela.prototype = {
 	      style :this.getEstiloConteudo()
 	   }));
 	   Element.hide(janelaDiv);
+	   janelaDiv.onkeydown = ( function(event) {
+		   event = event || window.event;
+		   if (event.keyCode == 27) { // tecla ESC
+			   this.fecharJanela();
+		   }
+	   }).bindAsEventListener(this);
 	   this.getPrincipal().appendChild(janelaDiv);
 	   this.getPrincipal().makePositioned();
 	   this.janelaDiv = janelaDiv;
@@ -389,7 +395,7 @@ Janela.prototype = {
 	   var largura = this.getPrincipal().clientWidth;
 	   var inicioAreaUtil;
 	   if (Prototype.Browser.IE) {
-		   if (document.documentElement.scrollLeft) { //IE < 7
+		   if (document.documentElement.scrollLeft) { // IE < 7
 			   inicioAreaUtil = document.documentElement.scrollLeft;
 		   } else {
 			   inicioAreaUtil = document.body.scrollLeft;

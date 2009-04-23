@@ -48,7 +48,7 @@
 		</a>
 	</div>
 	
-	<html:form action="/usarWorkflow.do?method=confirmar" onsubmit="usarWorkflow.confirmar(); return false;" styleId="usoWorkflowForm">
+	<html:form action="/usarWorkflow.do" onsubmit="usarWorkflow.confirmar(); return false;" styleId="usoWorkflowForm">
 		<html:hidden property="id" styleId="idUsoWorkflow" />
 		<div class="bordas">
 			<div id="tabCampos" style="margin: 5px; height: 330px; overflow: scroll;">
@@ -63,8 +63,8 @@
 			<htmlSGR:submit titleKey="dica.salvar" styleClass="botaoOkCancelar" styleId="botaoSalvarUso" disabled="true" roles="5">
 				<bean:message key="botao.salvar"/>
 			</htmlSGR:submit>
-			<html:button property="cancelar" titleKey="dica.cancelar" onclick="usarWorkflow.salvarAntesSair();" styleClass="botaoOkCancelar">
-				<bean:message key="botao.cancelar"/>
+			<html:button property="cancelar" titleKey="dica.voltar" onclick="usarWorkflow.salvarAntesSair();" styleClass="botaoOkCancelar">
+				<bean:message key="botao.voltar"/>
 			</html:button>
 		</div>
 	</html:form>

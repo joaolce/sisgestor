@@ -20,13 +20,13 @@ public enum TipoAcaoEnum implements CodigoDescricao {
 	INCLUSAO_DE_ANEXO(2, "Inclusão de anexo"),
 	/** Exclusão de {@link Anexo}. */
 	EXCLUSAO_DE_ANEXO(3, "Exclusão de anexo"),
-	/** Inclusão de {@link Anexo}. */
+	/** Alteração nos {@link CampoUsoWorkflow}. */
 	ALTERACAO_CAMPOS(4, "Alteração nos campos"),
-	/** Início da tarefa. */
+	/** Início da {@link Tarefa}. */
 	INICIO_TAREFA(5, "Início da tarefa"),
-	/** Finalização da tarefa. */
+	/** Finalização da {@link Tarefa}. */
 	FINALIZAR_TAREFA(6, "Finalização da tarefa"),
-	/** Finalização do registro do uso. */
+	/** Finalização do registro do {@link UsoWorkflow}. */
 	FINALIZAR_USO(7, "Finalização do registro");
 
 	private Integer	chave;

@@ -180,7 +180,7 @@ ManterWorkflow.prototype = {
 	 */
    popupNovoWorkflow : function() {
 	   var url = "manterWorkflow.do?method=popupNovoWorkflow";
-	   createWindow(255, 375, 280, 40, "Novo Workflow", "divNovoWorkflow", url);
+	   createWindow(255, 320, 280, 40, "Novo Workflow", "divNovoWorkflow", url);
    },
 
    /**
@@ -248,16 +248,16 @@ ManterWorkflow.prototype = {
 		   $("linkGerenciarCampos").className = "";
 		   $("linkGerenciarCampos").onclick = this.popupGerenciarCampos;
 		   if (Usuario.temPermissao(MANTER_WORKFLOW)) {
-			   $("linkCopiarWorkflow").className = "";
-			   $("linkCopiarWorkflow").onclick = this.copiar;
+			   $("linkDuplicarWorkflow").className = "";
+			   $("linkDuplicarWorkflow").onclick = this.duplicar;
 		   }
 	   } else {
 		   $("linkGerenciarProcessos").className = "btDesativado";
-		   $("linkGerenciarProcessos").onclick = "";
+		   $("linkGerenciarProcessos").onclick = Prototype.emptyFunction;
 		   $("linkGerenciarCampos").className = "btDesativado";
-		   $("linkGerenciarCampos").onclick = "";
-		   $("linkCopiarWorkflow").className = "btDesativado";
-		   $("linkCopiarWorkflow").onclick = "";
+		   $("linkGerenciarCampos").onclick = Prototype.emptyFunction;
+		   $("linkDuplicarWorkflow").className = "btDesativado";
+		   $("linkDuplicarWorkflow").onclick = Prototype.emptyFunction;
 	   }
    },
 
@@ -284,10 +284,10 @@ ManterWorkflow.prototype = {
    },
 
    /**
-	 * Faz a cópia de um workflow.
+	 * Faz a duplicação de um workflow.
 	 */
-   copiar : function() {
-	   JanelasComuns.showConfirmDialog("Deseja copiar o workflow selecionado?", ( function() {
+   duplicar : function() {
+	   JanelasComuns.showConfirmDialog("Deseja duplicar o workflow selecionado?", ( function() {
 		   requestUtils.simpleRequest("manterWorkflow.do?method=copiar&id=" + $F("id"), ( function() {
 			   if (requestUtils.status) {
 				   workflow.pesquisar();

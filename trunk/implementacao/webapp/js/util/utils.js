@@ -968,11 +968,12 @@ function nobreakSpace(dado) {
 /**
  * retorna um timestamp (data/hora) no formato pt-BR
  * 
- * @param {Date} data
- * @return {String} data no formato dd/MM/yyyy HH:mm
+ * @param {Date} data data a formatar
+ * @param {String} formato formato da data a ser apresentado (opcional, padrão: 'dd/MM/yyyy HH:mm')
+ * @return {String} data no formato especificado
  */
 
-function getStringTimestamp(data) {
+function getStringTimestamp(data, formato) {
 	if (!data instanceof Date || (data == undefined)) {
 		return null;
 	}
@@ -985,7 +986,10 @@ function getStringTimestamp(data) {
 	 * if(data.toString().indexOf("GMT-0200") != -1){ data = new Date(data.getTime());
 	 * data.setHours(data.getHours() -1); }
 	 */
-	return formatDate(data, "dd/MM/yyyy HH:mm");
+	if(Object.isUndefined(formato)) {
+		formato = "dd/MM/yyyy HH:mm";
+	}
+	return formatDate(data, formato);
 }
 /**
  * limpar todos os eventos de um objeto
