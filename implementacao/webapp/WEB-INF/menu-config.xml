@@ -37,7 +37,7 @@
 		<Menu name="MenuDepartamento" title="menu.departamento" description="dica.departamento.atualizar" page="/manterDepartamento.do?method=entrada" width="130" image="imagens/departamento.png" />
 		<Menu name="MenuUsuario" title="menu.usuario" description="dica.usuario.atualizar" page="/manterUsuario.do?method=entrada" image="imagens/usuario.png" />
 		<Menu name="MenuWorkflow" title="menu.workflow" image="imagens/workflow.png">
-			<Item name="MenuWorkflowPesquisar" title="menu.workflow.pesquisar" width="110" page="/manterWorkflow.do?method=entrada" />
+			<Item name="MenuWorkflowManter" title="menu.workflow.manter" width="110" page="/manterWorkflow.do?method=entrada" />
 			<Item name="MenuWorkflowUsar" title="menu.workflow.usar" width="110" page="/usarWorkflow.do?method=entrada" />
 		</Menu>
 		<Menu name="MenuSair" title="menu.sair" description="dica.sair" page="/dologin?logout=true" image="imagens/sair.png"/>

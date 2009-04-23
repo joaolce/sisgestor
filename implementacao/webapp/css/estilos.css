@@ -121,7 +121,7 @@ input[type="radio"],.radioInput {
 	vertical-align: middle;
 }
 
-input[type="text"]:FOCUS, TEXTAREA:FOCUS {
+input[type="text"]:FOCUS,TEXTAREA:FOCUS,SELECT:FOCUS {
 	background-color: #FFFFFF;
 	margin-top: 2px;
 	font-family: verdana;
@@ -129,8 +129,8 @@ input[type="text"]:FOCUS, TEXTAREA:FOCUS {
 	font-size: 85%;
 }
 
-input[type="text"], TEXTAREA {
-	background-color: #CECDCD;
+input[type="text"],TEXTAREA,SELECT {
+	background-color: #E7FEFE;
 	margin-top: 2px;
 	color: #003366;
 	font-family: verdana;
@@ -304,7 +304,7 @@ input[type="text"].data {
 }
 
 .btDesativado img {
-	filter: alpha(opacity =       30);
+	filter: alpha(opacity =             30);
 	opacity: 0.3;
 }
 

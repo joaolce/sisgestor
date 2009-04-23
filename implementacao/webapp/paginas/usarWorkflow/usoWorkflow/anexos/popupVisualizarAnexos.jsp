@@ -59,8 +59,8 @@
 					<bean:message key="botao.excluir"/>
 			</htmlSGR:button>
 		</logic:present>
-		<html:button property="cancelar" titleKey="dica.cancelar" onclick="JanelaFactory.fecharJanelaAtiva();" styleClass="botaoOkCancelar">
-			<bean:message key="botao.cancelar"/>
+		<html:button property="cancelar" titleKey="dica.voltar" onclick="JanelaFactory.fecharJanelaAtiva();" styleClass="botaoOkCancelar">
+			<bean:message key="botao.voltar"/>
 		</html:button>
 	</div>
 </html:form>
