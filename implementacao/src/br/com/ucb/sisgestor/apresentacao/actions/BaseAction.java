@@ -15,7 +15,6 @@ import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.GenericsUtil;
 import br.com.ucb.sisgestor.util.ParametrosURL;
 import br.com.ucb.sisgestor.util.Utils;
-import br.com.ucb.sisgestor.util.constantes.ConstantesAplicacao;
 import br.com.ucb.sisgestor.util.constantes.ConstantesContexto;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -105,7 +104,6 @@ public class BaseAction extends DispatchActionSupport {
 		this.segurancaPost(request);
 		//popula as variaveis de instância
 		this.populaParametrosAction(mapping, actionForm, request, response);
-		ConstantesAplicacao.setConstantes(request);
 
 		/* se o parâmetro estiver presente é porque a submissão foi assíncrona e para não acontecer problemas
 		 * com a codificação do charset (problemas com acentos e caracteres especiais) utiliza-se o 

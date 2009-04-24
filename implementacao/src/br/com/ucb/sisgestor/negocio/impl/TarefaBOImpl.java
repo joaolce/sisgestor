@@ -11,6 +11,7 @@ import br.com.ucb.sisgestor.entidade.TransacaoAtividade;
 import br.com.ucb.sisgestor.entidade.TransacaoProcesso;
 import br.com.ucb.sisgestor.entidade.TransacaoTarefa;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
+import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
@@ -46,7 +47,12 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void atualizar(Tarefa tarefa) throws NegocioException {
-		this.validarSePodeAlterarWorkflow(tarefa.getAtividade().getProcesso().getWorkflow());
+		Usuario usuarioLogado = Utils.getUsuario();
+		Atividade atividadeTarefa = tarefa.getAtividade();
+		if (!usuarioLogado.getDepartamento().equals(atividadeTarefa.getDepartamento())
+				&& !usuarioLogado.getChefe()) {
+			this.validarSePodeAlterarWorkflow(atividadeTarefa.getProcesso().getWorkflow());
+		}
 		this.tarefaDAO.atualizar(tarefa);
 	}
 
