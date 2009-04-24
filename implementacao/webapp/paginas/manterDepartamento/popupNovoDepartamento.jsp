@@ -6,7 +6,7 @@
 
 <html:form action="/manterDepartamento.do?method=salvar" onsubmit="departamento.salvar(this); JanelaFactory.fecharJanelaAtiva(); return false;" styleId="manterDepartamentoForm">
 
-	<fieldset style="margin: 5pt auto; padding: 10px; width: 95%;">
+	<fieldset style="margin: 5pt auto; padding: 10px;">
 		<div>
 			<label>
 				<b>

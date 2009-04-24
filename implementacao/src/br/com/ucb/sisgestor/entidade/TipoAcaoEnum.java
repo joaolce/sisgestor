@@ -15,7 +15,7 @@ import br.com.ucb.sisgestor.util.hibernate.CodigoDescricao;
 public enum TipoAcaoEnum implements CodigoDescricao {
 
 	/** Início de um {@link UsoWorkflow}. */
-	INICIO_USO(1, "Início do uso"),
+	INICIO_USO(1, "Início do registro"),
 	/** Inclusão de {@link Anexo}. */
 	INCLUSAO_DE_ANEXO(2, "Inclusão de anexo"),
 	/** Exclusão de {@link Anexo}. */

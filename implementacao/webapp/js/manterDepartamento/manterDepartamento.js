@@ -186,7 +186,7 @@ ManterDepartamento.prototype = {
 	 */
    popupNovoDepartamento : function() {
 	   var url = "manterDepartamento.do?method=popupNovoDepartamento";
-	   createWindow(270, 430, 280, 70, "Novo Departamento", "divNovoDepartamento", url);
+	   createWindow(270, 310, 280, 70, "Novo Departamento", "divNovoDepartamento", url);
    },
 
    /**
