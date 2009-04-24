@@ -17,7 +17,7 @@
 				<bean:message key="label.usuario.responsavel"/>
 			</b>
 			<html:select property="usuario" styleId="usuario" style="width: 150px;">
-				<html:option value="" />
+				<html:option value="-1">&nbsp;</html:option>
 				<html:optionsCollection name="manterTarefaForm" property="listaUsuarios" label="nome" value="id" />
 			</html:select>
 		</label>

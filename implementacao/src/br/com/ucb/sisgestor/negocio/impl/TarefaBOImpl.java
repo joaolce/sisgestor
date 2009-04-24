@@ -50,7 +50,7 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 		Usuario usuarioLogado = Utils.getUsuario();
 		Atividade atividadeTarefa = tarefa.getAtividade();
 		if (!usuarioLogado.getDepartamento().equals(atividadeTarefa.getDepartamento())
-				&& !usuarioLogado.getChefe()) {
+				|| !usuarioLogado.getChefe()) {
 			this.validarSePodeAlterarWorkflow(atividadeTarefa.getProcesso().getWorkflow());
 		}
 		this.tarefaDAO.atualizar(tarefa);

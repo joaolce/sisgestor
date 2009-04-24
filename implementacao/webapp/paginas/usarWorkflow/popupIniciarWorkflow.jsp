@@ -10,7 +10,7 @@
 					<bean:message key="label.workflow"/>
 					<span class="obrigatorio">*</span>
 				</b>
-				<html:select property="workflow" styleId="workflow" style="width: 150px;">
+				<html:select property="workflow" styleId="workflow" style="width: 175px;">
 						<html:option value="" />
 						<html:optionsCollection name="usarWorkflowForm" property="listaWorkflows" label="nome" value="id" />
 				</html:select>

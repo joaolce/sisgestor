@@ -75,7 +75,7 @@ public class Campo extends ObjetoPersistente {
 	 * @return opções do campo
 	 */
 	@OneToMany(targetEntity = OpcaoCampo.class, mappedBy = "campo", fetch = FetchType.LAZY)
-	@Cascade(CascadeType.ALL)
+	@Cascade( {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	public List<OpcaoCampo> getOpcoes() {
 		return this.opcoes;
 	}
@@ -97,7 +97,6 @@ public class Campo extends ObjetoPersistente {
 	 * @return usos do campo
 	 */
 	@OneToMany(targetEntity = CampoUsoWorkflow.class, mappedBy = "campo")
-	@ForeignKey(name = "IR_CAM_UCA")
 	public List<CampoUsoWorkflow> getUsos() {
 		return this.usos;
 	}

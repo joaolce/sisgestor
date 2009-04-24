@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -43,7 +44,7 @@ public class ManterCampoAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterCampoActionForm form = (ManterCampoActionForm) actionForm;
 
-		Campo campo = new Campo(); //feito por causa das opções
+		Campo campo = this.campoBO.obter(form.getId());
 		this.copyProperties(campo, form);
 		campo.setOpcoes(this.getOpcoes(campo, form.getOpcoes()));
 
@@ -142,27 +143,73 @@ public class ManterCampoAction extends BaseAction {
 	}
 
 	/**
+	 * Adiciona as opções restantes na lista das opções do campo.
+	 * 
+	 * @param opcoesAtuais lista de opções atuais
+	 * @param opcoesForm novas opções do campo
+	 */
+	private void adicionarOpcoes(Campo campo, List<OpcaoCampo> opcoesAtuais, String[] opcoesForm) {
+		OpcaoCampo opcao = null;
+		for (int valorCampo = 0; valorCampo < opcoesForm.length; valorCampo++) {
+			boolean isOpcaoNova = true;
+			for (OpcaoCampo opcaoAtual : opcoesAtuais) {
+				if (opcaoAtual.getDescricao().equalsIgnoreCase(opcoesForm[valorCampo])) { //opção já existe no BD
+					isOpcaoNova = false;
+					opcao = opcaoAtual;
+					break;
+				}
+			}
+			if (isOpcaoNova) {
+				opcao = new OpcaoCampo();
+				opcao.setDescricao(StringUtils.substring(opcoesForm[valorCampo], 0, 20));
+				opcao.setCampo(campo);
+				opcoesAtuais.add(opcao);
+			}
+			opcao.setValor(valorCampo);
+		}
+	}
+
+	/**
 	 * Recupera um {@link List} de {@link OpcaoCampo} a partir da descrição das opções.
 	 * 
 	 * @param opcoesForm descrições das opções
 	 * @return {@link List} de {@link OpcaoCampo}
 	 */
 	private List<OpcaoCampo> getOpcoes(Campo campo, String[] opcoesForm) {
-		List<OpcaoCampo> opcoes = null;
-
+		List<OpcaoCampo> opcoes = campo.getOpcoes();
 		TipoCampoEnum tipo = campo.getTipo();
 		if ((opcoesForm != null)
 				&& ((tipo == TipoCampoEnum.LISTA_DE_OPCOES) || (tipo == TipoCampoEnum.MULTIPLA_ESCOLHA))) {
-			opcoes = new ArrayList<OpcaoCampo>();
-			OpcaoCampo opcao;
-			for (int valorCampo = 0; valorCampo < opcoesForm.length; valorCampo++) {
-				opcao = new OpcaoCampo();
-				opcao.setValor(valorCampo);
-				opcao.setDescricao(opcoesForm[valorCampo]);
-				opcao.setCampo(campo);
-				opcoes.add(opcao);
+			if (opcoes == null) { //inserção
+				opcoes = new ArrayList<OpcaoCampo>();
+			} else { //atualização
+				this.removerOpcoesExcluidas(opcoes, opcoesForm);
 			}
+			this.adicionarOpcoes(campo, opcoes, opcoesForm);
 		}
 		return opcoes;
+	}
+
+	/**
+	 * Remove as opções que foram excluídas do campo.
+	 * 
+	 * @param opcoesAtuais lista de opções atuais
+	 * @param opcoesForm novas opções do campo
+	 */
+	private void removerOpcoesExcluidas(List<OpcaoCampo> opcoesAtuais, String[] opcoesForm) {
+		List<OpcaoCampo> opcoesRemovidas = new ArrayList<OpcaoCampo>();
+		for (OpcaoCampo opcaoAntiga : opcoesAtuais) {
+			boolean achou = false;
+			for (String opcaoNova : opcoesForm) {
+				if (opcaoAntiga.getDescricao().equalsIgnoreCase(opcaoNova)) {
+					achou = true;
+					break;
+				}
+			}
+			if (!achou) {
+				opcoesRemovidas.add(opcaoAntiga);
+			}
+		}
+		opcoesAtuais.removeAll(opcoesRemovidas);
 	}
 }

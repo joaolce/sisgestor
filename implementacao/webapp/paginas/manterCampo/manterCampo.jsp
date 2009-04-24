@@ -108,12 +108,12 @@
 						</label>
 						<br /> <br />
 						<div align="center">
-							<html:button property="adicionarOpcao" titleKey="dica.campo.adicionarOpcao" onclick="campo.adicionaOpcao(false);" styleClass="botaoOkCancelar">
+							<htmlSGR:button property="adicionarOpcao" titleKey="dica.campo.adicionarOpcao" onclick="campo.adicionaOpcao(false);" styleClass="botaoOkCancelar" roles="4">
 								<bean:message key="botao.adicionar"/>
-							</html:button>
-							<html:button property="removerOpcao" titleKey="dica.campo.removerOpcao" onclick="campo.removeOpcao(false);" styleClass="botaoOkCancelar">
+							</htmlSGR:button>
+							<htmlSGR:button property="removerOpcao" titleKey="dica.campo.removerOpcao" onclick="campo.removeOpcao(false);" styleClass="botaoOkCancelar" roles="4">
 								<bean:message key="botao.remover"/>
-							</html:button>
+							</htmlSGR:button>
 						</div>
 					</div>
 					<div style="float: left; margin-left: -25px;">

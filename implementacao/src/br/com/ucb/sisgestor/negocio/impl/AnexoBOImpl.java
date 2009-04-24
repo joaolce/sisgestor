@@ -129,6 +129,7 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo> implements AnexoBO {
 	private void salvarHistoricoUso(UsoWorkflow usoWorkflow, TipoAcaoEnum acao) {
 		HistoricoUsoWorkflow historicoUsoWorkflow = new HistoricoUsoWorkflow();
 		historicoUsoWorkflow.setUsoWorkflow(usoWorkflow);
+		historicoUsoWorkflow.setUsuario(Utils.getUsuario());
 		historicoUsoWorkflow.setDataHora(DataUtil.getDataHoraAtual());
 		historicoUsoWorkflow.setAcao(acao);
 		this.getUsoWorkflowBO().salvarHistorico(historicoUsoWorkflow);
