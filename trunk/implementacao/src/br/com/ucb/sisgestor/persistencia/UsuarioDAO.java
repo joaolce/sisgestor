@@ -53,4 +53,12 @@ public interface UsuarioDAO extends BaseDAO<Usuario> {
 	 * @return total de registros encontrados
 	 */
 	Integer getTotalRegistros(String login, String nome, Integer departamento);
+
+	/**
+	 * Verifica se o login do usuário já está em uso.
+	 * 
+	 * @param usuario usuário a ser verificado
+	 * @return <code>true</code>, se já está em uso;<code>false</code>, se ainda não.
+	 */
+	boolean isLoginUtilizado(Usuario usuario);
 }

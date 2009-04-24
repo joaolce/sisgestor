@@ -54,10 +54,15 @@ public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento> implements De
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isSiglaUtilizada(String sigla) {
+	public boolean isSiglaUtilizada(Departamento departamento) {
 		Criteria criteria = this.getCriteria();
-		criteria.add(Restrictions.eq("sigla", sigla));
 		criteria.setProjection(Projections.count("id"));
+
+		criteria.add(Restrictions.eq("sigla", departamento.getSigla()));
+		if (departamento.getId() != null) {
+			criteria.add(Restrictions.ne("id", departamento.getId()));
+		}
+
 		Integer total = (Integer) criteria.uniqueResult();
 		return !(Integer.valueOf(0).equals(total));
 	}
@@ -76,13 +81,13 @@ public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento> implements De
 	 */
 	@Override
 	protected Order getOrdemLista() {
-		return Order.asc("sigla").ignoreCase();
+		return Order.asc("this.sigla").ignoreCase();
 	}
 
 	/**
-	 * Cria um {@link Criteria} padrão para departamento
+	 * Cria um {@link Criteria} padrão para departamento.
 	 * 
-	 * @return criteria
+	 * @return {@link Criteria} criado
 	 */
 	private Criteria getCriteria() {
 		Criteria criteria = this.createCriteria(Departamento.class);

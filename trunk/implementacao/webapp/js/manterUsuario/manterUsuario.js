@@ -178,15 +178,17 @@ ManterUsuario.prototype = {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar o usuário selecionado?", ( function() {
 		   this.habilitarCampos(true);
 		   ComboFunctions.selecionaCombo("permissoes");
-		   requestUtils.submitForm(form, null, ( function() {
+		   requestUtils.submitForm(form, ( function() {
+			   if (requestUtils.status) {
+				   this.pesquisar();
+			   }
+		   }).bind(this), ( function() {
 			   if (requestUtils.status) {
 				   if ((Usuario.getUsuario().id == dwr.util.getValue($("formSalvar").id))
 				      && this.permissaoManterUsuario) {
 					   UtilDWR.finalizarSessao( function() {
 						   JanelasComuns.sessaoFinalizada();
 					   });
-				   } else {
-					   this.pesquisar();
 				   }
 			   }
 		   }).bind(this));

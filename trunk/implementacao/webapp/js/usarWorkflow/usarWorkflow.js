@@ -134,7 +134,7 @@ UsarWorkflow.prototype = {
 	 */
    popupIniciarWorkflow : function() {
 	   var url = "usarWorkflow.do?method=popupIniciarWorkflow";
-	   createWindow(115, 375, 280, 70, "Iniciar Workflow", "divIniciarWorkflow", url);
+	   createWindow(115, 330, 280, 70, "Iniciar Workflow", "divIniciarWorkflow", url);
    },
 
    /**
@@ -450,7 +450,7 @@ UsarWorkflow.prototype = {
 		      dwr.util.setValue("nomeTarefa", nomeTarefa);
 		      dwr.util.setValue("descricaoTarefa", descricaoTarefa);
 		      this.carregarCampos(listaCamposUsados);
-		      this.habilitarLinkProximaTarefa(this.editarCampos);
+		      this.habilitarLinks(this.editarCampos);
 		      this.carregarHistorico(usoWorkflow);
 	      }).bind(this));
 	   janela.removerBotaoFechar();
@@ -580,15 +580,15 @@ UsarWorkflow.prototype = {
    },
    
    /**
-	 * Habilita/desabilita os links se a tarefa está pendente para iniciar.
+	 * Habilita/desabilita os links caso a tarefa esteja pendente para iniciar.
 	 * 
 	 * @param (Boolean) caso seja para habilitar ou desabilitar
 	 */
-	habilitarLinkProximaTarefa : function(habilita) {
+	habilitarLinks : function(habilita) {
 		if (habilita) {
 			// se habilita link de próximas tarefas, desabilita o de iniciar
 			$("linkIniciarTarefa").className = "btDesativado";
-			$("linkIniciarTarefa").onclick = "";
+			$("linkIniciarTarefa").onclick = Prototype.emptyFunction;
 			$("linkProximasTarefa").className = "";
 			$("linkProximasTarefa").onclick = this.popupProximasTarefas;
 			$("linkAnotacao").className = "";
@@ -597,7 +597,7 @@ UsarWorkflow.prototype = {
 			$("linkIniciarTarefa").className = "";
 			$("linkIniciarTarefa").onclick = this.iniciarTarefa;
 			$("linkProximasTarefa").className = "btDesativado";
-			$("linkProximasTarefa").onclick = "";
+			$("linkProximasTarefa").onclick = Prototype.emptyFunction;
 		}
 	},
    
@@ -620,7 +620,7 @@ UsarWorkflow.prototype = {
    			}));
    			usarWorkflow.popularHistorico();
    			usarWorkflow.habilitarCampos();
-   			usarWorkflow.habilitarLinkProximaTarefa(true);
+   			usarWorkflow.habilitarLinks(true);
    			usarWorkflow.pesquisar();
    			usarWorkflow._adicionarLinksDatas();
    		}

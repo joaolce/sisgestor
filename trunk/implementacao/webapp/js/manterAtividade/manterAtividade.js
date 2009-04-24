@@ -158,7 +158,7 @@ ManterAtividade.prototype = {
 	 */
    popupNovaAtividade : function() {
 	   var url = "manterAtividade.do?method=popupNovaAtividade";
-	   createWindow(285, 320, 280, 40, "Nova Atividade", "divNovaAtividade", url, ( function() {
+	   createWindow(285, 321, 280, 40, "Nova Atividade", "divNovaAtividade", url, ( function() {
 		   dwr.util.setValue("processoNovaAtividade", $F("processoAtividade"));
 	   }));
    },

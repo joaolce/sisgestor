@@ -176,8 +176,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	 * @throws NegocioException caso o login já existe para outro usuário
 	 */
 	private void validarSeLoginExiste(Usuario usuario) throws NegocioException {
-		Usuario usuarioComLogin = this.usuarioDAO.getByLogin(usuario.getLogin());
-		if ((usuarioComLogin != null) && !usuarioComLogin.getId().equals(usuario.getId())) {
+		if (this.usuarioDAO.isLoginUtilizado(usuario)) {
 			throw new NegocioException("erro.usuario.login.repetido");
 		}
 	}
