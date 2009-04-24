@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import org.hibernate.annotations.ForeignKey;
-import org.hibernate.annotations.NaturalId;
 
 /**
  * Classe que representa um departamento no sistema.
@@ -105,7 +104,6 @@ public class Departamento extends ObjetoPersistente {
 	 * @return sigla do departamento
 	 */
 	@Column(name = "DPR_SIGLA", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_SIGLA)
-	@NaturalId(mutable = true)
 	public String getSigla() {
 		return this.sigla;
 	}
