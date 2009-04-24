@@ -7,14 +7,14 @@
 	<div id="divMenuOpcoes">
 		<html:link href="#iniciarTarefa" titleKey="dica.iniciarTarefa" linkName="iniciarTarefa" 
 			styleClass="btDesativado" styleId="linkIniciarTarefa" >
-			<html:img srcKey="imagem.iniciarTarefa" width="20" height="19"/>
+			<html:img srcKey="imagem.iniciarTarefa" width="23" height="22"/>
 		</html:link>
 		<html:link href="#proximasTarefa" titleKey="dica.tarefa.proximas" linkName="proximasTarefa" 
 			styleClass="btDesativado" styleId="linkProximasTarefa" style="margin-right: 10px;">
-			<html:img srcKey="imagem.transicao" width="20" height="19"/>
+			<html:img srcKey="imagem.transicao" width="23" height="22"/>
 		</html:link>
 		<html:link href="#anexos" titleKey="dica.anexos" onclick="usarWorkflow.popupVisualizarAnexos();" linkName="anexos">
-			<html:img srcKey="imagem.anexos" width="20" height="19"/>
+			<html:img srcKey="imagem.anexos" width="23" height="22"/>
 		</html:link>
 	</div>
 	

@@ -10,7 +10,7 @@
 
 	<div id="divMenuOpcoes">
 		<htmlSGR:link href="#novoDepartamento" titleKey="dica.departamento.novo" onclick="departamento.popupNovoDepartamento();" linkName="novoDepartamento" roles="2">
-			<html:img srcKey="imagem.novo" width="20" height="19" />
+			<html:img srcKey="imagem.novo" width="23" height="22" />
 		</htmlSGR:link>
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE DEPARTAMENTOS -->

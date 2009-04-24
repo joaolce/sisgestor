@@ -8,10 +8,10 @@
 <div class="bordas" id="BordaExterna">
 	<div id="divMenuOpcoes">
 		<html:link href="#editarSenha" titleKey="dica.senha" onclick="usuario.popupEditarSenha();" linkName="editarSenha">
-			<html:img srcKey="imagem.senha" width="20" height="19" />
+			<html:img srcKey="imagem.senha" width="23" height="22" />
 		</html:link>
 		<htmlSGR:link href="#novoUsuario" titleKey="dica.usuario.novo" onclick="usuario.popupNovoUsuario();" linkName="novoUsuario" roles="3">
-			<html:img srcKey="imagem.novo" width="20" height="19" />
+			<html:img srcKey="imagem.novo" width="23" height="22" />
 		</htmlSGR:link>
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE USUARIO -->

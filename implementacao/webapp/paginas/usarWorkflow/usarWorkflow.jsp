@@ -13,7 +13,7 @@
 <div class="bordas" id="BordaExterna">
 	<div id="divMenuOpcoes">
 		<htmlSGR:link href="#iniciarWorkflow" titleKey="dica.workflow.iniciar" onclick="usarWorkflow.popupIniciarWorkflow();" linkName="iniciarWorkflow" roles="5">
-			<html:img srcKey="imagem.iniciarWorkflow" width="20" height="19" />
+			<html:img srcKey="imagem.iniciarWorkflow" width="23" height="22" />
 		</htmlSGR:link>
 	</div>
 	<div id="divWorkflows" style="clear: left; height: 420px; overflow: auto; border: 1px solid gray; margin-top: 50px;">

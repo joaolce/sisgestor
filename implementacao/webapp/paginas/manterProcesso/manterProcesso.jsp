@@ -5,13 +5,13 @@
 <div class="bordas" id="BordaExterna" style="height: 496px;">
 	<div id="divMenuOpcoes">
 		<htmlSGR:link href="#gerenciarAtividades" titleKey="dica.atividade.gerenciar" linkName="gerenciarAtividades" styleId="linkGerenciarAtividades" styleClass="btDesativado" roles="4">
-			<html:img srcKey="imagem.atividade" width="20" height="19" />
+			<html:img srcKey="imagem.atividade" width="23" height="22" />
 		</htmlSGR:link>
 		<html:link href="#definirFluxoProcesso" titleKey="dica.definirFluxo" onclick="processo.popupDefinirFluxoProcessos();" linkName="definirFluxoProcesso" styleId="linkDefinirFluxoProcesso">
-			<html:img srcKey="imagem.fluxo" width="20" height="19" />
+			<html:img srcKey="imagem.fluxo" width="23" height="22" />
 		</html:link>
 		<htmlSGR:link href="#novoProcesso" titleKey="dica.processo.novo" onclick="processo.popupNovoProcesso();" linkName="novoProcesso" roles="4">
-			<html:img srcKey="imagem.novo" width="20" height="19" />
+			<html:img srcKey="imagem.novo" width="23" height="22" />
 		</htmlSGR:link>
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE PROCESSOS -->
