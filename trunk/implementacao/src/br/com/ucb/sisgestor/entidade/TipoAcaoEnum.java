@@ -27,7 +27,9 @@ public enum TipoAcaoEnum implements CodigoDescricao {
 	/** Finalização da {@link Tarefa}. */
 	FINALIZAR_TAREFA(6, "Finalização da tarefa"),
 	/** Finalização do registro do {@link UsoWorkflow}. */
-	FINALIZAR_USO(7, "Finalização do registro");
+	FINALIZAR_USO(7, "Finalização do registro"),
+	/** Alteração na anotações do {@link UsoWorkflow}. */
+	ALTERACAO_ANOTACAO(8, "Alteração nas anotações");
 
 	private Integer	chave;
 	private String		descricao;

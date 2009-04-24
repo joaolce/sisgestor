@@ -5,7 +5,6 @@
 package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Campo;
-import br.com.ucb.sisgestor.entidade.OpcaoCampo;
 import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.CampoBO;
 import br.com.ucb.sisgestor.negocio.WorkflowBO;
@@ -39,19 +38,7 @@ public class CampoBOImpl extends BaseBOImpl<Campo> implements CampoBO {
 	public void atualizar(Campo campo) throws NegocioException {
 		Workflow workflow = this.getWorkflowBO().obter(campo.getWorkflow().getId());
 		this.validarSePodeAlterarWorkflow(workflow);
-		Campo campoAtual = this.campoDAO.obter(campo.getId());
-		if (campoAtual.getOpcoes() != null) { // excluindo as opções pois o cascade não suporta para atualizar
-			for (OpcaoCampo opcao : campoAtual.getOpcoes()) {
-				this.campoDAO.excluirOpcao(opcao);
-			}
-		}
-		try {
-			Utils.copyProperties(campoAtual, campo);
-			campoAtual.setOpcoes(campo.getOpcoes());
-		} catch (Exception e) {
-			throw new NegocioException(e);
-		}
-		this.campoDAO.atualizar(campoAtual);
+		this.campoDAO.atualizar(campo);
 	}
 
 	/**
