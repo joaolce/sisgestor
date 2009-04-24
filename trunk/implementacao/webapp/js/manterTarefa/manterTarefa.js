@@ -169,7 +169,7 @@ ManterTarefa.prototype = {
    popupNovaTarefa : function() {
 	   var idAtividade = dwr.util.getValue($("formAtualizarAtividade").id);
 	   var url = "manterTarefa.do?method=popupNovaTarefa&atividade=" + idAtividade;
-	   createWindow(285, 375, 280, 40, "Nova Tarefa", "divNovaTarefa", url, ( function() {
+	   createWindow(285, 330, 280, 40, "Nova Tarefa", "divNovaTarefa", url, ( function() {
 		   dwr.util.setValue("atividadeNovaTarefa", $F("atividadeTarefa"));
 	   }));
    },
