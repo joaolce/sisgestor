@@ -54,4 +54,7 @@ public final class ConstantesDB {
 
 	/** Definição do campo descrição de opção de campo. */
 	public static final String	DEFINICAO_DESCRICAO_OPCAO	= "CHAR(20)";
+
+	/** Definição da quantidade de caracteres para o campo anotação */
+	public static final int		ANOTACAO							= 500;
 }

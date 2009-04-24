@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.entidade;
 
 import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
+import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
 import java.sql.Timestamp;
 import java.util.List;
 import javax.persistence.AttributeOverride;
@@ -34,6 +35,7 @@ import org.hibernate.annotations.ForeignKey;
 public class UsoWorkflow extends ObjetoPersistente {
 
 	private Integer							numero;
+	private String								anotacao;
 	private Workflow							workflow;
 	private Timestamp							dataHoraInicio;
 	private List<HistoricoUsoWorkflow>	historico;
@@ -50,6 +52,16 @@ public class UsoWorkflow extends ObjetoPersistente {
 	@OneToMany(targetEntity = Anexo.class, mappedBy = "usoWorkflow", fetch = FetchType.LAZY)
 	public List<Anexo> getAnexos() {
 		return this.anexos;
+	}
+
+	/**
+	 * Recupera a anotação do uso
+	 * 
+	 * @return anotação do uso
+	 */
+	@Column(name = "UWR_ANOTACAO", nullable = true, length = ConstantesDB.ANOTACAO)
+	public String getAnotacao() {
+		return this.anotacao;
 	}
 
 	/**
@@ -156,6 +168,15 @@ public class UsoWorkflow extends ObjetoPersistente {
 	}
 
 	/**
+	 * Atribui a anotação do uso
+	 * 
+	 * @param anotacao anotação do uso
+	 */
+	public void setAnotacao(String anotacao) {
+		this.anotacao = anotacao;
+	}
+
+	/**
 	 * Atribui os usos do uso workflow
 	 * 
 	 * @param camposUsados usos do uso workflow
@@ -172,6 +193,7 @@ public class UsoWorkflow extends ObjetoPersistente {
 	public void setDataHoraInicio(Timestamp dataHoraInicio) {
 		this.dataHoraInicio = dataHoraInicio;
 	}
+
 
 	/**
 	 * Atribui o histórico do uso do {@link Workflow}.
@@ -190,7 +212,6 @@ public class UsoWorkflow extends ObjetoPersistente {
 	public void setNumero(Integer numero) {
 		this.numero = numero;
 	}
-
 
 	/**
 	 * Atribui a {@link Tarefa} que está sendo executada.

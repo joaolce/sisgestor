@@ -121,6 +121,13 @@ UsarWorkflow.prototype = {
    getForm : function() {
 	   return $("usoWorkflowForm");
    },
+   
+   /**
+     * Abre popup com anotação do uso workflow 
+     */
+   popupAnotacao : function() {
+	   JanelasComuns.showInformation("Implemente-me");
+   },
 
    /**
 	 * Inicia o workflow selecionado no combo
@@ -584,6 +591,8 @@ UsarWorkflow.prototype = {
 			$("linkIniciarTarefa").onclick = "";
 			$("linkProximasTarefa").className = "";
 			$("linkProximasTarefa").onclick = this.popupProximasTarefas;
+			$("linkAnotacao").className = "";
+			$("linkAnotacao").onclick = this.popupAnotacao;
 		} else {
 			$("linkIniciarTarefa").className = "";
 			$("linkIniciarTarefa").onclick = this.iniciarTarefa;
