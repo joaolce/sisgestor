@@ -180,7 +180,7 @@ ManterWorkflow.prototype = {
 	 */
    popupNovoWorkflow : function() {
 	   var url = "manterWorkflow.do?method=popupNovoWorkflow";
-	   createWindow(255, 320, 280, 40, "Novo Workflow", "divNovoWorkflow", url);
+	   createWindow(255, 321, 280, 40, "Novo Workflow", "divNovoWorkflow", url);
    },
 
    /**

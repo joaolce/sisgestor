@@ -35,12 +35,12 @@ public interface DepartamentoDAO extends BaseDAO<Departamento> {
 	Integer getTotalRegistros(String sigla, String nome);
 
 	/**
-	 * Verifica se a sigla do departamento já está em uso
+	 * Verifica se a sigla do departamento já está em uso.
 	 * 
-	 * @param sigla Sigla do departamento a ser verificada
+	 * @param departamento departamento a ser verificado
 	 * @return <code>true</code>, se já está em uso;<code>false</code>, se ainda não.
 	 */
-	boolean isSiglaUtilizada(String sigla);
+	boolean isSiglaUtilizada(Departamento departamento);
 
 	/**
 	 * Recupera um {@link List} de {@link Departamento} ativos

@@ -74,15 +74,31 @@ public class UsuarioDAOImpl extends BaseDAOImpl<Usuario> implements UsuarioDAO {
 	/**
 	 * {@inheritDoc}
 	 */
+	public boolean isLoginUtilizado(Usuario usuario) {
+		Criteria criteria = this.getCriteria();
+		criteria.setProjection(Projections.count("this.id"));
+
+		criteria.add(Restrictions.eq("this.login", usuario.getLogin()));
+		if (usuario.getId() != null) {
+			criteria.add(Restrictions.ne("this.id", usuario.getId()));
+		}
+
+		Integer total = (Integer) criteria.uniqueResult();
+		return !(Integer.valueOf(0).equals(total));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected Order getOrdemLista() {
-		return Order.asc("nome").ignoreCase();
+		return Order.asc("this.nome").ignoreCase();
 	}
 
 	/**
 	 * Recupera um {@link Criteria} padrão.
 	 * 
-	 * @return criteria
+	 * @return criteria {@link Criteria} criado
 	 */
 	private Criteria getCriteria() {
 		Criteria criteria = this.createCriteria(Usuario.class);

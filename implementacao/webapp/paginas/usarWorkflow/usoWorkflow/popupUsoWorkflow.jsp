@@ -13,7 +13,7 @@
 			styleClass="btDesativado" styleId="linkProximasTarefa" style="margin-right: 10px;">
 			<html:img srcKey="imagem.transicao" width="23" height="22"/>
 		</html:link>
-		<html:link href="#anotacao" titleKey="dica.anotacao" linkName="anotacao" 
+		<html:link href="#anotacoes" titleKey="dica.anotacoes" linkName="anotacoes" 
 			styleClass="btDesativado" styleId="linkAnotacao" style="margin-right: 10px;">
 			<html:img srcKey="imagem.anotacao" width="23" height="22"/>
 		</html:link>

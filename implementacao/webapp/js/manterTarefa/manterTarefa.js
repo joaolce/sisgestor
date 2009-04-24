@@ -139,7 +139,7 @@ ManterTarefa.prototype = {
 	 */
    atualizar : function(form) {
 	   JanelasComuns.showConfirmDialog("Deseja atualizar a tarefa selecionada?", ( function() {
-		   requestUtils.submitForm(form, null, ( function() {
+		   requestUtils.submitForm(form, ( function() {
 			   if (requestUtils.status) {
 				   this.pesquisar();
 			   }

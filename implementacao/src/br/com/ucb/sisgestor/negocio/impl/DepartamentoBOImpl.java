@@ -5,14 +5,17 @@
 package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Departamento;
+import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.DepartamentoBO;
+import br.com.ucb.sisgestor.negocio.UsuarioBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.DepartamentoDAO;
 import br.com.ucb.sisgestor.util.DataUtil;
+import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.dto.PesquisaManterDepartamentoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
-import org.hibernate.exception.ConstraintViolationException;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -28,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements DepartamentoBO {
 
 	private DepartamentoDAO	departamentoDAO;
+	private UsuarioBO			usuarioBO;
 
 	/**
 	 * {@inheritDoc}
@@ -35,11 +39,9 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void atualizar(Departamento departamento) throws NegocioException {
 		this.verificaDepartamentoSuperior(departamento);
-		try {
-			this.departamentoDAO.atualizar(departamento);
-		} catch (ConstraintViolationException ce) {
-			throw new NegocioException("erro.departamento.sigla");
-		}
+		this.verificarSiglaDepartamentoExistente(departamento);
+
+		this.departamentoDAO.atualizar(departamento);
 	}
 
 	/**
@@ -47,13 +49,13 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void excluir(Departamento departamento) throws NegocioException {
-		if ((departamento.getDepartamentosFilhos() != null) && !departamento.getDepartamentosFilhos().isEmpty()) {
+		if (CollectionUtils.isNotEmpty(departamento.getDepartamentosFilhos())) {
 			throw new NegocioException("erro.departamento.filhos");
 		}
-		if ((departamento.getUsuarios() != null) && !departamento.getUsuarios().isEmpty()) {
+		if (CollectionUtils.isNotEmpty(this.getUsuarioBO().getByDepartamento(departamento))) {
 			throw new NegocioException("erro.departamento.usuarios");
 		}
-		if ((departamento.getAtividades() != null) && !departamento.getAtividades().isEmpty()) {
+		if (CollectionUtils.isNotEmpty(departamento.getAtividades())) {
 			throw new NegocioException("erro.departamento.responsavel");
 		}
 		departamento.setDataHoraExclusao(DataUtil.getDataHoraAtual());
@@ -107,10 +109,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public Integer salvar(Departamento departamento) throws NegocioException {
 		this.verificaDepartamentoSuperior(departamento);
-
-		if (this.departamentoDAO.isSiglaUtilizada(departamento.getSigla())) {
-			throw new NegocioException("erro.departamento.sigla");
-		}
+		this.verificarSiglaDepartamentoExistente(departamento);
 
 		return this.departamentoDAO.salvar(departamento);
 	}
@@ -126,6 +125,18 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 	}
 
 	/**
+	 * Recupera o BO de {@link Usuario}.
+	 * 
+	 * @return BO de {@link Usuario}
+	 */
+	private UsuarioBO getUsuarioBO() {
+		if (this.usuarioBO == null) {
+			this.usuarioBO = Utils.getBean(UsuarioBO.class);
+		}
+		return this.usuarioBO;
+	}
+
+	/**
 	 * Verifica o {@link Departamento} superior do departamento.
 	 * 
 	 * @param departamento departamento a verificar
@@ -135,6 +146,18 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 		if ((departamento.getDepartamentoSuperior() != null)
 				&& departamento.getDepartamentoSuperior().getId().equals(departamento.getId())) {
 			throw new NegocioException("erro.departamento.superiorIgual");
+		}
+	}
+
+	/**
+	 * Verifica se a sigla já existe para um outro departamento cadastrado.
+	 * 
+	 * @param departamento departamento a verificar
+	 * @throws NegocioException caso a sigla do departamento já exista
+	 */
+	private void verificarSiglaDepartamentoExistente(Departamento departamento) throws NegocioException {
+		if (this.departamentoDAO.isSiglaUtilizada(departamento)) {
+			throw new NegocioException("erro.departamento.sigla");
 		}
 	}
 }
