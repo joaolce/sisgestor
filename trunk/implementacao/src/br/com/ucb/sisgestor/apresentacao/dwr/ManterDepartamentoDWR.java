@@ -32,12 +32,12 @@ public class ManterDepartamentoDWR extends BaseDWR {
 	}
 
 	/**
-	 * Recupera todos os departamentos cadastrados.
+	 * Recupera todos os departamentos ativos cadastrados.
 	 * 
 	 * @return um {@link List} de {@link Departamento}
 	 */
-	public List<Departamento> obterTodos() {
-		return this.departamentoBO.obterTodos();
+	public List<Departamento> obterTodosAtivos() {
+		return this.departamentoBO.obterTodosAtivos();
 	}
 
 	/**

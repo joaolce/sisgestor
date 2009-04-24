@@ -24,4 +24,11 @@ public interface DepartamentoBO extends BaseBO<Departamento> {
 	 * @return Retorna os departamentos
 	 */
 	List<Departamento> getBySiglaNome(String sigla, String nome, Integer paginaAtual);
+
+	/**
+	 * Recupera um {@link List} de {@link Departamento} ativos
+	 * 
+	 * @return lista de departamntos ativos
+	 */
+	List<Departamento> obterTodosAtivos();
 }

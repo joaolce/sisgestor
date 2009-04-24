@@ -55,7 +55,7 @@ public class ManterDepartamentoAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm form = (ManterDepartamentoActionForm) actionForm;
 
-		form.setListaDepartamentos(this.departamentoBO.obterTodos());
+		form.setListaDepartamentos(this.departamentoBO.obterTodosAtivos());
 
 		return this.findForward(FWD_ENTRADA);
 	}
@@ -96,7 +96,7 @@ public class ManterDepartamentoAction extends BaseAction {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ManterDepartamentoActionForm frm = (ManterDepartamentoActionForm) form;
 
-		frm.setListaDepartamentos(this.departamentoBO.obterTodos());
+		frm.setListaDepartamentos(this.departamentoBO.obterTodosAtivos());
 
 		return this.findForward("popupNovoDepartamento");
 	}

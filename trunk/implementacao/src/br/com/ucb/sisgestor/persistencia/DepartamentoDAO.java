@@ -33,4 +33,11 @@ public interface DepartamentoDAO extends BaseDAO<Departamento> {
 	 * @return total de registros encontrados
 	 */
 	Integer getTotalRegistros(String sigla, String nome);
+
+	/**
+	 * Recupera um {@link List} de {@link Departamento} ativos
+	 * 
+	 * @return lista de departamntos ativos
+	 */
+	List<Departamento> obterTodosAtivos();
 }

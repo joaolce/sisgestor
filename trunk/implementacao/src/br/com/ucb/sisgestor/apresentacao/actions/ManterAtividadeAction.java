@@ -58,7 +58,7 @@ public class ManterAtividadeAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterAtividadeActionForm form = (ManterAtividadeActionForm) formulario;
 
-		form.setListaDepartamentos(this.departamentoBO.obterTodos());
+		form.setListaDepartamentos(this.departamentoBO.obterTodosAtivos());
 
 		return this.findForward(FWD_ENTRADA);
 	}
@@ -115,7 +115,7 @@ public class ManterAtividadeAction extends BaseAction {
 		ManterAtividadeActionForm form = (ManterAtividadeActionForm) formulario;
 
 		//Recupera os departamentos disponíveis para uma nova atividade
-		form.setListaDepartamentos(this.departamentoBO.obterTodos());
+		form.setListaDepartamentos(this.departamentoBO.obterTodosAtivos());
 
 		return this.findForward("popupNovaAtividade");
 	}
