@@ -16,7 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import org.hibernate.annotations.ForeignKey;
-import org.hibernate.annotations.NaturalId;
 
 /**
  * Classe que representa um usuário no sistema
@@ -88,7 +87,6 @@ public class Usuario extends ObjetoPersistente {
 	 * @return login do usuário
 	 */
 	@Column(name = "UUR_LOGIN", nullable = false, columnDefinition = ConstantesDB.DEFINICAO_LOGIN)
-	@NaturalId(mutable = true)
 	public String getLogin() {
 		return this.login;
 	}

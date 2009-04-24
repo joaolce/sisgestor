@@ -18,7 +18,6 @@ import java.util.Random;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -41,11 +40,8 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void atualizar(Usuario usuario) throws NegocioException {
-		try {
-			this.usuarioDAO.atualizar(usuario);
-		} catch (ConstraintViolationException ce) {
-			throw new NegocioException("erro.usuario.login.repetido");
-		}
+		this.validarSeLoginExiste(usuario);
+		this.usuarioDAO.atualizar(usuario);
 	}
 
 	/**
@@ -134,15 +130,12 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public Integer salvar(Usuario usuario) throws NegocioException {
 		usuario.setSenha(this.gerarSenha());
-		try {
-			Integer id = this.usuarioDAO.salvar(usuario);
-			this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR, Constantes.ASSUNTO_EMAIL_NOVO_USUARIO,
-					"Seja bem vindo ao <b>SisGestor</b> <br /> <p>Sua senha é: " + usuario.getSenha() + "</p>",
-					usuario.getEmail());
-			return id;
-		} catch (ConstraintViolationException ce) {
-			throw new NegocioException("erro.usuario.login.repetido");
-		}
+		this.validarSeLoginExiste(usuario);
+		Integer id = this.usuarioDAO.salvar(usuario);
+		this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR, Constantes.ASSUNTO_EMAIL_NOVO_USUARIO,
+				"Seja bem vindo ao <b>SisGestor</b> <br /> <p>Sua senha é: " + usuario.getSenha() + "</p>",
+				usuario.getEmail());
+		return id;
 	}
 
 	/**
@@ -174,5 +167,18 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 			}
 		}
 		return senha.toString();
+	}
+
+	/**
+	 * Valida se o login do usuário já existe para outro usuário.
+	 * 
+	 * @param usuario usuário a validar
+	 * @throws NegocioException caso o login já existe para outro usuário
+	 */
+	private void validarSeLoginExiste(Usuario usuario) throws NegocioException {
+		Usuario usuarioComLogin = this.usuarioDAO.getByLogin(usuario.getLogin());
+		if ((usuarioComLogin != null) && !usuarioComLogin.getId().equals(usuario.getId())) {
+			throw new NegocioException("erro.usuario.login.repetido");
+		}
 	}
 }
