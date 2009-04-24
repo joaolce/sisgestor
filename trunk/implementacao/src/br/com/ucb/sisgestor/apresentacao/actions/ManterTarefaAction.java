@@ -59,8 +59,7 @@ public class ManterTarefaAction extends BaseAction {
 		ManterTarefaActionForm form = (ManterTarefaActionForm) formulario;
 
 		Atividade atividade = this.atividadeBO.obter(form.getAtividade());
-
-		form.setListaUsuarios(this.usuarioBO.getByDepartamento(atividade.getDepartamento()));
+		form.setListaUsuarios(atividade.getDepartamento().getUsuarios());
 
 		return this.findForward(FWD_ENTRADA);
 	}

@@ -12,6 +12,7 @@ import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
+import br.com.ucb.sisgestor.util.constantes.ConstantesContexto;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -59,7 +60,7 @@ public class AnexoUsoWorkflowAction extends BaseAction {
 
 		UsoWorkflow usoWorkflow = this.usoWorkflowBO.obter(form.getUsoWorkflow());
 		if (usoWorkflow.getDataHoraInicio() != null) {
-			request.setAttribute("TarefaIniciada", Boolean.TRUE);
+			request.setAttribute(ConstantesContexto.TAREFA_INICIADA, Boolean.TRUE);
 		}
 
 		form.setAnexos(this.anexoBO.getAnexosByUsoWorkflow(usoWorkflow.getId()));
