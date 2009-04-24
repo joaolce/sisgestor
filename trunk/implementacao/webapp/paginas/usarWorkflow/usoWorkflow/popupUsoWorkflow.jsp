@@ -13,6 +13,10 @@
 			styleClass="btDesativado" styleId="linkProximasTarefa" style="margin-right: 10px;">
 			<html:img srcKey="imagem.transicao" width="23" height="22"/>
 		</html:link>
+		<html:link href="#anotacao" titleKey="dica.anotacao" linkName="anotacao" 
+			styleClass="btDesativado" styleId="linkAnotacao" style="margin-right: 10px;">
+			<html:img srcKey="imagem.anotacao" width="23" height="22"/>
+		</html:link>
 		<html:link href="#anexos" titleKey="dica.anexos" onclick="usarWorkflow.popupVisualizarAnexos();" linkName="anexos">
 			<html:img srcKey="imagem.anexos" width="23" height="22"/>
 		</html:link>
