@@ -8,6 +8,7 @@ import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.negocio.DepartamentoBO;
 import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import br.com.ucb.sisgestor.persistencia.DepartamentoDAO;
+import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.dto.PesquisaManterDepartamentoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
@@ -55,7 +56,8 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 		if ((departamento.getAtividades() != null) && !departamento.getAtividades().isEmpty()) {
 			throw new NegocioException("erro.departamento.responsavel");
 		}
-		this.departamentoDAO.excluir(departamento);
+		departamento.setDataHoraExclusao(DataUtil.getDataHoraAtual());
+		this.departamentoDAO.atualizar(departamento); //Exclusão lógica
 	}
 
 	/**
@@ -90,6 +92,13 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 	@Transactional(readOnly = true)
 	public List<Departamento> obterTodos() {
 		return this.departamentoDAO.obterTodos();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<Departamento> obterTodosAtivos() {
+		return this.departamentoDAO.obterTodosAtivos();
 	}
 
 	/**

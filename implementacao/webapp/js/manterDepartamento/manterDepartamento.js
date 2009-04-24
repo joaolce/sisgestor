@@ -194,7 +194,7 @@ ManterDepartamento.prototype = {
 	 */
    atualizarDepartamentosSuperior : function() {
 	   dwr.util.removeAllOptions("departamentoSuperior");
-	   ManterDepartamentoDWR.obterTodos(( function(departamentos) {
+	   ManterDepartamentoDWR.obterTodosAtivos(( function(departamentos) {
 		   dwr.util.addOptions("departamentoSuperior", [ " " ]);
 		   dwr.util.addOptions("departamentoSuperior", departamentos, "id", "sigla");
 	   }));

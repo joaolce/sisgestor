@@ -108,7 +108,7 @@ public class ManterUsuarioAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterUsuarioActionForm form = (ManterUsuarioActionForm) actionForm;
 
-		form.setListaDepartamentos(this.departamentoBO.obterTodos());
+		form.setListaDepartamentos(this.departamentoBO.obterTodosAtivos());
 
 		return this.findForward(FWD_ENTRADA);
 	}
@@ -170,7 +170,7 @@ public class ManterUsuarioAction extends BaseAction {
 			HttpServletResponse response) throws Exception {
 		ManterUsuarioActionForm frm = (ManterUsuarioActionForm) form;
 
-		frm.setListaDepartamentos(this.departamentoBO.obterTodos());
+		frm.setListaDepartamentos(this.departamentoBO.obterTodosAtivos());
 		frm.setPermissoesDisponiveis(this.permissaoBO.obterTodos());
 
 		return this.findForward("popupNovoUsuario");

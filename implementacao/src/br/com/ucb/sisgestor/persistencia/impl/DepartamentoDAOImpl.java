@@ -52,11 +52,31 @@ public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento> implements De
 	}
 
 	/**
+	 * Recupera um {@link List} de {@link Departamento} ativos
+	 * 
+	 * @return lista de departamntos ativos
+	 */
+	public List<Departamento> obterTodosAtivos() {
+		return GenericsUtil.checkedList(this.getCriteria().list(), Departamento.class);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected Order getOrdemLista() {
 		return Order.asc("sigla").ignoreCase();
+	}
+
+	/**
+	 * Cria um {@link Criteria} padrão para departamento
+	 * 
+	 * @return criteria
+	 */
+	private Criteria getCriteria() {
+		Criteria criteria = this.createCriteria(Departamento.class);
+		criteria.add(Restrictions.isNull("dataHoraExclusao"));
+		return criteria;
 	}
 
 	/**
@@ -67,7 +87,7 @@ public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento> implements De
 	 * @return {@link Criteria}
 	 */
 	private Criteria montarCriteriosPaginacao(String sigla, String nome) {
-		Criteria criteria = this.createCriteria(Departamento.class);
+		Criteria criteria = this.getCriteria();
 		if (StringUtils.isNotBlank(sigla)) {
 			criteria.add(Restrictions.like("sigla", sigla, MatchMode.ANYWHERE).ignoreCase());
 		}

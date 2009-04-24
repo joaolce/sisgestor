@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.entidade;
 
 import br.com.ucb.sisgestor.util.constantes.ConstantesDB;
+import java.sql.Timestamp;
 import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -28,6 +29,7 @@ import org.hibernate.annotations.NaturalId;
 public class Departamento extends ObjetoPersistente {
 
 	private List<Atividade>		atividades;
+	private Timestamp				dataHoraExclusao;
 	private List<Departamento>	departamentosFilhos;
 	private Departamento			departamentoSuperior;
 	private String					email;
@@ -43,6 +45,16 @@ public class Departamento extends ObjetoPersistente {
 	@OneToMany(targetEntity = Atividade.class, mappedBy = "departamento", fetch = FetchType.LAZY)
 	public List<Atividade> getAtividades() {
 		return this.atividades;
+	}
+
+	/**
+	 * Recupera a data/hora de exclusão do departamento.
+	 * 
+	 * @return data/hora de exclusão do departamento
+	 */
+	@Column(name = "DPR_DATA_HORA_EXCLUSAO", nullable = true)
+	public Timestamp getDataHoraExclusao() {
+		return this.dataHoraExclusao;
 	}
 
 	/**
@@ -118,6 +130,16 @@ public class Departamento extends ObjetoPersistente {
 	}
 
 	/**
+	 * Atribui a data/hora de exclusão do departamento.
+	 * 
+	 * @param dataHoraExclusao data/hora de exclusão do departamento.
+	 */
+	public void setDataHoraExclusao(Timestamp dataHoraExclusao) {
+		this.dataHoraExclusao = dataHoraExclusao;
+	}
+
+
+	/**
 	 * Atribui os departamentos filhos diretos do departamento.
 	 * 
 	 * @param departamentosFilhos departamentos filhos diretos do departamento
@@ -125,6 +147,7 @@ public class Departamento extends ObjetoPersistente {
 	public void setDepartamentosFilhos(List<Departamento> departamentosFilhos) {
 		this.departamentosFilhos = departamentosFilhos;
 	}
+
 
 	/**
 	 * Atribui o departamento superior do departamento.
@@ -155,7 +178,6 @@ public class Departamento extends ObjetoPersistente {
 		this.nome = nome;
 	}
 
-
 	/**
 	 * Atribui a sigla do departamento.
 	 * 
@@ -164,7 +186,6 @@ public class Departamento extends ObjetoPersistente {
 	public void setSigla(String sigla) {
 		this.sigla = sigla;
 	}
-
 
 	/**
 	 * Atribui os usuários do departamento.
