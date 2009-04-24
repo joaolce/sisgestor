@@ -5,7 +5,7 @@
 <div class="bordas" id="BordaExterna" style="height: 496px;">
 	<div id="divMenuOpcoes">
 		<htmlSGR:link href="#novoCampo" titleKey="dica.campo.novo" onclick="campo.popupNovoCampo();" linkName="novoCampo" roles="4">
-			<html:img srcKey="imagem.novo" width="20" height="19" />
+			<html:img srcKey="imagem.novo" width="23" height="22" />
 		</htmlSGR:link>
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE CAMPO -->

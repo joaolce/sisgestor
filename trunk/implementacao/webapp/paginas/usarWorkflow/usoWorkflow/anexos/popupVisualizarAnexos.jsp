@@ -9,7 +9,7 @@
 	<div id="divMenuOpcoes" style="height: 22px;">
 		<logic:present name="TarefaIniciada">
 			<htmlSGR:link href="#incluirAnexo" titleKey="dica.anexo.incluir" onclick="anexoUsoWorkflow.telaInserirAnexo();" linkName="incluirAnexo" roles="6">
-				<html:img srcKey="imagem.incluirAnexo" width="20" height="19" />
+				<html:img srcKey="imagem.incluirAnexo" width="23" height="22" />
 			</htmlSGR:link>
 		</logic:present>
 	</div>

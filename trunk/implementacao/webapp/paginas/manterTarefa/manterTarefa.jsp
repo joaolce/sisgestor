@@ -5,10 +5,10 @@
 <div class="bordas" id="BordaExterna" style="height: 456px;">
 	<div id="divMenuOpcoes">
 		<html:link href="#definirFluxoTarefa" titleKey="dica.definirFluxo" onclick="tarefa.popupDefinirFluxoTarefas();" linkName="definirFluxoTarefa" styleId="linkDefinirFluxoTarefa">
-			<html:img srcKey="imagem.fluxo" width="20" height="19" />
+			<html:img srcKey="imagem.fluxo" width="23" height="22" />
 		</html:link>
 		<htmlSGR:link href="#novaTarefa" titleKey="dica.tarefa.nova" onclick="tarefa.popupNovaTarefa();" linkName="novaTarefa" roles="4">
-			<html:img srcKey="imagem.novo" width="20" height="19" />
+			<html:img srcKey="imagem.novo" width="23" height="22" />
 		</htmlSGR:link>
 	</div>
 	<!-- FIELDSET PARA PESQUISA DE TAREFAS -->
