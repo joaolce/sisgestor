@@ -107,11 +107,12 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public Integer salvar(Departamento departamento) throws NegocioException {
 		this.verificaDepartamentoSuperior(departamento);
-		try {
-			return this.departamentoDAO.salvar(departamento);
-		} catch (ConstraintViolationException ce) {
+
+		if (this.departamentoDAO.isSiglaUtilizada(departamento.getSigla())) {
 			throw new NegocioException("erro.departamento.sigla");
 		}
+
+		return this.departamentoDAO.salvar(departamento);
 	}
 
 	/**

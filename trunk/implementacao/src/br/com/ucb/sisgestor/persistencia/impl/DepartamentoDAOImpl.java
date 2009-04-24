@@ -52,6 +52,17 @@ public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento> implements De
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	public boolean isSiglaUtilizada(String sigla) {
+		Criteria criteria = this.getCriteria();
+		criteria.add(Restrictions.eq("sigla", sigla));
+		criteria.setProjection(Projections.count("id"));
+		Integer total = (Integer) criteria.uniqueResult();
+		return !(Integer.valueOf(0).equals(total));
+	}
+
+	/**
 	 * Recupera um {@link List} de {@link Departamento} ativos
 	 * 
 	 * @return lista de departamntos ativos
