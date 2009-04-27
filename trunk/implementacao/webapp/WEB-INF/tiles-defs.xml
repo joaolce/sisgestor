@@ -54,6 +54,7 @@
 	<definition name="includeTabCamposWorkflow" path="/paginas/usarWorkflow/usoWorkflow/tabCamposWorkflow.jsp"/>
 	<definition name="includeTabHistoricoWorkflow" path="/paginas/usarWorkflow/usoWorkflow/tabHistoricoWorkflow.jsp"/>
 	<definition name="popupProximasTarefas" path="/paginas/usarWorkflow/usoWorkflow/popupProximasTarefas.jsp"/>
+	<definition name="popupAnotacao" path="/paginas/usarWorkflow/usoWorkflow/popupAnotacao.jsp"/>
 
 	<!-- ANEXOS DO USAR WORKFLOW -->
 	<definition name="definicaoAnexoUsoWorkflow" path="/paginas/usarWorkflow/usoWorkflow/anexos/popupVisualizarAnexos.jsp"/>

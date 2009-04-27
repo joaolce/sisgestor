@@ -45,6 +45,15 @@ public interface UsoWorkflowBO extends BaseBO<UsoWorkflow> {
 	List<UsoWorkflow> recuperarPendentesUsuarioAtual(Integer paginaAtual);
 
 	/**
+	 * Salva a anotação do uso
+	 * 
+	 * @param idUsoWorkflow Código indentificador do {@link UsoWorkflow}
+	 * @param anotacao Anotação a ser salva
+	 * @throws NegocioException caso seja violada um regra
+	 */
+	void salvarAnotacao(Integer idUsoWorkflow, String anotacao) throws NegocioException;
+
+	/**
 	 * Salva um registro de {@link HistoricoUsoWorkflow}.
 	 * 
 	 * @param historicoUsoWorkflow {@link HistoricoUsoWorkflow} a salvar

@@ -17,11 +17,21 @@ import java.util.List;
  */
 public class UsarWorkflowActionForm extends BaseForm {
 
-	private String[]			valor;
-	private Integer			workflow;
-	private List<Workflow>	listaWorkflows;
-	private List<Tarefa>		proximasTarefas;
-	private Integer			tarefa;
+	private String[] valor;
+	private Integer workflow;
+	private List<Workflow> listaWorkflows;
+	private List<Tarefa> proximasTarefas;
+	private Integer tarefa;
+	private String anotacao;
+
+	/**
+	 * Recupera o valor da anotacao
+	 * 
+	 * @return anotacao
+	 */
+	public String getAnotacao() {
+		return this.anotacao;
+	}
 
 	/**
 	 * Recupera a lista de workflows disponíveis para serem iniciados
@@ -66,6 +76,15 @@ public class UsarWorkflowActionForm extends BaseForm {
 	 */
 	public Integer getWorkflow() {
 		return this.workflow;
+	}
+
+	/**
+	 * Atribui o valor da anotacao
+	 * 
+	 * @param anotacao valor da anotacao
+	 */
+	public void setAnotacao(String anotacao) {
+		this.anotacao = anotacao;
 	}
 
 	/**
