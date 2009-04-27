@@ -28,9 +28,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class UsarWorkflowAction extends BaseAction {
 
-	private UsoWorkflowBO	usoWorkflowBO;
-	private WorkflowBO		workflowBO;
-	private TarefaBO			tarefaBO;
+	private UsoWorkflowBO usoWorkflowBO;
+	private WorkflowBO workflowBO;
+	private TarefaBO tarefaBO;
 
 	/**
 	 * Salva as alterações em {@link UsoWorkflow}.
@@ -42,8 +42,8 @@ public class UsarWorkflowAction extends BaseAction {
 	 * @return <code>null</code>
 	 * @throws Exception caso exceção seja lançada
 	 */
-	public ActionForward confirmar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public ActionForward confirmar(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
 		Integer idUsoWorkflow = form.getId();
 		this.usoWorkflowBO.salvarValoresCampos(form.getValor(), idUsoWorkflow);
@@ -84,8 +84,8 @@ public class UsarWorkflowAction extends BaseAction {
 	 * @return <code>null</code>
 	 * @throws Exception caso exceção seja lançada
 	 */
-	public ActionForward iniciarUso(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public ActionForward iniciarUso(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
 		UsoWorkflow usoWorkflow = new UsoWorkflow();
 		Workflow workflow = this.workflowBO.obter(form.getWorkflow());
@@ -109,6 +109,21 @@ public class UsarWorkflowAction extends BaseAction {
 	 * @return forward do popup
 	 * @throws Exception caso exceção seja lançada
 	 */
+	public ActionForward popupAnotacao(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return this.findForward("popupAnotacao");
+	}
+
+	/**
+	 * Abre popup para iniciar um {@link Workflow}.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward do popup
+	 * @throws Exception caso exceção seja lançada
+	 */
 	public ActionForward popupIniciarWorkflow(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
@@ -117,6 +132,7 @@ public class UsarWorkflowAction extends BaseAction {
 
 		return this.findForward("popupIniciarWorkflow");
 	}
+
 
 	/**
 	 * Abre o popup das próximas tarefas disponíveis.
@@ -175,6 +191,25 @@ public class UsarWorkflowAction extends BaseAction {
 		} else {
 			this.addMessageKey("mensagem.usoWorkflow.tarefaModificada");
 		}
+		return this.sendAJAXResponse(true);
+	}
+
+	/**
+	 * Abre popup para iniciar um {@link Workflow}.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param formulario objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward do popup
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward salvarAnotacao(ActionMapping mapping, ActionForm formulario,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
+		Integer idUsoWorkflow = form.getId();
+		this.usoWorkflowBO.salvarAnotacao(idUsoWorkflow, form.getAnotacao());
+		this.addMessageKey("mensagem.alterar.a", "Anotação");
 		return this.sendAJAXResponse(true);
 	}
 

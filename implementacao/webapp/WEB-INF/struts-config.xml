@@ -86,6 +86,7 @@
 			<forward name="popupIniciarWorkflow" path="popupIniciarWorkflow" />
 			<forward name="popupUsoWorkflow" path="popupUsoWorkflow" />
 			<forward name="popupProximasTarefas" path="popupProximasTarefas" />
+			<forward name="popupAnotacao" path="popupAnotacao" />
 		</action>
 		
 		<!-- Anexos do Usar Workflow -->
