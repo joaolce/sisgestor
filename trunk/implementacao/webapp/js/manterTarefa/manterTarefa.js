@@ -179,7 +179,8 @@ ManterTarefa.prototype = {
 	 */
    popupDefinirFluxoTarefas : function() {
 	   var url = "manterTarefa.do?method=popupDefinirFluxo";
-	   createWindow(486, 840, 280, 40, "Definir Fluxo das Tarefas", "divFluxoTarefa", url,
+	   var tipoTitulo = this._isVisualizarFluxo() ? "Visualizar " : "Definir ";
+	   createWindow(486, 840, 280, 40, tipoTitulo + "Fluxo das Tarefas", "divFluxoTarefa", url,
 	      ( function() {
 		      var idAtividade = $F("atividadeTarefa");
 		      dwr.util.setValue("atividadeFluxo", idAtividade);
@@ -231,6 +232,28 @@ ManterTarefa.prototype = {
 	   } else {
 		   contaChar($("descricaoTarefa"), 200, "contagemTarefa");
 	   }
+   },
+
+   /**
+	 * Executado a cada vez no início do UC.
+	 */
+   entrada : function() {
+	   this.pesquisar();
+	   if (this._isVisualizarFluxo()) {
+		   UtilDWR.getMessage("dica.visualizarFluxo", null, ( function(mensagem) {
+			   $("linkDefinirFluxoTarefa").title = mensagem;
+		   }));
+	   }
+   },
+   
+   /**
+    * Recupera caso o usuário deva apenas visualizar o fluxo, e não definir.
+    * 
+    * @return <code>true</code> caso usuário deve apenas visualizar o fluxo.
+    * @type Boolean
+    */
+   _isVisualizarFluxo: function(){
+   	return ($F("workflowAtivadoOuExcluido") == "true") || !Usuario.temPermissao(MANTER_WORKFLOW);
    }
 };
 

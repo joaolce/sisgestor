@@ -5,6 +5,7 @@
 package br.com.ucb.sisgestor.apresentacao.forms;
 
 import br.com.ucb.sisgestor.apresentacao.actions.ManterProcessoAction;
+import br.com.ucb.sisgestor.entidade.Workflow;
 
 /**
  * Form para a action {@link ManterProcessoAction}.
@@ -19,6 +20,7 @@ public class ManterProcessoActionForm extends BaseForm {
 	private Integer	workflow;
 	private String[]	fluxos;
 	private String[]	posicoes;
+	private Boolean	workflowAtivadoOuExcluido;
 
 	/**
 	 * Recupera a descrição do processo
@@ -66,6 +68,15 @@ public class ManterProcessoActionForm extends BaseForm {
 	}
 
 	/**
+	 * Recupera o indicador caso o {@link Workflow} foi ativado ou excluído.
+	 * 
+	 * @return indicador caso o {@link Workflow} foi ativado ou excluído
+	 */
+	public Boolean getWorkflowAtivadoOuExcluido() {
+		return this.workflowAtivadoOuExcluido;
+	}
+
+	/**
 	 * Atribui a descrição do processo
 	 * 
 	 * @param descricao descrição do processo
@@ -92,7 +103,6 @@ public class ManterProcessoActionForm extends BaseForm {
 		this.nome = nome;
 	}
 
-
 	/**
 	 * Atribui as posições dos processos
 	 * 
@@ -102,7 +112,6 @@ public class ManterProcessoActionForm extends BaseForm {
 		this.posicoes = posicoes;
 	}
 
-
 	/**
 	 * Atribui o código identificador do workflow.
 	 * 
@@ -110,5 +119,14 @@ public class ManterProcessoActionForm extends BaseForm {
 	 */
 	public void setWorkflow(Integer workflow) {
 		this.workflow = workflow;
+	}
+
+	/**
+	 * Atribui o indicador caso o {@link Workflow} foi ativado ou excluído.
+	 * 
+	 * @param workflowAtivadoOuExcluido indicador caso o {@link Workflow} foi ativado ou excluído
+	 */
+	public void setWorkflowAtivadoOuExcluido(Boolean workflowAtivadoOuExcluido) {
+		this.workflowAtivadoOuExcluido = workflowAtivadoOuExcluido;
 	}
 }

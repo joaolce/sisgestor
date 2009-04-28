@@ -33,7 +33,7 @@ Usuario = {
    /**
 	 * Verifica se o usuário logado possui a permissão informada.
 	 * 
-	 * @param permissao código da permissão
+	 * @param {String} permissao código da permissão
 	 * @return <code>true</code> caso usuário possui permissão, <code>false</code> caso não
 	 *         possua
 	 */

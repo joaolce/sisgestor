@@ -26,6 +26,14 @@ public class UtilDWR extends BaseDWR {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public String getMessage(String key, String... args) {
+		return super.getMessage(key, args);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public Usuario getUser() { //NOPMD by João Lúcio - deixar público o método para o javascript
 		return super.getUser();
 	}

@@ -163,7 +163,8 @@ ManterProcesso.prototype = {
 	 */
    popupDefinirFluxoProcessos : function() {
 	   var url = "manterProcesso.do?method=popupDefinirFluxo";
-	   createWindow(486, 840, 280, 40, "Definir Fluxo dos Processos", "divFluxoProcesso", url,
+	   var tipoTitulo = this._isVisualizarFluxo() ? "Visualizar " : "Definir ";
+	   createWindow(486, 840, 280, 40, tipoTitulo + "Fluxo dos Processos", "divFluxoProcesso", url,
 	      ( function() {
 		      var idWorkflow = $F("workflowProcesso");
 		      dwr.util.setValue("workflowFluxo", idWorkflow);
@@ -201,7 +202,7 @@ ManterProcesso.prototype = {
 	   var url = "manterAtividade.do?method=entrada&processo=" + idProcesso;
 	   createWindow(516, 985, 280, 30, "Gerenciar Atividades - " + nomeProcesso,
 	      "divGerenciarAtividades", url, ( function() {
-		      atividade.pesquisar();
+		      atividade.entrada();
 	      }));
    },
 
@@ -243,6 +244,28 @@ ManterProcesso.prototype = {
 		   $("linkGerenciarAtividades").className = "btDesativado";
 		   $("linkGerenciarAtividades").onclick = "";
 	   }
+   },
+   
+   /**
+	 * Executado a cada vez no início do UC.
+	 */
+   entrada : function() {
+	   this.pesquisar();
+	   if (this._isVisualizarFluxo()) {
+		   UtilDWR.getMessage("dica.visualizarFluxo", null, ( function(mensagem) {
+			   $("linkDefinirFluxoProcesso").title = mensagem;
+		   }));
+	   }
+   },
+   
+   /**
+    * Recupera caso o usuário deva apenas visualizar o fluxo, e não definir.
+    * 
+    * @return <code>true</code> caso usuário deve apenas visualizar o fluxo.
+    * @type Boolean
+    */
+   _isVisualizarFluxo: function(){
+   	return ($F("workflowAtivadoOuExcluido") == "true") || !Usuario.temPermissao(MANTER_WORKFLOW);
    }
 };
 
