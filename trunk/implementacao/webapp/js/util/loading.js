@@ -38,7 +38,7 @@ LoadingControl.prototype = {
    initialize : function() {},
    controle :0,
    /**
-	 *
+	 * 
 	 * @return {HTMLDivElement}
 	 */
    getLoading : function() {
@@ -62,7 +62,7 @@ LoadingControl.prototype = {
 	      position :"absolute",
 	      border :definicoesJanela.loadingBorder,
 	      backgroundColor :definicoesJanela.loadingBackground,
-	      zIndex :100
+	      zIndex :500
 	   });
 	   corpo.appendChild(imagem);
 

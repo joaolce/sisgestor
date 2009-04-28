@@ -8,28 +8,28 @@ Janela.prototype = {
    /**
 	 * altura da janela
 	 * 
-	 * @type Integer
+	 * @type Number
 	 */
    height :null,
 
    /**
 	 * largura da janela
 	 * 
-	 * @type Integer
+	 * @type Number
 	 */
    width :null,
 
    /**
 	 * posição Y em relação ao elemento que contém a janelaDiv
 	 * 
-	 * @type Integer
+	 * @type Number
 	 */
    top :0,
 
    /**
 	 * posição X em relação ao elemento que contém a janelaDiv
 	 * 
-	 * @type Integer
+	 * @type Number
 	 */
    left :0,
 
@@ -138,7 +138,7 @@ Janela.prototype = {
    /**
 	 * Índice de visualização da janela (mesma propriedade do estilo)
 	 * 
-	 * @type Integer
+	 * @type Number
 	 */
    zIndex :null,
 
@@ -156,12 +156,12 @@ Janela.prototype = {
    /**
 	 * @constructor
 	 * 
-	 * @param {Integer} height altura da janela
-	 * @param {Integer} width largura da janela
-	 * @param {Integer} left quantidade de pixels a partir da esquerda do elemento contedor
+	 * @param {Number} height altura da janela
+	 * @param {Number} width largura da janela
+	 * @param {Number} left quantidade de pixels a partir da esquerda do elemento contedor
 	 *        (coordenada X da tela)
-	 * @param {Integer} top quantidade de pixels a partir do top do elemento contedor {coordenada Y
-	 *        da tela}
+	 * @param {Number} top quantidade de pixels a partir do top do elemento contedor {coordenada Y da
+	 *        tela}
 	 * @param {String} titulo texto de título da janela
 	 * @param {String} idConteudo identificador do div que representará o conteúdo da janela
 	 */
@@ -282,7 +282,8 @@ Janela.prototype = {
    /**
 	 * remove o botão fechar da janela
 	 * 
-	 * @return {HTMLAnchorElement}
+	 * @return o botão fechar
+	 * @type HTMLAnchorElement
 	 */
    removerBotaoFechar : function() {
 	   this.botaoFechar = this.getBotaoFechar().remove();
@@ -301,7 +302,8 @@ Janela.prototype = {
    /**
 	 * retorna o elemento onde as janelas serão acrescentadas (appendadas)
 	 * 
-	 * @return{Element}
+	 * @return o elemento onde as janelas serão acrescentadas (appendadas)
+	 * @type Element
 	 */
    getPrincipal : function() {
 	   if (Configuracao.DivPrincipal != null) {
@@ -314,7 +316,8 @@ Janela.prototype = {
 	 * retorna o estilo personalizado pelo usuário com o estilo de configuração padrão da barra da
 	 * janela
 	 * 
-	 * @return {String}
+	 * @return o estilo personalizado pelo usuário
+	 * @type String
 	 */
    getEstiloBarra : function() {
 	   return Configuracao.EstiloBarra
@@ -325,7 +328,8 @@ Janela.prototype = {
 	 * retorna o estilo personalizado pelo usuário com o estilo de configuração padrão da barra de
 	 * janela
 	 * 
-	 * @return {String}
+	 * @return o estilo personalizado pelo usuário
+	 * @type String
 	 */
    getEstiloBarraTitulo : function() {
 	   return Configuracao.EstiloBarraTitulo.concat("width:90%; float: left;");
@@ -334,7 +338,8 @@ Janela.prototype = {
    /**
 	 * retorna o estilo da janela
 	 * 
-	 * @return {String}
+	 * @return o estilo da janela
+	 * @type String
 	 */
    getEstiloJanela : function() {
 	   return Configuracao.EstiloJanela.concat("position: absolute; ");
@@ -343,7 +348,8 @@ Janela.prototype = {
    /**
 	 * estilo do conteúdo modificável da janela
 	 * 
-	 * @return {String}
+	 * @return estilo do conteúdo modificável da janela
+	 * @type String
 	 */
    getEstiloConteudo : function() {
 	   return Configuracao.EstiloConteudo;
@@ -351,6 +357,8 @@ Janela.prototype = {
 
    /**
 	 * adiciona elementos ao div de conteúdo da janela
+	 * 
+	 * @param {Element} element
 	 */
    adicionarConteudo : function(element) {
 	   this.getConteudo().appendChild(element);
@@ -358,7 +366,8 @@ Janela.prototype = {
    /**
 	 * retorna o div de conteúdo da janela
 	 * 
-	 * @return {HTMLDivElement}
+	 * @return o div de conteúdo da janela
+	 * @type HTMLDivElement
 	 */
    getConteudo : function() {
 	   var conteudo = this.janelaDiv.lastChild;
@@ -370,13 +379,17 @@ Janela.prototype = {
    /**
 	 * estilo da div que contém o botão fechar com o estilo personalizado pelo usuário
 	 * 
-	 * @return {String}
+	 * @return estilo da div que contém o botão fechar com o estilo personalizado pelo usuário
+	 * @type String
 	 */
    getEstiloDivFechar : function() {
 	   return Configuracao.EstiloDivFechar.concat("text-align: right; width: 5%; float: right;");
    },
    /**
 	 * estilo do botão fechar com o estilo personalizado pelo usuário
+	 * 
+	 * @return estilo do botão fechar com o estilo personalizado pelo usuário
+	 * @type String
 	 */
    getEstiloBotaoFechar : function() {
 	   return Configuracao.EstiloBotaoFechar.concat("padding-right: 3px;");
@@ -418,6 +431,7 @@ Janela.prototype = {
 		   left :position + "px"
 	   });
    },
+
    /**
 	 * coordenada Y da janela
 	 * 
@@ -428,6 +442,12 @@ Janela.prototype = {
 		   top :position + "px"
 	   });
    },
+
+   /**
+	 * Altura da janela
+	 * 
+	 * @param {Number} height
+	 */
    setHeight : function(height) {
 	   if (height == null) {
 		   Element.setStyle(this.janelaDiv, {
@@ -440,6 +460,12 @@ Janela.prototype = {
 		   });
 	   }
    },
+
+   /**
+	 * Largura da janela
+	 * 
+	 * @param {Number} width
+	 */
    setWidth : function(width) {
 	   if (width == null) {
 		   Element.setStyle(this.janelaDiv, {
@@ -452,6 +478,7 @@ Janela.prototype = {
 		   });
 	   }
    },
+
    /**
 	 * adiciona um manipulador de evento ao evento fechar janela, se a função passada retornar false
 	 * a janela não é fechada
@@ -461,14 +488,17 @@ Janela.prototype = {
    setOnClose : function(oncloseFunction) {
 	   this.onClose = oncloseFunction;
    },
+
    /**
 	 * retorna o manipulador de evento ao fechar janela
 	 * 
-	 * @return{Function}
+	 * @return o manipulador de evento ao fechar janela
+	 * @type Function
 	 */
    getOnClose : function() {
 	   return this.onClose;
    },
+
    /**
 	 * fecha e remove a janela
 	 */
@@ -589,6 +619,8 @@ Janela.prototype = {
 
    /**
 	 * set a janela anterior a que foi acabou de ser aberta, se for a primeira a propriedade é nula
+	 * 
+	 * @param {Janela} janela
 	 */
    setJanelaAnterior : function(janela) {
 	   this.janelaAnterior = janela;
@@ -596,6 +628,9 @@ Janela.prototype = {
 
    /**
 	 * retorna o postBody da requisição POST
+	 * 
+	 * @return o postBody da requisição POST
+	 * @type String
 	 */
    getPostBody : function() {
 	   if (this.postBody == null) {
@@ -616,6 +651,9 @@ Janela.prototype = {
 
    /**
 	 * retorna a url que deverá fornecer o conteúdo HTML da div
+	 * 
+	 * @return a url que deverá fornecer o conteúdo HTML da div
+	 * @type String
 	 */
    getUrl : function() {
 	   if (this.url == null) {
@@ -626,6 +664,8 @@ Janela.prototype = {
 
    /**
 	 * set o endereço que deverá fornecer o conteúdo HTML da div
+	 * 
+	 * @param {String} url
 	 */
    setUrl : function(url) {
 	   this.url = url;
@@ -633,6 +673,9 @@ Janela.prototype = {
 
    /**
 	 * método a ser utilizado na requisição
+	 * 
+	 * @return GET ou POST
+	 * @type String
 	 */
    getMethod : function() {
 	   return this.httpMethod;
@@ -640,13 +683,18 @@ Janela.prototype = {
 
    /**
 	 * seta o método a ser utilizado na requisição POST ou GET (padrão: GET)
+	 * 
+	 * @param {String} method
 	 */
    setMethod : function(method) {
 	   this.httpMethod = method;
    },
 
    /**
-	 * avaliar scripts
+	 * avaliar scripts]
+	 * 
+	 * @return <code>true</code> or <code>false</code>
+	 * @type Boolean
 	 */
    getEvalscripts : function() {
 	   return this.evalScripts;
@@ -654,6 +702,8 @@ Janela.prototype = {
 
    /**
 	 * seta avaliar scripts
+	 * 
+	 * @param {Boolean} state
 	 */
    setEvalscripts : function(state) {
 	   this.evalScripts = state;
@@ -799,10 +849,10 @@ JanelaFactory = {
    /**
 	 * Instancia uma nova Janela, registra e retorna o objeto
 	 * 
-	 * @param {Integer} height
-	 * @param {Integer} width
-	 * @param {Integer} left
-	 * @param {Integer} top
+	 * @param {Number} height
+	 * @param {Number} width
+	 * @param {Number} left
+	 * @param {Number} top
 	 * @param {String} titulo
 	 * @param {String} idConteudo
 	 * 

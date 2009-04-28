@@ -28,9 +28,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class UsarWorkflowAction extends BaseAction {
 
-	private UsoWorkflowBO usoWorkflowBO;
-	private WorkflowBO workflowBO;
-	private TarefaBO tarefaBO;
+	private UsoWorkflowBO	usoWorkflowBO;
+	private WorkflowBO		workflowBO;
+	private TarefaBO			tarefaBO;
 
 	/**
 	 * Salva as alterações em {@link UsoWorkflow}.
@@ -42,8 +42,8 @@ public class UsarWorkflowAction extends BaseAction {
 	 * @return <code>null</code>
 	 * @throws Exception caso exceção seja lançada
 	 */
-	public ActionForward confirmar(ActionMapping mapping, ActionForm formulario,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ActionForward confirmar(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
 		Integer idUsoWorkflow = form.getId();
 		this.usoWorkflowBO.salvarValoresCampos(form.getValor(), idUsoWorkflow);
@@ -84,8 +84,8 @@ public class UsarWorkflowAction extends BaseAction {
 	 * @return <code>null</code>
 	 * @throws Exception caso exceção seja lançada
 	 */
-	public ActionForward iniciarUso(ActionMapping mapping, ActionForm formulario,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ActionForward iniciarUso(ActionMapping mapping, ActionForm formulario, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
 		UsoWorkflow usoWorkflow = new UsoWorkflow();
 		Workflow workflow = this.workflowBO.obter(form.getWorkflow());
@@ -100,7 +100,7 @@ public class UsarWorkflowAction extends BaseAction {
 	}
 
 	/**
-	 * Abre popup para iniciar um {@link Workflow}.
+	 * Abre popup para alterar a anotação de um {@link UsoWorkflow}.
 	 * 
 	 * @param mapping objeto mapping da action
 	 * @param formulario objeto form da action
@@ -115,7 +115,7 @@ public class UsarWorkflowAction extends BaseAction {
 	}
 
 	/**
-	 * Abre popup para iniciar um {@link Workflow}.
+	 * Abre popup para iniciar um {@link UsoWorkflow}.
 	 * 
 	 * @param mapping objeto mapping da action
 	 * @param formulario objeto form da action
@@ -195,13 +195,13 @@ public class UsarWorkflowAction extends BaseAction {
 	}
 
 	/**
-	 * Abre popup para iniciar um {@link Workflow}.
+	 * Salva a anotação do {@link UsoWorkflow}.
 	 * 
 	 * @param mapping objeto mapping da action
 	 * @param formulario objeto form da action
 	 * @param request request atual
 	 * @param response response atual
-	 * @return forward do popup
+	 * @return <code>null</code>
 	 * @throws Exception caso exceção seja lançada
 	 */
 	public ActionForward salvarAnotacao(ActionMapping mapping, ActionForm formulario,

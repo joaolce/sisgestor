@@ -52,7 +52,7 @@ JanelasComuns = {
    },
    /**
 	 * mostrar mensagem de confirmação
-	 *
+	 * 
 	 * @param {String} mensagem
 	 * @param {Function} funcTrue função a ser executada caso o usuário clique ok
 	 * @param {Function} funcFalse função a ser executada caso o usuário clique cancelar (opcional)
@@ -112,10 +112,10 @@ JanelasComuns = {
 	   Event.observe("cancelarBotao", "click", funcCancelar);
 	   Form.Element.focus("cancelarBotao");
    },
-   
+
    /**
 	 * Mostra uma mensagem de confirmação com opção de cancelar
-	 *
+	 * 
 	 * @param {String} mensagem mensagem a ser exibida
 	 * @param {Function} funcTrue função a ser executada caso o usuário clique 'Sim'
 	 * @param {Function} funcFalse função a ser executada caso o usuário clique 'Não'
@@ -172,17 +172,17 @@ JanelasComuns = {
 	   };
 	   Event.observe($("botaoSim"), "click", funcSim);
 	   var funcNao = function() {
-			funcFalse();
+		   funcFalse();
 		   janela.fecharJanela();
 	   };
 	   Event.observe("botaoNao", "click", funcNao);
 	   var funcCancelar = function() {
-	   	janela.fecharJanela();
+		   janela.fecharJanela();
 	   };
 	   Event.observe("botaoCancelar", "click", funcCancelar);
 	   Form.Element.focus("botaoCancelar");
    },
-   
+
    carregando :false,
    /**
 	 * mostrar tela de aguarde enquanto uma página carrega
@@ -224,7 +224,7 @@ JanelasComuns = {
    },
    /**
 	 * Exibir uma mensagem em vermelho ou verde de acordo com o status passado
-	 *
+	 * 
 	 * @param {String} message
 	 * @param {Boolean} status
 	 * @param {Function} posFunction função que será executada quando o usuário clicar ok na tela
@@ -255,7 +255,7 @@ JanelasComuns = {
 	      });
    },
    /**
-	 *
+	 * 
 	 * @param {String} mens
 	 */
    setMensagens : function(mens) {
@@ -265,7 +265,7 @@ JanelasComuns = {
 /**
  * cria uma janela dentro da tela atual de acordo com as especificações passadas e carrega a url
  * passada dentro dela
- *
+ * 
  * @param {Number} heightP altura em pixels
  * @param {Number} widthP largura em pixels
  * @param {Number} leftP posição x em pixels
@@ -274,8 +274,9 @@ JanelasComuns = {
  * @param {String} id id a ser atribuído ao div que será criado
  * @param {String} url necessário carregar nenhuma url passar esse parâmetro como null
  * @param {Function} posFunction função a ser executada após o conteúdo ser carregado
- *
- * @return {Janela} instância do objeto janela criado
+ * 
+ * @return instância do objeto janela criado
+ * @type Janela
  */
 function createWindow(heightP, widthP, leftP, topP, titulo, id, url, posFunction) {
 	var janela = JanelaFactory.getInstance(heightP, widthP, leftP, topP, titulo, id);

@@ -18,7 +18,7 @@ HabilitaDesabilitaElementos.prototype = {
 	 * @param {String} tag elemento html que deverá ser desabilitado
 	 * @param {String} idelemento elemento pai, opcional, se não passado desabilitará todas as tags
 	 *        especificadas do documento
-	 */ 
+	 */
    initialize : function(tag, idelemento) {
 	   if (! [ "input", "select", "textarea" ].include(tag)) {
 		   throw new Error("somente input, select, textarea");
@@ -117,7 +117,9 @@ CheckboxFunctions = {
 	 * retornar os valores dos checkboxes que está marcados em um array
 	 * 
 	 * @param {String} checkboxName name do checkbox que terá seus valores coletados
-	 * @return {Array}
+	 * 
+	 * @return um array contendo os valores dos checboxes marcados
+	 * @type Array
 	 */
    getCheckboxesValues : function(checkboxName) {
 	   var chk = document.getElementsByName(checkboxName);
@@ -129,6 +131,14 @@ CheckboxFunctions = {
 	   }
 	   return valores;
    },
+
+   /**
+	 * Recuperar somente os labels dos checkbox marcados
+	 * 
+	 * @param {String} checkboxName
+	 * @return array contendo os labels dos checkboxes marcados
+	 * @type Array
+	 */
    getCheckboxesLabel : function(checkboxName) {
 	   var chk = document.getElementsByName(checkboxName);
 	   var valores = new Array();
@@ -141,6 +151,7 @@ CheckboxFunctions = {
 	   }
 	   return valores;
    },
+
    /**
 	 * recuperar o objecto HTMLInputElement Checkbox da coleção de checkboxes que contenha o valor
 	 * passado
@@ -157,10 +168,12 @@ CheckboxFunctions = {
 	   }
 	   return null;
    },
+
    /**
 	 * 
 	 * @param {String} checkboxName name do checkbox
-	 * @return {Integer}
+	 * @return quantidade de checkboxes marcados
+	 * @type Number
 	 */
    getQtdsMarcados : function(checkboxName) {
 	   var colecao = document.getElementsByName(checkboxName);
@@ -219,7 +232,7 @@ CheckboxFunctions = {
 	 *        checks
 	 * @param {String} text propriedade contida nos elementos do arraydata que possui o label dos
 	 *        checks
-	 * @param {String} radioname nome do conjunto de checkboxes que será criado
+	 * @param {String} checkname nome do conjunto de checkboxes que será criado
 	 */
    addCheckboxes : function(divId, arraydata, value, text, checkname) {
 	   var divcontainer = $(divId);
@@ -339,8 +352,8 @@ RadioFunctions = {
 	 * @param {String} valor
 	 */
    setValue : function(radios, valor) {
-	   if (typeof radios == "string") {
-		   return dwr.util.getValue(radios);
+	   if (radios instanceof String) {
+		   dwr.util.setValue(radios, valor);
 	   } else {
 		   for ( var index = 0; index < radios.length; index++) {
 			   var radio = radios.item(index);
@@ -351,6 +364,14 @@ RadioFunctions = {
 		   }
 	   }
    },
+
+   /**
+	 * Recuperar o label dos radios selecionados
+	 * 
+	 * @param {String} radio
+	 * @return array de labels
+	 * @type Array
+	 */
    getLabel : function(radio) {
 	   var radio = document.getElementsByName(radio);
 	   var valores = new Array();
@@ -378,15 +399,10 @@ ComboFunctions = {
 	 * @param {String} origem id do objeto combo que possui um índice selecionado
 	 * @param {String} destino id do objeto combo destino onde o option representado pelo índice
 	 *        selecionado será adicionado
-	 * @param {Integer} inx indice a ser transferido da origem (opcional)
+	 * @param {Number} inx indice a ser transferido da origem (opcional)
 	 */
    transfereOptions : function(origem, destino, inx) {
-	   var indice;
-	   if (inx == undefined) {
-		   indice = $(origem).selectedIndex;
-	   } else {
-		   indice = inx;
-	   }
+	   var indice = inx == undefined ? $(origem).selectedIndex : inx;
 	   if (indice == -1) {
 		   return;
 	   }
@@ -402,23 +418,18 @@ ComboFunctions = {
 	   $(destino).options[$(destino).options.length] = new Option(texto, idObj);
 	   this.ordenarOptions(destino);
    },
+
    /**
 	 * Remove o indice selecionado em um combo
 	 * 
 	 * @param {String} origem id do objeto combo que possui um índice selecionado
-	 * @param {Integer} index a ser apagado(opcional)
+	 * @param {Number} index a ser apagado(opcional)
 	 */
    removeOption : function(origem, index) {
-	   var indice;
-	   if (index == undefined) {
-		   indice = $(origem).selectedIndex
-	   } else {
-		   indice = index;
+	   var indice = index == undefined ? $(origem).selectedIndex : index;
+	   if (indice != -1) {
+		   $(origem).options[indice] = null;
 	   }
-	   if (indice == -1) {
-		   return;
-	   }
-	   $(origem).options[indice] = null;
    },
 
    /**
@@ -501,8 +512,8 @@ ComboFunctions = {
 		   dwr.util.removeAllOptions(origem);
 	   } else {
 		   dwr.util.addOptions(destino, selecionadas, "value", "text");
-		   // TODO: Existe um BUG no firefox versão 2.0.0.3 que as vezes o dwr.util.removeAllOptions
-	// não funciona
+		   // Existe um BUG no firefox versão 2.0.0.3 que as vezes o dwr.util.removeAllOptions não
+	// funciona
 	dwr.util.removeAllOptions(origem);
 }
 },
@@ -552,20 +563,21 @@ if (Prototype.Browser.IE) {
 	dwr.util.addOptions(origem, movimentaParaOrigem, "value", "text");
 } else {
 	dwr.util.addOptions(destino, movimentaParaDestino, "value", "text");
-	// TODO: Existe um BUG no firefox versão 2.0.0.3 que as vezes o dwr.util.removeAllOptions não
-	// funciona
+	// Existe um BUG no firefox versão 2.0.0.3 que as vezes o dwr.util.removeAllOptions não funciona
 	dwr.util.removeAllOptions(origem);
 	dwr.util.addOptions(origem, movimentaParaOrigem, "value", "text");
 }
 this.ordenarOptions(destino);
 },
+
 /**
  * pegar todos os valores selecionados em um select-multiple a função considera que o valor dos
  * options contenham apenas números interos
  * 
  * @param {String} id do select que terá seus valores coletados
  * @param {Boolean} selected somente os selecionados
- * @return {Array} de integers coletados
+ * @return array de integers coletados
+ * @type Array
  */
 getValues : function(id, selected) {
 var options = $(id).options;
@@ -585,9 +597,9 @@ return valores;
 /**
  * verifica se no combo existe um options com o value selecionado
  * 
- * @param {String} select id
- * @param {Integer} v valor a ser verificado no select
- * @return {Boolean}
+ * @param {Number} v valor a ser verificado no select
+ * @return <code>true</code> se encontrou <code>false</code> se não encontrou
+ * @type Boolean
  */
 containsValue : function(select, v) {
 var options = $(select).options;
@@ -651,7 +663,8 @@ aremover.each( function(option) {
  * retornar o label (não o valor) do option selecionado
  * 
  * @param {String} elemento
- * @return {String} innerHTML do option selecionado
+ * @return innerHTML do option selecionado
+ * @type String
  */
 getOptionInnerLabel : function(elemento) {
 var select = $(elemento);
@@ -664,7 +677,8 @@ return select.options[select.selectedIndex].innerHTML;
  * retornar o label de todos os options selecionados e não selecionados (multiple)
  * 
  * @param {String} elemento
- * @return {Array}
+ * @return coleção de labels coletados
+ * @type Array
  */
 getAllOptionInnerLabel : function(elemento) {
 var select = $(elemento);
@@ -717,6 +731,12 @@ for ( var i = 0; i < atransportar.length; i++) {
 }
 JanelaFactory.fecharJanelaAtiva();
 },
+
+/**
+ * Ordenar os options do select passado por ordem alfabética
+ * 
+ * @param {HTMLSelectElement} select
+ */
 ordenarOptions : function(select) {
 select = $(select);
 var options = select.options;
@@ -776,7 +796,7 @@ function MaskInput(campo, mask) {
 		if (!isBlankOrNull(campo.value)) {
 			campo.value = oStringMask.format(campo.value);
 		}
-		
+
 		if (mask == "##:##") {
 			Event.observe(campo, "blur", function(event) {
 				var elemento = Event.element(event);
@@ -986,7 +1006,7 @@ function getStringTimestamp(data, formato) {
 	 * if(data.toString().indexOf("GMT-0200") != -1){ data = new Date(data.getTime());
 	 * data.setHours(data.getHours() -1); }
 	 */
-	if(Object.isUndefined(formato)) {
+	if (Object.isUndefined(formato)) {
 		formato = "dd/MM/yyyy HH:mm";
 	}
 	return formatDate(data, formato);
@@ -1315,7 +1335,9 @@ function ehNumero(key) {
 /**
  * Recupera a posição do cursor.
  * 
- * @param campo
+ * @param {HTMLInputElement} campo
+ * @return a posição do cursor
+ * @type Number
  */
 function getPosicaoCursor(campo) {
 	var posicaoCursor = 0;
@@ -1343,8 +1365,8 @@ function getPosicaoCursor(campo) {
 /**
  * Move o cursor para a posição informada.
  * 
- * @param campo
- * @param posicao
+ * @param {HTMLInputElement} campo
+ * @param {Number} posicao
  */
 function setPosicaoCursor(campo, posicao) {
 	if (document.selection) {
@@ -1367,7 +1389,7 @@ function setPosicaoCursor(campo, posicao) {
 /**
  * Recupera o valor do caracter digitado.
  * 
- * @param key codigo do caracter
+ * @param {Number} key codigo do caracter
  */
 function getValor(key) {
 	var retorno = "";
@@ -1525,12 +1547,12 @@ function cancelarConfirmacaoAoSair() {
 	window.onbeforeunload = aoDescarregarPagina;
 }
 
-String.prototype.replaceAll = function(de, para){
-   var str = this;
-   var pos = str.indexOf(de);
-   while (pos > -1){
+String.prototype.replaceAll = function(de, para) {
+	var str = this;
+	var pos = str.indexOf(de);
+	while (pos > -1) {
 		str = str.replace(de, para);
 		pos = str.indexOf(de);
 	}
-   return (str);
+	return (str);
 }
