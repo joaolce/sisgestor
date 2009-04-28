@@ -6,7 +6,9 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 
 import br.com.ucb.sisgestor.apresentacao.forms.ManterProcessoActionForm;
 import br.com.ucb.sisgestor.entidade.Processo;
+import br.com.ucb.sisgestor.entidade.Workflow;
 import br.com.ucb.sisgestor.negocio.ProcessoBO;
+import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -23,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ManterProcessoAction extends BaseAction {
 
 	private ProcessoBO	processoBO;
+	private WorkflowBO	workflowBO;
 
 	/**
 	 * Atualiza um processo.
@@ -45,6 +48,19 @@ public class ManterProcessoAction extends BaseAction {
 
 		this.addMessageKey("mensagem.alterar", "Processo");
 		return this.sendAJAXResponse(true);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ActionForward entrada(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ManterProcessoActionForm form = (ManterProcessoActionForm) actionForm;
+		Workflow workflow = this.workflowBO.obter(form.getWorkflow());
+		boolean apenasVisualizarWorkflow = workflow.getAtivo() || (workflow.getDataHoraExclusao() != null);
+		form.setWorkflowAtivadoOuExcluido(apenasVisualizarWorkflow);
+		return this.findForward(FWD_ENTRADA);
 	}
 
 	/**
@@ -154,5 +170,15 @@ public class ManterProcessoAction extends BaseAction {
 	@Autowired
 	public void setProcessoBO(ProcessoBO processoBO) {
 		this.processoBO = processoBO;
+	}
+
+	/**
+	 * Atribui o BO de {@link Workflow}.
+	 * 
+	 * @param workflowBO BO de {@link Workflow}
+	 */
+	@Autowired
+	public void setWorkflowBO(WorkflowBO workflowBO) {
+		this.workflowBO = workflowBO;
 	}
 }

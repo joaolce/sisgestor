@@ -463,7 +463,7 @@ public final class Utils {
 	 * @return String com a mensagem
 	 */
 	public static String getMessageFromProperties(String key, String... args) {
-		synchronized (resources) {
+		synchronized (Utils.class) {
 			if (resources == null) {
 				PropertyMessageResourcesFactory.setFactoryClass(PropertyMessageResourcesFactory.class.getName());
 				PropertyMessageResourcesFactory fac = new PropertyMessageResourcesFactory();

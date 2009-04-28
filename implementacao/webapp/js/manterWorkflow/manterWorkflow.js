@@ -192,7 +192,7 @@ ManterWorkflow.prototype = {
 	   var url = "manterProcesso.do?method=entrada&workflow=" + idWorkflow;
 	   createWindow(536, 985, 280, 10, "Gerenciar Processos - " + nomeWorkflow,
 	      "divGerenciarProcessos", url, ( function() {
-		      processo.pesquisar();
+		      processo.entrada();
 	      }));
    },
 
