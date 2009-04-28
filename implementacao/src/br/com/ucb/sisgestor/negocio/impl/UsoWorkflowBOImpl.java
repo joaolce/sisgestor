@@ -37,8 +37,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("usoWorkflowBO")
 public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWorkflowBO {
 
-	private UsoWorkflowDAO usoWorkflowDAO;
-	private TarefaBO tarefaBO;
+	private UsoWorkflowDAO	usoWorkflowDAO;
+	private TarefaBO			tarefaBO;
 
 	/**
 	 * {@inheritDoc}
@@ -270,8 +270,8 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 * @return um {@link CampoUsoWorkflow}
 	 * @throws NegocioException caso o campo obrigatório não esteje preenchido
 	 */
-	private CampoUsoWorkflow getCampoUsoWorkflowTexto(String[] campo,
-			List<CampoUsoWorkflow> listaCampos) throws NegocioException {
+	private CampoUsoWorkflow getCampoUsoWorkflowTexto(String[] campo, List<CampoUsoWorkflow> listaCampos)
+			throws NegocioException {
 
 		CampoUsoWorkflow novoCampoUsoWorkflow = null;
 		Integer idCampo = Integer.valueOf(campo[0].substring(5)); // removendo o "campo" do inicio do id html
@@ -284,8 +284,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 					novoValor = campo[1];
 				}
 
-				this.validarValorCampo(novoValor, campoWorkflow.getObrigatorio(), campoWorkflow
-						.getNome());
+				this.validarValorCampo(novoValor, campoWorkflow.getObrigatorio(), campoWorkflow.getNome());
 
 				campoUsoWorkflow.setValor(novoValor);
 				novoCampoUsoWorkflow = campoUsoWorkflow;
@@ -303,8 +302,8 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 * @return lista de campos do uso workflow a serem salvos
 	 * @throws NegocioException caso o campo obrigatório não esteje preenchido
 	 */
-	private List<CampoUsoWorkflow> getListaCamposAtualizar(List<CampoUsoWorkflow> listaCampos,
-			String[] valores) throws NegocioException {
+	private List<CampoUsoWorkflow> getListaCamposAtualizar(List<CampoUsoWorkflow> listaCampos, String[] valores)
+			throws NegocioException {
 		List<CampoUsoWorkflow> listaCamposAtualizar = new ArrayList<CampoUsoWorkflow>();
 		List<String> camposRadioCheckbox = new ArrayList<String>();
 		String[] campoParcial;
@@ -320,8 +319,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 			}
 		}
 		if (!camposRadioCheckbox.isEmpty()) {
-			listaCamposAtualizar.addAll(this.getCampoUsoWorkflowOpcoes(camposRadioCheckbox,
-					listaCampos));
+			listaCamposAtualizar.addAll(this.getCampoUsoWorkflowOpcoes(camposRadioCheckbox, listaCampos));
 		}
 		return listaCamposAtualizar;
 	}
@@ -349,11 +347,10 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 		String emailUsuario = usuarioTarefa.getEmail();
 		if (StringUtils.isNotBlank(emailUsuario)) {
 			String corpoEmail =
-					"A tarefa '" + tarefa.getNome()
-							+ "' está sob sua responsabilidade, referente ao registro: "
+					"A tarefa '" + tarefa.getNome() + "' está sob sua responsabilidade, referente ao registro: "
 							+ usoWorkflow.getNumeroRegistro();
-			this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR,
-					Constantes.ASSUNTO_EMAIL_TAREFA_TRANSFERIDA, corpoEmail, emailUsuario);
+			this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR, Constantes.ASSUNTO_EMAIL_TAREFA_TRANSFERIDA,
+					corpoEmail, emailUsuario);
 		}
 	}
 
@@ -371,8 +368,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 			throw new NegocioException("erro.required", nomeCampo);
 		}
 		if (valor.length() > ConstantesDB.VALOR_CAMPO) {
-			throw new NegocioException("erro.maxlength", nomeCampo, Integer
-					.toString(ConstantesDB.VALOR_CAMPO));
+			throw new NegocioException("erro.maxlength", nomeCampo, Integer.toString(ConstantesDB.VALOR_CAMPO));
 		}
 	}
 }

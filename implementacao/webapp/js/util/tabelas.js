@@ -35,12 +35,6 @@
 var Tabela = Class.create();
 Tabela.prototype = {
    /**
-	 * estilo que deverá ser aplicado a tabela
-	 * 
-	 * @type String
-	 */
-   _className :"corpoTabelaClicavel",
-   /**
 	 * id de estilo da linha selecionada
 	 * 
 	 * @type String
@@ -69,31 +63,31 @@ Tabela.prototype = {
    /**
 	 * Total de registros retornados pela consulta
 	 * 
-	 * @type Integer
+	 * @type Number
 	 */
    totalRegistros :null,
    /**
 	 * Total de páginas
 	 * 
-	 * @type Integer
+	 * @type Number
 	 */
    totalPaginas :null,
    /**
 	 * Quantidade de registros a serem exibidos por página
 	 * 
-	 * @type Integer
+	 * @type Number
 	 */
    qtdRegistrosPagina :18,
    /**
 	 * Máximo de páginas a serem apresentadas para paginação
 	 * 
-	 * @type Integer
+	 * @type Number
 	 */
    qtdPaginasExibidas :15,
    /**
 	 * página atual
 	 * 
-	 * @type Integer
+	 * @type Number
 	 */
    paginaAtual :0,
    /**
@@ -116,15 +110,9 @@ Tabela.prototype = {
 	 * @param {String} className
 	 */
    initialize : function(idTabela, className) {
-	   if (className != undefined) {
-		   this._className = className;
-	   }
 	   this._tabela = $(idTabela);
 	   if (this._tabela == null) {
 		   throw new Error(" o corpo da tabela passado não pode ser nulo ");
-	   }
-	   if ((this._className != null) && !this._className.blank()) {
-		   this._tabela.className = this._className;
 	   }
    },
    /**
@@ -303,7 +291,7 @@ Tabela.prototype = {
 	 * setar quantidade de registros por página (um valor padrão já está setado)
 	 * 
 	 * @see qtdRegistrosPagina
-	 * @param {Integer} novoValor
+	 * @param {Number} novoValor
 	 */
    setQtdRegistrosPagina : function(novoValor) {
 	   this.qtdRegistrosPagina = novoValor;
@@ -319,7 +307,7 @@ Tabela.prototype = {
    /**
 	 * Total de registros retornados pela consulta
 	 * 
-	 * @param {Integer} totalRegistros
+	 * @param {Number} totalRegistros
 	 */
    setTotalRegistros : function(totalRegistros) {
 	   this.totalRegistros = totalRegistros;
@@ -510,8 +498,7 @@ Tabela.prototype = {
     * ManterInstituicao.getInstituicoesFinanceirasBySegmento.bind(ManterInstituicao)
     * </code>
 	 * 
-	 * @param chamadaRemota
-	 * @return
+	 * @param {Function} chamadaRemota
 	 */
    setRemoteCall : function(chamadaRemota) {
 	   this.chamadaRemota = chamadaRemota;
@@ -544,7 +531,7 @@ Tabela.prototype = {
    /**
 	 * Toda vez que o usuário clicar para trocar de página essa função será invocada
 	 * 
-	 * @param {Integer} novaPagina
+	 * @param {Number} novaPagina
 	 */
    onTrocarPagina : function(novaPagina) {
 	   this.parametros.paginaAtual = novaPagina;
@@ -553,7 +540,7 @@ Tabela.prototype = {
    },
    /**
 	 * @return a página atual
-	 * @type Integer
+	 * @type Number
 	 */
    getPaginaAtual : function() {
 	   return this.paginaAtual;
@@ -580,7 +567,7 @@ Tabela.prototype = {
    /**
 	 * ir para a página especificada
 	 * 
-	 * @param {Integer} novaPagina
+	 * @param {Number} novaPagina
 	 */
    gotoPage : function(novaPagina) {
 	   if (!this.desativado) {
@@ -670,7 +657,7 @@ Tabela.prototype = {
    /**
 	 * seleciona o índice passado
 	 * 
-	 * @param {Integer} indice da linha a ser selecioando
+	 * @param {Number} indice da linha a ser selecioando
 	 */
    setSelecionado : function(indice) {
 	   var tr = this._tabela.childNodes.item(indice);
@@ -741,7 +728,7 @@ Tabela.prototype = {
 
    /**
 	 * Recupera o elemento tabela.
-	 *
+	 * 
 	 * @return o elemento tabela associado com o wrapper
 	 * @type HTMLTableSectionElement
 	 */
@@ -761,7 +748,7 @@ FactoryTabelas = {
 	 */
    getNewTabela : function(idTabela, className) {
 	   var tabela = new Tabela(idTabela, className);
-	   
+
 	   if (!(idTabela instanceof String)) {
 		   idTabela = idTabela.id;
 	   }

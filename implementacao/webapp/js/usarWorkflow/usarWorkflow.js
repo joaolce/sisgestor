@@ -488,6 +488,7 @@ UsarWorkflow.prototype = {
 		      .bind(this), this.sairSemSalvar.bind(this));
 	   } else {
 		   JanelaFactory.fecharJanelaAtiva();
+		   this.camposData = new Array();
 	   }
    },
 

@@ -22,7 +22,6 @@
 	
 	<script type="text/javascript" src="dwr/engine.js"></script>
 	<script type="text/javascript" src="dwr/util.js"></script>
-	<script type="text/javascript" src="js/util/overideDWR.js"></script>
 	
 	<script type="text/javascript" src="js/util/oreaculousConfig.js"></script>
 	<script type="text/javascript" src="js/util/oreaculous.js"></script>

@@ -1,12 +1,12 @@
 /**
  * Request Utils
- *
+ * 
  * Funcionalidades de requisições de form e de url simples com tratamento do XML gerado
- *
+ * 
  * <b>(1) para submeter um form assíncronamente para o Struts:</b> <code>
  * 		<form name="exemplo" action="teste.do" onsubmit="requestUtils.submitForm(this); return false;">...</form>
  * </code>
- *
+ * 
  * <b>(2) para fazer uma requisição GET a uma url e receber o resultado dela:</b> <code>
  * 		var url = "paginaTeste.do";
  * 		var posFunction = function(){
@@ -15,7 +15,7 @@
  * 		requestUtils.simpleRequest(url, posFunction);
  * 		//o parâmetro posFunction é opcional
  * </code>
- *
+ * 
  */
 
 var RequestUtils = Class.create();
@@ -31,70 +31,95 @@ RequestUtils.prototype = {
    /**
 	 * status da requisição se true as mensagens aparecerão em verde, false as mensagens aparecerão
 	 * em vermelho
-	 *
+	 * 
 	 * @type Boolean
 	 */
    status :false,
 
    /**
 	 * de mensagens recebidas e processadas pelo Javascript
-	 *
+	 * 
 	 * @type Array
 	 */
    mensagens :null,
 
    /**
-	 * @type String url para onde usuário será mandado
+	 * url para onde usuário será mandado
+	 * 
+	 * @type String
 	 */
    redirecionar :null,
 
    /**
-	 * @type String nome do campo que será focalizado quando o usuário clicar ok na janela de
-	 *       mensagens
+	 * nome do campo que será focalizado quando o usuário clicar ok na janela de mensagens
+	 * 
+	 * @type String
 	 */
    focusControl :null,
+
    /**
-	 * @type String id gerado pela inserção, atualização ou exclusão
+	 * id gerado pela inserção, atualização ou exclusão
+	 * 
+	 * @type String
 	 */
    generatedId :null,
+
    /**
 	 * hashmap de valores {chave e valor} devolvidos pelo servidor
-	 *
+	 * 
 	 * @type Hash
 	 */
    valoresDevolvidos :null,
    /**
-	 * @type String nome do nó do xml que vai retornar o status da operação
+	 * nome do nó do xml que vai retornar o status da operação
+	 * 
+	 * @type String
 	 */
    nodeStatus :"status",
 
    /**
-	 * @type String nome do nó do xml que irá conter as mensagens
+	 * nome do nó do xml que irá conter as mensagens
+	 * 
+	 * @type String
 	 */
    nodeMessage :"message",
 
    /**
-	 * @type String nome do nó do xml que irá conter a url para onde a página será redirecionada
+	 * nome do nó do xml que irá conter a url para onde a página será redirecionada
+	 * 
+	 * @type String
 	 */
    nodeUrlForward :"urlForward",
+
    /**
 	 * @type String id gerado do objeto, utilizado geralmente para retornar ao Javascript o id do
 	 *       objeto que foi inserido, excluído ou alterado
 	 */
    nodeGeneratedId :"generatedId",
+
    /**
-	 * @type String nome do nó do xml que irá conter o campo que deverá ser focalizado
+	 * nome do nó do xml que irá conter o campo que deverá ser focalizado
+	 * 
+	 * @type String
 	 */
    focusControlNode :"focusControl",
+
    /**
+	 * nome do nó do xml que irá conter os valores devolvidos pelo servidor
+	 * 
 	 * @see valoresDevolvidos
-	 * @type String nome do nó do xml que irá conter os valores devolvidos pelo servidor
+	 * @type String
 	 */
    valoresDevolvidosNode :"valoresDevolvidos",
+
+   /**
+	 * @type Janela
+	 */
    janelaAtual :null,
+
    /**
 	 * função que será executada quando o usuário clicar ok na janela de mensagens
-	 *
+	 * 
 	 * @type Function
 	 */
    posClickFunction :null,
@@ -105,7 +130,7 @@ RequestUtils.prototype = {
    /**
 	 * mostrar uma mensagem de erro quando o servidor cair ou ficar sem conexão de internet ou alguma
 	 * resposta diferente de 200 for recebida
-	 *
+	 * 
 	 * @param {XMLHttpRequest} request
 	 */
    showErrorDetail : function(request) {
@@ -124,7 +149,7 @@ RequestUtils.prototype = {
    /**
 	 * fazer uma requisição assíncrona simples utilizando o método GET a uma url que deverá responder
 	 * um XML para o javascript processar
-	 *
+	 * 
 	 * @param {String} url
 	 * @param {Function} posFunction função a ser executada quando a resposta for recebida (opcional)
 	 * @param {Function} posClickFunction função a ser executada quando o usuário clicar ok na janela
@@ -152,7 +177,7 @@ RequestUtils.prototype = {
    },
    /**
 	 * enviar um formulário assíncronamente, deverá ser chamado no evento onsubmit do form
-	 *
+	 * 
 	 * @param {HTMLFormElement} form
 	 * @param {Function} posFunction função a ser executada quando a resposta for recebida (opcional)
 	 * @param {Function} posClickFunction função a ser executada quando o usuário clicar ok na janela
@@ -197,18 +222,18 @@ RequestUtils.prototype = {
 	   var janela = createWindow(80, 290, 330, 100, "Processando requisição", "janelaCarregando");
 	   // remover botao fechar da janela
 	   janela.removerBotaoFechar();
-	   dwr.util.setValue("janelaCarregando", "aguarde enquanto a solicitação é processada...")
+	   dwr.util.setValue("janelaCarregando", "aguarde enquanto a solicitação é processada...");
 	   Element.setStyle("janelaCarregando", {
 	      color :"red",
 	      fontWeight :"bold"
 	   });
 	   textareasControl = new HabilitaDesabilitaElementos("textarea");
-	   inputsControl = new HabilitaDesabilitaElementos("input")
+	   inputsControl = new HabilitaDesabilitaElementos("input");
 	   selectControl = new HabilitaDesabilitaElementos("select");
    },
    /**
 	 * processar a resposta do servidor
-	 *
+	 * 
 	 * @param {XMLHttpRequest} request
 	 */
    processarResposta : function(request) {
@@ -252,7 +277,7 @@ RequestUtils.prototype = {
 			   this.generatedId = item.firstChild.nodeValue;
 		   }
 		   if (item.nodeName == this.valoresDevolvidosNode) {
-		   	this.valoresDevolvidos = new Hash();
+			   this.valoresDevolvidos = new Hash();
 			   var nodesJson = item.childNodes;
 			   for ( var index = 0; index < nodesJson.length; index++) {
 				   var nodeJson = nodesJson.item(index);
@@ -386,11 +411,13 @@ RequestUtils.prototype = {
 	   }
 	   return this.focusControl
    },
+
    /**
 	 * quando o campo de focus retornado for um campo múltiplo ele virá no formato
 	 * nomeDoCampo[indice] e através do índice o componente saberá qual elemento focar
-	 *
-	 * @return {Integer}
+	 * 
+	 * @return indice do campo
+	 * @type Number
 	 */
    getIndiceElementoFocus : function() {
 	   var foc = this.focusControl;
@@ -399,10 +426,12 @@ RequestUtils.prototype = {
 	   }
 	   return null;
    },
+
    /**
 	 * retorna todos os elementos que deverão ser focalizado
-	 *
-	 * @return {Array} contendo os elementos de focus
+	 * 
+	 * @return array contendo os elementos de focus
+	 * @type Array
 	 */
    getElementosFocus : function() {
 	   var elementFocus = $(this.formSubmetido).select(
@@ -426,7 +455,7 @@ RequestUtils.prototype = {
    },
    /**
 	 * procurar o elemento de focus na tela e ativar o destaque em cima dele
-	 *
+	 * 
 	 */
    processarFocusControl : function() {
 	   var elementFocus = this.getElementosFocus();
@@ -471,14 +500,15 @@ RequestUtils.prototype = {
 }
 },
 /**
- *
+ * 
  * @param {String} mens
  */
 setMensagens : function(mens) {
 this.mensagens = mens;
 },
 /**
- * @return {String}
+ * @return mensagens
+ * @type String
  */
 getMensagens : function() {
 return this.mensagens;
