@@ -123,21 +123,20 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Limita a quantidade de caracteres do campo descrição.
-    * 
-    * @param (Boolean) novo se for novo workflow
+    * Limita a quantidade de caracteres do campo de anotações.
     */
-   contaChar : function(novo) {
-	   contaChar($("anotacao"), 500, "contagemWorkflow");
+   contaChar : function() {
+	   contaChar($("anotacao"), 500, "contagemAnotacoes");
    },
 
    /**
-    * Abre popup com anotação do uso workflow
+    * Abre popup com anotações do uso do workflow.
     */
-   popupAnotacao : function() {
-	   var anotacao = dwr.util.getValue("anotacao");
-	   var url = "usarWorkflow.do?method=popupAnotacao&anotacao=" + anotacao;
-	   createWindow(190, 330, 280, 70, "Anotação do Uso", "divAnotacao", url);
+   popupAnotacoes : function() {
+	   var url = "usarWorkflow.do?method=popupAnotacao&id=" + $F("idUsoWorkflow")
+	   createWindow(250, 450, 280, 70, "Anotações", "divAnotacoes", url, ( function() {
+		   this.contaChar();
+	   }).bind(this));
    },
 
    /**
@@ -161,7 +160,7 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Faz o uso do workflow.
+    * Faz o uso do workflow a partir da seleção da listagem da tabela.
     */
    usarWorkflow : function() {
 	   var colunas = this.getTR().descendants();
@@ -328,6 +327,7 @@ UsarWorkflow.prototype = {
     * Recupera o id do workflow selecionado.
     * 
     * @return id do workflow selecionado
+    * @type String
     */
    getIdSelecionado : function() {
 	   return this.getTR().select("input[type=\"hidden\"]")[0].value;
@@ -369,7 +369,7 @@ UsarWorkflow.prototype = {
 			   return usoWorkflow.numeroRegistro;
 		   });
 		   cellfuncs.push( function(usoWorkflow) {
-			   return usoWorkflow.tarefa.atividade.processo.workflow.nome;
+			   return usoWorkflow.workflow.nome;
 		   });
 		   cellfuncs.push( function(usoWorkflow) {
 			   return usoWorkflow.tarefa.atividade.processo.nome;
@@ -412,7 +412,7 @@ UsarWorkflow.prototype = {
 				   JanelaFactory.fecharJanela("divIniciarWorkflow");
 				   this.editarCampos = !(usoWorkflow.dataHoraInicio == null);
 				   this._abrePopupUsoDeWorkflow(usoWorkflow, usoWorkflow.numeroRegistro,
-				      tarefa.atividade.processo.workflow.nome, tarefa.nome, tarefa.descricao,
+				   	usoWorkflow.workflow.nome, tarefa.nome, tarefa.descricao,
 				      usoWorkflow.dataHoraInicio, usoWorkflow.camposUsados);
 			   }).bind(this));
 		   }
@@ -468,15 +468,18 @@ UsarWorkflow.prototype = {
 	   janela.removerBotaoFechar();
    },
 
-   salvarAnotacao : function() {
-	   var idUsoWorkflow = dwr.util.getValue("idUsoWorkflow");
-	   var anotacao = dwr.util.getValue("anotacao");
-	   requestUtils.simpleRequest("usarWorkflow.do?method=salvarAnotacao&id=" + idUsoWorkflow
-	      + "&anotacao=" + anotacao, ( function() {
+   /**
+    * Faz a requisição para salvar as anotações do usuário.
+    * 
+    * @param form formulário submetido
+    */
+   salvarAnotacao : function(form) {
+	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
-			   JanelaFactory.fecharJanela("divAnotacao");
+			   JanelaFactory.fecharJanela("divAnotacoes");
+			   this.popularHistorico();
 		   }
-	   }));
+	   }).bind(this));
    },
 
    /**
@@ -617,13 +620,15 @@ UsarWorkflow.prototype = {
 		   $("linkIniciarTarefa").onclick = Prototype.emptyFunction;
 		   $("linkProximasTarefa").className = "";
 		   $("linkProximasTarefa").onclick = this.popupProximasTarefas;
-		   $("linkAnotacao").className = "";
-		   $("linkAnotacao").onclick = this.popupAnotacao;
+		   $("linkAnotacoes").className = "";
+		   $("linkAnotacoes").onclick = this.popupAnotacoes.bind(usarWorkflow);
 	   } else {
 		   $("linkIniciarTarefa").className = "";
 		   $("linkIniciarTarefa").onclick = this.iniciarTarefa;
 		   $("linkProximasTarefa").className = "btDesativado";
 		   $("linkProximasTarefa").onclick = Prototype.emptyFunction;
+		   $("linkAnotacoes").className = "btDesativado";
+		   $("linkAnotacoes").onclick = Prototype.emptyFunction;
 	   }
    },
 

@@ -14,7 +14,7 @@
 			<html:img srcKey="imagem.transicao" width="23" height="22"/>
 		</html:link>
 		<html:link href="#anotacoes" titleKey="dica.anotacoes" linkName="anotacoes" 
-			styleClass="btDesativado" styleId="linkAnotacao" style="margin-right: 10px;">
+			styleClass="btDesativado" styleId="linkAnotacoes" style="margin-right: 10px;">
 			<html:img srcKey="imagem.anotacao" width="23" height="22"/>
 		</html:link>
 		<html:link href="#anexos" titleKey="dica.anexos" onclick="usarWorkflow.popupVisualizarAnexos();" linkName="anexos">

@@ -111,6 +111,9 @@ public class UsarWorkflowAction extends BaseAction {
 	 */
 	public ActionForward popupAnotacao(ActionMapping mapping, ActionForm formulario,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		UsarWorkflowActionForm form = (UsarWorkflowActionForm) formulario;
+		UsoWorkflow usoWorkflow = this.usoWorkflowBO.obter(form.getId());
+		form.setAnotacao(usoWorkflow.getAnotacao());
 		return this.findForward("popupAnotacao");
 	}
 
