@@ -85,7 +85,7 @@
 				<label style="margin-top: 3px;">
 					<b><bean:message key="label.departamentoSuperior"/></b>
 					<html:select property="departamentoSuperior" styleId="departamentoSuperior">
-						<html:option value="" />
+						<html:option value="-1">&nbsp;</html:option>
 						<html:optionsCollection name="manterDepartamentoForm" property="listaDepartamentos" label="sigla" value="id" />
 					</html:select>
 				</label>

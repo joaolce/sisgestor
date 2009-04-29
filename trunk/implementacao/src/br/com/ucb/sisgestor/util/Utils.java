@@ -233,6 +233,10 @@ public final class Utils {
 				}
 				if (ehUmObjetoPersistente) {
 					Object valor = PropertyUtils.getProperty(origem, nomePropriedade);
+					if ((valor != null) && (((Number) valor).intValue() == -1)) {
+						PropertyUtils.setProperty(destino, nomePropriedade, null);
+						continue;
+					}
 					//se o valor é nulo ou igual a zero pula
 					if ((valor == null) || ((valor instanceof Number) && (((Number) valor).intValue() == 0))) {
 						continue;
