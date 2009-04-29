@@ -155,7 +155,8 @@ ManterProcesso.prototype = {
 	   var url = "manterProcesso.do?method=popupNovoProcesso";
 	   createWindow(255, 321, 280, 40, "Novo Processo", "divNovoProcesso", url, ( function() {
 		   dwr.util.setValue("workflowNovoProcesso", $F("workflowProcesso"));
-	   }));
+		   this.contaChar(true);
+	   }).bind(this));
    },
 
    /**

@@ -179,7 +179,8 @@ ManterCampo.prototype = {
 	   var url = "manterCampo.do?method=popupNovoCampo";
 	   createWindow(255, 445, 280, 40, "Novo Campo", "divNovoCampo", url, ( function() {
 		   dwr.util.setValue("workflowNovoCampo", $F("workflowCampo"));
-	   }));
+		   this.contaChar(true);
+	   }).bind(this));
    },
 
    /**
