@@ -7,7 +7,6 @@ package br.com.ucb.sisgestor.apresentacao.actions;
 import br.com.ucb.sisgestor.apresentacao.forms.ManterTarefaActionForm;
 import br.com.ucb.sisgestor.entidade.Atividade;
 import br.com.ucb.sisgestor.entidade.Tarefa;
-import br.com.ucb.sisgestor.entidade.Usuario;
 import br.com.ucb.sisgestor.negocio.AtividadeBO;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +43,6 @@ public class ManterTarefaAction extends BaseAction {
 
 		Tarefa tarefa = this.tarefaBO.obter(form.getId());
 		this.copyProperties(tarefa, form, "atividade");
-		this.removerUsuarioDaTarefa(form, tarefa);
 		this.tarefaBO.atualizar(tarefa);
 
 		this.addMessageKey("mensagem.alterar.a", "Tarefa");
@@ -142,7 +140,6 @@ public class ManterTarefaAction extends BaseAction {
 		ManterTarefaActionForm form = (ManterTarefaActionForm) formulario;
 		Tarefa tarefa = new Tarefa();
 		this.copyProperties(tarefa, form);
-		this.removerUsuarioDaTarefa(form, tarefa);
 		this.tarefaBO.salvar(tarefa);
 
 		this.addMessageKey("mensagem.salvar.a", "Tarefa");
@@ -191,18 +188,5 @@ public class ManterTarefaAction extends BaseAction {
 	@Autowired
 	public void setTarefaBO(TarefaBO tarefaBO) {
 		this.tarefaBO = tarefaBO;
-	}
-
-	/**
-	 * Remove o {@link Usuario} da tarefa caso ele não foi selecionado no form.
-	 * 
-	 * @param form formulário submetido
-	 * @param tarefa tarefa remover o usuário
-	 */
-	private void removerUsuarioDaTarefa(ManterTarefaActionForm form, Tarefa tarefa) {
-		Integer idUsuario = form.getUsuario();
-		if (idUsuario == -1) {
-			tarefa.setUsuario(null);
-		}
 	}
 }

@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.negocio.impl;
 
 import br.com.ucb.sisgestor.entidade.Campo;
 import br.com.ucb.sisgestor.entidade.CampoUsoWorkflow;
+import br.com.ucb.sisgestor.entidade.Departamento;
 import br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow;
 import br.com.ucb.sisgestor.entidade.Tarefa;
 import br.com.ucb.sisgestor.entidade.TipoAcaoEnum;
@@ -86,8 +87,10 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 			acaoOcorrida = TipoAcaoEnum.FINALIZAR_USO;
 		} else {
 			usoWorkflow.setDataHoraInicio(null); // para que o novo usuário possa iniciar sua tarefa
-			usoWorkflow.setTarefa(this.getTarefaBO().obter(idTarefa));
-			this.notificarUsuarioTarefa(usoWorkflow);
+			Tarefa novaTarefa = this.getTarefaBO().obter(idTarefa);
+			this.notificarMudancaDepartamento(usoWorkflow, novaTarefa);
+			usoWorkflow.setTarefa(novaTarefa);
+			this.notificarMudancaUsuarioTarefa(usoWorkflow);
 			acaoOcorrida = TipoAcaoEnum.FINALIZAR_TAREFA;
 		}
 		this.usoWorkflowDAO.atualizar(usoWorkflow);
@@ -337,11 +340,33 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	}
 
 	/**
+	 * Notifica caso o departamento da nova tarefa for diferente do departamento da tarefa atual.
+	 * 
+	 * @param usoWorkflow antiga {@link Tarefa} do {@link UsoWorkflow}
+	 * @param tarefaNova nova {@link Tarefa} do {@link UsoWorkflow}
+	 */
+	private void notificarMudancaDepartamento(UsoWorkflow usoWorkflow, Tarefa tarefaNova) {
+		Departamento departamentoAtual = usoWorkflow.getTarefa().getAtividade().getDepartamento();
+		Departamento departamentoNovo = tarefaNova.getAtividade().getDepartamento();
+		if (!departamentoAtual.equals(departamentoNovo)) {
+			String emailDepartamento = departamentoNovo.getEmail();
+			if (StringUtils.isNotBlank(emailDepartamento)) {
+				String corpoEmail =
+						"A tarefa '" + tarefaNova.getNome()
+								+ "' está sob responsabilidade deste departamento, referente ao registro: "
+								+ usoWorkflow.getNumeroRegistro();
+				this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR,
+						Constantes.ASSUNTO_EMAIL_TAREFA_TRANSFERIDA, corpoEmail, emailDepartamento);
+			}
+		}
+	}
+
+	/**
 	 * Notifica o novo usuário da tarefa, informando que há um novo registro pendente para ele.
 	 * 
 	 * @param usoWorkflow {@link UsoWorkflow} usado
 	 */
-	private void notificarUsuarioTarefa(UsoWorkflow usoWorkflow) {
+	private void notificarMudancaUsuarioTarefa(UsoWorkflow usoWorkflow) {
 		Tarefa tarefa = usoWorkflow.getTarefa();
 		Usuario usuarioTarefa = tarefa.getUsuario();
 		String emailUsuario = usuarioTarefa.getEmail();
