@@ -164,12 +164,16 @@ ManterProcesso.prototype = {
 	 */
    popupDefinirFluxoProcessos : function() {
 	   var url = "manterProcesso.do?method=popupDefinirFluxo";
-	   var tipoTitulo = this._isVisualizarFluxo() ? "Visualizar " : "Definir ";
+	   var apenasVisualizar = this._isApenasVisualizacao();
+	   var tipoTitulo = apenasVisualizar ? "Visualizar " : "Definir ";
 	   createWindow(486, 840, 280, 40, tipoTitulo + "Fluxo dos Processos", "divFluxoProcesso", url,
 	      ( function() {
 		      var idWorkflow = $F("workflowProcesso");
 		      dwr.util.setValue("workflowFluxo", idWorkflow);
-
+		      if (apenasVisualizar) {
+			      $("botaoSalvarDefinirFluxoProcessos").disable();
+			      $("botaoLimparDefinirFluxoProcessos").disable();
+		      }
 		      fluxo = new DefinirFluxo();
 		      ManterProcessoDWR.getByWorkflow(idWorkflow, ( function(listaProcessos) {
 			      fluxo.defineFluxoDefinido(listaProcessos);
@@ -243,7 +247,7 @@ ManterProcesso.prototype = {
 		   $("linkGerenciarAtividades").onclick = this.popupGerenciarAtividades;
 	   } else {
 		   $("linkGerenciarAtividades").className = "btDesativado";
-		   $("linkGerenciarAtividades").onclick = "";
+		   $("linkGerenciarAtividades").onclick = Prototype.emptyFunction;
 	   }
    },
 
@@ -252,20 +256,24 @@ ManterProcesso.prototype = {
 	 */
    entrada : function() {
 	   this.pesquisar();
-	   if (this._isVisualizarFluxo()) {
+	   if (this._isApenasVisualizacao()) {
 		   UtilDWR.getMessage("dica.visualizarFluxo", null, ( function(mensagem) {
 			   $("linkDefinirFluxoProcesso").title = mensagem;
 		   }));
+		   $("botaoAtualizarProcesso").disable();
+		   $("botaoExcluirProcesso").disable();
+		   $("linkNovoProcesso").className = "btDesativado";
+		   $("linkNovoProcesso").onclick = Prototype.emptyFunction;
 	   }
    },
 
    /**
-	 * Recupera caso o usuário deva apenas visualizar o fluxo, e não definir.
+	 * Recupera caso o usuário deva apenas visualizar os processos, sem poder alterar qualquer dado.
 	 * 
 	 * @return <code>true</code> caso usuário deve apenas visualizar o fluxo.
 	 * @type Boolean
 	 */
-   _isVisualizarFluxo : function() {
+   _isApenasVisualizacao : function() {
 	   return ($F("workflowAtivadoOuExcluido") == "true") || !Usuario.temPermissao(MANTER_WORKFLOW);
    }
 };

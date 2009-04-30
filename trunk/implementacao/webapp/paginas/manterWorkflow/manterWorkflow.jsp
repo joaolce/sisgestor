@@ -101,6 +101,7 @@
 	<!-- FIELDSET PARA DADOS DO WORKFLOW -->
 	<html:form action="/manterWorkflow.do?method=atualizar" onsubmit="workflow.atualizar(this); return false;" styleId="formAtualizarWorkflow" style="display: none; margin-top: 10px;">
 		<html:hidden property="id" styleId="id" />
+		<input type="hidden" id="excluidoWorkflow" name="excluidoWorkflow" />
 		<fieldset style="padding: 10px; width: 50%; margin: 5 auto;">
 			<legend>
 				<bean:message key="label.dados.workflow"/>

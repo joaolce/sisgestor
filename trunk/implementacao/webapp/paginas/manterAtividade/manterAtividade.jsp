@@ -10,7 +10,7 @@
 		<html:link href="#definirFluxoAtividade" titleKey="dica.definirFluxo" onclick="atividade.popupDefinirFluxoAtividades();" linkName="definirFluxoAtividade" styleId="linkDefinirFluxoAtividade">
 			<html:img srcKey="imagem.fluxo" width="23" height="22" />
 		</html:link>
-		<htmlSGR:link href="#novaAtividade" titleKey="dica.atividade.nova" onclick="atividade.popupNovaAtividade();" linkName="novaAtividade" roles="4">
+		<htmlSGR:link href="#novaAtividade" titleKey="dica.atividade.nova" onclick="atividade.popupNovaAtividade();" linkName="novaAtividade" styleId="linkNovaAtividade" roles="4">
 			<html:img srcKey="imagem.novo" width="23" height="22" />
 		</htmlSGR:link>
 	</div>
@@ -105,10 +105,10 @@
 				</label> 
 			</div>
 			<div style="clear: both; padding: 5px;" align="center" id="divBotoes">
-				<htmlSGR:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar" roles="4">
+				<htmlSGR:submit styleId="botaoAtualizarAtividade" titleKey="dica.atualizar" styleClass="botaoOkCancelar" roles="4">
 					<bean:message key="botao.atualizar"/>
 				</htmlSGR:submit>
-				<htmlSGR:button property="excluir" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="atividade.excluir();" roles="4">
+				<htmlSGR:button property="excluir" styleId="botaoExcluirAtividade" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="atividade.excluir();" roles="4">
 					<bean:message key="botao.excluir"/>
 				</htmlSGR:button>
 			</div>

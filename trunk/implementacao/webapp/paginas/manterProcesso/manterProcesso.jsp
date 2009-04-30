@@ -10,7 +10,7 @@
 		<html:link href="#definirFluxoProcesso" titleKey="dica.definirFluxo" onclick="processo.popupDefinirFluxoProcessos();" linkName="definirFluxoProcesso" styleId="linkDefinirFluxoProcesso">
 			<html:img srcKey="imagem.fluxo" width="23" height="22" />
 		</html:link>
-		<htmlSGR:link href="#novoProcesso" titleKey="dica.processo.novo" onclick="processo.popupNovoProcesso();" linkName="novoProcesso" roles="4">
+		<htmlSGR:link href="#novoProcesso" titleKey="dica.processo.novo" onclick="processo.popupNovoProcesso();" linkName="novoProcesso" styleId="linkNovoProcesso" roles="4">
 			<html:img srcKey="imagem.novo" width="23" height="22" />
 		</htmlSGR:link>
 	</div>
@@ -86,10 +86,10 @@
 				<br />
 			</div>
 			<div style="clear: both; padding: 5px;" align="center" id="divBotoes">
-				<htmlSGR:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar" roles="4">
+				<htmlSGR:submit styleId="botaoAtualizarProcesso" titleKey="dica.atualizar" styleClass="botaoOkCancelar" roles="4">
 					<bean:message key="botao.atualizar"/>
 				</htmlSGR:submit>
-				<htmlSGR:button property="excluir" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="processo.excluir();" roles="4">
+				<htmlSGR:button property="excluir" styleId="botaoExcluirProcesso" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="processo.excluir();" roles="4">
 					<bean:message key="botao.excluir"/>
 				</htmlSGR:button>
 			</div>

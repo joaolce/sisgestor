@@ -13,13 +13,13 @@
 		</div>
 	</div>
 	<div style="clear: both; padding: 5px; vertical-align: sub;" align="center">	
-		<htmlSGR:submit titleKey="dica.salvar" styleClass="botaoOkCancelar" roles="4">
+		<htmlSGR:submit styleId="botaoSalvarDefinirFluxoAtividades" titleKey="dica.salvar" styleClass="botaoOkCancelar" roles="4">
 			<bean:message key="botao.salvar"/>
 		</htmlSGR:submit>
 		<html:button property="cancelar" titleKey="dica.cancelar" onclick="JanelaFactory.fecharJanelaAtiva();" styleClass="botaoOkCancelar">
 			<bean:message key="botao.cancelar"/>
 		</html:button>
-		<htmlSGR:button property="limpar" titleKey="dica.limpar" onclick="fluxo.limparFluxo();" styleClass="botaoOkCancelar" roles="4">
+		<htmlSGR:button property="limpar" styleId="botaoLimparDefinirFluxoAtividades" titleKey="dica.limpar" onclick="fluxo.limparFluxo();" styleClass="botaoOkCancelar" roles="4">
 			<bean:message key="botao.limpar"/>
 		</htmlSGR:button>
 	</div>
