@@ -26,7 +26,7 @@ public final class ConfiguracaoHibernate {
 		propriedades.put(Environment.DIALECT, MySQL5InnoDBDialect.class.getName());
 		propriedades.put(Environment.DEFAULT_SCHEMA, "sisgestor");
 		propriedades.put(Environment.SHOW_SQL, "true");
-		propriedades.put(Environment.HBM2DDL_AUTO, "update");
+		//		propriedades.put(Environment.HBM2DDL_AUTO, "update");
 		propriedades.put(Environment.POOL_SIZE, "10");
 		propriedades.put(Environment.USE_REFLECTION_OPTIMIZER, "true");
 		propriedades.put(Environment.TRANSACTION_STRATEGY, JTATransactionFactory.class.getName());

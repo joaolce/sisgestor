@@ -169,12 +169,16 @@ ManterAtividade.prototype = {
 	 */
    popupDefinirFluxoAtividades : function() {
 	   var url = "manterAtividade.do?method=popupDefinirFluxo";
-	   var tipoTitulo = this._isVisualizarFluxo() ? "Visualizar " : "Definir ";
+	   var apenasVisualizar = this._isApenasVisualizacao();
+	   var tipoTitulo = apenasVisualizar ? "Visualizar " : "Definir ";
 	   createWindow(486, 840, 280, 40, tipoTitulo + "Fluxo das Atividades", "divFluxoAtividade",
 	      url, ( function() {
 		      var idProcesso = $F("processoAtividade");
 		      dwr.util.setValue("processoFluxo", idProcesso);
-
+		      if (apenasVisualizar) {
+			      $("botaoSalvarDefinirFluxoAtividades").disable();
+			      $("botaoLimparDefinirFluxoAtividades").disable();
+		      }
 		      fluxo = new DefinirFluxo();
 		      ManterAtividadeDWR.getByProcesso(idProcesso, ( function(listaAtividades) {
 			      fluxo.defineFluxoDefinido(listaAtividades);
@@ -257,10 +261,14 @@ ManterAtividade.prototype = {
 	 */
    entrada : function() {
 	   this.pesquisar();
-	   if (this._isVisualizarFluxo()) {
+	   if (this._isApenasVisualizacao()) {
 		   UtilDWR.getMessage("dica.visualizarFluxo", null, ( function(mensagem) {
 			   $("linkDefinirFluxoAtividade").title = mensagem;
 		   }));
+		   $("botaoAtualizarAtividade").disable();
+		   $("botaoExcluirAtividade").disable();
+		   $("linkNovaAtividade").className = "btDesativado";
+		   $("linkNovaAtividade").onclick = Prototype.emptyFunction;
 	   }
    },
 
@@ -270,7 +278,7 @@ ManterAtividade.prototype = {
 	 * @return <code>true</code> caso usuário deve apenas visualizar o fluxo.
 	 * @type Boolean
 	 */
-   _isVisualizarFluxo : function() {
+   _isApenasVisualizacao : function() {
 	   return ($F("workflowAtivadoOuExcluido") == "true") || !Usuario.temPermissao(MANTER_WORKFLOW);
    }
 };

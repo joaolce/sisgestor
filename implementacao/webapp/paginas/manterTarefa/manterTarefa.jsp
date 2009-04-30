@@ -7,7 +7,7 @@
 		<html:link href="#definirFluxoTarefa" titleKey="dica.definirFluxo" onclick="tarefa.popupDefinirFluxoTarefas();" linkName="definirFluxoTarefa" styleId="linkDefinirFluxoTarefa">
 			<html:img srcKey="imagem.fluxo" width="23" height="22" />
 		</html:link>
-		<htmlSGR:link href="#novaTarefa" titleKey="dica.tarefa.nova" onclick="tarefa.popupNovaTarefa();" linkName="novaTarefa" roles="4">
+		<htmlSGR:link href="#novaTarefa" titleKey="dica.tarefa.nova" onclick="tarefa.popupNovaTarefa();" linkName="novaTarefa" styleId="linkNovaTarefa" roles="4">
 			<html:img srcKey="imagem.novo" width="23" height="22" />
 		</htmlSGR:link>
 	</div>
@@ -102,10 +102,10 @@
 				</label> 
 			</div>
 			<div style="clear: both; padding: 5px;" align="center" id="divBotoes">
-				<htmlSGR:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar" roles="4">
+				<htmlSGR:submit styleId="botaoAtualizarTarefa" titleKey="dica.atualizar" styleClass="botaoOkCancelar" roles="4">
 					<bean:message key="botao.atualizar"/>
 				</htmlSGR:submit>
-				<htmlSGR:button property="excluir" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="tarefa.excluir();" roles="4">
+				<htmlSGR:button property="excluir" styleId="botaoExcluirTarefa" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="tarefa.excluir();" roles="4">
 					<bean:message key="botao.excluir"/>
 				</htmlSGR:button>
 			</div>

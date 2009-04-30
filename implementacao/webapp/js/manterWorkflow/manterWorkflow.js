@@ -71,6 +71,7 @@ ManterWorkflow.prototype = {
 		   dwr.util.setValue("nomeWorkflow", workflow.nome);
 		   dwr.util.setValue("descricaoWorkflow", workflow.descricao);
 		   dwr.util.setValue("ativoWorkflow", workflow.ativo);
+		   dwr.util.setValue("excluidoWorkflow", (workflow.dataHoraExclusao != null));
 		   this.habilitarLinks(true);
 		   this.contaChar(false);
 	   }).bind(this));
