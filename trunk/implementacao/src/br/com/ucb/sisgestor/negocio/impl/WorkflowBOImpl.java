@@ -523,7 +523,6 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 		}
 	}
 
-
 	/**
 	 * Verifica se um {@link Workflow} encontra-se excluído, caso esteja lança exceção.
 	 * 
