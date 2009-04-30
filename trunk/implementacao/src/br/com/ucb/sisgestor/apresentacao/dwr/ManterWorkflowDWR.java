@@ -44,13 +44,14 @@ public class ManterWorkflowDWR extends BaseDWR {
 		Boolean excluidos = parametros.getExcluidos();
 		Integer paginaAtual = parametros.getPaginaAtual();
 
-		List<Workflow> lista =
-				this.workflowBO.getByNomeDescricaoAtivo(nome, descricao, ativo, excluidos, paginaAtual);
-
 		ListaResultadoDTO<Workflow> resultado = new ListaResultadoDTO<Workflow>();
-		resultado.setColecaoParcial(lista);
-
-		this.setTotalPesquisa(parametros, resultado, this.workflowBO);
+		Integer totalRegistros = this.getTotalRegistros(parametros, this.workflowBO);
+		if (totalRegistros > 0) {
+			List<Workflow> lista =
+					this.workflowBO.getByNomeDescricaoAtivo(nome, descricao, ativo, excluidos, paginaAtual);
+			resultado.setColecaoParcial(lista);
+		}
+		resultado.setTotalRegistros(totalRegistros);
 		return resultado;
 	}
 

@@ -29,7 +29,7 @@ public abstract class ObjetoPersistente implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof ObjetoPersistente)) {
+		if ((obj == null) || !this.getClass().equals(obj.getClass())) {
 			return false;
 		}
 		ObjetoPersistente comparado = (ObjetoPersistente) obj;

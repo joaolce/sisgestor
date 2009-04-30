@@ -64,13 +64,13 @@ public class ManterProcessoDWR extends BaseDWR {
 		Integer idWorkflow = parametros.getIdWorkflow();
 		Integer paginaAtual = parametros.getPaginaAtual();
 
-
-		List<Processo> lista = this.processoBO.getByNomeDescricao(nome, descricao, idWorkflow, paginaAtual);
-
 		ListaResultadoDTO<Processo> resultado = new ListaResultadoDTO<Processo>();
-		resultado.setColecaoParcial(lista);
-
-		this.setTotalPesquisa(parametros, resultado, this.processoBO);
+		Integer totalRegistros = this.getTotalRegistros(parametros, this.processoBO);
+		if (totalRegistros > 0) {
+			List<Processo> lista = this.processoBO.getByNomeDescricao(nome, descricao, idWorkflow, paginaAtual);
+			resultado.setColecaoParcial(lista);
+		}
+		resultado.setTotalRegistros(totalRegistros);
 		return resultado;
 	}
 

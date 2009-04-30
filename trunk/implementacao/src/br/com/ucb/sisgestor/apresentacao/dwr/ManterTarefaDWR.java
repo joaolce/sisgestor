@@ -65,14 +65,14 @@ public class ManterTarefaDWR extends BaseDWR {
 		Integer idAtividade = parametros.getIdAtividade();
 		Integer paginaAtual = parametros.getPaginaAtual();
 
-
-		List<Tarefa> lista =
-				this.tarefaBO.getByNomeDescricaoUsuario(nome, descricao, usuario, idAtividade, paginaAtual);
-
 		ListaResultadoDTO<Tarefa> resultado = new ListaResultadoDTO<Tarefa>();
-		resultado.setColecaoParcial(lista);
-
-		this.setTotalPesquisa(parametros, resultado, this.tarefaBO);
+		Integer totalRegistros = this.getTotalRegistros(parametros, this.tarefaBO);
+		if (totalRegistros > 0) {
+			List<Tarefa> lista =
+					this.tarefaBO.getByNomeDescricaoUsuario(nome, descricao, usuario, idAtividade, paginaAtual);
+			resultado.setColecaoParcial(lista);
+		}
+		resultado.setTotalRegistros(totalRegistros);
 		return resultado;
 	}
 

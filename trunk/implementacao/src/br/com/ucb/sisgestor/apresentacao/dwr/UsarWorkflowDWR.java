@@ -93,12 +93,13 @@ public class UsarWorkflowDWR extends BaseDWR {
 	public ListaResultadoDTO<UsoWorkflow> pesquisar(PesquisaUsarWorkflowDTO parametros) {
 		Integer paginaAtual = parametros.getPaginaAtual();
 
-		List<UsoWorkflow> lista = this.usoWorkflowBO.recuperarPendentesUsuarioAtual(paginaAtual);
-
 		ListaResultadoDTO<UsoWorkflow> resultado = new ListaResultadoDTO<UsoWorkflow>();
-		resultado.setColecaoParcial(lista);
-
-		this.setTotalPesquisa(parametros, resultado, this.usoWorkflowBO);
+		Integer totalRegistros = this.getTotalRegistros(parametros, this.usoWorkflowBO);
+		if (totalRegistros > 0) {
+			List<UsoWorkflow> lista = this.usoWorkflowBO.recuperarPendentesUsuarioAtual(paginaAtual);
+			resultado.setColecaoParcial(lista);
+		}
+		resultado.setTotalRegistros(totalRegistros);
 		return resultado;
 	}
 
