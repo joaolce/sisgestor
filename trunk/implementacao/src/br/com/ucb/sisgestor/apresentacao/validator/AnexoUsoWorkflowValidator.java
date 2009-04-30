@@ -6,6 +6,7 @@ package br.com.ucb.sisgestor.apresentacao.validator;
 
 import br.com.ucb.sisgestor.apresentacao.actions.AnexoUsoWorkflowAction;
 import br.com.ucb.sisgestor.apresentacao.forms.AnexoUsoWorkflowActionForm;
+import br.com.ucb.sisgestor.util.constantes.ConstantesContexto;
 
 /**
  * Validações para a action {@link AnexoUsoWorkflowAction}.
@@ -34,7 +35,7 @@ public class AnexoUsoWorkflowValidator extends BaseValidator {
 
 		AnexoUsoWorkflowActionForm form = (AnexoUsoWorkflowActionForm) this.getForm();
 		if ((form.getUsoWorkflow() == null) || (form.getUsoWorkflow().intValue() == 0)) {
-			Integer idUsoWorkflow = (Integer) this.getSession().getAttribute("idUsoWorkflowAnexo");
+			Integer idUsoWorkflow = (Integer) this.getSession().getAttribute(ConstantesContexto.ID_USO_WORKFLOW);
 			form.setUsoWorkflow(idUsoWorkflow);
 		}
 	}

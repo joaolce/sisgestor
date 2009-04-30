@@ -38,8 +38,7 @@ AnexoUsoWorkflow.prototype = {
 	 * Abre o popup para inserir um novo anexo ao uso.
 	 */
    telaInserirAnexo : function() {
-	   var url = "anexoUsoWorkflow.do?method=popupInserirAnexo&usoWorkflow="
-	      + $F("idUsoWorkflowAnexo");
+	   var url = "anexoUsoWorkflow.do?method=popupInserirAnexo&usoWorkflow=" + $F("idUsoWorkflow");
 	   createWindow(120, 400, 250, 100, "Novo arquivo anexo", "divInserirArquivoAnexo", url);
    },
 

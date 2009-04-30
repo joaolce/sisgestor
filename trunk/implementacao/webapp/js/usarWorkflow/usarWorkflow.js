@@ -15,97 +15,104 @@ var UsarWorkflow = Class.create();
 UsarWorkflow.prototype = {
 
    /**
-    * Tabela com os dados da pesquisa.
-    */
+	 * Tabela com os dados da pesquisa.
+	 */
    tabelaTelaPrincipal :null,
 
    /**
-    * Tabela com os dados do historico.
-    */
+	 * Tabela com os dados do historico.
+	 */
    tabelaAbaHistorico :null,
 
    /**
-    * Indica se os campos do uso serão editáveis ou não
-    * 
-    * @type Boolean
-    */
+	 * Indica se os campos do uso serão editáveis ou não
+	 * 
+	 * @type Boolean
+	 */
    editarCampos :true,
 
    /**
-    * Define a máscara para campos data
-    * 
-    * @type String
-    */
+	 * Define a máscara para campos data
+	 * 
+	 * @type String
+	 */
    mascaraData :"##/##/####",
 
    /**
-    * Define a máscara para campos hora
-    * 
-    * @type String
-    */
+	 * Define a máscara para campos hora
+	 * 
+	 * @type String
+	 */
    mascaraHora :"##:##",
 
    /**
-    * Tipo de campo texto
-    * 
-    * @type String
-    */
+	 * Tipo de campo texto
+	 * 
+	 * @type String
+	 */
    tipoTexto :"TEXTO",
 
    /**
-    * Tipo de campo data
-    * 
-    * @type String
-    */
+	 * Tipo de campo data
+	 * 
+	 * @type String
+	 */
    tipoData :"DATA",
 
    /**
-    * Tipo de campo hora
-    * 
-    * @type String
-    */
+	 * Tipo de campo hora
+	 * 
+	 * @type String
+	 */
    tipoHora :"HORA",
 
    /**
-    * Tipo de campo opções
-    * 
-    * @type String
-    */
+	 * Tipo de campo opções
+	 * 
+	 * @type String
+	 */
    tipoOpcoes :"LISTA_DE_OPCOES",
 
    /**
-    * Indica se houve alteração nos campos da tela
-    * 
-    * @type Boolean
-    */
+	 * Indica se houve alteração nos campos da tela
+	 * 
+	 * @type Boolean
+	 */
    houveAlteracao :false,
 
    /**
-    * Array com os tipos de ações que podem ocorrer para o histórico do uso. obs: Cada elemento do
-    * array é composto: [0] - id, [1] - name, [2] - descrição
-    * 
-    * @type Array
-    */
+	 * Array com os tipos de ações que podem ocorrer para o histórico do uso. obs: Cada elemento do
+	 * array é composto: [0] - id, [1] - name, [2] - descrição
+	 * 
+	 * @type Array
+	 */
    acoesHistorico :null,
 
    /**
-    * Imagem que contém o calendário.
-    * 
-    * @type String
-    */
+	 * Imagem que contém o calendário.
+	 * 
+	 * @type String
+	 */
    imagemCalendario :"imagens/calendar.gif",
 
    /**
-    * Array com os links para os campos de data. obs: [0] id do campo de data, [1] id da trigger de
-    * data.
-    * 
-    * @type Array
-    */
+	 * Array com os links para os campos de data. obs: [0] id do campo de data, [1] id da trigger de
+	 * data.
+	 * 
+	 * @type Array
+	 */
    camposData :new Array(),
 
    /**
-    * @constructor
-    */
+	 * Indica se o uso pode mudar de tarefa.
+	 * 
+	 * @type Boolean
+	 */
+   podeMudarTarefa :false,
+
+   /**
+	 * @constructor
+	 */
    initialize : function() {
 	   UsarWorkflowDWR.getAcoesHistorico(( function(acoes) {
 		   this.setAcoesHistorico(acoes);
@@ -113,25 +120,25 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Retorna o form da página de uso.
-    * 
-    * @return form da página
-    * @type HTMLFormElement
-    */
+	 * Retorna o form da página de uso.
+	 * 
+	 * @return form da página
+	 * @type HTMLFormElement
+	 */
    getForm : function() {
 	   return $("usoWorkflowForm");
    },
 
    /**
-    * Limita a quantidade de caracteres do campo de anotações.
-    */
+	 * Limita a quantidade de caracteres do campo de anotações.
+	 */
    contaChar : function() {
 	   contaChar($("anotacao"), 500, "contagemAnotacoes");
    },
 
    /**
-    * Abre popup com anotações do uso do workflow.
-    */
+	 * Abre popup com anotações do uso do workflow.
+	 */
    popupAnotacoes : function() {
 	   var url = "usarWorkflow.do?method=popupAnotacao&id=" + $F("idUsoWorkflow")
 	   createWindow(250, 450, 280, 70, "Anotações", "divAnotacoes", url, ( function() {
@@ -140,28 +147,24 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Inicia o workflow selecionado no combo
-    */
+	 * Inicia o workflow selecionado no combo
+	 */
    popupIniciarWorkflow : function() {
 	   var url = "usarWorkflow.do?method=popupIniciarWorkflow";
 	   createWindow(115, 330, 280, 70, "Iniciar Workflow", "divIniciarWorkflow", url);
    },
 
    /**
-    * Abre popup para visualizar os anexos.
-    */
+	 * Abre popup para visualizar os anexos.
+	 */
    popupVisualizarAnexos : function() {
-	   var idUsoWorkflow = $F("idUsoWorkflow");
-	   var url = "anexoUsoWorkflow.do?method=entrada&usoWorkflow=" + idUsoWorkflow;
-	   createWindow(250, 500, 300, 40, "Visualizar Anexos", "divVisualizarAnexos", url,
-	      ( function() {
-		      dwr.util.setValue("idUsoWorkflowAnexo", idUsoWorkflow);
-	      }).bind(this));
+	   var url = "anexoUsoWorkflow.do?method=entrada&usoWorkflow=" + $F("idUsoWorkflow");
+	   createWindow(250, 500, 300, 40, "Visualizar Anexos", "divVisualizarAnexos", url);
    },
 
    /**
-    * Faz o uso do workflow a partir da seleção da listagem da tabela.
-    */
+	 * Faz o uso do workflow a partir da seleção da listagem da tabela.
+	 */
    usarWorkflow : function() {
 	   var colunas = this.getTR().descendants();
 	   var numeroRegistro = colunas[2].innerHTML;
@@ -170,27 +173,30 @@ UsarWorkflow.prototype = {
 	   var id = this.getIdSelecionado();
 	   UsarWorkflowDWR.getById(id, ( function(usoWorkflow) {
 		   this.setEditarCampos(!(usoWorkflow.dataHoraInicio == null));
-		   this._abrePopupUsoDeWorkflow(usoWorkflow, numeroRegistro, nomeWorkflow,
-		      usoWorkflow.tarefa.nome, usoWorkflow.tarefa.descricao, usoWorkflow.dataHoraInicio,
-		      usoWorkflow.camposUsados);
+		   UsarWorkflowDWR.podeMudarDeTarefa(id, ( function(podeMudar) {
+		   	this.podeMudarTarefa = podeMudar;
+			   this._abrePopupUsoDeWorkflow(usoWorkflow, numeroRegistro, nomeWorkflow,
+			      usoWorkflow.tarefa.nome, usoWorkflow.tarefa.descricao, usoWorkflow.dataHoraInicio,
+			      usoWorkflow.camposUsados);
+		   }).bind(this));
 	   }).bind(this));
    },
 
    /**
-    * Seta a variável para editar campos
-    * 
-    * @param {Boolean} indicador para editar os campos
-    */
+	 * Seta a variável para editar campos
+	 * 
+	 * @param {Boolean} indicador para editar os campos
+	 */
    setEditarCampos : function(editar) {
 	   this.editarCampos = editar;
    },
 
    /**
-    * Cria um elemento para o campo definido.
-    * 
-    * @param {Object} Campo
-    * @return {Object} Elemento a ser adicionado na página
-    */
+	 * Cria um elemento para o campo definido.
+	 * 
+	 * @param {Object} Campo
+	 * @return {Object} Elemento a ser adicionado na página
+	 */
    _getCampo : function(campo) {
 	   var tipoCampo = campo.tipo;
 	   var descricao = "";
@@ -297,45 +303,45 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Retorna a tabela da tela inicial do caso de uso.
-    * 
-    * @return {HTMLTableSectionElement}
-    */
+	 * Retorna a tabela da tela inicial do caso de uso.
+	 * 
+	 * @return {HTMLTableSectionElement}
+	 */
    getTBodyTelaPrincipal : function() {
 	   return $("corpoUsarWorkflow");
    },
 
    /**
-    * Retorna a tabela da aba historico.
-    * 
-    * @return {HTMLTableSectionElement}
-    */
+	 * Retorna a tabela da aba historico.
+	 * 
+	 * @return {HTMLTableSectionElement}
+	 */
    getTBodyAbaHistorico : function() {
 	   return $("corpoHistoricoUsarWorkflow");
    },
 
    /**
-    * Recupera a linha selecionada.
-    * 
-    * @return linha selecionada
-    */
+	 * Recupera a linha selecionada.
+	 * 
+	 * @return linha selecionada
+	 */
    getTR : function() {
 	   return FactoryTabelas.getTabelaById(this.getTBodyTelaPrincipal()).getSelectedTR();
    },
 
    /**
-    * Recupera o id do workflow selecionado.
-    * 
-    * @return id do workflow selecionado
-    * @type String
-    */
+	 * Recupera o id do workflow selecionado.
+	 * 
+	 * @return id do workflow selecionado
+	 * @type String
+	 */
    getIdSelecionado : function() {
 	   return this.getTR().select("input[type=\"hidden\"]")[0].value;
    },
 
    /**
-    * Faz a pesquisa dos workflows pelos parâmetros informados.
-    */
+	 * Faz a pesquisa dos workflows pelos parâmetros informados.
+	 */
    pesquisar : function() {
 	   if ((this.tabelaTelaPrincipal == null)
 	      || (this.tabelaTelaPrincipal.getTabela() != this.getTBodyTelaPrincipal())) {
@@ -349,10 +355,10 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Popula a tabela principal com a lista de uso de workflows.
-    * 
-    * @param listaUsoWorkflow lista de uso de workflows retornados
-    */
+	 * Popula a tabela principal com a lista de uso de workflows.
+	 * 
+	 * @param listaUsoWorkflow lista de uso de workflows retornados
+	 */
    popularTabela : function(listaUsoWorkflow) {
 	   this.tabelaTelaPrincipal.removerResultado();
 
@@ -398,10 +404,10 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Inicializa um uso do workflow.
-    * 
-    * @param form formulário submetido
-    */
+	 * Inicializa um uso do workflow.
+	 * 
+	 * @param form formulário submetido
+	 */
    iniciarUso : function(form) {
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
@@ -411,8 +417,9 @@ UsarWorkflow.prototype = {
 				   var tarefa = usoWorkflow.tarefa;
 				   JanelaFactory.fecharJanela("divIniciarWorkflow");
 				   this.editarCampos = !(usoWorkflow.dataHoraInicio == null);
+				   this.podeMudarTarefa = false;
 				   this._abrePopupUsoDeWorkflow(usoWorkflow, usoWorkflow.numeroRegistro,
-				   	usoWorkflow.workflow.nome, tarefa.nome, tarefa.descricao,
+				      usoWorkflow.workflow.nome, tarefa.nome, tarefa.descricao,
 				      usoWorkflow.dataHoraInicio, usoWorkflow.camposUsados);
 			   }).bind(this));
 		   }
@@ -420,8 +427,8 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Envia a requisição para submeter o uso do workflow.
-    */
+	 * Envia a requisição para submeter o uso do workflow.
+	 */
    confirmar : function() {
 	   var idUsoWorkflow = dwr.util.getValue("idUsoWorkflow");
 	   var valor = this._getValoresCampos();
@@ -431,23 +438,26 @@ UsarWorkflow.prototype = {
 			      if (requestUtils.status) {
 				      this.houveAlteracao = false;
 				      this.camposData = new Array();
-				      JanelaFactory.fecharJanela("divUsoWorkflow");
+				      this.podeMudarTarefa = true;
+				      this._habilitaLinkProximasTarefas(true);
+				      this.popularHistorico();
+				      $("botaoSalvarUso").disable();
 			      }
 		      }).bind(this));
 	   }
    },
 
    /**
-    * Abre o popup de uso do workflow.
-    * 
-    * @param {Object} idUso identificador do uso do workflow
-    * @param {String} numeroRegistro número de registro do uso
-    * @param {String} nomeWorkflow nome do workflow em uso
-    * @param {String} nomeTarefa nome da tarefa atual
-    * @param {String} descricaoTarefa descrição da tarefa atual
-    * @param {Date} dataHoraInicio data/hora de início da tarefa atual
-    * @param {Array} Lista dos campos usados
-    */
+	 * Abre o popup de uso do workflow.
+	 * 
+	 * @param {Object} idUso identificador do uso do workflow
+	 * @param {String} numeroRegistro número de registro do uso
+	 * @param {String} nomeWorkflow nome do workflow em uso
+	 * @param {String} nomeTarefa nome da tarefa atual
+	 * @param {String} descricaoTarefa descrição da tarefa atual
+	 * @param {Date} dataHoraInicio data/hora de início da tarefa atual
+	 * @param {Array} Lista dos campos usados
+	 */
    _abrePopupUsoDeWorkflow : function(usoWorkflow, numeroRegistro, nomeWorkflow, nomeTarefa,
       descricaoTarefa, dataHoraInicio, listaCamposUsados) {
 	   var tituloPagina = numeroRegistro + " - " + nomeWorkflow;
@@ -469,10 +479,10 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Faz a requisição para salvar as anotações do usuário.
-    * 
-    * @param form formulário submetido
-    */
+	 * Faz a requisição para salvar as anotações do usuário.
+	 * 
+	 * @param form formulário submetido
+	 */
    salvarAnotacao : function(form) {
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
@@ -483,8 +493,8 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Verifica se houve alteração na tela e pergunta se o usuário deseja salvar as alterações.
-    */
+	 * Verifica se houve alteração na tela e pergunta se o usuário deseja salvar as alterações.
+	 */
    salvarAntesSair : function() {
 	   if (this.houveAlteracao) {
 		   JanelasComuns.showConfirmCancelDialog("Deseja salvar as alterações?", this.confirmar
@@ -492,14 +502,15 @@ UsarWorkflow.prototype = {
 	   } else {
 		   JanelaFactory.fecharJanelaAtiva();
 		   this.camposData = new Array();
+		   this.podeMudarTarefa = false;
 	   }
    },
 
    /**
-    * Carrega os campos do workflow na aba Campos.
-    * 
-    * @param {Array} Lista dos campos usados
-    */
+	 * Carrega os campos do workflow na aba Campos.
+	 * 
+	 * @param {Array} Lista dos campos usados
+	 */
    carregarCampos : function(listaCamposUsados) {
 	   var idUsoWorkflow = dwr.util.getValue("idUsoWorkflow");
 	   var divCampo;
@@ -533,10 +544,10 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Seta os valores do campo na página.
-    * 
-    * @param {Array} Lista dos campos usados
-    */
+	 * Seta os valores do campo na página.
+	 * 
+	 * @param {Array} Lista dos campos usados
+	 */
    _preencherCampos : function(listaCamposUsados) {
 	   var tipoCampo;
 
@@ -553,10 +564,10 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Carrega todo o histórico do uso.
-    * 
-    * @param {Object} usoWorkflow uso do workflow
-    */
+	 * Carrega todo o histórico do uso.
+	 * 
+	 * @param {Object} usoWorkflow uso do workflow
+	 */
    carregarHistorico : function(usoWorkflow) {
 	   if ((this.tabelaAbaHistorico == null)
 	      || (this.tabelaAbaHistorico.getTabela() != this.getTBodyAbaHistorico())) {
@@ -566,10 +577,10 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Popula a tabela de histórico com a lista de históricos.
-    * 
-    * @param {Array} listaHistorico lista de histórico (opcional)
-    */
+	 * Popula a tabela de histórico com a lista de históricos.
+	 * 
+	 * @param {Array} listaHistorico lista de histórico (opcional)
+	 */
    popularHistorico : function(listaHistorico) {
 	   if (Object.isUndefined(listaHistorico)) {
 		   UsarWorkflowDWR.getHistorico($F("idUsoWorkflow"), ( function(historicoAtualizado) {
@@ -581,10 +592,10 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Preenche a tabela de histórico do uso.
-    * 
-    * @param {Array} listaHistorico lista de histórico
-    */
+	 * Preenche a tabela de histórico do uso.
+	 * 
+	 * @param {Array} listaHistorico lista de histórico
+	 */
    _preencherHistorico : function(listaHistorico) {
 	   this.tabelaAbaHistorico.removerResultado();
 
@@ -609,39 +620,51 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Habilita/desabilita os links caso a tarefa esteja pendente para iniciar.
-    * 
-    * @param (Boolean) caso seja para habilitar ou desabilitar
-    */
+	 * Habilita/desabilita os links caso a tarefa esteja pendente para iniciar.
+	 * 
+	 * @param (Boolean) caso seja para habilitar ou desabilitar
+	 */
    habilitarLinks : function(habilita) {
 	   if (habilita) {
-		   // se habilita link de próximas tarefas, desabilita o de iniciar
+		   // se habilita os links, então desabilita o de iniciar tarefa
 		   $("linkIniciarTarefa").className = "btDesativado";
 		   $("linkIniciarTarefa").onclick = Prototype.emptyFunction;
-		   $("linkProximasTarefa").className = "";
-		   $("linkProximasTarefa").onclick = this.popupProximasTarefas;
 		   $("linkAnotacoes").className = "";
 		   $("linkAnotacoes").onclick = this.popupAnotacoes.bind(usarWorkflow);
 	   } else {
 		   $("linkIniciarTarefa").className = "";
 		   $("linkIniciarTarefa").onclick = this.iniciarTarefa;
-		   $("linkProximasTarefa").className = "btDesativado";
-		   $("linkProximasTarefa").onclick = Prototype.emptyFunction;
 		   $("linkAnotacoes").className = "btDesativado";
 		   $("linkAnotacoes").onclick = Prototype.emptyFunction;
+	   }
+	   this._habilitaLinkProximasTarefas(habilita);
+   },
+
+   /**
+	 * Habilita/desabilita o link de próximas tarefas.
+	 * 
+	 * @param (Boolean) caso seja para habilitar ou desabilitar
+	 */
+   _habilitaLinkProximasTarefas : function(habilita) {
+	   if (habilita && this.podeMudarTarefa) {
+		   $("linkProximasTarefa").className = "";
+		   $("linkProximasTarefa").onclick = this.popupProximasTarefas;
+	   } else {
+		   $("linkProximasTarefa").className = "btDesativado";
+		   $("linkProximasTarefa").onclick = Prototype.emptyFunction;
 	   }
    },
 
    /**
-    * Habilita o botão para uso da tarefa
-    */
+	 * Habilita o botão para uso da tarefa
+	 */
    habilitarBotaoUsarTarefa : function() {
 	   $("botaoUsarTarefa").onclick = this.usarWorkflow.bind(usarWorkflow);
    },
 
    /**
-    * Inicia a tarefa aberta.
-    */
+	 * Inicia a tarefa aberta.
+	 */
    iniciarTarefa : function() {
 	   var idUso = $F("idUsoWorkflow");
 	   requestUtils.simpleRequest("usarWorkflow.do?method=iniciarTarefa&id=" + idUso, ( function() {
@@ -649,18 +672,21 @@ UsarWorkflow.prototype = {
 			   requestUtils.valoresDevolvidos.each(( function(data) {
 				   dwr.util.setValue("dataHoraInicioTarefa", data.value);
 			   }));
+			   usarWorkflow.pesquisar();
 			   usarWorkflow.popularHistorico();
 			   usarWorkflow.habilitarCampos();
-			   usarWorkflow.habilitarLinks(true);
-			   usarWorkflow.pesquisar();
+			   UsarWorkflowDWR.podeMudarDeTarefa(idUso, ( function(podeMudar) {
+			   	this.podeMudarTarefa = podeMudar;
+			   	this.habilitarLinks(true);
+			   }).bind(usarWorkflow));
 			   usarWorkflow._adicionarLinksDatas();
 		   }
 	   }));
    },
 
    /**
-    * Habilita os campos para serem editáveis.
-    */
+	 * Habilita os campos para serem editáveis.
+	 */
    habilitarCampos : function() {
 	   $("tabCampos").select("input[type=\"text\"]").each( function(input) {
 		   $(input).enable();
@@ -674,20 +700,20 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Atribui as ações possíveis para o histórico do uso.
-    * 
-    * @param {Array} acoes ações disponíveis
-    */
+	 * Atribui as ações possíveis para o histórico do uso.
+	 * 
+	 * @param {Array} acoes ações disponíveis
+	 */
    setAcoesHistorico : function(acoes) {
 	   this.acoesHistorico = acoes;
    },
 
    /**
-    * Recupera a descrição da ação ocorrida
-    * 
-    * @param {String} acao name da ação da enum
-    * @return Descrição da ação ocorrida
-    */
+	 * Recupera a descrição da ação ocorrida
+	 * 
+	 * @param {String} acao name da ação da enum
+	 * @return Descrição da ação ocorrida
+	 */
    getDescricaoAcao : function(acao) {
 	   var acaoOcorrida;
 	   this.acoesHistorico.each(( function(acaoHistorico) {
@@ -700,10 +726,10 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Recupera os ids dos campos com seus valores.
-    * 
-    * @return {String} valores
-    */
+	 * Recupera os ids dos campos com seus valores.
+	 * 
+	 * @return {String} valores
+	 */
    _getValoresCampos : function() {
 	   var valores = "&";
 	   valores += this._getValoresTexto();
@@ -714,10 +740,10 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Recupera os ids dos campos do tipo texto com seus respectivos valores.
-    * 
-    * @return {String} valores
-    */
+	 * Recupera os ids dos campos do tipo texto com seus respectivos valores.
+	 * 
+	 * @return {String} valores
+	 */
    _getValoresTexto : function() {
 	   var valor = "";
 	   $("tabCampos").select("input[type=\"text\"]").each( function(input) {
@@ -727,10 +753,10 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Recupera os ids dos campos do tipo radio com seus respectivos valores.
-    * 
-    * @return {String} valores
-    */
+	 * Recupera os ids dos campos do tipo radio com seus respectivos valores.
+	 * 
+	 * @return {String} valores
+	 */
    _getValoresRadio : function() {
 	   var valor = "";
 	   $("tabCampos").select("input[type=\"radio\"]").each( function(input) {
@@ -740,10 +766,10 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Recupera os ids dos campos do tipo checkbox com seus respectivos valores.
-    * 
-    * @return {String} valores
-    */
+	 * Recupera os ids dos campos do tipo checkbox com seus respectivos valores.
+	 * 
+	 * @return {String} valores
+	 */
    _getValoresCheckBox : function() {
 	   var valor = "";
 	   $("tabCampos").select("input[type=\"checkbox\"]").each( function(input) {
@@ -753,12 +779,12 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Verifica se o campo é do tipo lista de opções ou múltipla escolha.
-    * 
-    * @param {String} tipoCampo tipo do campo
-    * @return <code>true</code>, se for lista de opções ou múltipla escolha; <code>false</code>,
-    *         se for texto, data ou hora
-    */
+	 * Verifica se o campo é do tipo lista de opções ou múltipla escolha.
+	 * 
+	 * @param {String} tipoCampo tipo do campo
+	 * @return <code>true</code>, se for lista de opções ou múltipla escolha; <code>false</code>,
+	 *         se for texto, data ou hora
+	 */
    _isListaOpcoesOrMultiplaEscolha : function(tipoCampo) {
 	   if ((tipoCampo == usarWorkflow.tipoTexto) || (tipoCampo == usarWorkflow.tipoData)
 	      || (tipoCampo == usarWorkflow.tipoHora)) {
@@ -768,11 +794,11 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Preenche os campos do tipo data, hora e texto.
-    * 
-    * @param {Number} idCampo Código identificador do campo
-    * @param {String} valor Valor a ser setado.
-    */
+	 * Preenche os campos do tipo data, hora e texto.
+	 * 
+	 * @param {Number} idCampo Código identificador do campo
+	 * @param {String} valor Valor a ser setado.
+	 */
    _preencherCampo : function(idCampo, valor) {
 	   $("tabCampos").select("input[type=\"text\"]").each( function(input) {
 		   if (parseInt($(input).id.substring(5)) == idCampo) { // retira o "campo" do id html
@@ -783,14 +809,14 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Preenche os campos de múltipla escolha e lista de opções.
-    * 
-    * @param {Number} idCampo Código identificador do campo
-    * @param {String} valor Valor a ser setado.
-    * @param {String} tipoCampo Tipo do campo a ser setado
-    * 
-    * Obs.: Nesse caso, o valor do campo conterá quais opções deverão estar marcadas (checked)
-    */
+	 * Preenche os campos de múltipla escolha e lista de opções.
+	 * 
+	 * @param {Number} idCampo Código identificador do campo
+	 * @param {String} valor Valor a ser setado.
+	 * @param {String} tipoCampo Tipo do campo a ser setado
+	 * 
+	 * Obs.: Nesse caso, o valor do campo conterá quais opções deverão estar marcadas (checked)
+	 */
    _preencherCampoComOpcoes : function(idCampo, valor, tipoCampo) {
 	   if (tipoCampo == usarWorkflow.tipoOpcoes) {
 		   $("tabCampos").select("input[type=\"checkbox\"]").each( function(input) {
@@ -814,17 +840,18 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Executado quando o usuário não quer salvar as alterações.
-    */
+	 * Executado quando o usuário não quer salvar as alterações.
+	 */
    sairSemSalvar : function() {
 	   this.houveAlteracao = false;
 	   this.camposData = new Array();
+	   this.podeMudarTarefa = false;
 	   JanelaFactory.fecharJanela("divUsoWorkflow");
    },
 
    /**
-    * Abre o popup das próximas tarefas disponíveis.
-    */
+	 * Abre o popup das próximas tarefas disponíveis.
+	 */
    popupProximasTarefas : function() {
 	   var idUso = $F("idUsoWorkflow");
 	   var url = "usarWorkflow.do?method=popupProximasTarefas&id=" + idUso;
@@ -834,10 +861,10 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Muda a tarefa atual do uso do workflow.
-    * 
-    * @param form formulário submetido
-    */
+	 * Muda a tarefa atual do uso do workflow.
+	 * 
+	 * @param form formulário submetido
+	 */
    proximaTarefa : function(form) {
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
@@ -852,11 +879,12 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Recupera o span de campo obrigatório.
-    * 
-    * @param {Boolean} obrigatorio caso o campo seja obrigatório
-    * @return span criado
-    */
+	 * Recupera o span de campo obrigatório.
+	 * 
+	 * @param {Boolean} obrigatorio caso o campo seja obrigatório
+	 * @return span criado
+	 * @type HTMLSpanElement
+	 */
    _getSpanObrigatorio : function(obrigatorio) {
 	   var span = Builder.node("span", {
 		   CLASS :"obrigatorio"
@@ -868,16 +896,16 @@ UsarWorkflow.prototype = {
    },
 
    /**
-    * Executado após cada mudança em algum campo do uso.
-    */
+	 * Executado após cada mudança em algum campo do uso.
+	 */
    aposMudancaEmCampo : function() {
 	   this.houveAlteracao = true;
 	   $("botaoSalvarUso").enable();
    },
 
    /**
-    * Adiciona os eventos aos links de campos de datas.
-    */
+	 * Adiciona os eventos aos links de campos de datas.
+	 */
    _adicionarLinksDatas : function() {
 	   this.camposData.each(( function(campoData) {
 		   Calendar.registerDateCalendar(campoData[0], campoData[1], this.aposMudancaEmCampo

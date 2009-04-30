@@ -103,6 +103,16 @@ public class UsarWorkflowDWR extends BaseDWR {
 	}
 
 	/**
+	 * Recupera se o {@link UsoWorkflow} em questão pode mudar de tarefa.
+	 * 
+	 * @param idUso identificador do uso
+	 * @return <code>true</code> caso possa, <code>false</code> caso contrário
+	 */
+	public Boolean podeMudarDeTarefa(Integer idUso) {
+		return this.usoWorkflowBO.podeMudarDeTarefa(idUso);
+	}
+
+	/**
 	 * Recupera as próximas tarefas da tarefa atual do {@link UsoWorkflow}.
 	 * 
 	 * @param isUsoWorkflow identificador do uso

@@ -19,7 +19,7 @@ public enum TipoAcaoEnum implements CodigoDescricao {
 	/** Inclusão de {@link Anexo}. */
 	INCLUSAO_DE_ANEXO(2, "Inclusão de anexo"),
 	/** Exclusão de {@link Anexo}. */
-	EXCLUSAO_DE_ANEXO(3, "Exclusão de anexo"),
+	EXCLUSAO_DE_ANEXO(3, "Exclusão de anexo(s)"),
 	/** Alteração nos {@link CampoUsoWorkflow}. */
 	ALTERACAO_CAMPOS(4, "Alteração nos campos"),
 	/** Início da {@link Tarefa}. */
