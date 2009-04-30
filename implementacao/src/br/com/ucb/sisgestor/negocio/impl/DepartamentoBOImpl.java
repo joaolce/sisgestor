@@ -14,6 +14,7 @@ import br.com.ucb.sisgestor.util.DataUtil;
 import br.com.ucb.sisgestor.util.Utils;
 import br.com.ucb.sisgestor.util.dto.PesquisaManterDepartamentoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaPaginadaDTO;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void excluir(Departamento departamento) throws NegocioException {
-		if (CollectionUtils.isNotEmpty(departamento.getDepartamentosFilhos())) {
+		if (CollectionUtils.isNotEmpty(this.getDepartamentosFilhosAtivos(departamento))) {
 			throw new NegocioException("erro.departamento.filhos");
 		}
 		if (CollectionUtils.isNotEmpty(this.getUsuarioBO().getByDepartamento(departamento))) {
@@ -125,6 +126,22 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 	}
 
 	/**
+	 * Recupera os departamentos filhos que estão ativos.
+	 * 
+	 * @param departamento departamento a recuperar os filhos ativos
+	 * @return {@link List} de {@link Departamento}
+	 */
+	private List<Departamento> getDepartamentosFilhosAtivos(Departamento departamento) {
+		List<Departamento> departamentosFilhos = new ArrayList<Departamento>();
+		for (Departamento departamentoFilho : departamento.getDepartamentosFilhos()) {
+			if (departamentoFilho.getDataHoraExclusao() == null) {
+				departamentosFilhos.add(departamentoFilho);
+			}
+		}
+		return departamentosFilhos;
+	}
+
+	/**
 	 * Recupera o BO de {@link Usuario}.
 	 * 
 	 * @return BO de {@link Usuario}
@@ -144,7 +161,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 	 */
 	private void verificaDepartamentoSuperior(Departamento departamento) throws NegocioException {
 		if ((departamento.getDepartamentoSuperior() != null)
-				&& departamento.getDepartamentoSuperior().getId().equals(departamento.getId())) {
+				&& departamento.getDepartamentoSuperior().equals(departamento)) {
 			throw new NegocioException("erro.departamento.superiorIgual");
 		}
 	}
