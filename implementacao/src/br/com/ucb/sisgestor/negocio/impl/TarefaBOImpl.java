@@ -49,9 +49,13 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 	public void atualizar(Tarefa tarefa) throws NegocioException {
 		Usuario usuarioLogado = Utils.getUsuario();
 		Atividade atividadeTarefa = tarefa.getAtividade();
-		if (!usuarioLogado.getDepartamento().equals(atividadeTarefa.getDepartamento())
-				|| !usuarioLogado.getChefe()) {
-			this.validarSePodeAlterarWorkflow(atividadeTarefa.getProcesso().getWorkflow());
+		Workflow workflowTarefa = atividadeTarefa.getProcesso().getWorkflow();
+		if (usuarioLogado.getDepartamento().equals(atividadeTarefa.getDepartamento())
+				&& usuarioLogado.getChefe() && (workflowTarefa.getDataHoraExclusao() == null)) {
+			//usuário do mesmo departamento e é chefe, com workflow excluído
+			throw new NegocioException("erro.workflowExcluido");
+		} else { //outros usuário
+			this.validarSePodeAlterarWorkflow(workflowTarefa);
 		}
 		this.tarefaDAO.atualizar(tarefa);
 	}
