@@ -51,12 +51,13 @@ public class ManterDepartamentoDWR extends BaseDWR {
 		String nome = parametros.getNome();
 		Integer paginaAtual = parametros.getPaginaAtual();
 
-		List<Departamento> lista = this.departamentoBO.getBySiglaNome(sigla, nome, paginaAtual);
-
 		ListaResultadoDTO<Departamento> resultado = new ListaResultadoDTO<Departamento>();
-		resultado.setColecaoParcial(lista);
-
-		this.setTotalPesquisa(parametros, resultado, this.departamentoBO);
+		Integer totalRegistros = this.getTotalRegistros(parametros, this.departamentoBO);
+		if (totalRegistros > 0) {
+			List<Departamento> lista = this.departamentoBO.getBySiglaNome(sigla, nome, paginaAtual);
+			resultado.setColecaoParcial(lista);
+		}
+		resultado.setTotalRegistros(totalRegistros);
 		return resultado;
 	}
 

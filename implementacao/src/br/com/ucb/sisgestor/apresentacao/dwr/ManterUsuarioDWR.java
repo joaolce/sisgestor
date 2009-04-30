@@ -58,12 +58,14 @@ public class ManterUsuarioDWR extends BaseDWR {
 		Integer departamento = parametros.getDepartamento();
 		Integer paginaAtual = parametros.getPaginaAtual();
 
-		List<Usuario> lista = this.usuarioBO.getByLoginNomeDepartamento(login, nome, departamento, paginaAtual);
-
 		ListaResultadoDTO<Usuario> resultado = new ListaResultadoDTO<Usuario>();
-		resultado.setColecaoParcial(lista);
-
-		this.setTotalPesquisa(parametros, resultado, this.usuarioBO);
+		Integer totalRegistros = this.getTotalRegistros(parametros, this.usuarioBO);
+		if (totalRegistros > 0) {
+			List<Usuario> lista =
+					this.usuarioBO.getByLoginNomeDepartamento(login, nome, departamento, paginaAtual);
+			resultado.setColecaoParcial(lista);
+		}
+		resultado.setTotalRegistros(totalRegistros);
 		return resultado;
 	}
 

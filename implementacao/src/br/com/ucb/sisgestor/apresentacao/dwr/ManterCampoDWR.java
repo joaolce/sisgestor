@@ -63,12 +63,13 @@ public class ManterCampoDWR extends BaseDWR {
 		Integer paginaAtual = parametros.getPaginaAtual();
 		Integer idWorkflow = parametros.getIdWorkflow();
 
-		List<Campo> lista = this.campoBO.getByNomeTipo(nome, idTipo, idWorkflow, paginaAtual);
-
 		ListaResultadoDTO<Campo> resultado = new ListaResultadoDTO<Campo>();
-		resultado.setColecaoParcial(lista);
-
-		this.setTotalPesquisa(parametros, resultado, this.campoBO);
+		Integer totalRegistros = this.getTotalRegistros(parametros, this.campoBO);
+		if (totalRegistros > 0) {
+			List<Campo> lista = this.campoBO.getByNomeTipo(nome, idTipo, idWorkflow, paginaAtual);
+			resultado.setColecaoParcial(lista);
+		}
+		resultado.setTotalRegistros(totalRegistros);
 		return resultado;
 	}
 

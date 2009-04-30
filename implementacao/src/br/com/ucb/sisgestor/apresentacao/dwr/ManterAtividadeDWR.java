@@ -65,14 +65,15 @@ public class ManterAtividadeDWR extends BaseDWR {
 		Integer idProcesso = parametros.getIdProcesso();
 		Integer paginaAtual = parametros.getPaginaAtual();
 
-		List<Atividade> lista =
-				this.atividadeBO.getByNomeDescricaoDepartamento(nome, descricao, departamento, idProcesso,
-						paginaAtual);
-
 		ListaResultadoDTO<Atividade> resultado = new ListaResultadoDTO<Atividade>();
-		resultado.setColecaoParcial(lista);
-
-		this.setTotalPesquisa(parametros, resultado, this.atividadeBO);
+		Integer totalRegistros = this.getTotalRegistros(parametros, this.atividadeBO);
+		if (totalRegistros > 0) {
+			List<Atividade> lista =
+					this.atividadeBO.getByNomeDescricaoDepartamento(nome, descricao, departamento, idProcesso,
+							paginaAtual);
+			resultado.setColecaoParcial(lista);
+		}
+		resultado.setTotalRegistros(totalRegistros);
 		return resultado;
 	}
 
