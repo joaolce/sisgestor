@@ -18,10 +18,10 @@ ManterCampo.prototype = {
    tiposCampo :null,
 
    /**
-    * Número máximo de opções para lista de opções e múltipla escolha.
-    */
-   MAXIMO_OPCOES : 20,
-   
+	 * Número máximo de opções para lista de opções e múltipla escolha.
+	 */
+   MAXIMO_OPCOES :20,
+
    /**
 	 * @constructor
 	 */
@@ -305,9 +305,9 @@ ManterCampo.prototype = {
 		   JanelasComuns.showInformation("Número máximo de opções permitidas: " + this.MAXIMO_OPCOES);
 	   } else {
 		   var opcao = dwr.util.getValue(novaOpcao);
-		   if (!opcao.empty()) { //opção em branco
-			   if (ComboFunctions.getAllOptionInnerLabel(comboOpcoes).include(opcao)) { //já existe a opção
-			   	JanelasComuns.showInformation("A opção '"+ opcao + "' já foi adicionada!");
+		   if (!opcao.empty()) { // opção em branco
+			   if (ComboFunctions.getAllOptionInnerLabel(comboOpcoes).include(opcao)) { // já existe a opção
+				   JanelasComuns.showInformation("A opção '" + opcao + "' já foi adicionada!");
 			   } else {
 				   dwr.util.addOptions(comboOpcoes, [ opcao ]);
 				   ComboFunctions.ordenarOptions(comboOpcoes);

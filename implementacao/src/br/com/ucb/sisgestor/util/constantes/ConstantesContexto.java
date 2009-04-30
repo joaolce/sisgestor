@@ -4,6 +4,7 @@
  */
 package br.com.ucb.sisgestor.util.constantes;
 
+import br.com.ucb.sisgestor.entidade.Anexo;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 
 /**
@@ -28,4 +29,6 @@ public final class ConstantesContexto {
 	public static final String	USUARIO_SESSAO		= "usuarioSessao";
 	/** Tarefa do {@link UsoWorkflow} já iniciada. */
 	public static final String	TAREFA_INICIADA	= "TarefaIniciada";
+	/** Identificador do {@link UsoWorkflow} para utilização do {@link Anexo}. */
+	public static final String	ID_USO_WORKFLOW	= "idUsoWorkflowAnexo";
 }

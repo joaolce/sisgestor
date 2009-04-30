@@ -116,6 +116,18 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	/**
 	 * {@inheritDoc}
 	 */
+	public Boolean podeMudarDeTarefa(Integer idUso) {
+		UsoWorkflow usoWorkflow = this.usoWorkflowDAO.obter(idUso);
+		Tarefa primeiraTarefa = this.getTarefaBO().recuperarPrimeiraTarefa(usoWorkflow.getWorkflow());
+		if (!usoWorkflow.getTarefa().equals(primeiraTarefa)) {
+			return Boolean.TRUE;
+		}
+		return this.verificarSePodeMudarDeTarefaParaPrimeiraTarefa(usoWorkflow);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Transactional(readOnly = true)
 	public List<UsoWorkflow> recuperarPendentesUsuarioAtual(Integer paginaAtual) {
 		return this.usoWorkflowDAO.recuperarPendentesUsuario(Utils.getUsuario(), paginaAtual);
@@ -395,5 +407,25 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 		if (valor.length() > ConstantesDB.VALOR_CAMPO) {
 			throw new NegocioException("erro.maxlength", nomeCampo, Integer.toString(ConstantesDB.VALOR_CAMPO));
 		}
+	}
+
+	/**
+	 * Verifica se o {@link UsoWorkflow} pode mudar de {@link Tarefa} a partir da primeira {@link Tarefa}.
+	 * 
+	 * @param usoWorkflow {@link UsoWorkflow} a verificar
+	 * @return <code>true</code> caso possa, <code>false</code> caso contrário
+	 */
+	private Boolean verificarSePodeMudarDeTarefaParaPrimeiraTarefa(UsoWorkflow usoWorkflow) {
+		for (HistoricoUsoWorkflow historico : usoWorkflow.getHistorico()) {
+			if (historico.getAcao().equals(TipoAcaoEnum.ALTERACAO_CAMPOS)) {
+				return Boolean.TRUE;
+			}
+		}
+		for (Campo campo : usoWorkflow.getWorkflow().getCampos()) {
+			if (campo.getObrigatorio()) {
+				return Boolean.FALSE;
+			}
+		}
+		return Boolean.TRUE;
 	}
 }

@@ -251,7 +251,7 @@ ManterAtividade.prototype = {
 		   $("linkGerenciarTarefas").onclick = "";
 	   }
    },
-   
+
    /**
 	 * Executado a cada vez no início do UC.
 	 */
@@ -263,15 +263,15 @@ ManterAtividade.prototype = {
 		   }));
 	   }
    },
-   
+
    /**
-    * Recupera caso o usuário deva apenas visualizar o fluxo, e não definir.
-    * 
-    * @return <code>true</code> caso usuário deve apenas visualizar o fluxo.
-    * @type Boolean
-    */
-   _isVisualizarFluxo: function(){
-   	return ($F("workflowAtivadoOuExcluido") == "true") || !Usuario.temPermissao(MANTER_WORKFLOW);
+	 * Recupera caso o usuário deva apenas visualizar o fluxo, e não definir.
+	 * 
+	 * @return <code>true</code> caso usuário deve apenas visualizar o fluxo.
+	 * @type Boolean
+	 */
+   _isVisualizarFluxo : function() {
+	   return ($F("workflowAtivadoOuExcluido") == "true") || !Usuario.temPermissao(MANTER_WORKFLOW);
    }
 };
 

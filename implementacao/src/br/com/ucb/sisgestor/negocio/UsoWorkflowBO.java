@@ -37,6 +37,14 @@ public interface UsoWorkflowBO extends BaseBO<UsoWorkflow> {
 	void modificarTarefa(UsoWorkflow usoWorkflow, Integer idTarefa) throws NegocioException;
 
 	/**
+	 * Recupera se o {@link UsoWorkflow} em questão pode mudar de tarefa.
+	 * 
+	 * @param idUso identificador do uso
+	 * @return <code>true</code> caso possa, <code>false</code> caso contrário
+	 */
+	Boolean podeMudarDeTarefa(Integer idUso);
+
+	/**
 	 * Recupera a lista de workflows em uso com {@link Tarefa} pendente do {@link Usuario} atual.
 	 * 
 	 * @param paginaAtual página atual da pesquisa

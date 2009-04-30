@@ -147,7 +147,7 @@ public class AnexoUsoWorkflowAction extends BaseAction {
 		 * com propriedade nenhuma, o que atrapalha na hora de identificar o id do uso.
 		 * Esse id da sessão é recuperado na classe AnexoUsoWorkflowValidator e recolocado na propriedade do form */
 		Integer idUsoWorkflow = form.getUsoWorkflow();
-		this.setSessionAttribute("idUsoWorkflowAnexo", idUsoWorkflow);
+		this.setSessionAttribute(ConstantesContexto.ID_USO_WORKFLOW, idUsoWorkflow);
 
 		return this.findForward("popupInserirAnexo");
 	}

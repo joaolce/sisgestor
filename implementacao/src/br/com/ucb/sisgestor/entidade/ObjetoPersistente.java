@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
+import org.apache.commons.lang.builder.EqualsBuilder;
 
 /**
  * Classe que representa um objeto persistente
@@ -22,6 +23,20 @@ import javax.persistence.Transient;
 public abstract class ObjetoPersistente implements Serializable {
 
 	private Integer	id;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof ObjetoPersistente)) {
+			return false;
+		}
+		ObjetoPersistente comparado = (ObjetoPersistente) obj;
+		EqualsBuilder builder = new EqualsBuilder();
+		builder.append(this.id, comparado.id);
+		return builder.isEquals();
+	}
 
 	/**
 	 * Recupera o id do objeto

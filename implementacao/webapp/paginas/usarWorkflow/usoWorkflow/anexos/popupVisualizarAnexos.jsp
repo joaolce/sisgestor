@@ -4,8 +4,6 @@
 <%@ taglib uri="http://www.ucb.br/sisgestor/taglib" prefix="htmlSGR" %>
 
 <html:form styleId="formAnexos" action="/anexoUsoWorkflow.do?method=excluirAnexo">
-	<html:hidden property="usoWorkflow" styleId="idUsoWorkflowAnexo" />
-	
 	<div id="divMenuOpcoes" style="height: 25px;">
 		<logic:present name="TarefaIniciada">
 			<htmlSGR:link href="#incluirAnexo" titleKey="dica.anexo.incluir" onclick="anexoUsoWorkflow.telaInserirAnexo();" linkName="incluirAnexo" roles="6">

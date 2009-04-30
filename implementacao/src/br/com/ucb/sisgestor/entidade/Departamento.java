@@ -13,7 +13,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import org.apache.commons.lang.builder.EqualsBuilder;
 import org.hibernate.annotations.ForeignKey;
 
 /**
@@ -36,20 +35,6 @@ public class Departamento extends ObjetoPersistente {
 	private String					nome;
 	private String					sigla;
 	private List<Usuario>		usuarios;
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals(Object obj) { //NOPMD by João Lúcio - não necessário
-		if (!(obj instanceof Departamento)) {
-			return false;
-		}
-		Departamento comparado = (Departamento) obj;
-		EqualsBuilder builder = new EqualsBuilder();
-		builder.append(this.getId(), comparado.getId());
-		return builder.isEquals();
-	}
 
 	/**
 	 * Recupera o valor de atividades
