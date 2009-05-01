@@ -17,9 +17,9 @@
 		</htmlSGR:link>
 	</div>
 	<div style="height: 35px; padding-left: 20px; padding-top: 5px;">
-		<htmlSGR:button property="atualizarLista" titleKey="dica.atualizar.usos" onclick="usarWorkflow.pesquisar();" styleClass="botaoOkCancelar" roles="5" >
-			<bean:message key="botao.atualizar"/>
-		</htmlSGR:button>
+		<htmlSGR:link href="#atualizarRegistros" titleKey="dica.atualizar.usos" onclick="usarWorkflow.pesquisar();" linkName="atualizarRegistros" roles="5" >
+			<html:img srcKey="imagem.atualizarRegistros" width="100" height="21" />
+		</htmlSGR:link>
 	</div>
 	<div id="divWorkflows" style="clear: left; height: 420px; overflow: auto; border: 1px solid gray; margin-top: 5px;">
 		<table style="width: 99.9%">
