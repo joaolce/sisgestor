@@ -252,7 +252,7 @@ ManterTarefa.prototype = {
 		   $("linkNovaTarefa").className = "btDesativado";
 		   $("linkNovaTarefa").onclick = Prototype.emptyFunction;
 	   }
-	   if(!Usuario.getUsuario().chefe || $F("excluidoWorkflow") == "true") {
+	   if($F("excluidoWorkflow") == "true") {
 	   	$("botaoAtualizarTarefa").disable();
 	   }
    },
