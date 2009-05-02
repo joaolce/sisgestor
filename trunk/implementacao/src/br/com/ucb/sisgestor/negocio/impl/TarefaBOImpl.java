@@ -216,8 +216,7 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 			for (Tarefa tarefa : tarefas) {
 				anteriores = tarefa.getTransacoesAnteriores();
 				posteriores = tarefa.getTransacoesPosteriores();
-				if (((anteriores == null) || anteriores.isEmpty())
-						&& ((posteriores == null) || posteriores.isEmpty())) {
+				if (CollectionUtils.isEmpty(anteriores) && CollectionUtils.isEmpty(posteriores)) {
 					return false;
 				}
 			}

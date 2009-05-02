@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -175,8 +176,7 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo> implements Proc
 			for (Processo processo : processos) {
 				anteriores = processo.getTransacoesAnteriores();
 				posteriores = processo.getTransacoesPosteriores();
-				if (((anteriores == null) || anteriores.isEmpty())
-						&& ((posteriores == null) || posteriores.isEmpty())) {
+				if (CollectionUtils.isEmpty(anteriores) && CollectionUtils.isEmpty(posteriores)) {
 					return false;
 				}
 			}
