@@ -11,10 +11,16 @@ import br.com.ucb.sisgestor.entidade.TipoAcaoEnum;
 import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
+import br.com.ucb.sisgestor.util.GenericsUtil;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaUsarWorkflowDTO;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import org.directwebremoting.WebContext;
+import org.directwebremoting.WebContextFactory;
+import org.directwebremoting.impl.DefaultScriptSession;
+import org.directwebremoting.proxy.dwr.Util;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -82,6 +88,22 @@ public class UsarWorkflowDWR extends BaseDWR {
 	public List<HistoricoUsoWorkflow> getHistorico(Integer id) {
 		UsoWorkflow usoWorkflow = this.usoWorkflowBO.obter(id);
 		return usoWorkflow.getHistorico();
+	}
+
+	/**
+	 * Notifica o usuário da tarefa atual via AJAX reverso.
+	 * 
+	 * @param idUso identificador do uso com a tarefa modificada
+	 */
+	public void notificarUsuarioAJAX(Integer idUso) {
+		UsoWorkflow usoWorkflow = this.usoWorkflowBO.obter(idUso);
+		if (!usoWorkflow.getUsoFinalizado()) {
+			WebContext webContext = WebContextFactory.get();
+			Collection<DefaultScriptSession> todasSessions =
+					GenericsUtil.checkedCollection(webContext.getAllScriptSessions(), DefaultScriptSession.class);
+			Hibernate.initialize(usoWorkflow.getHistorico());
+			new Util(todasSessions).addFunctionCall("Usuario.notificarTransferenciaRegistro", usoWorkflow);
+		}
 	}
 
 	/**

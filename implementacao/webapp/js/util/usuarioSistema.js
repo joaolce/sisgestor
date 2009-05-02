@@ -1,4 +1,5 @@
 Event.observe(window, "load", function(event) {
+	dwr.engine.setActiveReverseAjax(true);
 	dwr.engine.setAsync(false);
 	UtilDWR.getUser(Usuario.setUsuario.bind(Usuario));
 	dwr.engine.setAsync(true);
@@ -45,5 +46,19 @@ Usuario = {
 		   }
 	   }
 	   return false;
+   },
+
+   /**
+	 * Notifica o usuário para informar que foi transferido o registro do uso.
+	 * 
+	 * @param {Object} usoWorkflow usoWorkflow com a tarefa modificada
+	 */
+   notificarTransferenciaRegistro : function(usoWorkflow) {
+	   var usuarioTarefa = usoWorkflow.tarefa.usuario;
+	   if (this._usuario.id == usuarioTarefa.id) {
+	   	var dataHora = usoWorkflow.historico[0].dataHora;
+		   JanelasComuns.showInformation("O registro " + usoWorkflow.numeroRegistro
+		      + " foi transferido para a sua responsabilidade em " + getStringTimestamp(dataHora) + '.');
+	   }
    }
 };
