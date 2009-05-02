@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -188,8 +189,7 @@ public class AtividadeBOImpl extends BaseWorkflowBOImpl<Atividade> implements At
 			for (Atividade atividade : atividades) {
 				anteriores = atividade.getTransacoesAnteriores();
 				posteriores = atividade.getTransacoesPosteriores();
-				if (((anteriores == null) || anteriores.isEmpty())
-						&& ((posteriores == null) || posteriores.isEmpty())) {
+				if (CollectionUtils.isEmpty(anteriores) && CollectionUtils.isEmpty(posteriores)) {
 					return false;
 				}
 			}
