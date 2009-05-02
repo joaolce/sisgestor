@@ -500,7 +500,7 @@ UsarWorkflow.prototype = {
 		   JanelasComuns.showConfirmCancelDialog("Deseja salvar as alterações?", this.confirmar
 		      .bind(this), this.sairSemSalvar.bind(this));
 	   } else {
-		   JanelaFactory.fecharJanelaAtiva();
+		   JanelaFactory.fecharJanela("divUsoWorkflow");
 		   this.camposData = new Array();
 		   this.podeMudarTarefa = false;
 	   }
@@ -869,12 +869,13 @@ UsarWorkflow.prototype = {
 	   requestUtils.submitForm(form, ( function() {
 		   if (requestUtils.status) {
 			   this.pesquisar();
+			   UsarWorkflowDWR.notificarUsuarioAJAX($F("idUsoWorkflow"));
 		   }
 	   }).bind(this), ( function() {
 		   if (requestUtils.status) {
-			   JanelaFactory.fecharJanelaAtiva(); // fecha janela da mudança de tarefa
-			JanelaFactory.fecharJanelaAtiva(); // fecha janela do uso
-		}
+			   JanelaFactory.fecharJanela("divProximasTarefas");
+			   JanelaFactory.fecharJanela("divUsoWorkflow"); 
+		   }
 	})	);
    },
 
