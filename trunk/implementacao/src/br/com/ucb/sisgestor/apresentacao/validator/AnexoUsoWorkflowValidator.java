@@ -17,6 +17,13 @@ import br.com.ucb.sisgestor.util.constantes.ConstantesContexto;
 public class AnexoUsoWorkflowValidator extends BaseValidator {
 
 	/**
+	 * Faz as validações do método download.
+	 */
+	public void download() {
+		this.setForwardErroValidacao("erroValidacao");
+	}
+
+	/**
 	 * Faz as validações do método excluirAnexo.
 	 */
 	public void excluirAnexo() {
