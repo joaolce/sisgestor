@@ -17,12 +17,12 @@
     width CDATA #IMPLIED
     image CDATA #IMPLIED
 >
-<!ELEMENT Item EMPTY>
+<!ELEMENT Item (Item*)>
 <!ATTLIST Item
     name CDATA #REQUIRED
     title CDATA #REQUIRED
     description CDATA #IMPLIED
-    page CDATA #REQUIRED
+    page CDATA #IMPLIED
     width CDATA #IMPLIED
     image CDATA #IMPLIED
 >
@@ -38,7 +38,10 @@
 		<Menu name="MenuUsuario" title="menu.usuario" description="dica.usuario.atualizar" page="/manterUsuario.do?method=entrada" image="imagens/usuario.png" />
 		<Menu name="MenuWorkflow" title="menu.workflow" image="imagens/workflow.png">
 			<Item name="MenuWorkflowManter" title="menu.workflow.manter" width="110" page="/manterWorkflow.do?method=entrada" />
-			<Item name="MenuWorkflowUsar" title="menu.workflow.usar" width="110" page="/usarWorkflow.do?method=entrada" />
+			<Item name="MenuWorkflowRegistros" title="menu.workflow.registros" width="110">
+				<Item name="MenuWorkflowAtivos" title="menu.workflow.registros.ativos" width="110" page="/usarWorkflow.do?method=entrada" />
+				<Item name="MenuWorkflowFinalizados" title="menu.workflow.registros.finalizados" width="110" page="/usarWorkflow.do?method=entrada" />
+			</Item>
 		</Menu>
 		<Menu name="MenuSair" title="menu.sair" description="dica.sair" page="/dologin?logout=true" image="imagens/sair.png"/>
 	</Menus>
