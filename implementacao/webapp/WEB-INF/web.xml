@@ -165,13 +165,13 @@
 	</security-constraint>
 	
 	<security-constraint>
-		<display-name>Usar Workflow</display-name>
+		<display-name>Extrair Relatório</display-name>
 		<web-resource-collection>
-			<web-resource-name>Usar_Workflow</web-resource-name>
-			<url-pattern>/usarWorkflow.do</url-pattern>
+			<web-resource-name>Extrair_Relatorio</web-resource-name>
+			<url-pattern>/extrairRelatorio.do</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>5</role-name>
+			<role-name>7</role-name>
 		</auth-constraint>
 	</security-constraint>
 	
@@ -203,6 +203,11 @@
 	<security-role>
 		<description>Anexar Arquivos</description>
 		<role-name>6</role-name>
+	</security-role>
+
+	<security-role>
+		<description>Extrair Relatório</description>
+		<role-name>7</role-name>
 	</security-role>
 	
 	<resource-ref>
