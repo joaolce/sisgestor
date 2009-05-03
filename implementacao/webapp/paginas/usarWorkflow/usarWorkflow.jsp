@@ -42,8 +42,8 @@
 		<label>
 			<bean:message key="mensagem.acessoTarefa" />
 		</label>
-		<html:link styleId="botaoUsarTarefa" href="#">
+		<htmlSGR:link href="#" titleKey="dica.abrirRegistro" styleId="botaoUsarTarefa" roles="5">
 			<bean:message key="link.cliqueAqui"/>
-		</html:link>
+		</htmlSGR:link>
 	</div>
 </div>
