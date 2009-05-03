@@ -15,12 +15,12 @@ import br.com.ucb.sisgestor.util.DataUtil;
 public final class Constantes {
 
 	/** Versão atual do sistema. */
-	public static final String		VERSAO									= "0.3.2";
+	public static final String		VERSAO									= "0.4.0";
 
 	/** Data da versão atual do sistema. */
 	public static final String		VERSAO_DATA								=
 																								DataUtil.utilDateToString(DataUtil
-																										.getDate(29, 4, 2009));
+																										.getDate(2, 5, 2009));
 
 	/** Remetente de emails do sisgestor. */
 	public static final String		REMETENTE_EMAIL_SISGESTOR			= "sisgestor@sisgestor.com";
