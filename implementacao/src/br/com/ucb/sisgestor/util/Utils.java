@@ -9,6 +9,7 @@ import br.com.ucb.sisgestor.entidade.ObjetoPersistente;
 import br.com.ucb.sisgestor.entidade.Permissao;
 import br.com.ucb.sisgestor.entidade.TipoCampoEnum;
 import br.com.ucb.sisgestor.entidade.Usuario;
+import br.com.ucb.sisgestor.negocio.exception.NegocioException;
 import java.beans.PropertyDescriptor;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -360,6 +361,9 @@ public final class Utils {
 	 * @throws Exception caso ocorra algum erro no download
 	 */
 	public static void download(Anexo anexo, HttpServletResponse response) throws Exception {
+		if (anexo == null) {
+			throw new NegocioException("erro.arquivo.naoEncontrado");
+		}
 		response.reset();
 
 		String contentType = anexo.getContentType();
