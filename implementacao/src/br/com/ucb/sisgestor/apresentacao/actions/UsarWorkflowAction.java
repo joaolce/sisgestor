@@ -63,6 +63,8 @@ public class UsarWorkflowAction extends BaseAction {
 	 */
 	public ActionForward entradaFinalizados(ActionMapping mapping, ActionForm actionForm,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		UsarWorkflowActionForm form = (UsarWorkflowActionForm) actionForm;
+		form.setListaWorkflows(this.workflowBO.obterTodos());
 		return this.findForward("entradaFinalizados");
 	}
 
