@@ -76,7 +76,6 @@ public class UsoWorkflowDAOImpl extends BaseDAOImpl<UsoWorkflow> implements UsoW
 		this.getSession().save(historicoUsoWorkflow);
 	}
 
-
 	/**
 	 * Monta os critérios para a paginação dos workflows.
 	 * 

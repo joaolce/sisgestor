@@ -47,7 +47,11 @@
 	<!--  USAR WORKFLOW -->
 	<definition name="definicaoUsarWorkflow" extends="definicaoPrincipal">
 		<put name="corpo">/paginas/usarWorkflow/usarWorkflow.jsp</put>
-		<put name="titulo">Usar Workflow</put>
+		<put name="titulo">Registros Ativos</put>
+	</definition>
+	<definition name="definicaoUsarWorkflowFinalizados" extends="definicaoPrincipal">
+		<put name="corpo">/paginas/usarWorkflow/registrosFinalizados.jsp</put>
+		<put name="titulo">Registros Finalizados</put>
 	</definition>
 	<definition name="popupIniciarWorkflow" path="/paginas/usarWorkflow/popupIniciarWorkflow.jsp"/>
 	<definition name="popupUsoWorkflow" path="/paginas/usarWorkflow/usoWorkflow/popupUsoWorkflow.jsp"/>

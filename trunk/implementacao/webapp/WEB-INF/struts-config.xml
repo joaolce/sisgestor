@@ -83,6 +83,7 @@
 			scope="request"
 			parameter="method">
 			<forward name="entrada" path="definicaoUsarWorkflow" />
+			<forward name="entradaFinalizados" path="definicaoUsarWorkflowFinalizados" />
 			<forward name="popupIniciarWorkflow" path="popupIniciarWorkflow" />
 			<forward name="popupUsoWorkflow" path="popupUsoWorkflow" />
 			<forward name="popupProximasTarefas" path="popupProximasTarefas" />

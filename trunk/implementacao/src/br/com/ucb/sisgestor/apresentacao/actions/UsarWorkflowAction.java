@@ -52,6 +52,21 @@ public class UsarWorkflowAction extends BaseAction {
 	}
 
 	/**
+	 * Abre a tela inicial de entrada para visualizar os {@link UsoWorkflow} finalizados.
+	 * 
+	 * @param mapping objeto mapping da action
+	 * @param actionForm objeto form da action
+	 * @param request request atual
+	 * @param response response atual
+	 * @return forward do popup
+	 * @throws Exception caso exceção seja lançada
+	 */
+	public ActionForward entradaFinalizados(ActionMapping mapping, ActionForm actionForm,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return this.findForward("entradaFinalizados");
+	}
+
+	/**
 	 * Dá inicio a tarefa do {@link UsoWorkflow}.
 	 * 
 	 * @param mapping objeto mapping da action
@@ -135,7 +150,6 @@ public class UsarWorkflowAction extends BaseAction {
 
 		return this.findForward("popupIniciarWorkflow");
 	}
-
 
 	/**
 	 * Abre o popup das próximas tarefas disponíveis.
