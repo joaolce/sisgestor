@@ -111,6 +111,7 @@ ManterProcesso.prototype = {
 		   });
 		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
 		   this.tabelaTelaPrincipal.setOnClick(this.visualizar.bind(this));
+		   this.tabelaTelaPrincipal.setOnDblClick(this.popupGerenciarAtividades.bind(this));
 	   } else {
 		   this.tabelaTelaPrincipal.semRegistros("Não foram encontrados processos");
 	   }
