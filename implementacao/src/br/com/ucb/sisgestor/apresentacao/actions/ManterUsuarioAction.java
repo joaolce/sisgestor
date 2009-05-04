@@ -55,7 +55,7 @@ public class ManterUsuarioAction extends BaseAction {
 		boolean temPermissao = request.isUserInRole(ConstantesRoles.MANTER_USUARIO);
 
 		//Usuário que não tem permissão apenas pode editar os próprios dados
-		if (!usuarioLogado.getId().equals(usuario.getId()) && !temPermissao) {
+		if (!usuarioLogado.equals(usuario) && !temPermissao) {
 			this.addMessageKey("erro.acessoNegado");
 			return this.sendAJAXResponse(false);
 		}
@@ -69,7 +69,7 @@ public class ManterUsuarioAction extends BaseAction {
 		 *
 		 *	Essa mesma condição é verificada no manterUsuario.js
 		 */
-		if (usuarioLogado.getId().equals(usuario.getId()) && temPermissao) {
+		if (usuarioLogado.equals(usuario) && temPermissao) {
 			this.addMessageKey("mensagem.novoLogin");
 		}
 

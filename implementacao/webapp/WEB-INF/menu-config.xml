@@ -40,7 +40,7 @@
 			<Item name="MenuWorkflowManter" title="menu.workflow.manter" width="110" page="/manterWorkflow.do?method=entrada" />
 			<Item name="MenuWorkflowRegistros" title="menu.workflow.registros" width="110">
 				<Item name="MenuWorkflowAtivos" title="menu.workflow.registros.ativos" width="110" page="/usarWorkflow.do?method=entrada" />
-				<Item name="MenuWorkflowFinalizados" title="menu.workflow.registros.finalizados" width="110" page="/usarWorkflow.do?method=entrada" />
+				<Item name="MenuWorkflowFinalizados" title="menu.workflow.registros.finalizados" width="110" page="/usarWorkflow.do?method=entradaFinalizados" />
 			</Item>
 		</Menu>
 		<Menu name="MenuSair" title="menu.sair" description="dica.sair" page="/dologin?logout=true" image="imagens/sair.png"/>
