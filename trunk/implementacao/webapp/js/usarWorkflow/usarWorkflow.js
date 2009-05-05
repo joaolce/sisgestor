@@ -174,7 +174,7 @@ UsarWorkflow.prototype = {
 	   UsarWorkflowDWR.getById(id, ( function(usoWorkflow) {
 		   this.setEditarCampos(!(usoWorkflow.dataHoraInicio == null));
 		   UsarWorkflowDWR.podeMudarDeTarefa(id, ( function(podeMudar) {
-		   	this.podeMudarTarefa = podeMudar;
+			   this.podeMudarTarefa = podeMudar;
 			   this._abrePopupUsoDeWorkflow(usoWorkflow, numeroRegistro, nomeWorkflow,
 			      usoWorkflow.tarefa.nome, usoWorkflow.tarefa.descricao, usoWorkflow.dataHoraInicio,
 			      usoWorkflow.camposUsados);
@@ -349,6 +349,9 @@ UsarWorkflow.prototype = {
 		   this.tabelaTelaPrincipal = FactoryTabelas.getNewTabelaPaginada(this
 		      .getTBodyTelaPrincipal(), chamadaRemota, this.popularTabela.bind(this));
 		   this.tabelaTelaPrincipal.setQtdRegistrosPagina(QTD_REGISTROS_PAGINA_USO_WORKFLOW);
+		   if (Usuario.getUsuario().chefe) {
+			   $("thUsuario").show();
+		   }
 	   }
 	   this.tabelaTelaPrincipal.setParametros( {});
 	   this.tabelaTelaPrincipal.executarChamadaRemota();
@@ -386,6 +389,11 @@ UsarWorkflow.prototype = {
 		   cellfuncs.push( function(usoWorkflow) {
 			   return usoWorkflow.tarefa.nome;
 		   });
+		   if (Usuario.getUsuario().chefe) {
+			   cellfuncs.push( function(usoWorkflow) {
+				   return usoWorkflow.tarefa.usuario.nome;
+			   });
+		   }
 		   cellfuncs.push( function(usoWorkflow) {
 			   if (usoWorkflow.dataHoraInicio != null) {
 				   return getStringTimestamp(usoWorkflow.dataHoraInicio);
@@ -676,8 +684,8 @@ UsarWorkflow.prototype = {
 			   usarWorkflow.popularHistorico();
 			   usarWorkflow.habilitarCampos();
 			   UsarWorkflowDWR.podeMudarDeTarefa(idUso, ( function(podeMudar) {
-			   	this.podeMudarTarefa = podeMudar;
-			   	this.habilitarLinks(true);
+				   this.podeMudarTarefa = podeMudar;
+				   this.habilitarLinks(true);
 			   }).bind(usarWorkflow));
 			   usarWorkflow._adicionarLinksDatas();
 		   }
@@ -874,9 +882,9 @@ UsarWorkflow.prototype = {
 	   }).bind(this), ( function() {
 		   if (requestUtils.status) {
 			   JanelaFactory.fecharJanela("divProximasTarefas");
-			   JanelaFactory.fecharJanela("divUsoWorkflow"); 
+			   JanelaFactory.fecharJanela("divUsoWorkflow");
 		   }
-	})	);
+	   }));
    },
 
    /**
