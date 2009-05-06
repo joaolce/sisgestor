@@ -340,7 +340,7 @@ UsarWorkflow.prototype = {
    },
 
    /**
-	 * Faz a pesquisa dos workflows pelos parâmetros informados.
+	 * Faz a pesquisa dos registros dependentes do usuário logado.
 	 */
    pesquisar : function() {
 	   if ((this.tabelaTelaPrincipal == null)
@@ -402,8 +402,8 @@ UsarWorkflow.prototype = {
 		   });
 		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
 		   if (Usuario.temPermissao(USAR_WORKFLOW)) {
-			   this.tabelaTelaPrincipal.setOnDblClick(this.usarWorkflow.bind(usarWorkflow));
-			   this.tabelaTelaPrincipal.setOnClick(this.habilitarBotaoUsarTarefa.bind(usarWorkflow));
+			   this.tabelaTelaPrincipal.setOnDblClick(this.usarWorkflow.bind(this));
+			   this.tabelaTelaPrincipal.setOnClick(this.habilitarBotaoUsarTarefa.bind(this));
 		   }
 	   } else {
 		   this.tabelaTelaPrincipal
@@ -921,6 +921,15 @@ UsarWorkflow.prototype = {
 		      .bind(this));
 	   }).bind(this));
 	   this.camposData = new Array();
+   },
+   
+   /**
+    * Armazena se o usuário pode mudar a tarefa.
+    * 
+    * @param {Boolean} podeMudarTarefa se o usuário pode mudar a tarefa
+    */
+   setPodeMudarTarefa : function(podeMudarTarefa) {
+   	this.podeMudarTarefa = podeMudarTarefa;
    }
 };
 

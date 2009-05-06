@@ -45,12 +45,32 @@ public interface UsoWorkflowBO extends BaseBO<UsoWorkflow> {
 	Boolean podeMudarDeTarefa(Integer idUso);
 
 	/**
-	 * Recupera a lista de workflows em uso com {@link Tarefa} pendente do {@link Usuario} atual.
+	 * Recupera a lista de {@link UsoWorkflow} finalizados a partir dos parâmetros informados.
+	 * 
+	 * @param numeroRegistro número do registro do uso
+	 * @param idWorkflow código identificador do workflow
+	 * @param paginaAtual página atual da pesquisa
+	 * @return {@link List} com {@link UsoWorkflow}
+	 */
+	List<UsoWorkflow> recuperarFinalizados(String numeroRegistro, Integer idWorkflow, Integer paginaAtual);
+
+	/**
+	 * Recupera a lista de {@link UsoWorkflow} em uso com {@link Tarefa} pendente do {@link Usuario} atual.
 	 * 
 	 * @param paginaAtual página atual da pesquisa
 	 * @return {@link List} com {@link UsoWorkflow}
 	 */
 	List<UsoWorkflow> recuperarPendentesUsuarioAtual(Integer paginaAtual);
+
+	/**
+	 * Recupera o número total de registros retornado pela consulta
+	 * {@link #recuperarFinalizados(String, Integer, Integer)}.
+	 * 
+	 * @param numeroRegistro número do registro do uso
+	 * @param idWorkflow código identificador do workflow
+	 * @return número total de registros
+	 */
+	Integer recuperarTotalFinalizados(String numeroRegistro, Integer idWorkflow);
 
 	/**
 	 * Salva a anotação do uso

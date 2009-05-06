@@ -48,11 +48,30 @@ public class UsoWorkflowDAOImpl extends BaseDAOImpl<UsoWorkflow> implements UsoW
 	/**
 	 * {@inheritDoc}
 	 */
+	public List<UsoWorkflow> recuperarFinalizados(Integer anoRegistro, Integer numeroSequencial,
+			Integer idWorkflow, Integer paginaAtual) {
+		Criteria criteria = this.montarCriteriosPaginacaoFinalizados(anoRegistro, numeroSequencial, idWorkflow);
+		this.adicionarPaginacao(criteria, paginaAtual, UsoWorkflowDAO.QTD_REGISTROS_PAGINA_FINALIZADOS);
+		return GenericsUtil.checkedList(criteria.list(), UsoWorkflow.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<UsoWorkflow> recuperarPendentesUsuario(Usuario usuario, Integer paginaAtual) {
 		Criteria criteria = this.montarCriteriosPaginacao(usuario);
 		this.adicionarPaginacao(criteria, paginaAtual, UsoWorkflowDAO.QTD_REGISTROS_PAGINA);
 		criteria.addOrder(Order.asc("this.dataHoraInicio"));
 		return GenericsUtil.checkedList(criteria.list(), UsoWorkflow.class);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Integer recuperarTotalFinalizados(Integer anoRegistro, Integer numeroSequencial, Integer idWorkflow) {
+		Criteria criteria = this.montarCriteriosPaginacaoFinalizados(anoRegistro, numeroSequencial, idWorkflow);
+		criteria.setProjection(Projections.rowCount());
+		return (Integer) criteria.uniqueResult();
 	}
 
 	/**
@@ -92,6 +111,32 @@ public class UsoWorkflowDAOImpl extends BaseDAOImpl<UsoWorkflow> implements UsoW
 			disjunction.add(Restrictions.eq("atividade.departamento", usuario.getDepartamento()));
 		}
 		criteria.add(disjunction);
+		return criteria;
+	}
+
+	/**
+	 * Monta os critérios para a paginação dos workflows.
+	 * 
+	 * @return {@link Criteria}
+	 */
+	private Criteria montarCriteriosPaginacaoFinalizados(Integer ano, Integer numeroSequencial,
+			Integer idWorkflow) {
+		Criteria criteria = this.createCriteria(UsoWorkflow.class);
+		criteria.add(Restrictions.eq("this.usoFinalizado", Boolean.TRUE));
+
+		if (ano != null) {
+			DetachedCriteria subCriteria = DetachedCriteria.forClass(HistoricoUsoWorkflow.class, "historico");
+			subCriteria.setProjection(Projections.property("historico.usoWorkflow.id"));
+			subCriteria.add(RestrictionsSGR.eqWithTransform("historico.dataHora", "YEAR", ano));
+			criteria.add(Property.forName("this.id").in(subCriteria));
+		}
+		if (numeroSequencial != null) {
+			criteria.add(Restrictions.eq("this.numero", numeroSequencial));
+		}
+		if (idWorkflow != null) {
+			criteria.createAlias("this.workflow", "workflow");
+			criteria.add(Restrictions.eq("workflow.id", idWorkflow));
+		}
 		return criteria;
 	}
 }

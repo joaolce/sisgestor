@@ -310,6 +310,9 @@ Tabela.prototype = {
 	 * @param {Number} totalRegistros
 	 */
    setTotalRegistros : function(totalRegistros) {
+	   if (totalRegistros == 0 && this.divPaginacao == null) {
+		   return;
+	   }
 	   this.totalRegistros = totalRegistros;
 	   if (this.divPaginacao == null) {
 		   this.divPaginacao = $(Builder.node("div", {

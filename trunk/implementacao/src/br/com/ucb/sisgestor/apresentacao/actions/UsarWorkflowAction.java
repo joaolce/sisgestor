@@ -13,6 +13,7 @@ import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.negocio.WorkflowBO;
 import br.com.ucb.sisgestor.util.DataUtil;
+import br.com.ucb.sisgestor.util.constantes.ConstantesContexto;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -52,6 +53,16 @@ public class UsarWorkflowAction extends BaseAction {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ActionForward entrada(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		this.setSessionAttribute(ConstantesContexto.REGISTROS_FINALIZADOS, Boolean.FALSE);
+		return this.findForward(FWD_ENTRADA);
+	}
+
+	/**
 	 * Abre a tela inicial de entrada para visualizar os {@link UsoWorkflow} finalizados.
 	 * 
 	 * @param mapping objeto mapping da action
@@ -65,6 +76,7 @@ public class UsarWorkflowAction extends BaseAction {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		UsarWorkflowActionForm form = (UsarWorkflowActionForm) actionForm;
 		form.setListaWorkflows(this.workflowBO.obterTodos());
+		this.setSessionAttribute(ConstantesContexto.REGISTROS_FINALIZADOS, Boolean.TRUE);
 		return this.findForward("entradaFinalizados");
 	}
 

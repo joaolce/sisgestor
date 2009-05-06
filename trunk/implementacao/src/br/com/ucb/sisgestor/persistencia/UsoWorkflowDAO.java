@@ -17,8 +17,10 @@ import java.util.List;
  */
 public interface UsoWorkflowDAO extends BaseDAO<UsoWorkflow> {
 
-	/** Quantidade de registros por paginação */
-	Integer	QTD_REGISTROS_PAGINA	= Integer.valueOf(17);
+	/** Quantidade de registros por paginação. */
+	Integer	QTD_REGISTROS_PAGINA					= Integer.valueOf(17);
+	/** Quantidade de registros por paginação para a página de uso finalizado. */
+	Integer	QTD_REGISTROS_PAGINA_FINALIZADOS	= Integer.valueOf(13);
 
 	/**
 	 * Recupera o total de registros retornados pela consulta. <br />
@@ -29,6 +31,18 @@ public interface UsoWorkflowDAO extends BaseDAO<UsoWorkflow> {
 	Integer getTotalRegistros(Usuario usuario);
 
 	/**
+	 * Recupera a lista de {@link UsoWorkflow} finalizados a partir dos parâmetros informados.
+	 * 
+	 * @param anoRegistro ano de início do registro
+	 * @param numeroSequencial número sequencial do ano de ínicio
+	 * @param idWorkflow código identificador do workflow
+	 * @param paginaAtual página atual da pesquisa
+	 * @return {@link List} com {@link UsoWorkflow}
+	 */
+	List<UsoWorkflow> recuperarFinalizados(Integer anoRegistro, Integer numeroSequencial, Integer idWorkflow,
+			Integer paginaAtual);
+
+	/**
 	 * Recupera todos os workflows que estão sendo usados, dependendo de tarefa do usuário.
 	 * 
 	 * @param usuario usuário com tarefas pendentes
@@ -36,6 +50,17 @@ public interface UsoWorkflowDAO extends BaseDAO<UsoWorkflow> {
 	 * @return {@link List} de {@link UsoWorkflow}
 	 */
 	List<UsoWorkflow> recuperarPendentesUsuario(Usuario usuario, Integer paginaAtual);
+
+	/**
+	 * Recupera o número total de registros retornado pela consulta
+	 * {@link #recuperarFinalizados(Integer, Integer, Integer, Integer)}.
+	 * 
+	 * @param anoRegistro ano de início do registro
+	 * @param numeroSequencial número sequencial do ano de ínicio
+	 * @param idWorkflow código identificador do workflow
+	 * @return número total de registros
+	 */
+	Integer recuperarTotalFinalizados(Integer anoRegistro, Integer numeroSequencial, Integer idWorkflow);
 
 	/**
 	 * Recupera o último número de {@link UsoWorkflow} iniciado no ano da data informada.

@@ -1,8 +1,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://www.ucb.br/sisgestor/taglib" prefix="htmlSGR" %>
-
-<script type="text/javascript" src="js/usarWorkflow/usarWorkflow.js"></script>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
 <html:form action="/usarWorkflow.do?method=salvarAnotacao" onsubmit="usarWorkflow.salvarAnotacao(this); return false;">
 	<html:hidden property="id" />
@@ -20,10 +19,12 @@
 		</div>
 	</fieldset>
 
-	<div style="clear: both; padding: 5px;" align="center">	
-		<htmlSGR:submit titleKey="dica.salvar" styleClass="botaoOkCancelar" roles="5">
-			<bean:message key="botao.salvar"/>
-		</htmlSGR:submit>
+	<div style="clear: both; padding: 5px;" align="center">
+		<logic:equal name="registrosFinalizados" value="false">
+			<htmlSGR:submit titleKey="dica.salvar" styleClass="botaoOkCancelar" roles="5">
+				<bean:message key="botao.salvar"/>
+			</htmlSGR:submit>
+		</logic:equal>
 		<html:button property="cancelar" titleKey="dica.cancelar" onclick="JanelaFactory.fecharJanelaAtiva();" styleClass="botaoOkCancelar">
 			<bean:message key="botao.cancelar"/>
 		</html:button>

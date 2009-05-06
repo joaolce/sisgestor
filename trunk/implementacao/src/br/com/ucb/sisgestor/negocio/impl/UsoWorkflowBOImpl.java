@@ -129,8 +129,39 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 * {@inheritDoc}
 	 */
 	@Transactional(readOnly = true)
+	public List<UsoWorkflow> recuperarFinalizados(String numeroRegistro, Integer idWorkflow,
+			Integer paginaAtual) {
+		Integer anoRegistro = null;
+		Integer numeroSequencial = null;
+		if (StringUtils.isNotBlank(numeroRegistro)) {
+			String[] registro = numeroRegistro.split("/");
+			anoRegistro = Integer.parseInt(registro[0]);
+			numeroSequencial = Integer.parseInt(registro[1]);
+		}
+		return this.usoWorkflowDAO.recuperarFinalizados(anoRegistro, numeroSequencial, idWorkflow, paginaAtual);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(readOnly = true)
 	public List<UsoWorkflow> recuperarPendentesUsuarioAtual(Integer paginaAtual) {
 		return this.usoWorkflowDAO.recuperarPendentesUsuario(Utils.getUsuario(), paginaAtual);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Transactional(readOnly = true)
+	public Integer recuperarTotalFinalizados(String numeroRegistro, Integer idWorkflow) {
+		Integer anoRegistro = null;
+		Integer numeroSequencial = null;
+		if (StringUtils.isNotBlank(numeroRegistro)) {
+			String[] registro = numeroRegistro.split("/");
+			anoRegistro = Integer.parseInt(registro[0]);
+			numeroSequencial = Integer.parseInt(registro[1]);
+		}
+		return this.usoWorkflowDAO.recuperarTotalFinalizados(anoRegistro, numeroSequencial, idWorkflow);
 	}
 
 	/**

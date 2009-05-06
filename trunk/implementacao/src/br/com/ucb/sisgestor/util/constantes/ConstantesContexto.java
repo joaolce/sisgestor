@@ -16,19 +16,21 @@ import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 public final class ConstantesContexto {
 
 	/** Data do último login */
-	public static final String	DATA_LOGIN			= "dataLogin";
+	public static final String	DATA_LOGIN					= "dataLogin";
 	/** Indica se foi erro do container */
-	public static final String	ERRO_CONTAINER		= "errorContainer";
+	public static final String	ERRO_CONTAINER				= "errorContainer";
 	/** Hora do último login */
-	public static final String	HORA_LOGIN			= "horaLogin";
+	public static final String	HORA_LOGIN					= "horaLogin";
 	/** Tamanho da página (em registros) de paginação */
-	public static final String	TAMANHO_PAGINA		= "tamanhoPaginaPesquisa";
+	public static final String	TAMANHO_PAGINA				= "tamanhoPaginaPesquisa";
 	/** Total de registros da pesquisa de paginação */
-	public static final String	TOTAL_PESQUISA		= "totalPesquisa";
+	public static final String	TOTAL_PESQUISA				= "totalPesquisa";
 	/** Usuário atual na sessão */
-	public static final String	USUARIO_SESSAO		= "usuarioSessao";
+	public static final String	USUARIO_SESSAO				= "usuarioSessao";
 	/** Tarefa do {@link UsoWorkflow} já iniciada. */
-	public static final String	TAREFA_INICIADA	= "TarefaIniciada";
+	public static final String	TAREFA_INICIADA			= "tarefaIniciada";
 	/** Identificador do {@link UsoWorkflow} para utilização do {@link Anexo}. */
-	public static final String	ID_USO_WORKFLOW	= "idUsoWorkflowAnexo";
+	public static final String	ID_USO_WORKFLOW			= "idUsoWorkflowAnexo";
+	/** Identifica se o usuário está visualizando registros finalizados. */
+	public static final String	REGISTROS_FINALIZADOS	= "registrosFinalizados";
 }
