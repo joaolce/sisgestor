@@ -20,7 +20,7 @@ public interface UsoWorkflowDAO extends BaseDAO<UsoWorkflow> {
 	/** Quantidade de registros por paginação. */
 	Integer	QTD_REGISTROS_PAGINA					= Integer.valueOf(17);
 	/** Quantidade de registros por paginação para a página de uso finalizado. */
-	Integer	QTD_REGISTROS_PAGINA_FINALIZADOS	= Integer.valueOf(13);
+	Integer	QTD_REGISTROS_PAGINA_FINALIZADOS	= Integer.valueOf(14);
 
 	/**
 	 * Recupera o total de registros retornados pela consulta. <br />

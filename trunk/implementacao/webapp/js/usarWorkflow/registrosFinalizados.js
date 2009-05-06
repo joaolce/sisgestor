@@ -12,16 +12,19 @@ Event.observe(window, "load", function() {
  * @author João Lúcio
  * @since 04/05/2009
  */
-usarWorkflow = Object.extend(UsarWorkflow.prototype, {
+var RegistrosFinalizados = Class.create(UsarWorkflow, {
 
    /**
 	 * @constructor
 	 */
-   initialize : function() {},
+   initialize : function($super, acoesHistorico) {
+	   this.acoesHistorico = acoesHistorico;
+   },
 
    /**
 	 * Retorna a tabela da tela inicial.
 	 * 
+	 * @override
 	 * @return {HTMLTableSectionElement}
 	 */
    getTBodyTelaPrincipal : function() {
@@ -30,6 +33,8 @@ usarWorkflow = Object.extend(UsarWorkflow.prototype, {
 
    /**
 	 * Faz a pesquisa dos registros finalizados pelos parâmetros informados.
+	 * 
+	 * @override
 	 */
    pesquisar : function() {
 	   var numeroRegistro = dwr.util.getValue("numeroRegistroPesquisa");
@@ -54,6 +59,7 @@ usarWorkflow = Object.extend(UsarWorkflow.prototype, {
    /**
 	 * Popula a tabela principal com a lista de registros.
 	 * 
+	 * @override
 	 * @param listaRegistros lista de registros retornados
 	 */
    popularTabela : function(listaRegistros) {
@@ -83,14 +89,14 @@ usarWorkflow = Object.extend(UsarWorkflow.prototype, {
 		   });
 		   this.tabelaTelaPrincipal.adicionarResultadoTabela(cellfuncs);
 		   this.tabelaTelaPrincipal.setOnDblClick(this.visualizarRegistro.bind(this));
-		   this.tabelaTelaPrincipal.setOnClick(this.habilitarBotaoVisualizarRegistro.bind(this));
+		   this.tabelaTelaPrincipal.setOnClick(this._habilitarBotaoVisualizarRegistro.bind(this));
 	   } else {
 		   this.tabelaTelaPrincipal.semRegistros("Não foram encontrados registros finalizados");
 	   }
    },
 
    /**
-	 * 
+	 * Abre o popup para visualizar o registro finalizado.
 	 */
    visualizarRegistro : function() {
 	   var colunas = this.getTR().descendants();
@@ -106,11 +112,40 @@ usarWorkflow = Object.extend(UsarWorkflow.prototype, {
 		      usoWorkflow.camposUsados);
 	   }).bind(this));
    },
-
+   
+   /**
+	 * Abre popup com anotações do uso do workflow.
+	 * @override
+	 */
+   popupAnotacoes : function() {
+	   var url = "usarWorkflow.do?method=popupAnotacao&id=" + $F("idUsoWorkflow")
+	   createWindow(250, 450, 280, 70, "Anotações", "divAnotacoes", url, ( function() {
+		   this.contaChar();
+		   $("anotacao").disable();
+	   }).bind(this));
+   },
+   
    /**
 	 * Habilita o botão para visualizar o registro.
 	 */
-   habilitarBotaoVisualizarRegistro : function() {
+   _habilitarBotaoVisualizarRegistro : function() {
 	   $("botaoVisualizarRegistro").onclick = this.visualizarRegistro.bind(this);
+   },
+
+   /**
+	 * Desabilita os links que podem modificar o registro.
+	 * 
+	 * @override
+	 * @param (Boolean) caso seja para habilitar ou desabilitar
+	 */
+   habilitarLinks : function(habilita) {
+	   $("linkIniciarTarefa").className = "btDesativado";
+	   $("linkIniciarTarefa").onclick = Prototype.emptyFunction;
+	   $("linkAnotacoes").className = "";
+	   $("linkAnotacoes").onclick = this.popupAnotacoes.bind(this);
+	   this._habilitaLinkProximasTarefas(false);
    }
 });
+
+// passando as ações do histórico para não executar chamada novamente ao servidor
+usarWorkflow = new RegistrosFinalizados(usarWorkflow.acoesHistorico);

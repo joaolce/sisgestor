@@ -12,18 +12,8 @@ package br.com.ucb.sisgestor.util.dto;
  */
 public class PesquisaUsarWorkflowDTO extends PesquisaPaginadaDTO {
 
-	private Integer	idUsoWorkflow;
-	private Integer	workflow;
 	private String		numeroRegistro;
-
-	/**
-	 * Recupera o código identificador do uso workflow
-	 * 
-	 * @return código identificador do uso workflow
-	 */
-	public Integer getIdUsoWorkflow() {
-		return this.idUsoWorkflow;
-	}
+	private Integer	workflow;
 
 	/**
 	 * Recupera o número de registro do workflow.
@@ -41,15 +31,6 @@ public class PesquisaUsarWorkflowDTO extends PesquisaPaginadaDTO {
 	 */
 	public Integer getWorkflow() {
 		return this.workflow;
-	}
-
-	/**
-	 * Atribui o código identificador do uso workflow
-	 * 
-	 * @param idUsoWorkflow código identificador do uso workflow
-	 */
-	public void setIdUsoWorkflow(Integer idUsoWorkflow) {
-		this.idUsoWorkflow = idUsoWorkflow;
 	}
 
 	/**

@@ -375,7 +375,8 @@ Mask.prototype.setDateKeyPress = function (_v, _d){
 
 function qEvent(e){
 	// routine for NS, Opera, etc DOM browsers
-	if( window.Event ){
+	//if( window.Event ){ removido por erro na api
+	if( !Prototype.Browser.IE){
 		var isKeyPress = (e.type.substring(0,3) == "key");
 
 		this.keyCode = (isKeyPress) ? parseInt(e.which, 10) : 0;

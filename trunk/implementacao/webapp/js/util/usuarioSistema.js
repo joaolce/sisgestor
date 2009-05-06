@@ -56,9 +56,11 @@ Usuario = {
    notificarTransferenciaRegistro : function(usoWorkflow) {
 	   var usuarioTarefa = usoWorkflow.tarefa.usuario;
 	   if (this._usuario.id == usuarioTarefa.id) {
-	   	var dataHora = usoWorkflow.historico[0].dataHora;
+		   var dataHora = usoWorkflow.historico[0].dataHora;
 		   JanelasComuns.showInformation("O registro " + usoWorkflow.numeroRegistro
-		      + " foi transferido para a sua responsabilidade em " + getStringTimestamp(dataHora) + '.');
+		      + " foi transferido para a sua responsabilidade em "
+		      + getStringTimestamp(dataHora, "dd/MM/yyyy") + " às "
+		      + getStringTimestamp(dataHora, "HH:mm:ss") + '.');
 	   }
    }
 };

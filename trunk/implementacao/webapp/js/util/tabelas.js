@@ -608,9 +608,7 @@ Tabela.prototype = {
 	 * @param {HTMLTableRowElement} tr
 	 */
    selecionarTR : function(tr) {
-	   if (this._trSelecionada == null) {
-		   this._trSelecionada = tr;
-	   } else {
+	   if (this._trSelecionada != null) {
 		   this._trSelecionada.id = "";
 	   }
 	   this._trSelecionada = tr;
