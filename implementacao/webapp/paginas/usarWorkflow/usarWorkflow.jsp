@@ -31,7 +31,7 @@
 					<th><bean:message key="label.processo" /></th>
 					<th><bean:message key="label.atividade" /></th>
 					<th><bean:message key="label.tarefa" /></th>
-					<th id="thUsuario" style="display: none;"><bean:message key="label.usuario" /></th>
+					<th id="thUsuario" style="display: none;"><bean:message key="label.usuario.responsavel" /></th>
 					<th width="15%"><bean:message key="label.dataInicio" /></th>
 				</tr>
 			</thead>

@@ -638,10 +638,10 @@ UsarWorkflow.prototype = {
 		   $("linkIniciarTarefa").className = "btDesativado";
 		   $("linkIniciarTarefa").onclick = Prototype.emptyFunction;
 		   $("linkAnotacoes").className = "";
-		   $("linkAnotacoes").onclick = this.popupAnotacoes.bind(usarWorkflow);
+		   $("linkAnotacoes").onclick = this.popupAnotacoes.bind(this);
 	   } else {
 		   $("linkIniciarTarefa").className = "";
-		   $("linkIniciarTarefa").onclick = this.iniciarTarefa;
+		   $("linkIniciarTarefa").onclick = this.iniciarTarefa.bind(this);
 		   $("linkAnotacoes").className = "btDesativado";
 		   $("linkAnotacoes").onclick = Prototype.emptyFunction;
 	   }
