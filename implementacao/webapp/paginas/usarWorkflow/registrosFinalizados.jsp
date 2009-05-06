@@ -1,8 +1,12 @@
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 
+<link href="css/calendar.css" rel="stylesheet" type="text/css" media="screen" />
+
 <script type="text/javascript" src="dwr/interface/UsarWorkflowDWR.js"></script>
+<script type="text/javascript" src="js/usarWorkflow/usarWorkflow.js"></script>
 <script type="text/javascript" src="js/usarWorkflow/registrosFinalizados.js"></script>
+<script type="text/javascript" src="js/util/calendar.js"></script>
 
 <div class="bordas" id="BordaExterna">
 	<!-- FIELDSET PARA PESQUISA DE REGISTROS FINALIZADOS -->
@@ -10,7 +14,7 @@
 		<legend>
 			<bean:message key="label.criterioPesquisa" />
 		</legend>
-		<html:form action="/usarWorkflow.do" onsubmit="registrosFinalizados.pesquisar(); return false;" styleId="registrosFinalizadosForm">
+		<html:form action="/usarWorkflow.do" onsubmit="usarWorkflow.pesquisar(); return false;" styleId="registrosFinalizadosForm">
 			<div style="float: left;">
 				<label style="float: left;">
 					<bean:message key="label.registro" />
@@ -41,7 +45,8 @@
 					<th style="display: none;">&nbsp;</th>
 					<th width="10%"><bean:message key="label.registro" /></th>
 					<th><bean:message key="label.workflow" /></th>
-					<th><bean:message key="label.dataHoraFinalizacao" /></th>
+					<th width="17%"><bean:message key="label.dataHoraInicio" /></th>
+					<th width="17%"><bean:message key="label.dataHoraFinalizacao" /></th>
 				</tr>
 			</thead>
 			<tbody id="corpoVisualizarRegistros" class="corpoTabelaClicavel" />

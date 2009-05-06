@@ -5,10 +5,12 @@
 
 <html:form styleId="formAnexos" action="/anexoUsoWorkflow.do?method=excluirAnexo">
 	<div id="divMenuOpcoes" style="height: 25px;">
-		<logic:present name="TarefaIniciada">
-			<htmlSGR:link href="#incluirAnexo" titleKey="dica.anexo.incluir" onclick="anexoUsoWorkflow.telaInserirAnexo();" linkName="incluirAnexo" roles="6">
-				<html:img srcKey="imagem.incluirAnexo" width="23" height="22" />
-			</htmlSGR:link>
+		<logic:present name="tarefaIniciada">
+			<logic:equal name="registrosFinalizados" value="false">
+				<htmlSGR:link href="#incluirAnexo" titleKey="dica.anexo.incluir" onclick="anexoUsoWorkflow.telaInserirAnexo();" linkName="incluirAnexo" roles="6">
+					<html:img srcKey="imagem.incluirAnexo" width="23" height="22" />
+				</htmlSGR:link>
+			</logic:equal>
 		</logic:present>
 	</div>
 	<div id="divAnexos" align="center" style="clear: both; height: 160px; overflow: auto; border: 1px solid gray;">
@@ -52,10 +54,12 @@
 	</div>
 	
 	<div style="margin-top: 10px; margin-right: 1px;" align="center">
-		<logic:present name="TarefaIniciada">
-			<htmlSGR:button property="excluir" style="width: 110px;" onclick="anexoUsoWorkflow.excluirAnexos();" titleKey="dica.excluir" roles="6">
+		<logic:present name="tarefaIniciada">
+			<logic:equal name="registrosFinalizados" value="false">
+				<htmlSGR:button property="excluir" style="width: 110px;" onclick="anexoUsoWorkflow.excluirAnexos();" titleKey="dica.excluir" roles="6">
 					<bean:message key="botao.excluir"/>
-			</htmlSGR:button>
+				</htmlSGR:button>
+			</logic:equal>
 		</logic:present>
 		<html:button property="cancelar" titleKey="dica.voltar" onclick="JanelaFactory.fecharJanelaAtiva();" styleClass="botaoOkCancelar">
 			<bean:message key="botao.voltar"/>

@@ -42,6 +42,7 @@ public class ConstantesJSServlet extends HttpServlet {
 		constantes.put("QTD_REGISTROS_PAGINA_ATIVIDADE", AtividadeDAO.QTD_REGISTROS_PAGINA);
 		constantes.put("QTD_REGISTROS_PAGINA_TAREFA", TarefaDAO.QTD_REGISTROS_PAGINA);
 		constantes.put("QTD_REGISTROS_PAGINA_USO_WORKFLOW", UsoWorkflowDAO.QTD_REGISTROS_PAGINA);
+		constantes.put("QTD_REGISTROS_PAGINA_USO_FINALIZADO", UsoWorkflowDAO.QTD_REGISTROS_PAGINA_FINALIZADOS);
 		constantes.put("LISTA_DE_OPCOES", TipoCampoEnum.LISTA_DE_OPCOES.getId());
 		constantes.put("MULTIPLA_ESCOLHA", TipoCampoEnum.MULTIPLA_ESCOLHA.getId());
 	}

@@ -12,6 +12,7 @@ import br.com.ucb.sisgestor.entidade.UsoWorkflow;
 import br.com.ucb.sisgestor.negocio.TarefaBO;
 import br.com.ucb.sisgestor.negocio.UsoWorkflowBO;
 import br.com.ucb.sisgestor.util.GenericsUtil;
+import br.com.ucb.sisgestor.util.constantes.ConstantesContexto;
 import br.com.ucb.sisgestor.util.dto.ListaResultadoDTO;
 import br.com.ucb.sisgestor.util.dto.PesquisaUsarWorkflowDTO;
 import java.util.ArrayList;
@@ -107,7 +108,7 @@ public class UsarWorkflowDWR extends BaseDWR {
 	}
 
 	/**
-	 * Pesquisa os workflows com os parâmetros preenchidos.
+	 * Pesquisa os {@link UsoWorkflow} com os parâmetros preenchidos.
 	 * 
 	 * @param parametros parâmetros da pesquisa
 	 * @return {@link List} de {@link UsoWorkflow}
@@ -119,6 +120,31 @@ public class UsarWorkflowDWR extends BaseDWR {
 		Integer totalRegistros = this.getTotalRegistros(parametros, this.usoWorkflowBO);
 		if (totalRegistros > 0) {
 			List<UsoWorkflow> lista = this.usoWorkflowBO.recuperarPendentesUsuarioAtual(paginaAtual);
+			resultado.setColecaoParcial(lista);
+		}
+		resultado.setTotalRegistros(totalRegistros);
+		return resultado;
+	}
+
+	/**
+	 * Pesquisa os {@link UsoWorkflow} finalizados com os parâmetros preenchidos.
+	 * 
+	 * @param parametros parâmetros da pesquisa
+	 * @return {@link List} de {@link UsoWorkflow}
+	 */
+	public ListaResultadoDTO<UsoWorkflow> pesquisarFinalizados(PesquisaUsarWorkflowDTO parametros) {
+		String numeroRegistro = parametros.getNumeroRegistro();
+		Integer idWorkflow = parametros.getWorkflow();
+		Integer paginaAtual = parametros.getPaginaAtual();
+
+		ListaResultadoDTO<UsoWorkflow> resultado = new ListaResultadoDTO<UsoWorkflow>();
+		Integer totalRegistros = this.getTotalFinalizados(parametros);
+		if (totalRegistros > 0) {
+			List<UsoWorkflow> lista =
+					this.usoWorkflowBO.recuperarFinalizados(numeroRegistro, idWorkflow, paginaAtual);
+			for (UsoWorkflow uso : lista) {
+				Hibernate.initialize(uso.getHistorico());
+			}
 			resultado.setColecaoParcial(lista);
 		}
 		resultado.setTotalRegistros(totalRegistros);
@@ -164,5 +190,23 @@ public class UsarWorkflowDWR extends BaseDWR {
 	@Autowired
 	public void setUsoWorkflowBO(UsoWorkflowBO usoWorkflowBO) {
 		this.usoWorkflowBO = usoWorkflowBO;
+	}
+
+	/**
+	 * Recupera o número total de registros finalizados.
+	 * 
+	 * @param dto dto com os parâmetros
+	 * @return número total de registros finalizados
+	 */
+	private Integer getTotalFinalizados(PesquisaUsarWorkflowDTO dto) {
+		Integer totalRegistros;
+		if (dto.getPaginaAtual() == null) {
+			totalRegistros =
+					this.usoWorkflowBO.recuperarTotalFinalizados(dto.getNumeroRegistro(), dto.getWorkflow());
+			this.setSessionAttribute(ConstantesContexto.TOTAL_PESQUISA, totalRegistros);
+		} else {
+			totalRegistros = (Integer) this.getSessionAttribute(ConstantesContexto.TOTAL_PESQUISA);
+		}
+		return totalRegistros;
 	}
 }
