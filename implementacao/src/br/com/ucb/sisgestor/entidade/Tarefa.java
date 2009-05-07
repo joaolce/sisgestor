@@ -80,7 +80,7 @@ public class Tarefa extends BaseWorkflowDesenhavel {
 	 */
 	@ManyToOne
 	@JoinColumn(name = "UUR_ID", nullable = true)
-	@ForeignKey(name = "IR_URR_TAR")
+	@ForeignKey(name = "IR_UUR_TAR")
 	public Usuario getUsuario() {
 		return this.usuario;
 	}
