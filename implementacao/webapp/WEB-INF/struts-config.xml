@@ -151,7 +151,7 @@
 		</action>
 	</action-mappings>
 
-	<controller maxFileSize="10M" processorClass="org.springframework.web.struts.DelegatingTilesRequestProcessor" />
+	<controller maxFileSize="10M" processorClass="org.apache.struts.tiles.TilesRequestProcessor" />
 	<message-resources parameter="sisgestor" />
 
 	<plug-in className="org.apache.struts.tiles.TilesPlugin">
@@ -161,9 +161,5 @@
 
 	<plug-in className="net.sf.navigator.menu.MenuPlugIn">
 		<set-property property="menuConfig" value="/WEB-INF/menu-config.xml" />
-	</plug-in>
-	
-	<plug-in className="org.springframework.web.struts.ContextLoaderPlugIn">
-		<set-property property="contextConfigLocation" value="/WEB-INF/applicationContext.xml" />
 	</plug-in>
 </struts-config>

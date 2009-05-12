@@ -36,11 +36,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
+import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.util.MessageResources;
 import org.apache.struts.util.RequestUtils;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.struts.DispatchActionSupport;
 
 /**
  * Action base para o projeto.
@@ -48,7 +48,7 @@ import org.springframework.web.struts.DispatchActionSupport;
  * @author João Lúcio
  * @since 27/10/2008
  */
-public class BaseAction extends DispatchActionSupport {
+public class BaseAction extends DispatchAction {
 
 	/** forward de erro genérico */
 	protected static final String					FWD_ERRO					= "erro";
@@ -68,6 +68,13 @@ public class BaseAction extends DispatchActionSupport {
 	private ThreadLocal<HttpServletRequest>	requestThread			= new ThreadLocal<HttpServletRequest>();
 	private ThreadLocal<HttpServletResponse>	responseThread			= new ThreadLocal<HttpServletResponse>();
 	private ThreadLocal<HttpSession>				sessionThread			= new ThreadLocal<HttpSession>();
+
+	/**
+	 * Cria uma nova instância do tipo {@link BaseAction}.
+	 */
+	public BaseAction() {
+		Utils.injectionAutowired(this);
+	}
 
 	/**
 	 * Método padrão para exibir a tela de entrada caso seja necessário carregar algum dado para exibir na
@@ -467,15 +474,6 @@ public class BaseAction extends DispatchActionSupport {
 	 */
 	protected boolean isAJAXRequest() {
 		return this.getRequest().getHeader("X-Requested-With") != null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void onInit() {
-		super.onInit();
-		Utils.injectionAutowired(this);
 	}
 
 	/**
