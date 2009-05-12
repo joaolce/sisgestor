@@ -110,6 +110,7 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public Workflow getByIdUsoWorkflow(Integer idUsoWorkflow) {
 		return this.workflowDAO.getByIdUsoWorkflow(idUsoWorkflow);
 	}

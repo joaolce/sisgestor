@@ -100,6 +100,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public List<Departamento> obterTodosAtivos() {
 		return this.departamentoDAO.obterTodosAtivos();
 	}
