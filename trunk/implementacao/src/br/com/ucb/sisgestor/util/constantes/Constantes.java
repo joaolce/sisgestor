@@ -15,7 +15,7 @@ import br.com.ucb.sisgestor.util.DataUtil;
 public final class Constantes {
 
 	/** Versão atual do sistema. */
-	public static final String		VERSAO									= "0.7.0";
+	public static final String		VERSAO									= "0.7.1";
 
 	/** Data da versão atual do sistema. */
 	public static final String		VERSAO_DATA								=

@@ -56,7 +56,11 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 			return this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR,
 					Constantes.ASSUNTO_EMAIL_LEMBRETE_SENHA, usuario.getSenha(), usuario.getEmail());
 		}
-		LOG.info("Usuário: " + usuario.getLogin() + " sem email cadastrado, não enviado email de lembrete");
+		if (usuario == null) {
+			LOG.info("Usuário não encontrado, não enviado email de lembrete");
+		} else {
+			LOG.info("Usuário: " + usuario.getLogin() + " sem email cadastrado, não enviado email de lembrete");
+		}
 		return false;
 	}
 
