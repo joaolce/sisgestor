@@ -116,6 +116,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(readOnly = true)
 	public Boolean podeMudarDeTarefa(Integer idUso) {
 		UsoWorkflow usoWorkflow = this.usoWorkflowDAO.obter(idUso);
 		Tarefa primeiraTarefa = this.getTarefaBO().recuperarPrimeiraTarefa(usoWorkflow.getWorkflow());
