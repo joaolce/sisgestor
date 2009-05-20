@@ -386,12 +386,17 @@ Tabela.prototype = {
 	   }
 	   var mensagemQtdRegistrosPagina = "Exibindo " + this.qtdRegistrosPagina
 	      + " registros por página em um total de " + this.totalPaginas + " página(s).";
-	   this.divPaginacao.appendChild(Builder.node("span", {
+	   var spanDivPaginacao = Builder.node("span", {
 	      title :mensagemQtdRegistrosPagina,
 	      className :"registrosPaginacao"
 	   }, [ document.createTextNode(" ("),
 	      Builder.node("b", [ document.createTextNode(this.totalRegistros) ]),
-	      document.createTextNode(" registros)") ]));
+	      document.createTextNode(" registro") ]);
+	   if(this.totalRegistros > 1) {
+	   	spanDivPaginacao.appendChild(document.createTextNode("s"));
+	   }
+	   spanDivPaginacao.appendChild(document.createTextNode(")"));
+	   this.divPaginacao.appendChild(spanDivPaginacao);
    },
    /**
 	 * @return true se primeira false se não
