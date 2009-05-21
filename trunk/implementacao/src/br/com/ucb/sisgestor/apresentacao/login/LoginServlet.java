@@ -71,14 +71,14 @@ public final class LoginServlet extends HttpServlet {
 			} else {
 				LOG.debug("Página de acesso negado.");
 				int erro = "".equals(param) ? 0 : Integer.parseInt(param);
-				if ((erro == HttpServletResponse.SC_METHOD_NOT_ALLOWED)
-						|| (erro == HttpServletResponse.SC_FORBIDDEN)) {
-					this.escrevePagina(response, this.loginBundle.getErroPage(this
-							.getMensagem("erro.acessoNegado")));
+				String pagina;
+				if ((erro == HttpServletResponse.SC_FORBIDDEN)
+						|| (erro == HttpServletResponse.SC_METHOD_NOT_ALLOWED)) {
+					pagina = this.loginBundle.getErroPage(this.getMensagem("erro.acessoNegado"));
 				} else {
-					this.escrevePagina(response, this.loginBundle.getErroPage(this
-							.getMensagem("erro.desconhecido")));
+					pagina = this.loginBundle.getErroPage(this.getMensagem("erro.desconhecido"));
 				}
+				this.escrevePagina(response, this.ajustarReferenciasPaginaErro(request, pagina));
 			}
 		} else {
 			LOG.debug("Efetuando logout.");
@@ -112,6 +112,23 @@ public final class LoginServlet extends HttpServlet {
 					.escrevePagina(response, this.loginBundle.getLoginPage(this
 							.getMensagem("erro.loginSemSucesso")));
 		}
+	}
+
+	/**
+	 * Ajusta referências para imagens e css para que possa ser exibido corretamente. <br />
+	 * obs: isto ocorre por cauxa de acesso direto, para página de erro.
+	 * 
+	 * @param request request atual
+	 * @param pagina página a ser exibida
+	 * @return html da página com as referências atualizadas
+	 */
+	private String ajustarReferenciasPaginaErro(HttpServletRequest request, String pagina) {
+		String servlet = (String) request.getAttribute("javax.servlet.error.servlet_name");
+		if (servlet.equalsIgnoreCase("default")) {
+			String novaPagina = pagina.replaceAll("css/", "/sisgestor/css/");
+			return novaPagina.replaceAll("imagens/", "/sisgestor/imagens/");
+		}
+		return pagina;
 	}
 
 	/**
