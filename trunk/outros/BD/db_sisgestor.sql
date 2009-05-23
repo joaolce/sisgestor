@@ -2,35 +2,11 @@
 /* DBMS name:      MySQL 5.0                                    */
 /* Created on:     11/5/2009 12:36:18                           */
 /*==============================================================*/
+drop database if exists sisgestor;
 
-
-drop table if exists sisgestor.ANX_ANEXO;
-
-drop index IX_NOME on sisgestor.ATI_ATIVIDADE;
-
-drop index IX_DESCRICAO on sisgestor.ATI_ATIVIDADE;
-
-drop table if exists sisgestor.ATI_ATIVIDADE;
-
-drop table if exists sisgestor.CAM_CAMPO;
-
-drop table if exists sisgestor.DPR_DEPARTAMENTO;
-
-drop table if exists sisgestor.HUWR_USO_WORKFLOW;
-
-drop table if exists sisgestor.OPC_OPCAO_CAMPO;
-
-drop table if exists sisgestor.PRM_PERMISSAO;
-
-drop index IX_NOME on sisgestor.PRO_PROCESSO;
-
-drop index IX_DESCRICAO on sisgestor.PRO_PROCESSO;
+create database sisgestor;
 
 drop table if exists sisgestor.PRO_PROCESSO;
-
-drop index IX_NOME on sisgestor.TAR_TAREFA;
-
-drop index IX_DESCRICAO on sisgestor.TAR_TAREFA;
 
 drop table if exists sisgestor.TAR_TAREFA;
 
@@ -48,16 +24,7 @@ drop table if exists sisgestor.UUR_USUARIO;
 
 drop table if exists sisgestor.UWR_USO_WORKFLOW;
 
-drop index IX_NOME on sisgestor.WOR_WORKFLOW;
-
-drop index IX_DESCRICAO on sisgestor.WOR_WORKFLOW;
-
 drop table if exists sisgestor.WOR_WORKFLOW;
-
-/*==============================================================*/
-/* User: sisgestor                                              */
-/*==============================================================*/
-create user sisgestor;
 
 /*==============================================================*/
 /* Table: ANX_ANEXO                                             */
@@ -414,3 +381,4 @@ alter table sisgestor.UWR_USO_WORKFLOW add constraint IR_TAR_UWR foreign key (TA
 alter table sisgestor.UWR_USO_WORKFLOW add constraint IR_WOR_UWR foreign key (WOR_ID)
       references sisgestor.WOR_WORKFLOW (WOR_ID);
 
+UPDATE mysql.user SET `Select_priv` = 'Y', `Insert_priv` = 'Y', `Update_priv` = 'Y', `Delete_priv` = 'Y', `Create_priv` = 'N', `Drop_priv` = 'N', `Reload_priv` = 'N', `Shutdown_priv` = 'N', `Process_priv` = 'N', `File_priv` = 'N', `Grant_priv` = 'N', `References_priv` = 'N', `Index_priv` = 'N', `Alter_priv` = 'N', `Show_db_priv` = 'N', `Super_priv` = 'N', `Create_tmp_table_priv` = 'N', `Lock_tables_priv` = 'Y', `Execute_priv` = 'N', `Repl_slave_priv` = 'N', `Repl_client_priv` = 'N', `Create_view_priv` = 'N', `Show_view_priv` = 'N', `Create_routine_priv` = 'N', `Alter_routine_priv` = 'N', `Create_user_priv` = 'N', `Event_priv` = 'N', `Trigger_priv` = 'N' WHERE Host = '%' AND User = 'sisgestor'
