@@ -73,7 +73,12 @@ public class DepartamentoDAOImpl extends BaseDAOImpl<Departamento> implements De
 	 * @return lista de departamntos ativos
 	 */
 	public List<Departamento> obterTodosAtivos() {
-		return GenericsUtil.checkedList(this.getCriteria().list(), Departamento.class);
+		Criteria criteria = this.getCriteria();
+		Order order = this.getOrdemLista();
+		if (order != null) {
+			criteria.addOrder(order);
+		}
+		return GenericsUtil.checkedList(criteria.list(), Departamento.class);
 	}
 
 	/**
