@@ -13,4 +13,6 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento:
 
 	2) Execute o arquivo configuracao.bat, para atualizar as bibliotecas e arquivos necessários para o jboss.
 	
-	3) Após iniciar o servidor, execute o script sql para carregar o banco.
+	3) Execute o script DB/db_sisgestor.sql para criar o banco.
+		
+	4) Execute o script DB/cargaInicial.sql para carregar o banco.
