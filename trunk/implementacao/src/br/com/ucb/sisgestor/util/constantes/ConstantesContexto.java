@@ -33,4 +33,6 @@ public final class ConstantesContexto {
 	public static final String	ID_USO_WORKFLOW			= "idUsoWorkflowAnexo";
 	/** Identifica se o usuário está visualizando registros finalizados. */
 	public static final String	REGISTROS_FINALIZADOS	= "registrosFinalizados";
+	/** Tempo de sessão do sistema, em milisegundos (timeout). */
+	public static final int		TEMPO_SESSAO				= 600000;
 }
