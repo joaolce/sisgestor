@@ -172,6 +172,7 @@ public class ManterCampoAction extends BaseAction {
 	/**
 	 * Recupera um {@link List} de {@link OpcaoCampo} a partir da descrição das opções.
 	 * 
+	 * @param campo {@link Campo} trabalhado
 	 * @param opcoesForm descrições das opções
 	 * @return {@link List} de {@link OpcaoCampo}
 	 */
@@ -186,6 +187,8 @@ public class ManterCampoAction extends BaseAction {
 				this.removerOpcoesExcluidas(opcoes, opcoesForm);
 			}
 			this.adicionarOpcoes(campo, opcoes, opcoesForm);
+		} else if (opcoes != null) { //inserindo ou atualizando para campo que não contém opções
+			opcoes.clear();
 		}
 		return opcoes;
 	}
