@@ -874,17 +874,25 @@ UsarWorkflow.prototype = {
 	 * @param form formulário submetido
 	 */
    proximaTarefa : function(form) {
-	   requestUtils.submitForm(form, ( function() {
-		   if (requestUtils.status) {
-			   this.pesquisar();
-			   UsarWorkflowDWR.notificarUsuarioAJAX($F("idUsoWorkflow"));
-		   }
-	   }).bind(this), ( function() {
-		   if (requestUtils.status) {
-			   JanelaFactory.fecharJanela("divProximasTarefas");
-			   JanelaFactory.fecharJanela("divUsoWorkflow");
-		   }
-	   }));
+	   var funcao = ( function() {
+		   requestUtils.submitForm(form, ( function() {
+			   if (requestUtils.status) {
+				   this.pesquisar();
+				   UsarWorkflowDWR.notificarUsuarioAJAX($F("idUsoWorkflow"));
+				   this.houveAlteracao = false;
+			   }
+		   }).bind(this), ( function() {
+			   if (requestUtils.status) {
+				   JanelaFactory.fecharJanela("divProximasTarefas");
+				   JanelaFactory.fecharJanela("divUsoWorkflow");
+			   }
+		   }))
+	   }).bind(this);
+	   if (this.houveAlteracao) {
+		   JanelasComuns.showConfirmDialog("Registro não salvo, deseja continuar?", funcao);
+	   } else {
+		   funcao();
+	   }
    },
 
    /**
@@ -922,14 +930,14 @@ UsarWorkflow.prototype = {
 	   }).bind(this));
 	   this.camposData = new Array();
    },
-   
+
    /**
-    * Armazena se o usuário pode mudar a tarefa.
-    * 
-    * @param {Boolean} podeMudarTarefa se o usuário pode mudar a tarefa
-    */
+	 * Armazena se o usuário pode mudar a tarefa.
+	 * 
+	 * @param {Boolean} podeMudarTarefa se o usuário pode mudar a tarefa
+	 */
    setPodeMudarTarefa : function(podeMudarTarefa) {
-   	this.podeMudarTarefa = podeMudarTarefa;
+	   this.podeMudarTarefa = podeMudarTarefa;
    }
 };
 
