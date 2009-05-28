@@ -1,22 +1,22 @@
 use sisgestor;
 
-truncate table anx_anexo;
-truncate table trt_transacao_tarefa;
-truncate table tra_transacao_atividade;
-truncate table trp_transacao_processo;
+delete from anx_anexo;
+delete from trt_transacao_tarefa;
+delete from tra_transacao_atividade;
+delete from trp_transacao_processo;
 
-truncate table huwr_uso_workflow;
-truncate table uca_usoworkflow_campo;
-truncate table uwr_uso_workflow;
-truncate table opc_opcao_campo;
-truncate table cam_campo;
-truncate table tar_tarefa;
-truncate table ati_atividade;
-truncate table pro_processo;
-truncate table wor_workflow;
+delete from huwr_uso_workflow;
+delete from uca_usoworkflow_campo;
+delete from uwr_uso_workflow;
+delete from opc_opcao_campo;
+delete from cam_campo;
+delete from tar_tarefa;
+delete from ati_atividade;
+delete from pro_processo;
+delete from wor_workflow;
 
-truncate table upm_usuario_permissao;
-truncate table prm_permissao;
-truncate table uur_usuario;
+delete from upm_usuario_permissao;
+delete from prm_permissao;
+delete from uur_usuario;
 update dpr_departamento set dpr_departamento.DPR_ID_SUPERIOR = null;
-truncate table dpr_departamento;
+delete from dpr_departamento;
