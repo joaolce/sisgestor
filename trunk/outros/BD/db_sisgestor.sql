@@ -6,26 +6,6 @@ drop database if exists sisgestor;
 
 create database sisgestor;
 
-drop table if exists sisgestor.PRO_PROCESSO;
-
-drop table if exists sisgestor.TAR_TAREFA;
-
-drop table if exists sisgestor.TRA_TRANSACAO_ATIVIDADE;
-
-drop table if exists sisgestor.TRP_TRANSACAO_PROCESSO;
-
-drop table if exists sisgestor.TRT_TRANSACAO_TAREFA;
-
-drop table if exists sisgestor.UCA_USOWORKFLOW_CAMPO;
-
-drop table if exists sisgestor.UPM_USUARIO_PERMISSAO;
-
-drop table if exists sisgestor.UUR_USUARIO;
-
-drop table if exists sisgestor.UWR_USO_WORKFLOW;
-
-drop table if exists sisgestor.WOR_WORKFLOW;
-
 /*==============================================================*/
 /* Table: ANX_ANEXO                                             */
 /*==============================================================*/
