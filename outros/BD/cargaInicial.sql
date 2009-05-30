@@ -62,7 +62,7 @@ insert into upm_usuario_permissao (UUR_ID, PRM_ID) (select uur.uur_id, 5 from uu
 insert into upm_usuario_permissao (UUR_ID, PRM_ID) (select uur.uur_id, 6 from uur_usuario uur where uur.uur_login like 'user%' and uur.uur_login != 'userdie');
 
 insert into wor_workflow (WOR_DESCRICAO, WOR_NOME, WOR_ATIVO) values ('Implementação do nível G do MPS.Br', 'Nível G MPS.Br', 0);
-insert into wor_workflow (WOR_DESCRICAO, WOR_NOME, WOR_ATIVO) values ('Faz toda a contratação de novos colaboradores da empresa.', 'Contratação de colaboradores', 0);
+insert into wor_workflow (WOR_DESCRICAO, WOR_NOME, WOR_ATIVO) values ('Faz toda a contratação de novos colaboradores da empresa.', 'Contratação de colaboradores', 1);
 insert into wor_workflow (WOR_DESCRICAO, WOR_NOME, WOR_ATIVO) values ('Descreve o fluxo para gerir uma mudança', 'Gestão de Mudanças', 0);
 
 insert into cam_campo (CAM_DESCRICAO, CAM_NOME, CAM_OBRIGATORIO, CAM_TIPO, WOR_ID) values (null, 'Conhecimento', 1, 5, (select wor.WOR_ID from wor_workflow wor where wor.wor_nome = 'Contratação de colaboradores'));
@@ -71,7 +71,7 @@ insert into cam_campo (CAM_DESCRICAO, CAM_NOME, CAM_OBRIGATORIO, CAM_TIPO, WOR_I
 insert into cam_campo (CAM_DESCRICAO, CAM_NOME, CAM_OBRIGATORIO, CAM_TIPO, WOR_ID) values ('Salário para a vaga, em reais', 'Salário', 1, 5, (select wor.WOR_ID from wor_workflow wor where wor.wor_nome = 'Contratação de colaboradores'));
 insert into cam_campo (CAM_DESCRICAO, CAM_NOME, CAM_OBRIGATORIO, CAM_TIPO, WOR_ID) values ('Data de ocorrência', 'Data de ocorrência', 0, 1, (select wor.WOR_ID from wor_workflow wor where wor.wor_nome = 'Gestão de Mudanças'));
 insert into cam_campo (CAM_DESCRICAO, CAM_NOME, CAM_OBRIGATORIO, CAM_TIPO, WOR_ID) values ('Defeito diagnosticado', 'Defeito', 1, 5, (select wor.WOR_ID from wor_workflow wor where wor.wor_nome = 'Gestão de Mudanças'));
-insert into cam_campo (CAM_DESCRICAO, CAM_NOME, CAM_OBRIGATORIO, CAM_TIPO, WOR_ID) values ('Sistema em que ocorreu o problema', 'Sistema de origem', 0, 5, (select wor.WOR_ID from wor_workflow wor where wor.wor_nome = 'Gestão de Mudanças'));
+insert into cam_campo (CAM_DESCRICAO, CAM_NOME, CAM_OBRIGATORIO, CAM_TIPO, WOR_ID) values ('Sistema em que ocorreu o problema', 'Sistema', 0, 5, (select wor.WOR_ID from wor_workflow wor where wor.wor_nome = 'Gestão de Mudanças'));
 insert into cam_campo (CAM_DESCRICAO, CAM_NOME, CAM_OBRIGATORIO, CAM_TIPO, WOR_ID) values ('Solução adotada para correção do problema', 'Solução adotada', 0, 5, (select wor.WOR_ID from wor_workflow wor where wor.wor_nome = 'Gestão de Mudanças'));
 insert into cam_campo (CAM_DESCRICAO, CAM_NOME, CAM_OBRIGATORIO, CAM_TIPO, WOR_ID) values ('Plataforma em que ocorreu o problema', 'Plataforma', 0, 4, (select wor.WOR_ID from wor_workflow wor where wor.wor_nome = 'Gestão de Mudanças'));
 insert into cam_campo (CAM_DESCRICAO, CAM_NOME, CAM_OBRIGATORIO, CAM_TIPO, WOR_ID) values (null, 'Correção imediata', 0, 4, (select wor.WOR_ID from wor_workflow wor where wor.wor_nome = 'Gestão de Mudanças'));
