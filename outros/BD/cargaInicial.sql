@@ -75,6 +75,7 @@ insert into cam_campo (CAM_DESCRICAO, CAM_NOME, CAM_OBRIGATORIO, CAM_TIPO, WOR_I
 insert into cam_campo (CAM_DESCRICAO, CAM_NOME, CAM_OBRIGATORIO, CAM_TIPO, WOR_ID) values ('Solução adotada para correção do problema', 'Solução adotada', 0, 5, (select wor.WOR_ID from wor_workflow wor where wor.wor_nome = 'Gestão de Mudanças'));
 insert into cam_campo (CAM_DESCRICAO, CAM_NOME, CAM_OBRIGATORIO, CAM_TIPO, WOR_ID) values ('Plataforma em que ocorreu o problema', 'Plataforma', 0, 4, (select wor.WOR_ID from wor_workflow wor where wor.wor_nome = 'Gestão de Mudanças'));
 insert into cam_campo (CAM_DESCRICAO, CAM_NOME, CAM_OBRIGATORIO, CAM_TIPO, WOR_ID) values (null, 'Correção imediata', 0, 4, (select wor.WOR_ID from wor_workflow wor where wor.wor_nome = 'Gestão de Mudanças'));
+insert into cam_campo (CAM_DESCRICAO, CAM_NOME, CAM_OBRIGATORIO, CAM_TIPO, WOR_ID) values ('Nagevador(es) onde foi detectado o problema', 'Navegador(es)', 0, 3, (select wor.WOR_ID from wor_workflow wor where wor.wor_nome = 'Gestão de Mudanças'));
 
 insert into opc_opcao_campo (OPC_DESCRICAO, OPC_VALOR, CAM_ID) values ('Feminino', 0, (select cam.cam_id from cam_campo cam where cam.cam_nome = 'Sexo'));
 insert into opc_opcao_campo (OPC_DESCRICAO, OPC_VALOR, CAM_ID) values ('Masculino', 1, (select cam.cam_id from cam_campo cam where cam.cam_nome = 'Sexo'));
@@ -89,6 +90,10 @@ insert into opc_opcao_campo (OPC_DESCRICAO, OPC_VALOR, CAM_ID) values ('Unix', 2
 insert into opc_opcao_campo (OPC_DESCRICAO, OPC_VALOR, CAM_ID) values ('Windows', 3, (select cam.cam_id from cam_campo cam where cam.cam_nome = 'Plataforma'));
 insert into opc_opcao_campo (OPC_DESCRICAO, OPC_VALOR, CAM_ID) values ('Não', 0, (select cam.cam_id from cam_campo cam where cam.cam_nome = 'Correção imediata'));
 insert into opc_opcao_campo (OPC_DESCRICAO, OPC_VALOR, CAM_ID) values ('Sim', 1, (select cam.cam_id from cam_campo cam where cam.cam_nome = 'Correção imediata'));
+insert into opc_opcao_campo (OPC_DESCRICAO, OPC_VALOR, CAM_ID) values ('Internet Explorer', 0, (select cam.cam_id from cam_campo cam where cam.cam_nome = 'Navegador(es)'));
+insert into opc_opcao_campo (OPC_DESCRICAO, OPC_VALOR, CAM_ID) values ('Mozilla Firefox', 1, (select cam.cam_id from cam_campo cam where cam.cam_nome = 'Navegador(es)'));
+insert into opc_opcao_campo (OPC_DESCRICAO, OPC_VALOR, CAM_ID) values ('Google Chrome', 2, (select cam.cam_id from cam_campo cam where cam.cam_nome = 'Navegador(es)'));
+insert into opc_opcao_campo (OPC_DESCRICAO, OPC_VALOR, CAM_ID) values ('Opera', 3, (select cam.cam_id from cam_campo cam where cam.cam_nome = 'Navegador(es)'));
 
 insert into pro_processo (PRO_DESCRICAO, PRO_NOME, PRO_LEFT, PRO_TOP, WOR_ID) values ('Definição Inicial do Projeto', 'Fase 1', 0, 0, (select wor.WOR_ID from wor_workflow wor where wor.wor_nome = 'Nível G MPS.Br'));
 insert into pro_processo (PRO_DESCRICAO, PRO_NOME, PRO_LEFT, PRO_TOP, WOR_ID) values ('Definição de Requisitos', 'Fase 2', 100, 0, (select wor.WOR_ID from wor_workflow wor where wor.wor_nome = 'Nível G MPS.Br'));
