@@ -23,6 +23,11 @@
 	<script type="text/javascript" src="dwr/engine.js"></script>
 	<script type="text/javascript" src="dwr/util.js"></script>
 	
+	<logic:present name="usuarioSessao">
+		<script type="text/javascript" src="dwr/interface/UtilDWR.js"></script>
+		<script type="text/javascript" src="js/util/usuarioSistema.js"></script>
+	</logic:present>
+
 	<script type="text/javascript" src="js/util/oreaculousConfig.js"></script>
 	<script type="text/javascript" src="js/util/oreaculous.js"></script>
 	<script type="text/javascript" src="js/util/utils.js"></script>
@@ -32,11 +37,6 @@
 	<script type="text/javascript" src="js/util/requestUtils.js"></script>
 	<script type="text/javascript" src="js/util/tabelas.js"></script>
 	
-	<logic:present name="usuarioSessao">
-		<script type="text/javascript" src="dwr/interface/UtilDWR.js"></script>
-		<script type="text/javascript" src="js/util/usuarioSistema.js"></script>
-	</logic:present>
-
 	<script type="text/javascript" src="js/configurador_layout.js"></script>
 	
 	<%-- Essas são as constantes que são lidas pelos JS da aplicação --%>

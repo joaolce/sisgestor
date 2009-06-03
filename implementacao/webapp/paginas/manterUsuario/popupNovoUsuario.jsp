@@ -7,7 +7,7 @@
 <html:form action="/manterUsuario.do?method=salvar" onsubmit="usuario.salvar(this); return false;"  styleId="manterUsuarioForm">
 	<fieldset style="margin: 5pt auto; padding: 10px; width: 95%;">
 		<div style="float: left;">
-			<label>
+			<label style="float: left;">
 				<b>
 					<bean:message key="label.login"/>
 					<span class="obrigatorio">*</span>
@@ -15,7 +15,7 @@
 				<br />
 				<html:text property="login" size="11" maxlength="10" />
 			</label> 
-			<label style="float: left; margin-top: 15px;">
+			<label style="float: left; margin-top: 15px; clear: left;">
 				<b>
 					<bean:message key="label.nome"/>
 					<span class="obrigatorio">*</span>
@@ -23,7 +23,7 @@
 				<br />
 				<html:text property="nome" size="51" maxlength="100" />
 			</label> 
-			<div style="width: 60%; margin-top: 15px;">
+			<div style="width: 60%; margin-top: 15px; clear: left;">
 				<label style="float: left; margin-top: inherit;">
 					<b>
 						<bean:message key="label.departamento"/>
@@ -53,7 +53,7 @@
 			</label>
 			<br />
 		</div>
-		<div id="tabPermissoes" style="margin: 6px;" class="divInternoAba">
+		<div id="tabPermissoes" style="float: left; margin-top: 6px; clear: left;">
 			<div style="float: left; margin-right: 5px;">
 				<label class="labelComboTransferencia">
 					<span id="itensPermissoesSelecionadas">
@@ -83,7 +83,7 @@
 					<bean:message key="label.esquerda"/>
 				</html:button>
 			</div>
-			<div>
+			<div style="float: left;">
 				<label class="labelComboTransferencia">
 					<span id="itensPermissoes">
 						<b><bean:message key="label.permissoesDisponiveis"/></b>
