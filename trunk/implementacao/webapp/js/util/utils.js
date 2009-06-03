@@ -1494,34 +1494,30 @@ function filtraCampo(campo) {
  * terminar as requisições feitas por ele, assim é possível controlar o loading do sistema,
  * mostrando ou escondendo. O mesmo é feito para as requisições feitas com a API do prototype
  */
-Event.observe(window, "load", function() {
-	var preHook = function() {
-		loadingFactory.showLoading();
-	};
-	var postHook = function() {
-		loadingFactory.hideLoading();
-	};
-	dwr.util.setEscapeHtml(false);
-	dwr.engine.setPreHook(preHook);
-	dwr.engine.setPostHook(postHook);
-
-
-	dwr.engine.setTextHtmlHandler( function() {
+var preHook = function() {
+	loadingFactory.showLoading();
+};
+var postHook = function() {
+	loadingFactory.hideLoading();
+};
+dwr.engine.setPreHook(preHook);
+dwr.engine.setPostHook(postHook);
+dwr.util.setEscapeHtml(false);
+dwr.engine.setTextHtmlHandler( function() {
+	JanelasComuns.sessaoFinalizada();
+});
+Ajax.Responders.register( {
+   onCreate :preHook,
+   onComplete :postHook
+});
+dwr.engine.setErrorHandler( function(message, ex) {
+	if (ex.name == "org.directwebremoting.extend.AccessDeniedException") {
+		JanelasComuns.showMessage("Acesso não autorizado!", false);
+	} else if (ex.name == "br.com.ucb.sisgestor.apresentacao.dwr.utils.SessionExpiredException") {
 		JanelasComuns.sessaoFinalizada();
-	});
-	Ajax.Responders.register( {
-	   onCreate :preHook,
-	   onComplete :postHook
-	});
-	dwr.engine.setErrorHandler( function(message, ex) {
-		if (ex.name == "org.directwebremoting.extend.AccessDeniedException") {
-			JanelasComuns.showMessage("Acesso não autorizado!", false);
-		} else if (ex.name == "br.com.ucb.sisgestor.apresentacao.dwr.utils.SessionExpiredException") {
-			JanelasComuns.sessaoFinalizada();
-		} else {
-			dwr.engine.defaultErrorHandler(message, ex);
-		}
-	});
+	} else {
+		dwr.engine.defaultErrorHandler(message, ex);
+	}
 });
 
 /**

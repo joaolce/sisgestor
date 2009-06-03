@@ -4,7 +4,7 @@
  * A API disponível para uso está no final do arquivo, após trecho de
  * comentário indicativo.
  *
- * Versão 2.0.1
+ * Versão 2.0.3-SNAPSHOT
  */
 
 /* 
@@ -1408,8 +1408,10 @@ Calendar.prototype.showAtElement = function (el, opts) {
 		var br = Calendar.getAbsolutePos(cp);
 		document.body.removeChild(cp);
 		if (Calendar.is_ie) {
-			br.y += document.body.scrollTop;
-			br.x += document.body.scrollLeft;
+            var top = (document.documentElement && document.documentElement.scrollTop) ? document.documentElement.scrollTop : document.body.scrollTop;
+            var left = (document.documentElement && document.documentElement.scrollLeft) ? document.documentElement.scrollLeft : document.body.scrollLeft;
+			br.y += top;
+			br.x += left;
 		} else {
 			br.y += window.scrollY;
 			br.x += window.scrollX;
