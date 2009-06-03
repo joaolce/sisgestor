@@ -217,7 +217,7 @@ ManterUsuario.prototype = {
 	 */
    popupNovoUsuario : function() {
 	   var url = "manterUsuario.do?method=popupNovoUsuario";
-	   createWindow(430, 550, 280, 40, "Novo Usuário", "divNovoUsuario", url);
+	   createWindow(430, 530, 280, 40, "Novo Usuário", "divNovoUsuario", url);
    },
 
    /**

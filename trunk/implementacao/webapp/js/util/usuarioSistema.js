@@ -1,10 +1,3 @@
-Event.observe(window, "load", function(event) {
-	dwr.engine.setActiveReverseAjax(true);
-	dwr.engine.setAsync(false);
-	UtilDWR.getUser(Usuario.setUsuario.bind(Usuario));
-	dwr.engine.setAsync(true);
-});
-
 /**
  * Recupera o usuário atual do sistema para o javascript. <br />
  * obs: (não é necessário importar nenhum JS na página)
@@ -64,3 +57,8 @@ Usuario = {
 	   }
    }
 };
+
+/* Para garantir que seja a primeira instrução executada. */
+dwr.engine.setAsync(false);
+UtilDWR.getUser(Usuario.setUsuario.bind(Usuario));
+dwr.engine.setAsync(true);

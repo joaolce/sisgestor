@@ -1526,6 +1526,7 @@ dwr.engine.setErrorHandler( function(message, ex) {
 Event.observe(window, "load", function() {
 	Element.show("principal");
 	dwr.util.setValue("tituloTela", getTituloPagina());
+	dwr.engine.setActiveReverseAjax(true);
 });
 var shouldCoverDisplay = true;
 
