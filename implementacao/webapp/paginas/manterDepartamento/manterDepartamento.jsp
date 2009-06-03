@@ -74,7 +74,7 @@
 					<html:text property="sigla" size="11" maxlength="10" />
 				</label> 
 				<br />
-				<label style="margin-top: 3px;">
+				<label style="float: left; margin-top: 3px;">
 					<b>
 						<bean:message key="label.nome"/>
 						<span class="obrigatorio">*</span>
@@ -82,7 +82,7 @@
 					<html:text property="nome" size="51" maxlength="100" />
 				</label> 
 				<br />
-				<label style="margin-top: 3px;">
+				<label style="float: left; margin-top: 3px;">
 					<b><bean:message key="label.departamentoSuperior"/></b>
 					<html:select property="departamentoSuperior" styleId="departamentoSuperior">
 						<html:option value="-1">&nbsp;</html:option>
@@ -90,7 +90,7 @@
 					</html:select>
 				</label>
 				<br />
-				<label style="margin-top: 3px;">
+				<label style="float: left; margin-top: 3px;">
 					<b><bean:message key="label.email"/></b>
 					<html:text property="email" size="51" maxlength="50" />
 				</label> 
