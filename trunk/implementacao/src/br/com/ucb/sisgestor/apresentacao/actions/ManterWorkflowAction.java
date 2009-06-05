@@ -63,7 +63,7 @@ public class ManterWorkflowAction extends BaseAction {
 
 		this.workflowBO.copiar(form.getId());
 
-		this.addMessageKey("mensagem.workflow.copiado");
+		this.addMessageKey("mensagem.workflow.duplicado");
 		return this.sendAJAXResponse(true);
 	}
 
