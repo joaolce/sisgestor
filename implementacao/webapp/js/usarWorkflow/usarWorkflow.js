@@ -113,11 +113,7 @@ UsarWorkflow.prototype = {
    /**
 	 * @constructor
 	 */
-   initialize : function() {
-	   UsarWorkflowDWR.getAcoesHistorico(( function(acoes) {
-		   this.setAcoesHistorico(acoes);
-	   }).bind(this));
-   },
+   initialize : function() {},
 
    /**
 	 * Retorna o form da página de uso.
@@ -243,7 +239,7 @@ UsarWorkflow.prototype = {
 		      maxlength :maxLength
 		   });
 		   observarAlteracao(input, this.aposMudancaEmCampo.bind(this));
-		   if (!usarWorkflow.editarCampos) {
+		   if (!this.editarCampos) {
 			   $(input).disable();
 		   }
 		   if (!isBlankOrNull(mascara)) {
@@ -289,7 +285,7 @@ UsarWorkflow.prototype = {
 			      id :"opcao" + opcao.id
 			   });
 			   observarAlteracao(elementOpcao, this.aposMudancaEmCampo.bind(this));
-			   if (!usarWorkflow.editarCampos) {
+			   if (!this.editarCampos) {
 				   $(elementOpcao).disable();
 			   }
 			   divOpcao.appendChild(elementOpcao);
@@ -562,13 +558,13 @@ UsarWorkflow.prototype = {
 	   // Caso a lista estiver vazia, nem executa
 	   listaCamposUsados.each(( function(campoUsoWorkflow) {
 		   tipoCampo = campoUsoWorkflow.campo.tipo;
-		   if (!usarWorkflow._isListaOpcoesOrMultiplaEscolha(tipoCampo)) {
-			   usarWorkflow._preencherCampo(campoUsoWorkflow.campo.id, campoUsoWorkflow.valor);
+		   if (!this._isListaOpcoesOrMultiplaEscolha(tipoCampo)) {
+			   this._preencherCampo(campoUsoWorkflow.campo.id, campoUsoWorkflow.valor);
 		   } else {
-			   usarWorkflow._preencherCampoComOpcoes(campoUsoWorkflow.campo.id,
-			      campoUsoWorkflow.valor, tipoCampo);
+			   this._preencherCampoComOpcoes(campoUsoWorkflow.campo.id, campoUsoWorkflow.valor,
+			      tipoCampo);
 		   }
-	   }));
+	   }).bind(this));
    },
 
    /**
@@ -592,10 +588,10 @@ UsarWorkflow.prototype = {
    popularHistorico : function(listaHistorico) {
 	   if (Object.isUndefined(listaHistorico)) {
 		   UsarWorkflowDWR.getHistorico($F("idUsoWorkflow"), ( function(historicoAtualizado) {
-			   usarWorkflow._preencherHistorico(historicoAtualizado);
-		   }));
+			   this._preencherHistorico(historicoAtualizado);
+		   }).bind(this));
 	   } else {
-		   usarWorkflow._preencherHistorico(listaHistorico);
+		   this._preencherHistorico(listaHistorico);
 	   }
    },
 
@@ -633,8 +629,7 @@ UsarWorkflow.prototype = {
 	 * @param (Boolean) caso seja para habilitar ou desabilitar
 	 */
    habilitarLinks : function(habilita) {
-	   if (habilita) {
-		   // se habilita os links, então desabilita o de iniciar tarefa
+	   if (habilita) { // se habilita os links, então desabilita o de iniciar tarefa
 		   $("linkIniciarTarefa").className = "btDesativado";
 		   $("linkIniciarTarefa").onclick = Prototype.emptyFunction;
 		   $("linkAnotacoes").className = "";
@@ -656,7 +651,7 @@ UsarWorkflow.prototype = {
    _habilitaLinkProximasTarefas : function(habilita) {
 	   if (habilita && this.podeMudarTarefa) {
 		   $("linkProximasTarefa").className = "";
-		   $("linkProximasTarefa").onclick = this.popupProximasTarefas;
+		   $("linkProximasTarefa").onclick = this.popupProximasTarefas.bind(this);
 	   } else {
 		   $("linkProximasTarefa").className = "btDesativado";
 		   $("linkProximasTarefa").onclick = Prototype.emptyFunction;
@@ -667,7 +662,7 @@ UsarWorkflow.prototype = {
 	 * Habilita o botão para uso da tarefa
 	 */
    habilitarBotaoUsarTarefa : function() {
-	   $("botaoUsarTarefa").onclick = this.usarWorkflow.bind(usarWorkflow);
+	   $("botaoUsarTarefa").onclick = this.usarWorkflow.bind(this);
    },
 
    /**
@@ -680,16 +675,16 @@ UsarWorkflow.prototype = {
 			   requestUtils.valoresDevolvidos.each(( function(data) {
 				   dwr.util.setValue("dataHoraInicioTarefa", data.value);
 			   }));
-			   usarWorkflow.pesquisar();
-			   usarWorkflow.popularHistorico();
-			   usarWorkflow.habilitarCampos();
+			   this.pesquisar();
+			   this.popularHistorico();
+			   this.habilitarCampos();
 			   UsarWorkflowDWR.podeMudarDeTarefa(idUso, ( function(podeMudar) {
 				   this.podeMudarTarefa = podeMudar;
 				   this.habilitarLinks(true);
-			   }).bind(usarWorkflow));
-			   usarWorkflow._adicionarLinksDatas();
+			   }).bind(this));
+			   this._adicionarLinksDatas();
 		   }
-	   }));
+	   }).bind(this));
    },
 
    /**
@@ -724,6 +719,13 @@ UsarWorkflow.prototype = {
 	 */
    getDescricaoAcao : function(acao) {
 	   var acaoOcorrida;
+	   if (this.acoesHistorico == null) {
+		   dwr.engine.setAsync(false);
+		   UsarWorkflowDWR.getAcoesHistorico(( function(acoes) {
+			   this.setAcoesHistorico(acoes);
+		   }).bind(this));
+		   dwr.engine.setAsync(true);
+	   }
 	   this.acoesHistorico.each(( function(acaoHistorico) {
 		   if (acaoHistorico[1] == acao) { // verifica pelo name da enum
 			   acaoOcorrida = acaoHistorico[2];
@@ -794,8 +796,8 @@ UsarWorkflow.prototype = {
 	 *         se for texto, data ou hora
 	 */
    _isListaOpcoesOrMultiplaEscolha : function(tipoCampo) {
-	   if ((tipoCampo == usarWorkflow.tipoTexto) || (tipoCampo == usarWorkflow.tipoData)
-	      || (tipoCampo == usarWorkflow.tipoHora)) {
+	   if ((tipoCampo == this.tipoTexto) || (tipoCampo == this.tipoData)
+	      || (tipoCampo == this.tipoHora)) {
 		   return false;
 	   }
 	   return true;
@@ -826,7 +828,7 @@ UsarWorkflow.prototype = {
 	 * Obs.: Nesse caso, o valor do campo conterá quais opções deverão estar marcadas (checked)
 	 */
    _preencherCampoComOpcoes : function(idCampo, valor, tipoCampo) {
-	   if (tipoCampo == usarWorkflow.tipoOpcoes) {
+	   if (tipoCampo == this.tipoOpcoes) {
 		   $("tabCampos").select("input[type=\"checkbox\"]").each( function(input) {
 			   // Se o valor do campo está contido em algum value do input, deve ser setado
 			   if (((parseInt($(input).name.substring(5))) == idCampo) // retira o "campo" do name

@@ -17,9 +17,7 @@ var RegistrosFinalizados = Class.create(UsarWorkflow, {
    /**
 	 * @constructor
 	 */
-   initialize : function($super, acoesHistorico) {
-	   this.acoesHistorico = acoesHistorico;
-   },
+   initialize : function($super) {},
 
    /**
 	 * Retorna a tabela da tela inicial.
@@ -112,9 +110,10 @@ var RegistrosFinalizados = Class.create(UsarWorkflow, {
 		      usoWorkflow.camposUsados);
 	   }).bind(this));
    },
-   
+
    /**
 	 * Abre popup com anotações do uso do workflow.
+	 * 
 	 * @override
 	 */
    popupAnotacoes : function() {
@@ -124,7 +123,7 @@ var RegistrosFinalizados = Class.create(UsarWorkflow, {
 		   $("anotacao").disable();
 	   }).bind(this));
    },
-   
+
    /**
 	 * Habilita o botão para visualizar o registro.
 	 */
@@ -147,5 +146,4 @@ var RegistrosFinalizados = Class.create(UsarWorkflow, {
    }
 });
 
-// passando as ações do histórico para não executar chamada novamente ao servidor
-usarWorkflow = new RegistrosFinalizados(usarWorkflow.acoesHistorico);
+usarWorkflow = new RegistrosFinalizados();
