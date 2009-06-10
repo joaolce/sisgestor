@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+		"-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+		"http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+	<!-- DEFINIÇÕES PRINCIPAIS -->
+	<definition name="definicaoPrincipal" path="/paginas/definicaoPrincipal.jsp">
+		<put name="titulo">SisGestor - Sistema Gerenciador de Workflow</put>
+		<put name="topo">/paginas/topo.jsp</put>
+		<put name="menu">/paginas/menu.jsp</put>
+		<put name="corpo">/paginas/principal/principal.jsp</put>
+	</definition>
+	
+	<!-- PÁGINAS AUXILIARES -->
+	<definition name="erro" extends="definicaoPrincipal">
+		<put name="titulo">Falha da aplicação</put>
+		<put name="corpo">/paginas/auxilio/erro.jsp</put>
+	</definition>
+	<definition name="erroValidacao" extends="definicaoPrincipal">
+		<put name="titulo">Resultado da operação</put>
+		<put name="corpo">/paginas/auxilio/erroValidacao.jsp</put>
+	</definition>
+	
+	<!--  MANTER DEPARTAMENTO-->
+	<definition name="definicaoManterDepartamento" extends="definicaoPrincipal">
+		<put name="corpo">/paginas/manterDepartamento/manterDepartamento.jsp</put>
+		<put name="titulo">Manter Departamento</put>
+	</definition>
+	<definition name="popupNovoDepartamento" path="/paginas/manterDepartamento/popupNovoDepartamento.jsp" />
+
+	<!--  MANTER USUARIO -->
+	<definition name="definicaoManterUsuario" extends="definicaoPrincipal">
+		<put name="corpo">/paginas/manterUsuario/manterUsuario.jsp</put>
+		<put name="titulo">Manter Usuário</put>
+	</definition>
+	<definition name="popupNovoUsuario" path="/paginas/manterUsuario/popupNovoUsuario.jsp" />
+	<definition name="popupEditarSenha" path="/paginas/manterUsuario/popupEditarSenha.jsp" />
+	
+	<!--  MANTER WORKFLOW -->
+	<definition name="definicaoManterWorkflow" extends="definicaoPrincipal">
+		<put name="corpo">/paginas/manterWorkflow/manterWorkflow.jsp</put>
+		<put name="titulo">Manter Workflow</put>
+	</definition>
+	<definition name="popupNovoWorkflow" path="/paginas/manterWorkflow/popupNovoWorkflow.jsp" />
+	
+	<!--  USAR WORKFLOW -->
+	<definition name="definicaoUsarWorkflow" extends="definicaoPrincipal">
+		<put name="corpo">/paginas/usarWorkflow/usarWorkflow.jsp</put>
+		<put name="titulo">Registros Ativos</put>
+	</definition>
+	<definition name="definicaoUsarWorkflowFinalizados" extends="definicaoPrincipal">
+		<put name="corpo">/paginas/usarWorkflow/registrosFinalizados.jsp</put>
+		<put name="titulo">Registros Finalizados</put>
+	</definition>
+	<definition name="popupIniciarWorkflow" path="/paginas/usarWorkflow/popupIniciarWorkflow.jsp"/>
+	<definition name="popupUsoWorkflow" path="/paginas/usarWorkflow/usoWorkflow/popupUsoWorkflow.jsp"/>
+	<definition name="includeTabCamposWorkflow" path="/paginas/usarWorkflow/usoWorkflow/tabCamposWorkflow.jsp"/>
+	<definition name="includeTabHistoricoWorkflow" path="/paginas/usarWorkflow/usoWorkflow/tabHistoricoWorkflow.jsp"/>
+	<definition name="popupProximasTarefas" path="/paginas/usarWorkflow/usoWorkflow/popupProximasTarefas.jsp"/>
+	<definition name="popupAnotacao" path="/paginas/usarWorkflow/usoWorkflow/popupAnotacao.jsp"/>
+
+	<!-- ANEXOS DO USAR WORKFLOW -->
+	<definition name="definicaoAnexoUsoWorkflow" path="/paginas/usarWorkflow/usoWorkflow/anexos/popupVisualizarAnexos.jsp"/>
+	<definition name="includePopupInserirAnexo" path="/paginas/usarWorkflow/usoWorkflow/anexos/popupInserirAnexo.jsp" />
+	<definition name="includeIframeInserirAnexo" path="/paginas/usarWorkflow/usoWorkflow/anexos/anexoFrame.jsp" />
+	<definition name="includeIframeResultadoAnexo" path="/paginas/usarWorkflow/usoWorkflow/anexos/resultadoAnexo.jsp" />
+	
+	<!--  MANTER PROCESSO -->
+	<definition name="definicaoManterProcesso" path="/paginas/manterProcesso/manterProcesso.jsp" />
+	<definition name="popupNovoProcesso" path="/paginas/manterProcesso/popupNovoProcesso.jsp" />
+	<definition name="popupDefinirFluxoProcessos" path="/paginas/manterProcesso/popupDefinirFluxo.jsp" />
+	
+	<!--  MANTER ATIVIDADE -->
+	<definition name="definicaoManterAtividade" path="/paginas/manterAtividade/manterAtividade.jsp" />
+	<definition name="popupNovaAtividade" path="/paginas/manterAtividade/popupNovaAtividade.jsp" />
+	<definition name="popupDefinirFluxoAtividades" path="/paginas/manterAtividade/popupDefinirFluxo.jsp" />
+	
+	<!--  MANTER TAREFA -->
+	<definition name="definicaoManterTarefa" path="/paginas/manterTarefa/manterTarefa.jsp" />
+	<definition name="popupNovaTarefa" path="/paginas/manterTarefa/popupNovaTarefa.jsp" />
+	<definition name="popupDefinirFluxoTarefas" path="/paginas/manterTarefa/popupDefinirFluxo.jsp" />
+	
+	<!--  MANTER CAMPO -->
+	<definition name="definicaoManterCampo" path="/paginas/manterCampo/manterCampo.jsp" />
+	<definition name="popupNovoCampo" path="/paginas/manterCampo/popupNovoCampo.jsp" />
+	
+</tiles-definitions>
