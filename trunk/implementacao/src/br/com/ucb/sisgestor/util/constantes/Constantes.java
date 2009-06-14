@@ -20,7 +20,7 @@ public final class Constantes {
 	/** Data da versão atual do sistema. */
 	public static final String		VERSAO_DATA								=
 																								DataUtil.utilDateToString(DataUtil
-																										.getDate(13, 6, 2009));
+																										.getDate(17, 6, 2009));
 
 	/** Remetente de emails do sisgestor. */
 	public static final String		REMETENTE_EMAIL_SISGESTOR			= "sisgestor@sisgestor.com";
