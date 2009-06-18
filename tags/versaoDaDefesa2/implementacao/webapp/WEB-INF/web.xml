@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<display-name>SisGestor - Sistema Gerenciador de Workflow</display-name>
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<filter>
+		<filter-name>springOSIV</filter-name>
+		<filter-class>br.com.ucb.sisgestor.util.hibernate.HibernateFilter</filter-class>
+		<init-param>
+			<param-name>sessionFactoryBeanName</param-name>
+			<param-value>hbnSessionFactory</param-value>
+		</init-param>
+	</filter>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>WEB-INF/applicationContext.xml</param-value>
+	</context-param>
+
+	<filter-mapping>
+		<filter-name>springOSIV</filter-name>
+		<servlet-name>dwr-invoker</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>springOSIV</filter-name>
+		<servlet-name>action</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>springOSIV</filter-name>
+		<servlet-name>LoginServlet</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>springOSIV</filter-name>
+		<servlet-name>ConstantesJSServlet</servlet-name>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+		<init-param>
+			<param-name>chainConfig</param-name>
+			<param-value>org/apache/struts/tiles/chain-config.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>dwr-invoker</servlet-name>
+		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+		<init-param>
+			<param-name>org.directwebremoting.extend.AccessControl</param-name>
+			<param-value>br.com.ucb.sisgestor.apresentacao.dwr.utils.ControleAcessoDWR</param-value>
+		</init-param>
+		<init-param>
+			<param-name>activeReverseAjaxEnabled</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>org.directwebremoting.extend.ServerLoadMonitor</param-name>
+			<param-value>br.com.ucb.sisgestor.apresentacao.dwr.utils.ReverseAjaxServerLoadMonitor</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>br.com.ucb.sisgestor.apresentacao.login.LoginServlet</servlet-class>
+		<load-on-startup>3</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>ConstantesJSServlet</servlet-name>
+		<servlet-class>br.com.ucb.sisgestor.apresentacao.servlets.ConstantesJSServlet</servlet-class>
+		<load-on-startup>4</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/dologin</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>ConstantesJSServlet</servlet-name>
+		<url-pattern>/constantesJS</url-pattern>
+	</servlet-mapping>
+
+	<session-config>
+		<session-timeout>10</session-timeout>
+	</session-config>
+
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<realm-name>jbossmq</realm-name>
+		<form-login-config>
+			<form-login-page>/dologin</form-login-page>
+			<form-error-page>/dologin?loginerror=1</form-error-page>
+		</form-login-config>
+	</login-config>
+
+	<!-- Páginas de erro -->
+	<error-page>
+		<error-code>400</error-code>
+		<location>/index.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/dologin?erro=403</location>
+	</error-page>
+	<error-page>
+		<error-code>405</error-code>
+		<location>/dologin?erro=405</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/principal.do?method=erro</location>
+	</error-page>
+
+	<security-constraint>
+		<display-name>Proteção de recursos internos</display-name>
+		<web-resource-collection>
+			<web-resource-name>recursos_visuais</web-resource-name>
+			<description>proteger páginas jsp e os relatórios de acesso direto</description>
+			<url-pattern>/paginas/*</url-pattern>
+			<url-pattern>/relatorios/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint />
+	</security-constraint>
+
+	<security-constraint>
+		<display-name>Autenticação SisGestor</display-name>
+		<web-resource-collection>
+			<web-resource-name>autenticacao</web-resource-name>
+			<description>Autenticação SisGestor</description>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>1</role-name>
+		</auth-constraint>
+		<user-data-constraint>
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<display-name>Irrestrito</display-name>
+		<web-resource-collection>
+			<web-resource-name>irrestrito</web-resource-name>
+			<description>Acesso Irrestrito</description>
+			<url-pattern>/css/*</url-pattern>
+			<url-pattern>/imagens/*</url-pattern>
+			<url-pattern>/dologin</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+
+	<security-constraint>
+		<display-name>Extrair Relatório</display-name>
+		<web-resource-collection>
+			<web-resource-name>Extrair_Relatorio</web-resource-name>
+			<description>Extração de Relatórios do SisGestor</description>
+			<url-pattern>/extrairRelatorio.do</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>7</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-role>
+		<description>Permissão mínima para acessar o SisGestor</description>
+		<role-name>1</role-name>
+	</security-role>
+
+	<security-role>
+		<description>Manter Departamento</description>
+		<role-name>2</role-name>
+	</security-role>
+
+	<security-role>
+		<description>Manter Usuário</description>
+		<role-name>3</role-name>
+	</security-role>
+
+	<security-role>
+		<description>Manter Workflow</description>
+		<role-name>4</role-name>
+	</security-role>
+
+	<security-role>
+		<description>Usar Workflow</description>
+		<role-name>5</role-name>
+	</security-role>
+
+	<security-role>
+		<description>Anexar Arquivos</description>
+		<role-name>6</role-name>
+	</security-role>
+
+	<security-role>
+		<description>Extrair Relatório</description>
+		<role-name>7</role-name>
+	</security-role>
+
+	<resource-ref>
+		<description>SisGestorDB</description>
+		<res-ref-name>jdbc/SisGestorDB</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+		<res-sharing-scope>Shareable</res-sharing-scope>
+	</resource-ref>
+</web-app>

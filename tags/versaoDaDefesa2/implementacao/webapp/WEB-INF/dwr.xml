@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC 
+	"-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" 
+	"http://www.getahead.ltd.uk/dwr/dwr20.dtd">
+
+<dwr>
+	<allow>
+	
+		<!-- Criando classes DWR -->
+		<create javascript="ManterAtividadeDWR" creator="new">
+			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterAtividadeDWR" />
+		</create>
+		<create javascript="ManterCampoDWR" creator="new">
+			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterCampoDWR" />
+		</create>
+		<create javascript="ManterDepartamentoDWR" creator="new">
+			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterDepartamentoDWR" />
+		</create>
+		<create javascript="ManterProcessoDWR" creator="new">
+			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterProcessoDWR" />
+		</create>
+		<create javascript="ManterTarefaDWR" creator="new">
+			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterTarefaDWR" />
+		</create>
+		<create javascript="ManterUsuarioDWR" creator="new">
+			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterUsuarioDWR" />
+		</create>
+		<create javascript="ManterWorkflowDWR" creator="new">
+			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.ManterWorkflowDWR" />
+		</create>
+		<create javascript="UsarWorkflowDWR" creator="new">
+			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.UsarWorkflowDWR" />
+		</create>
+		<create javascript="UtilDWR" creator="new">
+			<param name="class"	value="br.com.ucb.sisgestor.apresentacao.dwr.UtilDWR" />
+		</create>
+	
+		<!-- Convertendo Exceções -->
+		<convert match="br.com.ucb.sisgestor.apresentacao.dwr.utils.SessionExpiredException" converter="exception" />
+		<convert match="org.directwebremoting.extend.AccessDeniedException" converter="exception" />
+		
+		<!-- Convertendo Forms e DTO -->
+		<convert match="br.com.ucb.sisgestor.util.dto.ListaResultadoDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaManterAtividadeDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaManterCampoDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaManterDepartamentoDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaManterProcessoDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaManterTarefaDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaManterUsuarioDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaManterWorkflowDTO" converter="bean" />
+		<convert match="br.com.ucb.sisgestor.util.dto.PesquisaUsarWorkflowDTO" converter="bean" />
+		
+		<!-- Convertendo Entidades -->
+		<convert match="br.com.ucb.sisgestor.entidade.Anexo"			 	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Atividade"		 	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Campo"			 	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.CampoUsoWorkflow"	 	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Departamento" 	 	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.HistoricoUsoWorkflow"	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Permissao"		 	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.OpcaoCampo"		 	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Processo"			 	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Tarefa"			 	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.TransacaoAtividade" 	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.TransacaoTarefa" 		converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.TransacaoProcesso" 	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.UsoWorkflow"			converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Usuario" 			 	converter="hibernate3" />
+		<convert match="br.com.ucb.sisgestor.entidade.Workflow"			 	converter="hibernate3" />
+
+		<!-- Convertendo as enums -->
+		<convert match="br.com.ucb.sisgestor.entidade.TipoCampoEnum" converter="enum" />
+		<convert match="br.com.ucb.sisgestor.entidade.TipoAcaoEnum" converter="enum" />
+	</allow>
+</dwr>

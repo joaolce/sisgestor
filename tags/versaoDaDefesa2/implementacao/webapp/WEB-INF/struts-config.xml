@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+	<description>Configurações gerais - struts framework</description>
+	
+	<form-beans>
+		<form-bean name="anexoUsoWorkflowForm" type="br.com.ucb.sisgestor.apresentacao.forms.AnexoUsoWorkflowActionForm" />
+		<form-bean name="manterDepartamentoForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterDepartamentoActionForm" />
+		<form-bean name="manterUsuarioForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterUsuarioActionForm" />
+		<form-bean name="manterWorkflowForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterWorkflowActionForm" />
+		<form-bean name="manterProcessoForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterProcessoActionForm" />
+		<form-bean name="manterAtividadeForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterAtividadeActionForm" />
+		<form-bean name="manterTarefaForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterTarefaActionForm" />
+		<form-bean name="manterCampoForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterCampoActionForm" />
+		<form-bean name="usarWorkflowForm" type="br.com.ucb.sisgestor.apresentacao.forms.UsarWorkflowActionForm" />
+	</form-beans>
+
+	<global-exceptions>
+		<exception key="label.exceptionDefault" 
+			   type="java.lang.Exception" 
+			   handler="org.apache.struts.action.ExceptionHandler" 
+			   path="erro" />
+	</global-exceptions>
+
+	<global-forwards>
+		<forward name="erro" path="erro" />
+		<forward name="acessoNegado" path="/dologin?erro=403" />
+		<forward name="erroValidacao" path="erroValidacao"/>
+	</global-forwards>
+
+	<action-mappings>
+		<!-- Principal -->
+		<action path="/principal" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.PrincipalAction"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoPrincipal" />
+		</action>
+		
+		<!-- Manter Departamento -->
+		<action path="/manterDepartamento" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction"
+			name="manterDepartamentoForm"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoManterDepartamento" />
+			<forward name="popupNovoDepartamento" path="popupNovoDepartamento" />
+		</action>
+		
+		<!-- Manter Usuário -->
+		<action path="/manterUsuario" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction"
+			name="manterUsuarioForm"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoManterUsuario" />
+			<forward name="popupNovoUsuario" path="popupNovoUsuario" />
+			<forward name="popupEditarSenha" path="popupEditarSenha" />
+		</action>
+		
+		<!-- Manter Workflow -->
+		<action path="/manterWorkflow" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.ManterWorkflowAction"
+			name="manterWorkflowForm"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoManterWorkflow" />
+			<forward name="popupNovoWorkflow" path="popupNovoWorkflow" />
+		</action>
+		
+		<!-- Usar Workflow -->
+		<action path="/usarWorkflow" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.UsarWorkflowAction"
+			name="usarWorkflowForm"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoUsarWorkflow" />
+			<forward name="entradaFinalizados" path="definicaoUsarWorkflowFinalizados" />
+			<forward name="popupIniciarWorkflow" path="popupIniciarWorkflow" />
+			<forward name="popupUsoWorkflow" path="popupUsoWorkflow" />
+			<forward name="popupProximasTarefas" path="popupProximasTarefas" />
+			<forward name="popupAnotacao" path="popupAnotacao" />
+		</action>
+		
+		<!-- Anexos do Usar Workflow -->
+		<action path="/anexoUsoWorkflow" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.AnexoUsoWorkflowAction"
+			name="anexoUsoWorkflowForm"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoAnexoUsoWorkflow" />
+			<forward name="popupInserirAnexo" path="includePopupInserirAnexo" />
+			<forward name="iframeAnexos" path="includeIframeInserirAnexo" />
+			<forward name="resultadoAnexo" path="includeIframeResultadoAnexo" redirect="true"/>
+		</action>
+		
+		<!-- Manter Processo -->
+		<action path="/manterProcesso" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.ManterProcessoAction"
+			name="manterProcessoForm"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoManterProcesso" />
+			<forward name="popupNovoProcesso" path="popupNovoProcesso" />
+			<forward name="popupDefinirFluxoProcessos" path="popupDefinirFluxoProcessos" />
+		</action>
+		
+		<!-- Manter Atividade -->
+		<action path="/manterAtividade" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.ManterAtividadeAction"
+			name="manterAtividadeForm"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoManterAtividade" />
+			<forward name="popupNovaAtividade" path="popupNovaAtividade" />
+			<forward name="popupDefinirFluxoAtividades" path="popupDefinirFluxoAtividades" />
+		</action>
+		
+		<!-- Manter Tarefa -->
+		<action path="/manterTarefa" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.ManterTarefaAction"
+			name="manterTarefaForm"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoManterTarefa" />
+			<forward name="popupNovaTarefa" path="popupNovaTarefa" />
+			<forward name="popupDefinirFluxoTarefas" path="popupDefinirFluxoTarefas" />
+		</action>
+		
+		<!-- Manter Campo -->
+		<action path="/manterCampo" 
+			type="br.com.ucb.sisgestor.apresentacao.actions.ManterCampoAction"
+			name="manterCampoForm"
+			validate="false" 
+			scope="request"
+			parameter="method">
+			<forward name="entrada" path="definicaoManterCampo" />
+			<forward name="popupNovoCampo" path="popupNovoCampo" />
+		</action>
+	</action-mappings>
+
+	<controller maxFileSize="10M" processorClass="org.apache.struts.tiles.TilesRequestProcessor" />
+	<message-resources parameter="sisgestor" />
+
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />
+		<set-property property="definitions-debug" value="0" />
+	</plug-in>
+
+	<plug-in className="net.sf.navigator.menu.MenuPlugIn">
+		<set-property property="menuConfig" value="/WEB-INF/menu-config.xml" />
+	</plug-in>
+</struts-config>
