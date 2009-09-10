@@ -27,13 +27,13 @@ import org.apache.commons.logging.LogFactory;
  */
 public class Email {
 
-	private static final Properties	configuracao	= new Properties();
-	private static final String		properties		= "settings.properties";
-	private static Session				session;
-	private static final Log			LOG				= LogFactory.getLog(Email.class);
+	private static Properties configuracao = new Properties();
+	private static String properties = "settings.properties";
+	private static Session session;
+	private static final Log LOG = LogFactory.getLog(Email.class);
 
-	private MimeMessage					message;
-	private Multipart						msg;
+	private MimeMessage message;
+	private Multipart msg;
 
 	static {
 		InputStream resourceAsStream = Email.class.getResourceAsStream(properties);
@@ -41,7 +41,7 @@ public class Email {
 			configuracao.load(resourceAsStream);
 			//utilizando session a partir do jndi do jboss
 			session = Session.class.cast(new InitialContext().lookup("java:/Mail"));
-			//		session = Session.getDefaultInstance(configuracao);
+			//session = Session.getDefaultInstance(configuracao);
 		} catch (Exception e) {
 			LOG.error(e); //NOPMD by João Lúcio - apenas para logar
 		}

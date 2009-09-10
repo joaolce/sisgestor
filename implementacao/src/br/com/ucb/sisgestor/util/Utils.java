@@ -53,10 +53,10 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  */
 public final class Utils {
 
-	private static MessageResources				resources;
-	private static ServletContext					contexto;
-	private static final ThreadLocal<Usuario>	usuario	= new ThreadLocal<Usuario>();
-	private static final Log						LOG		= LogFactory.getLog(Utils.class);
+	private static MessageResources resources;
+	private static ServletContext contexto;
+	private static ThreadLocal<Usuario> threadUsuario = new ThreadLocal<Usuario>();
+	private static final Log LOG = LogFactory.getLog(Utils.class);
 
 	/**
 	 * Construtor privado (classe utilitária).
@@ -196,7 +196,7 @@ public final class Utils {
 				//o valor de origem para ser copiado deverá estar preenchido
 				Object valorOrigem = PropertyUtils.getProperty(origem, descriptorOrigem.getName());
 
-				//================== CONVERSOR DE DATAS ==================  
+				// ================== CONVERSOR DE DATAS ==================
 
 				//isso é feito porque a propriedade destino sempre está nula e quando é nula não passa no instanceof
 				boolean eUmaData =
@@ -221,7 +221,7 @@ public final class Utils {
 					continue;
 				}
 
-				// ================== ASSOCIAÇÕES ================== 
+				// ================== ASSOCIAÇÕES ==================
 				boolean ehUmObjetoPersistente = false;
 				//verificar se o tipo da propriedade é um ObjetoPersistente
 				Class<?> superclass = propertyType;
@@ -488,7 +488,7 @@ public final class Utils {
 	 * @return usuário logado no sistema
 	 */
 	public static Usuario getUsuario() {
-		return usuario.get();
+		return threadUsuario.get();
 	}
 
 	/**
@@ -656,7 +656,7 @@ public final class Utils {
 	 * @return <code>true</code> caso sejam iguais, <code>false</code> caso contrário
 	 */
 	public static boolean isEqual(Object o1, Object o2) { //NOPMD by João Lúcio - não dá para quebrar
-		if (((o1 instanceof Collection) ^ (o2 instanceof Collection))
+		if (((o1 instanceof Collection<?>) ^ (o2 instanceof Collection<?>))
 				&& (((o1 != null) && ((Collection<?>) o1).isEmpty() && (o2 == null)) || ((o2 != null)
 						&& ((Collection<?>) o2).isEmpty() && (o1 == null)))) {
 			return true;
@@ -672,7 +672,7 @@ public final class Utils {
 			String str2 = (String) o2;
 			return str1.trim().equals(str2.trim());
 		}
-		if (o2 instanceof Collection) {
+		if (o2 instanceof Collection<?>) {
 			Collection<?> colecao2 = (Collection<?>) o2;
 			Collection<?> colecao1 = (Collection<?>) o1;
 			return (colecao2).containsAll(colecao1) && (colecao1.size() == colecao2.size());
@@ -855,7 +855,7 @@ public final class Utils {
 	 * @param usuario usuário logado
 	 */
 	public static void setUsuario(Usuario usuario) {
-		Utils.usuario.set(usuario);
+		Utils.threadUsuario.set(usuario);
 	}
 
 	/**

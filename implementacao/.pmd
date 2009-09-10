@@ -3,4 +3,5 @@
     <useProjectRuleSet>true</useProjectRuleSet>
     <ruleSetFile>.ruleset</ruleSetFile>
     <includeDerivedFiles>false</includeDerivedFiles>
+    <violationsAsErrors>true</violationsAsErrors>
 </pmd>

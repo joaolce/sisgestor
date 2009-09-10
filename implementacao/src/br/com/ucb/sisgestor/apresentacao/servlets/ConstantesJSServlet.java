@@ -26,8 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 public class ConstantesJSServlet extends HttpServlet {
 
 	/** Mapa de constantes utilizadas nos JavaScripts */
-	private static Map<String, Object>	constantes	= new HashMap<String, Object>();
-	private static String					javascript;
+	private static Map<String, Object> constantes = new HashMap<String, Object>();
+	private static String javascript;
 
 	static {
 		constantes.put("PERMISSAO_MINIMA", ConstantesRoles.PERMISSAO_MINIMA);
@@ -54,8 +54,7 @@ public class ConstantesJSServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
 		if (javascript == null) {
-			StringBuffer script =
-					new StringBuffer("<!--Constantes utilizadas pelos JS-->\n<script type=\"text/javascript\">\n");
+			StringBuffer script = new StringBuffer("//Constantes utilizadas pelos JS\n");
 			for (String key : constantes.keySet()) {
 				Object valor = constantes.get(key);
 				script.append("var ");
@@ -76,9 +75,9 @@ public class ConstantesJSServlet extends HttpServlet {
 				}
 				script.append(";\r\n");
 			}
-			script.append("</script>");
 			javascript = script.toString();
 		}
+		response.setContentType("text/javascript");
 		response.getWriter().write(javascript);
 	}
 

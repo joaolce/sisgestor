@@ -26,8 +26,8 @@ import org.dom4j.io.SAXReader;
  */
 public class ValidatorReader {
 
-	private static final Log						LOG				= LogFactory.getLog(ValidatorReader.class);
-	private static final Map<String, String>	validatorMap	= new TreeMap<String, String>();
+	private static final Log LOG = LogFactory.getLog(ValidatorReader.class);
+	private static Map<String, String> validatorMap = new TreeMap<String, String>();
 
 	static {
 		try {
