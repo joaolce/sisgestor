@@ -39,8 +39,9 @@
 	
 	<script type="text/javascript" src="js/configurador_layout.js"></script>
 	
-	<%-- Essas são as constantes que são lidas pelos JS da aplicação --%>
-	<jsp:include page="/constantesJS" flush="true"/>
+	<%-- Essas são as constantes que são lidas pelos JS da aplicação e 
+	são geradas por um servlet, não adianta procurar pelo nome. ver web.xml --%>
+	<script type="text/javascript" src="constantesJS.js"></script>
 </head>
 <body>
 	<tiles:insert attribute="topo"/>

@@ -27,8 +27,8 @@ import org.dom4j.io.SAXReader;
  */
 public class RoleValidatorReader {
 
-	private static final Log						LOG					= LogFactory.getLog(RoleValidatorReader.class);
-	private static final Map<String, String>	roleValidatorMap	= new TreeMap<String, String>();
+	private static final Log LOG = LogFactory.getLog(RoleValidatorReader.class);
+	private static Map<String, String> roleValidatorMap = new TreeMap<String, String>();
 
 	static {
 		try {

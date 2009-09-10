@@ -20,8 +20,8 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
  */
 public class JasperDataSource implements JRDataSource {
 
-	private List<? extends Object>	dado;
-	private int								index;
+	private List<? extends Object> dado;
+	private int index;
 
 	/**
 	 * Cria uma nova instância do tipo JasperDataSource
@@ -54,7 +54,7 @@ public class JasperDataSource implements JRDataSource {
 
 			valor = metodo.invoke(obj);
 
-			if (valor instanceof Collection) {
+			if (valor instanceof Collection<?>) {
 				//utilizado caso o dado seja para um subrelatório
 				valor = new JRBeanCollectionDataSource((Collection<?>) valor);
 			}
