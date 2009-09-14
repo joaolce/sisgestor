@@ -7,15 +7,15 @@
 	<description>Configurações gerais - struts framework</description>
 	
 	<form-beans>
-		<form-bean name="anexoUsoWorkflowForm" type="br.com.ucb.sisgestor.apresentacao.forms.AnexoUsoWorkflowActionForm" />
-		<form-bean name="manterDepartamentoForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterDepartamentoActionForm" />
-		<form-bean name="manterUsuarioForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterUsuarioActionForm" />
-		<form-bean name="manterWorkflowForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterWorkflowActionForm" />
-		<form-bean name="manterProcessoForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterProcessoActionForm" />
-		<form-bean name="manterAtividadeForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterAtividadeActionForm" />
-		<form-bean name="manterTarefaForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterTarefaActionForm" />
-		<form-bean name="manterCampoForm" type="br.com.ucb.sisgestor.apresentacao.forms.ManterCampoActionForm" />
-		<form-bean name="usarWorkflowForm" type="br.com.ucb.sisgestor.apresentacao.forms.UsarWorkflowActionForm" />
+		<form-bean name="anexoUsoWorkflowForm" type="br.com.sisgestor.apresentacao.forms.AnexoUsoWorkflowActionForm" />
+		<form-bean name="manterDepartamentoForm" type="br.com.sisgestor.apresentacao.forms.ManterDepartamentoActionForm" />
+		<form-bean name="manterUsuarioForm" type="br.com.sisgestor.apresentacao.forms.ManterUsuarioActionForm" />
+		<form-bean name="manterWorkflowForm" type="br.com.sisgestor.apresentacao.forms.ManterWorkflowActionForm" />
+		<form-bean name="manterProcessoForm" type="br.com.sisgestor.apresentacao.forms.ManterProcessoActionForm" />
+		<form-bean name="manterAtividadeForm" type="br.com.sisgestor.apresentacao.forms.ManterAtividadeActionForm" />
+		<form-bean name="manterTarefaForm" type="br.com.sisgestor.apresentacao.forms.ManterTarefaActionForm" />
+		<form-bean name="manterCampoForm" type="br.com.sisgestor.apresentacao.forms.ManterCampoActionForm" />
+		<form-bean name="usarWorkflowForm" type="br.com.sisgestor.apresentacao.forms.UsarWorkflowActionForm" />
 	</form-beans>
 
 	<global-exceptions>
@@ -34,7 +34,7 @@
 	<action-mappings>
 		<!-- Principal -->
 		<action path="/principal" 
-			type="br.com.ucb.sisgestor.apresentacao.actions.PrincipalAction"
+			type="br.com.sisgestor.apresentacao.actions.PrincipalAction"
 			validate="false" 
 			scope="request"
 			parameter="method">
@@ -43,7 +43,7 @@
 		
 		<!-- Manter Departamento -->
 		<action path="/manterDepartamento" 
-			type="br.com.ucb.sisgestor.apresentacao.actions.ManterDepartamentoAction"
+			type="br.com.sisgestor.apresentacao.actions.ManterDepartamentoAction"
 			name="manterDepartamentoForm"
 			validate="false" 
 			scope="request"
@@ -54,7 +54,7 @@
 		
 		<!-- Manter Usuário -->
 		<action path="/manterUsuario" 
-			type="br.com.ucb.sisgestor.apresentacao.actions.ManterUsuarioAction"
+			type="br.com.sisgestor.apresentacao.actions.ManterUsuarioAction"
 			name="manterUsuarioForm"
 			validate="false" 
 			scope="request"
@@ -66,7 +66,7 @@
 		
 		<!-- Manter Workflow -->
 		<action path="/manterWorkflow" 
-			type="br.com.ucb.sisgestor.apresentacao.actions.ManterWorkflowAction"
+			type="br.com.sisgestor.apresentacao.actions.ManterWorkflowAction"
 			name="manterWorkflowForm"
 			validate="false" 
 			scope="request"
@@ -77,7 +77,7 @@
 		
 		<!-- Usar Workflow -->
 		<action path="/usarWorkflow" 
-			type="br.com.ucb.sisgestor.apresentacao.actions.UsarWorkflowAction"
+			type="br.com.sisgestor.apresentacao.actions.UsarWorkflowAction"
 			name="usarWorkflowForm"
 			validate="false" 
 			scope="request"
@@ -92,7 +92,7 @@
 		
 		<!-- Anexos do Usar Workflow -->
 		<action path="/anexoUsoWorkflow" 
-			type="br.com.ucb.sisgestor.apresentacao.actions.AnexoUsoWorkflowAction"
+			type="br.com.sisgestor.apresentacao.actions.AnexoUsoWorkflowAction"
 			name="anexoUsoWorkflowForm"
 			validate="false" 
 			scope="request"
@@ -105,7 +105,7 @@
 		
 		<!-- Manter Processo -->
 		<action path="/manterProcesso" 
-			type="br.com.ucb.sisgestor.apresentacao.actions.ManterProcessoAction"
+			type="br.com.sisgestor.apresentacao.actions.ManterProcessoAction"
 			name="manterProcessoForm"
 			validate="false" 
 			scope="request"
@@ -117,7 +117,7 @@
 		
 		<!-- Manter Atividade -->
 		<action path="/manterAtividade" 
-			type="br.com.ucb.sisgestor.apresentacao.actions.ManterAtividadeAction"
+			type="br.com.sisgestor.apresentacao.actions.ManterAtividadeAction"
 			name="manterAtividadeForm"
 			validate="false" 
 			scope="request"
@@ -129,7 +129,7 @@
 		
 		<!-- Manter Tarefa -->
 		<action path="/manterTarefa" 
-			type="br.com.ucb.sisgestor.apresentacao.actions.ManterTarefaAction"
+			type="br.com.sisgestor.apresentacao.actions.ManterTarefaAction"
 			name="manterTarefaForm"
 			validate="false" 
 			scope="request"
@@ -141,7 +141,7 @@
 		
 		<!-- Manter Campo -->
 		<action path="/manterCampo" 
-			type="br.com.ucb.sisgestor.apresentacao.actions.ManterCampoAction"
+			type="br.com.sisgestor.apresentacao.actions.ManterCampoAction"
 			name="manterCampoForm"
 			validate="false" 
 			scope="request"

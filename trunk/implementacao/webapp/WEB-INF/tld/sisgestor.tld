@@ -21,7 +21,7 @@
   &lt;code&gt;org.apache.struts.action.EXCEPTION&lt;/code&gt;.&lt;/p&gt;</description>
  <tag>
   <name>button</name>
-  <tag-class>br.com.ucb.sisgestor.apresentacao.taglib.ButtonTag</tag-class>
+  <tag-class>br.com.sisgestor.apresentacao.taglib.ButtonTag</tag-class>
   <description>&lt;p&gt;&lt;strong&gt;Render A Button Input Field&lt;/strong&gt;&lt;/p&gt;
           
             &lt;p&gt;
@@ -286,7 +286,7 @@
  </tag>
  <tag>
   <name>link</name>
-  <tag-class>br.com.ucb.sisgestor.apresentacao.taglib.LinkTag</tag-class>
+  <tag-class>br.com.sisgestor.apresentacao.taglib.LinkTag</tag-class>
   <body-content>JSP</body-content>
   <description>&lt;p&gt;&lt;strong&gt;Render an HTML anchor or hyperlink&lt;/strong&gt;&lt;/p&gt;
           
@@ -803,7 +803,7 @@
  </tag>
  <tag>
   <name>submit</name>
-  <tag-class>br.com.ucb.sisgestor.apresentacao.taglib.SubmitTag</tag-class>
+  <tag-class>br.com.sisgestor.apresentacao.taglib.SubmitTag</tag-class>
   <description>&lt;p&gt;&lt;strong&gt;
             Render A Submit Button
         &lt;/strong&gt;&lt;/p&gt;

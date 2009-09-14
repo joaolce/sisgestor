@@ -15,7 +15,7 @@
 
   <!-- IoC com anotações -->
   <context:annotation-config />
-  <context:component-scan base-package="br.com.ucb.sisgestor" />
+  <context:component-scan base-package="br.com.sisgestor" />
 
   <!-- JTA -->
   <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" />
@@ -26,10 +26,10 @@
   </bean>
 
   <!-- Lista de classes mapeadas (anotadas) para o Hibernate -->
-  <bean id="entidadesAnotadas" class="br.com.ucb.sisgestor.util.hibernate.ClassesAnotadas" factory-method="getClassesAnotadas" />
+  <bean id="entidadesAnotadas" class="br.com.sisgestor.util.hibernate.ClassesAnotadas" factory-method="getClassesAnotadas" />
   
   <!-- Configurações para o hibernate -->
-  <bean id="cfgHibernate" class="br.com.ucb.sisgestor.util.hibernate.ConfiguracaoHibernate" factory-method="getPropriedades" />
+  <bean id="cfgHibernate" class="br.com.sisgestor.util.hibernate.ConfiguracaoHibernate" factory-method="getPropriedades" />
   
   <!-- sessionFactory do hibernate -->
   <bean id="hbnSessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
@@ -39,6 +39,6 @@
   </bean>
   
   <!-- Utilitário para hibernate -->
-  <bean id="hibernateUtil" class="br.com.ucb.sisgestor.util.hibernate.HibernateUtil" factory-method="getInstancia" />
+  <bean id="hibernateUtil" class="br.com.sisgestor.util.hibernate.HibernateUtil" factory-method="getInstancia" />
   
 </beans>
