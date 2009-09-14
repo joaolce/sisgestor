@@ -110,17 +110,17 @@
 				<include name="**/*.tld" />
 			</webinf>
 			<zipfileset dir="${dir.src}" prefix="WEB-INF/classes">
-				<exclude name="br/com/ucb/sisgestor/entidade/**" />
-				<exclude name="br/com/ucb/sisgestor/mail/**" />
-				<exclude name="br/com/ucb/sisgestor/negocio/**" />
-				<exclude name="br/com/ucb/sisgestor/persistencia/**" />
-				<exclude name="br/com/ucb/sisgestor/util/**" />
+				<exclude name="br/com/sisgestor/entidade/**" />
+				<exclude name="br/com/sisgestor/mail/**" />
+				<exclude name="br/com/sisgestor/negocio/**" />
+				<exclude name="br/com/sisgestor/persistencia/**" />
+				<exclude name="br/com/sisgestor/util/**" />
 				<include name="**/*.properties" />
 				<include name="**/*.html" />
 				<include name="**/*.xml" />
 			</zipfileset>
 			<classes dir="${dir.classesAnt}">
-				<include name="br/com/ucb/sisgestor/apresentacao/**" />
+				<include name="br/com/sisgestor/apresentacao/**" />
 			</classes>
 			<lib dir="${dir.webinf}/lib" />			
 		</war>
@@ -135,12 +135,12 @@
 			<patternset refid="dest.exclude" />
 			
 			<zipfileset dir="${dir.src}">
-				<exclude name="br/com/ucb/sisgestor/apresentacao/**" />
+				<exclude name="br/com/sisgestor/apresentacao/**" />
 				<include name="**/*.properties" />
 			</zipfileset>
 			
 			<zipfileset dir="${dir.classesAnt}">
-				<exclude name="br/com/ucb/sisgestor/apresentacao/**" />
+				<exclude name="br/com/sisgestor/apresentacao/**" />
 			</zipfileset>
 		</jar>
 	</target>

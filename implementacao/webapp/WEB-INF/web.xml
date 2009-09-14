@@ -15,7 +15,7 @@
 
 	<filter>
 		<filter-name>springOSIV</filter-name>
-		<filter-class>br.com.ucb.sisgestor.util.hibernate.HibernateFilter</filter-class>
+		<filter-class>br.com.sisgestor.util.hibernate.HibernateFilter</filter-class>
 		<init-param>
 			<param-name>sessionFactoryBeanName</param-name>
 			<param-value>hbnSessionFactory</param-value>
@@ -59,7 +59,7 @@
 		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
 		<init-param>
 			<param-name>org.directwebremoting.extend.AccessControl</param-name>
-			<param-value>br.com.ucb.sisgestor.apresentacao.dwr.utils.ControleAcessoDWR</param-value>
+			<param-value>br.com.sisgestor.apresentacao.dwr.utils.ControleAcessoDWR</param-value>
 		</init-param>
 		<init-param>
 			<param-name>activeReverseAjaxEnabled</param-name>
@@ -67,7 +67,7 @@
 		</init-param>
 		<init-param>
 			<param-name>org.directwebremoting.extend.ServerLoadMonitor</param-name>
-			<param-value>br.com.ucb.sisgestor.apresentacao.dwr.utils.ReverseAjaxServerLoadMonitor</param-value>
+			<param-value>br.com.sisgestor.apresentacao.dwr.utils.ReverseAjaxServerLoadMonitor</param-value>
 		</init-param>
 		<init-param>
 			<param-name>debug</param-name>
@@ -78,13 +78,13 @@
 
 	<servlet>
 		<servlet-name>LoginServlet</servlet-name>
-		<servlet-class>br.com.ucb.sisgestor.apresentacao.login.LoginServlet</servlet-class>
+		<servlet-class>br.com.sisgestor.apresentacao.login.LoginServlet</servlet-class>
 		<load-on-startup>3</load-on-startup>
 	</servlet>
 
 	<servlet>
 		<servlet-name>ConstantesJSServlet</servlet-name>
-		<servlet-class>br.com.ucb.sisgestor.apresentacao.servlets.ConstantesJSServlet</servlet-class>
+		<servlet-class>br.com.sisgestor.apresentacao.servlets.ConstantesJSServlet</servlet-class>
 		<load-on-startup>4</load-on-startup>
 	</servlet>
 

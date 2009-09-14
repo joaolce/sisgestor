@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validate-mapping [
+<!ELEMENT validator-mapping (validacao+)>
+<!ELEMENT validacao EMPTY>
+<!ATTLIST validacao
+    action CDATA #REQUIRED
+    validator CDATA #REQUIRED
+>
+]>
+
+<validate-mapping>
+
+		<validacao action="br.com.sisgestor.apresentacao.actions.AnexoUsoWorkflowAction" 
+		validator="br.com.sisgestor.apresentacao.validator.AnexoUsoWorkflowValidator" />
+
+		<validacao action="br.com.sisgestor.apresentacao.actions.ManterDepartamentoAction" 
+		validator="br.com.sisgestor.apresentacao.validator.ManterDepartamentoValidator" />
+		
+		<validacao action="br.com.sisgestor.apresentacao.actions.ManterUsuarioAction" 
+		validator="br.com.sisgestor.apresentacao.validator.ManterUsuarioValidator" />
+		
+		<validacao action="br.com.sisgestor.apresentacao.actions.ManterWorkflowAction" 
+		validator="br.com.sisgestor.apresentacao.validator.ManterWorkflowValidator" />
+		
+		<validacao action="br.com.sisgestor.apresentacao.actions.ManterProcessoAction" 
+		validator="br.com.sisgestor.apresentacao.validator.ManterProcessoValidator" />
+		
+		<validacao action="br.com.sisgestor.apresentacao.actions.ManterAtividadeAction" 
+		validator="br.com.sisgestor.apresentacao.validator.ManterAtividadeValidator" />
+		
+		<validacao action="br.com.sisgestor.apresentacao.actions.ManterTarefaAction" 
+		validator="br.com.sisgestor.apresentacao.validator.ManterTarefaValidator" />
+		
+		<validacao action="br.com.sisgestor.apresentacao.actions.ManterCampoAction" 
+		validator="br.com.sisgestor.apresentacao.validator.ManterCampoValidator" />
+		
+		<validacao action="br.com.sisgestor.apresentacao.actions.UsarWorkflowAction" 
+		validator="br.com.sisgestor.apresentacao.validator.UsarWorkflowValidator" />
+		
+</validate-mapping>
