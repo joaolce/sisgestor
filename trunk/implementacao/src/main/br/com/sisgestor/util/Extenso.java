@@ -10,27 +10,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe responsável de recuperar um número e transformá-lo escrito por extenso, em valor monetário real R$
+ * Classe responsável de recuperar um número e transformá-lo escrito por extenso, em valor monetário.
  * 
  * @author João Lúcio
  * @since 27/10/2008
  */
 public final class Extenso {
 
-	private List<Integer>	modulos;
-	private BigInteger		numero;
-	private String				numeros[][]				=
-																		{
-			{"zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez", "onze",
-			"doze", "treze", "quatorze", "quinze", "desesseis", "desessete", "dezoito", "desenove"},
-			{"vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"},
-			{"cem", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos",
-			"oitocentos", "novecentos"}						};
-	private String				qualificadores[][]	=
-																		{ {"centavo", "centavos"}, {"", ""}, {"mil", "mil"},
-			{"milhão", "milhões"}, {"bilhão", "bilhões"}, {"trilhão", "trilhões"},
-			{"quatrilhão", "quatrilhões"}, {"quintilhão", "quintilhões"}, {"sextilhão", "sextilhões"},
-			{"septilhão", "septilhões"}						};
+	private List<Integer> modulos;
+	private BigInteger numero;
+	private String numeros[][] =
+			{
+					{"zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez",
+							"onze", "doze", "treze", "quatorze", "quinze", "desesseis", "desessete", "dezoito",
+							"desenove"},
+					{"vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"},
+					{"cem", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos",
+							"setecentos", "oitocentos", "novecentos"}};
+	private String qualificadores[][] =
+			{ {"centavo", "centavos"}, {"", ""}, {"mil", "mil"}, {"milhão", "milhões"}, {"bilhão", "bilhões"},
+					{"trilhão", "trilhões"}, {"quatrilhão", "quatrilhões"}, {"quintilhão", "quintilhões"},
+					{"sextilhão", "sextilhões"}, {"septilhão", "septilhões"}};
 
 	/**
 	 * Cria uma nova instância do tipo Extenso
@@ -66,7 +66,7 @@ public final class Extenso {
 	 */
 	public void setNumero(BigDecimal dec) {
 		if (dec.longValue() < 0) {
-			throw new IllegalArgumentException("número não pode ser menor que zero");
+			throw new IllegalArgumentException("Número não pode ser menor que zero");
 		}
 		// Converte para inteiro arredondando os centavos
 		this.numero =
@@ -106,7 +106,7 @@ public final class Extenso {
 	 */
 	@Override
 	public String toString() { //NOPMD by João Lúcio - não dá para quebrar
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 
 		int ct;
 
@@ -123,9 +123,6 @@ public final class Extenso {
 			}
 			while (buf.toString().endsWith(" ")) {
 				buf.setLength(buf.length() - 1);
-			}
-			if (this.ehPrimeiroGrupoUm()) {
-				buf.insert(0, "h");
 			}
 			if ((this.modulos.size() == 2) && (this.modulos.get(1).intValue() == 1)) {
 				buf.append(" real");
@@ -175,18 +172,6 @@ public final class Extenso {
 	}
 
 	/**
-	 * Verifica se a primeira trinca de números do número é igual a 1
-	 * 
-	 * @return <code>true</code> caso seja, <code>false</code> caso contrário
-	 */
-	private boolean ehPrimeiroGrupoUm() {
-		if (this.modulos.get(this.modulos.size() - 1).intValue() == 1) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Description of the Method
 	 * 
 	 * @return Description of the Returned Value
@@ -222,7 +207,7 @@ public final class Extenso {
 		int unidade = (numero % 10);
 		int dezena = (numero % 100); //* nao pode dividir por 10 pois verifica de 0..19
 		int centena = (numero / 100);
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 
 		if (numero != 0) {
 			if (centena != 0) {
