@@ -4,14 +4,13 @@
  */
 package br.com.sisgestor.apresentacao.validator;
 
+import br.com.sisgestor.apresentacao.actions.BaseAction;
+import br.com.sisgestor.entidade.Usuario;
 import br.com.sisgestor.util.DataUtil;
 import br.com.sisgestor.util.Utils;
 import br.com.sisgestor.util.constantes.ConstantesContexto;
-import br.com.sisgestor.entidade.Usuario;
-import br.com.sisgestor.apresentacao.actions.BaseAction;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -34,19 +33,19 @@ import org.apache.struts.util.MessageResources;
  */
 public class BaseValidator {
 
-	private static final Log		LOG	= LogFactory.getLog(BaseValidator.class);
+	private static final Log LOG = LogFactory.getLog(BaseValidator.class);
 
 	//Campos que devem ser informados em caso de erro.
-	private ActionErrors				actionErrors;
-	private String						focusControl;
-	private ActionForm				form;
+	private ActionErrors actionErrors;
+	private String focusControl;
+	private ActionForm form;
 
-	private String						forwardErroValidacao;
-	private ActionMapping			mapping;
-	private HttpServletRequest		request;
-	private MessageResources		resources;
-	private HttpServletResponse	response;
-	private HttpSession				session;
+	private String forwardErroValidacao;
+	private ActionMapping mapping;
+	private HttpServletRequest request;
+	private MessageResources resources;
+	private HttpServletResponse response;
+	private HttpSession session;
 
 	/**
 	 * Método de execução padrão, deve ser executado para preencher variáveis locais e facilitar a vida do
@@ -397,62 +396,6 @@ public class BaseValidator {
 			this.addError("erro.dataInvalida", this.getMessageKey(labelProperty));
 			this.setFocusControl(formProperty);
 			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Valida se uma data informada no formProperty é maior que a data atual, desprezando os minutos e
-	 * segundos.
-	 * 
-	 * @param labelProperty chave do label no properties
-	 * @param formProperty propriedade do form
-	 * @return <code>true</code> caso validação com sucesso, <code>false</code> caso contrário
-	 */
-	protected boolean validaDataMaiorDataAtual(String labelProperty, String formProperty) {
-		String dataInformadaString = (String) this.getFormValue(formProperty);
-		if (StringUtils.isNotBlank(dataInformadaString)) {
-			//Testa se a data informada é válida
-			if (!this.validaData(labelProperty, formProperty)) {
-				return false;
-			}
-
-			Date dataInformadaDate = DataUtil.stringToUtilDate(dataInformadaString);
-			Date dataAtual = DataUtil.getDataAtualSemHHMMSS();
-			if (dataInformadaDate.after(dataAtual)) {
-				String strDataAtual = DataUtil.utilDateToString(dataAtual);
-				this.addError("erro.dataMaiorDataAtual", this.getMessageKey(labelProperty), strDataAtual);
-				this.setFocusControl(formProperty);
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Valida se uma data informada no formProperty é menor que a data atual, desprezando os minutos e
-	 * segundos.
-	 * 
-	 * @param labelProperty chave do label no properties
-	 * @param formProperty propriedade do form
-	 * @return <code>true</code> caso validação com sucesso, <code>false</code> caso contrário
-	 */
-	protected boolean validaDataMenorDataAtual(String labelProperty, String formProperty) {
-		String dataInformadaString = (String) this.getFormValue(formProperty);
-		if (StringUtils.isNotBlank(dataInformadaString)) {
-			//Testa se a data informada é válida
-			if (!this.validaData(labelProperty, formProperty)) {
-				return false;
-			}
-
-			Date dataInformadaDate = DataUtil.stringToUtilDate(dataInformadaString);
-			Date dataAtual = DataUtil.getDataAtualSemHHMMSS();
-			if (dataInformadaDate.before(dataAtual)) {
-				String strDataAtual = DataUtil.utilDateToString(dataAtual);
-				this.addError("erro.dataMenorDataAtual", this.getMessageKey(labelProperty), strDataAtual);
-				this.setFocusControl(formProperty);
-				return false;
-			}
 		}
 		return true;
 	}
