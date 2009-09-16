@@ -4,27 +4,21 @@
  */
 package br.com.sisgestor.util;
 
-import br.com.sisgestor.negocio.exception.NegocioException;
 import br.com.sisgestor.entidade.Anexo;
 import br.com.sisgestor.entidade.ObjetoPersistente;
 import br.com.sisgestor.entidade.Permissao;
 import br.com.sisgestor.entidade.TipoCampoEnum;
 import br.com.sisgestor.entidade.Usuario;
+import br.com.sisgestor.negocio.exception.NegocioException;
 import java.beans.PropertyDescriptor;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
-import java.sql.Blob;
 import java.sql.Timestamp;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -32,7 +26,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,42 +52,9 @@ public final class Utils {
 	private static final Log LOG = LogFactory.getLog(Utils.class);
 
 	/**
-	 * Construtor privado (classe utilitária).
+	 * Pattern singleton.
 	 */
 	private Utils() {
-	}
-
-	/**
-	 * Transforma um {@link Blob} em um {@link ByteArrayOutputStream}
-	 * 
-	 * @param blob {@link Blob} a transformar
-	 * @return ByteArrayOutputStream transformado
-	 * @throws Exception caso tenha erro na conversão
-	 */
-	public static ByteArrayOutputStream blobToByteArrayOutputStream(Blob blob) throws Exception {
-		int size;
-		ByteArrayOutputStream baos;
-
-		try {
-			size = (int) blob.length();
-		} catch (Exception e) {
-			return null;
-		}
-
-		byte[] buffer = new byte[size];
-		int readBytes = 0;
-		int totalRead = 0;
-		InputStream is = blob.getBinaryStream();
-
-		while ((readBytes = is.read(buffer, totalRead, size - totalRead)) != -1) { //NOPMD by João Lúcio - mais legível
-			totalRead += readBytes;
-		}
-
-		baos = new ByteArrayOutputStream();
-		baos.write(buffer);
-		baos.flush();
-
-		return baos;
 	}
 
 	/**
@@ -379,68 +339,6 @@ public final class Utils {
 	}
 
 	/**
-	 * Retorna uma String vazia caso a informada seja nula
-	 * 
-	 * @param texto {@link String} informada
-	 * @return <code>null</code> ou a própria String
-	 */
-	public static String ehNulo(String texto) {
-		if (texto == null) {
-			return "";
-		}
-		return texto;
-	}
-
-	/**
-	 * Lê o arquivo e coloca em um {@link ByteArrayInputStream}
-	 * 
-	 * @param inFile arquivo recuperar dados
-	 * @return ByteArrayInputStream com os dados do arquivo
-	 * @throws Exception caso tenha erro na conversão
-	 */
-	public static ByteArrayInputStream fileToByteArrayInputStream(File inFile) throws Exception {
-		FileInputStream fis = new FileInputStream(inFile);
-		int tamanho = (int) inFile.length();
-
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		int bytesLidos = 0;
-		byte[] buffer = new byte[tamanho];
-		while (bytesLidos < tamanho) {
-			bytesLidos += fis.read(buffer, bytesLidos, tamanho - bytesLidos);
-		}
-		baos.write(buffer);
-		return new ByteArrayInputStream(baos.toByteArray());
-	}
-
-	/**
-	 * Lê o arquivo e coloca em um {@link ByteArrayOutputStream}
-	 * 
-	 * @param inFile arquivo recuperar dados
-	 * @return ByteArrayOutputStream com os dados do arquivo
-	 * @throws Exception caso ocorra erro na conversão
-	 */
-	public static ByteArrayOutputStream fileToByteArrayOutputStream(File inFile) throws Exception {
-		FileInputStream fis = new FileInputStream(inFile);
-		final int TAMANHO_BYTES_ARQUIVO = (int) inFile.length();
-		final int TAMANHO_BUFFER = 1000;
-
-		ByteArrayOutputStream baos = new ByteArrayOutputStream(TAMANHO_BYTES_ARQUIVO);
-		int bytesLidos = 0, totalBytesLidos = 0;
-		byte[] buffer = new byte[TAMANHO_BUFFER];
-
-		while (totalBytesLidos < TAMANHO_BYTES_ARQUIVO) {
-			bytesLidos = fis.read(buffer, 0, TAMANHO_BUFFER);
-			if (bytesLidos == -1) {
-				break;
-			}
-			baos.write(buffer, 0, bytesLidos);
-			totalBytesLidos += bytesLidos;
-		}
-		fis.close();
-		return baos;
-	}
-
-	/**
 	 * Recupera um bean do spring.
 	 * 
 	 * @param <T> tipo do bean
@@ -508,49 +406,6 @@ public final class Utils {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Transforma um {@link InputStream} para um {@link ByteArrayOutputStream}
-	 * 
-	 * @param iStream {@link InputStream} a transformar
-	 * @return ByteArrayOutputStream convertido
-	 * @throws Exception caso ocorra erro na conversão
-	 */
-	public static ByteArrayOutputStream inputStreamToByteArrayOutputStream(InputStream iStream)
-			throws Exception {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		int bytesLidos;
-		byte[] buffer = new byte[1024];
-
-		while ((bytesLidos = iStream.read(buffer)) != -1) { //NOPMD by João Lúcio - mais legível
-			baos.write(buffer, 0, bytesLidos);
-		}
-		return baos;
-	}
-
-	/**
-	 * Verifica se todas as propriedades passadas no array dos dois objetos passados são iguais.
-	 * 
-	 * @param o1 primeiro objeto a comparar
-	 * @param o2 segundo objeto a comparar
-	 * @param propriedades que deverão ser iguais nos dois objetos
-	 * @return <code>true</code> caso as todas propriedades iguais, <code>false</code> caso contrário
-	 * @throws Exception caso exceção seja lançada
-	 */
-	public static boolean isAllEqual(Object o1, Object o2, String... propriedades) throws Exception {
-		for (String propriedade : propriedades) {
-			Object valor1 = PropertyUtils.getProperty(o1, propriedade);
-			Object valor2 = PropertyUtils.getProperty(o2, propriedade);
-			if ((valor1 instanceof ObjetoPersistente) && (valor2 instanceof ObjetoPersistente)) {
-				valor1 = PropertyUtils.getProperty(valor1, "id");
-				valor2 = PropertyUtils.getProperty(valor2, "id");
-			}
-			if (!isEqual(valor1, valor2)) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	/**
@@ -649,38 +504,6 @@ public final class Utils {
 	}
 
 	/**
-	 * Verifica se os objetos são iguais.
-	 * 
-	 * @param o1 primeiro objeto a verificar
-	 * @param o2 segundo objeto a verificar
-	 * @return <code>true</code> caso sejam iguais, <code>false</code> caso contrário
-	 */
-	public static boolean isEqual(Object o1, Object o2) { //NOPMD by João Lúcio - não dá para quebrar
-		if (((o1 instanceof Collection<?>) ^ (o2 instanceof Collection<?>))
-				&& (((o1 != null) && ((Collection<?>) o1).isEmpty() && (o2 == null)) || ((o2 != null)
-						&& ((Collection<?>) o2).isEmpty() && (o1 == null)))) {
-			return true;
-		}
-		if (((o1 == null) ^ (o2 == null))) {
-			return false;
-		}
-		if ((o1 == null) && (o2 == null)) {
-			return true;
-		}
-		if ((o1 instanceof String) && (o2 instanceof String)) {
-			String str1 = (String) o1;
-			String str2 = (String) o2;
-			return str1.trim().equals(str2.trim());
-		}
-		if (o2 instanceof Collection<?>) {
-			Collection<?> colecao2 = (Collection<?>) o2;
-			Collection<?> colecao1 = (Collection<?>) o1;
-			return (colecao2).containsAll(colecao1) && (colecao1.size() == colecao2.size());
-		}
-		return o2.equals(o1);
-	}
-
-	/**
 	 * Verifica se todas as propriedades do objeto passado possuem valores não significativos Exemplo: zero,
 	 * strings vazias, qualquer propriedade nula, ou arrays vazios são considerados
 	 * 
@@ -755,19 +578,6 @@ public final class Utils {
 	}
 
 	/**
-	 * Retorna <code>null</code> caso o valor da String seja vazio.
-	 * 
-	 * @param valor String a verificar
-	 * @return <code>null</code> caso vazio, String original caso contenha algo
-	 */
-	public static String nullSeVazio(String valor) {
-		if (StringUtils.isBlank(valor)) {
-			return null;
-		}
-		return valor;
-	}
-
-	/**
 	 * Recupera o valor informado do número por extenso.
 	 * 
 	 * @param valor valor informado
@@ -787,16 +597,6 @@ public final class Utils {
 	}
 
 	/**
-	 * Transforma uma {@link ByteArrayInputStream} para um {@link InputStream}
-	 * 
-	 * @param baos {@link ByteArrayInputStream} a tranformar
-	 * @return InputStream associado
-	 */
-	public static InputStream outputStreamToInputStream(ByteArrayOutputStream baos) {
-		return new ByteArrayInputStream(baos.toByteArray());
-	}
-
-	/**
 	 * Transforma as primeiras letras das palavras em maiuscúlo
 	 * 
 	 * @param texto texto a modificar
@@ -806,7 +606,7 @@ public final class Utils {
 		StringBuilder result = new StringBuilder("");
 		String nome;
 
-		StringTokenizer token = new StringTokenizer(texto.toLowerCase(DataUtil.LOCALE_BR), " ");
+		StringTokenizer token = new StringTokenizer(texto.toLowerCase(DataUtil.LOCALE_PT_BR), " ");
 
 		while (token.hasMoreElements()) {
 			nome = token.nextToken();
@@ -859,37 +659,6 @@ public final class Utils {
 	}
 
 	/**
-	 * Faz a subtração de todos os elementos da segunda lista na primeira lista.
-	 * 
-	 * @param <T> tipo das listas
-	 * @param original lista original
-	 * @param subtracao lista a ser reduzida da lista original
-	 * @param tipo tipo das listas
-	 * @return novo {@link List} da diferença
-	 */
-	public static <T>List<T> subtrair(List<T> original, List<T> subtracao, Class<T> tipo) {
-		return GenericsUtil.checkedList(ListUtils.subtract(original, subtracao), tipo);
-	}
-
-	/**
-	 * Trata uma String convertendo códigos unicode em seus respectivos caracteres. Obs: Somente os caracteres
-	 * % e & estão sendo tratados atualmente.
-	 * 
-	 * @param str String contendo os códigos unicode no lugar do caracteres especiais.
-	 * @return String com os caracteres especiais substituídos.
-	 */
-	public static String trataCaracteresEspeciais(String str) {
-		String resultado = str;
-		if (str.indexOf("/u0025") != -1) {
-			resultado = resultado.replaceAll("/u0025", "%");
-		}
-		if (str.indexOf("/u0026") != -1) {
-			resultado = resultado.replaceAll("/u0026", "&");
-		}
-		return resultado;
-	}
-
-	/**
 	 * Verifica se o usuário possui pelo menos uma das permissões informadas, separadas por vírgulas.
 	 * 
 	 * @param usuario usuário a verificar
@@ -909,15 +678,5 @@ public final class Utils {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * Recupera um valor, e retorna em uma String formatada com duas casas decimais.
-	 * 
-	 * @param valor valor a formatar
-	 * @return valor formatado em String
-	 */
-	public static String valorMonetarioToString(double valor) {
-		return new DecimalFormat("#,##0.00").format(valor);
 	}
 }
