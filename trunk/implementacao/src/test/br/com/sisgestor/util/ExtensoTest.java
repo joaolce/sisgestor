@@ -62,9 +62,8 @@ public class ExtensoTest {
 		assertEquals("", extenso.toString());
 		extenso = new Extenso(BigDecimal.ONE);
 		assertEquals("um real", extenso.toString());
-		extenso = new Extenso(new BigDecimal("45622346"));
-		assertEquals(
-				"quarenta e cinco milhões e seiscentos e vinte e dois mil e trezentos e quarenta e seis reais",
+		extenso = new Extenso(new BigDecimal("5622346"));
+		assertEquals("cinco milhões e seiscentos e vinte e dois mil e trezentos e quarenta e seis reais",
 				extenso.toString());
 		extenso = new Extenso(new BigDecimal("42300000046"));
 		assertEquals("quarenta e dois bilhões e trezentos milhões e quarenta e seis reais", extenso.toString());
