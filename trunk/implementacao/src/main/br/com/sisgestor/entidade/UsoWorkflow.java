@@ -34,15 +34,17 @@ import org.hibernate.annotations.ForeignKey;
 @AttributeOverride(name = "id", column = @Column(name = "UWR_ID", nullable = false))
 public class UsoWorkflow extends ObjetoPersistente {
 
-	private Integer							numero;
-	private String								anotacao;
-	private Workflow							workflow;
-	private Timestamp							dataHoraInicio;
-	private List<HistoricoUsoWorkflow>	historico;
-	private Tarefa								tarefa;
-	private List<Anexo>						anexos;
-	private List<CampoUsoWorkflow>		camposUsados;
-	private Boolean							usoFinalizado;
+	private Integer numero;
+	private String anotacao;
+	private Workflow workflow;
+	private Timestamp dataHoraInicio;
+	private List<HistoricoUsoWorkflow> historico;
+	private Tarefa tarefa;
+	private List<Anexo> anexos;
+	private List<CampoUsoWorkflow> camposUsados;
+	private Boolean usoFinalizado;
+
+	private DataUtil dataUtil = DataUtil.getInstancia();
 
 	/**
 	 * Recupera os anexos da utilização do {@link Workflow}.
@@ -117,7 +119,7 @@ public class UsoWorkflow extends ObjetoPersistente {
 		if (CollectionUtils.isNotEmpty(this.historico)) {
 			//Recupera o primeiro registo do histórico pois é inicialização do workflow
 			HistoricoUsoWorkflow usoWorkflow = this.historico.get(this.historico.size() - 1);
-			Integer ano = DataUtil.getAno(usoWorkflow.getDataHora());
+			Integer ano = dataUtil.getAno(usoWorkflow.getDataHora());
 			String numero = Utils.completaComZero(String.valueOf(this.numero), 6);
 			return ano + "/" + numero;
 		}

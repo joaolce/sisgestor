@@ -4,16 +4,16 @@
  */
 package br.com.sisgestor.negocio.impl;
 
+import br.com.sisgestor.entidade.Departamento;
+import br.com.sisgestor.entidade.Usuario;
+import br.com.sisgestor.negocio.DepartamentoBO;
+import br.com.sisgestor.negocio.UsuarioBO;
+import br.com.sisgestor.negocio.exception.NegocioException;
+import br.com.sisgestor.persistencia.DepartamentoDAO;
 import br.com.sisgestor.util.DataUtil;
 import br.com.sisgestor.util.Utils;
 import br.com.sisgestor.util.dto.PesquisaManterDepartamentoDTO;
 import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
-import br.com.sisgestor.persistencia.DepartamentoDAO;
-import br.com.sisgestor.negocio.DepartamentoBO;
-import br.com.sisgestor.negocio.UsuarioBO;
-import br.com.sisgestor.negocio.exception.NegocioException;
-import br.com.sisgestor.entidade.Departamento;
-import br.com.sisgestor.entidade.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
@@ -31,8 +31,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("departamentoBO")
 public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements DepartamentoBO {
 
-	private DepartamentoDAO	departamentoDAO;
-	private UsuarioBO			usuarioBO;
+	private DepartamentoDAO departamentoDAO;
+	private UsuarioBO usuarioBO;
+
+	private DataUtil dataUtil = DataUtil.getInstancia();
 
 	/**
 	 * {@inheritDoc}
@@ -59,7 +61,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 		if (CollectionUtils.isNotEmpty(departamento.getAtividades())) {
 			throw new NegocioException("erro.departamento.responsavel");
 		}
-		departamento.setDataHoraExclusao(DataUtil.getDataHoraAtual());
+		departamento.setDataHoraExclusao(dataUtil.getDataHoraAtual());
 		this.departamentoDAO.atualizar(departamento); //Exclusão lógica
 	}
 

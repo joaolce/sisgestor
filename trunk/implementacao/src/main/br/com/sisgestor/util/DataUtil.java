@@ -17,7 +17,7 @@ import org.apache.commons.validator.GenericValidator;
  * @author João Lúcio
  * @since 27/10/2008
  */
-public final class DataUtil {
+public class DataUtil {
 
 	/** {@link Locale} pt-BR */
 	public static final Locale LOCALE_PT_BR = new Locale("pt", "BR");
@@ -31,10 +31,22 @@ public final class DataUtil {
 	/** Data no formato Quinta, 1 de Janeiro de 2009 */
 	public static final DateFormat DATA_FULL = DateFormat.getDateInstance(DateFormat.FULL, LOCALE_PT_BR);
 
+	private static DataUtil instancia = new DataUtil();
+
 	/**
 	 * Pattern singleton.
 	 */
-	private DataUtil() {
+	protected DataUtil() {
+		super();
+	}
+
+	/**
+	 * Recupera a única instância de {@link DataUtil}.
+	 * 
+	 * @return {@link DataUtil}
+	 */
+	public static DataUtil getInstancia() {
+		return instancia;
 	}
 
 	/**
@@ -43,8 +55,8 @@ public final class DataUtil {
 	 * @param data data a validar
 	 * @return <code>true</code> caso seja válida, <code>false</code> caso contrário
 	 */
-	public static boolean ehDataValida(String data) {
-		return GenericValidator.isDate(data, "dd/MM/yyyy", true);
+	public boolean ehDataValida(String data) {
+		return GenericValidator.isDate(data, LOCALE_PT_BR);
 	}
 
 	/**
@@ -58,8 +70,8 @@ public final class DataUtil {
 	 * @return String da data formatada
 	 * 
 	 */
-	public static String formataData(String dia, String mes, String ano) {
-		String data = dia + '/' + mes + '/' + ano;
+	public String formataData(String dia, String mes, String ano) {
+		String data = Utils.completaComZero(dia, 2) + '/' + Utils.completaComZero(mes, 2) + '/' + ano;
 		if (ehDataValida(data)) {
 			return data;
 		}
@@ -72,15 +84,10 @@ public final class DataUtil {
 	 * @param data data para verificar
 	 * @return ano da data
 	 */
-	public static int getAno(Date data) {
+	public int getAno(Date data) {
 		Calendar cal = Calendar.getInstance(LOCALE_PT_BR);
 		cal.setTime(data);
-		int yy = cal.get(Calendar.YEAR);
-		//caso o ano 1900 seja o 0
-		if (yy < 100) {
-			yy += 1900;
-		}
-		return yy;
+		return cal.get(Calendar.YEAR);
 	}
 
 	/**
@@ -88,7 +95,7 @@ public final class DataUtil {
 	 * 
 	 * @return a data atual
 	 */
-	public static Date getDataAtual() {
+	public Date getDataAtual() {
 		return new Date(System.currentTimeMillis());
 	}
 
@@ -97,7 +104,7 @@ public final class DataUtil {
 	 * 
 	 * @return data e hora atual
 	 */
-	public static Timestamp getDataHoraAtual() {
+	public Timestamp getDataHoraAtual() {
 		return new Timestamp(System.currentTimeMillis());
 	}
 
@@ -107,7 +114,7 @@ public final class DataUtil {
 	 * @param calendar {@link Calendar} a zerar
 	 * @return objeto {@link Date} com a hora zerada
 	 */
-	public static Date getDataSemHHMMSS(Calendar calendar) {
+	public Date getDataSemHHMMSS(Calendar calendar) {
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
@@ -123,7 +130,7 @@ public final class DataUtil {
 	 * @param ano ano da data
 	 * @return {@link Date} gerado
 	 */
-	public static Date getDate(int dia, int mes, int ano) {
+	public Date getDate(int dia, int mes, int ano) {
 		Calendar calendar = Calendar.getInstance(LOCALE_PT_BR);
 		calendar.set(Calendar.DAY_OF_MONTH, dia);
 		calendar.set(Calendar.MONTH, mes - 1);
@@ -136,7 +143,7 @@ public final class DataUtil {
 	 * 
 	 * @return a {@link String} formatada da data atual completa
 	 */
-	public static String getStringDataAtualCompleta() {
+	public String getStringDataAtualCompleta() {
 		synchronized (DATA_FULL) {
 			return DATA_FULL.format(new Timestamp(System.currentTimeMillis()));
 		}
@@ -148,7 +155,7 @@ public final class DataUtil {
 	 * @param inData String a converter
 	 * @return Timestamp convertido
 	 */
-	public static java.sql.Timestamp stringToTimestamp(String inData) {
+	public java.sql.Timestamp stringToTimestamp(String inData) {
 		java.util.Date auxData = stringToUtilDate(inData);
 		return utilDateToTimestamp(auxData);
 	}
@@ -159,7 +166,7 @@ public final class DataUtil {
 	 * @param data data em formato brasileiro
 	 * @return objeto {@link Date} correspondente
 	 */
-	public static Date stringToUtilDate(String data) {
+	public Date stringToUtilDate(String data) {
 		synchronized (DATA_MEDIUM) {
 			try {
 				return new Date(DATA_MEDIUM.parse(data).getTime());
@@ -175,7 +182,7 @@ public final class DataUtil {
 	 * @param date {@link Date} a converter
 	 * @return data formatada em {@link String}
 	 */
-	public static String utilDateToString(Date date) {
+	public String utilDateToString(Date date) {
 		synchronized (DATA_MEDIUM) {
 			return DATA_MEDIUM.format(date);
 		}
@@ -187,7 +194,7 @@ public final class DataUtil {
 	 * @param inData data informada
 	 * @return Timestamp da data
 	 */
-	public static java.sql.Timestamp utilDateToTimestamp(java.util.Date inData) {
+	public java.sql.Timestamp utilDateToTimestamp(java.util.Date inData) {
 		return new java.sql.Timestamp(inData.getTime());
 	}
 

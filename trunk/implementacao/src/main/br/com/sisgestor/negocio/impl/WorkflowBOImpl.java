@@ -4,16 +4,6 @@
  */
 package br.com.sisgestor.negocio.impl;
 
-import br.com.sisgestor.util.DataUtil;
-import br.com.sisgestor.util.Utils;
-import br.com.sisgestor.util.dto.PesquisaManterWorkflowDTO;
-import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
-import br.com.sisgestor.persistencia.WorkflowDAO;
-import br.com.sisgestor.negocio.AtividadeBO;
-import br.com.sisgestor.negocio.ProcessoBO;
-import br.com.sisgestor.negocio.TarefaBO;
-import br.com.sisgestor.negocio.WorkflowBO;
-import br.com.sisgestor.negocio.exception.NegocioException;
 import br.com.sisgestor.entidade.Atividade;
 import br.com.sisgestor.entidade.Campo;
 import br.com.sisgestor.entidade.Processo;
@@ -22,6 +12,16 @@ import br.com.sisgestor.entidade.TransacaoAtividade;
 import br.com.sisgestor.entidade.TransacaoProcesso;
 import br.com.sisgestor.entidade.TransacaoTarefa;
 import br.com.sisgestor.entidade.Workflow;
+import br.com.sisgestor.negocio.AtividadeBO;
+import br.com.sisgestor.negocio.ProcessoBO;
+import br.com.sisgestor.negocio.TarefaBO;
+import br.com.sisgestor.negocio.WorkflowBO;
+import br.com.sisgestor.negocio.exception.NegocioException;
+import br.com.sisgestor.persistencia.WorkflowDAO;
+import br.com.sisgestor.util.DataUtil;
+import br.com.sisgestor.util.Utils;
+import br.com.sisgestor.util.dto.PesquisaManterWorkflowDTO;
+import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -48,12 +48,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("workflowBO")
 public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements WorkflowBO {
 
-	private static final Log	LOG	= LogFactory.getLog(WorkflowBOImpl.class);
+	private static final Log LOG = LogFactory.getLog(WorkflowBOImpl.class);
 
-	private WorkflowDAO			workflowDAO;
-	private ProcessoBO			processoBO;
-	private AtividadeBO			atividadeBO;
-	private TarefaBO				tarefaBO;
+	private WorkflowDAO workflowDAO;
+	private ProcessoBO processoBO;
+	private AtividadeBO atividadeBO;
+	private TarefaBO tarefaBO;
+
+	private DataUtil dataUtil = DataUtil.getInstancia();
 
 	/**
 	 * {@inheritDoc}
@@ -103,7 +105,7 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	public void excluir(Workflow workflow) throws NegocioException {
 		this.verificarWorkflowExcluido(workflow);
 		workflow.setAtivo(Boolean.FALSE);
-		workflow.setDataHoraExclusao(DataUtil.getDataHoraAtual());
+		workflow.setDataHoraExclusao(dataUtil.getDataHoraAtual());
 		this.workflowDAO.atualizar(workflow); //Exclusão lógica
 	}
 

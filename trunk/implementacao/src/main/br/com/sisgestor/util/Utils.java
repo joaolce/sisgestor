@@ -46,10 +46,13 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  */
 public final class Utils {
 
+	private static final Log LOG = LogFactory.getLog(Utils.class);
+
 	private static MessageResources resources;
 	private static ServletContext contexto;
 	private static ThreadLocal<Usuario> threadUsuario = new ThreadLocal<Usuario>();
-	private static final Log LOG = LogFactory.getLog(Utils.class);
+
+	private static DataUtil dataUtil = DataUtil.getInstancia();
 
 	/**
 	 * Pattern singleton.
@@ -169,15 +172,15 @@ public final class Utils {
 					String valor = (String) PropertyUtils.getProperty(origem, descriptorOrigem.getName());
 					if (propertyType.getName().equals(Timestamp.class.getName())) {
 						//CONVERSOR TIMESTAMP
-						PropertyUtils.setProperty(destino, nomePropriedade, DataUtil.stringToTimestamp(valor));
+						PropertyUtils.setProperty(destino, nomePropriedade, dataUtil.stringToTimestamp(valor));
 					} else {
 						//CONVERSOR DATE
-						PropertyUtils.setProperty(destino, nomePropriedade, DataUtil.stringToUtilDate(valor));
+						PropertyUtils.setProperty(destino, nomePropriedade, dataUtil.stringToUtilDate(valor));
 					}
 					continue;
 				} else if (eUmaString && Date.class.isInstance(valorOrigem)) {
 					Date valor = (Date) PropertyUtils.getProperty(origem, descriptorOrigem.getName());
-					PropertyUtils.setProperty(destino, nomePropriedade, DataUtil.utilDateToString(valor));
+					PropertyUtils.setProperty(destino, nomePropriedade, dataUtil.utilDateToString(valor));
 					continue;
 				}
 

@@ -4,15 +4,6 @@
  */
 package br.com.sisgestor.negocio.impl;
 
-import br.com.sisgestor.util.DataUtil;
-import br.com.sisgestor.util.Utils;
-import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
-import br.com.sisgestor.util.constantes.Constantes;
-import br.com.sisgestor.util.constantes.ConstantesDB;
-import br.com.sisgestor.persistencia.UsoWorkflowDAO;
-import br.com.sisgestor.negocio.TarefaBO;
-import br.com.sisgestor.negocio.UsoWorkflowBO;
-import br.com.sisgestor.negocio.exception.NegocioException;
 import br.com.sisgestor.entidade.Campo;
 import br.com.sisgestor.entidade.CampoUsoWorkflow;
 import br.com.sisgestor.entidade.Departamento;
@@ -21,6 +12,15 @@ import br.com.sisgestor.entidade.Tarefa;
 import br.com.sisgestor.entidade.TipoAcaoEnum;
 import br.com.sisgestor.entidade.UsoWorkflow;
 import br.com.sisgestor.entidade.Usuario;
+import br.com.sisgestor.negocio.TarefaBO;
+import br.com.sisgestor.negocio.UsoWorkflowBO;
+import br.com.sisgestor.negocio.exception.NegocioException;
+import br.com.sisgestor.persistencia.UsoWorkflowDAO;
+import br.com.sisgestor.util.DataUtil;
+import br.com.sisgestor.util.Utils;
+import br.com.sisgestor.util.constantes.Constantes;
+import br.com.sisgestor.util.constantes.ConstantesDB;
+import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -38,8 +38,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("usoWorkflowBO")
 public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWorkflowBO {
 
-	private UsoWorkflowDAO	usoWorkflowDAO;
-	private TarefaBO			tarefaBO;
+	private UsoWorkflowDAO usoWorkflowDAO;
+	private TarefaBO tarefaBO;
+
+	private DataUtil dataUtil = DataUtil.getInstancia();
 
 	/**
 	 * {@inheritDoc}
@@ -71,7 +73,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void iniciarTarefa(UsoWorkflow usoWorkflow) throws NegocioException {
-		usoWorkflow.setDataHoraInicio(DataUtil.getDataHoraAtual());
+		usoWorkflow.setDataHoraInicio(dataUtil.getDataHoraAtual());
 		this.usoWorkflowDAO.atualizar(usoWorkflow);
 		this.gerarHistorico(usoWorkflow, TipoAcaoEnum.INICIO_TAREFA);
 	}
@@ -172,7 +174,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	public Integer salvar(UsoWorkflow usoWorkflow) throws NegocioException {
 		this.adicionaCamposDoUso(usoWorkflow);
 		usoWorkflow.setUsoFinalizado(Boolean.FALSE);
-		this.gerarNumeroDoRegistro(usoWorkflow, DataUtil.getAno(DataUtil.getDataAtual()));
+		this.gerarNumeroDoRegistro(usoWorkflow, dataUtil.getAno(dataUtil.getDataAtual()));
 		Integer id = this.usoWorkflowDAO.salvar(usoWorkflow);
 		this.gerarHistorico(usoWorkflow, TipoAcaoEnum.INICIO_USO);
 		return id;
@@ -246,7 +248,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	private void gerarHistorico(UsoWorkflow usoWorkflow, TipoAcaoEnum acao) {
 		HistoricoUsoWorkflow historico = new HistoricoUsoWorkflow();
 		historico.setUsoWorkflow(usoWorkflow);
-		historico.setDataHora(DataUtil.getDataHoraAtual());
+		historico.setDataHora(dataUtil.getDataHoraAtual());
 		historico.setUsuario(Utils.getUsuario());
 		historico.setAcao(acao);
 		this.salvarHistorico(historico);

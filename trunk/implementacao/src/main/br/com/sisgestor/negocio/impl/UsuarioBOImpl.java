@@ -4,15 +4,15 @@
  */
 package br.com.sisgestor.negocio.impl;
 
-import br.com.sisgestor.util.DataUtil;
-import br.com.sisgestor.util.dto.PesquisaManterUsuarioDTO;
-import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
-import br.com.sisgestor.util.constantes.Constantes;
-import br.com.sisgestor.persistencia.UsuarioDAO;
-import br.com.sisgestor.negocio.UsuarioBO;
-import br.com.sisgestor.negocio.exception.NegocioException;
 import br.com.sisgestor.entidade.Departamento;
 import br.com.sisgestor.entidade.Usuario;
+import br.com.sisgestor.negocio.UsuarioBO;
+import br.com.sisgestor.negocio.exception.NegocioException;
+import br.com.sisgestor.persistencia.UsuarioDAO;
+import br.com.sisgestor.util.DataUtil;
+import br.com.sisgestor.util.constantes.Constantes;
+import br.com.sisgestor.util.dto.PesquisaManterUsuarioDTO;
+import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
 import java.util.Random;
 import org.apache.commons.lang.StringUtils;
@@ -32,8 +32,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("usuarioBO")
 public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 
-	private static final Log	LOG	= LogFactory.getLog(UsuarioBOImpl.class);
-	private UsuarioDAO			usuarioDAO;
+	private static final Log LOG = LogFactory.getLog(UsuarioBOImpl.class);
+	private UsuarioDAO usuarioDAO;
+
+	private DataUtil dataUtil = DataUtil.getInstancia();
 
 	/**
 	 * {@inheritDoc}
@@ -69,7 +71,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void excluir(Usuario usuario) throws NegocioException {
-		usuario.setDataHoraExclusao(DataUtil.getDataHoraAtual());
+		usuario.setDataHoraExclusao(dataUtil.getDataHoraAtual());
 		this.usuarioDAO.atualizar(usuario); //Exclusão lógica
 	}
 
