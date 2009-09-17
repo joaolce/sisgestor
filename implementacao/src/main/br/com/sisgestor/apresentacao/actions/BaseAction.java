@@ -70,6 +70,8 @@ public class BaseAction extends DispatchAction {
 	private ThreadLocal<HttpServletResponse> responseThread = new ThreadLocal<HttpServletResponse>();
 	private ThreadLocal<HttpSession> sessionThread = new ThreadLocal<HttpSession>();
 
+	private DataUtil dataUtil = DataUtil.getInstancia();
+
 	/**
 	 * Cria uma nova instância do tipo {@link BaseAction}.
 	 */
@@ -281,8 +283,8 @@ public class BaseAction extends DispatchAction {
 			usuarioAtual = this.usuarioBO.getByLogin(name);
 			Hibernate.initialize(usuarioAtual.getPermissoes());
 
-			this.getSession().setAttribute(ConstantesContexto.DATA_LOGIN, DataUtil.getStringDataAtualCompleta());
-			this.getSession().setAttribute(ConstantesContexto.HORA_LOGIN, DataUtil.getDataAtual());
+			this.getSession().setAttribute(ConstantesContexto.DATA_LOGIN, dataUtil.getStringDataAtualCompleta());
+			this.getSession().setAttribute(ConstantesContexto.HORA_LOGIN, dataUtil.getDataAtual());
 			this.getSession().setAttribute(ConstantesContexto.USUARIO_SESSAO, usuarioAtual);
 			Utils.setUsuario(usuarioAtual);
 		}

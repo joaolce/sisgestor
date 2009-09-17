@@ -4,17 +4,17 @@
  */
 package br.com.sisgestor.negocio.impl;
 
-import br.com.sisgestor.util.DataUtil;
-import br.com.sisgestor.util.Utils;
-import br.com.sisgestor.util.constantes.Constantes;
-import br.com.sisgestor.persistencia.AnexoDAO;
-import br.com.sisgestor.negocio.AnexoBO;
-import br.com.sisgestor.negocio.UsoWorkflowBO;
-import br.com.sisgestor.negocio.exception.NegocioException;
 import br.com.sisgestor.entidade.Anexo;
 import br.com.sisgestor.entidade.HistoricoUsoWorkflow;
 import br.com.sisgestor.entidade.TipoAcaoEnum;
 import br.com.sisgestor.entidade.UsoWorkflow;
+import br.com.sisgestor.negocio.AnexoBO;
+import br.com.sisgestor.negocio.UsoWorkflowBO;
+import br.com.sisgestor.negocio.exception.NegocioException;
+import br.com.sisgestor.persistencia.AnexoDAO;
+import br.com.sisgestor.util.DataUtil;
+import br.com.sisgestor.util.Utils;
+import br.com.sisgestor.util.constantes.Constantes;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +31,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("anexoBO")
 public class AnexoBOImpl extends BaseBOImpl<Anexo> implements AnexoBO {
 
-	private AnexoDAO			anexoDAO;
-	private UsoWorkflowBO	usoWorkflowBO;
+	private AnexoDAO anexoDAO;
+	private UsoWorkflowBO usoWorkflowBO;
+
+	private DataUtil dataUtil = DataUtil.getInstancia();
 
 	/**
 	 * {@inheritDoc}
@@ -130,7 +132,7 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo> implements AnexoBO {
 		HistoricoUsoWorkflow historicoUsoWorkflow = new HistoricoUsoWorkflow();
 		historicoUsoWorkflow.setUsoWorkflow(usoWorkflow);
 		historicoUsoWorkflow.setUsuario(Utils.getUsuario());
-		historicoUsoWorkflow.setDataHora(DataUtil.getDataHoraAtual());
+		historicoUsoWorkflow.setDataHora(dataUtil.getDataHoraAtual());
 		historicoUsoWorkflow.setAcao(acao);
 		this.getUsoWorkflowBO().salvarHistorico(historicoUsoWorkflow);
 	}

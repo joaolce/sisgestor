@@ -4,15 +4,15 @@
  */
 package br.com.sisgestor.apresentacao.actions;
 
-import br.com.sisgestor.util.DataUtil;
-import br.com.sisgestor.util.Utils;
-import br.com.sisgestor.util.constantes.ConstantesContexto;
+import br.com.sisgestor.apresentacao.forms.AnexoUsoWorkflowActionForm;
+import br.com.sisgestor.entidade.Anexo;
+import br.com.sisgestor.entidade.UsoWorkflow;
 import br.com.sisgestor.negocio.AnexoBO;
 import br.com.sisgestor.negocio.UsoWorkflowBO;
 import br.com.sisgestor.negocio.exception.NegocioException;
-import br.com.sisgestor.entidade.Anexo;
-import br.com.sisgestor.entidade.UsoWorkflow;
-import br.com.sisgestor.apresentacao.forms.AnexoUsoWorkflowActionForm;
+import br.com.sisgestor.util.DataUtil;
+import br.com.sisgestor.util.Utils;
+import br.com.sisgestor.util.constantes.ConstantesContexto;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -29,8 +29,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class AnexoUsoWorkflowAction extends BaseAction {
 
-	private AnexoBO			anexoBO;
-	private UsoWorkflowBO	usoWorkflowBO;
+	private AnexoBO anexoBO;
+	private UsoWorkflowBO usoWorkflowBO;
+
+	private DataUtil dataUtil = DataUtil.getInstancia();
 
 	/**
 	 * Faz o download do anexo solicitado.
@@ -184,7 +186,7 @@ public class AnexoUsoWorkflowAction extends BaseAction {
 
 		anexo.setNome(arquivo.getFileName());
 		anexo.setContentType(arquivo.getContentType());
-		anexo.setDataCriacao(DataUtil.getDataHoraAtual());
+		anexo.setDataCriacao(dataUtil.getDataHoraAtual());
 		try {
 			anexo.setDados(arquivo.getFileData());
 		} catch (Exception e) {

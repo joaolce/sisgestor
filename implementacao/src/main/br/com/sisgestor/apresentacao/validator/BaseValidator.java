@@ -47,6 +47,8 @@ public class BaseValidator {
 	private HttpServletResponse response;
 	private HttpSession session;
 
+	private DataUtil dataUtil = DataUtil.getInstancia();
+
 	/**
 	 * Método de execução padrão, deve ser executado para preencher variáveis locais e facilitar a vida do
 	 * programador. A principio, a {@link BaseAction} chama esse método.
@@ -392,7 +394,7 @@ public class BaseValidator {
 	 */
 	protected boolean validaData(String labelProperty, String formProperty) {
 		String dataInformadaString = (String) this.getFormValue(formProperty);
-		if (StringUtils.isNotBlank(dataInformadaString) && !DataUtil.ehDataValida(dataInformadaString)) {
+		if (StringUtils.isNotBlank(dataInformadaString) && !dataUtil.ehDataValida(dataInformadaString)) {
 			this.addError("erro.dataInvalida", this.getMessageKey(labelProperty));
 			this.setFocusControl(formProperty);
 			return false;
