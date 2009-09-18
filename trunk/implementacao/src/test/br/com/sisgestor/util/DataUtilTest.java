@@ -59,4 +59,22 @@ public class DataUtilTest {
 		assertEquals(1900, dataUtil.getAno(new Date(-2200000000000L)));
 		assertEquals(1899, dataUtil.getAno(new Date(-2230000000000L)));
 	}
+
+	/**
+	 * Teste do método: {@link DataUtil#getDataAtual()}. <br>
+	 * Cenário: validações do método
+	 */
+	@Test
+	public void testGetDataAtual() {
+		assertEquals(new Date(), dataUtil.getDataAtual());
+	}
+
+	/**
+	 * Teste do método: {@link DataUtil#getDataHoraAtual()}. <br>
+	 * Cenário: validações do método
+	 */
+	@Test
+	public void testGetDataHoraAtual() {
+		assertEquals(new Date(), dataUtil.getDataHoraAtual());
+	}
 }
