@@ -17,10 +17,10 @@ public final class Constantes {
 	private static DataUtil dataUtil = DataUtil.getInstancia();
 
 	/** Versão atual do sistema. */
-	public static final String VERSAO = "1.0.0";
+	public static final String VERSAO = "1.0.2";
 
 	/** Data da versão atual do sistema. */
-	public static final String VERSAO_DATA = dataUtil.utilDateToString(dataUtil.getDate(17, 6, 2009));
+	public static final String VERSAO_DATA = dataUtil.utilDateToString(dataUtil.getDate(24, 9, 2009));
 
 	/** Remetente de emails do sisgestor. */
 	public static final String REMETENTE_EMAIL_SISGESTOR = "sisgestor@sisgestor.com";

@@ -84,6 +84,7 @@ ManterUsuario.prototype = {
 		   dwr.util.setValue("chefe", usuario.chefe);
 		   this.atualizarPermissoesUsuario(usuario);
 		   this.habilitarCampos(this.permissaoManterUsuario);
+		   this.habilitarAtualizacoesUsuarioLogado();
 	   }).bind(this));
    },
 
@@ -184,8 +185,7 @@ ManterUsuario.prototype = {
 			   }
 		   }).bind(this), ( function() {
 			   if (requestUtils.status) {
-				   if ((Usuario.getUsuario().id == dwr.util.getValue($("formSalvar").id))
-				      && this.permissaoManterUsuario) {
+				   if (this.isUsuarioLogadoEAtual() && this.permissaoManterUsuario) {
 					   UtilDWR.finalizarSessao( function() {
 						   JanelasComuns.sessaoFinalizada();
 					   });
@@ -286,6 +286,26 @@ ManterUsuario.prototype = {
 	   $("formSalvar").departamento.disabled = !habilita;
 	   $("formSalvar").permissoes.disabled = !habilita;
 	   $("formSalvar").permissoesInform.disabled = !habilita;
+   },
+   
+   /**
+	 * Habilita/desabilita os campos/botão atualizar de acordo com a permissão do usuário logado, e suas permissões.
+	 */
+   habilitarAtualizacoesUsuarioLogado : function() {
+	   var usuarioPodeAtualizar = this.isUsuarioLogadoEAtual() || this.permissaoManterUsuario;
+	   $("formSalvar").login.disabled = !usuarioPodeAtualizar;
+	   $("formSalvar").nome.disabled = !usuarioPodeAtualizar;
+	   $("formSalvar").email.disabled = !usuarioPodeAtualizar;
+	   $("formSalvar").atualizar.disabled = !usuarioPodeAtualizar;
+   },
+   
+   /**
+	 * Retorna se o usuário logado é o usuário que está sendo atualizado.
+	 * 
+	 * @return (Boolean)
+	 */
+   isUsuarioLogadoEAtual : function() {
+	   return Usuario.getUsuario().id == dwr.util.getValue($("formSalvar").id);
    }
 };
 
