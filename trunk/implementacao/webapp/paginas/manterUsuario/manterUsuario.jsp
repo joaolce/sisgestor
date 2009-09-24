@@ -161,7 +161,7 @@
 			</div>
 			<div style="clear: both; padding: 3px;" align="center" id="divBotoes">
 				<!-- Não bloqueando o botão, pois usuário pode se atualizar, validando na action -->
-				<html:submit titleKey="dica.atualizar" styleClass="botaoOkCancelar">
+				<html:submit property="atualizar" titleKey="dica.atualizar" styleClass="botaoOkCancelar">
 					<bean:message key="botao.atualizar"/>
 				</html:submit>
 				<htmlSGR:button property="excluir" titleKey="dica.excluir" styleClass="botaoOkCancelar" onclick="usuario.excluir();" roles="3">
