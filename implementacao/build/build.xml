@@ -66,7 +66,6 @@
 	
 	<target name="cleanFiles" description="Apaga os arquivos gerados pelo build">
 		<delete file="${file.war}" failonerror="false" />
-		<delete file="${file.jar}" failonerror="false" />
 		<delete file="${file.ear}" failonerror="false" />
 	</target>
 	
@@ -110,50 +109,23 @@
 				<include name="**/*.tld" />
 			</webinf>
 			<zipfileset dir="${dir.src}" prefix="WEB-INF/classes">
-				<exclude name="br/com/sisgestor/entidade/**" />
-				<exclude name="br/com/sisgestor/mail/**" />
-				<exclude name="br/com/sisgestor/negocio/**" />
-				<exclude name="br/com/sisgestor/persistencia/**" />
-				<exclude name="br/com/sisgestor/util/**" />
 				<include name="**/*.properties" />
 				<include name="**/*.html" />
 				<include name="**/*.xml" />
 			</zipfileset>
-			<classes dir="${dir.classesAnt}">
-				<include name="br/com/sisgestor/apresentacao/**" />
-			</classes>
+			<classes dir="${dir.classesAnt}" />
 			<lib dir="${dir.webinf}/lib" />			
 		</war>
 	</target>
 	
-	<target name="geraJAR" depends="compila" description="gera arquivo .jar">
-		<echo message="gerando o .JAR" />
-		<jar destfile="${file.jar}" 
-			manifest="${dir.export}/jar/META-INF/MANIFEST.MF" 
-			update="true">
-		
-			<patternset refid="dest.exclude" />
-			
-			<zipfileset dir="${dir.src}">
-				<exclude name="br/com/sisgestor/apresentacao/**" />
-				<include name="**/*.properties" />
-			</zipfileset>
-			
-			<zipfileset dir="${dir.classesAnt}">
-				<exclude name="br/com/sisgestor/apresentacao/**" />
-			</zipfileset>
-		</jar>
-	</target>
-	
-	<target name="geraEAR" depends="geraWAR,geraJAR" description="gera arquivo da aplicação (.ear)">
+	<target name="geraEAR" depends="geraWAR" description="gera arquivo da aplicação (.ear)">
 		<echo message="gerando o .EAR" />
 		<ear destfile="${file.ear}"
-			appxml="${dir.export}/ear/META-INF/application.xml">
+			appxml="${dir.export}/ear/META-INF/application.xml" 
+			manifest="${dir.export}/ear/META-INF/MANIFEST.MF"
+			update="true">
 			
 			<fileset file="${file.war}" />
-			<fileset file="${file.jar}" />
-			
-			<zipfileset dir="${dir.webinf}/lib" prefix="lib" />
 		</ear>
 	</target>
 	
