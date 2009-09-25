@@ -119,7 +119,7 @@ public class DataUtil {
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
-		return new Date(calendar.getTime().getTime());
+		return calendar.getTime();
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class DataUtil {
 	 */
 	public String getStringDataAtualCompleta() {
 		synchronized (DATA_FULL) {
-			return DATA_FULL.format(new Timestamp(System.currentTimeMillis()));
+			return DATA_FULL.format(getDataAtual());
 		}
 	}
 
@@ -155,8 +155,8 @@ public class DataUtil {
 	 * @param inData String a converter
 	 * @return Timestamp convertido
 	 */
-	public java.sql.Timestamp stringToTimestamp(String inData) {
-		java.util.Date auxData = stringToUtilDate(inData);
+	public Timestamp stringToTimestamp(String inData) {
+		Date auxData = stringToUtilDate(inData);
 		return utilDateToTimestamp(auxData);
 	}
 
@@ -169,7 +169,10 @@ public class DataUtil {
 	public Date stringToUtilDate(String data) {
 		synchronized (DATA_MEDIUM) {
 			try {
-				return new Date(DATA_MEDIUM.parse(data).getTime());
+				if (ehDataValida(data)) {
+					return new Date(DATA_MEDIUM.parse(data).getTime());
+				}
+				return null;
 			} catch (Exception e) {
 				return null;
 			}
@@ -194,8 +197,8 @@ public class DataUtil {
 	 * @param inData data informada
 	 * @return Timestamp da data
 	 */
-	public java.sql.Timestamp utilDateToTimestamp(java.util.Date inData) {
-		return new java.sql.Timestamp(inData.getTime());
+	public Timestamp utilDateToTimestamp(Date inData) {
+		return new Timestamp(inData.getTime());
 	}
 
 }
