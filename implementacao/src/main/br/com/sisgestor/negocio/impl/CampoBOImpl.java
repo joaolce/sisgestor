@@ -4,15 +4,14 @@
  */
 package br.com.sisgestor.negocio.impl;
 
-import br.com.sisgestor.util.Utils;
-import br.com.sisgestor.util.dto.PesquisaManterCampoDTO;
-import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
-import br.com.sisgestor.persistencia.CampoDAO;
+import br.com.sisgestor.entidade.Campo;
+import br.com.sisgestor.entidade.Workflow;
 import br.com.sisgestor.negocio.CampoBO;
 import br.com.sisgestor.negocio.WorkflowBO;
 import br.com.sisgestor.negocio.exception.NegocioException;
-import br.com.sisgestor.entidade.Campo;
-import br.com.sisgestor.entidade.Workflow;
+import br.com.sisgestor.persistencia.CampoDAO;
+import br.com.sisgestor.util.dto.PesquisaManterCampoDTO;
+import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,8 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("campoBO")
 public class CampoBOImpl extends BaseBOImpl<Campo> implements CampoBO {
 
-	private WorkflowBO	workflowBO;
-	private CampoDAO		campoDAO;
+	private WorkflowBO workflowBO;
+	private CampoDAO campoDAO;
 
 	/**
 	 * {@inheritDoc}
@@ -118,13 +117,14 @@ public class CampoBOImpl extends BaseBOImpl<Campo> implements CampoBO {
 	 */
 	private WorkflowBO getWorkflowBO() {
 		if (this.workflowBO == null) {
-			this.workflowBO = Utils.getBean(WorkflowBO.class);
+			this.workflowBO = utils.getBean(WorkflowBO.class);
 		}
 		return this.workflowBO;
 	}
 
 	/**
-	 * Verifica se o {@link Workflow} pode ser alterado, para não poder ocorrer alteração nos campos.
+	 * Verifica se o {@link Workflow} pode ser alterado, para não poder ocorrer alteração nos
+	 * campos.
 	 * 
 	 * @param workflow {@link Workflow} a verificar
 	 * @throws NegocioException caso o {@link Workflow} não possa ser alterado

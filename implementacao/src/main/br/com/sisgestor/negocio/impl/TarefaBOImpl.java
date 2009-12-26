@@ -4,13 +4,6 @@
  */
 package br.com.sisgestor.negocio.impl;
 
-import br.com.sisgestor.util.Utils;
-import br.com.sisgestor.util.dto.PesquisaManterTarefaDTO;
-import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
-import br.com.sisgestor.persistencia.TarefaDAO;
-import br.com.sisgestor.negocio.AtividadeBO;
-import br.com.sisgestor.negocio.TarefaBO;
-import br.com.sisgestor.negocio.exception.NegocioException;
 import br.com.sisgestor.entidade.Atividade;
 import br.com.sisgestor.entidade.Processo;
 import br.com.sisgestor.entidade.Tarefa;
@@ -20,6 +13,12 @@ import br.com.sisgestor.entidade.TransacaoTarefa;
 import br.com.sisgestor.entidade.UsoWorkflow;
 import br.com.sisgestor.entidade.Usuario;
 import br.com.sisgestor.entidade.Workflow;
+import br.com.sisgestor.negocio.AtividadeBO;
+import br.com.sisgestor.negocio.TarefaBO;
+import br.com.sisgestor.negocio.exception.NegocioException;
+import br.com.sisgestor.persistencia.TarefaDAO;
+import br.com.sisgestor.util.dto.PesquisaManterTarefaDTO;
+import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,19 +38,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("tarefaBO")
 public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO {
 
-	private AtividadeBO	atividadeBO;
-	private TarefaDAO		tarefaDAO;
+	private AtividadeBO atividadeBO;
+	private TarefaDAO tarefaDAO;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void atualizar(Tarefa tarefa) throws NegocioException {
-		Usuario usuarioLogado = Utils.getUsuario();
+		Usuario usuarioLogado = utils.getUsuario();
 		Atividade atividadeTarefa = tarefa.getAtividade();
 		Workflow workflowTarefa = atividadeTarefa.getProcesso().getWorkflow();
-		if (usuarioLogado.getDepartamento().equals(atividadeTarefa.getDepartamento())
-				&& usuarioLogado.getChefe()) {
+		if (usuarioLogado.getDepartamento().equals(atividadeTarefa.getDepartamento()) && usuarioLogado.getChefe()) {
 			if (workflowTarefa.getDataHoraExclusao() != null) {
 				throw new NegocioException("erro.workflowExcluido");
 			}
@@ -68,8 +66,7 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-	public void atualizarTransacoes(Integer idAtividade, String[] fluxos, String[] posicoes)
-			throws NegocioException {
+	public void atualizarTransacoes(Integer idAtividade, String[] fluxos, String[] posicoes) throws NegocioException {
 		Workflow workflow = this.getAtividadeBO().obter(idAtividade).getProcesso().getWorkflow();
 		this.validarSePodeAlterarWorkflow(workflow);
 
@@ -125,8 +122,8 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 	 * {@inheritDoc}
 	 */
 	@Transactional(readOnly = true)
-	public List<Tarefa> getByNomeDescricaoUsuario(String nome, String descricao, Integer usuario,
-			Integer idAtividade, Integer paginaAtual) {
+	public List<Tarefa> getByNomeDescricaoUsuario(String nome, String descricao, Integer usuario, Integer idAtividade,
+			Integer paginaAtual) {
 		return this.tarefaDAO.getByNomeDescricaoUsuario(nome, descricao, usuario, idAtividade, paginaAtual);
 	}
 
@@ -137,8 +134,8 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaManterTarefaDTO dto = (PesquisaManterTarefaDTO) parametros;
-		return this.tarefaDAO.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getUsuario(), dto
-				.getIdAtividade());
+		return this.tarefaDAO
+				.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getUsuario(), dto.getIdAtividade());
 	}
 
 	/**
@@ -231,7 +228,7 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 	 */
 	private AtividadeBO getAtividadeBO() {
 		if (this.atividadeBO == null) {
-			this.atividadeBO = Utils.getBean(AtividadeBO.class);
+			this.atividadeBO = utils.getBean(AtividadeBO.class);
 		}
 		return this.atividadeBO;
 	}
@@ -275,9 +272,8 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 	 * @param listaTarefas {@link List} com as tarefas
 	 * @throws NegocioException caso não haja fluxo definido
 	 */
-	private void inicializarValidacaoFluxo(List<TransacaoTarefa> transacoes,
-			Map<Integer, Integer> mapAnteriores, Map<Integer, Integer> mapPosteriores, List<Tarefa> listaTarefas)
-			throws NegocioException {
+	private void inicializarValidacaoFluxo(List<TransacaoTarefa> transacoes, Map<Integer, Integer> mapAnteriores,
+			Map<Integer, Integer> mapPosteriores, List<Tarefa> listaTarefas) throws NegocioException {
 		//Valida para que haja definição de fluxos
 		if ((listaTarefas != null) && !listaTarefas.isEmpty() && ((transacoes != null) && transacoes.isEmpty())) {
 			throw new NegocioException("erro.fluxo.definicao.tarefa");
@@ -324,13 +320,12 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 
 		this.inicializarValidacaoFluxo(transacoes, mapAnteriores, mapPosteriores, lista);
 
-		this.validarFluxos(lista, exceptionIsolado, exceptionInicial, exceptionFinal, mapAnteriores,
-				mapPosteriores);
+		this.validarFluxos(lista, exceptionIsolado, exceptionInicial, exceptionFinal, mapAnteriores, mapPosteriores);
 	}
 
 	/**
-	 * Verifica quais são as próximas tarefas disponíveis para o {@link UsoWorkflow} a partir de uma nova
-	 * {@link Atividade}.
+	 * Verifica quais são as próximas tarefas disponíveis para o {@link UsoWorkflow} a partir de uma
+	 * nova {@link Atividade}.
 	 * 
 	 * @param atividade atividade atual do {@link UsoWorkflow}
 	 * @param proximasTarefas lista com as próximas tarefas
@@ -353,8 +348,8 @@ public class TarefaBOImpl extends BaseWorkflowBOImpl<Tarefa> implements TarefaBO
 	}
 
 	/**
-	 * Verifica quais são as próximas tarefas disponíveis para o {@link UsoWorkflow} a partir de um novo
-	 * {@link Processo}.
+	 * Verifica quais são as próximas tarefas disponíveis para o {@link UsoWorkflow} a partir de um
+	 * novo {@link Processo}.
 	 * 
 	 * @param processo processo atual do {@link UsoWorkflow}
 	 * @param proximasTarefas lista com as próximas tarefas

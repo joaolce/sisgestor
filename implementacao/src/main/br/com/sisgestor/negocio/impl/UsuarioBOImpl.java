@@ -9,7 +9,6 @@ import br.com.sisgestor.entidade.Usuario;
 import br.com.sisgestor.negocio.UsuarioBO;
 import br.com.sisgestor.negocio.exception.NegocioException;
 import br.com.sisgestor.persistencia.UsuarioDAO;
-import br.com.sisgestor.util.DataUtil;
 import br.com.sisgestor.util.constantes.Constantes;
 import br.com.sisgestor.util.dto.PesquisaManterUsuarioDTO;
 import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
@@ -35,8 +34,6 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	private static final Log LOG = LogFactory.getLog(UsuarioBOImpl.class);
 	private UsuarioDAO usuarioDAO;
 
-	private DataUtil dataUtil = DataUtil.getInstancia();
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -55,8 +52,8 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 		if ((usuario != null) && StringUtils.isNotBlank(usuario.getEmail())) {
 			usuario.setSenha(this.gerarSenha());
 			this.usuarioDAO.atualizar(usuario);
-			return this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR,
-					Constantes.ASSUNTO_EMAIL_LEMBRETE_SENHA, usuario.getSenha(), usuario.getEmail());
+			return this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR, Constantes.ASSUNTO_EMAIL_LEMBRETE_SENHA, usuario
+					.getSenha(), usuario.getEmail());
 		}
 		if (usuario == null) {
 			LOG.info("Usuário não encontrado, não enviado email de lembrete");
@@ -99,8 +96,7 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	 * {@inheritDoc}
 	 */
 	@Transactional(readOnly = true)
-	public List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento,
-			Integer paginaAtual) {
+	public List<Usuario> getByLoginNomeDepartamento(String login, String nome, Integer departamento, Integer paginaAtual) {
 		return this.usuarioDAO.getByLoginNomeDepartamento(login, nome, departamento, paginaAtual);
 	}
 
@@ -139,8 +135,8 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 		this.validarSeLoginExiste(usuario);
 		Integer id = this.usuarioDAO.salvar(usuario);
 		this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR, Constantes.ASSUNTO_EMAIL_NOVO_USUARIO,
-				"Seja bem vindo ao <b>SisGestor</b> <br /> <p>Sua senha é: " + usuario.getSenha() + "</p>",
-				usuario.getEmail());
+				"Seja bem vindo ao <b>SisGestor</b> <br /> <p>Sua senha é: " + usuario.getSenha() + "</p>", usuario
+						.getEmail());
 		return id;
 	}
 
@@ -162,8 +158,8 @@ public class UsuarioBOImpl extends BaseBOImpl<Usuario> implements UsuarioBO {
 	private String gerarSenha() {
 		StringBuilder senha = new StringBuilder("");
 		char caracteres[] =
-				{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
-						't', 'u', 'v', 'w', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+				{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+						'v', 'w', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 		Random random = new Random();
 		while (senha.length() < 6) {
 			if (random.nextBoolean()) { // caracter maiúsculo

@@ -57,7 +57,8 @@ public class RoleValidatorReader {
 	}
 
 	/**
-	 * Verifica se o usuário contém alguma das roles necessárias para executar o método da action informada.
+	 * Verifica se o usuário contém alguma das roles necessárias para executar o método da action
+	 * informada.
 	 * 
 	 * @param usuario usuário a verificar se tem permissão
 	 * @param action action a ser executada
@@ -71,6 +72,6 @@ public class RoleValidatorReader {
 		if (StringUtils.isBlank(roles)) {
 			return true;
 		}
-		return Utils.usuarioTemPermissao(usuario, roles);
+		return Utils.get().usuarioTemPermissao(usuario, roles);
 	}
 }

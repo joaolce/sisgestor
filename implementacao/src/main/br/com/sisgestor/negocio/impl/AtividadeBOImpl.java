@@ -4,19 +4,18 @@
  */
 package br.com.sisgestor.negocio.impl;
 
-import br.com.sisgestor.util.Utils;
-import br.com.sisgestor.util.dto.PesquisaManterAtividadeDTO;
-import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
-import br.com.sisgestor.persistencia.AtividadeDAO;
-import br.com.sisgestor.negocio.AtividadeBO;
-import br.com.sisgestor.negocio.ProcessoBO;
-import br.com.sisgestor.negocio.TarefaBO;
-import br.com.sisgestor.negocio.exception.NegocioException;
 import br.com.sisgestor.entidade.Atividade;
 import br.com.sisgestor.entidade.Processo;
 import br.com.sisgestor.entidade.Tarefa;
 import br.com.sisgestor.entidade.TransacaoAtividade;
 import br.com.sisgestor.entidade.Workflow;
+import br.com.sisgestor.negocio.AtividadeBO;
+import br.com.sisgestor.negocio.ProcessoBO;
+import br.com.sisgestor.negocio.TarefaBO;
+import br.com.sisgestor.negocio.exception.NegocioException;
+import br.com.sisgestor.persistencia.AtividadeDAO;
+import br.com.sisgestor.util.dto.PesquisaManterAtividadeDTO;
+import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,9 +35,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("atividadeBO")
 public class AtividadeBOImpl extends BaseWorkflowBOImpl<Atividade> implements AtividadeBO {
 
-	private ProcessoBO	processoBO;
-	private TarefaBO		tarefaBO;
-	private AtividadeDAO	atividadeDAO;
+	private ProcessoBO processoBO;
+	private TarefaBO tarefaBO;
+	private AtividadeDAO atividadeDAO;
 
 	/**
 	 * {@inheritDoc}
@@ -61,8 +60,7 @@ public class AtividadeBOImpl extends BaseWorkflowBOImpl<Atividade> implements At
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-	public void atualizarTransacoes(Integer idProcesso, String[] fluxos, String[] posicoes)
-			throws NegocioException {
+	public void atualizarTransacoes(Integer idProcesso, String[] fluxos, String[] posicoes) throws NegocioException {
 		Workflow workflow = this.getProcessoBO().obter(idProcesso).getWorkflow();
 		this.validarSePodeAlterarWorkflow(workflow);
 
@@ -117,8 +115,7 @@ public class AtividadeBOImpl extends BaseWorkflowBOImpl<Atividade> implements At
 	@Transactional(readOnly = true)
 	public List<Atividade> getByNomeDescricaoDepartamento(String nome, String descricao, Integer departamento,
 			Integer idProcesso, Integer paginaAtual) {
-		return this.atividadeDAO.getByNomeDescricaoDepartamento(nome, descricao, departamento, idProcesso,
-				paginaAtual);
+		return this.atividadeDAO.getByNomeDescricaoDepartamento(nome, descricao, departamento, idProcesso, paginaAtual);
 	}
 
 	/**
@@ -136,8 +133,8 @@ public class AtividadeBOImpl extends BaseWorkflowBOImpl<Atividade> implements At
 	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaManterAtividadeDTO dto = (PesquisaManterAtividadeDTO) parametros;
-		return this.atividadeDAO.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getDepartamento(),
-				dto.getIdProcesso());
+		return this.atividadeDAO.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getDepartamento(), dto
+				.getIdProcesso());
 	}
 
 	/**
@@ -204,7 +201,7 @@ public class AtividadeBOImpl extends BaseWorkflowBOImpl<Atividade> implements At
 	 */
 	private ProcessoBO getProcessoBO() {
 		if (this.processoBO == null) {
-			this.processoBO = Utils.getBean(ProcessoBO.class);
+			this.processoBO = utils.getBean(ProcessoBO.class);
 		}
 		return this.processoBO;
 	}
@@ -216,7 +213,7 @@ public class AtividadeBOImpl extends BaseWorkflowBOImpl<Atividade> implements At
 	 */
 	private TarefaBO getTarefaBO() {
 		if (this.tarefaBO == null) {
-			this.tarefaBO = Utils.getBean(TarefaBO.class);
+			this.tarefaBO = utils.getBean(TarefaBO.class);
 		}
 		return this.tarefaBO;
 	}
@@ -260,12 +257,10 @@ public class AtividadeBOImpl extends BaseWorkflowBOImpl<Atividade> implements At
 	 * @param listaAtividades {@link List} com as atividades
 	 * @throws NegocioException caso não haja fluxo definido
 	 */
-	private void inicializarValidacaoFluxo(List<TransacaoAtividade> transacoes,
-			Map<Integer, Integer> mapAnteriores, Map<Integer, Integer> mapPosteriores,
-			List<Atividade> listaAtividades) throws NegocioException {
+	private void inicializarValidacaoFluxo(List<TransacaoAtividade> transacoes, Map<Integer, Integer> mapAnteriores,
+			Map<Integer, Integer> mapPosteriores, List<Atividade> listaAtividades) throws NegocioException {
 		//Valida para que haja definição de fluxos
-		if ((listaAtividades != null) && !listaAtividades.isEmpty()
-				&& ((transacoes != null) && transacoes.isEmpty())) {
+		if ((listaAtividades != null) && !listaAtividades.isEmpty() && ((transacoes != null) && transacoes.isEmpty())) {
 			throw new NegocioException("erro.fluxo.definicao.atividade");
 		}
 
@@ -310,7 +305,6 @@ public class AtividadeBOImpl extends BaseWorkflowBOImpl<Atividade> implements At
 
 		this.inicializarValidacaoFluxo(transacoes, mapAnteriores, mapPosteriores, lista);
 
-		this.validarFluxos(lista, exceptionIsolado, exceptionInicial, exceptionFinal, mapAnteriores,
-				mapPosteriores);
+		this.validarFluxos(lista, exceptionIsolado, exceptionInicial, exceptionFinal, mapAnteriores, mapPosteriores);
 	}
 }

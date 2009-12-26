@@ -4,10 +4,12 @@
  */
 package br.com.sisgestor.negocio.impl;
 
-import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
-import br.com.sisgestor.negocio.BaseBO;
-import br.com.sisgestor.mail.Email;
 import br.com.sisgestor.entidade.ObjetoPersistente;
+import br.com.sisgestor.mail.Email;
+import br.com.sisgestor.negocio.BaseBO;
+import br.com.sisgestor.util.DataUtil;
+import br.com.sisgestor.util.Utils;
+import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,12 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public abstract class BaseBOImpl<T extends ObjetoPersistente> implements BaseBO<T> {
 
-	private SessionFactory	sessionFactory;
+	/** {@link Utils}. */
+	protected Utils utils = Utils.get();
+	/** {@link DataUtil}. */
+	protected DataUtil dataUtil = DataUtil.get();
+
+	private SessionFactory sessionFactory;
 
 	/**
 	 * Cria uma nova instância do tipo {@link BaseBOImpl}.

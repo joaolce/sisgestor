@@ -1861,7 +1861,7 @@ Date.create = function() {
 	}
 	d.isUTC = true;
 	return d;
-}
+};
 
 Date._createFromAnotherDate = function(other) {
 	var d = new Date("1 Jan 1970 00:00:00 UTC");
@@ -1872,21 +1872,21 @@ Date._createFromAnotherDate = function(other) {
 	d.setUTCMinutes(other.getUTCMinutes());
 	d.setUTCSeconds(other.getUTCSeconds());
 	return d;
-}
+};
 
 Date._createFromToday = function() {
 	var d = new Date();
 	return d.withoutTimeZone();
-}
+};
 
 Date._createFromString = function(str) {
 	var d = new Date(str);
 	return d.withoutTimeZone();
-}
+};
 
 Date._createFromDate = function(year, month, date) {
 	return Date._createFromDateTime(year, month, date, 0, 0, 0);
-}
+};
 
 Date._createFromDateTime = function(year, month, date, hours, minutes, seconds) {
 	var d = new Date("1 Jan 1970 00:00:00 UTC");
@@ -1897,7 +1897,7 @@ Date._createFromDateTime = function(year, month, date, hours, minutes, seconds) 
 	d.setUTCMinutes(minutes);
 	d.setUTCSeconds(seconds);
 	return d;
-}
+};
 
 Date.prototype.withoutTimeZone = function() {
 	// Se já for UTC, é porque provavelmente já passou por uma conversão anterior.
@@ -1928,7 +1928,7 @@ Date.prototype.withoutTimeZone = function() {
 			nStr = "0" + nStr;
 		}
 		return nStr;
-	}
+	};
 	
 	var dStr = d + " " + Date._MONTHS[m] + " " + toStr(y, 4) + " " + toStr(hours, 2) + ":" + toStr(min, 2) + ":" + toStr(sec, 2) + " UTC";
 	var res = new Date(dStr);
@@ -1948,11 +1948,11 @@ Calendar.hack = function(ctx) {
 		ctx = calendar.context;
 		ctx.setFieldDate(ctx, calendar);
 		calendar.callCloseHandler();
-	}
+	};
 	
 	var onClose = function(cal) {
 		cal.hide();
-	}
+	};
 
 	ctx.trigger.onclick = function() {
 		var date = ctx.getFieldDate(ctx);
@@ -1967,8 +1967,8 @@ Calendar.hack = function(ctx) {
 			ctx.calendar = cal;
 		}
 		ctx.calendar.showAtElement(ctx.trigger, "Br");
-	}
-}
+	};
+};
 
 /*
  * ===========================================================
@@ -1998,10 +1998,9 @@ Calendar.registerDateCalendar = function(fieldId, triggerId, callback) {
 		}
 	};
 	Calendar.hack(context);
-}
+};
 
 Calendar.registerDateTimeCalendar = function(dateFieldId, timeFieldId, triggerId) {
-
 	var context = {
 		dateField: document.getElementById(dateFieldId),
 		timeField: document.getElementById(timeFieldId),
@@ -2017,4 +2016,4 @@ Calendar.registerDateTimeCalendar = function(dateFieldId, timeFieldId, triggerId
 	};
 	Calendar.hack(context);
 	
-}
+};

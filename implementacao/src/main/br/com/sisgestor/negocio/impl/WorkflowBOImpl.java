@@ -18,7 +18,6 @@ import br.com.sisgestor.negocio.TarefaBO;
 import br.com.sisgestor.negocio.WorkflowBO;
 import br.com.sisgestor.negocio.exception.NegocioException;
 import br.com.sisgestor.persistencia.WorkflowDAO;
-import br.com.sisgestor.util.DataUtil;
 import br.com.sisgestor.util.Utils;
 import br.com.sisgestor.util.dto.PesquisaManterWorkflowDTO;
 import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
@@ -55,8 +54,6 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	private AtividadeBO atividadeBO;
 	private TarefaBO tarefaBO;
 
-	private DataUtil dataUtil = DataUtil.getInstancia();
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -86,8 +83,7 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 		Workflow workflowNovo = new Workflow();
 		try {
 			Map<Object, Object> mapaObjetos = this.inicializarCopiaWorkflow(workflow);
-			this.copiarPropriedades(workflowNovo, workflow, mapaObjetos, "ativo", "nome", "dataHoraExclusao",
-					"usos");
+			this.copiarPropriedades(workflowNovo, workflow, mapaObjetos, "ativo", "nome", "dataHoraExclusao", "usos");
 			workflowNovo.setNome("Cópia - " + workflow.getNome());
 			workflowNovo.setAtivo(Boolean.FALSE);
 			workflowNovo.setDataHoraExclusao(null);
@@ -121,8 +117,8 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	 * {@inheritDoc}
 	 */
 	@Transactional(readOnly = true)
-	public List<Workflow> getByNomeDescricaoAtivo(String nome, String descricao, Boolean ativo,
-			Boolean excluidos, Integer paginaAtual) {
+	public List<Workflow> getByNomeDescricaoAtivo(String nome, String descricao, Boolean ativo, Boolean excluidos,
+			Integer paginaAtual) {
 		return this.workflowDAO.getByNomeDescricaoAtivo(nome, descricao, ativo, excluidos, paginaAtual);
 	}
 
@@ -133,8 +129,7 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
 		PesquisaManterWorkflowDTO dto = (PesquisaManterWorkflowDTO) parametros;
-		return this.workflowDAO.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getAtivo(), dto
-				.getExcluidos());
+		return this.workflowDAO.getTotalRegistros(dto.getNome(), dto.getDescricao(), dto.getAtivo(), dto.getExcluidos());
 	}
 
 	/**
@@ -158,7 +153,7 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	 */
 	@Transactional(readOnly = true)
 	public List<Workflow> recuperarPendentesIniciar() {
-		return this.workflowDAO.recuperarPendentesIniciar(Utils.getUsuario());
+		return this.workflowDAO.recuperarPendentesIniciar(utils.getUsuario());
 	}
 
 	/**
@@ -224,9 +219,8 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	 * @throws InvocationTargetException caso ocorra erro na invocação de método
 	 * @throws NoSuchMethodException caso não exista o método <code>get</code> ou <code>set</code>
 	 */
-	private void copiarPropriedades(Object destino, Object origem, Map<Object, Object> mapaObjetos,
-			String... exclusao) throws IllegalAccessException, InstantiationException,
-			InvocationTargetException, NoSuchMethodException {
+	private void copiarPropriedades(Object destino, Object origem, Map<Object, Object> mapaObjetos, String... exclusao)
+			throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
 		if (!destino.getClass().getName().equals(origem.getClass().getName())) {
 			throw new IllegalArgumentException("Classes devem ser iguais");
 		}
@@ -237,16 +231,14 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 		PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(origem);
 		for (PropertyDescriptor descriptor : descriptors) {
 			nomePropriedade = descriptor.getName();
-			if ("class".equals(nomePropriedade) || "id".equals(nomePropriedade)
-					|| excluidos.contains(nomePropriedade)) {
+			if ("class".equals(nomePropriedade) || "id".equals(nomePropriedade) || excluidos.contains(nomePropriedade)) {
 				continue;
 			}
 			tipo = descriptor.getPropertyType();
 			valorOrigem = PropertyUtils.getProperty(origem, nomePropriedade);
 			if (tipo.isAssignableFrom(List.class)) {
 				valorOrigem =
-						this.copiarPropriedadesList(destino, origem, mapaObjetos, nomePropriedade,
-								(List<?>) valorOrigem);
+						this.copiarPropriedadesList(destino, origem, mapaObjetos, nomePropriedade, (List<?>) valorOrigem);
 			} else if (valorOrigem != null) {
 				Object valorDoMapa = mapaObjetos.get(valorOrigem);
 				if (valorDoMapa != null) {
@@ -273,8 +265,8 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	 */
 	@SuppressWarnings("unchecked")
 	private Object copiarPropriedadesList(Object destino, Object origem, Map<Object, Object> mapaObjetos,
-			String nomePropriedade, List<?> listaOrigem) throws IllegalAccessException,
-			InvocationTargetException, NoSuchMethodException, InstantiationException {
+			String nomePropriedade, List<?> listaOrigem) throws IllegalAccessException, InvocationTargetException,
+			NoSuchMethodException, InstantiationException {
 		List listaDestino = (List<?>) PropertyUtils.getProperty(destino, nomePropriedade);
 		if (listaDestino == null) {
 			listaDestino = new ArrayList();
@@ -286,11 +278,9 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 				objetoListaDestino = objetoListaOrigem.getClass().newInstance();
 				mapaObjetos.put(objetoListaOrigem, objetoListaDestino);
 			}
-			String nomePropriedadeRelacionamento =
-					this.recuperarNomePropriedadeRelacionamento(objetoListaOrigem, origem);
+			String nomePropriedadeRelacionamento = this.recuperarNomePropriedadeRelacionamento(objetoListaOrigem, origem);
 			if (nomePropriedadeRelacionamento != null) {
-				this.copiarPropriedades(objetoListaDestino, objetoListaOrigem, mapaObjetos,
-						nomePropriedadeRelacionamento);
+				this.copiarPropriedades(objetoListaDestino, objetoListaOrigem, mapaObjetos, nomePropriedadeRelacionamento);
 				PropertyUtils.setSimpleProperty(objetoListaDestino, nomePropriedadeRelacionamento, destino); //atribuindo para o relacionamento
 			}
 			listaDestino.add(objetoListaDestino);
@@ -299,7 +289,8 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	}
 
 	/**
-	 * Inicializa mapa com os objetos que possuem transações para realizar a cópia do {@link Workflow}.
+	 * Inicializa mapa com os objetos que possuem transações para realizar a cópia do
+	 * {@link Workflow}.
 	 * 
 	 * @param workflow {@link Workflow} original
 	 * @throws InstantiationException
@@ -330,7 +321,8 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	}
 
 	/**
-	 * Recupera o nome da propriedade que contém a chave estrangeira para o objeto de relacionamento.
+	 * Recupera o nome da propriedade que contém a chave estrangeira para o objeto de
+	 * relacionamento.
 	 * 
 	 * @param objetoDeFK objeto com a chave estrangeira
 	 * @param objetoDePK objeto que está com a chave primária do relacionamento
@@ -388,9 +380,9 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	 * @param workflowNovo novo {@link Workflow} a ser salvo
 	 */
 	private void salvarNovoWorkflow(Workflow workflowNovo) {
-		/* *** GAMBIARRA ***
-		 *  gambiarra feita por causa do hibernate não detectar quando uma transação é salva
-		 *  referenciando um objeto ainda não salvo, pois não faz o cascade para o objeto pai
+		/*
+		 * *** GAMBIARRA *** gambiarra feita por causa do hibernate não detectar quando uma transação
+		 * é salva referenciando um objeto ainda não salvo, pois não faz o cascade para o objeto pai
 		 */
 		List<Object> listaTransacoes = this.retirarTransacoesDaCopia(workflowNovo.getProcessos());
 		this.workflowDAO.salvar(workflowNovo);
@@ -457,8 +449,8 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	}
 
 	/**
-	 * Verifica que todas as atividades e tarefas do workflow tenham fluxo, caso tenha apenas um, não é
-	 * verificado, pois ele já é inicial e final.
+	 * Verifica que todas as atividades e tarefas do workflow tenham fluxo, caso tenha apenas um,
+	 * não é verificado, pois ele já é inicial e final.
 	 * 
 	 * @param processo processo a validar
 	 * @throws NegocioException caso seja violada uma regra
@@ -475,8 +467,8 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	}
 
 	/**
-	 * Verifica que todas as tarefas do workflow tenham fluxo, caso tenha apenas um, não é verificado, pois ele
-	 * já é inicial e final.
+	 * Verifica que todas as tarefas do workflow tenham fluxo, caso tenha apenas um, não é
+	 * verificado, pois ele já é inicial e final.
 	 * 
 	 * @param tarefas tarefas a validar
 	 * @throws NegocioException caso seja violada uma regra
@@ -488,8 +480,8 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	}
 
 	/**
-	 * Verifica que todos os processos, atividades, tarefas do workflow tenham fluxo, caso tenha apenas um, não
-	 * é verificado, pois ele já é inicial e final.
+	 * Verifica que todos os processos, atividades, tarefas do workflow tenham fluxo, caso tenha
+	 * apenas um, não é verificado, pois ele já é inicial e final.
 	 * 
 	 * @param workflow workflow a validar
 	 * @throws NegocioException caso seja violada uma regra
@@ -514,14 +506,14 @@ public class WorkflowBOImpl extends BaseWorkflowBOImpl<Workflow> implements Work
 	private void validaTarefasParaAtivacao(Atividade atividade) throws NegocioException {
 		List<Tarefa> listaTarefas = atividade.getTarefas();
 		if ((listaTarefas == null) || listaTarefas.isEmpty()) {
-			throw new NegocioException("erro.workflowNaoAtivado.tarefa", atividade.getNome(), atividade
-					.getProcesso().getNome());
+			throw new NegocioException("erro.workflowNaoAtivado.tarefa", atividade.getNome(), atividade.getProcesso()
+					.getNome());
 		}
 		//Toda tarefa deve possuir um responsável por ela.
 		for (Tarefa tarefa : listaTarefas) {
 			if (tarefa.getUsuario() == null) {
-				throw new NegocioException("erro.tarefaSemResponsavel", tarefa.getNome(), atividade.getNome(),
-						atividade.getProcesso().getNome());
+				throw new NegocioException("erro.tarefaSemResponsavel", tarefa.getNome(), atividade.getNome(), atividade
+						.getProcesso().getNome());
 			}
 		}
 	}

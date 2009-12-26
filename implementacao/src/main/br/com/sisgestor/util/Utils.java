@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.StringTokenizer;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,16 +47,28 @@ public final class Utils {
 
 	private static final Log LOG = LogFactory.getLog(Utils.class);
 
-	private static MessageResources resources;
-	private static ServletContext contexto;
-	private static ThreadLocal<Usuario> threadUsuario = new ThreadLocal<Usuario>();
+	private MessageResources resources;
+	private ServletContext contexto;
+	private ThreadLocal<Usuario> threadUsuario = new ThreadLocal<Usuario>();
 
-	private static DataUtil dataUtil = DataUtil.getInstancia();
+	private DataUtil dataUtil = DataUtil.get();
+
+	private static Utils instancia = new Utils();
 
 	/**
 	 * Pattern singleton.
 	 */
-	private Utils() {
+	protected Utils() {
+		super();
+	}
+
+	/**
+	 * Recupera a única instância de {@link Utils}.
+	 * 
+	 * @return {@link Utils}
+	 */
+	public static Utils get() {
+		return instancia;
 	}
 
 	/**
@@ -67,14 +78,8 @@ public final class Utils {
 	 * @param numeroCasas número de casas decimais no total
 	 * @return número formatado com zeros
 	 */
-	public static String completaComZero(String valor, int numeroCasas) {
-		StringBuffer numeracaoFinal = new StringBuffer();
-		int casasNumeracao = valor.length();
-		for (int i = 0; i < (numeroCasas - casasNumeracao); i++) {
-			numeracaoFinal.append(0);
-		}
-		numeracaoFinal.append(valor);
-		return numeracaoFinal.toString();
+	public String completaComZero(String valor, int numeroCasas) {
+		return StringUtils.leftPad(valor, numeroCasas, '0');
 	}
 
 	/**
@@ -84,7 +89,7 @@ public final class Utils {
 	 * @param origem stream de origem
 	 * @throws IOException caso algum erro de i/o aconteça
 	 */
-	public static void copia(OutputStream destino, InputStream origem) throws IOException {
+	public void copia(OutputStream destino, InputStream origem) throws IOException {
 		byte[] buffer = new byte[8192];
 		int qtdeLida = 0;
 
@@ -96,24 +101,27 @@ public final class Utils {
 	}
 
 	/**
-	 * Copia as propriedades de um objeto para outro, bastando que as propriedades tenham o mesmo nome e o
-	 * mesmo tipo seguindo essas restrições:
+	 * Copia as propriedades de um objeto para outro, bastando que as propriedades tenham o mesmo
+	 * nome e o mesmo tipo seguindo essas restrições:
 	 * <p>
-	 * - <b>(java.util.Date) origem.dataExemplo -> (java.lang.String) destino.dataExemplo</b> a data origem
-	 * será formatada para String no formato dd/MM/yyyy ou dd/MM/yyyy HH:mm e atribuída na propriedade destino
+	 * - <b>(java.util.Date) origem.dataExemplo -> (java.lang.String) destino.dataExemplo</b> a data
+	 * origem será formatada para String no formato dd/MM/yyyy ou dd/MM/yyyy HH:mm e atribuída na
+	 * propriedade destino
 	 * </p>
 	 * <p>
-	 * - <b>(java.lang.String) origem.dataExemplo -> (java.util.Date) destino.dataExemplo</b> haverá uma
-	 * tentativa de parse na data origem para java.util.Date, se suceder o valor será configurado na
-	 * propriedade destino, caso contrário será configurado null
+	 * - <b>(java.lang.String) origem.dataExemplo -> (java.util.Date) destino.dataExemplo</b> haverá
+	 * uma tentativa de parse na data origem para java.util.Date, se suceder o valor será
+	 * configurado na propriedade destino, caso contrário será configurado null
 	 * </p>
 	 * <p>
-	 * - <b>(java.lang.Integer) origem.objetoPersistente -> (ObjetoPersistente) destino.objetoPersistente</b> o
-	 * valor da propriedade origem será configurado na propriedade <b>id</b> do objeto destino
+	 * - <b>(java.lang.Integer) origem.objetoPersistente -> (ObjetoPersistente)
+	 * destino.objetoPersistente</b> o valor da propriedade origem será configurado na propriedade
+	 * <b>id</b> do objeto destino
 	 * </p>
 	 * <p>
-	 * - <b>(ObjetoPersistente) origem.objetoPersistente -> (java.lang.Integer) destino.objetoPersistente</b>
-	 * será extraído o valor da propriedade <b>id</b> do objeto origem e configurado no objeto destino
+	 * - <b>(ObjetoPersistente) origem.objetoPersistente -> (java.lang.Integer)
+	 * destino.objetoPersistente</b> será extraído o valor da propriedade <b>id</b> do objeto origem
+	 * e configurado no objeto destino
 	 * </p>
 	 * 
 	 * @see PropertyUtils#copyProperties
@@ -123,7 +131,7 @@ public final class Utils {
 	 * @param exclusao propriedade a ignorar na cópia
 	 * @throws Exception caso ocorra erro na recuperação das propriedades
 	 */
-	public static void copyProperties(Object destino, Object origem, String... exclusao) throws Exception { //NOPMD by João Lúcio - não dá para quebrar método
+	public void copyProperties(Object destino, Object origem, String... exclusao) throws Exception { //NOPMD by João Lúcio - não dá para quebrar método
 		//pega os descritores
 		PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(destino);
 		//as propriedades que são do mesmo tipo serão copiadas por último
@@ -148,8 +156,7 @@ public final class Utils {
 			Class<?> propertyType = descriptor.getPropertyType();
 			Class<?> propertyTypeOrigem = descriptorOrigem.getPropertyType();
 			//se a propriedade origem não é legível e a destino não é gravável pula para o próximo
-			if (!PropertyUtils.isWriteable(destino, nomePropriedade)
-					|| !PropertyUtils.isReadable(origem, nomePropriedade)) {
+			if (!PropertyUtils.isWriteable(destino, nomePropriedade) || !PropertyUtils.isReadable(origem, nomePropriedade)) {
 				continue;
 			}
 			//se os tipos são o mesmo separa para transportar depois
@@ -206,8 +213,7 @@ public final class Utils {
 						continue;
 					}
 					Object property = propertyType.newInstance();
-					if (!PropertyUtils.getPropertyType(property, "id").getName()
-							.equals(valor.getClass().getName())) {
+					if (!PropertyUtils.getPropertyType(property, "id").getName().equals(valor.getClass().getName())) {
 						continue;
 					}
 					PropertyUtils.setProperty(property, "id", valor);
@@ -235,13 +241,13 @@ public final class Utils {
 	}
 
 	/**
-	 * Todos os formulários submetidos assíncronamente (pelo método GET), são codificados por causa do charset,
-	 * ao utilizar esse método ele irá decodificar todas as propriedades do form para aparecer acentos e
-	 * caracteres especiais
+	 * Todos os formulários submetidos assíncronamente (pelo método GET), são codificados por causa
+	 * do charset, ao utilizar esse método ele irá decodificar todas as propriedades do form para
+	 * aparecer acentos e caracteres especiais
 	 * 
 	 * @param form form submetido
 	 */
-	public static void decodeAjaxForm(ActionForm form) {
+	public void decodeAjaxForm(ActionForm form) {
 		PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(form);
 		try {
 			for (PropertyDescriptor descriptor : propertyDescriptors) {
@@ -272,7 +278,7 @@ public final class Utils {
 	 * @param request request atual
 	 * @param response response atual
 	 */
-	public static void doNoCachePagina(HttpServletRequest request, HttpServletResponse response) {
+	public void doNoCachePagina(HttpServletRequest request, HttpServletResponse response) {
 		response.setDateHeader(" Expires", 0);
 		response.setHeader(" Pragma", "no- cache");
 		if (request.getProtocol().equals("HTTP/ 1.1")) {
@@ -285,7 +291,7 @@ public final class Utils {
 	 * 
 	 * @param objeto objeto a verificar
 	 */
-	public static void doNuloNaStringVazia(Object objeto) {
+	public void doNuloNaStringVazia(Object objeto) {
 		PropertyDescriptor[] descritores = PropertyUtils.getPropertyDescriptors(objeto);
 		for (PropertyDescriptor descritor : descritores) {
 			boolean readable = PropertyUtils.isReadable(objeto, descritor.getName());
@@ -305,8 +311,7 @@ public final class Utils {
 				} catch (Exception e) {
 					LOG.warn("erro ao atribuir null em " + descritor.getName(), e);
 				}
-			} else if ((propriedade instanceof Character)
-					&& (StringUtils.isBlank(((Character) propriedade).toString()))) {
+			} else if ((propriedade instanceof Character) && (StringUtils.isBlank(((Character) propriedade).toString()))) {
 				try {
 					PropertyUtils.setProperty(objeto, descritor.getName(), null);
 				} catch (Exception e) {
@@ -323,7 +328,7 @@ public final class Utils {
 	 * @param response response a enviar o arquivo
 	 * @throws Exception caso ocorra algum erro no download
 	 */
-	public static void download(Anexo anexo, HttpServletResponse response) throws Exception {
+	public void download(Anexo anexo, HttpServletResponse response) throws Exception {
 		if (anexo == null) {
 			throw new NegocioException("erro.arquivo.naoEncontrado");
 		}
@@ -348,11 +353,10 @@ public final class Utils {
 	 * @param clazz classe do bean
 	 * @return bean do spring
 	 */
-	@SuppressWarnings("unchecked")
-	public static <T>T getBean(Class<T> clazz) {
+	public <T> T getBean(Class<T> clazz) {
 		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getContexto());
 		String nomeBean = StringUtils.uncapitalize(clazz.getSimpleName());
-		return (T) context.getBean(nomeBean);
+		return clazz.cast(context.getBean(nomeBean));
 	}
 
 	/**
@@ -360,7 +364,7 @@ public final class Utils {
 	 * 
 	 * @return {@link ServletContext} da aplicação
 	 */
-	public static ServletContext getContexto() {
+	public ServletContext getContexto() {
 		return contexto;
 	}
 
@@ -371,14 +375,12 @@ public final class Utils {
 	 * @param args argumentos da mensagem a subtituir
 	 * @return String com a mensagem
 	 */
-	public static String getMessageFromProperties(String key, String... args) {
-		synchronized (Utils.class) {
-			if (resources == null) {
-				PropertyMessageResourcesFactory.setFactoryClass(PropertyMessageResourcesFactory.class.getName());
-				PropertyMessageResourcesFactory fac = new PropertyMessageResourcesFactory();
-				fac.setReturnNull(true);
-				resources = fac.createResources("sisgestor");
-			}
+	public String getMessageFromProperties(String key, String... args) {
+		if (resources == null) {
+			PropertyMessageResourcesFactory.setFactoryClass(PropertyMessageResourcesFactory.class.getName());
+			PropertyMessageResourcesFactory fac = new PropertyMessageResourcesFactory();
+			fac.setReturnNull(true);
+			resources = fac.createResources("sisgestor");
 		}
 		return resources.getMessage(key, args);
 	}
@@ -388,7 +390,7 @@ public final class Utils {
 	 * 
 	 * @return usuário logado no sistema
 	 */
-	public static Usuario getUsuario() {
+	public Usuario getUsuario() {
 		return threadUsuario.get();
 	}
 
@@ -397,7 +399,7 @@ public final class Utils {
 	 * 
 	 * @param obj objeto a setar dependências
 	 */
-	public static void injectionAutowired(Object obj) {
+	public void injectionAutowired(Object obj) {
 		for (Method metodo : obj.getClass().getMethods()) {
 			if (metodo.isAnnotationPresent(Autowired.class)) {
 				Class<?> bean = null;
@@ -412,187 +414,15 @@ public final class Utils {
 	}
 
 	/**
-	 * Valida um CNPJ
-	 * 
-	 * @param cnpj cnpj a ser validado
-	 * @return <code>true</code> caso cnpj válido, <code>false</code> caso contrário
-	 */
-	public static boolean isCNPJ(String cnpj) { //NOPMD by João Lúcio - necessário para limpar formatação
-		cnpj = limpaMascara(cnpj);
-		if (cnpj.length() != 14) {
-			return false;
-		}
-
-		int soma = 0, dig;
-		StringBuilder cnpj_calc = new StringBuilder(cnpj.substring(0, 12));
-
-		char[] chr_cnpj = cnpj.toCharArray();
-
-		/* Primeira parte */
-		for (int i = 0; i < 4; i++) {
-			if ((chr_cnpj[i] - 48 >= 0) && (chr_cnpj[i] - 48 <= 9)) {
-				soma += (chr_cnpj[i] - 48) * (6 - (i + 1));
-			}
-		}
-		for (int i = 0; i < 8; i++) {
-			if ((chr_cnpj[i + 4] - 48 >= 0) && (chr_cnpj[i + 4] - 48 <= 9)) {
-				soma += (chr_cnpj[i + 4] - 48) * (10 - (i + 1));
-			}
-		}
-		dig = 11 - (soma % 11);
-
-		cnpj_calc.append(((dig == 10) || (dig == 11)) ? "0" : Integer.toString(dig));
-
-		/* Segunda parte */
-		soma = 0;
-		for (int i = 0; i < 5; i++) {
-			if ((chr_cnpj[i] - 48 >= 0) && (chr_cnpj[i] - 48 <= 9)) {
-				soma += (chr_cnpj[i] - 48) * (7 - (i + 1));
-			}
-		}
-		for (int i = 0; i < 8; i++) {
-			if ((chr_cnpj[i + 5] - 48 >= 0) && (chr_cnpj[i + 5] - 48 <= 9)) {
-				soma += (chr_cnpj[i + 5] - 48) * (10 - (i + 1));
-			}
-		}
-		dig = 11 - (soma % 11);
-		cnpj_calc.append(((dig == 10) || (dig == 11)) ? "0" : Integer.toString(dig));
-
-		if (!cnpj.equals(cnpj_calc)) {
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Valida um CPF.
-	 * 
-	 * @param cpf cpf a ser validado
-	 * @return <code>true</code> caso cpf válido, <code>false</code> caso contrário
-	 */
-	public static boolean isCPF(String cpf) { //NOPMD by João Lúcio - necessário para limpar formatação
-		cpf = limpaMascara(cpf);
-		if (cpf.length() == 11) {
-			int d1, d2;
-			int digito1, digito2, resto;
-			int digitoCPF;
-			String nDigResult;
-			d1 = d2 = 0;
-			digito1 = digito2 = resto = 0;
-			for (int n_Count = 1; n_Count < cpf.length() - 1; n_Count++) {
-				digitoCPF = Integer.valueOf(cpf.substring(n_Count - 1, n_Count));
-				d1 = d1 + (11 - n_Count) * digitoCPF;
-				d2 = d2 + (12 - n_Count) * digitoCPF;
-			}
-			resto = (d1 % 11);
-			if (resto < 2) {
-				digito1 = 0;
-			} else {
-				digito1 = 11 - resto;
-			}
-			d2 += 2 * digito1;
-			resto = (d2 % 11);
-			if (resto < 2) {
-				digito2 = 0;
-			} else {
-				digito2 = 11 - resto;
-			}
-			String nDigVerific = cpf.substring(cpf.length() - 2, cpf.length());
-			nDigResult = String.valueOf(digito1) + digito2;
-			if (nDigVerific.equals(nDigResult)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Verifica se todas as propriedades do objeto passado possuem valores não significativos Exemplo: zero,
-	 * strings vazias, qualquer propriedade nula, ou arrays vazios são considerados
-	 * 
-	 * Útil quando você tem um objeto onde é necessário que ao menos uma propriedade esteja preenchida
-	 * 
-	 * @param objeto objeto a verificar
-	 * @param excludes propriedades que deverão ser desconsideradas da validação
-	 * 
-	 * @return <code>true</code> se for encontrado alguma propriedade vazia de acordo com critério
-	 */
-	public static boolean isTodasPropriedadesVazias(Object objeto, String... excludes) { //NOPMD by João Lúcio - não dá para quebrar método
-		if (excludes != null) {
-			Arrays.sort(excludes);
-		}
-		PropertyDescriptor[] descritores = PropertyUtils.getPropertyDescriptors(objeto);
-		int totalPropriedades = 0;
-		int totalVazias = 0;
-		for (PropertyDescriptor descritor : descritores) {
-			boolean readable = PropertyUtils.isReadable(objeto, descritor.getName());
-			boolean writeable = PropertyUtils.isWriteable(objeto, descritor.getName());
-			if (!readable || !writeable) {
-				continue;
-			}
-			if ((excludes != null) && (Arrays.binarySearch(excludes, descritor.getName()) >= 0)) {
-				continue;
-			}
-			Object propriedade;
-			try {
-				propriedade = PropertyUtils.getProperty(objeto, descritor.getName());
-			} catch (Exception e) {
-				continue;
-			}
-			if (descritor.getPropertyType().getName().equals(String.class.getName())) {
-				totalPropriedades++;
-				if (StringUtils.isBlank((String) propriedade)) {
-					totalVazias++;
-				}
-				continue;
-			}
-			if (propriedade instanceof Number) {
-				totalPropriedades++;
-				if (((Number) propriedade).intValue() == 0) {
-					totalVazias++;
-				}
-				continue;
-			}
-			if (propriedade instanceof Object[]) {
-				totalPropriedades++;
-				if (((Object[]) propriedade).length == 0) {
-					totalVazias++;
-				}
-				continue;
-			}
-			if ((propriedade instanceof Date) || (propriedade instanceof Timestamp)) {
-				totalPropriedades++;
-			}
-		}
-		return totalPropriedades == totalVazias;
-	}
-
-	/**
-	 * Limpar qualquer tipo de máscara e deixar somente números
-	 * 
-	 * @param caracteres {@link String} com máscara
-	 * @return String sem máscara
-	 */
-	public static String limpaMascara(String caracteres) {
-		if (caracteres != null) {
-			return caracteres.replaceAll("\\W", "");//remove os não alfa-numéricos
-		}
-		return null;
-	}
-
-	/**
 	 * Recupera o valor informado do número por extenso.
 	 * 
 	 * @param valor valor informado
 	 * @return valor por extenso
 	 */
-	public static String numeroExtenso(double valor) {
-		String porExtenso;
-		int tamanho;
-
+	public String numeroExtenso(double valor) {
 		Extenso extenso = new Extenso(valor);
-		porExtenso = extenso.toString();
-		tamanho = porExtenso.length();
+		String porExtenso = extenso.toString();
+		int tamanho = porExtenso.length();
 		if (tamanho < 5) {
 			return null;
 		}
@@ -600,35 +430,11 @@ public final class Utils {
 	}
 
 	/**
-	 * Transforma as primeiras letras das palavras em maiuscúlo
-	 * 
-	 * @param texto texto a modificar
-	 * @return novo texto
-	 */
-	public static String primeirasLetrasMaiusculo(String texto) {
-		StringBuilder result = new StringBuilder("");
-		String nome;
-
-		StringTokenizer token = new StringTokenizer(texto.toLowerCase(DataUtil.LOCALE_PT_BR), " ");
-
-		while (token.hasMoreElements()) {
-			nome = token.nextToken();
-
-			if ("da".equals(nome)) {
-				result.append(nome + " ");
-			} else {
-				result.append(nome.substring(0, 1).toUpperCase() + nome.substring(1) + " ");
-			}
-		}
-		return result.toString();
-	}
-
-	/**
 	 * Seta nulo em todas as propriedades do bean que forem "writable" e que não forem primitivas
 	 * 
 	 * @param objeto objeto a "resetar"
 	 */
-	public static void resetProperties(Object objeto) {
+	public void resetProperties(Object objeto) {
 		PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(objeto);
 		try {
 			for (PropertyDescriptor descriptor : propertyDescriptors) {
@@ -648,8 +454,8 @@ public final class Utils {
 	 * 
 	 * @param contexto {@link ServletContext} da aplicação
 	 */
-	public static void setContexto(ServletContext contexto) {
-		Utils.contexto = contexto;
+	public void setContexto(ServletContext contexto) {
+		this.contexto = contexto;
 	}
 
 	/**
@@ -657,18 +463,19 @@ public final class Utils {
 	 * 
 	 * @param usuario usuário logado
 	 */
-	public static void setUsuario(Usuario usuario) {
-		Utils.threadUsuario.set(usuario);
+	public void setUsuario(Usuario usuario) {
+		this.threadUsuario.set(usuario);
 	}
 
 	/**
-	 * Verifica se o usuário possui pelo menos uma das permissões informadas, separadas por vírgulas.
+	 * Verifica se o usuário possui pelo menos uma das permissões informadas, separadas por
+	 * vírgulas.
 	 * 
 	 * @param usuario usuário a verificar
 	 * @param roles identificadores das permissões a verificar
 	 * @return <code>true</code> caso tenha alguma permissão, <code>false</code> caso contrário
 	 */
-	public static boolean usuarioTemPermissao(Usuario usuario, String roles) {
+	public boolean usuarioTemPermissao(Usuario usuario, String roles) {
 		if (StringUtils.isNotBlank(roles)) {
 			String[] rolesArray = roles.split(",");
 

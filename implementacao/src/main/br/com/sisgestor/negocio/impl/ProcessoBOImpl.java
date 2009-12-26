@@ -4,17 +4,16 @@
  */
 package br.com.sisgestor.negocio.impl;
 
-import br.com.sisgestor.util.Utils;
-import br.com.sisgestor.util.dto.PesquisaManterProcessoDTO;
-import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
-import br.com.sisgestor.persistencia.ProcessoDAO;
-import br.com.sisgestor.negocio.ProcessoBO;
-import br.com.sisgestor.negocio.WorkflowBO;
-import br.com.sisgestor.negocio.exception.NegocioException;
 import br.com.sisgestor.entidade.Atividade;
 import br.com.sisgestor.entidade.Processo;
 import br.com.sisgestor.entidade.TransacaoProcesso;
 import br.com.sisgestor.entidade.Workflow;
+import br.com.sisgestor.negocio.ProcessoBO;
+import br.com.sisgestor.negocio.WorkflowBO;
+import br.com.sisgestor.negocio.exception.NegocioException;
+import br.com.sisgestor.persistencia.ProcessoDAO;
+import br.com.sisgestor.util.dto.PesquisaManterProcessoDTO;
+import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,8 +33,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("processoBO")
 public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo> implements ProcessoBO {
 
-	private WorkflowBO	workflowBO;
-	private ProcessoDAO	processoDAO;
+	private WorkflowBO workflowBO;
+	private ProcessoDAO processoDAO;
 
 	/**
 	 * {@inheritDoc}
@@ -50,8 +49,7 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo> implements Proc
 	 * {@inheritDoc}
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-	public void atualizarTransacoes(Integer idWorkflow, String[] fluxos, String[] posicoes)
-			throws NegocioException {
+	public void atualizarTransacoes(Integer idWorkflow, String[] fluxos, String[] posicoes) throws NegocioException {
 		Workflow workflow = this.getWorkflowBO().obter(idWorkflow);
 		this.validarSePodeAlterarWorkflow(workflow);
 
@@ -104,8 +102,7 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo> implements Proc
 	 * {@inheritDoc}
 	 */
 	@Transactional(readOnly = true)
-	public List<Processo> getByNomeDescricao(String nome, String descricao, Integer idWorkflow,
-			Integer paginaAtual) {
+	public List<Processo> getByNomeDescricao(String nome, String descricao, Integer idWorkflow, Integer paginaAtual) {
 		return this.processoDAO.getByNomeDescricao(nome, descricao, idWorkflow, paginaAtual);
 	}
 
@@ -221,7 +218,7 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo> implements Proc
 	 */
 	private WorkflowBO getWorkflowBO() {
 		if (this.workflowBO == null) {
-			this.workflowBO = Utils.getBean(WorkflowBO.class);
+			this.workflowBO = utils.getBean(WorkflowBO.class);
 		}
 		return this.workflowBO;
 	}
@@ -235,12 +232,10 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo> implements Proc
 	 * @param listaProcessos {@link List} com os processos
 	 * @throws NegocioException caso não haja fluxo definido
 	 */
-	private void inicializarValidacaoFluxo(List<TransacaoProcesso> transacoes,
-			Map<Integer, Integer> mapAnteriores, Map<Integer, Integer> mapPosteriores,
-			List<Processo> listaProcessos) throws NegocioException {
+	private void inicializarValidacaoFluxo(List<TransacaoProcesso> transacoes, Map<Integer, Integer> mapAnteriores,
+			Map<Integer, Integer> mapPosteriores, List<Processo> listaProcessos) throws NegocioException {
 		//Valida para que haja definição de fluxos
-		if ((listaProcessos != null) && !listaProcessos.isEmpty()
-				&& ((transacoes != null) && transacoes.isEmpty())) {
+		if ((listaProcessos != null) && !listaProcessos.isEmpty() && ((transacoes != null) && transacoes.isEmpty())) {
 			throw new NegocioException("erro.fluxo.definicao.processo");
 		}
 
@@ -285,7 +280,6 @@ public class ProcessoBOImpl extends BaseWorkflowBOImpl<Processo> implements Proc
 
 		this.inicializarValidacaoFluxo(transacoes, mapAnteriores, mapPosteriores, lista);
 
-		this.validarFluxos(lista, exceptionIsolado, exceptionInicial, exceptionFinal, mapAnteriores,
-				mapPosteriores);
+		this.validarFluxos(lista, exceptionIsolado, exceptionInicial, exceptionFinal, mapAnteriores, mapPosteriores);
 	}
 }

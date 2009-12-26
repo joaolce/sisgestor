@@ -4,11 +4,11 @@
  */
 package br.com.sisgestor.apresentacao.dwr;
 
-import br.com.sisgestor.util.Utils;
-import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
-import br.com.sisgestor.util.constantes.ConstantesContexto;
-import br.com.sisgestor.negocio.BaseBO;
 import br.com.sisgestor.entidade.Usuario;
+import br.com.sisgestor.negocio.BaseBO;
+import br.com.sisgestor.util.Utils;
+import br.com.sisgestor.util.constantes.ConstantesContexto;
+import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.directwebremoting.WebContextFactory;
@@ -21,11 +21,14 @@ import org.directwebremoting.WebContextFactory;
  */
 public class BaseDWR {
 
+	/** {@link Utils}. */
+	protected Utils utils = Utils.get();
+
 	/**
 	 * Cria uma nova instância do tipo {@link BaseDWR}.
 	 */
 	public BaseDWR() {
-		Utils.injectionAutowired(this);
+		utils.injectionAutowired(this);
 	}
 
 	/**
@@ -36,7 +39,7 @@ public class BaseDWR {
 	 * @return {@link String} da mensagem
 	 */
 	protected String getMessage(String key, String... args) {
-		return Utils.getMessageFromProperties(key, args);
+		return utils.getMessageFromProperties(key, args);
 	}
 
 	/**
@@ -93,7 +96,7 @@ public class BaseDWR {
 	 * @return usuário logado
 	 */
 	protected Usuario getUser() {
-		return Utils.getUsuario();
+		return utils.getUsuario();
 	}
 
 	/**

@@ -63,6 +63,11 @@ public class BaseAction extends DispatchAction {
 
 	/** BO de {@link Usuario}. */
 	protected UsuarioBO usuarioBO;
+	/** {@link DataUtil}. */
+	protected DataUtil dataUtil = DataUtil.get();
+	/** {@link Utils}. */
+	protected Utils utils = Utils.get();
+
 	private ThreadLocal<ActionErrors> actionErrorsThread = new ThreadLocal<ActionErrors>();
 	private ThreadLocal<ActionForm> formThread = new ThreadLocal<ActionForm>();
 	private ThreadLocal<ActionMapping> mappingThread = new ThreadLocal<ActionMapping>();
@@ -70,18 +75,16 @@ public class BaseAction extends DispatchAction {
 	private ThreadLocal<HttpServletResponse> responseThread = new ThreadLocal<HttpServletResponse>();
 	private ThreadLocal<HttpSession> sessionThread = new ThreadLocal<HttpSession>();
 
-	private DataUtil dataUtil = DataUtil.getInstancia();
-
 	/**
 	 * Cria uma nova instância do tipo {@link BaseAction}.
 	 */
 	public BaseAction() {
-		Utils.injectionAutowired(this);
+		utils.injectionAutowired(this);
 	}
 
 	/**
-	 * Método padrão para exibir a tela de entrada caso seja necessário carregar algum dado para exibir na
-	 * tela.
+	 * Método padrão para exibir a tela de entrada caso seja necessário carregar algum dado para
+	 * exibir na tela.
 	 * 
 	 * @param mapping objeto mapping da action
 	 * @param actionForm objeto form da action
@@ -96,8 +99,8 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Sobrescrita do método execute. A idéia é fazer alguns procedimentos genéricos aqui, para que todas as
-	 * actions possam utilizar alguns métodos utilitários que existem aqui.
+	 * Sobrescrita do método execute. A idéia é fazer alguns procedimentos genéricos aqui, para que
+	 * todas as actions possam utilizar alguns métodos utilitários que existem aqui.
 	 * 
 	 * @param mapping objeto mapping da action
 	 * @param actionForm objeto form da action
@@ -115,19 +118,21 @@ public class BaseAction extends DispatchAction {
 		//popula as variaveis de instância
 		this.populaParametrosAction(mapping, actionForm, request, response);
 
-		/* se o parâmetro estiver presente é porque a submissão foi assíncrona e para não acontecer problemas
-		 * com a codificação do charset (problemas com acentos e caracteres especiais) utiliza-se o 
-		 * Utils.decodeAjaxForm para decodificar o formulário que foi codificado no Javascript
+		/*
+		 * se o parâmetro estiver presente é porque a submissão foi assíncrona e para não acontecer
+		 * problemas com a codificação do charset (problemas com acentos e caracteres especiais)
+		 * utiliza-se o Utils.decodeAjaxForm para decodificar o formulário que foi codificado no
+		 * Javascript
 		 */
 		if (this.isAJAXRequest()) {
 			LOG.debug("requisição ajax em processo");
 			if ("get".equalsIgnoreCase(request.getMethod())) {
-				Utils.decodeAjaxForm(actionForm);
+				utils.decodeAjaxForm(actionForm);
 			}
-			Utils.doNoCachePagina(request, response);
+			utils.doNoCachePagina(request, response);
 			/*
-			 * esse header é adicionado para o javascript identificar que 
-			 * a resposta veio da aplicação e não de uma página de login ou algo do tipo
+			 * esse header é adicionado para o javascript identificar que a resposta veio da aplicação
+			 * e não de uma página de login ou algo do tipo
 			 */
 			response.addHeader("ajaxResponse", "true");
 		}
@@ -143,8 +148,7 @@ public class BaseAction extends DispatchAction {
 			return new ActionForward("dologin", true);
 		} catch (InvocationTargetException e) {
 			LOG.fatal(e.getMessage(), e);
-			this.getResponse().sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"" + e.getTargetException());
+			this.getResponse().sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "" + e.getTargetException());
 			return null;
 		} catch (Exception e) {
 			LOG.fatal(e.getMessage(), e);
@@ -176,7 +180,7 @@ public class BaseAction extends DispatchAction {
 
 		try {
 			if (actionForm != null) {
-				Utils.doNuloNaStringVazia(actionForm);
+				utils.doNuloNaStringVazia(actionForm);
 			}
 			return super.execute(mapping, actionForm, request, response);
 		} catch (NegocioException e) {
@@ -240,7 +244,8 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Adiciona os parâmetros criados ao path (que aponte para uma url e com redirect=true) de um ActionForward
+	 * Adiciona os parâmetros criados ao path (que aponte para uma url e com redirect=true) de um
+	 * ActionForward
 	 * 
 	 * @param parametros parametros adicionados
 	 * @param forward forward a alterar o path
@@ -260,7 +265,7 @@ public class BaseAction extends DispatchAction {
 	 * @throws Exception caso ocorra erro na recuperação das propriedades
 	 */
 	protected void copyProperties(Object dest, Object orig, String... exclusao) throws Exception {
-		Utils.copyProperties(dest, orig, exclusao);
+		utils.copyProperties(dest, orig, exclusao);
 	}
 
 	/**
@@ -286,7 +291,7 @@ public class BaseAction extends DispatchAction {
 			this.getSession().setAttribute(ConstantesContexto.DATA_LOGIN, dataUtil.getStringDataAtualCompleta());
 			this.getSession().setAttribute(ConstantesContexto.HORA_LOGIN, dataUtil.getDataAtual());
 			this.getSession().setAttribute(ConstantesContexto.USUARIO_SESSAO, usuarioAtual);
-			Utils.setUsuario(usuarioAtual);
+			utils.setUsuario(usuarioAtual);
 		}
 	}
 
@@ -436,12 +441,12 @@ public class BaseAction extends DispatchAction {
 	 */
 	protected Usuario getUser() throws Exception {
 		this.doUsuario(false);
-		return Utils.getUsuario();
+		return utils.getUsuario();
 	}
 
 	/**
-	 * Invoca um método qualquer do form. Util quando não se sabe a instância do form que se está usando. Deve
-	 * ser usado com cautela.
+	 * Invoca um método qualquer do form. Util quando não se sabe a instância do form que se está
+	 * usando. Deve ser usado com cautela.
 	 * 
 	 * @param methodName nome do método a ser executado
 	 * @param paramTypes tipo dos parâmetros
@@ -482,16 +487,16 @@ public class BaseAction extends DispatchAction {
 	/**
 	 * Popula as variáveis de instância com os parametros recebidos pela Action.
 	 * 
-	 * Isso está separada para que possa ser usado caso algum método execute seja sobrescrito em uma classe
-	 * filha.
+	 * Isso está separada para que possa ser usado caso algum método execute seja sobrescrito em uma
+	 * classe filha.
 	 * 
 	 * @param mapping objeto mapping da action
 	 * @param form objeto form da action
 	 * @param request request atual
 	 * @param response response atual
 	 */
-	protected final void populaParametrosAction(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
+	protected final void populaParametrosAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) {
 		this.mappingThread.set(mapping);
 		this.formThread.set(form);
 		this.requestThread.set(request);
@@ -555,8 +560,9 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Envia uma url de redirecionamento para o Javascript equivalente ao nosso conhecido findForward só que ao
-	 * invés de passar o forward, deve-se passar a url para qual o usuário será redirecionado.
+	 * Envia uma url de redirecionamento para o Javascript equivalente ao nosso conhecido
+	 * findForward só que ao invés de passar o forward, deve-se passar a url para qual o usuário
+	 * será redirecionado.
 	 * 
 	 * @param forwardName nome do forward no struts-config
 	 * @return <code>null</code>
@@ -570,9 +576,10 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Envia uma resposta (mensagens ou erros), uma url de redirecionamento e seta o estado da requisição para
-	 * definir as cores da resposta. o ActionForward passsado deverá ser devidamente configurado no
-	 * struts-config que contenha uma url onde o javascript deverá redirecionar o cliente para ela
+	 * Envia uma resposta (mensagens ou erros), uma url de redirecionamento e seta o estado da
+	 * requisição para definir as cores da resposta. o ActionForward passsado deverá ser devidamente
+	 * configurado no struts-config que contenha uma url onde o javascript deverá redirecionar o
+	 * cliente para ela
 	 * 
 	 * @param forward {@link ActionForward} a executar
 	 * @param estado true=verde, false=vermelho
@@ -594,8 +601,8 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Enviar resposta AJAX: recuperar o path do actionForward passado que deverá conter uma url, agregar os
-	 * parâmetros passados a url e enviar a resposta para o JavaScript
+	 * Enviar resposta AJAX: recuperar o path do actionForward passado que deverá conter uma url,
+	 * agregar os parâmetros passados a url e enviar a resposta para o JavaScript
 	 * 
 	 * @param forward forward original
 	 * @param estado true=verde, false=vermelho
@@ -625,8 +632,8 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Envia mensagens ou erros para o javascript que poderão aparecer em vermelho ou verde de acordo com
-	 * parâmetro passado valor padrão: vermelho
+	 * Envia mensagens ou erros para o javascript que poderão aparecer em vermelho ou verde de
+	 * acordo com parâmetro passado valor padrão: vermelho
 	 * 
 	 * @param estado true=verde, false=vermelho
 	 * @return <code>null</code>
@@ -642,8 +649,8 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Enviar uma resposta para o JavaScript o forward passado deverá conter uma URL para onde o JavaScript
-	 * deverá redirecionar o cliente
+	 * Enviar uma resposta para o JavaScript o forward passado deverá conter uma URL para onde o
+	 * JavaScript deverá redirecionar o cliente
 	 * 
 	 * @param forwardName nome do forward
 	 * @param estado true=verde, false=vermelho
@@ -724,8 +731,9 @@ public class BaseAction extends DispatchAction {
 	/**
 	 * Invoca o método de validação dentro de um validator.
 	 * <p>
-	 * A regra é a seguinte: Busca no validator.xml por uma classe de validação para a action corrente. E será
-	 * invocado um método com o mesmo nome do método passado no atributo parameter do Action Mapping.
+	 * A regra é a seguinte: Busca no validator.xml por uma classe de validação para a action
+	 * corrente. E será invocado um método com o mesmo nome do método passado no atributo parameter
+	 * do Action Mapping.
 	 * </p>
 	 * 
 	 * @return o validate em si.
@@ -752,7 +760,7 @@ public class BaseAction extends DispatchAction {
 	 * @throws Exception
 	 */
 	private void printAndFlushResponse(AjaxResponse response) throws Exception {
-		Utils.doNoCachePagina(this.getRequest(), this.getResponse());
+		utils.doNoCachePagina(this.getRequest(), this.getResponse());
 		this.getResponse().addHeader("ajaxResponse", "true");
 		this.getResponse().setHeader("Content-Type", "text/xml; charset=UTF-8");
 		this.getResponse().setHeader("Content-Language", "pt-BR");
@@ -801,8 +809,8 @@ public class BaseAction extends DispatchAction {
 	}
 
 	/**
-	 * Verifica se a requisição post possui um referer (página de origem da requisição) pra evitar requisições
-	 * diretas (o que caracteriza burlagem do sistema).
+	 * Verifica se a requisição post possui um referer (página de origem da requisição) pra evitar
+	 * requisições diretas (o que caracteriza burlagem do sistema).
 	 * 
 	 * @param request request atual
 	 * @throws Exception caso seja detectada burlagem no sistema

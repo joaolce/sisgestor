@@ -10,8 +10,6 @@ import br.com.sisgestor.negocio.DepartamentoBO;
 import br.com.sisgestor.negocio.UsuarioBO;
 import br.com.sisgestor.negocio.exception.NegocioException;
 import br.com.sisgestor.persistencia.DepartamentoDAO;
-import br.com.sisgestor.util.DataUtil;
-import br.com.sisgestor.util.Utils;
 import br.com.sisgestor.util.dto.PesquisaManterDepartamentoDTO;
 import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
 import java.util.ArrayList;
@@ -33,8 +31,6 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 
 	private DepartamentoDAO departamentoDAO;
 	private UsuarioBO usuarioBO;
-
-	private DataUtil dataUtil = DataUtil.getInstancia();
 
 	/**
 	 * {@inheritDoc}
@@ -151,7 +147,7 @@ public class DepartamentoBOImpl extends BaseBOImpl<Departamento> implements Depa
 	 */
 	private UsuarioBO getUsuarioBO() {
 		if (this.usuarioBO == null) {
-			this.usuarioBO = Utils.getBean(UsuarioBO.class);
+			this.usuarioBO = utils.getBean(UsuarioBO.class);
 		}
 		return this.usuarioBO;
 	}

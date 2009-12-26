@@ -44,7 +44,7 @@ public class UsoWorkflow extends ObjetoPersistente {
 	private List<CampoUsoWorkflow> camposUsados;
 	private Boolean usoFinalizado;
 
-	private DataUtil dataUtil = DataUtil.getInstancia();
+	private DataUtil dataUtil = DataUtil.get();
 
 	/**
 	 * Recupera os anexos da utilização do {@link Workflow}.
@@ -120,7 +120,7 @@ public class UsoWorkflow extends ObjetoPersistente {
 			//Recupera o primeiro registo do histórico pois é inicialização do workflow
 			HistoricoUsoWorkflow usoWorkflow = this.historico.get(this.historico.size() - 1);
 			Integer ano = dataUtil.getAno(usoWorkflow.getDataHora());
-			String numero = Utils.completaComZero(String.valueOf(this.numero), 6);
+			String numero = Utils.get().completaComZero(String.valueOf(this.numero), 6);
 			return ano + "/" + numero;
 		}
 		return "";
@@ -195,7 +195,6 @@ public class UsoWorkflow extends ObjetoPersistente {
 	public void setDataHoraInicio(Timestamp dataHoraInicio) {
 		this.dataHoraInicio = dataHoraInicio;
 	}
-
 
 	/**
 	 * Atribui o histórico do uso do {@link Workflow}.
