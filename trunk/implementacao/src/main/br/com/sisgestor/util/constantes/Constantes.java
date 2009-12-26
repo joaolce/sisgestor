@@ -4,7 +4,6 @@
  */
 package br.com.sisgestor.util.constantes;
 
-import br.com.sisgestor.util.DataUtil;
 
 /**
  * Constantes do sistema.
@@ -14,13 +13,11 @@ import br.com.sisgestor.util.DataUtil;
  */
 public final class Constantes {
 
-	private static DataUtil dataUtil = DataUtil.getInstancia();
-
 	/** Versão atual do sistema. */
-	public static final String VERSAO = "1.0.2";
+	public static final String VERSAO = "1.0.3";
 
 	/** Data da versão atual do sistema. */
-	public static final String VERSAO_DATA = dataUtil.utilDateToString(dataUtil.getDate(24, 9, 2009));
+	public static final String VERSAO_DATA = "26/12/2009";
 
 	/** Remetente de emails do sisgestor. */
 	public static final String REMETENTE_EMAIL_SISGESTOR = "sisgestor@sisgestor.com";
@@ -35,8 +32,8 @@ public final class Constantes {
 	public static final String ASSUNTO_EMAIL_TAREFA_TRANSFERIDA = "SisGestor - Nova Tarefa";
 
 	/**
-	 * Tamanho do anexo permitido. Ao alterar esta constante, verificar valor correspondente no arquivo
-	 * struts-config.xml
+	 * Tamanho do anexo permitido. Ao alterar esta constante, verificar valor correspondente no
+	 * arquivo struts-config.xml
 	 * 
 	 * tag controller, propriedade: maxFileSize="10MB"
 	 * 

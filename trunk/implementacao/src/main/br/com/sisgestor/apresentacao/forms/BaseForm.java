@@ -17,7 +17,10 @@ import org.apache.struts.action.ActionMapping;
  */
 public class BaseForm extends ActionForm {
 
-	private Integer	id;
+	/** {@link Utils}. */
+	protected Utils utils = Utils.get();
+
+	private Integer id;
 
 	/**
 	 * Recupera o código identificador do objeto.
@@ -33,7 +36,7 @@ public class BaseForm extends ActionForm {
 	 */
 	@Override
 	public void reset(ActionMapping actionmapping, HttpServletRequest httpservletrequest) {
-		Utils.resetProperties(this);
+		utils.resetProperties(this);
 	}
 
 	/**
@@ -53,6 +56,6 @@ public class BaseForm extends ActionForm {
 	 * @return valor da propriedade
 	 */
 	protected String getMessage(String key, String... args) {
-		return Utils.getMessageFromProperties(key, args);
+		return utils.getMessageFromProperties(key, args);
 	}
 }

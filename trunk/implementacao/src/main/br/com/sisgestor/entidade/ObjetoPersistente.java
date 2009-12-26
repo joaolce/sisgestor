@@ -4,13 +4,11 @@
  */
 package br.com.sisgestor.entidade;
 
-import br.com.sisgestor.util.Utils;
 import java.io.Serializable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
 import org.apache.commons.lang.builder.EqualsBuilder;
 
 /**
@@ -20,9 +18,9 @@ import org.apache.commons.lang.builder.EqualsBuilder;
  * @since 21/10/2008
  */
 @MappedSuperclass
-public abstract class ObjetoPersistente implements Serializable {
+public class ObjetoPersistente implements Serializable {
 
-	private Integer	id;
+	private Integer id;
 
 	/**
 	 * {@inheritDoc}
@@ -58,13 +56,4 @@ public abstract class ObjetoPersistente implements Serializable {
 		this.id = id;
 	}
 
-	/**
-	 * Verifica se todas as propriedades do objeto são nulas.
-	 * 
-	 * @return <code>true</code> caso sejam, <code>false</code> caso contrário
-	 */
-	@Transient
-	protected boolean isAllNull() {
-		return Utils.isTodasPropriedadesVazias(this);
-	}
 }

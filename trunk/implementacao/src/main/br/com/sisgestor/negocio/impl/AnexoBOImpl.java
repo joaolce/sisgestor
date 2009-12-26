@@ -12,8 +12,6 @@ import br.com.sisgestor.negocio.AnexoBO;
 import br.com.sisgestor.negocio.UsoWorkflowBO;
 import br.com.sisgestor.negocio.exception.NegocioException;
 import br.com.sisgestor.persistencia.AnexoDAO;
-import br.com.sisgestor.util.DataUtil;
-import br.com.sisgestor.util.Utils;
 import br.com.sisgestor.util.constantes.Constantes;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -33,8 +31,6 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo> implements AnexoBO {
 
 	private AnexoDAO anexoDAO;
 	private UsoWorkflowBO usoWorkflowBO;
-
-	private DataUtil dataUtil = DataUtil.getInstancia();
 
 	/**
 	 * {@inheritDoc}
@@ -117,7 +113,7 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo> implements AnexoBO {
 	 */
 	private UsoWorkflowBO getUsoWorkflowBO() {
 		if (this.usoWorkflowBO == null) {
-			this.usoWorkflowBO = Utils.getBean(UsoWorkflowBO.class);
+			this.usoWorkflowBO = utils.getBean(UsoWorkflowBO.class);
 		}
 		return this.usoWorkflowBO;
 	}
@@ -131,7 +127,7 @@ public class AnexoBOImpl extends BaseBOImpl<Anexo> implements AnexoBO {
 	private void salvarHistoricoUso(UsoWorkflow usoWorkflow, TipoAcaoEnum acao) {
 		HistoricoUsoWorkflow historicoUsoWorkflow = new HistoricoUsoWorkflow();
 		historicoUsoWorkflow.setUsoWorkflow(usoWorkflow);
-		historicoUsoWorkflow.setUsuario(Utils.getUsuario());
+		historicoUsoWorkflow.setUsuario(utils.getUsuario());
 		historicoUsoWorkflow.setDataHora(dataUtil.getDataHoraAtual());
 		historicoUsoWorkflow.setAcao(acao);
 		this.getUsoWorkflowBO().salvarHistorico(historicoUsoWorkflow);

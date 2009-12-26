@@ -16,8 +16,6 @@ import br.com.sisgestor.negocio.TarefaBO;
 import br.com.sisgestor.negocio.UsoWorkflowBO;
 import br.com.sisgestor.negocio.exception.NegocioException;
 import br.com.sisgestor.persistencia.UsoWorkflowDAO;
-import br.com.sisgestor.util.DataUtil;
-import br.com.sisgestor.util.Utils;
 import br.com.sisgestor.util.constantes.Constantes;
 import br.com.sisgestor.util.constantes.ConstantesDB;
 import br.com.sisgestor.util.dto.PesquisaPaginadaDTO;
@@ -41,8 +39,6 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	private UsoWorkflowDAO usoWorkflowDAO;
 	private TarefaBO tarefaBO;
 
-	private DataUtil dataUtil = DataUtil.getInstancia();
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -65,7 +61,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	@Override
 	@Transactional(readOnly = true)
 	public Integer getTotalPesquisa(PesquisaPaginadaDTO parametros) {
-		return this.usoWorkflowDAO.getTotalRegistros(Utils.getUsuario());
+		return this.usoWorkflowDAO.getTotalRegistros(utils.getUsuario());
 	}
 
 	/**
@@ -132,8 +128,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 * {@inheritDoc}
 	 */
 	@Transactional(readOnly = true)
-	public List<UsoWorkflow> recuperarFinalizados(String numeroRegistro, Integer idWorkflow,
-			Integer paginaAtual) {
+	public List<UsoWorkflow> recuperarFinalizados(String numeroRegistro, Integer idWorkflow, Integer paginaAtual) {
 		Integer anoRegistro = null;
 		Integer numeroSequencial = null;
 		if (StringUtils.isNotBlank(numeroRegistro)) {
@@ -149,7 +144,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 */
 	@Transactional(readOnly = true)
 	public List<UsoWorkflow> recuperarPendentesUsuarioAtual(Integer paginaAtual) {
-		return this.usoWorkflowDAO.recuperarPendentesUsuario(Utils.getUsuario(), paginaAtual);
+		return this.usoWorkflowDAO.recuperarPendentesUsuario(utils.getUsuario(), paginaAtual);
 	}
 
 	/**
@@ -249,7 +244,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 		HistoricoUsoWorkflow historico = new HistoricoUsoWorkflow();
 		historico.setUsoWorkflow(usoWorkflow);
 		historico.setDataHora(dataUtil.getDataHoraAtual());
-		historico.setUsuario(Utils.getUsuario());
+		historico.setUsuario(utils.getUsuario());
 		historico.setAcao(acao);
 		this.salvarHistorico(historico);
 	}
@@ -380,7 +375,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 */
 	private TarefaBO getTarefaBO() {
 		if (this.tarefaBO == null) {
-			this.tarefaBO = Utils.getBean(TarefaBO.class);
+			this.tarefaBO = utils.getBean(TarefaBO.class);
 		}
 		return this.tarefaBO;
 	}
@@ -401,8 +396,8 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 						"A tarefa '" + tarefaNova.getNome()
 								+ "' está sob responsabilidade deste departamento, referente ao registro: "
 								+ usoWorkflow.getNumeroRegistro();
-				this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR,
-						Constantes.ASSUNTO_EMAIL_TAREFA_TRANSFERIDA, corpoEmail, emailDepartamento);
+				this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR, Constantes.ASSUNTO_EMAIL_TAREFA_TRANSFERIDA,
+						corpoEmail, emailDepartamento);
 			}
 		}
 	}
@@ -420,8 +415,8 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 			String corpoEmail =
 					"A tarefa '" + tarefa.getNome() + "' está sob sua responsabilidade, referente ao registro: "
 							+ usoWorkflow.getNumeroRegistro();
-			this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR, Constantes.ASSUNTO_EMAIL_TAREFA_TRANSFERIDA,
-					corpoEmail, emailUsuario);
+			this.enviaEmail(Constantes.REMETENTE_EMAIL_SISGESTOR, Constantes.ASSUNTO_EMAIL_TAREFA_TRANSFERIDA, corpoEmail,
+					emailUsuario);
 		}
 	}
 
@@ -433,8 +428,7 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	 * @param nomeCampo Nome do campo a ser valiado
 	 * @throws NegocioException caso o campo obrigatório não esteje preenchido
 	 */
-	private void validarValorCampo(String valor, boolean obrigatorio, String nomeCampo)
-			throws NegocioException {
+	private void validarValorCampo(String valor, boolean obrigatorio, String nomeCampo) throws NegocioException {
 		if (StringUtils.isBlank(valor) && obrigatorio) {
 			throw new NegocioException("erro.required", nomeCampo);
 		}
@@ -444,7 +438,8 @@ public class UsoWorkflowBOImpl extends BaseBOImpl<UsoWorkflow> implements UsoWor
 	}
 
 	/**
-	 * Verifica se o {@link UsoWorkflow} pode mudar de {@link Tarefa} a partir da primeira {@link Tarefa}.
+	 * Verifica se o {@link UsoWorkflow} pode mudar de {@link Tarefa} a partir da primeira
+	 * {@link Tarefa}.
 	 * 
 	 * @param usoWorkflow {@link UsoWorkflow} a verificar
 	 * @return <code>true</code> caso possa, <code>false</code> caso contrário

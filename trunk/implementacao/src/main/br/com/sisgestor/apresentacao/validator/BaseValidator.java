@@ -7,7 +7,6 @@ package br.com.sisgestor.apresentacao.validator;
 import br.com.sisgestor.apresentacao.actions.BaseAction;
 import br.com.sisgestor.entidade.Usuario;
 import br.com.sisgestor.util.DataUtil;
-import br.com.sisgestor.util.Utils;
 import br.com.sisgestor.util.constantes.ConstantesContexto;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -47,7 +46,7 @@ public class BaseValidator {
 	private HttpServletResponse response;
 	private HttpSession session;
 
-	private DataUtil dataUtil = DataUtil.getInstancia();
+	private DataUtil dataUtil = DataUtil.get();
 
 	/**
 	 * Método de execução padrão, deve ser executado para preencher variáveis locais e facilitar a vida do
@@ -347,38 +346,6 @@ public class BaseValidator {
 		Object value = this.getFormValue(formProperty);
 		if ((value != null) && !((String) value).matches("\\w*")) {
 			this.addError("erro.alfaNumerico", this.getMessageKey(labelKeyProp));
-			this.setFocusControl(formProperty);
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Valida um CNPJ.
-	 * 
-	 * @param formProperty propriedade do form a ser validada como cnpj
-	 * @return <code>true</code> caso validação com sucesso, <code>false</code> caso contrário
-	 */
-	protected boolean validaCNPJ(String formProperty) {
-		String cnpj = (String) this.getFormValue(formProperty);
-		if (!Utils.isCNPJ(cnpj)) {
-			this.addError("erro.cnpjInvalido");
-			this.setFocusControl(formProperty);
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Valida um CPF.
-	 * 
-	 * @param formProperty propriedade do form a ser validada como cpf
-	 * @return <code>true</code> caso validação com sucesso, <code>false</code> caso contrário
-	 */
-	protected boolean validaCPF(String formProperty) {
-		String cpf = (String) this.getFormValue(formProperty);
-		if (!Utils.isCPF(cpf)) {
-			this.addError("erro.cpfInvalido");
 			this.setFocusControl(formProperty);
 			return false;
 		}

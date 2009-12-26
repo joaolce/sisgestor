@@ -17,7 +17,7 @@ import org.junit.Test;
  */
 public class DataUtilTest {
 
-	private DataUtil dataUtil = DataUtil.getInstancia();
+	private DataUtil dataUtil = DataUtil.get();
 
 	/**
 	 * Teste do método: {@link DataUtil#ehDataValida(String)}. <br>

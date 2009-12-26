@@ -4,9 +4,9 @@
  */
 package br.com.sisgestor.apresentacao.login;
 
-import br.com.sisgestor.util.Utils;
 import br.com.sisgestor.negocio.UsuarioBO;
 import br.com.sisgestor.negocio.exception.NegocioException;
+import br.com.sisgestor.util.Utils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -27,18 +27,18 @@ import org.apache.commons.logging.LogFactory;
  */
 public final class LoginServlet extends HttpServlet {
 
-	private static final String	CHARSET			= "ISO-8859-1";
-	private static final String	HTML_MIME_TYPE	= "text/html";
-	private static final String	ERRO				= "erro";
-	private static final String	LOGIN_ERROR		= "loginerror";
-	private static final String	LOGOUT			= "logout";
-	private static final Log		LOG				= LogFactory.getLog(LoginServlet.class);
+	private static final String CHARSET = "ISO-8859-1";
+	private static final String HTML_MIME_TYPE = "text/html";
+	private static final String ERRO = "erro";
+	private static final String LOGIN_ERROR = "loginerror";
+	private static final String LOGOUT = "logout";
+	private static final Log LOG = LogFactory.getLog(LoginServlet.class);
 
-	private LoginBundle				loginBundle;
-	private LoginHelper				loginHelper;
-	private ResourceBundle			properties;
+	private LoginBundle loginBundle;
+	private LoginHelper loginHelper;
+	private ResourceBundle properties;
 
-	private UsuarioBO					usuarioBO;
+	private UsuarioBO usuarioBO;
 
 	/**
 	 * {@inheritDoc}
@@ -53,15 +53,14 @@ public final class LoginServlet extends HttpServlet {
 		} catch (Exception e) {
 			LOG.warn("Erro ao capturar properties", e);
 		}
-		this.usuarioBO = Utils.getBean(UsuarioBO.class);
+		this.usuarioBO = Utils.get().getBean(UsuarioBO.class);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-			IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String param;
 		if (request.getParameter(LOGOUT) == null) {
 			param = request.getParameter(ERRO);
@@ -72,8 +71,7 @@ public final class LoginServlet extends HttpServlet {
 				LOG.debug("Página de acesso negado.");
 				int erro = "".equals(param) ? 0 : Integer.parseInt(param);
 				String pagina;
-				if ((erro == HttpServletResponse.SC_FORBIDDEN)
-						|| (erro == HttpServletResponse.SC_METHOD_NOT_ALLOWED)) {
+				if ((erro == HttpServletResponse.SC_FORBIDDEN) || (erro == HttpServletResponse.SC_METHOD_NOT_ALLOWED)) {
 					pagina = this.loginBundle.getErroPage(this.getMensagem("erro.acessoNegado"));
 				} else {
 					pagina = this.loginBundle.getErroPage(this.getMensagem("erro.desconhecido"));
@@ -91,8 +89,7 @@ public final class LoginServlet extends HttpServlet {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-			IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter(LOGIN_ERROR) == null) {
 			String operacao = request.getParameter("opr");
 			LOG.debug("Operação: " + operacao);
@@ -108,9 +105,7 @@ public final class LoginServlet extends HttpServlet {
 			}
 		} else {
 			LOG.debug("Página de login negado.");
-			this
-					.escrevePagina(response, this.loginBundle.getLoginPage(this
-							.getMensagem("erro.loginSemSucesso")));
+			this.escrevePagina(response, this.loginBundle.getLoginPage(this.getMensagem("erro.loginSemSucesso")));
 		}
 	}
 
@@ -138,22 +133,17 @@ public final class LoginServlet extends HttpServlet {
 	 * @param response response atual
 	 * @throws IOException
 	 */
-	private void enviarLembreteDeSenha(HttpServletRequest request, HttpServletResponse response)
-			throws IOException {
+	private void enviarLembreteDeSenha(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String login = this.getEncodedParamValue(request, "login", 15);
 		try {
 			boolean ok = this.usuarioBO.enviarLembreteDeSenha(login);
 			if (ok) {
-				this.escrevePagina(response, this.loginBundle.getSenhaPage(this
-						.getMensagem("mensagem.senhaEnviada")));
+				this.escrevePagina(response, this.loginBundle.getSenhaPage(this.getMensagem("mensagem.senhaEnviada")));
 			} else {
-				this.escrevePagina(response, this.loginBundle.getSenhaPage(this
-						.getMensagem("erro.senhaNaoEnviada")));
+				this.escrevePagina(response, this.loginBundle.getSenhaPage(this.getMensagem("erro.senhaNaoEnviada")));
 			}
 		} catch (NegocioException ne) {
-			this
-					.escrevePagina(response, this.loginBundle.getSenhaPage(this
-							.getMensagem("erro.senhaNaoEnviada")));
+			this.escrevePagina(response, this.loginBundle.getSenhaPage(this.getMensagem("erro.senhaNaoEnviada")));
 		}
 	}
 

@@ -4,9 +4,9 @@
  */
 package br.com.sisgestor.util.hibernate;
 
+import br.com.sisgestor.entidade.Usuario;
 import br.com.sisgestor.util.Utils;
 import br.com.sisgestor.util.constantes.ConstantesContexto;
-import br.com.sisgestor.entidade.Usuario;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -21,6 +21,8 @@ import org.springframework.orm.hibernate3.support.OpenSessionInViewFilter;
  * @since 23/03/2009
  */
 public class HibernateFilter extends OpenSessionInViewFilter {
+
+	private Utils utils = Utils.get();
 
 	/**
 	 * {@inheritDoc}
@@ -42,7 +44,7 @@ public class HibernateFilter extends OpenSessionInViewFilter {
 	@Override
 	protected void initFilterBean() throws ServletException {
 		super.initFilterBean();
-		Utils.setContexto(this.getServletContext());
+		utils.setContexto(this.getServletContext());
 	}
 
 	/**
@@ -51,8 +53,8 @@ public class HibernateFilter extends OpenSessionInViewFilter {
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) {
 		String url = request.getRequestURI();
-		return (url.contains("/css/") || url.contains("/imagens/") || url.contains("/js/")
-				|| url.contains("/paginas/") || url.contains("/relatorios/"));
+		return (url.contains("/css/") || url.contains("/imagens/") || url.contains("/js/") || url.contains("/paginas/") || url
+				.contains("/relatorios/"));
 	}
 
 	/**
@@ -62,6 +64,6 @@ public class HibernateFilter extends OpenSessionInViewFilter {
 	 */
 	private void armazenaUsuarioNaSessao(HttpServletRequest request) {
 		Usuario usuario = (Usuario) request.getSession().getAttribute(ConstantesContexto.USUARIO_SESSAO);
-		Utils.setUsuario(usuario);
+		utils.setUsuario(usuario);
 	}
 }

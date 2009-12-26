@@ -1,21 +1,21 @@
 package br.com.sisgestor.apresentacao.taglib;
 
+import br.com.sisgestor.entidade.Usuario;
 import br.com.sisgestor.util.Utils;
 import br.com.sisgestor.util.constantes.ConstantesContexto;
-import br.com.sisgestor.entidade.Usuario;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 
 /**
- * Classe escrita para sobrescrever a LinkTag original para desabilitar o link caso o usuário não possua uma
- * das permissões de acesso
+ * Classe escrita para sobrescrever a LinkTag original para desabilitar o link caso o usuário não
+ * possua uma das permissões de acesso
  * 
  * @author João Lúcio
  * @since 05/02/2009
  */
 public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 
-	private String	roles;
+	private String roles;
 
 	/**
 	 * Cria uma nova instância do tipo {@link LinkTag}.
@@ -118,6 +118,6 @@ public class LinkTag extends org.apache.struts.taglib.html.LinkTag {
 	private boolean usuarioTemPermissao() {
 		HttpServletRequest request = (HttpServletRequest) this.pageContext.getRequest();
 		Usuario usuario = (Usuario) request.getSession().getAttribute(ConstantesContexto.USUARIO_SESSAO);
-		return Utils.usuarioTemPermissao(usuario, this.roles);
+		return Utils.get().usuarioTemPermissao(usuario, this.roles);
 	}
 }

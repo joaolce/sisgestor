@@ -45,7 +45,7 @@ public class DataUtil {
 	 * 
 	 * @return {@link DataUtil}
 	 */
-	public static DataUtil getInstancia() {
+	public static DataUtil get() {
 		return instancia;
 	}
 
@@ -60,8 +60,8 @@ public class DataUtil {
 	}
 
 	/**
-	 * Retorna a data, recebida "quebrada", em uma data válida no formato "dd/MM/yyyy". Se a data não for
-	 * válida, retorna <code>null</code>.
+	 * Retorna a data, recebida "quebrada", em uma data válida no formato "dd/MM/yyyy". Se a data
+	 * não for válida, retorna <code>null</code>.
 	 * 
 	 * @param dia dia da data
 	 * @param mes mês da data
@@ -71,7 +71,8 @@ public class DataUtil {
 	 * 
 	 */
 	public String formataData(String dia, String mes, String ano) {
-		String data = Utils.completaComZero(dia, 2) + '/' + Utils.completaComZero(mes, 2) + '/' + ano;
+		Utils utils = Utils.get();
+		String data = utils.completaComZero(dia, 2) + '/' + utils.completaComZero(mes, 2) + '/' + ano;
 		if (ehDataValida(data)) {
 			return data;
 		}
