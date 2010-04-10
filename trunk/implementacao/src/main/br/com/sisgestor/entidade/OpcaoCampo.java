@@ -19,13 +19,14 @@ import org.hibernate.annotations.ForeignKey;
  */
 @javax.persistence.Entity
 @javax.persistence.Table(name = "OPC_OPCAO_CAMPO")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 @org.hibernate.annotations.Table(appliesTo = "OPC_OPCAO_CAMPO")
 @AttributeOverride(name = "id", column = @Column(name = "OPC_ID", nullable = false))
 public class OpcaoCampo extends ObjetoPersistente {
 
-	private Campo		campo;
-	private Integer	valor;
-	private String		descricao;
+	private Campo campo;
+	private Integer valor;
+	private String descricao;
 
 	/**
 	 * Recupera o campo da opção.

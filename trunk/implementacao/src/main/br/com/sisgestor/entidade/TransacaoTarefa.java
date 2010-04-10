@@ -18,12 +18,13 @@ import org.hibernate.annotations.ForeignKey;
  */
 @javax.persistence.Entity
 @javax.persistence.Table(name = "TRT_TRANSACAO_TAREFA")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 @org.hibernate.annotations.Table(appliesTo = "TRT_TRANSACAO_TAREFA")
 @AttributeOverride(name = "id", column = @Column(name = "TRT_ID", nullable = false))
 public class TransacaoTarefa extends ObjetoPersistente {
 
-	private Tarefa	anterior;
-	private Tarefa	posterior;
+	private Tarefa anterior;
+	private Tarefa posterior;
 
 	/**
 	 * Recupera a {@link Tarefa} anterior a transação.

@@ -23,18 +23,19 @@ import org.hibernate.annotations.ForeignKey;
  */
 @javax.persistence.Entity
 @javax.persistence.Table(name = "DPR_DEPARTAMENTO")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 @org.hibernate.annotations.Table(appliesTo = "DPR_DEPARTAMENTO")
 @AttributeOverride(name = "id", column = @Column(name = "DPR_ID", nullable = false))
 public class Departamento extends ObjetoPersistente {
 
-	private List<Atividade>		atividades;
-	private Timestamp				dataHoraExclusao;
-	private List<Departamento>	departamentosFilhos;
-	private Departamento			departamentoSuperior;
-	private String					email;
-	private String					nome;
-	private String					sigla;
-	private List<Usuario>		usuarios;
+	private List<Atividade> atividades;
+	private Timestamp dataHoraExclusao;
+	private List<Departamento> departamentosFilhos;
+	private Departamento departamentoSuperior;
+	private String email;
+	private String nome;
+	private String sigla;
+	private List<Usuario> usuarios;
 
 	/**
 	 * Recupera o valor de atividades
@@ -136,7 +137,6 @@ public class Departamento extends ObjetoPersistente {
 		this.dataHoraExclusao = dataHoraExclusao;
 	}
 
-
 	/**
 	 * Atribui os departamentos filhos diretos do departamento.
 	 * 
@@ -145,7 +145,6 @@ public class Departamento extends ObjetoPersistente {
 	public void setDepartamentosFilhos(List<Departamento> departamentosFilhos) {
 		this.departamentosFilhos = departamentosFilhos;
 	}
-
 
 	/**
 	 * Atribui o departamento superior do departamento.
@@ -156,7 +155,6 @@ public class Departamento extends ObjetoPersistente {
 		this.departamentoSuperior = departamentoSuperior;
 	}
 
-
 	/**
 	 * Atribui o email do departamento.
 	 * 
@@ -165,7 +163,6 @@ public class Departamento extends ObjetoPersistente {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 
 	/**
 	 * Atribui o nome do departamento

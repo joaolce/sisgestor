@@ -25,13 +25,14 @@ import org.hibernate.annotations.Type;
 @IdClass(HistoricoUsoWorkflowPK.class)
 @javax.persistence.Entity
 @javax.persistence.Table(name = "HUWR_USO_WORKFLOW")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 @org.hibernate.annotations.Table(appliesTo = "HUWR_USO_WORKFLOW")
 public class HistoricoUsoWorkflow implements Serializable {
 
-	private UsoWorkflow	usoWorkflow;
-	private Timestamp		dataHora;
-	private Usuario		usuario;
-	private TipoAcaoEnum	acao;
+	private UsoWorkflow usoWorkflow;
+	private Timestamp dataHora;
+	private Usuario usuario;
+	private TipoAcaoEnum acao;
 
 	/**
 	 * Recupera a ação ocorrida no {@link UsoWorkflow}.
@@ -94,7 +95,6 @@ public class HistoricoUsoWorkflow implements Serializable {
 		this.dataHora = dataHora;
 	}
 
-
 	/**
 	 * Atribui utilização do {@link Workflow} do histórico.
 	 * 
@@ -103,7 +103,6 @@ public class HistoricoUsoWorkflow implements Serializable {
 	public void setUsoWorkflow(UsoWorkflow usoWorkflow) {
 		this.usoWorkflow = usoWorkflow;
 	}
-
 
 	/**
 	 * Atribui o usuário responsável por alterar o uso

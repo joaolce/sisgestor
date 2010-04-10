@@ -25,6 +25,7 @@ import org.hibernate.annotations.ForeignKey;
  */
 @javax.persistence.Entity
 @javax.persistence.Table(name = "TAR_TAREFA")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 @org.hibernate.annotations.Table(appliesTo = "TAR_TAREFA")
 @AttributeOverrides( {
 		@AttributeOverride(name = "id", column = @Column(name = "TAR_ID", nullable = false)),
@@ -34,10 +35,10 @@ import org.hibernate.annotations.ForeignKey;
 		@AttributeOverride(name = "left", column = @Column(name = "TAR_LEFT", nullable = true))})
 public class Tarefa extends BaseWorkflowDesenhavel {
 
-	private Atividade					atividade;
-	private Usuario					usuario;
-	private List<TransacaoTarefa>	transacoesAnteriores;
-	private List<TransacaoTarefa>	transacoesPosteriores;
+	private Atividade atividade;
+	private Usuario usuario;
+	private List<TransacaoTarefa> transacoesAnteriores;
+	private List<TransacaoTarefa> transacoesPosteriores;
 
 	/**
 	 * Recupera a atividade da tarefa.

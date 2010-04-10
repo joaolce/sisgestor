@@ -18,12 +18,13 @@ import org.hibernate.annotations.ForeignKey;
  */
 @javax.persistence.Entity
 @javax.persistence.Table(name = "TRP_TRANSACAO_PROCESSO")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 @org.hibernate.annotations.Table(appliesTo = "TRP_TRANSACAO_PROCESSO")
 @AttributeOverride(name = "id", column = @Column(name = "TRP_ID", nullable = false))
 public class TransacaoProcesso extends ObjetoPersistente {
 
-	private Processo	anterior;
-	private Processo	posterior;
+	private Processo anterior;
+	private Processo posterior;
 
 	/**
 	 * Recupera o processo anterior da transação.

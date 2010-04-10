@@ -25,19 +25,20 @@ import org.hibernate.annotations.ForeignKey;
  */
 @javax.persistence.Entity
 @javax.persistence.Table(name = "UUR_USUARIO")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 @org.hibernate.annotations.Table(appliesTo = "UUR_USUARIO")
 @AttributeOverride(name = "id", column = @Column(name = "UUR_ID", nullable = false))
 public class Usuario extends ObjetoPersistente {
 
-	private Boolean			chefe;
-	private Timestamp			dataHoraExclusao;
-	private Departamento		departamento;
-	private String				email;
-	private String				login;
-	private String				nome;
-	private List<Permissao>	permissoes;
-	private String				senha;
-	private List<Tarefa>		tarefas;
+	private Boolean chefe;
+	private Timestamp dataHoraExclusao;
+	private Departamento departamento;
+	private String email;
+	private String login;
+	private String nome;
+	private List<Permissao> permissoes;
+	private String senha;
+	private List<Tarefa> tarefas;
 
 	/**
 	 * Recupera se o usuário é chefe do departamento.
@@ -198,7 +199,6 @@ public class Usuario extends ObjetoPersistente {
 		this.permissoes = permissoes;
 	}
 
-
 	/**
 	 * Atribui a senha do usuário
 	 * 
@@ -207,7 +207,6 @@ public class Usuario extends ObjetoPersistente {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-
 
 	/**
 	 * Atribui as tarefas que são do usuário.

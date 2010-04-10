@@ -21,15 +21,16 @@ import org.hibernate.annotations.ForeignKey;
  */
 @javax.persistence.Entity
 @javax.persistence.Table(name = "ANX_ANEXO")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 @org.hibernate.annotations.Table(appliesTo = "ANX_ANEXO")
 @AttributeOverride(name = "id", column = @Column(name = "ANX_ID", nullable = false))
 public class Anexo extends ObjetoPersistente {
 
-	private String			nome;
-	private String			contentType;
-	private byte[]			dados;
-	private Timestamp		dataCriacao;
-	private UsoWorkflow	usoWorkflow;
+	private String nome;
+	private String contentType;
+	private byte[] dados;
+	private Timestamp dataCriacao;
+	private UsoWorkflow usoWorkflow;
 
 	/**
 	 * Recupera o contentType do arquivo.
