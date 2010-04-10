@@ -7,7 +7,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import org.hibernate.annotations.ForeignKey;
 
-
 /**
  * Classe para representar o valor do campo utilizado no uso workflow.
  * 
@@ -16,13 +15,14 @@ import org.hibernate.annotations.ForeignKey;
  */
 @javax.persistence.Entity
 @javax.persistence.Table(name = "UCA_USOWORKFLOW_CAMPO")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 @org.hibernate.annotations.Table(appliesTo = "UCA_USOWORKFLOW_CAMPO")
 @AttributeOverride(name = "id", column = @Column(name = "UCA_ID", nullable = false))
 public class CampoUsoWorkflow extends ObjetoPersistente {
 
-	private UsoWorkflow	usoWorkflow;
-	private Campo			campo;
-	private String			valor;
+	private UsoWorkflow usoWorkflow;
+	private Campo campo;
+	private String valor;
 
 	/**
 	 * Recupera o campo usado

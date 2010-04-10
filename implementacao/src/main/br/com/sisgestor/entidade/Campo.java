@@ -4,8 +4,8 @@
  */
 package br.com.sisgestor.entidade;
 
-import br.com.sisgestor.util.hibernate.HibernateUserTypeConstants;
 import br.com.sisgestor.util.constantes.ConstantesDB;
+import br.com.sisgestor.util.hibernate.HibernateUserTypeConstants;
 import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -27,17 +27,18 @@ import org.hibernate.annotations.Type;
  */
 @javax.persistence.Entity
 @javax.persistence.Table(name = "CAM_CAMPO")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 @org.hibernate.annotations.Table(appliesTo = "CAM_CAMPO")
 @AttributeOverride(name = "id", column = @Column(name = "CAM_ID", nullable = false))
 public class Campo extends ObjetoPersistente {
 
-	private String							nome;
-	private String							descricao;
-	private TipoCampoEnum				tipo;
-	private Boolean						obrigatorio;
-	private Workflow						workflow;
-	private List<OpcaoCampo>			opcoes;
-	private List<CampoUsoWorkflow>	usos;
+	private String nome;
+	private String descricao;
+	private TipoCampoEnum tipo;
+	private Boolean obrigatorio;
+	private Workflow workflow;
+	private List<OpcaoCampo> opcoes;
+	private List<CampoUsoWorkflow> usos;
 
 	/**
 	 * Recupera a descrição do campo.
@@ -158,7 +159,6 @@ public class Campo extends ObjetoPersistente {
 		this.tipo = tipo;
 	}
 
-
 	/**
 	 * Atribui os usos do campo
 	 * 
@@ -167,7 +167,6 @@ public class Campo extends ObjetoPersistente {
 	public void setUsos(List<CampoUsoWorkflow> usos) {
 		this.usos = usos;
 	}
-
 
 	/**
 	 * Atribui o workflow do campo.

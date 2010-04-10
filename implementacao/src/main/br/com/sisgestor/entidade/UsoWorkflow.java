@@ -30,6 +30,7 @@ import org.hibernate.annotations.ForeignKey;
  */
 @javax.persistence.Entity
 @javax.persistence.Table(name = "UWR_USO_WORKFLOW")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 @org.hibernate.annotations.Table(appliesTo = "UWR_USO_WORKFLOW")
 @AttributeOverride(name = "id", column = @Column(name = "UWR_ID", nullable = false))
 public class UsoWorkflow extends ObjetoPersistente {

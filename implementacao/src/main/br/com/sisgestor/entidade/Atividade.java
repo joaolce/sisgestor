@@ -25,6 +25,7 @@ import org.hibernate.annotations.ForeignKey;
  */
 @javax.persistence.Entity
 @javax.persistence.Table(name = "ATI_ATIVIDADE")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 @org.hibernate.annotations.Table(appliesTo = "ATI_ATIVIDADE")
 @AttributeOverrides( {
 		@AttributeOverride(name = "id", column = @Column(name = "ATI_ID", nullable = false)),
@@ -34,11 +35,11 @@ import org.hibernate.annotations.ForeignKey;
 		@AttributeOverride(name = "left", column = @Column(name = "ATI_LEFT", nullable = true))})
 public class Atividade extends BaseWorkflowDesenhavel {
 
-	private Departamento					departamento;
-	private Processo						processo;
-	private List<Tarefa>					tarefas;
-	private List<TransacaoAtividade>	transacoesAnteriores;
-	private List<TransacaoAtividade>	transacoesPosteriores;
+	private Departamento departamento;
+	private Processo processo;
+	private List<Tarefa> tarefas;
+	private List<TransacaoAtividade> transacoesAnteriores;
+	private List<TransacaoAtividade> transacoesPosteriores;
 
 	/**
 	 * Recupera o departamento da atividade.

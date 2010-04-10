@@ -25,6 +25,7 @@ import org.hibernate.annotations.ForeignKey;
  */
 @javax.persistence.Entity
 @javax.persistence.Table(name = "PRO_PROCESSO")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 @org.hibernate.annotations.Table(appliesTo = "PRO_PROCESSO")
 @AttributeOverrides( {
 		@AttributeOverride(name = "id", column = @Column(name = "PRO_ID", nullable = false)),
@@ -34,10 +35,10 @@ import org.hibernate.annotations.ForeignKey;
 		@AttributeOverride(name = "left", column = @Column(name = "PRO_LEFT", nullable = true))})
 public class Processo extends BaseWorkflowDesenhavel {
 
-	private List<Atividade>				atividades;
-	private Workflow						workflow;
-	private List<TransacaoProcesso>	transacoesAnteriores;
-	private List<TransacaoProcesso>	transacoesPosteriores;
+	private List<Atividade> atividades;
+	private Workflow workflow;
+	private List<TransacaoProcesso> transacoesAnteriores;
+	private List<TransacaoProcesso> transacoesPosteriores;
 
 	/**
 	 * Recupera as atividades do workflow.

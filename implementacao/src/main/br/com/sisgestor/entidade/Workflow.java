@@ -23,6 +23,7 @@ import org.hibernate.annotations.CascadeType;
  */
 @javax.persistence.Entity
 @javax.persistence.Table(name = "WOR_WORKFLOW")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 @org.hibernate.annotations.Table(appliesTo = "WOR_WORKFLOW")
 @AttributeOverrides( {
 		@AttributeOverride(name = "id", column = @Column(name = "WOR_ID", nullable = false)),
@@ -30,11 +31,11 @@ import org.hibernate.annotations.CascadeType;
 		@AttributeOverride(name = "descricao", column = @Column(name = "WOR_DESCRICAO", nullable = false, length = ConstantesDB.DESCRICAO))})
 public class Workflow extends BaseWorkflow {
 
-	private Boolean				ativo;
-	private Timestamp				dataHoraExclusao;
-	private List<Processo>		processos;
-	private List<Campo>			campos;
-	private List<UsoWorkflow>	usos;
+	private Boolean ativo;
+	private Timestamp dataHoraExclusao;
+	private List<Processo> processos;
+	private List<Campo> campos;
+	private List<UsoWorkflow> usos;
 
 	/**
 	 * Recupera o indicador se o workflow está ativo.
