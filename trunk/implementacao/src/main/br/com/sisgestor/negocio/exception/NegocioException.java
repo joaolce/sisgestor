@@ -6,6 +6,7 @@ package br.com.sisgestor.negocio.exception;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang.ArrayUtils;
 
 /**
  * Exceção de negócio
@@ -15,8 +16,8 @@ import java.util.Map;
  */
 public class NegocioException extends Exception {
 
-	private String[]					args;
-	private Map<String, Object>	valoresDevolvidos;
+	private String[] args;
+	private Map<String, Object> valoresDevolvidos;
 
 	/**
 	 * Construtor recebe uma mensagem que está no properties.
@@ -26,7 +27,7 @@ public class NegocioException extends Exception {
 	 */
 	public NegocioException(String message, String... args) {
 		super(message);
-		this.args = args;
+		this.args = (String[]) ArrayUtils.clone(args);
 	}
 
 	/**
@@ -44,7 +45,7 @@ public class NegocioException extends Exception {
 	 * @return argumentos da mensagem
 	 */
 	public String[] getArgs() {
-		return this.args.clone();
+		return (String[]) ArrayUtils.clone(this.args);
 	}
 
 	/**
@@ -75,6 +76,6 @@ public class NegocioException extends Exception {
 	 * @param args argumentos da mensagem
 	 */
 	public void setArgs(String[] args) {
-		this.args = args.clone();
+		this.args = (String[]) ArrayUtils.clone(args);
 	}
 }

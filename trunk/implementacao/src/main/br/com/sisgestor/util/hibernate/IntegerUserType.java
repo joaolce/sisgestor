@@ -16,8 +16,8 @@ import org.hibernate.usertype.ParameterizedType;
 import org.hibernate.usertype.UserType;
 
 /**
- * UserType reponsável por tipar o atributo mapeado no Hibernate com o código de um Objeto(Integer) que
- * implemente a interface {@link CodigoDescricao}.
+ * UserType reponsável por tipar o atributo mapeado no Hibernate com o código de um Objeto(Integer)
+ * que implemente a interface {@link CodigoDescricao}.
  * 
  * @param <E> enumeração
  * 
@@ -26,34 +26,26 @@ import org.hibernate.usertype.UserType;
  */
 public class IntegerUserType<E extends Enum<E>> implements UserType, ParameterizedType {
 
-	private static final int[]	SQL_TYPES	= new int[] {Types.SMALLINT};
-	private Class<E>				clazz;
-	private CodigoDescricao		codigoDescricao;
+	private static final int[] SQL_TYPES = new int[] {Types.SMALLINT};
+	private Class<E> clazz;
+	private CodigoDescricao codigoDescricao;
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public Object assemble(Serializable cached, Object owner) throws HibernateException {
 		return cached;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public Object deepCopy(Object value) throws HibernateException {
 		return value;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public Serializable disassemble(Object value) throws HibernateException {
 		return (Serializable) value;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public boolean equals(Object x, Object y) throws HibernateException {
 		if (x == y) { //NOPMD by João Lúcio - implementação de infra. Precisa testar se os objetos são os mesmos
 			return true;
@@ -64,34 +56,24 @@ public class IntegerUserType<E extends Enum<E>> implements UserType, Parameteriz
 		return x.equals(y);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public int hashCode(Object x) throws HibernateException {
 		return x.hashCode();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public boolean isMutable() {
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object nullSafeGet(ResultSet rs, String[] names, Object owner) throws HibernateException,
-			SQLException {
+	/** {@inheritDoc} */
+	public Object nullSafeGet(ResultSet rs, String[] names, Object owner) throws HibernateException, SQLException {
 		Integer codigo = rs.getInt(names[0]);
 		return this.getObjeto(codigo);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void nullSafeSet(PreparedStatement st, Object value, int index) throws HibernateException,
-			SQLException {
+	/** {@inheritDoc} */
+	public void nullSafeSet(PreparedStatement st, Object value, int index) throws HibernateException, SQLException {
 		if (null == value) {
 			st.setNull(index, Types.INTEGER);
 		} else {
@@ -100,23 +82,17 @@ public class IntegerUserType<E extends Enum<E>> implements UserType, Parameteriz
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public Object replace(Object original, Object target, Object owner) throws HibernateException {
 		return original;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public Class<E> returnedClass() {
 		return this.clazz;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@SuppressWarnings("unchecked")
 	public void setParameterValues(Properties params) {
 		String className = params.getProperty("className");
@@ -130,24 +106,16 @@ public class IntegerUserType<E extends Enum<E>> implements UserType, Parameteriz
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public int[] sqlTypes() {
 		return SQL_TYPES.clone();
 	}
 
-	/**
-	 * Retorna o objeto.
-	 * 
-	 * @param codigo código do objeto
-	 * @return enum
-	 */
 	private CodigoDescricao getObjeto(Integer codigo) {
 		Class<? extends Enum<E>> enumClass = this.returnedClass();
 		Enum<E>[] enums = enumClass.getEnumConstants();
 		for (Enum<E> enum1 : enums) {
-			if (((CodigoDescricao) enum1).getId() == codigo) {
+			if (((CodigoDescricao) enum1).getId().equals(codigo)) {
 				return (CodigoDescricao) enum1;
 			}
 		}

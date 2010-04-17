@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
  * Classe que representa um objeto persistente
@@ -21,20 +22,6 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 public class ObjetoPersistente implements Serializable {
 
 	private Integer id;
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if ((obj == null) || !this.getClass().equals(obj.getClass())) {
-			return false;
-		}
-		ObjetoPersistente comparado = (ObjetoPersistente) obj;
-		EqualsBuilder builder = new EqualsBuilder();
-		builder.append(this.id, comparado.id);
-		return builder.isEquals();
-	}
 
 	/**
 	 * Recupera o id do objeto
@@ -56,4 +43,21 @@ public class ObjetoPersistente implements Serializable {
 		this.id = id;
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || !this.getClass().equals(obj.getClass())) {
+			return false;
+		}
+		ObjetoPersistente comparado = (ObjetoPersistente) obj;
+		EqualsBuilder builder = new EqualsBuilder();
+		builder.append(this.id, comparado.id);
+		return builder.isEquals();
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(id).toHashCode();
+	}
 }

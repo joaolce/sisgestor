@@ -4,10 +4,11 @@
  */
 package br.com.sisgestor.apresentacao.forms;
 
+import br.com.sisgestor.apresentacao.actions.UsarWorkflowAction;
 import br.com.sisgestor.entidade.Tarefa;
 import br.com.sisgestor.entidade.Workflow;
-import br.com.sisgestor.apresentacao.actions.UsarWorkflowAction;
 import java.util.List;
+import org.apache.commons.lang.ArrayUtils;
 
 /**
  * Form para a action {@link UsarWorkflowAction}.
@@ -17,12 +18,12 @@ import java.util.List;
  */
 public class UsarWorkflowActionForm extends BaseForm {
 
-	private String[]			valor;
-	private Integer			workflow;
-	private List<Workflow>	listaWorkflows;
-	private List<Tarefa>		proximasTarefas;
-	private Integer			tarefa;
-	private String				anotacao;
+	private String[] valor;
+	private Integer workflow;
+	private List<Workflow> listaWorkflows;
+	private List<Tarefa> proximasTarefas;
+	private Integer tarefa;
+	private String anotacao;
 
 	/**
 	 * Recupera a anotação do uso
@@ -66,7 +67,7 @@ public class UsarWorkflowActionForm extends BaseForm {
 	 * @return valores dos campos
 	 */
 	public String[] getValor() {
-		return this.valor;
+		return (String[]) ArrayUtils.clone(this.valor);
 	}
 
 	/**
@@ -120,7 +121,7 @@ public class UsarWorkflowActionForm extends BaseForm {
 	 * @param valor valores dos campos
 	 */
 	public void setValor(String[] valor) {
-		this.valor = valor;
+		this.valor = (String[]) ArrayUtils.clone(valor);
 	}
 
 	/**

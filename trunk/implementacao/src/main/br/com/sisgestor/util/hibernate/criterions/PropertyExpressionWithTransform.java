@@ -14,8 +14,8 @@ import org.hibernate.util.StringHelper;
 
 /**
  * Classe para adicionar critérios a uma consulta. <br />
- * Comportamento semelhante a classe {@link PropertyExpression} porém permite que seja adicionado uma função
- * de transformação aos operandos
+ * Comportamento semelhante a classe {@link PropertyExpression} porém permite que seja adicionado
+ * uma função de transformação aos operandos
  * <p>
  * Exemplos:
  * <ul>
@@ -31,13 +31,11 @@ import org.hibernate.util.StringHelper;
  */
 public class PropertyExpressionWithTransform implements Criterion {
 
-	private final String						primeiraPropriedade;
-	private final String						segundaPropriedade;
-	private final String						op;
-	private final String						primeiraFuncao;
-	private final String						segundaFuncao;
-
-	private static final TypedValue[]	NO_TYPED_VALUES	= new TypedValue[0];
+	private final String primeiraPropriedade;
+	private final String segundaPropriedade;
+	private final String op;
+	private final String primeiraFuncao;
+	private final String segundaFuncao;
 
 	/**
 	 * Cria uma expressão de transformação para o hibernate.
@@ -48,8 +46,8 @@ public class PropertyExpressionWithTransform implements Criterion {
 	 * @param segundaFuncao nome da segunda função
 	 * @param op operador utilizado
 	 */
-	protected PropertyExpressionWithTransform(String primeiraPropriedade, String segundaPropriedade,
-			String op, String primeiraFuncao, String segundaFuncao) {
+	protected PropertyExpressionWithTransform(String primeiraPropriedade, String segundaPropriedade, String op,
+			String primeiraFuncao, String segundaFuncao) {
 		this.primeiraPropriedade = primeiraPropriedade;
 		this.segundaPropriedade = segundaPropriedade;
 		this.primeiraFuncao = primeiraFuncao;
@@ -57,17 +55,12 @@ public class PropertyExpressionWithTransform implements Criterion {
 		this.op = op;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public TypedValue[] getTypedValues(Criteria criteria, CriteriaQuery criteriaQuery)
-			throws HibernateException {
-		return NO_TYPED_VALUES;
+	/** {@inheritDoc} */
+	public TypedValue[] getTypedValues(Criteria criteria, CriteriaQuery criteriaQuery) throws HibernateException {
+		return new TypedValue[0];
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public String toSqlString(Criteria criteria, CriteriaQuery criteriaQuery) throws HibernateException {
 		String[] xcols = criteriaQuery.getColumnsUsingProjection(criteria, this.primeiraPropriedade);
 		if (this.primeiraFuncao != null) {
@@ -81,8 +74,7 @@ public class PropertyExpressionWithTransform implements Criterion {
 				ycols[i] = this.segundaFuncao + '(' + ycols[i] + ')'; //NOPMD by João Lúcio - mais legível
 			}
 		}
-		StringBuffer result =
-				new StringBuffer(StringHelper.join(" and ", StringHelper.add(xcols, this.op, ycols)));
+		StringBuffer result = new StringBuffer(StringHelper.join(" and ", StringHelper.add(xcols, this.op, ycols)));
 		if (xcols.length > 1) {
 			result.insert(0, '(');
 			result.append(')');
@@ -90,17 +82,14 @@ public class PropertyExpressionWithTransform implements Criterion {
 		return result.toString();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		if ((this.primeiraFuncao == null) && (this.segundaFuncao == null)) {
 			return this.primeiraPropriedade + this.op + this.segundaPropriedade;
 		}
 		if (this.segundaFuncao == null) {
-			return this.primeiraFuncao + '(' + this.primeiraPropriedade + ')' + this.op
-					+ this.segundaPropriedade;
+			return this.primeiraFuncao + '(' + this.primeiraPropriedade + ')' + this.op + this.segundaPropriedade;
 		}
 		if (this.primeiraFuncao == null) {
 			return this.primeiraPropriedade + this.op + this.segundaFuncao + '(' + this.segundaPropriedade + ')';

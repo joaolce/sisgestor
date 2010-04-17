@@ -4,10 +4,11 @@
  */
 package br.com.sisgestor.apresentacao.forms;
 
+import br.com.sisgestor.apresentacao.actions.ManterUsuarioAction;
 import br.com.sisgestor.entidade.Departamento;
 import br.com.sisgestor.entidade.Permissao;
-import br.com.sisgestor.apresentacao.actions.ManterUsuarioAction;
 import java.util.List;
+import org.apache.commons.lang.ArrayUtils;
 
 /**
  * Form para a action {@link ManterUsuarioAction}.
@@ -17,17 +18,17 @@ import java.util.List;
  */
 public class ManterUsuarioActionForm extends BaseForm {
 
-	private Boolean				chefe;
-	private String					confirmarSenha;
-	private Integer				departamento;
-	private String					email;
-	private List<Departamento>	listaDepartamentos;
-	private String					login;
-	private String					nome;
-	private String					novaSenha;
-	private Integer[]				permissoes;
-	private List<Permissao>		permissoesDisponiveis;
-	private String					senhaAtual;
+	private Boolean chefe;
+	private String confirmarSenha;
+	private Integer departamento;
+	private String email;
+	private List<Departamento> listaDepartamentos;
+	private String login;
+	private String nome;
+	private String novaSenha;
+	private Integer[] permissoes;
+	private List<Permissao> permissoesDisponiveis;
+	private String senhaAtual;
 
 	/**
 	 * Recupera o indicador de usuário chefe.
@@ -107,7 +108,7 @@ public class ManterUsuarioActionForm extends BaseForm {
 	 * @return identificadores das permissões selecionadas
 	 */
 	public Integer[] getPermissoes() {
-		return this.permissoes;
+		return (Integer[]) ArrayUtils.clone(this.permissoes);
 	}
 
 	/**
@@ -206,7 +207,7 @@ public class ManterUsuarioActionForm extends BaseForm {
 	 * @param permissoes identificadores das permissões selecionadas
 	 */
 	public void setPermissoes(Integer[] permissoes) {
-		this.permissoes = permissoes;
+		this.permissoes = (Integer[]) ArrayUtils.clone(permissoes);
 	}
 
 	/**
