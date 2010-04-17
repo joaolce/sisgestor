@@ -4,9 +4,10 @@
  */
 package br.com.sisgestor.apresentacao.forms;
 
-import br.com.sisgestor.entidade.Anexo;
 import br.com.sisgestor.apresentacao.actions.AnexoUsoWorkflowAction;
+import br.com.sisgestor.entidade.Anexo;
 import java.util.List;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.struts.upload.FormFile;
 
 /**
@@ -17,10 +18,10 @@ import org.apache.struts.upload.FormFile;
  */
 public class AnexoUsoWorkflowActionForm extends BaseForm {
 
-	private Integer		usoWorkflow;
-	private FormFile		arquivo;
-	private Integer[]		anexosSelecionados;
-	private List<Anexo>	anexos;
+	private Integer usoWorkflow;
+	private FormFile arquivo;
+	private Integer[] anexosSelecionados;
+	private List<Anexo> anexos;
 
 	/**
 	 * Recupera os anexos do uso.
@@ -37,7 +38,7 @@ public class AnexoUsoWorkflowActionForm extends BaseForm {
 	 * @return anexos selecionados
 	 */
 	public Integer[] getAnexosSelecionados() {
-		return this.anexosSelecionados;
+		return (Integer[]) ArrayUtils.clone(this.anexosSelecionados);
 	}
 
 	/**
@@ -73,7 +74,7 @@ public class AnexoUsoWorkflowActionForm extends BaseForm {
 	 * @param anexosSelecionados Anexos selecionados na página
 	 */
 	public void setAnexosSelecionados(Integer[] anexosSelecionados) {
-		this.anexosSelecionados = anexosSelecionados;
+		this.anexosSelecionados = (Integer[]) ArrayUtils.clone(anexosSelecionados);
 	}
 
 	/**

@@ -4,9 +4,10 @@
  */
 package br.com.sisgestor.apresentacao.forms;
 
-import br.com.sisgestor.entidade.Departamento;
 import br.com.sisgestor.apresentacao.actions.ManterAtividadeAction;
+import br.com.sisgestor.entidade.Departamento;
 import java.util.List;
+import org.apache.commons.lang.ArrayUtils;
 
 /**
  * Form para a action {@link ManterAtividadeAction}.
@@ -16,13 +17,13 @@ import java.util.List;
  */
 public class ManterAtividadeActionForm extends BaseForm {
 
-	private String					descricao;
-	private String					nome;
-	private Integer				processo;
-	private Integer				departamento;
-	private List<Departamento>	listaDepartamentos;
-	private String[]				fluxos;
-	private String[]				posicoes;
+	private String descricao;
+	private String nome;
+	private Integer processo;
+	private Integer departamento;
+	private List<Departamento> listaDepartamentos;
+	private String[] fluxos;
+	private String[] posicoes;
 
 	/**
 	 * Recupera o código identificador do departamento
@@ -48,7 +49,7 @@ public class ManterAtividadeActionForm extends BaseForm {
 	 * @return fluxos das atividades
 	 */
 	public String[] getFluxos() {
-		return this.fluxos;
+		return (String[]) ArrayUtils.clone(this.fluxos);
 	}
 
 	/**
@@ -75,7 +76,7 @@ public class ManterAtividadeActionForm extends BaseForm {
 	 * @return posicoes das atividades
 	 */
 	public String[] getPosicoes() {
-		return this.posicoes;
+		return (String[]) ArrayUtils.clone(this.posicoes);
 	}
 
 	/**
@@ -87,7 +88,6 @@ public class ManterAtividadeActionForm extends BaseForm {
 		return this.processo;
 	}
 
-
 	/**
 	 * Atribui o departamento responsável pela atividade
 	 * 
@@ -96,7 +96,6 @@ public class ManterAtividadeActionForm extends BaseForm {
 	public void setDepartamento(Integer departamento) {
 		this.departamento = departamento;
 	}
-
 
 	/**
 	 * Atribui a descrição da atividade
@@ -107,16 +106,14 @@ public class ManterAtividadeActionForm extends BaseForm {
 		this.descricao = descricao;
 	}
 
-
 	/**
 	 * Atribui os fluxos das atividades.
 	 * 
 	 * @param fluxos fluxos das atividades
 	 */
 	public void setFluxos(String[] fluxos) {
-		this.fluxos = fluxos;
+		this.fluxos = (String[]) ArrayUtils.clone(fluxos);
 	}
-
 
 	/**
 	 * Atribui a lista de departamentos disponíveis para a atividade
@@ -127,7 +124,6 @@ public class ManterAtividadeActionForm extends BaseForm {
 		this.listaDepartamentos = listaDepartamentos;
 	}
 
-
 	/**
 	 * Atribui o nome da atividade
 	 * 
@@ -137,16 +133,14 @@ public class ManterAtividadeActionForm extends BaseForm {
 		this.nome = nome;
 	}
 
-
 	/**
 	 * Atribui as posições das atividades
 	 * 
 	 * @param posicoes posições das atividades
 	 */
 	public void setPosicoes(String[] posicoes) {
-		this.posicoes = posicoes;
+		this.posicoes = (String[]) ArrayUtils.clone(posicoes);
 	}
-
 
 	/**
 	 * Atribui o código identificador do processo.
@@ -156,6 +150,5 @@ public class ManterAtividadeActionForm extends BaseForm {
 	public void setProcesso(Integer processo) {
 		this.processo = processo;
 	}
-
 
 }

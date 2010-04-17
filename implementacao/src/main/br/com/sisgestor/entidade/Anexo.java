@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import org.apache.commons.lang.ArrayUtils;
 import org.hibernate.annotations.ForeignKey;
 
 /**
@@ -50,7 +51,7 @@ public class Anexo extends ObjetoPersistente {
 	@Lob
 	@Column(name = "ANX_DADOS", nullable = false)
 	public byte[] getDados() {
-		return this.dados;
+		return ArrayUtils.clone(this.dados);
 	}
 
 	/**
@@ -100,7 +101,7 @@ public class Anexo extends ObjetoPersistente {
 	 * @param dados dado do arquivo
 	 */
 	public void setDados(byte[] dados) {
-		this.dados = dados;
+		this.dados = ArrayUtils.clone(dados);
 	}
 
 	/**

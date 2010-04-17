@@ -4,9 +4,10 @@
  */
 package br.com.sisgestor.apresentacao.forms;
 
-import br.com.sisgestor.entidade.TipoCampoEnum;
 import br.com.sisgestor.apresentacao.actions.ManterCampoAction;
+import br.com.sisgestor.entidade.TipoCampoEnum;
 import java.util.List;
+import org.apache.commons.lang.ArrayUtils;
 
 /**
  * Form para a action {@link ManterCampoAction}.
@@ -16,13 +17,13 @@ import java.util.List;
  */
 public class ManterCampoActionForm extends BaseForm {
 
-	private String						nome;
-	private String						descricao;
-	private Integer					tipo;
-	private Boolean					obrigatorio;
-	private Integer					workflow;
-	private String[]					opcoes;
-	private List<TipoCampoEnum>	tipos;
+	private String nome;
+	private String descricao;
+	private Integer tipo;
+	private Boolean obrigatorio;
+	private Integer workflow;
+	private String[] opcoes;
+	private List<TipoCampoEnum> tipos;
 
 	/**
 	 * Recupera a descrição do campo.
@@ -57,7 +58,7 @@ public class ManterCampoActionForm extends BaseForm {
 	 * @return opções pré-definidas
 	 */
 	public String[] getOpcoes() {
-		return this.opcoes;
+		return (String[]) ArrayUtils.clone(this.opcoes);
 	}
 
 	/**
@@ -120,7 +121,7 @@ public class ManterCampoActionForm extends BaseForm {
 	 * @param opcoes opções pré-definidas
 	 */
 	public void setOpcoes(String[] opcoes) {
-		this.opcoes = opcoes;
+		this.opcoes = (String[]) ArrayUtils.clone(opcoes);
 	}
 
 	/**

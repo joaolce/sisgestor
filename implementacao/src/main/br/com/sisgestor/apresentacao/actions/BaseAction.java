@@ -24,6 +24,7 @@ import java.net.URL;
 import java.security.Principal;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -196,8 +197,8 @@ public class BaseAction extends DispatchAction {
 
 				Map<String, Object> valoresDevolvidos = e.getValoresDevolvidos();
 				if ((valoresDevolvidos != null) && !valoresDevolvidos.isEmpty()) {
-					for (String chave : valoresDevolvidos.keySet()) {
-						ajaxResponse.putValorRetorno(chave, valoresDevolvidos.get(chave));
+					for (Entry<String, Object> chaveValor : valoresDevolvidos.entrySet()) {
+						ajaxResponse.putValorRetorno(chaveValor.getKey(), chaveValor.getValue());
 					}
 				}
 				return this.sendAJAXResponse(ajaxResponse);

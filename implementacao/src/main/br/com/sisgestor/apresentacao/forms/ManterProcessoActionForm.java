@@ -4,8 +4,9 @@
  */
 package br.com.sisgestor.apresentacao.forms;
 
-import br.com.sisgestor.entidade.Workflow;
 import br.com.sisgestor.apresentacao.actions.ManterProcessoAction;
+import br.com.sisgestor.entidade.Workflow;
+import org.apache.commons.lang.ArrayUtils;
 
 /**
  * Form para a action {@link ManterProcessoAction}.
@@ -15,12 +16,12 @@ import br.com.sisgestor.apresentacao.actions.ManterProcessoAction;
  */
 public class ManterProcessoActionForm extends BaseForm {
 
-	private String		descricao;
-	private String		nome;
-	private Integer	workflow;
-	private String[]	fluxos;
-	private String[]	posicoes;
-	private Boolean	workflowAtivadoOuExcluido;
+	private String descricao;
+	private String nome;
+	private Integer workflow;
+	private String[] fluxos;
+	private String[] posicoes;
+	private Boolean workflowAtivadoOuExcluido;
 
 	/**
 	 * Recupera a descrição do processo
@@ -37,7 +38,7 @@ public class ManterProcessoActionForm extends BaseForm {
 	 * @return fluxos dos processos
 	 */
 	public String[] getFluxos() {
-		return this.fluxos;
+		return (String[]) ArrayUtils.clone(this.fluxos);
 	}
 
 	/**
@@ -55,7 +56,7 @@ public class ManterProcessoActionForm extends BaseForm {
 	 * @return posicoes dos processos
 	 */
 	public String[] getPosicoes() {
-		return this.posicoes;
+		return (String[]) ArrayUtils.clone(this.posicoes);
 	}
 
 	/**
@@ -91,7 +92,7 @@ public class ManterProcessoActionForm extends BaseForm {
 	 * @param fluxos fluxos dos processos
 	 */
 	public void setFluxos(String[] fluxos) {
-		this.fluxos = fluxos;
+		this.fluxos = (String[]) ArrayUtils.clone(fluxos);
 	}
 
 	/**
@@ -109,7 +110,7 @@ public class ManterProcessoActionForm extends BaseForm {
 	 * @param posicoes posições dos processos
 	 */
 	public void setPosicoes(String[] posicoes) {
-		this.posicoes = posicoes;
+		this.posicoes = (String[]) ArrayUtils.clone(posicoes);
 	}
 
 	/**

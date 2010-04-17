@@ -4,9 +4,10 @@
  */
 package br.com.sisgestor.apresentacao.forms;
 
-import br.com.sisgestor.entidade.Usuario;
 import br.com.sisgestor.apresentacao.actions.ManterTarefaAction;
+import br.com.sisgestor.entidade.Usuario;
 import java.util.List;
+import org.apache.commons.lang.ArrayUtils;
 
 /**
  * Form para a action {@link ManterTarefaAction}.
@@ -16,13 +17,13 @@ import java.util.List;
  */
 public class ManterTarefaActionForm extends BaseForm {
 
-	private Integer			atividade;
-	private String				descricao;
-	private List<Usuario>	listaUsuarios;
-	private String				nome;
-	private Integer			usuario;
-	private String[]			fluxos;
-	private String[]			posicoes;
+	private Integer atividade;
+	private String descricao;
+	private List<Usuario> listaUsuarios;
+	private String nome;
+	private Integer usuario;
+	private String[] fluxos;
+	private String[] posicoes;
 
 	/**
 	 * Recupera o código identificador da atividade.
@@ -48,7 +49,7 @@ public class ManterTarefaActionForm extends BaseForm {
 	 * @return fluxos das tarefas
 	 */
 	public String[] getFluxos() {
-		return this.fluxos;
+		return (String[]) ArrayUtils.clone(this.fluxos);
 	}
 
 	/**
@@ -75,7 +76,7 @@ public class ManterTarefaActionForm extends BaseForm {
 	 * @return posicoes das tarefas
 	 */
 	public String[] getPosicoes() {
-		return this.posicoes;
+		return (String[]) ArrayUtils.clone(this.posicoes);
 	}
 
 	/**
@@ -96,7 +97,6 @@ public class ManterTarefaActionForm extends BaseForm {
 		this.atividade = atividade;
 	}
 
-
 	/**
 	 * Atribui descricao
 	 * 
@@ -106,16 +106,14 @@ public class ManterTarefaActionForm extends BaseForm {
 		this.descricao = descricao;
 	}
 
-
 	/**
 	 * Atribui os fluxos das tarefas.
 	 * 
 	 * @param fluxos fluxos das tarefas
 	 */
 	public void setFluxos(String[] fluxos) {
-		this.fluxos = fluxos;
+		this.fluxos = (String[]) ArrayUtils.clone(fluxos);
 	}
-
 
 	/**
 	 * Atribui uma lista de usuários à tarefa
@@ -126,7 +124,6 @@ public class ManterTarefaActionForm extends BaseForm {
 		this.listaUsuarios = listaUsuarios;
 	}
 
-
 	/**
 	 * Atribui o nome da tarefa
 	 * 
@@ -136,16 +133,14 @@ public class ManterTarefaActionForm extends BaseForm {
 		this.nome = nome;
 	}
 
-
 	/**
 	 * Atribui as posições das tarefas
 	 * 
 	 * @param posicoes posições das tarefas
 	 */
 	public void setPosicoes(String[] posicoes) {
-		this.posicoes = posicoes;
+		this.posicoes = (String[]) ArrayUtils.clone(posicoes);
 	}
-
 
 	/**
 	 * Atribui o usuário responsável à tarefa
